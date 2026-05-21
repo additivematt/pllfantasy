@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predicta - PLL Fantasy Analysis</title>
+    <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <script>
+        // ── Service Worker Registration ────────────────────────────────────────
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(reg => console.log('[SW] Registered, scope:', reg.scope))
+                .catch(err => console.warn('[SW] Registration failed:', err));
+
+
+            // Listen for messages from the service worker
+            navigator.serviceWorker.addEventListener('message', event => {
+                if (event.data?.type === 'SERVER_REACHABLE') {
+                    showStatus('🟢 ONLINE', '#48bb78');
+                } else if (event.data?.type === 'SERVER_UNREACHABLE') {
+                    showStatus('⚡ OFFLINE — using cached data', '#ecc94b');
+                }
+            });
+        }
+
+        // Status pill helper (looks up element dynamically as it runs in head)
+        function showStatus(text, color) {
+            const statusEl = document.getElementById('cacheStatus');
+            if (statusEl) {
+                statusEl.textContent = text;
+                statusEl.style.display = 'inline-block';
+                statusEl.style.background = color + '22';
+                statusEl.style.color = color;
+                statusEl.style.border = '1px solid ' + color + '55';
+            }
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <span class="pll-brand">PLL</span> PREDICTA
+            <span class="subtitle" id="subtitle-text">2026 SEASON | WEEK 2 ANALYSIS</span>
+        </div>
+        <div id="cacheStatus" style="display:inline-block; font-size:0.7rem; font-weight:700; letter-spacing:1px; padding:4px 10px; border-radius:20px; margin-top: 15px; background: rgba(72, 187, 120, 0.12); color: #48bb78; border: 1px solid rgba(72, 187, 120, 0.25);">🟢 ONLINE</div>
+    </header>
+
+    <div class="controls-container" style="gap: 2rem;">
+        <div class="control-card">
+            <label for="year-select" class="control-label">Season Year</label>
+            <div class="select-wrapper">
+                <select id="year-select">
+                    <option value="" disabled selected>Loading...</option>
+                </select>
+                <span class="select-arrow"></span>
+            </div>
+        </div>
+        <div class="control-card">
+            <label for="week-select" class="control-label">Week</label>
+            <div class="select-wrapper">
+                <select id="week-select">
+                    <option value="" disabled selected>Loading...</option>
+                </select>
+                <span class="select-arrow"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="explainer-container">
+        <details>
+            <summary>How to Read This Data</summary>
+            <div class="explainer-content">
+                <ul>
+                    <li><strong>Boom Probability (Y-Axis)</strong>: The model's confidence that a player will finish in the <strong>top 25%</strong> of their position group this week.</li>
+                    <li><strong>Historic Performance vs Opposition (Color)</strong>: Derived from our 4-tier hierarchy. <strong>Green</strong> is a favorable matchup where the player is historically likely to <strong>exceed their average</strong> (Ratio > 1.0).</li>
+                    <li><strong>Star Power (Dot Size)</strong>: Represents the player's season average fantasy points. Bigger dots are consistent high-performers.</li>
+                    <li><strong>Salary (X-Axis)</strong>: The cost in fantasy coins. Look for dots in the top-left for high-value sleepers!</li>
+                </ul>
+            </div>
+        </details>
+    </div>
+
+    <main id="plots-container">
+        <!-- Plots will be injected here -->
+        <div class="loading">Loading Prediction Data...</div>
+    </main>
+
+    <div id="custom-tooltip" class="tooltip"></div>
+
+    <script src="app.js?v=3"></script>
+</body>
+</html>
