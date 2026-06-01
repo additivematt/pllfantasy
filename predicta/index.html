@@ -75,20 +75,53 @@
                 <ul>
                     <li><strong>Boom Probability (Y-Axis)</strong>: The model's confidence that a player will finish in the <strong>top 25%</strong> of their position group this week.</li>
                     <li><strong>Historic Performance vs Opposition (Color)</strong>: Derived from our 4-tier hierarchy. <strong>Green</strong> is a favorable matchup where the player is historically likely to <strong>exceed their average</strong> (Ratio > 1.0).</li>
-                    <li><strong>Star Power (Dot Size)</strong>: Represents the player's season average fantasy points. Bigger dots are consistent high-performers.</li>
+                    <li><strong>90th Percentile Ceiling (Dot Size)</strong>: Bigger dots represent players with higher predicted maximum potential upside (the model's 90th percentile ceiling).</li>
                     <li><strong>Salary (X-Axis)</strong>: The cost in fantasy coins. Look for dots in the top-left for high-value sleepers!</li>
                 </ul>
             </div>
         </details>
     </div>
 
-    <main id="plots-container">
-        <!-- Plots will be injected here -->
-        <div class="loading">Loading Prediction Data...</div>
-    </main>
+    <div class="main-layout">
+        <main id="plots-container">
+            <!-- Plots will be injected here -->
+            <div class="loading">Loading Prediction Data...</div>
+        </main>
+
+        <aside id="advisor-panel" class="advisor-card">
+            <h2 class="advisor-title">PREDICTA ADVISOR</h2>
+            
+            <div class="advisor-section">
+                <h3>CONSENSUS CORE</h3>
+                <div id="core-container" class="pill-container">
+                    <span class="muted-text">Loading core recommendations...</span>
+                </div>
+            </div>
+            
+            <div class="advisor-section">
+                <h3>CEILING SLEEPERS</h3>
+                <div id="sleeper-container" class="pill-container">
+                    <span class="muted-text">Loading sleepers...</span>
+                </div>
+            </div>
+            
+            <div class="advisor-section">
+                <h3>OPTIMIZED ROSTERS</h3>
+                <div class="roster-tabs">
+                    <button class="tab-btn active" data-roster="Cash">BOOM</button>
+                    <button class="tab-btn" data-roster="Ceiling">CEILING</button>
+                    <button class="tab-btn" data-roster="StackedBoom">STACK BOOM</button>
+                    <button class="tab-btn" data-roster="StackedReg">STACK CEILING</button>
+                </div>
+                <div id="roster-container">
+                    <div class="muted-text" style="padding: 1rem 0;">Solving optimal lineups...</div>
+                </div>
+            </div>
+        </aside>
+    </div>
 
     <div id="custom-tooltip" class="tooltip"></div>
 
-    <script src="app.js?v=3"></script>
+    <script src="app.js?v=8"></script>
 </body>
 </html>

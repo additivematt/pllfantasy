@@ -232,11 +232,32 @@ summary:hover {
     color: #f0f6fc;
 }
 
-main {
+.main-layout {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
-    gap: 3rem;
-    padding: 2rem;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    padding: 1rem 2rem 3rem 2rem;
+    max-width: 1800px;
+    margin: 0 auto;
+}
+
+@media (max-width: 1400px) {
+    .main-layout {
+        grid-template-columns: 1.8fr 1.2fr;
+    }
+}
+
+@media (max-width: 1200px) {
+    .main-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+#plots-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+    gap: 2rem;
+    padding: 0;
 }
 
 .plot-card {
@@ -245,7 +266,7 @@ main {
     border: 1px solid var(--border);
     padding: 1.5rem;
     height: 550px;
-    min-width: 600px;
+    min-width: 450px;
     box-shadow: 0 12px 40px rgba(0,0,0,0.6);
     transition: all 0.3s ease;
     position: relative;
@@ -288,4 +309,226 @@ footer {
     width: 12px;
     height: 12px;
     border-radius: 50%;
+}
+
+/* ── Advisor Panel styles ── */
+.advisor-card {
+    background: rgba(22, 27, 34, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(159, 122, 234, 0.15);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(159, 122, 234, 0.05);
+    align-self: start;
+    position: sticky;
+    top: 2rem;
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+}
+
+.advisor-title {
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--accent);
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    letter-spacing: 1px;
+    border-bottom: 2px solid rgba(159, 122, 234, 0.3);
+    padding-bottom: 0.75rem;
+    text-shadow: 0 0 10px rgba(159, 122, 234, 0.3);
+}
+
+.advisor-section {
+    margin-bottom: 1.75rem;
+}
+
+.advisor-section h3 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #8b949e;
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.pill-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.pill {
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-block;
+    border: 1px solid transparent;
+}
+
+.pill.core {
+    background: rgba(159, 122, 234, 0.12);
+    color: #b794f4;
+    border-color: rgba(159, 122, 234, 0.3);
+}
+
+.pill.core:hover {
+    background: rgba(159, 122, 234, 0.25);
+    border-color: #9f7aea;
+    box-shadow: 0 0 10px rgba(159, 122, 234, 0.3);
+    transform: translateY(-1px);
+}
+
+.pill.sleeper {
+    background: rgba(0, 204, 255, 0.1);
+    color: #00ccff;
+    border-color: rgba(0, 204, 255, 0.25);
+}
+
+.pill.sleeper:hover {
+    background: rgba(0, 204, 255, 0.25);
+    border-color: #00ccff;
+    box-shadow: 0 0 10px rgba(0, 204, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+.muted-text {
+    color: #8b949e;
+    font-size: 0.85rem;
+    font-style: italic;
+}
+
+/* Roster Tabs & Tables */
+.roster-tabs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.25rem;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 0.25rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border);
+}
+
+.tab-btn {
+    background: transparent;
+    color: #8b949e;
+    border: none;
+    padding: 0.5rem 0;
+    font-size: 0.7rem;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    outline: none;
+    text-align: center;
+}
+
+.tab-btn:hover {
+    color: #f0f6fc;
+}
+
+.tab-btn.active {
+    background: var(--accent);
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(159, 122, 234, 0.4);
+}
+
+.roster-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.75rem;
+    color: #f0f6fc;
+}
+
+.roster-table th {
+    text-align: left;
+    color: #8b949e;
+    font-weight: 700;
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--border);
+    text-transform: uppercase;
+    font-size: 0.65rem;
+}
+
+.roster-table td {
+    padding: 0.55rem 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.roster-row {
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.roster-row:hover {
+    background: rgba(159, 122, 234, 0.08);
+}
+
+.roster-pos-badge {
+    display: inline-block;
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-size: 0.65rem;
+    font-weight: 800;
+    background: rgba(255, 255, 255, 0.08);
+    color: #cbd5e0;
+}
+
+.roster-total-row {
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.02);
+    border-top: 1px solid var(--border);
+}
+
+.roster-total-row td {
+    padding-top: 0.75rem;
+    border-bottom: none;
+}
+
+.stack-indicator {
+    margin-top: 0.75rem;
+    font-size: 0.7rem;
+    color: #b794f4;
+    background: rgba(159, 122, 234, 0.08);
+    border: 1px dashed rgba(159, 122, 234, 0.25);
+    padding: 0.5rem;
+    border-radius: 6px;
+    line-height: 1.4;
+}
+
+/* Scrollbar styling for advisor card */
+.advisor-card::-webkit-scrollbar {
+    width: 6px;
+}
+
+.advisor-card::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.advisor-card::-webkit-scrollbar-thumb {
+    background: rgba(159, 122, 234, 0.2);
+    border-radius: 3px;
+}
+
+.advisor-card::-webkit-scrollbar-thumb:hover {
+    background: rgba(159, 122, 234, 0.4);
+}
+
+.roster-desc {
+    font-size: 0.75rem;
+    color: #8b949e;
+    margin-bottom: 1.25rem;
+    line-height: 1.5;
+    border-left: 2px solid var(--accent);
+    padding-left: 10px;
+    background: rgba(159, 122, 234, 0.03);
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    border-radius: 0 4px 4px 0;
 }
