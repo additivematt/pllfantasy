@@ -1,12 +1,12 @@
-const CACHE_VERSION = 'predicta-v6';
-const DATA_CACHE = 'predicta-data-v6';
+const CACHE_VERSION = 'predicta-v7';
+const DATA_CACHE = 'predicta-data-v7';
 
 // App shell assets — cache on install, serve cache-first
 const APP_SHELL = [
     './',
     'index.html',
     'style.css',
-    'app.js?v=8',
+    'app.js?v=9',
     'https://cdn.plot.ly/plotly-2.32.0.min.js',
     'https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap'
 ];

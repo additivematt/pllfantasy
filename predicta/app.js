@@ -13,7 +13,7 @@ async function loadPredictions(year, week) {
     const subtitle = document.getElementById('subtitle-text');
     
     if (subtitle) {
-        subtitle.textContent = `${year} SEASON | WEEK ${week} ANALYSIS`;
+        subtitle.textContent = `${year} SEASON ANALYSIS`;
     }
     
     container.innerHTML = '<div class="loading">Analyzing Matchups...</div>';
@@ -134,7 +134,7 @@ function renderPlot(targetId, title, data) {
         hoverinfo: 'none',
         customdata: sortedData,
         marker: {
-            size: sortedData.map(d => Math.max(2, d.PredictedPoints) * 0.9 + 5),
+            size: sortedData.map(d => Math.max(2, d.PredictedPoints || 0) * 0.9 + 5),
             color: sortedData.map(d => d.team_def_rating),
             colorscale: [
                 [0, 'rgb(215,48,39)'],
