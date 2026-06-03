@@ -1,12 +1,55 @@
 [
     {
+        "firstName": "Aidan",
+        "lastName": "O'Neil",
+        "team": "ARC",
+        "positionGroup": "Attack",
+        "subPosition": "Attack",
+        "officialId": 3294,
+        "salary": 5,
+        "fp_season_avg": 1.0,
+        "fp_last3_avg": 1.0,
+        "fp_lag1": 1.0,
+        "shots_season_avg": 1.0,
+        "shots_last3_avg": 1.0,
+        "groundBalls_season_avg": 1.0,
+        "groundBalls_last3_avg": 1.0,
+        "saves_season_avg": 1.0,
+        "saves_last3_avg": 1.0,
+        "faceoffsWon_season_avg": 1.0,
+        "faceoffsWon_last3_avg": 1.0,
+        "assists_season_avg": 1.0,
+        "assists_last3_avg": 1.0,
+        "causedTurnovers_season_avg": 1.0,
+        "causedTurnovers_last3_avg": 1.0,
+        "faceoffPct_season_avg": 1.0,
+        "faceoffPct_last3_avg": 1.0,
+        "touches_season_avg": 1.0,
+        "touches_last3_avg": 1.0,
+        "shotPct_season_avg": 1.0,
+        "shotPct_last3_avg": 1.0,
+        "last_startTime": 1.0,
+        "shotPct_anomaly": 1.0,
+        "opponent": "CHA",
+        "game_id": "2026-ev-13",
+        "days_since_last_game": 7.0,
+        "team_faceoff_advantage": 0.0447813314,
+        "pairing_rating": 1.0,
+        "opponent_rating": 1.0,
+        "player_vs_team_rating": 1.0,
+        "team_def_rating": 0.9798764901,
+        "PredictedTier": "Bust",
+        "BoomProbability": 0.1,
+        "PredictedPoints": 3.3
+    },
+    {
         "firstName": "Connor",
         "lastName": "Fields",
         "team": "ARC",
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 262,
-        "salary": 24,
+        "salary": 25,
         "fp_season_avg": 29.4722222222,
         "fp_last3_avg": 21.6666666667,
         "fp_lag1": 25.0,
@@ -39,8 +82,8 @@
         "player_vs_team_rating": 0.8143261074,
         "team_def_rating": 0.9798764901,
         "PredictedTier": "Average",
-        "BoomProbability": 2.1,
-        "PredictedPoints": 20.55
+        "BoomProbability": 5.0,
+        "PredictedPoints": 20.15
     },
     {
         "firstName": "Gannon",
@@ -83,7 +126,7 @@
         "team_def_rating": 0.9798764901,
         "PredictedTier": "Bust",
         "BoomProbability": 0.0,
-        "PredictedPoints": 2.99
+        "PredictedPoints": 3.68
     },
     {
         "firstName": "Leo",
@@ -92,7 +135,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 3252,
-        "salary": 6,
+        "salary": 5,
         "fp_season_avg": 0.0,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -126,7 +169,7 @@
         "team_def_rating": 0.9798764901,
         "PredictedTier": "Bust",
         "BoomProbability": 0.0,
-        "PredictedPoints": 2.99
+        "PredictedPoints": 3.68
     },
     {
         "firstName": "Mac",
@@ -135,7 +178,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 1814,
-        "salary": 19,
+        "salary": 17,
         "fp_season_avg": 26.4324324324,
         "fp_last3_avg": 7.3333333333,
         "fp_lag1": 8.0,
@@ -168,8 +211,8 @@
         "player_vs_team_rating": 1.0403885481,
         "team_def_rating": 0.9798764901,
         "PredictedTier": "Average",
-        "BoomProbability": 9.8,
-        "PredictedPoints": 19.46
+        "BoomProbability": 3.4,
+        "PredictedPoints": 19.81
     },
     {
         "firstName": "Matt",
@@ -178,7 +221,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 2018,
-        "salary": 16,
+        "salary": 10,
         "fp_season_avg": 15.4615384615,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -210,9 +253,9 @@
         "opponent_rating": 1.0,
         "player_vs_team_rating": 0.8246268657,
         "team_def_rating": 0.9798764901,
-        "PredictedTier": "Average",
-        "BoomProbability": 0.7,
-        "PredictedPoints": 11.04
+        "PredictedTier": "Bust",
+        "BoomProbability": 2.8,
+        "PredictedPoints": 11.48
     },
     {
         "firstName": "Sam",
@@ -221,7 +264,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 3174,
-        "salary": 26,
+        "salary": 23,
         "fp_season_avg": 21.5384615385,
         "fp_last3_avg": 15.3333333333,
         "fp_lag1": 5.0,
@@ -254,8 +297,8 @@
         "player_vs_team_rating": 0.6732142857,
         "team_def_rating": 0.9798764901,
         "PredictedTier": "Average",
-        "BoomProbability": 0.1,
-        "PredictedPoints": 16.22
+        "BoomProbability": 0.3,
+        "PredictedPoints": 16.13
     },
     {
         "firstName": "Adam",
@@ -264,7 +307,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 1846,
-        "salary": 15,
+        "salary": 10,
         "fp_season_avg": 12.4666666667,
         "fp_last3_avg": 6.3333333333,
         "fp_lag1": 0.0,
@@ -296,9 +339,9 @@
         "opponent_rating": 1.0,
         "player_vs_team_rating": 0.7219251337,
         "team_def_rating": 0.9627975053,
-        "PredictedTier": "Average",
-        "BoomProbability": 0.1,
-        "PredictedPoints": 10.06
+        "PredictedTier": "Bust",
+        "BoomProbability": 0.0,
+        "PredictedPoints": 12.44
     },
     {
         "firstName": "Brendan",
@@ -307,7 +350,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 2023,
-        "salary": 20,
+        "salary": 27,
         "fp_season_avg": 15.0,
         "fp_last3_avg": 25.6666666667,
         "fp_lag1": 2.0,
@@ -340,51 +383,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 0.9627975053,
         "PredictedTier": "Average",
-        "BoomProbability": 4.7,
-        "PredictedPoints": 17.93
-    },
-    {
-        "firstName": "Chad",
-        "lastName": "Palumbo",
-        "team": "CHA",
-        "positionGroup": "Attack",
-        "subPosition": "Attack",
-        "officialId": 3280,
-        "salary": 14,
-        "fp_season_avg": 30.0,
-        "fp_last3_avg": 30.0,
-        "fp_lag1": 30.0,
-        "shots_season_avg": 7.0,
-        "shots_last3_avg": 7.0,
-        "groundBalls_season_avg": 0.0,
-        "groundBalls_last3_avg": 0.0,
-        "saves_season_avg": 0.0,
-        "saves_last3_avg": 0.0,
-        "faceoffsWon_season_avg": 0.0,
-        "faceoffsWon_last3_avg": 0.0,
-        "assists_season_avg": 1.0,
-        "assists_last3_avg": 1.0,
-        "causedTurnovers_season_avg": 0.0,
-        "causedTurnovers_last3_avg": 0.0,
-        "faceoffPct_season_avg": 1.0,
-        "faceoffPct_last3_avg": 1.0,
-        "touches_season_avg": 18.0,
-        "touches_last3_avg": 18.0,
-        "shotPct_season_avg": 0.2857142857,
-        "shotPct_last3_avg": 0.2857142857,
-        "last_startTime": 1780185600.0,
-        "shotPct_anomaly": 0.0,
-        "opponent": "ARC",
-        "game_id": "2026-ev-13",
-        "days_since_last_game": 5.9166666667,
-        "team_faceoff_advantage": -0.0447813314,
-        "pairing_rating": 1.0,
-        "opponent_rating": 1.0,
-        "player_vs_team_rating": 1.0,
-        "team_def_rating": 0.9627975053,
-        "PredictedTier": "Average",
-        "BoomProbability": 11.0,
-        "PredictedPoints": 21.59
+        "BoomProbability": 1.4,
+        "PredictedPoints": 17.2
     },
     {
         "firstName": "Eric",
@@ -393,7 +393,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 3225,
-        "salary": 5,
+        "salary": 10,
         "fp_season_avg": 0.0,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -427,7 +427,7 @@
         "team_def_rating": 0.9627975053,
         "PredictedTier": "Bust",
         "BoomProbability": 0.0,
-        "PredictedPoints": 2.91
+        "PredictedPoints": 3.03
     },
     {
         "firstName": "Eric",
@@ -436,7 +436,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 3250,
-        "salary": 6,
+        "salary": 4,
         "fp_season_avg": 3.3333333333,
         "fp_last3_avg": 3.3333333333,
         "fp_lag1": 0.0,
@@ -470,7 +470,7 @@
         "team_def_rating": 0.9627975053,
         "PredictedTier": "Bust",
         "BoomProbability": 0.0,
-        "PredictedPoints": 9.65
+        "PredictedPoints": 10.17
     },
     {
         "firstName": "Jackson",
@@ -479,7 +479,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 3192,
-        "salary": 27,
+        "salary": 28,
         "fp_season_avg": 25.5714285714,
         "fp_last3_avg": 28.3333333333,
         "fp_lag1": 18.0,
@@ -511,9 +511,9 @@
         "opponent_rating": 1.0,
         "player_vs_team_rating": 1.0558659218,
         "team_def_rating": 0.9627975053,
-        "PredictedTier": "Boom",
-        "BoomProbability": 56.1,
-        "PredictedPoints": 21.99
+        "PredictedTier": "Average",
+        "BoomProbability": 20.1,
+        "PredictedPoints": 22.02
     },
     {
         "firstName": "Josh",
@@ -522,7 +522,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 3092,
-        "salary": 11,
+        "salary": 10,
         "fp_season_avg": 9.5833333333,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -555,8 +555,8 @@
         "player_vs_team_rating": 2.5830078125,
         "team_def_rating": 0.9627975053,
         "PredictedTier": "Average",
-        "BoomProbability": 34.2,
-        "PredictedPoints": 16.56
+        "BoomProbability": 17.3,
+        "PredictedPoints": 17.47
     },
     {
         "firstName": "Owen",
@@ -565,7 +565,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 3166,
-        "salary": 23,
+        "salary": 35,
         "fp_season_avg": 30.3636363636,
         "fp_last3_avg": 3.6666666667,
         "fp_lag1": 11.0,
@@ -598,8 +598,8 @@
         "player_vs_team_rating": 1.2350299401,
         "team_def_rating": 0.9627975053,
         "PredictedTier": "Average",
-        "BoomProbability": 18.2,
-        "PredictedPoints": 12.1
+        "BoomProbability": 22.7,
+        "PredictedPoints": 13.07
     },
     {
         "firstName": "Teddy",
@@ -608,7 +608,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 3257,
-        "salary": 8,
+        "salary": 7,
         "fp_season_avg": 7.0,
         "fp_last3_avg": 7.0,
         "fp_lag1": 0.0,
@@ -642,7 +642,7 @@
         "team_def_rating": 0.9627975053,
         "PredictedTier": "Bust",
         "BoomProbability": 0.1,
-        "PredictedPoints": 16.5
+        "PredictedPoints": 16.75
     },
     {
         "firstName": "Brayden",
@@ -651,7 +651,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 3121,
-        "salary": 8,
+        "salary": 16,
         "fp_season_avg": 11.8,
         "fp_last3_avg": 19.0,
         "fp_lag1": 50.0,
@@ -684,8 +684,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 1.20982252,
         "PredictedTier": "Average",
-        "BoomProbability": 0.7,
-        "PredictedPoints": 18.66
+        "BoomProbability": 1.0,
+        "PredictedPoints": 18.7
     },
     {
         "firstName": "Chris",
@@ -694,7 +694,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 3168,
-        "salary": 18,
+        "salary": 43,
         "fp_season_avg": 34.6428571429,
         "fp_last3_avg": 6.0,
         "fp_lag1": 0.0,
@@ -727,8 +727,8 @@
         "player_vs_team_rating": 1.212371134,
         "team_def_rating": 1.20982252,
         "PredictedTier": "Average",
-        "BoomProbability": 4.1,
-        "PredictedPoints": 13.53
+        "BoomProbability": 6.7,
+        "PredictedPoints": 12.7
     },
     {
         "firstName": "Dylan",
@@ -770,8 +770,8 @@
         "player_vs_team_rating": 0.4536082474,
         "team_def_rating": 1.20982252,
         "PredictedTier": "Average",
-        "BoomProbability": 0.1,
-        "PredictedPoints": 13.44
+        "BoomProbability": 0.3,
+        "PredictedPoints": 11.86
     },
     {
         "firstName": "Michael",
@@ -780,7 +780,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 3104,
-        "salary": 19,
+        "salary": 26,
         "fp_season_avg": 25.5,
         "fp_last3_avg": 28.3333333333,
         "fp_lag1": 30.0,
@@ -813,8 +813,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 1.20982252,
         "PredictedTier": "Average",
-        "BoomProbability": 8.4,
-        "PredictedPoints": 22.02
+        "BoomProbability": 8.1,
+        "PredictedPoints": 22.24
     },
     {
         "firstName": "Ryder",
@@ -823,7 +823,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 373,
-        "salary": 12,
+        "salary": 20,
         "fp_season_avg": 23.1944444444,
         "fp_last3_avg": -2.0,
         "fp_lag1": 0.0,
@@ -856,8 +856,8 @@
         "player_vs_team_rating": 2.3604790419,
         "team_def_rating": 1.20982252,
         "PredictedTier": "Average",
-        "BoomProbability": 22.9,
-        "PredictedPoints": 17.79
+        "BoomProbability": 25.2,
+        "PredictedPoints": 16.81
     },
     {
         "firstName": "Wes",
@@ -866,7 +866,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 385,
-        "salary": 4,
+        "salary": 5,
         "fp_season_avg": 20.5416666667,
         "fp_last3_avg": 2.3333333333,
         "fp_lag1": 0.0,
@@ -899,8 +899,8 @@
         "player_vs_team_rating": 1.6064908722,
         "team_def_rating": 1.20982252,
         "PredictedTier": "Average",
-        "BoomProbability": 4.8,
-        "PredictedPoints": 13.54
+        "BoomProbability": 3.0,
+        "PredictedPoints": 16.13
     },
     {
         "firstName": "Xavier",
@@ -909,7 +909,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 3230,
-        "salary": 4,
+        "salary": 5,
         "fp_season_avg": 0.0,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -943,7 +943,7 @@
         "team_def_rating": 1.20982252,
         "PredictedTier": "Bust",
         "BoomProbability": 0.0,
-        "PredictedPoints": 4.43
+        "PredictedPoints": 4.31
     },
     {
         "firstName": "Connor",
@@ -952,7 +952,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 3076,
-        "salary": 45,
+        "salary": 36,
         "fp_season_avg": 38.375,
         "fp_last3_avg": 18.6666666667,
         "fp_lag1": 17.0,
@@ -985,8 +985,51 @@
         "player_vs_team_rating": 1.8892508143,
         "team_def_rating": 1.1102498722,
         "PredictedTier": "Average",
-        "BoomProbability": 3.8,
-        "PredictedPoints": 23.85
+        "BoomProbability": 5.0,
+        "PredictedPoints": 23.73
+    },
+    {
+        "firstName": "Hunter",
+        "lastName": "Drouin",
+        "team": "ATL",
+        "positionGroup": "Attack",
+        "subPosition": "Attack",
+        "officialId": 3293,
+        "salary": 5,
+        "fp_season_avg": 1.0,
+        "fp_last3_avg": 1.0,
+        "fp_lag1": 1.0,
+        "shots_season_avg": 1.0,
+        "shots_last3_avg": 1.0,
+        "groundBalls_season_avg": 1.0,
+        "groundBalls_last3_avg": 1.0,
+        "saves_season_avg": 1.0,
+        "saves_last3_avg": 1.0,
+        "faceoffsWon_season_avg": 1.0,
+        "faceoffsWon_last3_avg": 1.0,
+        "assists_season_avg": 1.0,
+        "assists_last3_avg": 1.0,
+        "causedTurnovers_season_avg": 1.0,
+        "causedTurnovers_last3_avg": 1.0,
+        "faceoffPct_season_avg": 1.0,
+        "faceoffPct_last3_avg": 1.0,
+        "touches_season_avg": 1.0,
+        "touches_last3_avg": 1.0,
+        "shotPct_season_avg": 1.0,
+        "shotPct_last3_avg": 1.0,
+        "last_startTime": 1.0,
+        "shotPct_anomaly": 1.0,
+        "opponent": "RED",
+        "game_id": "2026-ev-14",
+        "days_since_last_game": 7.0,
+        "team_faceoff_advantage": 0.0613088086,
+        "pairing_rating": 1.0,
+        "opponent_rating": 1.0,
+        "player_vs_team_rating": 1.0,
+        "team_def_rating": 1.1102498722,
+        "PredictedTier": "Bust",
+        "BoomProbability": 0.1,
+        "PredictedPoints": 4.02
     },
     {
         "firstName": "Jeff",
@@ -995,7 +1038,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 1809,
-        "salary": 33,
+        "salary": 10,
         "fp_season_avg": 43.3783783784,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -1028,8 +1071,51 @@
         "player_vs_team_rating": 1.342834891,
         "team_def_rating": 1.1102498722,
         "PredictedTier": "Average",
-        "BoomProbability": 38.1,
-        "PredictedPoints": 11.9
+        "BoomProbability": 29.6,
+        "PredictedPoints": 11.52
+    },
+    {
+        "firstName": "Matt",
+        "lastName": "Rambo",
+        "team": "ATL",
+        "positionGroup": "Attack",
+        "subPosition": "Attack",
+        "officialId": 354,
+        "salary": 11,
+        "fp_season_avg": 13.40625,
+        "fp_last3_avg": 0.0,
+        "fp_lag1": 0.0,
+        "shots_season_avg": 4.03125,
+        "shots_last3_avg": 0.0,
+        "groundBalls_season_avg": 0.875,
+        "groundBalls_last3_avg": 0.0,
+        "saves_season_avg": 0.0,
+        "saves_last3_avg": 0.0,
+        "faceoffsWon_season_avg": 0.0,
+        "faceoffsWon_last3_avg": 0.0,
+        "assists_season_avg": 0.65625,
+        "assists_last3_avg": 0.0,
+        "causedTurnovers_season_avg": 0.09375,
+        "causedTurnovers_last3_avg": 0.0,
+        "faceoffPct_season_avg": 1.0,
+        "faceoffPct_last3_avg": 1.0,
+        "touches_season_avg": 19.1875,
+        "touches_last3_avg": 0.0,
+        "shotPct_season_avg": 0.1895709325,
+        "shotPct_last3_avg": 0.0,
+        "last_startTime": 1780176600.0,
+        "shotPct_anomaly": -0.1895709325,
+        "opponent": "RED",
+        "game_id": "2026-ev-14",
+        "days_since_last_game": 6.125,
+        "team_faceoff_advantage": 0.0613088086,
+        "pairing_rating": 1.0,
+        "opponent_rating": 1.0,
+        "player_vs_team_rating": 3.3193473193,
+        "team_def_rating": 1.1102498722,
+        "PredictedTier": "Average",
+        "BoomProbability": 14.5,
+        "PredictedPoints": 16.96
     },
     {
         "firstName": "Xander",
@@ -1038,7 +1124,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 3010,
-        "salary": 33,
+        "salary": 25,
         "fp_season_avg": 29.3461538462,
         "fp_last3_avg": 12.3333333333,
         "fp_lag1": 9.0,
@@ -1071,51 +1157,8 @@
         "player_vs_team_rating": 1.2699610516,
         "team_def_rating": 1.1102498722,
         "PredictedTier": "Average",
-        "BoomProbability": 4.2,
-        "PredictedPoints": 21.75
-    },
-    {
-        "firstName": "Bobby",
-        "lastName": "O'Grady",
-        "team": "OUT",
-        "positionGroup": "Attack",
-        "subPosition": "Attack",
-        "officialId": 3247,
-        "salary": 5,
-        "fp_season_avg": 0.0,
-        "fp_last3_avg": 0.0,
-        "fp_lag1": 0.0,
-        "shots_season_avg": 0.0,
-        "shots_last3_avg": 0.0,
-        "groundBalls_season_avg": 0.0,
-        "groundBalls_last3_avg": 0.0,
-        "saves_season_avg": 0.0,
-        "saves_last3_avg": 0.0,
-        "faceoffsWon_season_avg": 0.0,
-        "faceoffsWon_last3_avg": 0.0,
-        "assists_season_avg": 0.0,
-        "assists_last3_avg": 0.0,
-        "causedTurnovers_season_avg": 0.0,
-        "causedTurnovers_last3_avg": 0.0,
-        "faceoffPct_season_avg": 1.0,
-        "faceoffPct_last3_avg": 1.0,
-        "touches_season_avg": 0.0,
-        "touches_last3_avg": 0.0,
-        "shotPct_season_avg": 0.0,
-        "shotPct_last3_avg": 0.0,
-        "last_startTime": 1780160400.0,
-        "shotPct_anomaly": 0.0,
-        "opponent": "CHA",
-        "game_id": "2026-ev-15",
-        "days_since_last_game": 7.1875,
-        "team_faceoff_advantage": 0.0086449315,
-        "pairing_rating": 1.0,
-        "opponent_rating": 1.0,
-        "player_vs_team_rating": 1.0,
-        "team_def_rating": 0.9798764901,
-        "PredictedTier": "Bust",
-        "BoomProbability": 0.0,
-        "PredictedPoints": 2.99
+        "BoomProbability": 5.4,
+        "PredictedPoints": 22.23
     },
     {
         "firstName": "Brennan",
@@ -1124,7 +1167,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 3075,
-        "salary": 40,
+        "salary": 38,
         "fp_season_avg": 30.8076923077,
         "fp_last3_avg": 23.0,
         "fp_lag1": 31.0,
@@ -1157,8 +1200,8 @@
         "player_vs_team_rating": 0.7141073658,
         "team_def_rating": 0.9798764901,
         "PredictedTier": "Average",
-        "BoomProbability": 25.5,
-        "PredictedPoints": 21.32
+        "BoomProbability": 10.0,
+        "PredictedPoints": 21.02
     },
     {
         "firstName": "Brian",
@@ -1167,7 +1210,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 3154,
-        "salary": 4,
+        "salary": 10,
         "fp_season_avg": 0.0,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -1201,7 +1244,7 @@
         "team_def_rating": 0.9798764901,
         "PredictedTier": "Bust",
         "BoomProbability": 0.0,
-        "PredictedPoints": 3.41
+        "PredictedPoints": 4.01
     },
     {
         "firstName": "Jared",
@@ -1210,7 +1253,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 1827,
-        "salary": 23,
+        "salary": 30,
         "fp_season_avg": 55.0,
         "fp_last3_avg": 55.0,
         "fp_lag1": 55.0,
@@ -1244,7 +1287,7 @@
         "team_def_rating": 0.9798764901,
         "PredictedTier": "Average",
         "BoomProbability": 0.0,
-        "PredictedPoints": 13.11
+        "PredictedPoints": 12.19
     },
     {
         "firstName": "Logan",
@@ -1253,7 +1296,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 2015,
-        "salary": 19,
+        "salary": 29,
         "fp_season_avg": 20.3846153846,
         "fp_last3_avg": 37.3333333333,
         "fp_lag1": 62.0,
@@ -1286,8 +1329,8 @@
         "player_vs_team_rating": 1.0056603774,
         "team_def_rating": 0.9798764901,
         "PredictedTier": "Bust",
-        "BoomProbability": 4.3,
-        "PredictedPoints": 21.27
+        "BoomProbability": 3.3,
+        "PredictedPoints": 20.83
     },
     {
         "firstName": "Pat",
@@ -1296,7 +1339,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 3080,
-        "salary": 27,
+        "salary": 43,
         "fp_season_avg": 26.5,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -1329,8 +1372,8 @@
         "player_vs_team_rating": 0.7547169811,
         "team_def_rating": 0.9798764901,
         "PredictedTier": "Average",
-        "BoomProbability": 0.3,
-        "PredictedPoints": 9.07
+        "BoomProbability": 0.2,
+        "PredictedPoints": 9.82
     },
     {
         "firstName": "Adam",
@@ -1339,7 +1382,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 1846,
-        "salary": 15,
+        "salary": 10,
         "fp_season_avg": 12.4666666667,
         "fp_last3_avg": 6.3333333333,
         "fp_lag1": 0.0,
@@ -1372,8 +1415,8 @@
         "player_vs_team_rating": 1.0427807487,
         "team_def_rating": 0.9196752669,
         "PredictedTier": "Average",
-        "BoomProbability": 0.1,
-        "PredictedPoints": 11.76
+        "BoomProbability": 0.0,
+        "PredictedPoints": 15.0
     },
     {
         "firstName": "Brendan",
@@ -1382,7 +1425,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 2023,
-        "salary": 20,
+        "salary": 27,
         "fp_season_avg": 15.0,
         "fp_last3_avg": 25.6666666667,
         "fp_lag1": 2.0,
@@ -1415,51 +1458,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 0.9196752669,
         "PredictedTier": "Average",
-        "BoomProbability": 2.3,
-        "PredictedPoints": 17.98
-    },
-    {
-        "firstName": "Chad",
-        "lastName": "Palumbo",
-        "team": "CHA",
-        "positionGroup": "Attack",
-        "subPosition": "Attack",
-        "officialId": 3280,
-        "salary": 14,
-        "fp_season_avg": 30.0,
-        "fp_last3_avg": 30.0,
-        "fp_lag1": 30.0,
-        "shots_season_avg": 7.0,
-        "shots_last3_avg": 7.0,
-        "groundBalls_season_avg": 0.0,
-        "groundBalls_last3_avg": 0.0,
-        "saves_season_avg": 0.0,
-        "saves_last3_avg": 0.0,
-        "faceoffsWon_season_avg": 0.0,
-        "faceoffsWon_last3_avg": 0.0,
-        "assists_season_avg": 1.0,
-        "assists_last3_avg": 1.0,
-        "causedTurnovers_season_avg": 0.0,
-        "causedTurnovers_last3_avg": 0.0,
-        "faceoffPct_season_avg": 1.0,
-        "faceoffPct_last3_avg": 1.0,
-        "touches_season_avg": 18.0,
-        "touches_last3_avg": 18.0,
-        "shotPct_season_avg": 0.2857142857,
-        "shotPct_last3_avg": 0.2857142857,
-        "last_startTime": 1780185600.0,
-        "shotPct_anomaly": 0.0,
-        "opponent": "OUT",
-        "game_id": "2026-ev-15",
-        "days_since_last_game": 6.8958333333,
-        "team_faceoff_advantage": -0.0086449315,
-        "pairing_rating": 1.0,
-        "opponent_rating": 1.0,
-        "player_vs_team_rating": 1.0,
-        "team_def_rating": 0.9196752669,
-        "PredictedTier": "Average",
-        "BoomProbability": 5.7,
-        "PredictedPoints": 21.59
+        "BoomProbability": 0.9,
+        "PredictedPoints": 17.2
     },
     {
         "firstName": "Eric",
@@ -1468,7 +1468,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 3225,
-        "salary": 5,
+        "salary": 10,
         "fp_season_avg": 0.0,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -1502,7 +1502,7 @@
         "team_def_rating": 0.9196752669,
         "PredictedTier": "Bust",
         "BoomProbability": 0.0,
-        "PredictedPoints": 3.15
+        "PredictedPoints": 3.26
     },
     {
         "firstName": "Eric",
@@ -1511,7 +1511,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 3250,
-        "salary": 6,
+        "salary": 4,
         "fp_season_avg": 3.3333333333,
         "fp_last3_avg": 3.3333333333,
         "fp_lag1": 0.0,
@@ -1545,7 +1545,7 @@
         "team_def_rating": 0.9196752669,
         "PredictedTier": "Bust",
         "BoomProbability": 0.0,
-        "PredictedPoints": 10.69
+        "PredictedPoints": 10.92
     },
     {
         "firstName": "Jackson",
@@ -1554,7 +1554,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 3192,
-        "salary": 27,
+        "salary": 28,
         "fp_season_avg": 25.5714285714,
         "fp_last3_avg": 28.3333333333,
         "fp_lag1": 18.0,
@@ -1587,8 +1587,8 @@
         "player_vs_team_rating": 1.0558659218,
         "team_def_rating": 0.9196752669,
         "PredictedTier": "Average",
-        "BoomProbability": 32.3,
-        "PredictedPoints": 21.99
+        "BoomProbability": 14.9,
+        "PredictedPoints": 22.02
     },
     {
         "firstName": "Josh",
@@ -1597,7 +1597,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 3092,
-        "salary": 11,
+        "salary": 10,
         "fp_season_avg": 9.5833333333,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -1629,9 +1629,9 @@
         "opponent_rating": 1.0,
         "player_vs_team_rating": 0.404296875,
         "team_def_rating": 0.9196752669,
-        "PredictedTier": "Average",
+        "PredictedTier": "Bust",
         "BoomProbability": 0.0,
-        "PredictedPoints": 7.4
+        "PredictedPoints": 8.18
     },
     {
         "firstName": "Owen",
@@ -1640,7 +1640,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 3166,
-        "salary": 23,
+        "salary": 35,
         "fp_season_avg": 30.3636363636,
         "fp_last3_avg": 3.6666666667,
         "fp_lag1": 11.0,
@@ -1673,8 +1673,8 @@
         "player_vs_team_rating": 1.745508982,
         "team_def_rating": 0.9196752669,
         "PredictedTier": "Average",
-        "BoomProbability": 11.0,
-        "PredictedPoints": 12.36
+        "BoomProbability": 7.6,
+        "PredictedPoints": 19.64
     },
     {
         "firstName": "Teddy",
@@ -1683,7 +1683,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 3257,
-        "salary": 8,
+        "salary": 7,
         "fp_season_avg": 7.0,
         "fp_last3_avg": 7.0,
         "fp_lag1": 0.0,
@@ -1717,7 +1717,7 @@
         "team_def_rating": 0.9196752669,
         "PredictedTier": "Bust",
         "BoomProbability": 0.0,
-        "PredictedPoints": 16.5
+        "PredictedPoints": 16.75
     },
     {
         "firstName": "Asher",
@@ -1726,7 +1726,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 2024,
-        "salary": 36,
+        "salary": 15,
         "fp_season_avg": 34.1527777778,
         "fp_last3_avg": 2.6666666667,
         "fp_lag1": 0.0,
@@ -1759,8 +1759,8 @@
         "player_vs_team_rating": 0.7417649451,
         "team_def_rating": 1.0155272331,
         "PredictedTier": "Average",
-        "BoomProbability": 1.0,
-        "PredictedPoints": 16.02
+        "BoomProbability": 2.1,
+        "PredictedPoints": 16.41
     },
     {
         "firstName": "Brian",
@@ -1769,7 +1769,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 3195,
-        "salary": 10,
+        "salary": 23,
         "fp_season_avg": 26.0,
         "fp_last3_avg": 26.0,
         "fp_lag1": 23.0,
@@ -1802,8 +1802,8 @@
         "player_vs_team_rating": 2.1153846154,
         "team_def_rating": 1.0155272331,
         "PredictedTier": "Boom",
-        "BoomProbability": 98.5,
-        "PredictedPoints": 23.53
+        "BoomProbability": 96.1,
+        "PredictedPoints": 23.51
     },
     {
         "firstName": "Coulter",
@@ -1812,7 +1812,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 3162,
-        "salary": 31,
+        "salary": 39,
         "fp_season_avg": 30.7272727273,
         "fp_last3_avg": 45.3333333333,
         "fp_lag1": 26.0,
@@ -1845,8 +1845,8 @@
         "player_vs_team_rating": 0.9546351085,
         "team_def_rating": 1.0155272331,
         "PredictedTier": "Average",
-        "BoomProbability": 35.7,
-        "PredictedPoints": 23.18
+        "BoomProbability": 22.9,
+        "PredictedPoints": 23.12
     },
     {
         "firstName": "Graydon",
@@ -1889,7 +1889,50 @@
         "team_def_rating": 1.0155272331,
         "PredictedTier": "Bust",
         "BoomProbability": 0.0,
-        "PredictedPoints": 7.06
+        "PredictedPoints": 6.85
+    },
+    {
+        "firstName": "Jack",
+        "lastName": "Regnery",
+        "team": "CAN",
+        "positionGroup": "Attack",
+        "subPosition": "Attack",
+        "officialId": 3285,
+        "salary": 10,
+        "fp_season_avg": 1.0,
+        "fp_last3_avg": 1.0,
+        "fp_lag1": 1.0,
+        "shots_season_avg": 1.0,
+        "shots_last3_avg": 1.0,
+        "groundBalls_season_avg": 1.0,
+        "groundBalls_last3_avg": 1.0,
+        "saves_season_avg": 1.0,
+        "saves_last3_avg": 1.0,
+        "faceoffsWon_season_avg": 1.0,
+        "faceoffsWon_last3_avg": 1.0,
+        "assists_season_avg": 1.0,
+        "assists_last3_avg": 1.0,
+        "causedTurnovers_season_avg": 1.0,
+        "causedTurnovers_last3_avg": 1.0,
+        "faceoffPct_season_avg": 1.0,
+        "faceoffPct_last3_avg": 1.0,
+        "touches_season_avg": 1.0,
+        "touches_last3_avg": 1.0,
+        "shotPct_season_avg": 1.0,
+        "shotPct_last3_avg": 1.0,
+        "last_startTime": 1.0,
+        "shotPct_anomaly": 1.0,
+        "opponent": "WAT",
+        "game_id": "2026-ev-16",
+        "days_since_last_game": 7.0,
+        "team_faceoff_advantage": -0.0422682506,
+        "pairing_rating": 1.0,
+        "opponent_rating": 1.0,
+        "player_vs_team_rating": 1.0,
+        "team_def_rating": 1.0155272331,
+        "PredictedTier": "Bust",
+        "BoomProbability": 0.2,
+        "PredictedPoints": 5.68
     },
     {
         "firstName": "Marcus",
@@ -1898,7 +1941,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 216,
-        "salary": 33,
+        "salary": 37,
         "fp_season_avg": 34.75,
         "fp_last3_avg": 34.0,
         "fp_lag1": 18.0,
@@ -1931,51 +1974,8 @@
         "player_vs_team_rating": 0.9496402878,
         "team_def_rating": 1.0155272331,
         "PredictedTier": "Average",
-        "BoomProbability": 3.3,
-        "PredictedPoints": 22.21
-    },
-    {
-        "firstName": "Matt",
-        "lastName": "Licata",
-        "team": "CAN",
-        "positionGroup": "Attack",
-        "subPosition": "Attack",
-        "officialId": 3227,
-        "salary": 5,
-        "fp_season_avg": 0.0,
-        "fp_last3_avg": 0.0,
-        "fp_lag1": 0.0,
-        "shots_season_avg": 0.0,
-        "shots_last3_avg": 0.0,
-        "groundBalls_season_avg": 0.0,
-        "groundBalls_last3_avg": 0.0,
-        "saves_season_avg": 0.0,
-        "saves_last3_avg": 0.0,
-        "faceoffsWon_season_avg": 0.0,
-        "faceoffsWon_last3_avg": 0.0,
-        "assists_season_avg": 0.0,
-        "assists_last3_avg": 0.0,
-        "causedTurnovers_season_avg": 0.0,
-        "causedTurnovers_last3_avg": 0.0,
-        "faceoffPct_season_avg": 1.0,
-        "faceoffPct_last3_avg": 1.0,
-        "touches_season_avg": 0.0,
-        "touches_last3_avg": 0.0,
-        "shotPct_season_avg": 0.0,
-        "shotPct_last3_avg": 0.0,
-        "last_startTime": 1780092000.0,
-        "shotPct_anomaly": 0.0,
-        "opponent": "WAT",
-        "game_id": "2026-ev-16",
-        "days_since_last_game": 8.0833333333,
-        "team_faceoff_advantage": -0.0422682506,
-        "pairing_rating": 1.0,
-        "opponent_rating": 1.0,
-        "player_vs_team_rating": 1.0,
-        "team_def_rating": 1.0155272331,
-        "PredictedTier": "Bust",
-        "BoomProbability": 0.0,
-        "PredictedPoints": 5.4
+        "BoomProbability": 13.5,
+        "PredictedPoints": 22.47
     },
     {
         "firstName": "CJ",
@@ -1984,7 +1984,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 3159,
-        "salary": 23,
+        "salary": 47,
         "fp_season_avg": 33.0,
         "fp_last3_avg": 21.0,
         "fp_lag1": 63.0,
@@ -2017,8 +2017,8 @@
         "player_vs_team_rating": 2.0,
         "team_def_rating": 1.10696965,
         "PredictedTier": "Average",
-        "BoomProbability": 10.8,
-        "PredictedPoints": 21.79
+        "BoomProbability": 28.4,
+        "PredictedPoints": 21.97
     },
     {
         "firstName": "Jake",
@@ -2027,7 +2027,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 3167,
-        "salary": 19,
+        "salary": 20,
         "fp_season_avg": 15.4166666667,
         "fp_last3_avg": 18.3333333333,
         "fp_lag1": 0.0,
@@ -2061,50 +2061,7 @@
         "team_def_rating": 1.10696965,
         "PredictedTier": "Average",
         "BoomProbability": 0.0,
-        "PredictedPoints": 9.22
-    },
-    {
-        "firstName": "Josh",
-        "lastName": "Yago",
-        "team": "WAT",
-        "positionGroup": "Attack",
-        "subPosition": "Attack",
-        "officialId": 3288,
-        "salary": 11,
-        "fp_season_avg": 10.0,
-        "fp_last3_avg": 10.0,
-        "fp_lag1": 10.0,
-        "shots_season_avg": 3.0,
-        "shots_last3_avg": 3.0,
-        "groundBalls_season_avg": 0.0,
-        "groundBalls_last3_avg": 0.0,
-        "saves_season_avg": 0.0,
-        "saves_last3_avg": 0.0,
-        "faceoffsWon_season_avg": 0.0,
-        "faceoffsWon_last3_avg": 0.0,
-        "assists_season_avg": 1.0,
-        "assists_last3_avg": 1.0,
-        "causedTurnovers_season_avg": 0.0,
-        "causedTurnovers_last3_avg": 0.0,
-        "faceoffPct_season_avg": 1.0,
-        "faceoffPct_last3_avg": 1.0,
-        "touches_season_avg": 19.0,
-        "touches_last3_avg": 19.0,
-        "shotPct_season_avg": 0.0,
-        "shotPct_last3_avg": 0.0,
-        "last_startTime": 1780185600.0,
-        "shotPct_anomaly": 0.0,
-        "opponent": "CAN",
-        "game_id": "2026-ev-16",
-        "days_since_last_game": 7.0,
-        "team_faceoff_advantage": 0.0422682506,
-        "pairing_rating": 1.0,
-        "opponent_rating": 1.0,
-        "player_vs_team_rating": 1.0,
-        "team_def_rating": 1.10696965,
-        "PredictedTier": "Average",
-        "BoomProbability": 0.4,
-        "PredictedPoints": 18.52
+        "PredictedPoints": 10.61
     },
     {
         "firstName": "Kieran",
@@ -2113,7 +2070,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 240,
-        "salary": 33,
+        "salary": 27,
         "fp_season_avg": 31.9736842105,
         "fp_last3_avg": 19.3333333333,
         "fp_lag1": 30.0,
@@ -2146,8 +2103,8 @@
         "player_vs_team_rating": 1.143797766,
         "team_def_rating": 1.10696965,
         "PredictedTier": "Boom",
-        "BoomProbability": 75.3,
-        "PredictedPoints": 22.96
+        "BoomProbability": 78.2,
+        "PredictedPoints": 23.12
     },
     {
         "firstName": "Michael",
@@ -2156,7 +2113,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 3209,
-        "salary": 3,
+        "salary": 10,
         "fp_season_avg": -0.3333333333,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -2190,7 +2147,7 @@
         "team_def_rating": 1.10696965,
         "PredictedTier": "Bust",
         "BoomProbability": 0.0,
-        "PredictedPoints": 2.97
+        "PredictedPoints": 4.4
     },
     {
         "firstName": "Michael",
@@ -2199,7 +2156,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 1810,
-        "salary": 49,
+        "salary": 44,
         "fp_season_avg": 35.9736842105,
         "fp_last3_avg": 30.6666666667,
         "fp_lag1": 19.0,
@@ -2232,8 +2189,8 @@
         "player_vs_team_rating": 1.5527223325,
         "team_def_rating": 1.10696965,
         "PredictedTier": "Average",
-        "BoomProbability": 3.2,
-        "PredictedPoints": 24.1
+        "BoomProbability": 3.7,
+        "PredictedPoints": 24.2
     },
     {
         "firstName": "Zed",
@@ -2242,7 +2199,7 @@
         "positionGroup": "Attack",
         "subPosition": "Attack",
         "officialId": 419,
-        "salary": 9,
+        "salary": 7,
         "fp_season_avg": 22.6538461538,
         "fp_last3_avg": 4.0,
         "fp_lag1": 0.0,
@@ -2274,9 +2231,9 @@
         "opponent_rating": 1.0,
         "player_vs_team_rating": 0.7062818336,
         "team_def_rating": 1.10696965,
-        "PredictedTier": "Bust",
-        "BoomProbability": 0.1,
-        "PredictedPoints": 11.48
+        "PredictedTier": "Average",
+        "BoomProbability": 0.0,
+        "PredictedPoints": 12.2
     },
     {
         "firstName": "Bryce",
@@ -2285,7 +2242,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 3188,
-        "salary": 5,
+        "salary": 3,
         "fp_season_avg": 2.1666666667,
         "fp_last3_avg": -2.0,
         "fp_lag1": 0.0,
@@ -2318,8 +2275,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 0.9717198185,
         "PredictedTier": "Bust",
-        "BoomProbability": 0.1,
-        "PredictedPoints": 1.44
+        "BoomProbability": 0.7,
+        "PredictedPoints": 1.64
     },
     {
         "firstName": "CK",
@@ -2328,7 +2285,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 3203,
-        "salary": 5,
+        "salary": 9,
         "fp_season_avg": 12.0,
         "fp_last3_avg": 12.0,
         "fp_lag1": 8.0,
@@ -2360,9 +2317,9 @@
         "opponent_rating": 1.0,
         "player_vs_team_rating": 1.0,
         "team_def_rating": 0.9717198185,
-        "PredictedTier": "Bust",
-        "BoomProbability": 16.5,
-        "PredictedPoints": 9.33
+        "PredictedTier": "Average",
+        "BoomProbability": 28.3,
+        "PredictedPoints": 12.98
     },
     {
         "firstName": "Dyson",
@@ -2371,7 +2328,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 3090,
-        "salary": 13,
+        "salary": 11,
         "fp_season_avg": 9.3,
         "fp_last3_avg": 0.3333333333,
         "fp_lag1": 0.0,
@@ -2405,7 +2362,7 @@
         "team_def_rating": 0.9717198185,
         "PredictedTier": "Average",
         "BoomProbability": 1.0,
-        "PredictedPoints": 10.83
+        "PredictedPoints": 9.39
     },
     {
         "firstName": "Grant",
@@ -2414,7 +2371,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 391,
-        "salary": 13,
+        "salary": 10,
         "fp_season_avg": 17.4848484848,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -2447,8 +2404,8 @@
         "player_vs_team_rating": 0.6195840555,
         "team_def_rating": 0.9717198185,
         "PredictedTier": "Bust",
-        "BoomProbability": 0.0,
-        "PredictedPoints": 7.19
+        "BoomProbability": 0.1,
+        "PredictedPoints": 7.68
     },
     {
         "firstName": "Ryan",
@@ -2457,7 +2414,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 221,
-        "salary": 6,
+        "salary": 8,
         "fp_season_avg": 8.4444444444,
         "fp_last3_avg": 11.0,
         "fp_lag1": 19.0,
@@ -2490,8 +2447,8 @@
         "player_vs_team_rating": 1.0460526316,
         "team_def_rating": 0.9717198185,
         "PredictedTier": "Average",
-        "BoomProbability": 1.8,
-        "PredictedPoints": 16.27
+        "BoomProbability": 1.1,
+        "PredictedPoints": 16.12
     },
     {
         "firstName": "Ryan",
@@ -2500,7 +2457,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 3196,
-        "salary": 5,
+        "salary": 10,
         "fp_season_avg": 0.0,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -2534,7 +2491,7 @@
         "team_def_rating": 0.9717198185,
         "PredictedTier": "Bust",
         "BoomProbability": 0.0,
-        "PredictedPoints": 1.49
+        "PredictedPoints": 1.75
     },
     {
         "firstName": "Ryan",
@@ -2543,7 +2500,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 3248,
-        "salary": 9,
+        "salary": 15,
         "fp_season_avg": -3.0,
         "fp_last3_avg": -3.0,
         "fp_lag1": -3.0,
@@ -2576,8 +2533,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 0.9717198185,
         "PredictedTier": "Average",
-        "BoomProbability": 0.3,
-        "PredictedPoints": 7.95
+        "BoomProbability": 0.6,
+        "PredictedPoints": 6.76
     },
     {
         "firstName": "Tom",
@@ -2586,7 +2543,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 225,
-        "salary": 15,
+        "salary": 14,
         "fp_season_avg": 25.28125,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -2618,9 +2575,9 @@
         "opponent_rating": 1.0,
         "player_vs_team_rating": 1.1470951792,
         "team_def_rating": 0.9717198185,
-        "PredictedTier": "Bust",
-        "BoomProbability": 0.5,
-        "PredictedPoints": 16.84
+        "PredictedTier": "Average",
+        "BoomProbability": 0.4,
+        "PredictedPoints": 15.88
     },
     {
         "firstName": "Tre",
@@ -2629,7 +2586,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 1821,
-        "salary": 10,
+        "salary": 7,
         "fp_season_avg": 18.21875,
         "fp_last3_avg": -1.0,
         "fp_lag1": -3.0,
@@ -2663,7 +2620,7 @@
         "team_def_rating": 0.9717198185,
         "PredictedTier": "Bust",
         "BoomProbability": 0.0,
-        "PredictedPoints": 7.5
+        "PredictedPoints": 7.32
     },
     {
         "firstName": "Calder",
@@ -2672,7 +2629,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 3234,
-        "salary": 5,
+        "salary": 10,
         "fp_season_avg": 0.0,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -2706,7 +2663,50 @@
         "team_def_rating": 0.9670584846,
         "PredictedTier": "Bust",
         "BoomProbability": 0.1,
-        "PredictedPoints": 1.38
+        "PredictedPoints": 1.17
+    },
+    {
+        "firstName": "Chad",
+        "lastName": "Palumbo",
+        "team": "CHA",
+        "positionGroup": "Midfield",
+        "subPosition": "Midfield",
+        "officialId": 3280,
+        "salary": 17,
+        "fp_season_avg": 1.0,
+        "fp_last3_avg": 1.0,
+        "fp_lag1": 1.0,
+        "shots_season_avg": 1.0,
+        "shots_last3_avg": 1.0,
+        "groundBalls_season_avg": 1.0,
+        "groundBalls_last3_avg": 1.0,
+        "saves_season_avg": 1.0,
+        "saves_last3_avg": 1.0,
+        "faceoffsWon_season_avg": 1.0,
+        "faceoffsWon_last3_avg": 1.0,
+        "assists_season_avg": 1.0,
+        "assists_last3_avg": 1.0,
+        "causedTurnovers_season_avg": 1.0,
+        "causedTurnovers_last3_avg": 1.0,
+        "faceoffPct_season_avg": 1.0,
+        "faceoffPct_last3_avg": 1.0,
+        "touches_season_avg": 1.0,
+        "touches_last3_avg": 1.0,
+        "shotPct_season_avg": 1.0,
+        "shotPct_last3_avg": 1.0,
+        "last_startTime": 1.0,
+        "shotPct_anomaly": 1.0,
+        "opponent": "ARC",
+        "game_id": "2026-ev-13",
+        "days_since_last_game": 7.0,
+        "team_faceoff_advantage": -0.0447813314,
+        "pairing_rating": 1.0,
+        "opponent_rating": 1.0,
+        "player_vs_team_rating": 1.0,
+        "team_def_rating": 0.9670584846,
+        "PredictedTier": "Bust",
+        "BoomProbability": 0.8,
+        "PredictedPoints": 1.56
     },
     {
         "firstName": "Charlie",
@@ -2715,7 +2715,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 1832,
-        "salary": 8,
+        "salary": 10,
         "fp_season_avg": 11.65625,
         "fp_last3_avg": 0.3333333333,
         "fp_lag1": 0.0,
@@ -2748,8 +2748,8 @@
         "player_vs_team_rating": 1.5013404826,
         "team_def_rating": 0.9670584846,
         "PredictedTier": "Average",
-        "BoomProbability": 11.8,
-        "PredictedPoints": 16.49
+        "BoomProbability": 4.5,
+        "PredictedPoints": 15.56
     },
     {
         "firstName": "Chris",
@@ -2791,8 +2791,8 @@
         "player_vs_team_rating": 1.5501319261,
         "team_def_rating": 0.9670584846,
         "PredictedTier": "Average",
-        "BoomProbability": 23.9,
-        "PredictedPoints": 18.56
+        "BoomProbability": 13.4,
+        "PredictedPoints": 18.13
     },
     {
         "firstName": "Cole",
@@ -2801,7 +2801,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 1843,
-        "salary": 9,
+        "salary": 5,
         "fp_season_avg": -0.5,
         "fp_last3_avg": -1.6666666667,
         "fp_lag1": 0.0,
@@ -2834,8 +2834,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 0.9670584846,
         "PredictedTier": "Bust",
-        "BoomProbability": 0.1,
-        "PredictedPoints": 1.5
+        "BoomProbability": 0.2,
+        "PredictedPoints": 1.23
     },
     {
         "firstName": "Cross",
@@ -2844,7 +2844,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 3022,
-        "salary": 6,
+        "salary": 10,
         "fp_season_avg": 8.7222222222,
         "fp_last3_avg": -2.0,
         "fp_lag1": 0.0,
@@ -2878,7 +2878,7 @@
         "team_def_rating": 0.9670584846,
         "PredictedTier": "Bust",
         "BoomProbability": 0.0,
-        "PredictedPoints": 3.31
+        "PredictedPoints": 2.42
     },
     {
         "firstName": "JJ",
@@ -2921,7 +2921,7 @@
         "team_def_rating": 0.9670584846,
         "PredictedTier": "Bust",
         "BoomProbability": 0.0,
-        "PredictedPoints": 0.62
+        "PredictedPoints": 0.57
     },
     {
         "firstName": "Ross",
@@ -2930,7 +2930,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 3093,
-        "salary": 17,
+        "salary": 21,
         "fp_season_avg": 17.5,
         "fp_last3_avg": 20.6666666667,
         "fp_lag1": 35.0,
@@ -2963,8 +2963,8 @@
         "player_vs_team_rating": 0.6025188917,
         "team_def_rating": 0.9670584846,
         "PredictedTier": "Average",
-        "BoomProbability": 11.4,
-        "PredictedPoints": 14.24
+        "BoomProbability": 5.3,
+        "PredictedPoints": 11.73
     },
     {
         "firstName": "Shane",
@@ -2973,7 +2973,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 3078,
-        "salary": 25,
+        "salary": 22,
         "fp_season_avg": 14.65,
         "fp_last3_avg": 13.0,
         "fp_lag1": 17.0,
@@ -3006,8 +3006,8 @@
         "player_vs_team_rating": 1.2798634812,
         "team_def_rating": 0.9670584846,
         "PredictedTier": "Average",
-        "BoomProbability": 2.5,
-        "PredictedPoints": 19.48
+        "BoomProbability": 2.0,
+        "PredictedPoints": 19.5
     },
     {
         "firstName": "Aidan",
@@ -3016,7 +3016,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 3156,
-        "salary": 11,
+        "salary": 12,
         "fp_season_avg": 11.5,
         "fp_last3_avg": 10.6666666667,
         "fp_lag1": 16.0,
@@ -3049,8 +3049,8 @@
         "player_vs_team_rating": 0.6086956522,
         "team_def_rating": 1.1014894786,
         "PredictedTier": "Average",
-        "BoomProbability": 9.9,
-        "PredictedPoints": 11.42
+        "BoomProbability": 11.2,
+        "PredictedPoints": 12.03
     },
     {
         "firstName": "Andrew",
@@ -3092,8 +3092,8 @@
         "player_vs_team_rating": 0.6878370282,
         "team_def_rating": 1.1014894786,
         "PredictedTier": "Average",
-        "BoomProbability": 5.5,
-        "PredictedPoints": 16.38
+        "BoomProbability": 5.0,
+        "PredictedPoints": 16.48
     },
     {
         "firstName": "Connor",
@@ -3102,7 +3102,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 3204,
-        "salary": 4,
+        "salary": 5,
         "fp_season_avg": 0.0,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -3135,8 +3135,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 1.1014894786,
         "PredictedTier": "Bust",
-        "BoomProbability": 0.2,
-        "PredictedPoints": 1.53
+        "BoomProbability": 0.1,
+        "PredictedPoints": 1.5
     },
     {
         "firstName": "Josh",
@@ -3145,7 +3145,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 3211,
-        "salary": 8,
+        "salary": 9,
         "fp_season_avg": 7.2857142857,
         "fp_last3_avg": 10.0,
         "fp_lag1": 10.0,
@@ -3178,8 +3178,8 @@
         "player_vs_team_rating": 0.9607843137,
         "team_def_rating": 1.1014894786,
         "PredictedTier": "Average",
-        "BoomProbability": 0.0,
-        "PredictedPoints": 8.92
+        "BoomProbability": 0.3,
+        "PredictedPoints": 9.69
     },
     {
         "firstName": "Marcus",
@@ -3188,7 +3188,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 3253,
-        "salary": 3,
+        "salary": 4,
         "fp_season_avg": 2.5,
         "fp_last3_avg": 2.5,
         "fp_lag1": 4.0,
@@ -3221,8 +3221,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 1.1014894786,
         "PredictedTier": "Average",
-        "BoomProbability": 0.3,
-        "PredictedPoints": 8.75
+        "BoomProbability": 1.6,
+        "PredictedPoints": 12.36
     },
     {
         "firstName": "Romar",
@@ -3231,7 +3231,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 305,
-        "salary": 12,
+        "salary": 8,
         "fp_season_avg": 13.7575757576,
         "fp_last3_avg": 0.3333333333,
         "fp_lag1": 0.0,
@@ -3265,7 +3265,7 @@
         "team_def_rating": 1.1014894786,
         "PredictedTier": "Bust",
         "BoomProbability": 0.1,
-        "PredictedPoints": 1.38
+        "PredictedPoints": 1.97
     },
     {
         "firstName": "Sam",
@@ -3274,7 +3274,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 3161,
-        "salary": 10,
+        "salary": 19,
         "fp_season_avg": 12.5,
         "fp_last3_avg": 2.0,
         "fp_lag1": 0.0,
@@ -3307,8 +3307,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 1.1014894786,
         "PredictedTier": "Bust",
-        "BoomProbability": 1.2,
-        "PredictedPoints": 3.32
+        "BoomProbability": 2.5,
+        "PredictedPoints": 3.7
     },
     {
         "firstName": "Aidan",
@@ -3351,7 +3351,7 @@
         "team_def_rating": 1.0242898507,
         "PredictedTier": "Average",
         "BoomProbability": 0.1,
-        "PredictedPoints": 1.22
+        "PredictedPoints": 1.91
     },
     {
         "firstName": "Bryan",
@@ -3360,7 +3360,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 395,
-        "salary": 25,
+        "salary": 33,
         "fp_season_avg": 21.1388888889,
         "fp_last3_avg": 35.6666666667,
         "fp_lag1": 32.0,
@@ -3392,9 +3392,9 @@
         "opponent_rating": 1.0,
         "player_vs_team_rating": 0.8278580815,
         "team_def_rating": 1.0242898507,
-        "PredictedTier": "Boom",
-        "BoomProbability": 62.6,
-        "PredictedPoints": 16.79
+        "PredictedTier": "Average",
+        "BoomProbability": 33.8,
+        "PredictedPoints": 16.93
     },
     {
         "firstName": "Hugh",
@@ -3403,7 +3403,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 3186,
-        "salary": 8,
+        "salary": 5,
         "fp_season_avg": 5.3636363636,
         "fp_last3_avg": -1.6666666667,
         "fp_lag1": -5.0,
@@ -3437,7 +3437,7 @@
         "team_def_rating": 1.0242898507,
         "PredictedTier": "Bust",
         "BoomProbability": 0.0,
-        "PredictedPoints": 4.44
+        "PredictedPoints": 3.13
     },
     {
         "firstName": "Jake",
@@ -3446,7 +3446,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 3084,
-        "salary": 6,
+        "salary": 4,
         "fp_season_avg": 6.9090909091,
         "fp_last3_avg": 2.0,
         "fp_lag1": -5.0,
@@ -3479,8 +3479,8 @@
         "player_vs_team_rating": 2.8947368421,
         "team_def_rating": 1.0242898507,
         "PredictedTier": "Boom",
-        "BoomProbability": 69.2,
-        "PredictedPoints": 23.06
+        "BoomProbability": 58.6,
+        "PredictedPoints": 23.75
     },
     {
         "firstName": "Kyle",
@@ -3489,7 +3489,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 978,
-        "salary": 3,
+        "salary": 10,
         "fp_season_avg": 8.1785714286,
         "fp_last3_avg": -2.0,
         "fp_lag1": 0.0,
@@ -3522,8 +3522,8 @@
         "player_vs_team_rating": 1.4978165939,
         "team_def_rating": 1.0242898507,
         "PredictedTier": "Average",
-        "BoomProbability": 6.8,
-        "PredictedPoints": 15.94
+        "BoomProbability": 3.8,
+        "PredictedPoints": 13.9
     },
     {
         "firstName": "Levi",
@@ -3532,7 +3532,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 3094,
-        "salary": 18,
+        "salary": 20,
         "fp_season_avg": 15.9090909091,
         "fp_last3_avg": 28.3333333333,
         "fp_lag1": 11.0,
@@ -3565,8 +3565,8 @@
         "player_vs_team_rating": 0.66,
         "team_def_rating": 1.0242898507,
         "PredictedTier": "Average",
-        "BoomProbability": 0.5,
-        "PredictedPoints": 12.46
+        "BoomProbability": 0.1,
+        "PredictedPoints": 11.5
     },
     {
         "firstName": "Luke",
@@ -3575,7 +3575,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 3279,
-        "salary": 9,
+        "salary": 5,
         "fp_season_avg": 0.0,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -3609,7 +3609,7 @@
         "team_def_rating": 1.0242898507,
         "PredictedTier": "Average",
         "BoomProbability": 0.1,
-        "PredictedPoints": 1.22
+        "PredictedPoints": 1.62
     },
     {
         "firstName": "Matt",
@@ -3618,7 +3618,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 3164,
-        "salary": 23,
+        "salary": 20,
         "fp_season_avg": 22.0666666667,
         "fp_last3_avg": 15.0,
         "fp_lag1": 10.0,
@@ -3651,8 +3651,8 @@
         "player_vs_team_rating": 1.6767371601,
         "team_def_rating": 1.0242898507,
         "PredictedTier": "Boom",
-        "BoomProbability": 91.0,
-        "PredictedPoints": 21.36
+        "BoomProbability": 88.3,
+        "PredictedPoints": 21.04
     },
     {
         "firstName": "Reid",
@@ -3694,8 +3694,8 @@
         "player_vs_team_rating": 0.6564102564,
         "team_def_rating": 1.0242898507,
         "PredictedTier": "Average",
-        "BoomProbability": 1.9,
-        "PredictedPoints": 13.69
+        "BoomProbability": 6.2,
+        "PredictedPoints": 15.33
     },
     {
         "firstName": "Dalton",
@@ -3737,8 +3737,8 @@
         "player_vs_team_rating": 0.6944444444,
         "team_def_rating": 0.9717198185,
         "PredictedTier": "Average",
-        "BoomProbability": 1.4,
-        "PredictedPoints": 14.98
+        "BoomProbability": 0.3,
+        "PredictedPoints": 15.19
     },
     {
         "firstName": "Evan",
@@ -3747,7 +3747,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 3270,
-        "salary": 10,
+        "salary": 15,
         "fp_season_avg": 14.0,
         "fp_last3_avg": 14.0,
         "fp_lag1": 21.0,
@@ -3780,8 +3780,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 0.9717198185,
         "PredictedTier": "Average",
-        "BoomProbability": 13.7,
-        "PredictedPoints": 9.59
+        "BoomProbability": 3.2,
+        "PredictedPoints": 11.53
     },
     {
         "firstName": "Graham",
@@ -3790,7 +3790,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 3085,
-        "salary": 9,
+        "salary": 10,
         "fp_season_avg": 14.6153846154,
         "fp_last3_avg": 12.0,
         "fp_lag1": 31.0,
@@ -3822,95 +3822,52 @@
         "opponent_rating": 1.0,
         "player_vs_team_rating": 0.5644736842,
         "team_def_rating": 0.9717198185,
-        "PredictedTier": "Bust",
-        "BoomProbability": 1.2,
-        "PredictedPoints": 11.93
+        "PredictedTier": "Average",
+        "BoomProbability": 1.4,
+        "PredictedPoints": 11.83
     },
     {
-        "firstName": "Jack",
-        "lastName": "Taylor",
+        "firstName": "John",
+        "lastName": "Dunphey",
         "team": "OUT",
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
-        "officialId": 3268,
-        "salary": 6,
-        "fp_season_avg": 0.0,
-        "fp_last3_avg": 0.0,
-        "fp_lag1": 0.0,
-        "shots_season_avg": 0.0,
-        "shots_last3_avg": 0.0,
-        "groundBalls_season_avg": 0.0,
-        "groundBalls_last3_avg": 0.0,
-        "saves_season_avg": 0.0,
-        "saves_last3_avg": 0.0,
-        "faceoffsWon_season_avg": 0.0,
-        "faceoffsWon_last3_avg": 0.0,
-        "assists_season_avg": 0.0,
-        "assists_last3_avg": 0.0,
-        "causedTurnovers_season_avg": 0.0,
-        "causedTurnovers_last3_avg": 0.0,
+        "officialId": 3290,
+        "salary": 5,
+        "fp_season_avg": 1.0,
+        "fp_last3_avg": 1.0,
+        "fp_lag1": 1.0,
+        "shots_season_avg": 1.0,
+        "shots_last3_avg": 1.0,
+        "groundBalls_season_avg": 1.0,
+        "groundBalls_last3_avg": 1.0,
+        "saves_season_avg": 1.0,
+        "saves_last3_avg": 1.0,
+        "faceoffsWon_season_avg": 1.0,
+        "faceoffsWon_last3_avg": 1.0,
+        "assists_season_avg": 1.0,
+        "assists_last3_avg": 1.0,
+        "causedTurnovers_season_avg": 1.0,
+        "causedTurnovers_last3_avg": 1.0,
         "faceoffPct_season_avg": 1.0,
         "faceoffPct_last3_avg": 1.0,
-        "touches_season_avg": 0.0,
-        "touches_last3_avg": 0.0,
-        "shotPct_season_avg": 0.0,
-        "shotPct_last3_avg": 0.0,
-        "last_startTime": 1780160400.0,
-        "shotPct_anomaly": 0.0,
+        "touches_season_avg": 1.0,
+        "touches_last3_avg": 1.0,
+        "shotPct_season_avg": 1.0,
+        "shotPct_last3_avg": 1.0,
+        "last_startTime": 1.0,
+        "shotPct_anomaly": 1.0,
         "opponent": "CHA",
         "game_id": "2026-ev-15",
-        "days_since_last_game": 7.1875,
+        "days_since_last_game": 7.0,
         "team_faceoff_advantage": 0.0086449315,
         "pairing_rating": 1.0,
         "opponent_rating": 1.0,
         "player_vs_team_rating": 1.0,
         "team_def_rating": 0.9717198185,
         "PredictedTier": "Bust",
-        "BoomProbability": 0.1,
-        "PredictedPoints": 1.46
-    },
-    {
-        "firstName": "Jack",
-        "lastName": "VanOverbeke",
-        "team": "OUT",
-        "positionGroup": "Midfield",
-        "subPosition": "Midfield",
-        "officialId": 3120,
-        "salary": 3,
-        "fp_season_avg": 4.4615384615,
-        "fp_last3_avg": 0.0,
-        "fp_lag1": 0.0,
-        "shots_season_avg": 2.2307692308,
-        "shots_last3_avg": 0.0,
-        "groundBalls_season_avg": 0.3846153846,
-        "groundBalls_last3_avg": 0.0,
-        "saves_season_avg": 0.0,
-        "saves_last3_avg": 0.0,
-        "faceoffsWon_season_avg": 0.0,
-        "faceoffsWon_last3_avg": 0.0,
-        "assists_season_avg": 0.3076923077,
-        "assists_last3_avg": 0.0,
-        "causedTurnovers_season_avg": 0.0,
-        "causedTurnovers_last3_avg": 0.0,
-        "faceoffPct_season_avg": 1.0,
-        "faceoffPct_last3_avg": 1.0,
-        "touches_season_avg": 9.8461538462,
-        "touches_last3_avg": 0.0,
-        "shotPct_season_avg": 0.0769230769,
-        "shotPct_last3_avg": 0.0,
-        "last_startTime": 1780160400.0,
-        "shotPct_anomaly": -0.0769230769,
-        "opponent": "CHA",
-        "game_id": "2026-ev-15",
-        "days_since_last_game": 7.1875,
-        "team_faceoff_advantage": 0.0086449315,
-        "pairing_rating": 1.0,
-        "opponent_rating": 1.0,
-        "player_vs_team_rating": 1.0,
-        "team_def_rating": 0.9717198185,
-        "PredictedTier": "Bust",
-        "BoomProbability": 0.0,
-        "PredictedPoints": 1.86
+        "BoomProbability": 1.1,
+        "PredictedPoints": 1.61
     },
     {
         "firstName": "Jonathan",
@@ -3953,7 +3910,7 @@
         "team_def_rating": 0.9717198185,
         "PredictedTier": "Average",
         "BoomProbability": 0.0,
-        "PredictedPoints": 5.19
+        "PredictedPoints": 5.59
     },
     {
         "firstName": "Justin",
@@ -3962,7 +3919,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 1828,
-        "salary": 11,
+        "salary": 12,
         "fp_season_avg": 14.1111111111,
         "fp_last3_avg": 10.0,
         "fp_lag1": 8.0,
@@ -3995,8 +3952,8 @@
         "player_vs_team_rating": 0.8220472441,
         "team_def_rating": 0.9717198185,
         "PredictedTier": "Average",
-        "BoomProbability": 1.0,
-        "PredictedPoints": 10.85
+        "BoomProbability": 0.6,
+        "PredictedPoints": 11.66
     },
     {
         "firstName": "Mikie",
@@ -4005,7 +3962,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 1391,
-        "salary": 3,
+        "salary": 2,
         "fp_season_avg": 2.3636363636,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -4039,7 +3996,7 @@
         "team_def_rating": 0.9717198185,
         "PredictedTier": "Bust",
         "BoomProbability": 0.1,
-        "PredictedPoints": 1.41
+        "PredictedPoints": 1.39
     },
     {
         "firstName": "Nolan",
@@ -4048,7 +4005,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 3256,
-        "salary": 4,
+        "salary": 5,
         "fp_season_avg": 0.0,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -4082,7 +4039,7 @@
         "team_def_rating": 0.9717198185,
         "PredictedTier": "Bust",
         "BoomProbability": 0.1,
-        "PredictedPoints": 1.46
+        "PredictedPoints": 1.58
     },
     {
         "firstName": "Calder",
@@ -4091,7 +4048,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 3234,
-        "salary": 5,
+        "salary": 10,
         "fp_season_avg": 0.0,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -4125,7 +4082,50 @@
         "team_def_rating": 1.0804036047,
         "PredictedTier": "Bust",
         "BoomProbability": 0.2,
-        "PredictedPoints": 1.22
+        "PredictedPoints": 1.52
+    },
+    {
+        "firstName": "Chad",
+        "lastName": "Palumbo",
+        "team": "CHA",
+        "positionGroup": "Midfield",
+        "subPosition": "Midfield",
+        "officialId": 3280,
+        "salary": 17,
+        "fp_season_avg": 1.0,
+        "fp_last3_avg": 1.0,
+        "fp_lag1": 1.0,
+        "shots_season_avg": 1.0,
+        "shots_last3_avg": 1.0,
+        "groundBalls_season_avg": 1.0,
+        "groundBalls_last3_avg": 1.0,
+        "saves_season_avg": 1.0,
+        "saves_last3_avg": 1.0,
+        "faceoffsWon_season_avg": 1.0,
+        "faceoffsWon_last3_avg": 1.0,
+        "assists_season_avg": 1.0,
+        "assists_last3_avg": 1.0,
+        "causedTurnovers_season_avg": 1.0,
+        "causedTurnovers_last3_avg": 1.0,
+        "faceoffPct_season_avg": 1.0,
+        "faceoffPct_last3_avg": 1.0,
+        "touches_season_avg": 1.0,
+        "touches_last3_avg": 1.0,
+        "shotPct_season_avg": 1.0,
+        "shotPct_last3_avg": 1.0,
+        "last_startTime": 1.0,
+        "shotPct_anomaly": 1.0,
+        "opponent": "OUT",
+        "game_id": "2026-ev-15",
+        "days_since_last_game": 7.0,
+        "team_faceoff_advantage": -0.0086449315,
+        "pairing_rating": 1.0,
+        "opponent_rating": 1.0,
+        "player_vs_team_rating": 1.0,
+        "team_def_rating": 1.0804036047,
+        "PredictedTier": "Bust",
+        "BoomProbability": 1.7,
+        "PredictedPoints": 1.39
     },
     {
         "firstName": "Charlie",
@@ -4134,7 +4134,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 1832,
-        "salary": 8,
+        "salary": 10,
         "fp_season_avg": 11.65625,
         "fp_last3_avg": 0.3333333333,
         "fp_lag1": 0.0,
@@ -4167,8 +4167,8 @@
         "player_vs_team_rating": 0.7549597855,
         "team_def_rating": 1.0804036047,
         "PredictedTier": "Bust",
-        "BoomProbability": 0.1,
-        "PredictedPoints": 8.22
+        "BoomProbability": 0.2,
+        "PredictedPoints": 8.98
     },
     {
         "firstName": "Chris",
@@ -4211,7 +4211,7 @@
         "team_def_rating": 1.0804036047,
         "PredictedTier": "Bust",
         "BoomProbability": 0.0,
-        "PredictedPoints": 0.0
+        "PredictedPoints": 0.09
     },
     {
         "firstName": "Cole",
@@ -4220,7 +4220,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 1843,
-        "salary": 9,
+        "salary": 5,
         "fp_season_avg": -0.5,
         "fp_last3_avg": -1.6666666667,
         "fp_lag1": 0.0,
@@ -4253,8 +4253,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 1.0804036047,
         "PredictedTier": "Bust",
-        "BoomProbability": 0.3,
-        "PredictedPoints": 1.41
+        "BoomProbability": 0.1,
+        "PredictedPoints": 1.58
     },
     {
         "firstName": "Cross",
@@ -4263,7 +4263,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 3022,
-        "salary": 6,
+        "salary": 10,
         "fp_season_avg": 8.7222222222,
         "fp_last3_avg": -2.0,
         "fp_lag1": 0.0,
@@ -4296,8 +4296,8 @@
         "player_vs_team_rating": 0.6232876712,
         "team_def_rating": 1.0804036047,
         "PredictedTier": "Bust",
-        "BoomProbability": 0.0,
-        "PredictedPoints": 7.81
+        "BoomProbability": 0.2,
+        "PredictedPoints": 8.39
     },
     {
         "firstName": "JJ",
@@ -4339,8 +4339,8 @@
         "player_vs_team_rating": 1.7960526316,
         "team_def_rating": 1.0804036047,
         "PredictedTier": "Average",
-        "BoomProbability": 32.3,
-        "PredictedPoints": 15.45
+        "BoomProbability": 41.6,
+        "PredictedPoints": 14.37
     },
     {
         "firstName": "Ross",
@@ -4349,7 +4349,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 3093,
-        "salary": 17,
+        "salary": 21,
         "fp_season_avg": 17.5,
         "fp_last3_avg": 20.6666666667,
         "fp_lag1": 35.0,
@@ -4381,9 +4381,9 @@
         "opponent_rating": 1.0,
         "player_vs_team_rating": 1.7027707809,
         "team_def_rating": 1.0804036047,
-        "PredictedTier": "Boom",
-        "BoomProbability": 58.9,
-        "PredictedPoints": 17.1
+        "PredictedTier": "Average",
+        "BoomProbability": 33.8,
+        "PredictedPoints": 18.57
     },
     {
         "firstName": "Shane",
@@ -4392,7 +4392,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 3078,
-        "salary": 25,
+        "salary": 22,
         "fp_season_avg": 14.65,
         "fp_last3_avg": 13.0,
         "fp_lag1": 17.0,
@@ -4425,8 +4425,8 @@
         "player_vs_team_rating": 0.9328782708,
         "team_def_rating": 1.0804036047,
         "PredictedTier": "Average",
-        "BoomProbability": 2.6,
-        "PredictedPoints": 16.05
+        "BoomProbability": 4.1,
+        "PredictedPoints": 15.81
     },
     {
         "firstName": "Alexander",
@@ -4435,7 +4435,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 3088,
-        "salary": 9,
+        "salary": 10,
         "fp_season_avg": 7.1333333333,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -4468,8 +4468,8 @@
         "player_vs_team_rating": 0.8411214953,
         "team_def_rating": 1.0458459272,
         "PredictedTier": "Bust",
-        "BoomProbability": 0.2,
-        "PredictedPoints": 7.11
+        "BoomProbability": 0.1,
+        "PredictedPoints": 8.0
     },
     {
         "firstName": "Connor",
@@ -4478,7 +4478,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 1815,
-        "salary": 7,
+        "salary": 9,
         "fp_season_avg": 10.9458333333,
         "fp_last3_avg": 4.2666666667,
         "fp_lag1": 12.8,
@@ -4511,8 +4511,8 @@
         "player_vs_team_rating": 0.9165221699,
         "team_def_rating": 1.0458459272,
         "PredictedTier": "Bust",
-        "BoomProbability": 1.0,
-        "PredictedPoints": 9.24
+        "BoomProbability": 0.4,
+        "PredictedPoints": 9.55
     },
     {
         "firstName": "Logan",
@@ -4521,7 +4521,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 3249,
-        "salary": 4,
+        "salary": 5,
         "fp_season_avg": 0.0,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -4555,7 +4555,7 @@
         "team_def_rating": 1.0458459272,
         "PredictedTier": "Bust",
         "BoomProbability": 0.1,
-        "PredictedPoints": 1.45
+        "PredictedPoints": 1.52
     },
     {
         "firstName": "Matt",
@@ -4564,7 +4564,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 3013,
-        "salary": 28,
+        "salary": 26,
         "fp_season_avg": 20.4722222222,
         "fp_last3_avg": 17.0,
         "fp_lag1": 10.0,
@@ -4597,8 +4597,8 @@
         "player_vs_team_rating": 1.0327582865,
         "team_def_rating": 1.0458459272,
         "PredictedTier": "Average",
-        "BoomProbability": 34.4,
-        "PredictedPoints": 19.23
+        "BoomProbability": 44.3,
+        "PredictedPoints": 19.4
     },
     {
         "firstName": "Mic",
@@ -4607,7 +4607,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 3170,
-        "salary": 9,
+        "salary": 24,
         "fp_season_avg": 17.75,
         "fp_last3_avg": 32.3333333333,
         "fp_lag1": 51.0,
@@ -4639,9 +4639,9 @@
         "opponent_rating": 1.0,
         "player_vs_team_rating": 1.3521126761,
         "team_def_rating": 1.0458459272,
-        "PredictedTier": "Boom",
-        "BoomProbability": 53.9,
-        "PredictedPoints": 19.82
+        "PredictedTier": "Average",
+        "BoomProbability": 22.8,
+        "PredictedPoints": 19.96
     },
     {
         "firstName": "Mikey",
@@ -4650,7 +4650,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 3267,
-        "salary": 13,
+        "salary": 15,
         "fp_season_avg": 11.0,
         "fp_last3_avg": 11.0,
         "fp_lag1": 7.0,
@@ -4682,9 +4682,9 @@
         "opponent_rating": 1.0,
         "player_vs_team_rating": 1.5454545455,
         "team_def_rating": 1.0458459272,
-        "PredictedTier": "Average",
-        "BoomProbability": 41.6,
-        "PredictedPoints": 19.27
+        "PredictedTier": "Boom",
+        "BoomProbability": 53.4,
+        "PredictedPoints": 19.41
     },
     {
         "firstName": "Ryan",
@@ -4693,7 +4693,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 358,
-        "salary": 18,
+        "salary": 10,
         "fp_season_avg": 17.7222222222,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -4727,7 +4727,7 @@
         "team_def_rating": 1.0458459272,
         "PredictedTier": "Bust",
         "BoomProbability": 0.0,
-        "PredictedPoints": 6.15
+        "PredictedPoints": 6.56
     },
     {
         "firstName": "Tye",
@@ -4769,8 +4769,8 @@
         "player_vs_team_rating": 1.175257732,
         "team_def_rating": 1.0458459272,
         "PredictedTier": "Average",
-        "BoomProbability": 4.5,
-        "PredictedPoints": 11.94
+        "BoomProbability": 1.6,
+        "PredictedPoints": 12.07
     },
     {
         "firstName": "Casey",
@@ -4779,7 +4779,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 3232,
-        "salary": 5,
+        "salary": 4,
         "fp_season_avg": -0.6666666667,
         "fp_last3_avg": -0.6666666667,
         "fp_lag1": -2.0,
@@ -4812,8 +4812,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 1.0680046582,
         "PredictedTier": "Bust",
-        "BoomProbability": 0.1,
-        "PredictedPoints": 1.27
+        "BoomProbability": 0.2,
+        "PredictedPoints": 1.67
     },
     {
         "firstName": "Connor",
@@ -4822,7 +4822,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 339,
-        "salary": 20,
+        "salary": 23,
         "fp_season_avg": 18.9705882353,
         "fp_last3_avg": 20.6666666667,
         "fp_lag1": -5.0,
@@ -4855,8 +4855,8 @@
         "player_vs_team_rating": 0.8358803987,
         "team_def_rating": 1.0680046582,
         "PredictedTier": "Average",
-        "BoomProbability": 28.7,
-        "PredictedPoints": 17.48
+        "BoomProbability": 35.6,
+        "PredictedPoints": 17.28
     },
     {
         "firstName": "Jack",
@@ -4898,8 +4898,94 @@
         "player_vs_team_rating": 0.4192565509,
         "team_def_rating": 1.0680046582,
         "PredictedTier": "Bust",
-        "BoomProbability": 1.0,
-        "PredictedPoints": 9.64
+        "BoomProbability": 1.9,
+        "PredictedPoints": 10.62
+    },
+    {
+        "firstName": "Josh",
+        "lastName": "Yago",
+        "team": "WAT",
+        "positionGroup": "Midfield",
+        "subPosition": "Midfield",
+        "officialId": 3288,
+        "salary": 15,
+        "fp_season_avg": 1.0,
+        "fp_last3_avg": 1.0,
+        "fp_lag1": 1.0,
+        "shots_season_avg": 1.0,
+        "shots_last3_avg": 1.0,
+        "groundBalls_season_avg": 1.0,
+        "groundBalls_last3_avg": 1.0,
+        "saves_season_avg": 1.0,
+        "saves_last3_avg": 1.0,
+        "faceoffsWon_season_avg": 1.0,
+        "faceoffsWon_last3_avg": 1.0,
+        "assists_season_avg": 1.0,
+        "assists_last3_avg": 1.0,
+        "causedTurnovers_season_avg": 1.0,
+        "causedTurnovers_last3_avg": 1.0,
+        "faceoffPct_season_avg": 1.0,
+        "faceoffPct_last3_avg": 1.0,
+        "touches_season_avg": 1.0,
+        "touches_last3_avg": 1.0,
+        "shotPct_season_avg": 1.0,
+        "shotPct_last3_avg": 1.0,
+        "last_startTime": 1.0,
+        "shotPct_anomaly": 1.0,
+        "opponent": "CAN",
+        "game_id": "2026-ev-16",
+        "days_since_last_game": 7.0,
+        "team_faceoff_advantage": 0.0422682506,
+        "pairing_rating": 1.0,
+        "opponent_rating": 1.0,
+        "player_vs_team_rating": 1.0,
+        "team_def_rating": 1.0680046582,
+        "PredictedTier": "Bust",
+        "BoomProbability": 2.6,
+        "PredictedPoints": 1.5
+    },
+    {
+        "firstName": "Kyle",
+        "lastName": "Lewis",
+        "team": "WAT",
+        "positionGroup": "Midfield",
+        "subPosition": "Midfield",
+        "officialId": 3281,
+        "salary": 10,
+        "fp_season_avg": 1.0,
+        "fp_last3_avg": 1.0,
+        "fp_lag1": 1.0,
+        "shots_season_avg": 1.0,
+        "shots_last3_avg": 1.0,
+        "groundBalls_season_avg": 1.0,
+        "groundBalls_last3_avg": 1.0,
+        "saves_season_avg": 1.0,
+        "saves_last3_avg": 1.0,
+        "faceoffsWon_season_avg": 1.0,
+        "faceoffsWon_last3_avg": 1.0,
+        "assists_season_avg": 1.0,
+        "assists_last3_avg": 1.0,
+        "causedTurnovers_season_avg": 1.0,
+        "causedTurnovers_last3_avg": 1.0,
+        "faceoffPct_season_avg": 1.0,
+        "faceoffPct_last3_avg": 1.0,
+        "touches_season_avg": 1.0,
+        "touches_last3_avg": 1.0,
+        "shotPct_season_avg": 1.0,
+        "shotPct_last3_avg": 1.0,
+        "last_startTime": 1.0,
+        "shotPct_anomaly": 1.0,
+        "opponent": "CAN",
+        "game_id": "2026-ev-16",
+        "days_since_last_game": 7.0,
+        "team_faceoff_advantage": 0.0422682506,
+        "pairing_rating": 1.0,
+        "opponent_rating": 1.0,
+        "player_vs_team_rating": 1.0,
+        "team_def_rating": 1.0680046582,
+        "PredictedTier": "Bust",
+        "BoomProbability": 2.6,
+        "PredictedPoints": 1.5
     },
     {
         "firstName": "Myles",
@@ -4908,7 +4994,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 278,
-        "salary": 6,
+        "salary": 10,
         "fp_season_avg": 11.6538461538,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -4941,8 +5027,8 @@
         "player_vs_team_rating": 1.596039604,
         "team_def_rating": 1.0680046582,
         "PredictedTier": "Average",
-        "BoomProbability": 15.0,
-        "PredictedPoints": 14.74
+        "BoomProbability": 2.0,
+        "PredictedPoints": 15.69
     },
     {
         "firstName": "Thomas",
@@ -4984,8 +5070,8 @@
         "player_vs_team_rating": 0.9846153846,
         "team_def_rating": 1.0680046582,
         "PredictedTier": "Average",
-        "BoomProbability": 2.4,
-        "PredictedPoints": 13.64
+        "BoomProbability": 3.1,
+        "PredictedPoints": 14.21
     },
     {
         "firstName": "Zach",
@@ -4994,7 +5080,7 @@
         "positionGroup": "Midfield",
         "subPosition": "Midfield",
         "officialId": 409,
-        "salary": 15,
+        "salary": 20,
         "fp_season_avg": 24.4447368421,
         "fp_last3_avg": 13.4666666667,
         "fp_lag1": 15.8,
@@ -5026,9 +5112,9 @@
         "opponent_rating": 1.0,
         "player_vs_team_rating": 1.0495978346,
         "team_def_rating": 1.0680046582,
-        "PredictedTier": "Boom",
-        "BoomProbability": 75.6,
-        "PredictedPoints": 18.3
+        "PredictedTier": "Average",
+        "BoomProbability": 29.6,
+        "PredictedPoints": 17.16
     },
     {
         "firstName": "Aidan",
@@ -5037,7 +5123,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 3278,
-        "salary": 8,
+        "salary": 10,
         "fp_season_avg": 3.0,
         "fp_last3_avg": 3.0,
         "fp_lag1": 3.0,
@@ -5070,8 +5156,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 1.0807907419,
         "PredictedTier": "Average",
-        "BoomProbability": 2.0,
-        "PredictedPoints": 9.32
+        "BoomProbability": 2.3,
+        "PredictedPoints": 9.4
     },
     {
         "firstName": "Beau",
@@ -5080,7 +5166,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 3087,
-        "salary": 10,
+        "salary": 11,
         "fp_season_avg": 8.012,
         "fp_last3_avg": 11.4333333333,
         "fp_lag1": -5.0,
@@ -5113,8 +5199,8 @@
         "player_vs_team_rating": 0.4218671992,
         "team_def_rating": 1.0807907419,
         "PredictedTier": "Average",
-        "BoomProbability": 0.2,
-        "PredictedPoints": 6.28
+        "BoomProbability": 0.6,
+        "PredictedPoints": 6.31
     },
     {
         "firstName": "Brendan",
@@ -5123,7 +5209,7 @@
         "positionGroup": "Defense",
         "subPosition": "Defensemen",
         "officialId": 3163,
-        "salary": 9,
+        "salary": 11,
         "fp_season_avg": 10.0,
         "fp_last3_avg": 11.6666666667,
         "fp_lag1": 12.0,
@@ -5156,8 +5242,8 @@
         "player_vs_team_rating": 0.05,
         "team_def_rating": 1.3031456239,
         "PredictedTier": "Average",
-        "BoomProbability": 0.6,
-        "PredictedPoints": 1.83
+        "BoomProbability": 0.3,
+        "PredictedPoints": 1.39
     },
     {
         "firstName": "Cam",
@@ -5166,7 +5252,7 @@
         "positionGroup": "Defense",
         "subPosition": "Defensemen",
         "officialId": 3007,
-        "salary": 7,
+        "salary": 6,
         "fp_season_avg": 7.4655172414,
         "fp_last3_avg": 2.6666666667,
         "fp_lag1": 7.0,
@@ -5199,8 +5285,8 @@
         "player_vs_team_rating": 2.4780600462,
         "team_def_rating": 1.3031456239,
         "PredictedTier": "Boom",
-        "BoomProbability": 73.3,
-        "PredictedPoints": 17.33
+        "BoomProbability": 81.6,
+        "PredictedPoints": 17.17
     },
     {
         "firstName": "Colin",
@@ -5209,7 +5295,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 3194,
-        "salary": 3,
+        "salary": 2,
         "fp_season_avg": 0.0,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -5243,7 +5329,7 @@
         "team_def_rating": 1.0807907419,
         "PredictedTier": "Average",
         "BoomProbability": 0.2,
-        "PredictedPoints": 8.69
+        "PredictedPoints": 8.63
     },
     {
         "firstName": "Connor",
@@ -5252,7 +5338,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 3005,
-        "salary": 6,
+        "salary": 5,
         "fp_season_avg": 6.2378378378,
         "fp_last3_avg": 2.1666666667,
         "fp_lag1": -1.0,
@@ -5285,51 +5371,8 @@
         "player_vs_team_rating": 1.8302281918,
         "team_def_rating": 1.0807907419,
         "PredictedTier": "Average",
-        "BoomProbability": 2.1,
-        "PredictedPoints": 16.03
-    },
-    {
-        "firstName": "Ethan",
-        "lastName": "Till",
-        "team": "ARC",
-        "positionGroup": "Defense",
-        "subPosition": "SSDM",
-        "officialId": 3237,
-        "salary": 3,
-        "fp_season_avg": 0.0,
-        "fp_last3_avg": 0.0,
-        "fp_lag1": 0.0,
-        "shots_season_avg": 0.0,
-        "shots_last3_avg": 0.0,
-        "groundBalls_season_avg": 0.0,
-        "groundBalls_last3_avg": 0.0,
-        "saves_season_avg": 0.0,
-        "saves_last3_avg": 0.0,
-        "faceoffsWon_season_avg": 0.0,
-        "faceoffsWon_last3_avg": 0.0,
-        "assists_season_avg": 0.0,
-        "assists_last3_avg": 0.0,
-        "causedTurnovers_season_avg": 0.0,
-        "causedTurnovers_last3_avg": 0.0,
-        "faceoffPct_season_avg": 1.0,
-        "faceoffPct_last3_avg": 1.0,
-        "touches_season_avg": 0.0,
-        "touches_last3_avg": 0.0,
-        "shotPct_season_avg": 0.0,
-        "shotPct_last3_avg": 0.0,
-        "last_startTime": 1780176600.0,
-        "shotPct_anomaly": 0.0,
-        "opponent": "CHA",
-        "game_id": "2026-ev-13",
-        "days_since_last_game": 6.0208333333,
-        "team_faceoff_advantage": 0.0447813314,
-        "pairing_rating": 1.0,
-        "opponent_rating": 1.0,
-        "player_vs_team_rating": 1.0,
-        "team_def_rating": 1.0807907419,
-        "PredictedTier": "Average",
-        "BoomProbability": 0.2,
-        "PredictedPoints": 8.69
+        "BoomProbability": 7.4,
+        "PredictedPoints": 16.15
     },
     {
         "firstName": "Mason",
@@ -5338,7 +5381,7 @@
         "positionGroup": "Defense",
         "subPosition": "Defensemen",
         "officialId": 3082,
-        "salary": 15,
+        "salary": 8,
         "fp_season_avg": 15.32,
         "fp_last3_avg": 2.0,
         "fp_lag1": 2.0,
@@ -5371,8 +5414,8 @@
         "player_vs_team_rating": 1.409921671,
         "team_def_rating": 1.3031456239,
         "PredictedTier": "Average",
-        "BoomProbability": 45.1,
-        "PredictedPoints": 16.71
+        "BoomProbability": 46.2,
+        "PredictedPoints": 16.83
     },
     {
         "firstName": "Mitchell",
@@ -5381,7 +5424,7 @@
         "positionGroup": "Defense",
         "subPosition": "Defensemen",
         "officialId": 3177,
-        "salary": 7,
+        "salary": 14,
         "fp_season_avg": 32.0,
         "fp_last3_avg": 32.0,
         "fp_lag1": 1.0,
@@ -5414,8 +5457,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 1.3031456239,
         "PredictedTier": "Bust",
-        "BoomProbability": 28.3,
-        "PredictedPoints": 8.9
+        "BoomProbability": 17.2,
+        "PredictedPoints": 10.93
     },
     {
         "firstName": "Piper",
@@ -5424,7 +5467,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 3006,
-        "salary": 7,
+        "salary": 8,
         "fp_season_avg": 6.3810810811,
         "fp_last3_avg": 10.1666666667,
         "fp_lag1": 30.0,
@@ -5457,8 +5500,8 @@
         "player_vs_team_rating": 0.5693915008,
         "team_def_rating": 1.0807907419,
         "PredictedTier": "Average",
-        "BoomProbability": 3.5,
-        "PredictedPoints": 9.6
+        "BoomProbability": 1.4,
+        "PredictedPoints": 9.74
     },
     {
         "firstName": "Tommy",
@@ -5467,7 +5510,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 3215,
-        "salary": 4,
+        "salary": 6,
         "fp_season_avg": 4.3333333333,
         "fp_last3_avg": 4.3333333333,
         "fp_lag1": 0.0,
@@ -5499,9 +5542,9 @@
         "opponent_rating": 1.0,
         "player_vs_team_rating": 1.0,
         "team_def_rating": 1.0807907419,
-        "PredictedTier": "Bust",
-        "BoomProbability": 1.6,
-        "PredictedPoints": 8.48
+        "PredictedTier": "Average",
+        "BoomProbability": 2.0,
+        "PredictedPoints": 8.5
     },
     {
         "firstName": "Warren",
@@ -5510,7 +5553,7 @@
         "positionGroup": "Defense",
         "subPosition": "Defensemen",
         "officialId": 1661,
-        "salary": 8,
+        "salary": 9,
         "fp_season_avg": 7.7222222222,
         "fp_last3_avg": 0.6666666667,
         "fp_lag1": 2.0,
@@ -5543,8 +5586,51 @@
         "player_vs_team_rating": 0.8633093525,
         "team_def_rating": 1.3031456239,
         "PredictedTier": "Average",
-        "BoomProbability": 12.6,
-        "PredictedPoints": 11.04
+        "BoomProbability": 5.2,
+        "PredictedPoints": 10.91
+    },
+    {
+        "firstName": "Will",
+        "lastName": "Schaller",
+        "team": "ARC",
+        "positionGroup": "Defense",
+        "subPosition": "Defensemen",
+        "officialId": 3262,
+        "salary": 4,
+        "fp_season_avg": 1.0,
+        "fp_last3_avg": 1.0,
+        "fp_lag1": 1.0,
+        "shots_season_avg": 1.0,
+        "shots_last3_avg": 1.0,
+        "groundBalls_season_avg": 1.0,
+        "groundBalls_last3_avg": 1.0,
+        "saves_season_avg": 1.0,
+        "saves_last3_avg": 1.0,
+        "faceoffsWon_season_avg": 1.0,
+        "faceoffsWon_last3_avg": 1.0,
+        "assists_season_avg": 1.0,
+        "assists_last3_avg": 1.0,
+        "causedTurnovers_season_avg": 1.0,
+        "causedTurnovers_last3_avg": 1.0,
+        "faceoffPct_season_avg": 1.0,
+        "faceoffPct_last3_avg": 1.0,
+        "touches_season_avg": 1.0,
+        "touches_last3_avg": 1.0,
+        "shotPct_season_avg": 1.0,
+        "shotPct_last3_avg": 1.0,
+        "last_startTime": 1.0,
+        "shotPct_anomaly": 1.0,
+        "opponent": "CHA",
+        "game_id": "2026-ev-13",
+        "days_since_last_game": 7.0,
+        "team_faceoff_advantage": 0.0447813314,
+        "pairing_rating": 1.0,
+        "opponent_rating": 1.0,
+        "player_vs_team_rating": 1.0,
+        "team_def_rating": 1.3031456239,
+        "PredictedTier": "Bust",
+        "BoomProbability": 4.0,
+        "PredictedPoints": 7.4
     },
     {
         "firstName": "Christian",
@@ -5553,7 +5639,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 1795,
-        "salary": 6,
+        "salary": 5,
         "fp_season_avg": 4.8548387097,
         "fp_last3_avg": 2.6666666667,
         "fp_lag1": 0.0,
@@ -5586,8 +5672,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 0.8750567227,
         "PredictedTier": "Average",
-        "BoomProbability": 0.4,
-        "PredictedPoints": 8.03
+        "BoomProbability": 1.3,
+        "PredictedPoints": 7.8
     },
     {
         "firstName": "Greg",
@@ -5628,9 +5714,52 @@
         "opponent_rating": 1.0,
         "player_vs_team_rating": 0.7980900409,
         "team_def_rating": 0.8750567227,
+        "PredictedTier": "Average",
+        "BoomProbability": 9.8,
+        "PredictedPoints": 10.11
+    },
+    {
+        "firstName": "Henry",
+        "lastName": "Bard",
+        "team": "CHA",
+        "positionGroup": "Defense",
+        "subPosition": "Defensemen",
+        "officialId": 3292,
+        "salary": 4,
+        "fp_season_avg": 1.0,
+        "fp_last3_avg": 1.0,
+        "fp_lag1": 1.0,
+        "shots_season_avg": 1.0,
+        "shots_last3_avg": 1.0,
+        "groundBalls_season_avg": 1.0,
+        "groundBalls_last3_avg": 1.0,
+        "saves_season_avg": 1.0,
+        "saves_last3_avg": 1.0,
+        "faceoffsWon_season_avg": 1.0,
+        "faceoffsWon_last3_avg": 1.0,
+        "assists_season_avg": 1.0,
+        "assists_last3_avg": 1.0,
+        "causedTurnovers_season_avg": 1.0,
+        "causedTurnovers_last3_avg": 1.0,
+        "faceoffPct_season_avg": 1.0,
+        "faceoffPct_last3_avg": 1.0,
+        "touches_season_avg": 1.0,
+        "touches_last3_avg": 1.0,
+        "shotPct_season_avg": 1.0,
+        "shotPct_last3_avg": 1.0,
+        "last_startTime": 1.0,
+        "shotPct_anomaly": 1.0,
+        "opponent": "ARC",
+        "game_id": "2026-ev-13",
+        "days_since_last_game": 7.0,
+        "team_faceoff_advantage": -0.0447813314,
+        "pairing_rating": 1.0,
+        "opponent_rating": 1.0,
+        "player_vs_team_rating": 1.0,
+        "team_def_rating": 1.0172183551,
         "PredictedTier": "Bust",
-        "BoomProbability": 14.7,
-        "PredictedPoints": 10.19
+        "BoomProbability": 4.1,
+        "PredictedPoints": 7.4
     },
     {
         "firstName": "Jack",
@@ -5671,9 +5800,9 @@
         "opponent_rating": 1.0,
         "player_vs_team_rating": 1.7705388503,
         "team_def_rating": 1.0172183551,
-        "PredictedTier": "Average",
-        "BoomProbability": 31.5,
-        "PredictedPoints": 16.97
+        "PredictedTier": "Boom",
+        "BoomProbability": 59.1,
+        "PredictedPoints": 16.7
     },
     {
         "firstName": "Jarrod",
@@ -5682,7 +5811,7 @@
         "positionGroup": "Defense",
         "subPosition": "Defensemen",
         "officialId": 269,
-        "salary": 4,
+        "salary": 3,
         "fp_season_avg": 6.2432432432,
         "fp_last3_avg": 1.0,
         "fp_lag1": 0.0,
@@ -5715,51 +5844,8 @@
         "player_vs_team_rating": 0.7207792208,
         "team_def_rating": 1.0172183551,
         "PredictedTier": "Average",
-        "BoomProbability": 0.7,
-        "PredictedPoints": 10.0
-    },
-    {
-        "firstName": "Levi",
-        "lastName": "Verch",
-        "team": "CHA",
-        "positionGroup": "Defense",
-        "subPosition": "SSDM",
-        "officialId": 3171,
-        "salary": 4,
-        "fp_season_avg": 3.2857142857,
-        "fp_last3_avg": 0.0,
-        "fp_lag1": 0.0,
-        "shots_season_avg": 0.2142857143,
-        "shots_last3_avg": 0.0,
-        "groundBalls_season_avg": 1.5,
-        "groundBalls_last3_avg": 0.0,
-        "saves_season_avg": 0.0,
-        "saves_last3_avg": 0.0,
-        "faceoffsWon_season_avg": 0.0,
-        "faceoffsWon_last3_avg": 0.0,
-        "assists_season_avg": 0.0,
-        "assists_last3_avg": 0.0,
-        "causedTurnovers_season_avg": 0.2857142857,
-        "causedTurnovers_last3_avg": 0.0,
-        "faceoffPct_season_avg": 1.0,
-        "faceoffPct_last3_avg": 1.0,
-        "touches_season_avg": 3.7142857143,
-        "touches_last3_avg": 0.0,
-        "shotPct_season_avg": 0.0,
-        "shotPct_last3_avg": 0.0,
-        "last_startTime": 1780185600.0,
-        "shotPct_anomaly": 0.0,
-        "opponent": "ARC",
-        "game_id": "2026-ev-13",
-        "days_since_last_game": 5.9166666667,
-        "team_faceoff_advantage": -0.0447813314,
-        "pairing_rating": 1.0,
-        "opponent_rating": 1.0,
-        "player_vs_team_rating": 1.0,
-        "team_def_rating": 0.8750567227,
-        "PredictedTier": "Average",
-        "BoomProbability": 0.6,
-        "PredictedPoints": 8.44
+        "BoomProbability": 1.3,
+        "PredictedPoints": 10.03
     },
     {
         "firstName": "Liam",
@@ -5768,7 +5854,7 @@
         "positionGroup": "Defense",
         "subPosition": "Defensemen",
         "officialId": 925,
-        "salary": 4,
+        "salary": 5,
         "fp_season_avg": 9.0476190476,
         "fp_last3_avg": 6.6666666667,
         "fp_lag1": 2.0,
@@ -5801,8 +5887,8 @@
         "player_vs_team_rating": 1.5473684211,
         "team_def_rating": 1.0172183551,
         "PredictedTier": "Boom",
-        "BoomProbability": 54.9,
-        "PredictedPoints": 16.27
+        "BoomProbability": 80.5,
+        "PredictedPoints": 16.18
     },
     {
         "firstName": "Mark",
@@ -5845,7 +5931,7 @@
         "team_def_rating": 0.8750567227,
         "PredictedTier": "Average",
         "BoomProbability": 1.0,
-        "PredictedPoints": 7.1
+        "PredictedPoints": 7.8
     },
     {
         "firstName": "Peter",
@@ -5854,7 +5940,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 3254,
-        "salary": 5,
+        "salary": 6,
         "fp_season_avg": 8.0,
         "fp_last3_avg": 8.0,
         "fp_lag1": 15.0,
@@ -5887,8 +5973,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 0.8750567227,
         "PredictedTier": "Average",
-        "BoomProbability": 3.1,
-        "PredictedPoints": 8.26
+        "BoomProbability": 3.2,
+        "PredictedPoints": 8.3
     },
     {
         "firstName": "Ray",
@@ -5897,7 +5983,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 3212,
-        "salary": 9,
+        "salary": 10,
         "fp_season_avg": 8.8583333333,
         "fp_last3_avg": 10.4333333333,
         "fp_lag1": 0.3,
@@ -5930,8 +6016,8 @@
         "player_vs_team_rating": 0.7055503293,
         "team_def_rating": 0.8750567227,
         "PredictedTier": "Average",
-        "BoomProbability": 1.3,
-        "PredictedPoints": 10.47
+        "BoomProbability": 3.3,
+        "PredictedPoints": 10.34
     },
     {
         "firstName": "Richard",
@@ -5940,7 +6026,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 3276,
-        "salary": 5,
+        "salary": 3,
         "fp_season_avg": -3.0,
         "fp_last3_avg": -3.0,
         "fp_lag1": -3.0,
@@ -5972,9 +6058,9 @@
         "opponent_rating": 1.0,
         "player_vs_team_rating": 1.0,
         "team_def_rating": 0.8750567227,
-        "PredictedTier": "Bust",
-        "BoomProbability": 0.9,
-        "PredictedPoints": 8.67
+        "PredictedTier": "Average",
+        "BoomProbability": 0.4,
+        "PredictedPoints": 8.66
     },
     {
         "firstName": "Scott",
@@ -5983,7 +6069,7 @@
         "positionGroup": "Defense",
         "subPosition": "Defensemen",
         "officialId": 3103,
-        "salary": 13,
+        "salary": 7,
         "fp_season_avg": 12.8181818182,
         "fp_last3_avg": 6.0,
         "fp_lag1": 3.0,
@@ -6016,8 +6102,8 @@
         "player_vs_team_rating": 1.4042553191,
         "team_def_rating": 1.0172183551,
         "PredictedTier": "Average",
-        "BoomProbability": 26.4,
-        "PredictedPoints": 16.15
+        "BoomProbability": 35.9,
+        "PredictedPoints": 15.89
     },
     {
         "firstName": "Troy",
@@ -6026,7 +6112,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 281,
-        "salary": 13,
+        "salary": 14,
         "fp_season_avg": 12.4324324324,
         "fp_last3_avg": 10.3333333333,
         "fp_lag1": 13.0,
@@ -6059,8 +6145,8 @@
         "player_vs_team_rating": 0.5362318841,
         "team_def_rating": 0.8750567227,
         "PredictedTier": "Average",
-        "BoomProbability": 1.2,
-        "PredictedPoints": 10.94
+        "BoomProbability": 1.1,
+        "PredictedPoints": 11.13
     },
     {
         "firstName": "Arden",
@@ -6069,7 +6155,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 2017,
-        "salary": 12,
+        "salary": 9,
         "fp_season_avg": 11.15625,
         "fp_last3_avg": 0.3333333333,
         "fp_lag1": 1.0,
@@ -6102,8 +6188,8 @@
         "player_vs_team_rating": 0.918767507,
         "team_def_rating": 1.2373231827,
         "PredictedTier": "Average",
-        "BoomProbability": 16.2,
-        "PredictedPoints": 13.77
+        "BoomProbability": 9.9,
+        "PredictedPoints": 13.67
     },
     {
         "firstName": "BJ",
@@ -6112,7 +6198,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 3059,
-        "salary": 8,
+        "salary": 14,
         "fp_season_avg": 10.71875,
         "fp_last3_avg": 21.0,
         "fp_lag1": 43.0,
@@ -6146,7 +6232,7 @@
         "team_def_rating": 1.2373231827,
         "PredictedTier": "Bust",
         "BoomProbability": 0.0,
-        "PredictedPoints": 0.0
+        "PredictedPoints": 0.64
     },
     {
         "firstName": "Brian",
@@ -6155,7 +6241,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 3024,
-        "salary": 16,
+        "salary": 17,
         "fp_season_avg": 13.6939393939,
         "fp_last3_avg": 12.3333333333,
         "fp_lag1": 4.0,
@@ -6188,8 +6274,8 @@
         "player_vs_team_rating": 1.3339234344,
         "team_def_rating": 1.2373231827,
         "PredictedTier": "Boom",
-        "BoomProbability": 64.4,
-        "PredictedPoints": 17.35
+        "BoomProbability": 51.9,
+        "PredictedPoints": 17.04
     },
     {
         "firstName": "Carter",
@@ -6198,7 +6284,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 3185,
-        "salary": 4,
+        "salary": 5,
         "fp_season_avg": 4.9285714286,
         "fp_last3_avg": 8.0,
         "fp_lag1": 11.0,
@@ -6231,8 +6317,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 1.2373231827,
         "PredictedTier": "Average",
-        "BoomProbability": 0.5,
-        "PredictedPoints": 4.86
+        "BoomProbability": 0.6,
+        "PredictedPoints": 5.93
     },
     {
         "firstName": "Chris",
@@ -6241,7 +6327,7 @@
         "positionGroup": "Defense",
         "subPosition": "Defensemen",
         "officialId": 3109,
-        "salary": 8,
+        "salary": 7,
         "fp_season_avg": 9.2173913043,
         "fp_last3_avg": 5.3333333333,
         "fp_lag1": -4.0,
@@ -6273,9 +6359,9 @@
         "opponent_rating": 1.0,
         "player_vs_team_rating": 0.2712264151,
         "team_def_rating": 1.0035326529,
-        "PredictedTier": "Bust",
+        "PredictedTier": "Average",
         "BoomProbability": 0.6,
-        "PredictedPoints": 3.42
+        "PredictedPoints": 2.9
     },
     {
         "firstName": "Chris",
@@ -6284,7 +6370,7 @@
         "positionGroup": "Defense",
         "subPosition": "Defensemen",
         "officialId": 3029,
-        "salary": 5,
+        "salary": 7,
         "fp_season_avg": 5.44,
         "fp_last3_avg": 12.3333333333,
         "fp_lag1": 11.0,
@@ -6316,9 +6402,9 @@
         "opponent_rating": 1.0,
         "player_vs_team_rating": 0.7352941176,
         "team_def_rating": 1.0035326529,
-        "PredictedTier": "Average",
-        "BoomProbability": 2.9,
-        "PredictedPoints": 10.3
+        "PredictedTier": "Bust",
+        "BoomProbability": 2.5,
+        "PredictedPoints": 10.08
     },
     {
         "firstName": "Chris",
@@ -6327,7 +6413,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 2054,
-        "salary": 6,
+        "salary": 8,
         "fp_season_avg": 11.3608695652,
         "fp_last3_avg": 3.9333333333,
         "fp_lag1": 11.0,
@@ -6360,8 +6446,8 @@
         "player_vs_team_rating": 0.7041714504,
         "team_def_rating": 1.2373231827,
         "PredictedTier": "Average",
-        "BoomProbability": 8.1,
-        "PredictedPoints": 11.29
+        "BoomProbability": 3.4,
+        "PredictedPoints": 11.43
     },
     {
         "firstName": "Cole",
@@ -6370,7 +6456,7 @@
         "positionGroup": "Defense",
         "subPosition": "Defensemen",
         "officialId": 3105,
-        "salary": 8,
+        "salary": 6,
         "fp_season_avg": 7.5,
         "fp_last3_avg": 0.6666666667,
         "fp_lag1": 0.0,
@@ -6403,8 +6489,8 @@
         "player_vs_team_rating": 1.4666666667,
         "team_def_rating": 1.0035326529,
         "PredictedTier": "Average",
-        "BoomProbability": 22.0,
-        "PredictedPoints": 15.25
+        "BoomProbability": 23.0,
+        "PredictedPoints": 14.64
     },
     {
         "firstName": "Jared",
@@ -6413,7 +6499,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 1813,
-        "salary": 9,
+        "salary": 12,
         "fp_season_avg": 10.9714285714,
         "fp_last3_avg": 11.3333333333,
         "fp_lag1": 23.0,
@@ -6446,8 +6532,8 @@
         "player_vs_team_rating": 0.9418402778,
         "team_def_rating": 1.2373231827,
         "PredictedTier": "Boom",
-        "BoomProbability": 61.0,
-        "PredictedPoints": 12.68
+        "BoomProbability": 54.2,
+        "PredictedPoints": 12.81
     },
     {
         "firstName": "Matt",
@@ -6489,8 +6575,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 1.2373231827,
         "PredictedTier": "Average",
-        "BoomProbability": 0.2,
-        "PredictedPoints": 9.15
+        "BoomProbability": 0.1,
+        "PredictedPoints": 9.08
     },
     {
         "firstName": "Nicholas",
@@ -6499,7 +6585,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 3245,
-        "salary": 4,
+        "salary": 10,
         "fp_season_avg": 0.0,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -6532,8 +6618,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 1.2373231827,
         "PredictedTier": "Average",
-        "BoomProbability": 0.2,
-        "PredictedPoints": 9.15
+        "BoomProbability": 0.1,
+        "PredictedPoints": 9.08
     },
     {
         "firstName": "Alex",
@@ -6542,7 +6628,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 3258,
-        "salary": 4,
+        "salary": 10,
         "fp_season_avg": 0.0,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -6575,8 +6661,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 1.0155533591,
         "PredictedTier": "Average",
-        "BoomProbability": 0.6,
-        "PredictedPoints": 8.69
+        "BoomProbability": 1.0,
+        "PredictedPoints": 8.63
     },
     {
         "firstName": "Alex",
@@ -6585,7 +6671,7 @@
         "positionGroup": "Defense",
         "subPosition": "Defensemen",
         "officialId": 3289,
-        "salary": 5,
+        "salary": 4,
         "fp_season_avg": 3.0,
         "fp_last3_avg": 3.0,
         "fp_lag1": 3.0,
@@ -6618,8 +6704,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 0.9823598965,
         "PredictedTier": "Average",
-        "BoomProbability": 5.5,
-        "PredictedPoints": 9.35
+        "BoomProbability": 11.2,
+        "PredictedPoints": 9.37
     },
     {
         "firstName": "Brett",
@@ -6628,7 +6714,7 @@
         "positionGroup": "Defense",
         "subPosition": "Defensemen",
         "officialId": 3009,
-        "salary": 16,
+        "salary": 17,
         "fp_season_avg": 12.6944444444,
         "fp_last3_avg": 23.0,
         "fp_lag1": 26.0,
@@ -6661,8 +6747,8 @@
         "player_vs_team_rating": 1.1619256018,
         "team_def_rating": 0.9823598965,
         "PredictedTier": "Boom",
-        "BoomProbability": 80.2,
-        "PredictedPoints": 16.66
+        "BoomProbability": 71.9,
+        "PredictedPoints": 16.56
     },
     {
         "firstName": "Chet",
@@ -6671,7 +6757,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 3039,
-        "salary": 3,
+        "salary": 10,
         "fp_season_avg": 5.4242424242,
         "fp_last3_avg": -0.1666666667,
         "fp_lag1": 0.0,
@@ -6704,51 +6790,8 @@
         "player_vs_team_rating": 0.5223463687,
         "team_def_rating": 1.0155533591,
         "PredictedTier": "Average",
-        "BoomProbability": 0.3,
-        "PredictedPoints": 9.16
-    },
-    {
-        "firstName": "Cooper",
-        "lastName": "Frankenheimer",
-        "team": "ATL",
-        "positionGroup": "Defense",
-        "subPosition": "SSDM",
-        "officialId": 3242,
-        "salary": 2,
-        "fp_season_avg": 0.3333333333,
-        "fp_last3_avg": 0.3333333333,
-        "fp_lag1": 0.0,
-        "shots_season_avg": 0.3333333333,
-        "shots_last3_avg": 0.3333333333,
-        "groundBalls_season_avg": 0.3333333333,
-        "groundBalls_last3_avg": 0.3333333333,
-        "saves_season_avg": 0.0,
-        "saves_last3_avg": 0.0,
-        "faceoffsWon_season_avg": 0.0,
-        "faceoffsWon_last3_avg": 0.0,
-        "assists_season_avg": 0.0,
-        "assists_last3_avg": 0.0,
-        "causedTurnovers_season_avg": 0.0,
-        "causedTurnovers_last3_avg": 0.0,
-        "faceoffPct_season_avg": 1.0,
-        "faceoffPct_last3_avg": 1.0,
-        "touches_season_avg": 1.3333333333,
-        "touches_last3_avg": 1.3333333333,
-        "shotPct_season_avg": 0.0,
-        "shotPct_last3_avg": 0.0,
-        "last_startTime": 1780160400.0,
-        "shotPct_anomaly": 0.0,
-        "opponent": "RED",
-        "game_id": "2026-ev-14",
-        "days_since_last_game": 6.3125,
-        "team_faceoff_advantage": 0.0613088086,
-        "pairing_rating": 1.0,
-        "opponent_rating": 1.0,
-        "player_vs_team_rating": 1.0,
-        "team_def_rating": 1.0155533591,
-        "PredictedTier": "Average",
-        "BoomProbability": 0.6,
-        "PredictedPoints": 9.18
+        "BoomProbability": 1.2,
+        "PredictedPoints": 9.38
     },
     {
         "firstName": "Danny",
@@ -6757,7 +6800,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 1819,
-        "salary": 5,
+        "salary": 4,
         "fp_season_avg": 5.4285714286,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -6789,9 +6832,9 @@
         "opponent_rating": 1.0,
         "player_vs_team_rating": 0.5756578947,
         "team_def_rating": 1.0155533591,
-        "PredictedTier": "Average",
-        "BoomProbability": 1.0,
-        "PredictedPoints": 9.3
+        "PredictedTier": "Bust",
+        "BoomProbability": 3.7,
+        "PredictedPoints": 9.36
     },
     {
         "firstName": "Eli",
@@ -6800,7 +6843,7 @@
         "positionGroup": "Defense",
         "subPosition": "Defensemen",
         "officialId": 410,
-        "salary": 5,
+        "salary": 4,
         "fp_season_avg": 7.484375,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -6833,8 +6876,8 @@
         "player_vs_team_rating": 1.1356993737,
         "team_def_rating": 0.9823598965,
         "PredictedTier": "Average",
-        "BoomProbability": 10.8,
-        "PredictedPoints": 12.97
+        "BoomProbability": 4.9,
+        "PredictedPoints": 12.4
     },
     {
         "firstName": "Jon",
@@ -6843,7 +6886,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 2042,
-        "salary": 3,
+        "salary": 9,
         "fp_season_avg": 9.6666666667,
         "fp_last3_avg": 16.0,
         "fp_lag1": 36.0,
@@ -6876,8 +6919,8 @@
         "player_vs_team_rating": 0.7931034483,
         "team_def_rating": 1.0155533591,
         "PredictedTier": "Average",
-        "BoomProbability": 7.4,
-        "PredictedPoints": 11.09
+        "BoomProbability": 6.6,
+        "PredictedPoints": 11.1
     },
     {
         "firstName": "Liam",
@@ -6886,7 +6929,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 3259,
-        "salary": 5,
+        "salary": 3,
         "fp_season_avg": 3.6666666667,
         "fp_last3_avg": 3.6666666667,
         "fp_lag1": 0.0,
@@ -6919,8 +6962,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 1.0155533591,
         "PredictedTier": "Average",
-        "BoomProbability": 1.0,
-        "PredictedPoints": 8.63
+        "BoomProbability": 0.8,
+        "PredictedPoints": 8.68
     },
     {
         "firstName": "Max",
@@ -6929,7 +6972,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 3172,
-        "salary": 3,
+        "salary": 9,
         "fp_season_avg": 2.8461538462,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -6962,8 +7005,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 1.0155533591,
         "PredictedTier": "Average",
-        "BoomProbability": 2.4,
-        "PredictedPoints": 9.09
+        "BoomProbability": 7.9,
+        "PredictedPoints": 8.97
     },
     {
         "firstName": "Michael",
@@ -6972,7 +7015,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 3178,
-        "salary": 6,
+        "salary": 10,
         "fp_season_avg": 15.75,
         "fp_last3_avg": 4.0,
         "fp_lag1": 0.0,
@@ -7005,8 +7048,8 @@
         "player_vs_team_rating": 1.3968253968,
         "team_def_rating": 1.0155533591,
         "PredictedTier": "Average",
-        "BoomProbability": 39.9,
-        "PredictedPoints": 16.46
+        "BoomProbability": 49.0,
+        "PredictedPoints": 16.64
     },
     {
         "firstName": "Michael",
@@ -7048,8 +7091,8 @@
         "player_vs_team_rating": 2.0312163617,
         "team_def_rating": 0.9823598965,
         "PredictedTier": "Boom",
-        "BoomProbability": 70.1,
-        "PredictedPoints": 20.09
+        "BoomProbability": 86.0,
+        "PredictedPoints": 20.06
     },
     {
         "firstName": "Nikko",
@@ -7058,7 +7101,7 @@
         "positionGroup": "Defense",
         "subPosition": "Defensemen",
         "officialId": 3251,
-        "salary": 7,
+        "salary": 6,
         "fp_season_avg": 5.3333333333,
         "fp_last3_avg": 5.3333333333,
         "fp_lag1": 0.0,
@@ -7091,8 +7134,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 0.9823598965,
         "PredictedTier": "Average",
-        "BoomProbability": 6.4,
-        "PredictedPoints": 8.12
+        "BoomProbability": 4.2,
+        "PredictedPoints": 7.95
     },
     {
         "firstName": "Tyler",
@@ -7134,8 +7177,8 @@
         "player_vs_team_rating": 0.9317406143,
         "team_def_rating": 1.0155533591,
         "PredictedTier": "Average",
-        "BoomProbability": 24.4,
-        "PredictedPoints": 12.55
+        "BoomProbability": 44.6,
+        "PredictedPoints": 12.45
     },
     {
         "firstName": "AJ",
@@ -7144,7 +7187,7 @@
         "positionGroup": "Defense",
         "subPosition": "Defensemen",
         "officialId": 3190,
-        "salary": 3,
+        "salary": 10,
         "fp_season_avg": 2.75,
         "fp_last3_avg": 3.3333333333,
         "fp_lag1": 0.0,
@@ -7177,8 +7220,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 1.3031456239,
         "PredictedTier": "Average",
-        "BoomProbability": 1.2,
-        "PredictedPoints": 9.6
+        "BoomProbability": 0.9,
+        "PredictedPoints": 9.42
     },
     {
         "firstName": "Alexander",
@@ -7187,7 +7230,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 2074,
-        "salary": 7,
+        "salary": 6,
         "fp_season_avg": 4.2037037037,
         "fp_last3_avg": 7.6666666667,
         "fp_lag1": 0.0,
@@ -7220,8 +7263,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 1.0807907419,
         "PredictedTier": "Average",
-        "BoomProbability": 1.7,
-        "PredictedPoints": 8.93
+        "BoomProbability": 2.0,
+        "PredictedPoints": 8.89
     },
     {
         "firstName": "Ben",
@@ -7230,7 +7273,7 @@
         "positionGroup": "Defense",
         "subPosition": "Defensemen",
         "officialId": 1406,
-        "salary": 15,
+        "salary": 16,
         "fp_season_avg": 15.8947368421,
         "fp_last3_avg": 13.0,
         "fp_lag1": 24.0,
@@ -7263,8 +7306,8 @@
         "player_vs_team_rating": 1.2582781457,
         "team_def_rating": 1.3031456239,
         "PredictedTier": "Boom",
-        "BoomProbability": 71.7,
-        "PredictedPoints": 17.87
+        "BoomProbability": 77.4,
+        "PredictedPoints": 18.0
     },
     {
         "firstName": "Greg",
@@ -7273,7 +7316,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 1415,
-        "salary": 3,
+        "salary": 5,
         "fp_season_avg": 14.3333333333,
         "fp_last3_avg": 7.3333333333,
         "fp_lag1": 10.0,
@@ -7306,8 +7349,8 @@
         "player_vs_team_rating": 1.2906976744,
         "team_def_rating": 1.0807907419,
         "PredictedTier": "Average",
-        "BoomProbability": 33.6,
-        "PredictedPoints": 15.45
+        "BoomProbability": 29.1,
+        "PredictedPoints": 15.9
     },
     {
         "firstName": "Jack",
@@ -7348,9 +7391,9 @@
         "opponent_rating": 1.0,
         "player_vs_team_rating": 0.0,
         "team_def_rating": 1.0807907419,
-        "PredictedTier": "Bust",
+        "PredictedTier": "Average",
         "BoomProbability": 0.1,
-        "PredictedPoints": 0.81
+        "PredictedPoints": 0.27
     },
     {
         "firstName": "Jake",
@@ -7359,7 +7402,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 3083,
-        "salary": 24,
+        "salary": 20,
         "fp_season_avg": 16.3846153846,
         "fp_last3_avg": 12.3333333333,
         "fp_lag1": 2.0,
@@ -7392,8 +7435,8 @@
         "player_vs_team_rating": 1.0070422535,
         "team_def_rating": 1.0807907419,
         "PredictedTier": "Boom",
-        "BoomProbability": 49.1,
-        "PredictedPoints": 15.49
+        "BoomProbability": 48.8,
+        "PredictedPoints": 15.27
     },
     {
         "firstName": "JT",
@@ -7435,8 +7478,8 @@
         "player_vs_team_rating": 1.6585365854,
         "team_def_rating": 1.3031456239,
         "PredictedTier": "Average",
-        "BoomProbability": 22.1,
-        "PredictedPoints": 15.09
+        "BoomProbability": 33.6,
+        "PredictedPoints": 15.11
     },
     {
         "firstName": "Kevin",
@@ -7478,8 +7521,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 1.3031456239,
         "PredictedTier": "Average",
-        "BoomProbability": 0.7,
-        "PredictedPoints": 9.7
+        "BoomProbability": 2.0,
+        "PredictedPoints": 9.53
     },
     {
         "firstName": "Michael",
@@ -7488,7 +7531,7 @@
         "positionGroup": "Defense",
         "subPosition": "Defensemen",
         "officialId": 302,
-        "salary": 11,
+        "salary": 10,
         "fp_season_avg": 10.8611111111,
         "fp_last3_avg": 0.3333333333,
         "fp_lag1": 0.0,
@@ -7521,8 +7564,8 @@
         "player_vs_team_rating": 1.8782608696,
         "team_def_rating": 1.3031456239,
         "PredictedTier": "Average",
-        "BoomProbability": 22.2,
-        "PredictedPoints": 17.85
+        "BoomProbability": 21.7,
+        "PredictedPoints": 16.91
     },
     {
         "firstName": "Nick",
@@ -7531,7 +7574,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 1839,
-        "salary": 5,
+        "salary": 6,
         "fp_season_avg": 6.4833333333,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -7564,8 +7607,8 @@
         "player_vs_team_rating": 2.0051413882,
         "team_def_rating": 1.0807907419,
         "PredictedTier": "Boom",
-        "BoomProbability": 68.2,
-        "PredictedPoints": 17.99
+        "BoomProbability": 67.9,
+        "PredictedPoints": 17.2
     },
     {
         "firstName": "Reece",
@@ -7574,7 +7617,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 397,
-        "salary": 4,
+        "salary": 10,
         "fp_season_avg": 3.3333333333,
         "fp_last3_avg": 3.3333333333,
         "fp_lag1": 0.0,
@@ -7607,8 +7650,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 1.0807907419,
         "PredictedTier": "Average",
-        "BoomProbability": 0.4,
-        "PredictedPoints": 8.85
+        "BoomProbability": 0.3,
+        "PredictedPoints": 8.69
     },
     {
         "firstName": "Ryan",
@@ -7617,7 +7660,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 1820,
-        "salary": 8,
+        "salary": 9,
         "fp_season_avg": 7.3055555556,
         "fp_last3_avg": 3.0,
         "fp_lag1": 9.0,
@@ -7650,8 +7693,8 @@
         "player_vs_team_rating": 1.1634980989,
         "team_def_rating": 1.0807907419,
         "PredictedTier": "Average",
-        "BoomProbability": 7.8,
-        "PredictedPoints": 13.14
+        "BoomProbability": 6.7,
+        "PredictedPoints": 13.22
     },
     {
         "firstName": "Zach",
@@ -7660,7 +7703,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 2022,
-        "salary": 13,
+        "salary": 12,
         "fp_season_avg": 11.7236842105,
         "fp_last3_avg": 9.5,
         "fp_lag1": 11.0,
@@ -7694,7 +7737,7 @@
         "team_def_rating": 1.0807907419,
         "PredictedTier": "Bust",
         "BoomProbability": 0.0,
-        "PredictedPoints": 0.74
+        "PredictedPoints": 0.0
     },
     {
         "firstName": "Christian",
@@ -7703,7 +7746,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 1795,
-        "salary": 6,
+        "salary": 5,
         "fp_season_avg": 4.8548387097,
         "fp_last3_avg": 2.6666666667,
         "fp_lag1": 0.0,
@@ -7736,8 +7779,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 0.9721639029,
         "PredictedTier": "Average",
-        "BoomProbability": 0.8,
-        "PredictedPoints": 8.01
+        "BoomProbability": 2.9,
+        "PredictedPoints": 7.76
     },
     {
         "firstName": "Greg",
@@ -7779,8 +7822,51 @@
         "player_vs_team_rating": 2.553888131,
         "team_def_rating": 0.9721639029,
         "PredictedTier": "Boom",
-        "BoomProbability": 67.8,
-        "PredictedPoints": 17.99
+        "BoomProbability": 81.7,
+        "PredictedPoints": 16.83
+    },
+    {
+        "firstName": "Henry",
+        "lastName": "Bard",
+        "team": "CHA",
+        "positionGroup": "Defense",
+        "subPosition": "Defensemen",
+        "officialId": 3292,
+        "salary": 4,
+        "fp_season_avg": 1.0,
+        "fp_last3_avg": 1.0,
+        "fp_lag1": 1.0,
+        "shots_season_avg": 1.0,
+        "shots_last3_avg": 1.0,
+        "groundBalls_season_avg": 1.0,
+        "groundBalls_last3_avg": 1.0,
+        "saves_season_avg": 1.0,
+        "saves_last3_avg": 1.0,
+        "faceoffsWon_season_avg": 1.0,
+        "faceoffsWon_last3_avg": 1.0,
+        "assists_season_avg": 1.0,
+        "assists_last3_avg": 1.0,
+        "causedTurnovers_season_avg": 1.0,
+        "causedTurnovers_last3_avg": 1.0,
+        "faceoffPct_season_avg": 1.0,
+        "faceoffPct_last3_avg": 1.0,
+        "touches_season_avg": 1.0,
+        "touches_last3_avg": 1.0,
+        "shotPct_season_avg": 1.0,
+        "shotPct_last3_avg": 1.0,
+        "last_startTime": 1.0,
+        "shotPct_anomaly": 1.0,
+        "opponent": "OUT",
+        "game_id": "2026-ev-15",
+        "days_since_last_game": 7.0,
+        "team_faceoff_advantage": -0.0086449315,
+        "pairing_rating": 1.0,
+        "opponent_rating": 1.0,
+        "player_vs_team_rating": 1.0,
+        "team_def_rating": 0.9488215782,
+        "PredictedTier": "Bust",
+        "BoomProbability": 8.5,
+        "PredictedPoints": 7.48
     },
     {
         "firstName": "Jack",
@@ -7822,8 +7908,8 @@
         "player_vs_team_rating": 1.1019018247,
         "team_def_rating": 0.9488215782,
         "PredictedTier": "Average",
-        "BoomProbability": 10.1,
-        "PredictedPoints": 12.99
+        "BoomProbability": 8.7,
+        "PredictedPoints": 12.91
     },
     {
         "firstName": "Jarrod",
@@ -7832,7 +7918,7 @@
         "positionGroup": "Defense",
         "subPosition": "Defensemen",
         "officialId": 269,
-        "salary": 4,
+        "salary": 3,
         "fp_season_avg": 6.2432432432,
         "fp_last3_avg": 1.0,
         "fp_lag1": 0.0,
@@ -7866,50 +7952,7 @@
         "team_def_rating": 0.9488215782,
         "PredictedTier": "Average",
         "BoomProbability": 1.6,
-        "PredictedPoints": 10.28
-    },
-    {
-        "firstName": "Levi",
-        "lastName": "Verch",
-        "team": "CHA",
-        "positionGroup": "Defense",
-        "subPosition": "SSDM",
-        "officialId": 3171,
-        "salary": 4,
-        "fp_season_avg": 3.2857142857,
-        "fp_last3_avg": 0.0,
-        "fp_lag1": 0.0,
-        "shots_season_avg": 0.2142857143,
-        "shots_last3_avg": 0.0,
-        "groundBalls_season_avg": 1.5,
-        "groundBalls_last3_avg": 0.0,
-        "saves_season_avg": 0.0,
-        "saves_last3_avg": 0.0,
-        "faceoffsWon_season_avg": 0.0,
-        "faceoffsWon_last3_avg": 0.0,
-        "assists_season_avg": 0.0,
-        "assists_last3_avg": 0.0,
-        "causedTurnovers_season_avg": 0.2857142857,
-        "causedTurnovers_last3_avg": 0.0,
-        "faceoffPct_season_avg": 1.0,
-        "faceoffPct_last3_avg": 1.0,
-        "touches_season_avg": 3.7142857143,
-        "touches_last3_avg": 0.0,
-        "shotPct_season_avg": 0.0,
-        "shotPct_last3_avg": 0.0,
-        "last_startTime": 1780185600.0,
-        "shotPct_anomaly": 0.0,
-        "opponent": "OUT",
-        "game_id": "2026-ev-15",
-        "days_since_last_game": 6.8958333333,
-        "team_faceoff_advantage": -0.0086449315,
-        "pairing_rating": 1.0,
-        "opponent_rating": 1.0,
-        "player_vs_team_rating": 1.0,
-        "team_def_rating": 0.9721639029,
-        "PredictedTier": "Average",
-        "BoomProbability": 1.6,
-        "PredictedPoints": 8.41
+        "PredictedPoints": 10.07
     },
     {
         "firstName": "Liam",
@@ -7918,7 +7961,7 @@
         "positionGroup": "Defense",
         "subPosition": "Defensemen",
         "officialId": 925,
-        "salary": 4,
+        "salary": 5,
         "fp_season_avg": 9.0476190476,
         "fp_last3_avg": 6.6666666667,
         "fp_lag1": 2.0,
@@ -7951,8 +7994,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 0.9488215782,
         "PredictedTier": "Average",
-        "BoomProbability": 21.2,
-        "PredictedPoints": 7.54
+        "BoomProbability": 16.6,
+        "PredictedPoints": 8.87
     },
     {
         "firstName": "Mark",
@@ -7994,8 +8037,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 0.9721639029,
         "PredictedTier": "Average",
-        "BoomProbability": 1.3,
-        "PredictedPoints": 7.08
+        "BoomProbability": 2.3,
+        "PredictedPoints": 7.76
     },
     {
         "firstName": "Peter",
@@ -8004,7 +8047,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 3254,
-        "salary": 5,
+        "salary": 6,
         "fp_season_avg": 8.0,
         "fp_last3_avg": 8.0,
         "fp_lag1": 15.0,
@@ -8037,8 +8080,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 0.9721639029,
         "PredictedTier": "Average",
-        "BoomProbability": 5.9,
-        "PredictedPoints": 8.33
+        "BoomProbability": 3.0,
+        "PredictedPoints": 8.26
     },
     {
         "firstName": "Ray",
@@ -8047,7 +8090,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 3212,
-        "salary": 9,
+        "salary": 10,
         "fp_season_avg": 8.8583333333,
         "fp_last3_avg": 10.4333333333,
         "fp_lag1": 0.3,
@@ -8080,8 +8123,8 @@
         "player_vs_team_rating": 0.6208842897,
         "team_def_rating": 0.9721639029,
         "PredictedTier": "Average",
-        "BoomProbability": 0.7,
-        "PredictedPoints": 10.55
+        "BoomProbability": 1.8,
+        "PredictedPoints": 10.4
     },
     {
         "firstName": "Richard",
@@ -8090,7 +8133,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 3276,
-        "salary": 5,
+        "salary": 3,
         "fp_season_avg": -3.0,
         "fp_last3_avg": -3.0,
         "fp_lag1": -3.0,
@@ -8123,8 +8166,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 0.9721639029,
         "PredictedTier": "Average",
-        "BoomProbability": 1.7,
-        "PredictedPoints": 8.65
+        "BoomProbability": 1.3,
+        "PredictedPoints": 8.66
     },
     {
         "firstName": "Scott",
@@ -8133,7 +8176,7 @@
         "positionGroup": "Defense",
         "subPosition": "Defensemen",
         "officialId": 3103,
-        "salary": 13,
+        "salary": 7,
         "fp_season_avg": 12.8181818182,
         "fp_last3_avg": 6.0,
         "fp_lag1": 3.0,
@@ -8166,8 +8209,8 @@
         "player_vs_team_rating": 0.780141844,
         "team_def_rating": 0.9488215782,
         "PredictedTier": "Average",
-        "BoomProbability": 2.2,
-        "PredictedPoints": 12.29
+        "BoomProbability": 6.1,
+        "PredictedPoints": 12.28
     },
     {
         "firstName": "Troy",
@@ -8176,7 +8219,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 281,
-        "salary": 13,
+        "salary": 14,
         "fp_season_avg": 12.4324324324,
         "fp_last3_avg": 10.3333333333,
         "fp_lag1": 13.0,
@@ -8209,8 +8252,8 @@
         "player_vs_team_rating": 0.8244565217,
         "team_def_rating": 0.9721639029,
         "PredictedTier": "Average",
-        "BoomProbability": 10.2,
-        "PredictedPoints": 13.98
+        "BoomProbability": 23.7,
+        "PredictedPoints": 13.86
     },
     {
         "firstName": "Ben",
@@ -8219,7 +8262,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 3184,
-        "salary": 10,
+        "salary": 7,
         "fp_season_avg": 8.6153846154,
         "fp_last3_avg": -1.0,
         "fp_lag1": 3.0,
@@ -8252,8 +8295,8 @@
         "player_vs_team_rating": 0.6577380952,
         "team_def_rating": 0.8785543294,
         "PredictedTier": "Average",
-        "BoomProbability": 7.5,
-        "PredictedPoints": 10.48
+        "BoomProbability": 4.3,
+        "PredictedPoints": 10.55
     },
     {
         "firstName": "Bryce",
@@ -8262,7 +8305,7 @@
         "positionGroup": "Defense",
         "subPosition": "Defensemen",
         "officialId": 337,
-        "salary": 5,
+        "salary": 6,
         "fp_season_avg": 10.1176470588,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -8295,8 +8338,8 @@
         "player_vs_team_rating": 1.2354651163,
         "team_def_rating": 0.8823905332,
         "PredictedTier": "Average",
-        "BoomProbability": 15.9,
-        "PredictedPoints": 13.81
+        "BoomProbability": 22.9,
+        "PredictedPoints": 13.85
     },
     {
         "firstName": "Christian",
@@ -8305,7 +8348,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 3233,
-        "salary": 4,
+        "salary": 10,
         "fp_season_avg": -2.0,
         "fp_last3_avg": -2.0,
         "fp_lag1": -2.0,
@@ -8338,8 +8381,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 0.8785543294,
         "PredictedTier": "Bust",
-        "BoomProbability": 1.0,
-        "PredictedPoints": 9.68
+        "BoomProbability": 1.7,
+        "PredictedPoints": 9.54
     },
     {
         "firstName": "Ethan",
@@ -8380,9 +8423,9 @@
         "opponent_rating": 1.0,
         "player_vs_team_rating": 0.8765231519,
         "team_def_rating": 0.8785543294,
-        "PredictedTier": "Average",
-        "BoomProbability": 21.1,
-        "PredictedPoints": 15.41
+        "PredictedTier": "Boom",
+        "BoomProbability": 67.3,
+        "PredictedPoints": 15.23
     },
     {
         "firstName": "Hunter",
@@ -8391,7 +8434,7 @@
         "positionGroup": "Defense",
         "subPosition": "Defensemen",
         "officialId": 3271,
-        "salary": 5,
+        "salary": 3,
         "fp_season_avg": 0.0,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -8424,8 +8467,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 0.8823905332,
         "PredictedTier": "Average",
-        "BoomProbability": 10.7,
-        "PredictedPoints": 9.18
+        "BoomProbability": 6.7,
+        "PredictedPoints": 9.13
     },
     {
         "firstName": "Jack",
@@ -8434,7 +8477,7 @@
         "positionGroup": "Defense",
         "subPosition": "Defensemen",
         "officialId": 1817,
-        "salary": 14,
+        "salary": 13,
         "fp_season_avg": 12.4,
         "fp_last3_avg": 10.3333333333,
         "fp_lag1": -3.0,
@@ -8467,8 +8510,8 @@
         "player_vs_team_rating": 0.7419354839,
         "team_def_rating": 0.8823905332,
         "PredictedTier": "Average",
-        "BoomProbability": 2.4,
-        "PredictedPoints": 12.39
+        "BoomProbability": 2.8,
+        "PredictedPoints": 12.37
     },
     {
         "firstName": "Jeff",
@@ -8477,7 +8520,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 1826,
-        "salary": 12,
+        "salary": 14,
         "fp_season_avg": 12.5833333333,
         "fp_last3_avg": 16.6666666667,
         "fp_lag1": -2.0,
@@ -8509,9 +8552,9 @@
         "opponent_rating": 1.0,
         "player_vs_team_rating": 0.6471144749,
         "team_def_rating": 0.8785543294,
-        "PredictedTier": "Average",
-        "BoomProbability": 7.6,
-        "PredictedPoints": 11.74
+        "PredictedTier": "Bust",
+        "BoomProbability": 5.5,
+        "PredictedPoints": 12.18
     },
     {
         "firstName": "Marquez",
@@ -8552,9 +8595,9 @@
         "opponent_rating": 1.0,
         "player_vs_team_rating": 1.0,
         "team_def_rating": 0.8785543294,
-        "PredictedTier": "Average",
-        "BoomProbability": 9.7,
-        "PredictedPoints": 9.18
+        "PredictedTier": "Bust",
+        "BoomProbability": 7.4,
+        "PredictedPoints": 9.13
     },
     {
         "firstName": "Owen",
@@ -8563,7 +8606,7 @@
         "positionGroup": "Defense",
         "subPosition": "Defensemen",
         "officialId": 3023,
-        "salary": 18,
+        "salary": 17,
         "fp_season_avg": 15.8333333333,
         "fp_last3_avg": 15.0,
         "fp_lag1": 21.0,
@@ -8596,8 +8639,8 @@
         "player_vs_team_rating": 1.7263157895,
         "team_def_rating": 0.8823905332,
         "PredictedTier": "Boom",
-        "BoomProbability": 65.9,
-        "PredictedPoints": 19.06
+        "BoomProbability": 86.4,
+        "PredictedPoints": 19.22
     },
     {
         "firstName": "Remington",
@@ -8606,7 +8649,7 @@
         "positionGroup": "Defense",
         "subPosition": "Defensemen",
         "officialId": 3228,
-        "salary": 4,
+        "salary": 5,
         "fp_season_avg": 5.6666666667,
         "fp_last3_avg": 5.6666666667,
         "fp_lag1": 3.0,
@@ -8639,8 +8682,51 @@
         "player_vs_team_rating": 2.1176470588,
         "team_def_rating": 0.8823905332,
         "PredictedTier": "Boom",
-        "BoomProbability": 92.7,
-        "PredictedPoints": 18.0
+        "BoomProbability": 97.7,
+        "PredictedPoints": 17.76
+    },
+    {
+        "firstName": "Will",
+        "lastName": "Donovan",
+        "team": "CAN",
+        "positionGroup": "Defense",
+        "subPosition": "SSDM",
+        "officialId": 3286,
+        "salary": 7,
+        "fp_season_avg": 1.0,
+        "fp_last3_avg": 1.0,
+        "fp_lag1": 1.0,
+        "shots_season_avg": 1.0,
+        "shots_last3_avg": 1.0,
+        "groundBalls_season_avg": 1.0,
+        "groundBalls_last3_avg": 1.0,
+        "saves_season_avg": 1.0,
+        "saves_last3_avg": 1.0,
+        "faceoffsWon_season_avg": 1.0,
+        "faceoffsWon_last3_avg": 1.0,
+        "assists_season_avg": 1.0,
+        "assists_last3_avg": 1.0,
+        "causedTurnovers_season_avg": 1.0,
+        "causedTurnovers_last3_avg": 1.0,
+        "faceoffPct_season_avg": 1.0,
+        "faceoffPct_last3_avg": 1.0,
+        "touches_season_avg": 1.0,
+        "touches_last3_avg": 1.0,
+        "shotPct_season_avg": 1.0,
+        "shotPct_last3_avg": 1.0,
+        "last_startTime": 1.0,
+        "shotPct_anomaly": 1.0,
+        "opponent": "WAT",
+        "game_id": "2026-ev-16",
+        "days_since_last_game": 7.0,
+        "team_faceoff_advantage": -0.0422682506,
+        "pairing_rating": 1.0,
+        "opponent_rating": 1.0,
+        "player_vs_team_rating": 1.0,
+        "team_def_rating": 0.8785543294,
+        "PredictedTier": "Bust",
+        "BoomProbability": 4.2,
+        "PredictedPoints": 7.48
     },
     {
         "firstName": "Zach",
@@ -8649,7 +8735,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 1671,
-        "salary": 4,
+        "salary": 6,
         "fp_season_avg": 5.3333333333,
         "fp_last3_avg": 12.0,
         "fp_lag1": 0.0,
@@ -8682,8 +8768,8 @@
         "player_vs_team_rating": -0.0428571429,
         "team_def_rating": 0.8785543294,
         "PredictedTier": "Bust",
-        "BoomProbability": 0.3,
-        "PredictedPoints": 1.61
+        "BoomProbability": 0.1,
+        "PredictedPoints": 0.49
     },
     {
         "firstName": "Ben",
@@ -8692,7 +8778,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 3179,
-        "salary": 17,
+        "salary": 6,
         "fp_season_avg": 14.2,
         "fp_last3_avg": 6.6666666667,
         "fp_lag1": 0.0,
@@ -8725,8 +8811,8 @@
         "player_vs_team_rating": 0.4460093897,
         "team_def_rating": 1.0724148615,
         "PredictedTier": "Average",
-        "BoomProbability": 0.2,
-        "PredictedPoints": 10.82
+        "BoomProbability": 1.6,
+        "PredictedPoints": 10.84
     },
     {
         "firstName": "Brendan",
@@ -8735,7 +8821,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 3269,
-        "salary": 5,
+        "salary": 3,
         "fp_season_avg": 0.0,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -8768,8 +8854,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 1.0724148615,
         "PredictedTier": "Average",
-        "BoomProbability": 1.5,
-        "PredictedPoints": 8.62
+        "BoomProbability": 1.6,
+        "PredictedPoints": 8.63
     },
     {
         "firstName": "Charlie",
@@ -8778,7 +8864,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 1733,
-        "salary": 6,
+        "salary": 5,
         "fp_season_avg": 7.7045454545,
         "fp_last3_avg": 3.3333333333,
         "fp_lag1": 0.0,
@@ -8811,8 +8897,8 @@
         "player_vs_team_rating": 1.2114060964,
         "team_def_rating": 1.0724148615,
         "PredictedTier": "Average",
-        "BoomProbability": 4.2,
-        "PredictedPoints": 13.79
+        "BoomProbability": 7.9,
+        "PredictedPoints": 13.92
     },
     {
         "firstName": "Dylan",
@@ -8821,7 +8907,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 3101,
-        "salary": 8,
+        "salary": 10,
         "fp_season_avg": 7.1333333333,
         "fp_last3_avg": 4.3333333333,
         "fp_lag1": 0.0,
@@ -8855,7 +8941,7 @@
         "team_def_rating": 1.0724148615,
         "PredictedTier": "Average",
         "BoomProbability": 0.0,
-        "PredictedPoints": 1.49
+        "PredictedPoints": 1.47
     },
     {
         "firstName": "Gavin",
@@ -8864,7 +8950,7 @@
         "positionGroup": "Defense",
         "subPosition": "Defensemen",
         "officialId": 3008,
-        "salary": 12,
+        "salary": 11,
         "fp_season_avg": 15.8823529412,
         "fp_last3_avg": 5.0,
         "fp_lag1": 12.0,
@@ -8897,8 +8983,8 @@
         "player_vs_team_rating": 0.7375661376,
         "team_def_rating": 0.8878792168,
         "PredictedTier": "Average",
-        "BoomProbability": 11.6,
-        "PredictedPoints": 13.44
+        "BoomProbability": 17.4,
+        "PredictedPoints": 13.1
     },
     {
         "firstName": "Jack",
@@ -8907,7 +8993,7 @@
         "positionGroup": "Defense",
         "subPosition": "Defensemen",
         "officialId": 3112,
-        "salary": 6,
+        "salary": 10,
         "fp_season_avg": 2.7142857143,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -8940,8 +9026,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 0.8878792168,
         "PredictedTier": "Average",
-        "BoomProbability": 7.6,
-        "PredictedPoints": 8.61
+        "BoomProbability": 8.5,
+        "PredictedPoints": 8.62
     },
     {
         "firstName": "Jimmy",
@@ -8950,7 +9036,7 @@
         "positionGroup": "Defense",
         "subPosition": "Defensemen",
         "officialId": 3181,
-        "salary": 14,
+        "salary": 7,
         "fp_season_avg": 12.1428571429,
         "fp_last3_avg": 0.0,
         "fp_lag1": 1.0,
@@ -8982,9 +9068,9 @@
         "opponent_rating": 1.0,
         "player_vs_team_rating": 0.5764705882,
         "team_def_rating": 0.8878792168,
-        "PredictedTier": "Bust",
-        "BoomProbability": 1.0,
-        "PredictedPoints": 10.85
+        "PredictedTier": "Average",
+        "BoomProbability": 0.3,
+        "PredictedPoints": 11.05
     },
     {
         "firstName": "Kenny",
@@ -8993,7 +9079,7 @@
         "positionGroup": "Defense",
         "subPosition": "Defensemen",
         "officialId": 3089,
-        "salary": 15,
+        "salary": 13,
         "fp_season_avg": 14.3846153846,
         "fp_last3_avg": 11.6666666667,
         "fp_lag1": 12.0,
@@ -9025,52 +9111,9 @@
         "opponent_rating": 1.0,
         "player_vs_team_rating": 1.5989304813,
         "team_def_rating": 0.8878792168,
-        "PredictedTier": "Average",
-        "BoomProbability": 47.2,
-        "PredictedPoints": 17.58
-    },
-    {
-        "firstName": "Malik",
-        "lastName": "Sparrow",
-        "team": "WAT",
-        "positionGroup": "Defense",
-        "subPosition": "SSDM",
-        "officialId": 3074,
-        "salary": 4,
-        "fp_season_avg": 0.0,
-        "fp_last3_avg": 0.0,
-        "fp_lag1": 0.0,
-        "shots_season_avg": 0.0,
-        "shots_last3_avg": 0.0,
-        "groundBalls_season_avg": 0.0,
-        "groundBalls_last3_avg": 0.0,
-        "saves_season_avg": 0.0,
-        "saves_last3_avg": 0.0,
-        "faceoffsWon_season_avg": 0.0,
-        "faceoffsWon_last3_avg": 0.0,
-        "assists_season_avg": 0.0,
-        "assists_last3_avg": 0.0,
-        "causedTurnovers_season_avg": 0.0,
-        "causedTurnovers_last3_avg": 0.0,
-        "faceoffPct_season_avg": 1.0,
-        "faceoffPct_last3_avg": 1.0,
-        "touches_season_avg": 0.0,
-        "touches_last3_avg": 0.0,
-        "shotPct_season_avg": 0.0,
-        "shotPct_last3_avg": 0.0,
-        "last_startTime": 1780185600.0,
-        "shotPct_anomaly": 0.0,
-        "opponent": "CAN",
-        "game_id": "2026-ev-16",
-        "days_since_last_game": 7.0,
-        "team_faceoff_advantage": 0.0422682506,
-        "pairing_rating": 1.0,
-        "opponent_rating": 1.0,
-        "player_vs_team_rating": 1.0,
-        "team_def_rating": 1.0724148615,
-        "PredictedTier": "Average",
-        "BoomProbability": 1.5,
-        "PredictedPoints": 8.62
+        "PredictedTier": "Boom",
+        "BoomProbability": 55.9,
+        "PredictedPoints": 17.49
     },
     {
         "firstName": "Marcus",
@@ -9079,7 +9122,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 3096,
-        "salary": 16,
+        "salary": 18,
         "fp_season_avg": 14.4210526316,
         "fp_last3_avg": 19.0,
         "fp_lag1": 10.0,
@@ -9112,8 +9155,8 @@
         "player_vs_team_rating": 1.1961678832,
         "team_def_rating": 1.0724148615,
         "PredictedTier": "Boom",
-        "BoomProbability": 77.8,
-        "PredictedPoints": 16.73
+        "BoomProbability": 59.0,
+        "PredictedPoints": 16.71
     },
     {
         "firstName": "Matt",
@@ -9122,7 +9165,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 1707,
-        "salary": 8,
+        "salary": 7,
         "fp_season_avg": 8.5138888889,
         "fp_last3_avg": 2.6666666667,
         "fp_lag1": -3.0,
@@ -9155,8 +9198,8 @@
         "player_vs_team_rating": 0.6851549755,
         "team_def_rating": 1.0724148615,
         "PredictedTier": "Average",
-        "BoomProbability": 3.6,
-        "PredictedPoints": 10.61
+        "BoomProbability": 10.2,
+        "PredictedPoints": 10.21
     },
     {
         "firstName": "Nakeie",
@@ -9165,7 +9208,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 2033,
-        "salary": 4,
+        "salary": 2,
         "fp_season_avg": 0.0,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -9198,8 +9241,8 @@
         "player_vs_team_rating": 0.5702247191,
         "team_def_rating": 1.0724148615,
         "PredictedTier": "Average",
-        "BoomProbability": 17.4,
-        "PredictedPoints": 10.24
+        "BoomProbability": 15.8,
+        "PredictedPoints": 10.07
     },
     {
         "firstName": "Patty",
@@ -9208,7 +9251,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 3274,
-        "salary": 2,
+        "salary": 4,
         "fp_season_avg": 12.0,
         "fp_last3_avg": 12.0,
         "fp_lag1": 12.0,
@@ -9241,8 +9284,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 1.0724148615,
         "PredictedTier": "Average",
-        "BoomProbability": 5.5,
-        "PredictedPoints": 7.98
+        "BoomProbability": 6.9,
+        "PredictedPoints": 10.0
     },
     {
         "firstName": "Tate",
@@ -9251,7 +9294,7 @@
         "positionGroup": "Defense",
         "subPosition": "SSDM",
         "officialId": 3044,
-        "salary": 2,
+        "salary": 10,
         "fp_season_avg": 5.5,
         "fp_last3_avg": 5.5,
         "fp_lag1": 11.0,
@@ -9284,8 +9327,8 @@
         "player_vs_team_rating": 2.0,
         "team_def_rating": 1.0724148615,
         "PredictedTier": "Boom",
-        "BoomProbability": 78.1,
-        "PredictedPoints": 16.79
+        "BoomProbability": 72.4,
+        "PredictedPoints": 17.17
     },
     {
         "firstName": "Mike",
@@ -9294,7 +9337,7 @@
         "positionGroup": "Faceoff",
         "subPosition": "Faceoff",
         "officialId": 3004,
-        "salary": 7,
+        "salary": 8,
         "fp_season_avg": 13.1125,
         "fp_last3_avg": 8.6333333333,
         "fp_lag1": 13.8,
@@ -9328,7 +9371,7 @@
         "team_def_rating": 0.9396192334,
         "PredictedTier": "Average",
         "BoomProbability": 0.9,
-        "PredictedPoints": 11.54
+        "PredictedPoints": 11.48
     },
     {
         "firstName": "Nathan",
@@ -9337,7 +9380,7 @@
         "positionGroup": "Faceoff",
         "subPosition": "Faceoff",
         "officialId": 3246,
-        "salary": 5,
+        "salary": 10,
         "fp_season_avg": 0.0,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -9371,7 +9414,7 @@
         "team_def_rating": 0.9396192334,
         "PredictedTier": "Average",
         "BoomProbability": 1.0,
-        "PredictedPoints": 5.97
+        "PredictedPoints": 6.1
     },
     {
         "firstName": "Justin",
@@ -9380,7 +9423,7 @@
         "positionGroup": "Faceoff",
         "subPosition": "Faceoff",
         "officialId": 2032,
-        "salary": 18,
+        "salary": 20,
         "fp_season_avg": 16.5363636364,
         "fp_last3_avg": 11.6666666667,
         "fp_lag1": 5.3,
@@ -9412,9 +9455,9 @@
         "opponent_rating": 1.0,
         "player_vs_team_rating": 1.2910940077,
         "team_def_rating": 1.0281922814,
-        "PredictedTier": "Average",
-        "BoomProbability": 49.5,
-        "PredictedPoints": 20.21
+        "PredictedTier": "Boom",
+        "BoomProbability": 59.5,
+        "PredictedPoints": 19.93
     },
     {
         "firstName": "TD",
@@ -9423,7 +9466,7 @@
         "positionGroup": "Faceoff",
         "subPosition": "Faceoff",
         "officialId": 1812,
-        "salary": 20,
+        "salary": 17,
         "fp_season_avg": 20.2861111111,
         "fp_last3_avg": 8.1,
         "fp_lag1": 8.1,
@@ -9457,7 +9500,7 @@
         "team_def_rating": 0.5247260045,
         "PredictedTier": "Average",
         "BoomProbability": 9.0,
-        "PredictedPoints": 15.47
+        "PredictedPoints": 15.44
     },
     {
         "firstName": "Nathan",
@@ -9466,7 +9509,7 @@
         "positionGroup": "Faceoff",
         "subPosition": "Faceoff",
         "officialId": 3151,
-        "salary": 5,
+        "salary": 4,
         "fp_season_avg": 7.6,
         "fp_last3_avg": 7.6,
         "fp_lag1": 0.0,
@@ -9499,8 +9542,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 0.9516485132,
         "PredictedTier": "Bust",
-        "BoomProbability": 1.2,
-        "PredictedPoints": 12.9
+        "BoomProbability": 1.4,
+        "PredictedPoints": 12.49
     },
     {
         "firstName": "Trevor",
@@ -9509,7 +9552,7 @@
         "positionGroup": "Faceoff",
         "subPosition": "Faceoff",
         "officialId": 254,
-        "salary": 18,
+        "salary": 23,
         "fp_season_avg": 26.0540540541,
         "fp_last3_avg": 3.0333333333,
         "fp_lag1": 9.1,
@@ -9542,8 +9585,8 @@
         "player_vs_team_rating": 0.3857365145,
         "team_def_rating": 0.9516485132,
         "PredictedTier": "Average",
-        "BoomProbability": 2.1,
-        "PredictedPoints": 10.0
+        "BoomProbability": 1.9,
+        "PredictedPoints": 8.64
     },
     {
         "firstName": "Luke",
@@ -9552,7 +9595,7 @@
         "positionGroup": "Faceoff",
         "subPosition": "Faceoff",
         "officialId": 3098,
-        "salary": 18,
+        "salary": 19,
         "fp_season_avg": 16.2769230769,
         "fp_last3_avg": 14.5666666667,
         "fp_lag1": 11.5,
@@ -9586,7 +9629,7 @@
         "team_def_rating": 0.9396192334,
         "PredictedTier": "Average",
         "BoomProbability": 1.2,
-        "PredictedPoints": 18.93
+        "PredictedPoints": 18.9
     },
     {
         "firstName": "Justin",
@@ -9595,7 +9638,7 @@
         "positionGroup": "Faceoff",
         "subPosition": "Faceoff",
         "officialId": 2032,
-        "salary": 18,
+        "salary": 20,
         "fp_season_avg": 16.5363636364,
         "fp_last3_avg": 11.6666666667,
         "fp_lag1": 5.3,
@@ -9628,51 +9671,51 @@
         "player_vs_team_rating": 0.3265530511,
         "team_def_rating": 0.8537764232,
         "PredictedTier": "Bust",
-        "BoomProbability": 0.1,
-        "PredictedPoints": 4.0
+        "BoomProbability": 0.2,
+        "PredictedPoints": 4.23
     },
     {
-        "firstName": "Zac",
-        "lastName": "Tucci",
+        "firstName": "Andrew",
+        "lastName": "McMeekin",
         "team": "CAN",
         "positionGroup": "Faceoff",
         "subPosition": "Faceoff",
-        "officialId": 2067,
-        "salary": 12,
-        "fp_season_avg": 12.2958333333,
-        "fp_last3_avg": 12.1333333333,
-        "fp_lag1": 2.4,
-        "shots_season_avg": 1.6666666667,
-        "shots_last3_avg": 0.6666666667,
-        "groundBalls_season_avg": 5.5833333333,
-        "groundBalls_last3_avg": 5.3333333333,
-        "saves_season_avg": 0.0,
-        "saves_last3_avg": 0.0,
-        "faceoffsWon_season_avg": 10.9166666667,
-        "faceoffsWon_last3_avg": 12.6666666667,
-        "assists_season_avg": 0.0,
-        "assists_last3_avg": 0.0,
-        "causedTurnovers_season_avg": 0.1666666667,
-        "causedTurnovers_last3_avg": 0.0,
-        "faceoffPct_season_avg": 0.4607985051,
-        "faceoffPct_last3_avg": 0.503076081,
-        "touches_season_avg": 5.3333333333,
-        "touches_last3_avg": 5.3333333333,
-        "shotPct_season_avg": 0.1770833333,
-        "shotPct_last3_avg": 0.3333333333,
-        "last_startTime": 1780092000.0,
-        "shotPct_anomaly": 0.15625,
+        "officialId": 3275,
+        "salary": 10,
+        "fp_season_avg": 1.0,
+        "fp_last3_avg": 1.0,
+        "fp_lag1": 1.0,
+        "shots_season_avg": 1.0,
+        "shots_last3_avg": 1.0,
+        "groundBalls_season_avg": 1.0,
+        "groundBalls_last3_avg": 1.0,
+        "saves_season_avg": 1.0,
+        "saves_last3_avg": 1.0,
+        "faceoffsWon_season_avg": 1.0,
+        "faceoffsWon_last3_avg": 1.0,
+        "assists_season_avg": 1.0,
+        "assists_last3_avg": 1.0,
+        "causedTurnovers_season_avg": 1.0,
+        "causedTurnovers_last3_avg": 1.0,
+        "faceoffPct_season_avg": 1.0,
+        "faceoffPct_last3_avg": 1.0,
+        "touches_season_avg": 1.0,
+        "touches_last3_avg": 1.0,
+        "shotPct_season_avg": 1.0,
+        "shotPct_last3_avg": 1.0,
+        "last_startTime": 1.0,
+        "shotPct_anomaly": 1.0,
         "opponent": "WAT",
         "game_id": "2026-ev-16",
-        "days_since_last_game": 8.0833333333,
+        "days_since_last_game": 7.0,
         "team_faceoff_advantage": -0.0422682506,
         "pairing_rating": 1.0,
         "opponent_rating": 1.0,
-        "player_vs_team_rating": 1.9632666893,
+        "player_vs_team_rating": 1.0,
         "team_def_rating": 1.5147257277,
         "PredictedTier": "Average",
-        "BoomProbability": 8.6,
-        "PredictedPoints": 17.84
+        "BoomProbability": 1.8,
+        "PredictedPoints": 6.95
     },
     {
         "firstName": "Alec",
@@ -9681,7 +9724,7 @@
         "positionGroup": "Faceoff",
         "subPosition": "Faceoff",
         "officialId": 3119,
-        "salary": 11,
+        "salary": 9,
         "fp_season_avg": 7.3636363636,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -9714,8 +9757,8 @@
         "player_vs_team_rating": 1.1316872428,
         "team_def_rating": 1.457964565,
         "PredictedTier": "Average",
-        "BoomProbability": 6.8,
-        "PredictedPoints": 11.79
+        "BoomProbability": 6.0,
+        "PredictedPoints": 11.3
     },
     {
         "firstName": "Connor",
@@ -9724,7 +9767,7 @@
         "positionGroup": "Faceoff",
         "subPosition": "Faceoff",
         "officialId": 366,
-        "salary": 12,
+        "salary": 10,
         "fp_season_avg": 12.2818181818,
         "fp_last3_avg": 11.4,
         "fp_lag1": 5.2,
@@ -9757,8 +9800,8 @@
         "player_vs_team_rating": 0.9444855662,
         "team_def_rating": 1.457964565,
         "PredictedTier": "Bust",
-        "BoomProbability": 9.8,
-        "PredictedPoints": 18.44
+        "BoomProbability": 9.4,
+        "PredictedPoints": 19.18
     },
     {
         "firstName": "Brett",
@@ -9767,7 +9810,7 @@
         "positionGroup": "Goalie",
         "subPosition": "Goalie",
         "officialId": 2026,
-        "salary": 28,
+        "salary": 44,
         "fp_season_avg": 36.7027027027,
         "fp_last3_avg": 11.3333333333,
         "fp_lag1": 34.0,
@@ -9800,8 +9843,8 @@
         "player_vs_team_rating": 1.1397889053,
         "team_def_rating": 1.1520943755,
         "PredictedTier": "Average",
-        "BoomProbability": 26.1,
-        "PredictedPoints": 25.69
+        "BoomProbability": 29.4,
+        "PredictedPoints": 25.7
     },
     {
         "firstName": "Jack",
@@ -9810,7 +9853,7 @@
         "positionGroup": "Goalie",
         "subPosition": "Goalie",
         "officialId": 3189,
-        "salary": 12,
+        "salary": 10,
         "fp_season_avg": 0.0,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -9843,8 +9886,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 1.1520943755,
         "PredictedTier": "Bust",
-        "BoomProbability": 0.5,
-        "PredictedPoints": 5.26
+        "BoomProbability": 0.3,
+        "PredictedPoints": 4.59
     },
     {
         "firstName": "Nick",
@@ -9853,7 +9896,7 @@
         "positionGroup": "Goalie",
         "subPosition": "Goalie",
         "officialId": 1773,
-        "salary": 12,
+        "salary": 5,
         "fp_season_avg": 12.75,
         "fp_last3_avg": 22.0,
         "fp_lag1": 0.0,
@@ -9886,8 +9929,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 1.1520943755,
         "PredictedTier": "Average",
-        "BoomProbability": 0.7,
-        "PredictedPoints": 21.11
+        "BoomProbability": 0.5,
+        "PredictedPoints": 20.9
     },
     {
         "firstName": "Austin",
@@ -9896,7 +9939,7 @@
         "positionGroup": "Goalie",
         "subPosition": "Goalie",
         "officialId": 815,
-        "salary": 10,
+        "salary": 5,
         "fp_season_avg": 16.3333333333,
         "fp_last3_avg": 13.6666666667,
         "fp_lag1": 0.0,
@@ -9930,7 +9973,7 @@
         "team_def_rating": 0.8693951967,
         "PredictedTier": "Bust",
         "BoomProbability": 0.0,
-        "PredictedPoints": 2.51
+        "PredictedPoints": 4.1
     },
     {
         "firstName": "Blaze",
@@ -9939,7 +9982,7 @@
         "positionGroup": "Goalie",
         "subPosition": "Goalie",
         "officialId": 258,
-        "salary": 36,
+        "salary": 42,
         "fp_season_avg": 37.2352941176,
         "fp_last3_avg": 17.6666666667,
         "fp_lag1": 35.0,
@@ -9972,8 +10015,8 @@
         "player_vs_team_rating": 1.0115850448,
         "team_def_rating": 0.8693951967,
         "PredictedTier": "Average",
-        "BoomProbability": 2.7,
-        "PredictedPoints": 25.84
+        "BoomProbability": 1.1,
+        "PredictedPoints": 25.59
     },
     {
         "firstName": "Michael",
@@ -9982,7 +10025,7 @@
         "positionGroup": "Goalie",
         "subPosition": "Goalie",
         "officialId": 3236,
-        "salary": 2,
+        "salary": 10,
         "fp_season_avg": 0.0,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -10015,8 +10058,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 0.8693951967,
         "PredictedTier": "Bust",
-        "BoomProbability": 0.3,
-        "PredictedPoints": 5.69
+        "BoomProbability": 0.2,
+        "PredictedPoints": 4.68
     },
     {
         "firstName": "Chayse",
@@ -10025,7 +10068,7 @@
         "positionGroup": "Goalie",
         "subPosition": "Goalie",
         "officialId": 3102,
-        "salary": 9,
+        "salary": 10,
         "fp_season_avg": 21.5,
         "fp_last3_avg": 14.6666666667,
         "fp_lag1": 0.0,
@@ -10058,8 +10101,8 @@
         "player_vs_team_rating": 1.488372093,
         "team_def_rating": 1.0512451028,
         "PredictedTier": "Average",
-        "BoomProbability": 8.7,
-        "PredictedPoints": 25.35
+        "BoomProbability": 3.1,
+        "PredictedPoints": 24.81
     },
     {
         "firstName": "Dillon",
@@ -10068,7 +10111,7 @@
         "positionGroup": "Goalie",
         "subPosition": "Goalie",
         "officialId": 418,
-        "salary": 22,
+        "salary": 32,
         "fp_season_avg": 28.6666666667,
         "fp_last3_avg": 28.3333333333,
         "fp_lag1": 40.0,
@@ -10100,9 +10143,9 @@
         "opponent_rating": 1.0,
         "player_vs_team_rating": 0.523255814,
         "team_def_rating": 1.0512451028,
-        "PredictedTier": "Boom",
-        "BoomProbability": 48.1,
-        "PredictedPoints": 18.43
+        "PredictedTier": "Average",
+        "BoomProbability": 46.4,
+        "PredictedPoints": 17.24
     },
     {
         "firstName": "Matt",
@@ -10111,7 +10154,7 @@
         "positionGroup": "Goalie",
         "subPosition": "Goalie",
         "officialId": 3125,
-        "salary": 12,
+        "salary": 5,
         "fp_season_avg": 0.0,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -10144,8 +10187,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 1.0512451028,
         "PredictedTier": "Bust",
-        "BoomProbability": 0.5,
-        "PredictedPoints": 6.04
+        "BoomProbability": 0.3,
+        "PredictedPoints": 4.84
     },
     {
         "firstName": "Liam",
@@ -10154,7 +10197,7 @@
         "positionGroup": "Goalie",
         "subPosition": "Goalie",
         "officialId": 3079,
-        "salary": 48,
+        "salary": 50,
         "fp_season_avg": 37.2727272727,
         "fp_last3_avg": 43.6666666667,
         "fp_lag1": 46.0,
@@ -10187,8 +10230,8 @@
         "player_vs_team_rating": 1.1,
         "team_def_rating": 1.2968364208,
         "PredictedTier": "Boom",
-        "BoomProbability": 83.4,
-        "PredictedPoints": 25.84
+        "BoomProbability": 82.6,
+        "PredictedPoints": 25.85
     },
     {
         "firstName": "Will",
@@ -10197,7 +10240,7 @@
         "positionGroup": "Goalie",
         "subPosition": "Goalie",
         "officialId": 3108,
-        "salary": 6,
+        "salary": 5,
         "fp_season_avg": 0.2,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -10231,7 +10274,7 @@
         "team_def_rating": 1.2968364208,
         "PredictedTier": "Bust",
         "BoomProbability": 0.2,
-        "PredictedPoints": 7.65
+        "PredictedPoints": 6.13
     },
     {
         "firstName": "Zach",
@@ -10240,7 +10283,7 @@
         "positionGroup": "Goalie",
         "subPosition": "Goalie",
         "officialId": 3221,
-        "salary": 6,
+        "salary": 10,
         "fp_season_avg": 0.0,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -10274,7 +10317,7 @@
         "team_def_rating": 1.2968364208,
         "PredictedTier": "Bust",
         "BoomProbability": 0.2,
-        "PredictedPoints": 6.78
+        "PredictedPoints": 6.13
     },
     {
         "firstName": "Logan",
@@ -10283,7 +10326,7 @@
         "positionGroup": "Goalie",
         "subPosition": "Goalie",
         "officialId": 3169,
-        "salary": 41,
+        "salary": 43,
         "fp_season_avg": 35.3076923077,
         "fp_last3_avg": 39.3333333333,
         "fp_lag1": 46.0,
@@ -10316,8 +10359,8 @@
         "player_vs_team_rating": 0.6797385621,
         "team_def_rating": 1.1520943755,
         "PredictedTier": "Average",
-        "BoomProbability": 2.3,
-        "PredictedPoints": 23.16
+        "BoomProbability": 6.3,
+        "PredictedPoints": 22.4
     },
     {
         "firstName": "Owen",
@@ -10326,7 +10369,7 @@
         "positionGroup": "Goalie",
         "subPosition": "Goalie",
         "officialId": 2039,
-        "salary": 7,
+        "salary": 5,
         "fp_season_avg": 17.8947368421,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -10359,8 +10402,51 @@
         "player_vs_team_rating": 1.2852941176,
         "team_def_rating": 1.1520943755,
         "PredictedTier": "Boom",
-        "BoomProbability": 82.5,
-        "PredictedPoints": 23.39
+        "BoomProbability": 72.7,
+        "PredictedPoints": 23.54
+    },
+    {
+        "firstName": "Ryan",
+        "lastName": "Croddick",
+        "team": "OUT",
+        "positionGroup": "Goalie",
+        "subPosition": "Goalie",
+        "officialId": 3291,
+        "salary": 11,
+        "fp_season_avg": 1.0,
+        "fp_last3_avg": 1.0,
+        "fp_lag1": 1.0,
+        "shots_season_avg": 1.0,
+        "shots_last3_avg": 1.0,
+        "groundBalls_season_avg": 1.0,
+        "groundBalls_last3_avg": 1.0,
+        "saves_season_avg": 1.0,
+        "saves_last3_avg": 1.0,
+        "faceoffsWon_season_avg": 1.0,
+        "faceoffsWon_last3_avg": 1.0,
+        "assists_season_avg": 1.0,
+        "assists_last3_avg": 1.0,
+        "causedTurnovers_season_avg": 1.0,
+        "causedTurnovers_last3_avg": 1.0,
+        "faceoffPct_season_avg": 1.0,
+        "faceoffPct_last3_avg": 1.0,
+        "touches_season_avg": 1.0,
+        "touches_last3_avg": 1.0,
+        "shotPct_season_avg": 1.0,
+        "shotPct_last3_avg": 1.0,
+        "last_startTime": 1.0,
+        "shotPct_anomaly": 1.0,
+        "opponent": "CHA",
+        "game_id": "2026-ev-15",
+        "days_since_last_game": 7.0,
+        "team_faceoff_advantage": 0.0086449315,
+        "pairing_rating": 1.0,
+        "opponent_rating": 1.0,
+        "player_vs_team_rating": 1.0,
+        "team_def_rating": 1.1520943755,
+        "PredictedTier": "Bust",
+        "BoomProbability": 0.7,
+        "PredictedPoints": 17.63
     },
     {
         "firstName": "Austin",
@@ -10369,7 +10455,7 @@
         "positionGroup": "Goalie",
         "subPosition": "Goalie",
         "officialId": 815,
-        "salary": 10,
+        "salary": 5,
         "fp_season_avg": 16.3333333333,
         "fp_last3_avg": 13.6666666667,
         "fp_lag1": 0.0,
@@ -10402,8 +10488,8 @@
         "player_vs_team_rating": 1.0408163265,
         "team_def_rating": 1.0867655367,
         "PredictedTier": "Average",
-        "BoomProbability": 1.0,
-        "PredictedPoints": 19.98
+        "BoomProbability": 1.3,
+        "PredictedPoints": 20.92
     },
     {
         "firstName": "Blaze",
@@ -10412,7 +10498,7 @@
         "positionGroup": "Goalie",
         "subPosition": "Goalie",
         "officialId": 258,
-        "salary": 36,
+        "salary": 42,
         "fp_season_avg": 37.2352941176,
         "fp_last3_avg": 17.6666666667,
         "fp_lag1": 35.0,
@@ -10445,8 +10531,8 @@
         "player_vs_team_rating": 1.2890995261,
         "team_def_rating": 1.0867655367,
         "PredictedTier": "Average",
-        "BoomProbability": 13.3,
-        "PredictedPoints": 25.84
+        "BoomProbability": 5.8,
+        "PredictedPoints": 25.59
     },
     {
         "firstName": "Michael",
@@ -10455,7 +10541,7 @@
         "positionGroup": "Goalie",
         "subPosition": "Goalie",
         "officialId": 3236,
-        "salary": 2,
+        "salary": 10,
         "fp_season_avg": 0.0,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -10488,8 +10574,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 1.0867655367,
         "PredictedTier": "Bust",
-        "BoomProbability": 0.5,
-        "PredictedPoints": 5.36
+        "BoomProbability": 0.3,
+        "PredictedPoints": 4.68
     },
     {
         "firstName": "Colin",
@@ -10498,7 +10584,7 @@
         "positionGroup": "Goalie",
         "subPosition": "Goalie",
         "officialId": 2038,
-        "salary": 34,
+        "salary": 31,
         "fp_season_avg": 29.6,
         "fp_last3_avg": 26.6666666667,
         "fp_lag1": 33.0,
@@ -10531,8 +10617,8 @@
         "player_vs_team_rating": 1.2934362934,
         "team_def_rating": 1.1104822879,
         "PredictedTier": "Average",
-        "BoomProbability": 15.9,
-        "PredictedPoints": 25.51
+        "BoomProbability": 14.4,
+        "PredictedPoints": 25.28
     },
     {
         "firstName": "JC",
@@ -10541,7 +10627,7 @@
         "positionGroup": "Goalie",
         "subPosition": "Goalie",
         "officialId": 3145,
-        "salary": 3,
+        "salary": 5,
         "fp_season_avg": 0.0,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -10574,8 +10660,8 @@
         "player_vs_team_rating": 1.0,
         "team_def_rating": 1.1104822879,
         "PredictedTier": "Bust",
-        "BoomProbability": 0.5,
-        "PredictedPoints": 6.87
+        "BoomProbability": 0.4,
+        "PredictedPoints": 6.06
     },
     {
         "firstName": "Matt",
@@ -10584,7 +10670,7 @@
         "positionGroup": "Goalie",
         "subPosition": "Goalie",
         "officialId": 408,
-        "salary": 26,
+        "salary": 27,
         "fp_season_avg": 20.1923076923,
         "fp_last3_avg": 24.6666666667,
         "fp_lag1": 36.0,
@@ -10617,8 +10703,8 @@
         "player_vs_team_rating": 0.3631746032,
         "team_def_rating": 0.7430732092,
         "PredictedTier": "Bust",
-        "BoomProbability": 0.3,
-        "PredictedPoints": 11.87
+        "BoomProbability": 0.4,
+        "PredictedPoints": 11.95
     },
     {
         "firstName": "Mike",
@@ -10627,7 +10713,7 @@
         "positionGroup": "Goalie",
         "subPosition": "Goalie",
         "officialId": 2058,
-        "salary": 4,
+        "salary": 10,
         "fp_season_avg": 0.0,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -10661,7 +10747,7 @@
         "team_def_rating": 0.7430732092,
         "PredictedTier": "Bust",
         "BoomProbability": 0.1,
-        "PredictedPoints": 5.16
+        "PredictedPoints": 4.44
     },
     {
         "firstName": "Sean",
@@ -10670,7 +10756,7 @@
         "positionGroup": "Goalie",
         "subPosition": "Goalie",
         "officialId": 3264,
-        "salary": 6,
+        "salary": 5,
         "fp_season_avg": 3.0,
         "fp_last3_avg": 3.0,
         "fp_lag1": 0.0,
@@ -10704,7 +10790,7 @@
         "team_def_rating": 0.7430732092,
         "PredictedTier": "Bust",
         "BoomProbability": 0.2,
-        "PredictedPoints": 16.83
+        "PredictedPoints": 16.34
     },
     {
         "firstName": "Tim",
@@ -10713,7 +10799,7 @@
         "positionGroup": "Goalie",
         "subPosition": "Goalie",
         "officialId": 370,
-        "salary": 5,
+        "salary": 10,
         "fp_season_avg": 16.0909090909,
         "fp_last3_avg": 0.0,
         "fp_lag1": 0.0,
@@ -10745,8 +10831,8 @@
         "opponent_rating": 1.0,
         "player_vs_team_rating": 1.615819209,
         "team_def_rating": 0.7430732092,
-        "PredictedTier": "Boom",
-        "BoomProbability": 49.4,
-        "PredictedPoints": 23.33
+        "PredictedTier": "Average",
+        "BoomProbability": 47.4,
+        "PredictedPoints": 23.51
     }
 ]
