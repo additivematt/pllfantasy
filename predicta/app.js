@@ -83,10 +83,11 @@ async function loadPredictions(year, week) {
         container.innerHTML = `<div class="loading" style="color: #ff4444">${err.message}</div>`;
         const statusEl = document.getElementById('cacheStatus');
         if (statusEl) {
-            statusEl.textContent = '⚡ OFFLINE — data not loaded';
+            statusEl.textContent = '⚡ ERROR — data not loaded';
             statusEl.style.background = 'rgba(245, 101, 101, 0.12)';
             statusEl.style.color = '#f56565';
             statusEl.style.border = '1px solid rgba(245, 101, 101, 0.25)';
+            statusEl.style.display = 'inline-block';
         }
     }
 }
@@ -513,10 +514,11 @@ async function initDashboard() {
         container.innerHTML = `<div class="loading" style="color: #ff4444">${err.message}</div>`;
         const statusEl = document.getElementById('cacheStatus');
         if (statusEl) {
-            statusEl.textContent = '⚡ OFFLINE — data not loaded';
+            statusEl.textContent = '⚡ ERROR — data not loaded';
             statusEl.style.background = 'rgba(245, 101, 101, 0.12)';
             statusEl.style.color = '#f56565';
             statusEl.style.border = '1px solid rgba(245, 101, 101, 0.25)';
+            statusEl.style.display = 'inline-block';
         }
     }
 }

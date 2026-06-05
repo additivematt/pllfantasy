@@ -8,23 +8,6 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <script>
-        // ── Service Worker Registration ────────────────────────────────────────
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js')
-                .then(reg => console.log('[SW] Registered, scope:', reg.scope))
-                .catch(err => console.warn('[SW] Registration failed:', err));
-
-
-            // Listen for messages from the service worker
-            navigator.serviceWorker.addEventListener('message', event => {
-                if (event.data?.type === 'SERVER_REACHABLE') {
-                    showStatus('🟢 ONLINE', '#48bb78');
-                } else if (event.data?.type === 'SERVER_UNREACHABLE') {
-                    showStatus('⚡ OFFLINE — using cached data', '#ecc94b');
-                }
-            });
-        }
-
         // Status pill helper (looks up element dynamically as it runs in head)
         function showStatus(text, color) {
             const statusEl = document.getElementById('cacheStatus');
@@ -36,6 +19,16 @@
                 statusEl.style.border = '1px solid ' + color + '55';
             }
         }
+
+        // Unregister any active service workers to disable caching
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(registrations => {
+                for (let registration of registrations) {
+                    registration.unregister();
+                    console.log('[SW] Unregistered active service worker.');
+                }
+            });
+        }
     </script>
 </head>
 <body>
@@ -44,7 +37,7 @@
             <span class="pll-brand">PLL</span> PREDICTA
             <span class="subtitle" id="subtitle-text">PLL FANTASY PROJECTIONS</span>
         </div>
-        <div id="cacheStatus" style="display:inline-block; font-size:0.7rem; font-weight:700; letter-spacing:1px; padding:4px 10px; border-radius:20px; margin-top: 15px; background: rgba(72, 187, 120, 0.12); color: #48bb78; border: 1px solid rgba(72, 187, 120, 0.25);">🟢 ONLINE</div>
+        <div id="cacheStatus" style="display:none; font-size:0.7rem; font-weight:700; letter-spacing:1px; padding:4px 10px; border-radius:20px; margin-top: 15px; background: rgba(72, 187, 120, 0.12); color: #48bb78; border: 1px solid rgba(72, 187, 120, 0.25);">🟢 ONLINE</div>
     </header>
 
     <div class="controls-container" style="gap: 2rem;">
