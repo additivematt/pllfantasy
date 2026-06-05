@@ -373,9 +373,9 @@ function renderChart(stats, targetOpponents) {
         return `${season} ${eventLabel} (${dateStr}) vs ${opp}`;
     });
     
-    const data = chartStats.map(s => s ? s.f2p.totalPoints : null);
+    const data = chartStats.map(s => (s && !s.isDNP) ? s.f2p.totalPoints : null);
     const backgroundColors = chartStats.map(s => {
-        if (!s) return 'transparent';
+        if (!s || s.isDNP) return 'transparent';
         if (!targetOpponents || targetOpponents.length === 0) return 'rgba(159, 122, 234, 0.2)';
         
         const home = s.event.homeTeam;
@@ -404,6 +404,7 @@ function renderChart(stats, targetOpponents) {
                 pointBackgroundColor: backgroundColors,
                 pointRadius: 5,
                 pointHoverRadius: 8,
+                spanGaps: true,
                 segment: {
                     borderDash: ctx => {
                         const p0 = chartStats[ctx.p0DataIndex];
@@ -530,9 +531,12 @@ function renderTable(stats, targetOpponents) {
         const home = s.event.homeTeam;
         const away = s.event.awayTeam;
         const oppIndex = targetOpponents ? targetOpponents.findIndex(opp => home === opp || away === opp) : -1;
+        const isDNP = s.isDNP === true;
         
         const tr = document.createElement('tr');
-        if (oppIndex !== -1) {
+        if (isDNP) {
+            tr.className = 'dnp-row';
+        } else if (oppIndex !== -1) {
             tr.className = 'relevant';
             // Apply custom coloring for multiple opponents
             if (oppIndex === 0) {
@@ -559,6 +563,10 @@ function renderTable(stats, targetOpponents) {
         
         const costStr = (s.f2p && s.f2p.salary !== undefined && s.f2p.salary !== null) ? `${s.f2p.salary}` : '-';
         
+        const fpVal = isDNP ? 'DNP' : formatPoints(s.f2p.totalPoints);
+        const fpStyle = isDNP ? 'color:var(--text-secondary); opacity: 0.6;' : 'font-weight:700; color:var(--accent-secondary)';
+        const getVal = (val) => isDNP ? '-' : val;
+        
         let cells = '';
         if (position === 'G') {
             cells = `
@@ -566,13 +574,13 @@ function renderTable(stats, targetOpponents) {
                 <td>${eventLabel}</td>
                 <td>${opp}</td>
                 <td style="color:var(--text-secondary); font-weight: 500;">${costStr}</td>
-                <td style="font-weight:700; color:var(--accent-secondary)">${formatPoints(s.f2p.totalPoints)}</td>
-                <td>${s.stats.assists || 0}</td>
-                <td>${s.stats.causedTurnovers || 0}</td>
-                <td>${s.stats.groundBalls || 0}</td>
-                <td>${s.stats.goalsAgainst || 0}</td>
-                <td>${s.stats.saves || 0}</td>
-                <td>${opponentPlayer}</td>
+                <td style="${fpStyle}">${fpVal}</td>
+                <td>${getVal(s.stats.assists || 0)}</td>
+                <td>${getVal(s.stats.causedTurnovers || 0)}</td>
+                <td>${getVal(s.stats.groundBalls || 0)}</td>
+                <td>${getVal(s.stats.goalsAgainst || 0)}</td>
+                <td>${getVal(s.stats.saves || 0)}</td>
+                <td>${isDNP ? '-' : opponentPlayer}</td>
             `;
         } else if (position === 'FO') {
             const fow = s.stats.faceoffsWon || 0;
@@ -583,15 +591,15 @@ function renderTable(stats, targetOpponents) {
                 <td>${eventLabel}</td>
                 <td>${opp}</td>
                 <td style="color:var(--text-secondary); font-weight: 500;">${costStr}</td>
-                <td style="font-weight:700; color:var(--accent-secondary)">${formatPoints(s.f2p.totalPoints)}</td>
-                <td>${s.stats.goals || 0}</td>
-                <td>${s.stats.assists || 0}</td>
-                <td>${s.stats.causedTurnovers || 0}</td>
-                <td>${s.stats.turnovers || 0}</td>
-                <td>${s.stats.groundBalls || 0}</td>
-                <td>${fow}</td>
-                <td>${fol}</td>
-                <td>${opponentPlayer}</td>
+                <td style="${fpStyle}">${fpVal}</td>
+                <td>${getVal(s.stats.goals || 0)}</td>
+                <td>${getVal(s.stats.assists || 0)}</td>
+                <td>${getVal(s.stats.causedTurnovers || 0)}</td>
+                <td>${getVal(s.stats.turnovers || 0)}</td>
+                <td>${getVal(s.stats.groundBalls || 0)}</td>
+                <td>${getVal(fow)}</td>
+                <td>${getVal(fol)}</td>
+                <td>${isDNP ? '-' : opponentPlayer}</td>
             `;
         } else {
             cells = `
@@ -599,14 +607,14 @@ function renderTable(stats, targetOpponents) {
                 <td>${eventLabel}</td>
                 <td>${opp}</td>
                 <td style="color:var(--text-secondary); font-weight: 500;">${costStr}</td>
-                <td style="font-weight:700; color:var(--accent-secondary)">${formatPoints(s.f2p.totalPoints)}</td>
-                <td>${s.stats.goals || 0}</td>
-                <td>${s.stats.assists || 0}</td>
-                <td>${s.stats.causedTurnovers || 0}</td>
-                <td>${s.stats.turnovers || 0}</td>
-                <td>${s.stats.groundBalls || 0}</td>
-                <td>${s.stats.touches || 0}</td>
-                <td>${opponentPlayer}</td>
+                <td style="${fpStyle}">${fpVal}</td>
+                <td>${getVal(s.stats.goals || 0)}</td>
+                <td>${getVal(s.stats.assists || 0)}</td>
+                <td>${getVal(s.stats.causedTurnovers || 0)}</td>
+                <td>${getVal(s.stats.turnovers || 0)}</td>
+                <td>${getVal(s.stats.groundBalls || 0)}</td>
+                <td>${getVal(s.stats.touches || 0)}</td>
+                <td>${isDNP ? '-' : opponentPlayer}</td>
             `;
         }
         

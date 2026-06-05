@@ -126,6 +126,16 @@ All optimizers target the core F2P roster requirements (select exactly 7 players
 
 ---
 
+## ⚠️ Critical Rule: Roster Filtering & Fallback
+
+Official gameday rosters are fetched dynamically from the official stats API for the target week:
+- **API Endpoint**: `https://api.stats.premierlacrosseleague.com/api/v4/events/gameday-rosters?year=YYYY&week=W`
+- **Source Web Page**: [https://premierlacrosseleague.com/gameday-rosters](https://premierlacrosseleague.com/gameday-rosters)
+- **Early-Week Fallback**: Because official rosters are only published ~24 hours before game time, running the predictions pipeline early in the week would normally filter out all players (leaving an empty dataset). To prevent this, the filter script (`apply_roster_filter.py`) implements a fallback: if the REST API returns no roster data, the filter step is bypassed with a warning, keeping the unfiltered predictions intact so that lineup optimization can run using historical rosters.
+- **Trade Resolution**: When active rosters are loaded, players who have been traded (e.g., Ryan Croddick from Outlaws to Redwoods) are dynamically detected on their new team's roster. Their team code, opponent code, and `game_id` are automatically updated to match their new franchise's game details before final lineup optimization.
+
+---
+
 ## ⚠️ Critical Rule: Data Leakage Prevention (Chronological Training)
 
 To prevent data leakage (a "time machine" effect), **the model must only be trained on chronological events occurring prior to the target prediction week**. 

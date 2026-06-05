@@ -296,6 +296,12 @@ tr.relevant td:first-child {
     border-left: 4px solid var(--accent-color);
 }
 
+tr.dnp-row td {
+    opacity: 0.45;
+    font-style: italic;
+    color: var(--text-secondary);
+}
+
 @media (max-width: 900px) {
     .dashboard-grid {
         grid-template-columns: 1fr;
