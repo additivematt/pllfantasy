@@ -1,12 +1,12 @@
-const CACHE_VERSION = 'predicta-v7';
-const DATA_CACHE = 'predicta-data-v7';
+const CACHE_VERSION = 'predicta-v8';
+const DATA_CACHE = 'predicta-data-v8';
 
 // App shell assets — cache on install, serve cache-first
 const APP_SHELL = [
     './',
     'index.html',
     'style.css',
-    'app.js?v=9',
+    'app.js?v=10',
     'https://cdn.plot.ly/plotly-2.32.0.min.js',
     'https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap'
 ];
@@ -24,7 +24,7 @@ self.addEventListener('install', event => {
                 );
             }),
             caches.open(DATA_CACHE).then(async cache => {
-                console.log('[SW] Pre-caching all available predictions');
+                console.log('[SW] Pre-caching all available predictions and advisories');
                 try {
                     const response = await fetch('predictions/available');
                     if (response.ok) {
@@ -32,15 +32,21 @@ self.addEventListener('install', event => {
                         await cache.put('predictions/available', response.clone());
                         
                         const available = await response.json();
-                        // Cache each week's predictions dynamically
-                        const fetchPromises = available.map(period => {
-                            const url = `predictions/${period.year}/${period.week}`;
-                            return cache.add(url).catch(err => {
-                                console.warn('[SW] Failed to cache prediction period:', url, err);
-                            });
+                        // Cache each week's predictions and advisories dynamically
+                        const fetchPromises = available.flatMap(period => {
+                            const predUrl = `predictions/${period.year}/${period.week}`;
+                            const advUrl = `advisory/${period.year}/${period.week}`;
+                            return [
+                                cache.add(predUrl).catch(err => {
+                                    console.warn('[SW] Failed to cache prediction period:', predUrl, err);
+                                }),
+                                cache.add(advUrl).catch(err => {
+                                    console.warn('[SW] Failed to cache advisory period:', advUrl, err);
+                                })
+                            ];
                         });
                         await Promise.all(fetchPromises);
-                        console.log('[SW] Successfully pre-cached all available prediction periods!');
+                        console.log('[SW] Successfully pre-cached all available predictions and advisories!');
                     }
                 } catch (err) {
                     console.warn('[SW] Failed to pre-cache predictions data:', err);
@@ -71,8 +77,8 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
     const url = new URL(event.request.url);
 
-    // Strategy 1: predictions/available or predictions/YYYY/W → Stale-While-Revalidate
-    if (url.pathname.includes('/predictions/')) {
+    // Strategy 1: predictions/available, predictions/YYYY/W, or advisory/YYYY/W → Stale-While-Revalidate
+    if (url.pathname.includes('/predictions/') || url.pathname.includes('/advisory/')) {
         event.respondWith(staleWhileRevalidate(event.request, DATA_CACHE));
         return;
     }
