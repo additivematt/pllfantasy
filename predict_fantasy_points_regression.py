@@ -556,18 +556,32 @@ def main():
         t_inactive_count = 0
         t_total_exp_touches = 0.0
 
+        team_roster_players = roster[roster["team"] == team_id]
         gameday_players = api_roster_by_team.get(team_id, [])
         if gameday_players:
+            # Build set of active gameday player names for quick lookup
+            active_gameday_names = set()
             for gp in gameday_players:
-                fn = clean_name(gp.get("firstName", ""))
-                ln = clean_name(gp.get("lastName", ""))
+                rs = gp.get("rosterStatus", "active")
+                if rs in ("active", "starter"):
+                    fn = clean_name(gp.get("firstName", ""))
+                    ln = clean_name(gp.get("lastName", ""))
+                    active_gameday_names.add((fn, ln))
+
+            for _, r_row in team_roster_players.iterrows():
+                fn = clean_name(r_row["firstName"])
+                ln = clean_name(r_row["lastName"])
+                # Match to p_avgs for this player
                 matched = p_avgs[(p_avgs["firstName"].apply(clean_name) == fn) & (p_avgs["lastName"].apply(clean_name) == ln)]
-                if matched.empty: continue
+                if matched.empty:
+                    continue
                 r = matched.iloc[0]
                 exp_touches = float(r.get("touches_season_avg", 0) or 0)
                 t_total_exp_touches += exp_touches
-                rs = gp.get("rosterStatus", "active")
-                if rs not in ("active", "starter"):
+                
+                # Check if active
+                is_active = (fn, ln) in active_gameday_names
+                if not is_active:
                     t_vacated_touch += exp_touches
                     fp_avg = float(r.get("fp_season_avg", 0) or 0)
                     t_inactive_fp_sum += fp_avg
@@ -656,7 +670,7 @@ def main():
 
     if preds_out:
         df_o = pd.DataFrame(preds_out)
-        oP = os.path.join(sDir, f"week{args.week}_{args.year}_predictions_regression.csv")
+        oP = os.path.join(sDir, f"week{args.week}_{args.year}_predictions_regression_raw.csv")
         df_o.to_csv(oP, index=False)
         print(f"Saved {len(df_o)} regression predictions to {oP}")
     else:
