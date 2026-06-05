@@ -8,21 +8,9 @@
             "game_id": "2025_quarterfinal_1",
             "position": "Attack",
             "salary": 48,
-            "EV": 54.9,
+            "EV": 54.6,
             "ceiling": 20.0,
-            "boom": 99.8
-        },
-        {
-            "firstName": "Chris",
-            "lastName": "Kavanagh",
-            "team": "RED",
-            "opponent": "CHA",
-            "game_id": "2025_quarterfinal_2",
-            "position": "Attack",
-            "salary": 36,
-            "EV": 48.7,
-            "ceiling": 10.2,
-            "boom": 83.2
+            "boom": 99.1
         },
         {
             "firstName": "Emmet",
@@ -37,6 +25,18 @@
             "boom": 98.3
         },
         {
+            "firstName": "Aidan",
+            "lastName": "Carroll",
+            "team": "WHP",
+            "opponent": "WAT",
+            "game_id": "2025_quarterfinal_1",
+            "position": "Attack",
+            "salary": 27,
+            "EV": 44.1,
+            "ceiling": 20.4,
+            "boom": 71.0
+        },
+        {
             "firstName": "Matt",
             "lastName": "Brandau",
             "team": "WHP",
@@ -44,9 +44,9 @@
             "game_id": "2025_quarterfinal_1",
             "position": "Midfield",
             "salary": 21,
-            "EV": 36.9,
-            "ceiling": 22.2,
-            "boom": 97.8
+            "EV": 37.4,
+            "ceiling": 21.9,
+            "boom": 99.5
         },
         {
             "firstName": "Zach",
@@ -56,9 +56,9 @@
             "game_id": "2025_quarterfinal_1",
             "position": "Midfield",
             "salary": 22,
-            "EV": 34.9,
-            "ceiling": 14.5,
-            "boom": 91.1
+            "EV": 36.0,
+            "ceiling": 14.4,
+            "boom": 94.7
         },
         {
             "firstName": "Ray",
@@ -87,18 +87,6 @@
     ],
     "Ceiling": [
         {
-            "firstName": "Matt",
-            "lastName": "Brandau",
-            "team": "WHP",
-            "opponent": "WAT",
-            "game_id": "2025_quarterfinal_1",
-            "position": "Midfield",
-            "salary": 21,
-            "EV": 36.9,
-            "ceiling": 22.2,
-            "boom": 97.8
-        },
-        {
             "firstName": "Emmet",
             "lastName": "Carroll",
             "team": "WHP",
@@ -111,6 +99,18 @@
             "boom": 98.3
         },
         {
+            "firstName": "Matt",
+            "lastName": "Brandau",
+            "team": "WHP",
+            "opponent": "WAT",
+            "game_id": "2025_quarterfinal_1",
+            "position": "Midfield",
+            "salary": 21,
+            "EV": 37.4,
+            "ceiling": 21.9,
+            "boom": 99.5
+        },
+        {
             "firstName": "Andrew",
             "lastName": "McAdorey",
             "team": "RED",
@@ -118,9 +118,9 @@
             "game_id": "2025_quarterfinal_2",
             "position": "Midfield",
             "salary": 32,
-            "EV": 36.8,
-            "ceiling": 21.9,
-            "boom": 97.3
+            "EV": 34.7,
+            "ceiling": 21.5,
+            "boom": 90.4
         },
         {
             "firstName": "Rob",
@@ -130,9 +130,9 @@
             "game_id": "2025_quarterfinal_1",
             "position": "Attack",
             "salary": 28,
-            "EV": 42.4,
-            "ceiling": 20.5,
-            "boom": 66.5
+            "EV": 33.3,
+            "ceiling": 20.4,
+            "boom": 42.3
         },
         {
             "firstName": "Aidan",
@@ -142,9 +142,9 @@
             "game_id": "2025_quarterfinal_1",
             "position": "Attack",
             "salary": 27,
-            "EV": 43.1,
+            "EV": 44.1,
             "ceiling": 20.4,
-            "boom": 68.4
+            "boom": 71.0
         },
         {
             "firstName": "Marcus",
@@ -173,6 +173,18 @@
     ],
     "StackedBoom": [
         {
+            "firstName": "Matt",
+            "lastName": "Brandau",
+            "team": "WHP",
+            "opponent": "WAT",
+            "game_id": "2025_quarterfinal_1",
+            "position": "Midfield",
+            "salary": 21,
+            "EV": 37.4,
+            "ceiling": 21.9,
+            "boom": 99.5
+        },
+        {
             "firstName": "Michael",
             "lastName": "Sowers",
             "team": "WAT",
@@ -180,9 +192,9 @@
             "game_id": "2025_quarterfinal_1",
             "position": "Attack",
             "salary": 48,
-            "EV": 54.9,
+            "EV": 54.6,
             "ceiling": 20.0,
-            "boom": 99.8
+            "boom": 99.1
         },
         {
             "firstName": "Emmet",
@@ -204,9 +216,9 @@
             "game_id": "2025_quarterfinal_1",
             "position": "Midfield",
             "salary": 22,
-            "EV": 34.9,
-            "ceiling": 14.5,
-            "boom": 91.1
+            "EV": 36.0,
+            "ceiling": 14.4,
+            "boom": 94.7
         },
         {
             "firstName": "Ray",
@@ -221,28 +233,16 @@
             "boom": 74.9
         },
         {
-            "firstName": "Kieran",
-            "lastName": "McArdle",
-            "team": "WAT",
-            "opponent": "WHP",
+            "firstName": "Aidan",
+            "lastName": "Carroll",
+            "team": "WHP",
+            "opponent": "WAT",
             "game_id": "2025_quarterfinal_1",
             "position": "Attack",
-            "salary": 38,
-            "EV": 45.0,
-            "ceiling": 19.7,
-            "boom": 73.5
-        },
-        {
-            "firstName": "Connor",
-            "lastName": "Kelly",
-            "team": "WAT",
-            "opponent": "WHP",
-            "game_id": "2025_quarterfinal_1",
-            "position": "Midfield",
-            "salary": 20,
-            "EV": 29.1,
-            "ceiling": 11.8,
-            "boom": 71.8
+            "salary": 27,
+            "EV": 44.1,
+            "ceiling": 20.4,
+            "boom": 71.0
         },
         {
             "firstName": "TD",
@@ -259,18 +259,6 @@
     ],
     "StackedReg": [
         {
-            "firstName": "Matt",
-            "lastName": "Brandau",
-            "team": "WHP",
-            "opponent": "WAT",
-            "game_id": "2025_quarterfinal_1",
-            "position": "Midfield",
-            "salary": 21,
-            "EV": 36.9,
-            "ceiling": 22.2,
-            "boom": 97.8
-        },
-        {
             "firstName": "Emmet",
             "lastName": "Carroll",
             "team": "WHP",
@@ -283,6 +271,18 @@
             "boom": 98.3
         },
         {
+            "firstName": "Matt",
+            "lastName": "Brandau",
+            "team": "WHP",
+            "opponent": "WAT",
+            "game_id": "2025_quarterfinal_1",
+            "position": "Midfield",
+            "salary": 21,
+            "EV": 37.4,
+            "ceiling": 21.9,
+            "boom": 99.5
+        },
+        {
             "firstName": "TJ",
             "lastName": "Malone",
             "team": "WHP",
@@ -290,9 +290,9 @@
             "game_id": "2025_quarterfinal_1",
             "position": "Attack",
             "salary": 44,
-            "EV": 51.1,
+            "EV": 49.3,
             "ceiling": 21.0,
-            "boom": 89.7
+            "boom": 85.0
         },
         {
             "firstName": "Rob",
@@ -302,9 +302,9 @@
             "game_id": "2025_quarterfinal_1",
             "position": "Attack",
             "salary": 28,
-            "EV": 42.4,
-            "ceiling": 20.5,
-            "boom": 66.5
+            "EV": 33.3,
+            "ceiling": 20.4,
+            "boom": 42.3
         },
         {
             "firstName": "Colin",
@@ -314,9 +314,9 @@
             "game_id": "2025_quarterfinal_1",
             "position": "Midfield",
             "salary": 20,
-            "EV": 23.5,
+            "EV": 24.4,
             "ceiling": 17.6,
-            "boom": 53.1
+            "boom": 55.9
         },
         {
             "firstName": "TD",
@@ -345,6 +345,7 @@
     ],
     "Core": [
         "Emmet Carroll",
+        "Aidan Carroll",
         "Matt Brandau",
         "Ray Dearth",
         "TD Ierlan"

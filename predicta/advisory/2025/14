@@ -1,18 +1,6 @@
 {
     "Cash": [
         {
-            "firstName": "Jeff",
-            "lastName": "Teat",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2025_championship_game",
-            "position": "Attack",
-            "salary": 46,
-            "EV": 52.4,
-            "ceiling": 6.6,
-            "boom": 92.5
-        },
-        {
             "firstName": "Liam",
             "lastName": "Entenmann",
             "team": "ATL",
@@ -25,18 +13,6 @@
             "boom": 72.5
         },
         {
-            "firstName": "Logan",
-            "lastName": "Wisnauskas",
-            "team": "OUT",
-            "opponent": "ATL",
-            "game_id": "2025_championship_game",
-            "position": "Attack",
-            "salary": 24,
-            "EV": 39.8,
-            "ceiling": 18.9,
-            "boom": 59.0
-        },
-        {
             "firstName": "Jared",
             "lastName": "Bernhardt",
             "team": "OUT",
@@ -44,9 +20,9 @@
             "game_id": "2025_championship_game",
             "position": "Midfield",
             "salary": 16,
-            "EV": 37.1,
+            "EV": 36.5,
             "ceiling": 22.1,
-            "boom": 99.2
+            "boom": 97.2
         },
         {
             "firstName": "Bryan",
@@ -56,9 +32,33 @@
             "game_id": "2025_championship_game",
             "position": "Midfield",
             "salary": 28,
-            "EV": 36.3,
-            "ceiling": 22.1,
-            "boom": 96.5
+            "EV": 35.2,
+            "ceiling": 21.9,
+            "boom": 93.1
+        },
+        {
+            "firstName": "Jeff",
+            "lastName": "Teat",
+            "team": "ATL",
+            "opponent": "OUT",
+            "game_id": "2025_championship_game",
+            "position": "Attack",
+            "salary": 46,
+            "EV": 30.8,
+            "ceiling": 8.5,
+            "boom": 35.0
+        },
+        {
+            "firstName": "Logan",
+            "lastName": "Wisnauskas",
+            "team": "OUT",
+            "opponent": "ATL",
+            "game_id": "2025_championship_game",
+            "position": "Attack",
+            "salary": 24,
+            "EV": 29.2,
+            "ceiling": 18.9,
+            "boom": 30.7
         },
         {
             "firstName": "Luke",
@@ -106,9 +106,9 @@
             "game_id": "2025_championship_game",
             "position": "Midfield",
             "salary": 16,
-            "EV": 37.1,
+            "EV": 36.5,
             "ceiling": 22.1,
-            "boom": 99.2
+            "boom": 97.2
         },
         {
             "firstName": "Bryan",
@@ -118,9 +118,9 @@
             "game_id": "2025_championship_game",
             "position": "Midfield",
             "salary": 28,
-            "EV": 36.3,
-            "ceiling": 22.1,
-            "boom": 96.5
+            "EV": 35.2,
+            "ceiling": 21.9,
+            "boom": 93.1
         },
         {
             "firstName": "Logan",
@@ -130,9 +130,9 @@
             "game_id": "2025_championship_game",
             "position": "Attack",
             "salary": 24,
-            "EV": 39.8,
+            "EV": 29.2,
             "ceiling": 18.9,
-            "boom": 59.0
+            "boom": 30.7
         },
         {
             "firstName": "Brennan",
@@ -142,9 +142,9 @@
             "game_id": "2025_championship_game",
             "position": "Attack",
             "salary": 40,
-            "EV": 20.9,
+            "EV": 22.4,
             "ceiling": 18.2,
-            "boom": 8.7
+            "boom": 12.7
         },
         {
             "firstName": "Jesse",
@@ -180,33 +180,21 @@
             "game_id": "2025_championship_game",
             "position": "Midfield",
             "salary": 16,
-            "EV": 37.1,
+            "EV": 36.5,
             "ceiling": 22.1,
-            "boom": 99.2
+            "boom": 97.2
         },
         {
-            "firstName": "Bryan",
-            "lastName": "Costabile",
-            "team": "ATL",
-            "opponent": "OUT",
+            "firstName": "Jonathan",
+            "lastName": "Donville",
+            "team": "OUT",
+            "opponent": "ATL",
             "game_id": "2025_championship_game",
             "position": "Midfield",
-            "salary": 28,
-            "EV": 36.3,
-            "ceiling": 22.1,
-            "boom": 96.5
-        },
-        {
-            "firstName": "Jeff",
-            "lastName": "Teat",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2025_championship_game",
-            "position": "Attack",
-            "salary": 46,
-            "EV": 52.4,
-            "ceiling": 6.6,
-            "boom": 92.5
+            "salary": 10,
+            "EV": 34.4,
+            "ceiling": 18.6,
+            "boom": 90.2
         },
         {
             "firstName": "Brett",
@@ -233,18 +221,6 @@
             "boom": 72.5
         },
         {
-            "firstName": "Logan",
-            "lastName": "Wisnauskas",
-            "team": "OUT",
-            "opponent": "ATL",
-            "game_id": "2025_championship_game",
-            "position": "Attack",
-            "salary": 24,
-            "EV": 39.8,
-            "ceiling": 18.9,
-            "boom": 59.0
-        },
-        {
             "firstName": "Luke",
             "lastName": "Wierman",
             "team": "OUT",
@@ -255,6 +231,30 @@
             "EV": 21.8,
             "ceiling": 14.5,
             "boom": 51.0
+        },
+        {
+            "firstName": "Jeff",
+            "lastName": "Teat",
+            "team": "ATL",
+            "opponent": "OUT",
+            "game_id": "2025_championship_game",
+            "position": "Attack",
+            "salary": 46,
+            "EV": 30.8,
+            "ceiling": 8.5,
+            "boom": 35.0
+        },
+        {
+            "firstName": "Logan",
+            "lastName": "Wisnauskas",
+            "team": "OUT",
+            "opponent": "ATL",
+            "game_id": "2025_championship_game",
+            "position": "Attack",
+            "salary": 24,
+            "EV": 29.2,
+            "ceiling": 18.9,
+            "boom": 30.7
         }
     ],
     "StackedReg": [
@@ -278,9 +278,9 @@
             "game_id": "2025_championship_game",
             "position": "Midfield",
             "salary": 16,
-            "EV": 37.1,
+            "EV": 36.5,
             "ceiling": 22.1,
-            "boom": 99.2
+            "boom": 97.2
         },
         {
             "firstName": "Logan",
@@ -290,9 +290,9 @@
             "game_id": "2025_championship_game",
             "position": "Attack",
             "salary": 24,
-            "EV": 39.8,
+            "EV": 29.2,
             "ceiling": 18.9,
-            "boom": 59.0
+            "boom": 30.7
         },
         {
             "firstName": "Jonathan",
@@ -302,9 +302,9 @@
             "game_id": "2025_championship_game",
             "position": "Midfield",
             "salary": 10,
-            "EV": 28.8,
+            "EV": 34.4,
             "ceiling": 18.6,
-            "boom": 71.5
+            "boom": 90.2
         },
         {
             "firstName": "Brennan",
@@ -314,9 +314,9 @@
             "game_id": "2025_championship_game",
             "position": "Attack",
             "salary": 40,
-            "EV": 20.9,
+            "EV": 22.4,
             "ceiling": 18.2,
-            "boom": 8.7
+            "boom": 12.7
         },
         {
             "firstName": "Zach",
@@ -345,9 +345,8 @@
     ],
     "Core": [
         "Liam Entenmann",
-        "Logan Wisnauskas",
         "Jared Bernhardt",
-        "Bryan Costabile",
+        "Logan Wisnauskas",
         "Luke Wierman"
     ],
     "Sleepers": [

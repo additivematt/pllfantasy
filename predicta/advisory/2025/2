@@ -1,18 +1,6 @@
 {
     "Cash": [
         {
-            "firstName": "Aidan",
-            "lastName": "Carroll",
-            "team": "WHP",
-            "opponent": "WAT",
-            "game_id": "2025-ev-6",
-            "position": "Attack",
-            "salary": 19,
-            "EV": 53.8,
-            "ceiling": 23.6,
-            "boom": 97.9
-        },
-        {
             "firstName": "Rob",
             "lastName": "Pannell",
             "team": "WHP",
@@ -20,9 +8,21 @@
             "game_id": "2025-ev-6",
             "position": "Attack",
             "salary": 35,
-            "EV": 52.6,
+            "EV": 53.6,
             "ceiling": 22.9,
-            "boom": 94.6
+            "boom": 97.2
+        },
+        {
+            "firstName": "Aidan",
+            "lastName": "Carroll",
+            "team": "WHP",
+            "opponent": "WAT",
+            "game_id": "2025-ev-6",
+            "position": "Attack",
+            "salary": 19,
+            "EV": 53.0,
+            "ceiling": 23.6,
+            "boom": 95.7
         },
         {
             "firstName": "Owen",
@@ -45,8 +45,8 @@
             "position": "Midfield",
             "salary": 19,
             "EV": 38.0,
-            "ceiling": 23.8,
-            "boom": 99.9
+            "ceiling": 22.6,
+            "boom": 99.8
         },
         {
             "firstName": "Matt",
@@ -56,9 +56,9 @@
             "game_id": "2025-ev-7",
             "position": "Midfield",
             "salary": 38,
-            "EV": 37.9,
+            "EV": 38.0,
             "ceiling": 22.9,
-            "boom": 99.5
+            "boom": 99.7
         },
         {
             "firstName": "TD",
@@ -87,18 +87,6 @@
     ],
     "Ceiling": [
         {
-            "firstName": "Matt",
-            "lastName": "Brandau",
-            "team": "WHP",
-            "opponent": "WAT",
-            "game_id": "2025-ev-6",
-            "position": "Midfield",
-            "salary": 19,
-            "EV": 38.0,
-            "ceiling": 23.8,
-            "boom": 99.9
-        },
-        {
             "firstName": "Aidan",
             "lastName": "Carroll",
             "team": "WHP",
@@ -106,9 +94,9 @@
             "game_id": "2025-ev-6",
             "position": "Attack",
             "salary": 19,
-            "EV": 53.8,
+            "EV": 53.0,
             "ceiling": 23.6,
-            "boom": 97.9
+            "boom": 95.7
         },
         {
             "firstName": "Matt",
@@ -118,9 +106,9 @@
             "game_id": "2025-ev-7",
             "position": "Midfield",
             "salary": 38,
-            "EV": 37.9,
+            "EV": 38.0,
             "ceiling": 22.9,
-            "boom": 99.5
+            "boom": 99.7
         },
         {
             "firstName": "Rob",
@@ -130,9 +118,21 @@
             "game_id": "2025-ev-6",
             "position": "Attack",
             "salary": 35,
-            "EV": 52.6,
+            "EV": 53.6,
             "ceiling": 22.9,
-            "boom": 94.6
+            "boom": 97.2
+        },
+        {
+            "firstName": "Matt",
+            "lastName": "Brandau",
+            "team": "WHP",
+            "opponent": "WAT",
+            "game_id": "2025-ev-6",
+            "position": "Midfield",
+            "salary": 19,
+            "EV": 38.0,
+            "ceiling": 22.6,
+            "boom": 99.8
         },
         {
             "firstName": "Kenny",
@@ -181,8 +181,8 @@
             "position": "Midfield",
             "salary": 19,
             "EV": 38.0,
-            "ceiling": 23.8,
-            "boom": 99.9
+            "ceiling": 22.6,
+            "boom": 99.8
         },
         {
             "firstName": "Matt",
@@ -192,9 +192,9 @@
             "game_id": "2025-ev-7",
             "position": "Midfield",
             "salary": 38,
-            "EV": 37.9,
+            "EV": 38.0,
             "ceiling": 22.9,
-            "boom": 99.5
+            "boom": 99.7
         },
         {
             "firstName": "Nick",
@@ -209,18 +209,6 @@
             "boom": 98.2
         },
         {
-            "firstName": "Aidan",
-            "lastName": "Carroll",
-            "team": "WHP",
-            "opponent": "WAT",
-            "game_id": "2025-ev-6",
-            "position": "Attack",
-            "salary": 19,
-            "EV": 53.8,
-            "ceiling": 23.6,
-            "boom": 97.9
-        },
-        {
             "firstName": "Rob",
             "lastName": "Pannell",
             "team": "WHP",
@@ -228,9 +216,21 @@
             "game_id": "2025-ev-6",
             "position": "Attack",
             "salary": 35,
-            "EV": 52.6,
+            "EV": 53.6,
             "ceiling": 22.9,
-            "boom": 94.6
+            "boom": 97.2
+        },
+        {
+            "firstName": "Aidan",
+            "lastName": "Carroll",
+            "team": "WHP",
+            "opponent": "WAT",
+            "game_id": "2025-ev-6",
+            "position": "Attack",
+            "salary": 19,
+            "EV": 53.0,
+            "ceiling": 23.6,
+            "boom": 95.7
         },
         {
             "firstName": "Owen",
@@ -259,18 +259,6 @@
     ],
     "StackedReg": [
         {
-            "firstName": "Matt",
-            "lastName": "Brandau",
-            "team": "WHP",
-            "opponent": "WAT",
-            "game_id": "2025-ev-6",
-            "position": "Midfield",
-            "salary": 19,
-            "EV": 38.0,
-            "ceiling": 23.8,
-            "boom": 99.9
-        },
-        {
             "firstName": "Aidan",
             "lastName": "Carroll",
             "team": "WHP",
@@ -278,9 +266,9 @@
             "game_id": "2025-ev-6",
             "position": "Attack",
             "salary": 19,
-            "EV": 53.8,
+            "EV": 53.0,
             "ceiling": 23.6,
-            "boom": 97.9
+            "boom": 95.7
         },
         {
             "firstName": "Matt",
@@ -290,9 +278,9 @@
             "game_id": "2025-ev-7",
             "position": "Midfield",
             "salary": 38,
-            "EV": 37.9,
+            "EV": 38.0,
             "ceiling": 22.9,
-            "boom": 99.5
+            "boom": 99.7
         },
         {
             "firstName": "Rob",
@@ -302,9 +290,21 @@
             "game_id": "2025-ev-6",
             "position": "Attack",
             "salary": 35,
-            "EV": 52.6,
+            "EV": 53.6,
             "ceiling": 22.9,
-            "boom": 94.6
+            "boom": 97.2
+        },
+        {
+            "firstName": "Matt",
+            "lastName": "Brandau",
+            "team": "WHP",
+            "opponent": "WAT",
+            "game_id": "2025-ev-6",
+            "position": "Midfield",
+            "salary": 19,
+            "EV": 38.0,
+            "ceiling": 22.6,
+            "boom": 99.8
         },
         {
             "firstName": "Kenny",
@@ -344,8 +344,8 @@
         }
     ],
     "Core": [
-        "Aidan Carroll",
         "Rob Pannell",
+        "Aidan Carroll",
         "Matt Brandau",
         "Matt Campbell"
     ],

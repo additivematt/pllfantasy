@@ -384,6 +384,11 @@ tr.dnp-row td {
     color: #4fd1c5;
 }
 
+#playerSearch2:focus {
+    border-color: #4fd1c5;
+    box-shadow: 0 0 0 2px rgba(79, 209, 197, 0.15);
+}
+
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-5px); }
     to { opacity: 1; transform: translateY(0); }

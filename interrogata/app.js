@@ -255,7 +255,7 @@ function updateDashboard() {
         if (compareMiniCard) compareMiniCard.style.display = 'none';
     }
     
-    // Determine target opponents dynamically
+    // Determine target opponents dynamically for Player 1
     const year = document.getElementById('yearSelect').value;
     const week = document.getElementById('weekSelect').value;
     let targetOpponents = [];
@@ -274,9 +274,27 @@ function updateDashboard() {
             }
         });
     }
+
+    // Determine target opponents dynamically for Player 2
+    let targetOpponents2 = [];
+    if (compareData && year && week) {
+        const targetGames2 = compareData.stats.filter(s => {
+            const sYear = s.event.eventId.split('_')[0];
+            return sYear === year && s.week === parseInt(week);
+        });
+        
+        targetGames2.forEach(tg => {
+            const opp = getOpponentCode(tg, compareData.player.team);
+            if (opp) {
+                if (!targetOpponents2.includes(opp)) {
+                    targetOpponents2.push(opp);
+                }
+            }
+        });
+    }
     
     renderMatchupContext(targetOpponents);
-    renderChart(stats, compareData ? compareData.stats : null, targetOpponents, player.name, compareData ? compareData.player.name : '');
+    renderChart(stats, compareData ? compareData.stats : null, targetOpponents, targetOpponents2, player.name, compareData ? compareData.player.name : '');
     renderTable(stats, targetOpponents);
 }
 
@@ -400,7 +418,7 @@ function renderMatchupContext(targetOpponents) {
     });
 }
 
-function renderChart(stats, stats2, targetOpponents, player1Name, player2Name) {
+function renderChart(stats, stats2, targetOpponents, targetOpponents2, player1Name, player2Name) {
     const ctx = document.getElementById('fantasyChart').getContext('2d');
     
     if (!stats2) {
@@ -616,13 +634,13 @@ function renderChart(stats, stats2, targetOpponents, player1Name, player2Name) {
             chartStatsForGrid2.push(s2);
         });
 
-        const getPointBackgrounds = (chartStats, primaryColor) => {
+        const getPointBackgrounds = (chartStats, primaryColor, targetOpps) => {
             return chartStats.map(s => {
                 if (!s || s.isDNP) return 'transparent';
-                if (!targetOpponents || targetOpponents.length === 0) return primaryColor;
+                if (!targetOpps || targetOpps.length === 0) return primaryColor;
                 
                 const opp = getOpponentCode(s, s.identity.team);
-                const oppIndex = targetOpponents.findIndex(o => opp === o);
+                const oppIndex = targetOpps.findIndex(o => opp === o);
                 
                 if (oppIndex === 0) return 'rgba(236, 201, 75, 0.8)'; // Gold
                 if (oppIndex === 1) return 'rgba(79, 209, 197, 0.8)'; // Cyan
@@ -632,8 +650,8 @@ function renderChart(stats, stats2, targetOpponents, player1Name, player2Name) {
             });
         };
 
-        const backgrounds1 = getPointBackgrounds(chartStatsForGrid1, 'rgba(159, 122, 234, 0.2)');
-        const backgrounds2 = getPointBackgrounds(chartStatsForGrid2, 'rgba(79, 209, 197, 0.2)');
+        const backgrounds1 = getPointBackgrounds(chartStatsForGrid1, 'rgba(159, 122, 234, 0.2)', targetOpponents);
+        const backgrounds2 = getPointBackgrounds(chartStatsForGrid2, 'rgba(79, 209, 197, 0.2)', targetOpponents2);
 
         const segmentHelper = (ctx, isDash) => {
             const datasetIndex = ctx.datasetIndex;

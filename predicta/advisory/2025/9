@@ -1,30 +1,6 @@
 {
     "Cash": [
         {
-            "firstName": "TJ",
-            "lastName": "Malone",
-            "team": "WHP",
-            "opponent": "ATL",
-            "game_id": "2025-ev-32",
-            "position": "Attack",
-            "salary": 42,
-            "EV": 52.2,
-            "ceiling": 24.2,
-            "boom": 93.3
-        },
-        {
-            "firstName": "Aidan",
-            "lastName": "Carroll",
-            "team": "WHP",
-            "opponent": "ATL",
-            "game_id": "2025-ev-32",
-            "position": "Attack",
-            "salary": 29,
-            "EV": 51.7,
-            "ceiling": 24.2,
-            "boom": 92.0
-        },
-        {
             "firstName": "Emmet",
             "lastName": "Carroll",
             "team": "WHP",
@@ -37,6 +13,30 @@
             "boom": 99.8
         },
         {
+            "firstName": "Aidan",
+            "lastName": "Carroll",
+            "team": "WHP",
+            "opponent": "ATL",
+            "game_id": "2025-ev-32",
+            "position": "Attack",
+            "salary": 29,
+            "EV": 47.1,
+            "ceiling": 23.5,
+            "boom": 79.7
+        },
+        {
+            "firstName": "TJ",
+            "lastName": "Malone",
+            "team": "WHP",
+            "opponent": "ATL",
+            "game_id": "2025-ev-32",
+            "position": "Attack",
+            "salary": 42,
+            "EV": 47.0,
+            "ceiling": 23.6,
+            "boom": 79.6
+        },
+        {
             "firstName": "Colin",
             "lastName": "Heacock",
             "team": "WHP",
@@ -44,21 +44,21 @@
             "game_id": "2025-ev-32",
             "position": "Midfield",
             "salary": 20,
-            "EV": 35.9,
+            "EV": 36.0,
             "ceiling": 21.4,
-            "boom": 92.7
+            "boom": 93.1
         },
         {
-            "firstName": "Jared",
-            "lastName": "Bernhardt",
-            "team": "OUT",
-            "opponent": "ARC",
-            "game_id": "2025-ev-34",
+            "firstName": "Zach",
+            "lastName": "Currier",
+            "team": "WAT",
+            "opponent": "CHA",
+            "game_id": "2025-ev-33",
             "position": "Midfield",
-            "salary": 17,
-            "EV": 34.2,
-            "ceiling": 19.3,
-            "boom": 87.2
+            "salary": 19,
+            "EV": 35.4,
+            "ceiling": 11.1,
+            "boom": 91.2
         },
         {
             "firstName": "Christian",
@@ -106,9 +106,9 @@
             "game_id": "2025-ev-32",
             "position": "Attack",
             "salary": 42,
-            "EV": 52.2,
-            "ceiling": 24.2,
-            "boom": 93.3
+            "EV": 47.0,
+            "ceiling": 23.6,
+            "boom": 79.6
         },
         {
             "firstName": "Aidan",
@@ -118,9 +118,9 @@
             "game_id": "2025-ev-32",
             "position": "Attack",
             "salary": 29,
-            "EV": 51.7,
-            "ceiling": 24.2,
-            "boom": 92.0
+            "EV": 47.1,
+            "ceiling": 23.5,
+            "boom": 79.7
         },
         {
             "firstName": "Colin",
@@ -130,9 +130,9 @@
             "game_id": "2025-ev-32",
             "position": "Midfield",
             "salary": 20,
-            "EV": 35.9,
+            "EV": 36.0,
             "ceiling": 21.4,
-            "boom": 92.7
+            "boom": 93.1
         },
         {
             "firstName": "Jon",
@@ -154,9 +154,9 @@
             "game_id": "2025-ev-34",
             "position": "Midfield",
             "salary": 17,
-            "EV": 34.2,
+            "EV": 24.6,
             "ceiling": 19.3,
-            "boom": 87.2
+            "boom": 55.4
         },
         {
             "firstName": "Trevor",
@@ -197,18 +197,6 @@
             "boom": 96.2
         },
         {
-            "firstName": "TJ",
-            "lastName": "Malone",
-            "team": "WHP",
-            "opponent": "ATL",
-            "game_id": "2025-ev-32",
-            "position": "Attack",
-            "salary": 42,
-            "EV": 52.2,
-            "ceiling": 24.2,
-            "boom": 93.3
-        },
-        {
             "firstName": "Colin",
             "lastName": "Heacock",
             "team": "WHP",
@@ -216,9 +204,21 @@
             "game_id": "2025-ev-32",
             "position": "Midfield",
             "salary": 20,
-            "EV": 35.9,
+            "EV": 36.0,
             "ceiling": 21.4,
-            "boom": 92.7
+            "boom": 93.1
+        },
+        {
+            "firstName": "Zach",
+            "lastName": "Currier",
+            "team": "WAT",
+            "opponent": "CHA",
+            "game_id": "2025-ev-33",
+            "position": "Midfield",
+            "salary": 19,
+            "EV": 35.4,
+            "ceiling": 11.1,
+            "boom": 91.2
         },
         {
             "firstName": "Aidan",
@@ -228,21 +228,21 @@
             "game_id": "2025-ev-32",
             "position": "Attack",
             "salary": 29,
-            "EV": 51.7,
-            "ceiling": 24.2,
-            "boom": 92.0
+            "EV": 47.1,
+            "ceiling": 23.5,
+            "boom": 79.7
         },
         {
-            "firstName": "Jared",
-            "lastName": "Bernhardt",
-            "team": "OUT",
-            "opponent": "ARC",
-            "game_id": "2025-ev-34",
-            "position": "Midfield",
-            "salary": 17,
-            "EV": 34.2,
-            "ceiling": 19.3,
-            "boom": 87.2
+            "firstName": "TJ",
+            "lastName": "Malone",
+            "team": "WHP",
+            "opponent": "ATL",
+            "game_id": "2025-ev-32",
+            "position": "Attack",
+            "salary": 42,
+            "EV": 47.0,
+            "ceiling": 23.6,
+            "boom": 79.6
         },
         {
             "firstName": "Trevor",
@@ -278,9 +278,9 @@
             "game_id": "2025-ev-32",
             "position": "Attack",
             "salary": 42,
-            "EV": 52.2,
-            "ceiling": 24.2,
-            "boom": 93.3
+            "EV": 47.0,
+            "ceiling": 23.6,
+            "boom": 79.6
         },
         {
             "firstName": "Aidan",
@@ -290,9 +290,9 @@
             "game_id": "2025-ev-32",
             "position": "Attack",
             "salary": 29,
-            "EV": 51.7,
-            "ceiling": 24.2,
-            "boom": 92.0
+            "EV": 47.1,
+            "ceiling": 23.5,
+            "boom": 79.7
         },
         {
             "firstName": "Colin",
@@ -302,9 +302,9 @@
             "game_id": "2025-ev-32",
             "position": "Midfield",
             "salary": 20,
-            "EV": 35.9,
+            "EV": 36.0,
             "ceiling": 21.4,
-            "boom": 92.7
+            "boom": 93.1
         },
         {
             "firstName": "Christian",
@@ -326,9 +326,9 @@
             "game_id": "2025-ev-32",
             "position": "Midfield",
             "salary": 18,
-            "EV": 12.6,
-            "ceiling": 16.6,
-            "boom": 15.7
+            "EV": 21.2,
+            "ceiling": 16.5,
+            "boom": 44.2
         },
         {
             "firstName": "Trevor",
@@ -344,11 +344,10 @@
         }
     ],
     "Core": [
-        "TJ Malone",
-        "Aidan Carroll",
         "Emmet Carroll",
+        "Aidan Carroll",
+        "TJ Malone",
         "Colin Heacock",
-        "Jared Bernhardt",
         "Christian Mazur",
         "Trevor Baptiste"
     ],
