@@ -54,6 +54,19 @@ function normalizeTeamCode(code) {
     return mapping[code.toUpperCase()] || code.toUpperCase();
 }
 
+function getOpponentCode(s, team) {
+    if (!s || !s.event) return null;
+    if (s.event.homeTeam && s.event.awayTeam) {
+        return s.event.homeTeam === team ? s.event.awayTeam : s.event.homeTeam;
+    }
+    if (s.f2p && s.f2p.displayString && s.f2p.displayString.includes('vs')) {
+        const parts = s.f2p.displayString.split('vs');
+        const rawOpp = parts[parts.length - 1].trim().split(' ')[0];
+        return normalizeTeamCode(rawOpp);
+    }
+    return null;
+}
+
 let allPlayersStats = null;
 let currentPlayerData = null;
 let chart = null;
@@ -107,6 +120,7 @@ function setupEventListeners() {
     });
     
     document.getElementById('playerSearch').addEventListener('change', updateDashboard);
+    document.getElementById('playerSearch2').addEventListener('change', updateDashboard);
     document.getElementById('yearSelect').addEventListener('change', updateDashboard);
     document.getElementById('weekSelect').addEventListener('change', updateDashboard);
 }
@@ -115,10 +129,17 @@ function populatePlayerList() {
     const team = document.getElementById('teamFilter').value;
     const pos = document.getElementById('posFilter').value;
     const activeOnly = document.getElementById('activeOnly').checked;
+    
     const search = document.getElementById('playerSearch');
+    const search2 = document.getElementById('playerSearch2');
+    
     const currentVal = search.value;
+    const currentVal2 = search2 ? search2.value : '';
     
     search.innerHTML = '<option value="">Select Player</option>';
+    if (search2) {
+        search2.innerHTML = '<option value="">None (Single Player)</option>';
+    }
     
     const players = Object.values(allPlayersStats).map(d => d.player);
     players.sort((a, b) => {
@@ -152,6 +173,13 @@ function populatePlayerList() {
             opt.value = p.slug;
             opt.textContent = `${formattedName} (${p.position} - ${p.team})`;
             search.appendChild(opt);
+            
+            if (search2) {
+                const opt2 = document.createElement('option');
+                opt2.value = p.slug;
+                opt2.textContent = `${formattedName} (${p.position} - ${p.team})`;
+                search2.appendChild(opt2);
+            }
         }
     });
     
@@ -159,6 +187,12 @@ function populatePlayerList() {
         search.value = currentVal;
     } else if (search.options.length > 1) {
         search.selectedIndex = 1;
+    }
+    
+    if (search2 && currentVal2 && Array.from(search2.options).some(o => o.value === currentVal2)) {
+        search2.value = currentVal2;
+    } else if (search2) {
+        search2.value = '';
     }
 }
 
@@ -184,6 +218,32 @@ function updateDashboard() {
     document.getElementById('avgFP').textContent = avg;
     document.getElementById('totalPoints').textContent = total;
     
+    // Check for comparison player
+    const slug2 = document.getElementById('playerSearch2') ? document.getElementById('playerSearch2').value : '';
+    const compareMiniCard = document.getElementById('compareMiniCard');
+    let compareData = null;
+    
+    if (slug2 && allPlayersStats[slug2]) {
+        compareData = allPlayersStats[slug2];
+        const p2 = compareData.player;
+        const stats2 = compareData.stats;
+        
+        // Calculate Player 2 Summary
+        const validPoints2 = stats2.map(s => s.f2p.totalPoints || 0).filter(p => p !== 0);
+        const avg2 = (validPoints2.length > 0) ? formatPoints(validPoints2.reduce((a, b) => a + b, 0) / validPoints2.length) : "0";
+        const total2 = formatPoints(validPoints2.reduce((a, b) => a + b, 0));
+        
+        // Update mini player card
+        document.getElementById('compareName').textContent = p2.name;
+        document.getElementById('compareAvatar').textContent = p2.name.split(' ').map(n => n[0]).join('');
+        document.getElementById('compareAvg').textContent = avg2;
+        document.getElementById('compareTotal').textContent = total2;
+        
+        if (compareMiniCard) compareMiniCard.style.display = 'flex';
+    } else {
+        if (compareMiniCard) compareMiniCard.style.display = 'none';
+    }
+    
     // Determine target opponents dynamically
     const year = document.getElementById('yearSelect').value;
     const week = document.getElementById('weekSelect').value;
@@ -195,20 +255,8 @@ function updateDashboard() {
         });
         
         targetGames.forEach(tg => {
-            let opp = null;
-            // Priority 1: Check standard event properties
-            if (tg.event.homeTeam && tg.event.awayTeam) {
-                opp = (tg.event.homeTeam === player.team) ? tg.event.awayTeam : tg.event.homeTeam;
-            } 
-            // Priority 2: Parse from displayString (common for future/unplayed games)
-            else if (tg.f2p.displayString && tg.f2p.displayString.includes('vs')) {
-                const parts = tg.f2p.displayString.split('vs');
-                const rawOpp = parts[parts.length - 1].trim().split(' ')[0];
-                opp = normalizeTeamCode(rawOpp);
-            }
-            
+            const opp = getOpponentCode(tg, player.team);
             if (opp) {
-                opp = normalizeTeamCode(opp);
                 if (!targetOpponents.includes(opp)) {
                     targetOpponents.push(opp);
                 }
@@ -217,7 +265,7 @@ function updateDashboard() {
     }
     
     renderMatchupContext(targetOpponents);
-    renderChart(stats, targetOpponents);
+    renderChart(stats, compareData ? compareData.stats : null, targetOpponents, player.name, compareData ? compareData.player.name : '');
     renderTable(stats, targetOpponents);
 }
 
@@ -276,15 +324,8 @@ function renderMatchupContext(targetOpponents) {
             const isTargetWeek = sYear === year && s.week === parseInt(week);
             if (!isTargetWeek) return false;
             
-            let opp = null;
-            if (s.event.homeTeam && s.event.awayTeam) {
-                opp = (s.event.homeTeam === player.team) ? s.event.awayTeam : s.event.homeTeam;
-            } else if (s.f2p.displayString && s.f2p.displayString.includes('vs')) {
-                const parts = s.f2p.displayString.split('vs');
-                const rawOpp = parts[parts.length - 1].trim().split(' ')[0];
-                opp = normalizeTeamCode(rawOpp);
-            }
-            return opp && normalizeTeamCode(opp) === targetOpponent;
+            const opp = getOpponentCode(s, player.team);
+            return opp && opp === targetOpponent;
         });
 
         let salaryStr = "";
@@ -348,122 +389,365 @@ function renderMatchupContext(targetOpponents) {
     });
 }
 
-function renderChart(stats, targetOpponents) {
+function renderChart(stats, stats2, targetOpponents, player1Name, player2Name) {
     const ctx = document.getElementById('fantasyChart').getContext('2d');
-    const chartStats = [];
-    stats.forEach((s, index) => {
-        if (index > 0) {
-            const prev = stats[index-1];
-            const currYear = s.event.eventId.split('_')[0];
-            const prevYear = prev.event.eventId.split('_')[0];
-            if (currYear !== prevYear) {
-                chartStats.push(null);
-            }
-        }
-        if (s.week === 6 || s.event.eventId.toLowerCase().includes('allstar')) return;
-        chartStats.push(s);
-    });
-
-    const labels = chartStats.map(s => {
-        if (!s) return '';
-        const season = s.event.eventId.split('_')[0];
-        const eventLabel = getEventLabel(s.event.eventId, s.week);
-        const dateStr = new Date(s.event.startTime * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-        const opp = s.event.homeTeam === s.identity.team ? s.event.awayTeam : s.event.homeTeam;
-        return `${season} ${eventLabel} (${dateStr}) vs ${opp}`;
-    });
     
-    const data = chartStats.map(s => (s && !s.isDNP) ? s.f2p.totalPoints : null);
-    const backgroundColors = chartStats.map(s => {
-        if (!s || s.isDNP) return 'transparent';
-        if (!targetOpponents || targetOpponents.length === 0) return 'rgba(159, 122, 234, 0.2)';
-        
-        const home = s.event.homeTeam;
-        const away = s.event.awayTeam;
-        
-        const oppIndex = targetOpponents.findIndex(opp => home === opp || away === opp);
-        if (oppIndex === 0) return 'rgba(236, 201, 75, 0.8)'; // Gold
-        if (oppIndex === 1) return 'rgba(79, 209, 197, 0.8)'; // Cyan
-        if (oppIndex > 1) return 'rgba(72, 187, 120, 0.8)';  // Green for others
-        
-        return 'rgba(159, 122, 234, 0.2)';
-    });
-
-    if (chart) chart.destroy();
-    chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Fantasy Points',
-                data: data,
-                borderColor: '#9f7aea',
-                backgroundColor: 'rgba(159, 122, 234, 0.1)',
-                fill: true,
-                tension: 0.4,
-                pointBackgroundColor: backgroundColors,
-                pointRadius: 5,
-                pointHoverRadius: 8,
-                spanGaps: true,
-                segment: {
-                    borderDash: ctx => {
-                        const p0 = chartStats[ctx.p0DataIndex];
-                        const p1 = chartStats[ctx.p1DataIndex];
-                        if (p0 && p1 && p1.week - p0.week > 1) return [5, 5];
-                        return undefined;
-                    }
+    if (!stats2) {
+        // Standard single-player logic
+        const chartStats = [];
+        stats.forEach((s, index) => {
+            if (index > 0) {
+                const prev = stats[index-1];
+                const currYear = s.event.eventId.split('_')[0];
+                const prevYear = prev.event.eventId.split('_')[0];
+                if (currYear !== prevYear) {
+                    chartStats.push(null);
                 }
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { display: false },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            const s = chartStats[context.dataIndex];
-                            if (!s) return '';
-                            return `${formatPoints(s.f2p.totalPoints)} FP (${s.event.homeTeam} vs ${s.event.awayTeam})`;
+            }
+            if (s.week === 6 || s.event.eventId.toLowerCase().includes('allstar')) return;
+            chartStats.push(s);
+        });
+
+        const labels = chartStats.map(s => {
+            if (!s) return '';
+            const season = s.event.eventId.split('_')[0];
+            const eventLabel = getEventLabel(s.event.eventId, s.week);
+            const dateStr = new Date(s.event.startTime * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            const opp = getOpponentCode(s, s.identity.team);
+            return `${season} ${eventLabel} (${dateStr}) vs ${opp}`;
+        });
+        
+        const data = chartStats.map(s => (s && !s.isDNP) ? s.f2p.totalPoints : null);
+        const backgroundColors = chartStats.map(s => {
+            if (!s || s.isDNP) return 'transparent';
+            if (!targetOpponents || targetOpponents.length === 0) return 'rgba(159, 122, 234, 0.2)';
+            
+            const opp = getOpponentCode(s, s.identity.team);
+            const oppIndex = targetOpponents.findIndex(o => opp === o);
+            if (oppIndex === 0) return 'rgba(236, 201, 75, 0.8)'; // Gold
+            if (oppIndex === 1) return 'rgba(79, 209, 197, 0.8)'; // Cyan
+            if (oppIndex > 1) return 'rgba(72, 187, 120, 0.8)';  // Green
+            
+            return 'rgba(159, 122, 234, 0.2)';
+        });
+
+        if (chart) chart.destroy();
+        chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: player1Name,
+                    data: data,
+                    borderColor: '#9f7aea',
+                    backgroundColor: 'rgba(159, 122, 234, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: backgroundColors,
+                    pointRadius: 5,
+                    pointHoverRadius: 8,
+                    spanGaps: true,
+                    segment: {
+                        borderColor: ctx => {
+                            const p0 = chartStats[ctx.p0DataIndex];
+                            const p1 = chartStats[ctx.p1DataIndex];
+                            if (p0 && p1 && p0.event.eventId.split('_')[0] !== p1.event.eventId.split('_')[0]) {
+                                return 'transparent';
+                            }
+                            return undefined;
+                        },
+                        borderDash: ctx => {
+                            const p0 = chartStats[ctx.p0DataIndex];
+                            const p1 = chartStats[ctx.p1DataIndex];
+                            if (p0 && p1) {
+                                if (p0.event.eventId.split('_')[0] !== p1.event.eventId.split('_')[0]) return undefined;
+                                if (p1.week - p0.week > 1) return [5, 5];
+                            }
+                            return undefined;
+                        }
+                    }
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const s = chartStats[context.dataIndex];
+                                if (!s) return '';
+                                const matchupStr = (s.event.homeTeam && s.event.awayTeam) ? `${s.event.homeTeam} vs ${s.event.awayTeam}` : `vs ${getOpponentCode(s, s.identity.team)}`;
+                                return `${formatPoints(s.f2p.totalPoints)} FP (${matchupStr})`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(255,255,255,0.05)' },
+                        ticks: { color: '#a0aec0' }
+                      },
+                    x: {
+                        grid: { 
+                            display: true,
+                            color: (ctx) => {
+                                if (ctx.index === 0) return 'rgba(255,255,255,0.1)';
+                                const curr = chartStats[ctx.index];
+                                const prev = chartStats[ctx.index - 1];
+                                if (curr && (!prev || curr.event.eventId.split('_')[0] !== prev.event.eventId.split('_')[0])) return 'rgba(255,255,255,0.3)';
+                                return 'transparent';
+                            }
+                        },
+                        ticks: { 
+                            color: '#a0aec0',
+                            maxRotation: 0,
+                            autoSkip: false,
+                            callback: function(val, index) {
+                                const s = chartStats[index];
+                                if (!s) return '';
+                                const year = s.event.eventId.split('_')[0];
+                                const firstIndex = chartStats.findIndex(item => item && item.event.eventId.split('_')[0] === year);
+                                if (index === firstIndex) return year;
+                                return '';
+                            }
                         }
                     }
                 }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    grid: { color: 'rgba(255,255,255,0.05)' },
-                    ticks: { color: '#a0aec0' }
-                },
-                x: {
-                    grid: { 
-                        display: true,
-                        color: (ctx) => {
-                            if (ctx.index === 0) return 'rgba(255,255,255,0.1)';
-                            const curr = chartStats[ctx.index];
-                            const prev = chartStats[ctx.index - 1];
-                            if (curr && (!prev || curr.event.eventId.split('_')[0] !== prev.event.eventId.split('_')[0])) return 'rgba(255,255,255,0.3)';
-                            return 'transparent';
+            }
+        });
+    } else {
+        // Alignment logic for two players
+        const slots1 = [];
+        const counts1 = {};
+        stats.forEach(s => {
+            if (!s) return;
+            if (s.week === 6 || s.event.eventId.toLowerCase().includes('allstar')) return;
+            const season = s.event.eventId.split('_')[0];
+            const key = `${season}_${s.week}`;
+            counts1[key] = (counts1[key] === undefined) ? 0 : counts1[key] + 1;
+            slots1.push({ season, week: s.week, gameIndex: counts1[key], stat: s });
+        });
+
+        const slots2 = [];
+        const counts2 = {};
+        stats2.forEach(s => {
+            if (!s) return;
+            if (s.week === 6 || s.event.eventId.toLowerCase().includes('allstar')) return;
+            const season = s.event.eventId.split('_')[0];
+            const key = `${season}_${s.week}`;
+            counts2[key] = (counts2[key] === undefined) ? 0 : counts2[key] + 1;
+            slots2.push({ season, week: s.week, gameIndex: counts2[key], stat: s });
+        });
+
+        const unionMap = {};
+        const addToUnion = (slots) => {
+            slots.forEach(slot => {
+                const key = `${slot.season}_${slot.week}_${slot.gameIndex}`;
+                unionMap[key] = {
+                    season: slot.season,
+                    week: slot.week,
+                    gameIndex: slot.gameIndex
+                };
+            });
+        };
+        addToUnion(slots1);
+        addToUnion(slots2);
+
+        const sortedKeys = Object.keys(unionMap).sort((a, b) => {
+            const [aSec, aWk, aIdx] = a.split('_').map(Number);
+            const [bSec, bWk, bIdx] = b.split('_').map(Number);
+            if (aSec !== bSec) return aSec - bSec;
+            if (aWk !== bWk) return aWk - bWk;
+            return aIdx - bIdx;
+        });
+
+        const chartLabels = [];
+        const chartData1 = [];
+        const chartData2 = [];
+        const chartStatsForGrid1 = [];
+        const chartStatsForGrid2 = [];
+        
+        let lastSeason = null;
+
+        sortedKeys.forEach((key) => {
+            const slot = unionMap[key];
+            
+            if (lastSeason !== null && slot.season !== lastSeason) {
+                chartLabels.push('');
+                chartData1.push(null);
+                chartData2.push(null);
+                chartStatsForGrid1.push(null);
+                chartStatsForGrid2.push(null);
+            }
+            lastSeason = slot.season;
+
+            const p1Slot = slots1.find(s => s.season === slot.season && s.week === slot.week && s.gameIndex === slot.gameIndex);
+            const p2Slot = slots2.find(s => s.season === slot.season && s.week === slot.week && s.gameIndex === slot.gameIndex);
+
+            const s1 = p1Slot ? p1Slot.stat : null;
+            const s2 = p2Slot ? p2Slot.stat : null;
+
+            let eventLabel = 'W' + slot.week;
+            if (slot.week === 12) eventLabel = 'QF';
+            if (slot.week === 13) eventLabel = 'SF';
+            if (slot.week === 14) eventLabel = 'Final';
+            if (slot.gameIndex > 0) {
+                eventLabel += ` (G${slot.gameIndex + 1})`;
+            }
+
+            chartLabels.push(`${slot.season} ${eventLabel}`);
+            chartData1.push((s1 && !s1.isDNP) ? s1.f2p.totalPoints : null);
+            chartData2.push((s2 && !s2.isDNP) ? s2.f2p.totalPoints : null);
+            chartStatsForGrid1.push(s1);
+            chartStatsForGrid2.push(s2);
+        });
+
+        const getPointBackgrounds = (chartStats, primaryColor) => {
+            return chartStats.map(s => {
+                if (!s || s.isDNP) return 'transparent';
+                if (!targetOpponents || targetOpponents.length === 0) return primaryColor;
+                
+                const opp = getOpponentCode(s, s.identity.team);
+                const oppIndex = targetOpponents.findIndex(o => opp === o);
+                
+                if (oppIndex === 0) return 'rgba(236, 201, 75, 0.8)'; // Gold
+                if (oppIndex === 1) return 'rgba(79, 209, 197, 0.8)'; // Cyan
+                if (oppIndex > 1) return 'rgba(72, 187, 120, 0.8)';  // Green
+                
+                return primaryColor;
+            });
+        };
+
+        const backgrounds1 = getPointBackgrounds(chartStatsForGrid1, 'rgba(159, 122, 234, 0.2)');
+        const backgrounds2 = getPointBackgrounds(chartStatsForGrid2, 'rgba(79, 209, 197, 0.2)');
+
+        const segmentHelper = (ctx, isDash) => {
+            const datasetIndex = ctx.datasetIndex;
+            const statsList = datasetIndex === 0 ? chartStatsForGrid1 : chartStatsForGrid2;
+            const p0 = statsList[ctx.p0DataIndex];
+            const p1 = statsList[ctx.p1DataIndex];
+            if (!p0 || !p1) return undefined;
+            
+            if (p0.event.eventId.split('_')[0] !== p1.event.eventId.split('_')[0]) {
+                return isDash ? undefined : 'transparent';
+            }
+            
+            if (isDash && p1.week - p0.week > 1) {
+                return [5, 5];
+            }
+            return undefined;
+        };
+
+        if (chart) chart.destroy();
+        chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: chartLabels,
+                datasets: [
+                    {
+                        label: player1Name,
+                        data: chartData1,
+                        borderColor: '#9f7aea', // Electric Purple
+                        backgroundColor: 'rgba(159, 122, 234, 0.05)',
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: backgrounds1,
+                        pointRadius: 5,
+                        pointHoverRadius: 8,
+                        spanGaps: true,
+                        segment: {
+                            borderColor: ctx => segmentHelper(ctx, false),
+                            borderDash: ctx => segmentHelper(ctx, true)
                         }
                     },
-                    ticks: { 
-                        color: '#a0aec0',
-                        maxRotation: 0,
-                        autoSkip: false,
-                        callback: function(val, index) {
-                            const s = chartStats[index];
-                            if (!s) return '';
-                            const year = s.event.eventId.split('_')[0];
-                            const firstIndex = chartStats.findIndex(item => item && item.event.eventId.split('_')[0] === year);
-                            if (index === firstIndex) return year;
-                            return '';
+                    {
+                        label: player2Name,
+                        data: chartData2,
+                        borderColor: '#4fd1c5', // Cyan
+                        backgroundColor: 'rgba(79, 209, 197, 0.05)',
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: backgrounds2,
+                        pointRadius: 5,
+                        pointHoverRadius: 8,
+                        spanGaps: true,
+                        segment: {
+                            borderColor: ctx => segmentHelper(ctx, false),
+                            borderDash: ctx => segmentHelper(ctx, true)
+                        }
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { 
+                        display: true,
+                        labels: {
+                            color: '#f0f6fc',
+                            font: { family: 'Inter', weight: '600', size: 12 }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const index = context.dataIndex;
+                                const datasetIndex = context.datasetIndex;
+                                const player = datasetIndex === 0 ? player1Name : player2Name;
+                                const statsList = datasetIndex === 0 ? chartStatsForGrid1 : chartStatsForGrid2;
+                                const s = statsList[index];
+                                if (!s) return '';
+                                if (s.isDNP) return `${player}: DNP`;
+                                const matchupStr = (s.event.homeTeam && s.event.awayTeam) ? `${s.event.homeTeam} vs ${s.event.awayTeam}` : `vs ${getOpponentCode(s, s.identity.team)}`;
+                                return `${player}: ${formatPoints(s.f2p.totalPoints)} FP (${matchupStr})`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(255,255,255,0.05)' },
+                        ticks: { color: '#a0aec0' }
+                    },
+                    x: {
+                        grid: { 
+                            display: true,
+                            color: (ctx) => {
+                                if (ctx.index === 0) return 'rgba(255,255,255,0.1)';
+                                const curr = chartStatsForGrid1[ctx.index] || chartStatsForGrid2[ctx.index];
+                                const prev = chartStatsForGrid1[ctx.index - 1] || chartStatsForGrid2[ctx.index - 1];
+                                if (curr && (!prev || curr.event.eventId.split('_')[0] !== prev.event.eventId.split('_')[0])) {
+                                    return 'rgba(255,255,255,0.3)';
+                                }
+                                return 'transparent';
+                            }
+                        },
+                        ticks: { 
+                            color: '#a0aec0',
+                            maxRotation: 0,
+                            autoSkip: false,
+                            callback: function(val, index) {
+                                const s = chartStatsForGrid1[index] || chartStatsForGrid2[index];
+                                if (!s) return '';
+                                const year = s.event.eventId.split('_')[0];
+                                const firstIndex = chartLabels.findIndex((label, idx) => {
+                                    const item = chartStatsForGrid1[idx] || chartStatsForGrid2[idx];
+                                    return item && item.event.eventId.split('_')[0] === year;
+                                });
+                                if (index === firstIndex) return year;
+                                return '';
+                            }
                         }
                     }
                 }
             }
-        }
-    });
+        });
+    }
 }
 
 function renderTable(stats, targetOpponents) {
@@ -528,9 +812,8 @@ function renderTable(stats, targetOpponents) {
     }
 
     stats.slice().reverse().forEach(s => {
-        const home = s.event.homeTeam;
-        const away = s.event.awayTeam;
-        const oppIndex = targetOpponents ? targetOpponents.findIndex(opp => home === opp || away === opp) : -1;
+        const opp = getOpponentCode(s, s.identity.team);
+        const oppIndex = targetOpponents ? targetOpponents.findIndex(o => opp === o) : -1;
         const isDNP = s.isDNP === true;
         
         const tr = document.createElement('tr');
@@ -552,7 +835,6 @@ function renderTable(stats, targetOpponents) {
         }
 
         const season = s.event.eventId.split('_')[0];
-        const opp = s.event.homeTeam === s.identity.team ? s.event.awayTeam : s.event.homeTeam;
         const matchupLog = currentPlayerData.matchup_logs[s.event.eventId];
         let opponentPlayer = "-";
         if (matchupLog) {

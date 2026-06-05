@@ -141,7 +141,27 @@
             </section>
 
             <section class="chart-section glass-card">
-                <h2>Fantasy Performance Trend</h2>
+                <div class="chart-header">
+                    <h2>Fantasy Performance Trend</h2>
+                    <div class="chart-controls">
+                        <div class="selector-group comparison-group" style="flex-direction: row; align-items: center; gap: 8px;">
+                            <label for="playerSearch2" style="margin-bottom: 0;">Compare With</label>
+                            <select id="playerSearch2" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">
+                                <option value="">None (Single Player)</option>
+                            </select>
+                        </div>
+                        <div class="mini-player-card" id="compareMiniCard" style="display: none;">
+                            <div class="mini-avatar" id="compareAvatar">--</div>
+                            <div class="mini-details">
+                                <div class="mini-name" id="compareName">--</div>
+                                <div class="mini-stats">
+                                    <span class="mini-stat">Avg FP: <strong id="compareAvg">--</strong></span>
+                                    <span class="mini-stat">Total: <strong id="compareTotal">--</strong></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="chart-container">
                     <canvas id="fantasyChart"></canvas>
                 </div>
