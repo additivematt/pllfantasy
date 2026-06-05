@@ -60,13 +60,54 @@ def load_stats_json(path):
     rows = []
     for p in data:
         ident, stats, f2p, evt = p.get("identity", {}), p.get("stats", {}), p.get("f2p", {}), p.get("event", {})
-        fp = f2p.get("totalPoints") if f2p.get("totalPoints") is not None else calc_fantasy(stats)
+        is_dnp = p.get("isDNP", False)
+        if is_dnp:
+            fp = np.nan
+        else:
+            fp = f2p.get("totalPoints") if f2p.get("totalPoints") is not None else calc_fantasy(stats)
         team = ident.get("team")
         home, away = evt.get("homeTeam"), evt.get("awayTeam")
         opponent = home if team == away else away
-        row = {"firstName": ident.get("firstName"), "lastName": ident.get("lastName"), "position": ident.get("position"), "team": team, "opponent": opponent, "eventId": evt.get("eventId"), "TotalFantasyPoints": fp, "week": p.get("week"), "year": yr, "startTime": evt.get("startTime", 0)}
-        for k, v in stats.items(): row[k] = v
+        row = {"firstName": ident.get("firstName"), "lastName": ident.get("lastName"), "position": ident.get("position"), "team": team, "opponent": opponent, "eventId": evt.get("eventId"), "TotalFantasyPoints": fp, "week": p.get("week"), "year": yr, "startTime": evt.get("startTime", 0), "isDNP": is_dnp}
+        if not is_dnp:
+            for k, v in stats.items(): row[k] = v
         rows.append(row)
+    df = pd.DataFrame(rows)
+    df["positionGroup"] = df["position"].apply(assign_position_group)
+    df["subPosition"] = df["position"].apply(assign_sub_position)
+    return df
+
+def load_all_players_stats(path, target_year, target_week):
+    """Load from consolidated all_players_stats.json, including DNP rows.
+    Excludes rows from target_year >= target_week to prevent data leakage."""
+    import re
+    with open(path, encoding="utf-8") as f: data = json.load(f)
+    rows = []
+    for slug, p_data in data.items():
+        for entry in p_data.get("stats", []):
+            ident = entry.get("identity", {})
+            stats = entry.get("stats", {})
+            f2p = entry.get("f2p", {})
+            evt = entry.get("event", {})
+            e_id = evt.get("eventId", "")
+            yr_match = re.search(r'^(\d{4})_', e_id)
+            yr = int(yr_match.group(1)) if yr_match else None
+            # Exclude target week onwards in target year (data leakage prevention)
+            w = entry.get("week")
+            if yr == target_year and w is not None and w >= target_week:
+                continue
+            is_dnp = entry.get("isDNP", False)
+            if is_dnp:
+                fp = np.nan
+            else:
+                fp = f2p.get("totalPoints") if f2p.get("totalPoints") is not None else calc_fantasy(stats)
+            team = ident.get("team")
+            home, away = evt.get("homeTeam"), evt.get("awayTeam")
+            opponent = home if team == away else away
+            row = {"firstName": ident.get("firstName"), "lastName": ident.get("lastName"), "position": ident.get("position"), "team": team, "opponent": opponent, "eventId": e_id, "TotalFantasyPoints": fp, "week": w, "year": yr, "startTime": float(evt.get("startTime", 0)), "isDNP": is_dnp}
+            if not is_dnp:
+                for k, v in stats.items(): row[k] = v
+            rows.append(row)
     df = pd.DataFrame(rows)
     df["positionGroup"] = df["position"].apply(assign_position_group)
     df["subPosition"] = df["position"].apply(assign_sub_position)
@@ -108,12 +149,13 @@ def add_rolling_features(df):
     else:
         df["days_since_last_game"] = 7.0
 
-    # 2 & 3. Touches & ShotPct
+    # 2 & 3. Touches & ShotPct — NaN on DNP rows so averages exclude inactive weeks
     cols = ["shots", "groundBalls", "saves", "faceoffsWon", "assists", "causedTurnovers", "touches", "shotPct"]
     for c in cols:
-        if c not in df.columns: df[c] = 0
+        if c not in df.columns: df[c] = np.nan
         df[f"{c}_season_avg"] = df.groupby(["firstName", "lastName"])[c].transform(lambda x: x.expanding().mean().shift(1))
         df[f"{c}_last3_avg"] = df.groupby(["firstName", "lastName"])[c].transform(lambda x: x.rolling(3, min_periods=1).mean().shift(1))
+    # Fantasy points: NaN on DNP rows so averages/lags only reflect games actually played
     df["fp_season_avg"] = df.groupby(["firstName", "lastName"])["TotalFantasyPoints"].transform(lambda x: x.expanding().mean().shift(1))
     df["fp_last3_avg"] = df.groupby(["firstName", "lastName"])["TotalFantasyPoints"].transform(lambda x: x.rolling(3, min_periods=1).mean().shift(1))
     df["fp_lag1"] = df.groupby(["firstName", "lastName"])["TotalFantasyPoints"].shift(1)
@@ -125,8 +167,9 @@ def add_rolling_features(df):
         df["faceoffPct_season_avg"] = df.groupby(["firstName", "lastName"])["faceoffPct"].transform(lambda x: x.expanding().mean().shift(1))
         df["faceoffPct_last3_avg"] = df.groupby(["firstName", "lastName"])["faceoffPct"].transform(lambda x: x.rolling(3, min_periods=1).mean().shift(1))
         
-        # 4. Team FO Advantage
-        team_fo = df.groupby(["eventId", "team", "startTime"], as_index=False)[["faceoffsWon", "faceoffs"]].sum()
+        # 4. Team FO Advantage — only from active (non-DNP) rows
+        fo_df = df[df["isDNP"] != True].copy() if "isDNP" in df.columns else df.copy()
+        team_fo = fo_df.groupby(["eventId", "team", "startTime"], as_index=False)[["faceoffsWon", "faceoffs"]].sum()
         team_fo = team_fo.sort_values(["team", "startTime"])
         team_fo["team_foPct"] = team_fo["faceoffsWon"] / team_fo["faceoffs"].replace(0, np.nan)
         team_fo["team_foPct_season_avg"] = team_fo.groupby("team")["team_foPct"].transform(lambda x: x.expanding().mean().shift(1))
@@ -140,6 +183,74 @@ def add_rolling_features(df):
         df["team_faceoff_advantage"] = df["team_foPct_season_avg"] - df["opp_foPct_season_avg"]
     else:
         df["team_faceoff_advantage"] = 0.0
+
+    # 5. Roster injury features
+    # -- Vacated Touch Share & Inactive FP Average --
+    df["player_exp_touches"] = df["touches_season_avg"].fillna(0.0)
+    df["is_dnp"] = (df.get("isDNP", False) == True).astype(float) if "isDNP" in df.columns else 0.0
+    df["dnp_touches_contrib"] = df["player_exp_touches"] * df["is_dnp"]
+    df["dnp_fp_contrib"] = df["fp_season_avg"].fillna(0.0) * df["is_dnp"]
+    df["dnp_fp_count"] = df["is_dnp"]
+    
+    team_inj = df.groupby(["eventId", "team"], as_index=False).agg(
+        total_exp_touches=("player_exp_touches", "sum"),
+        total_dnp_touches=("dnp_touches_contrib", "sum"),
+        total_dnp_fp=("dnp_fp_contrib", "sum"),
+        total_dnp_count=("dnp_fp_count", "sum")
+    )
+    team_inj["team_vacated_touch_share"] = team_inj["total_dnp_touches"] / team_inj["total_exp_touches"].replace(0, np.nan)
+    team_inj["team_vacated_touch_share"] = team_inj["team_vacated_touch_share"].fillna(0.0)
+    team_inj["team_inactive_fp_avg"] = team_inj["total_dnp_fp"] / team_inj["total_dnp_count"].replace(0, np.nan)
+    team_inj["team_inactive_fp_avg"] = team_inj["team_inactive_fp_avg"].fillna(0.0)
+    df = df.merge(team_inj[["eventId", "team", "team_vacated_touch_share", "team_inactive_fp_avg"]], on=["eventId", "team"], how="left")
+    df["team_vacated_touch_share"] = df["team_vacated_touch_share"].fillna(0.0)
+    df["team_inactive_fp_avg"] = df["team_inactive_fp_avg"].fillna(0.0)
+
+    # -- Opponent Defensive Health --
+    df["is_active_ssdm"] = np.where((df.get("subPosition", "") == "SSDM") & (df["is_dnp"] == 0.0), 1.0, 0.0) if "subPosition" in df.columns else 0.0
+    df["is_active_def"] = np.where((df.get("subPosition", "") == "Defensemen") & (df["is_dnp"] == 0.0), 1.0, 0.0) if "subPosition" in df.columns else 0.0
+
+    game_def = df.groupby(["eventId", "team", "startTime"], as_index=False).agg(
+        active_ssdm=("is_active_ssdm", "sum"),
+        active_def=("is_active_def", "sum")
+    )
+    game_def = game_def.sort_values(["team", "startTime"])
+    game_def["ssdm_avg"] = game_def.groupby("team")["active_ssdm"].transform(lambda x: x.expanding().mean().shift(1))
+    game_def["def_avg"] = game_def.groupby("team")["active_def"].transform(lambda x: x.expanding().mean().shift(1))
+    game_def["team_ssdm_health"] = np.minimum(1.0, game_def["active_ssdm"] / game_def["ssdm_avg"].replace(0, np.nan))
+    game_def["team_def_health_idx"] = np.minimum(1.0, game_def["active_def"] / game_def["def_avg"].replace(0, np.nan))
+    game_def["team_ssdm_health"] = game_def["team_ssdm_health"].fillna(1.0)
+    game_def["team_def_health_idx"] = game_def["team_def_health_idx"].fillna(1.0)
+    
+    df = df.merge(game_def[["eventId", "team", "team_ssdm_health", "team_def_health_idx"]], on=["eventId", "team"], how="left")
+    opp_def = game_def[["eventId", "team", "team_ssdm_health", "team_def_health_idx"]].rename(
+        columns={"team": "opponent", "team_ssdm_health": "opp_ssdm_health", "team_def_health_idx": "opp_def_health"}
+    )
+    df = df.merge(opp_def, on=["eventId", "opponent"], how="left")
+    df["opp_ssdm_health"] = df["opp_ssdm_health"].fillna(1.0)
+    df["opp_def_health"] = df["opp_def_health"].fillna(1.0)
+
+    # -- Opponent Goalie Health (is the starting goalie active?) --
+    goalies = df[df.get("subPosition", pd.Series(dtype=str)) == "Goalie"].copy() if "subPosition" in df.columns else pd.DataFrame()
+    if not goalies.empty:
+        goalies["starter_score"] = goalies["fp_season_avg"].fillna(0.0)
+        idx_starters = goalies.groupby(["eventId", "team"])["starter_score"].idxmax()
+        starters = goalies.loc[idx_starters, ["eventId", "team", "firstName", "lastName"]].rename(
+            columns={"firstName": "g_first", "lastName": "g_last"}
+        )
+        goalies = goalies.merge(starters, on=["eventId", "team"], how="left")
+        goalies["is_starter_active"] = np.where(
+            (goalies["firstName"] == goalies["g_first"]) & (goalies["lastName"] == goalies["g_last"]) & (goalies["is_dnp"] == 0.0), 1.0, 0.0
+        )
+        goalie_health = goalies.groupby(["eventId", "team"])["is_starter_active"].max().reset_index()
+        goalie_health = goalie_health.rename(columns={"team": "opponent", "is_starter_active": "opp_goalie_health"})
+        df = df.merge(goalie_health, on=["eventId", "opponent"], how="left")
+    else:
+        df["opp_goalie_health"] = 1.0
+    df["opp_goalie_health"] = df["opp_goalie_health"].fillna(1.0)
+
+    # Drop helper columns
+    df = df.drop(columns=["player_exp_touches", "is_dnp", "dnp_touches_contrib", "dnp_fp_contrib", "dnp_fp_count", "is_active_ssdm", "is_active_def"], errors="ignore")
 
     return df
 
@@ -186,8 +297,8 @@ def compute_defender_ratings(df_all, matchups_by_game):
     return def_r, team_def, pair_r, p_vs_t
 
 FEATURE_LISTS = {
-    "Attack":   ["fp_season_avg", "fp_last3_avg", "fp_lag1", "shots_season_avg", "shots_last3_avg", "assists_season_avg", "assists_last3_avg", "touches_season_avg", "touches_last3_avg", "shotPct_anomaly", "days_since_last_game", "team_faceoff_advantage", "pairing_rating", "opponent_rating", "player_vs_team_rating", "team_def_rating"],
-    "Midfield": ["fp_season_avg", "fp_last3_avg", "fp_lag1", "shots_season_avg", "shots_last3_avg", "groundBalls_season_avg", "groundBalls_last3_avg", "touches_season_avg", "touches_last3_avg", "shotPct_anomaly", "days_since_last_game", "team_faceoff_advantage", "pairing_rating", "opponent_rating", "player_vs_team_rating", "team_def_rating"],
+    "Attack":   ["fp_season_avg", "fp_last3_avg", "fp_lag1", "shots_season_avg", "shots_last3_avg", "assists_season_avg", "assists_last3_avg", "touches_season_avg", "touches_last3_avg", "shotPct_anomaly", "days_since_last_game", "team_faceoff_advantage", "pairing_rating", "opponent_rating", "player_vs_team_rating", "team_def_rating", "team_vacated_touch_share", "team_inactive_fp_avg", "opp_def_health", "opp_goalie_health"],
+    "Midfield": ["fp_season_avg", "fp_last3_avg", "fp_lag1", "shots_season_avg", "shots_last3_avg", "groundBalls_season_avg", "groundBalls_last3_avg", "touches_season_avg", "touches_last3_avg", "shotPct_anomaly", "days_since_last_game", "team_faceoff_advantage", "pairing_rating", "opponent_rating", "player_vs_team_rating", "team_def_rating", "team_vacated_touch_share", "team_inactive_fp_avg", "opp_ssdm_health"],
     # SSDM/LSM and Defensemen share one 'Defense' model so boom = top 25% of
     # all D-slot players combined, matching the single F2P roster slot they occupy.
     "Defense":  ["fp_season_avg", "fp_last3_avg", "fp_lag1", "groundBalls_season_avg", "groundBalls_last3_avg", "causedTurnovers_season_avg", "causedTurnovers_last3_avg", "days_since_last_game", "team_faceoff_advantage", "pairing_rating", "opponent_rating", "player_vs_team_rating", "team_def_rating"],
@@ -222,11 +333,16 @@ def main():
             matchups = list(week_games.values())
             
     if not matchups: return
-    df_all = pd.concat([load_stats_json(os.path.join(sDir, f"combined_player_stats_{yr}.json")) for yr in range(2023, args.year + 1) if os.path.exists(os.path.join(sDir, f"combined_player_stats_{yr}.json"))], ignore_index=True).fillna(0)
-    
-    # Prevent Data Leakage: Exclude events from the target year that are >= target week
-    df_all = df_all[~((df_all["year"] == args.year) & (df_all["week"] >= args.week))]
-    
+    # Load from consolidated all_players_stats.json (includes DNP rows, leakage-safe)
+    all_stats_path = os.path.join(sDir, "all_players_stats.json")
+    if os.path.exists(all_stats_path):
+        df_all = load_all_players_stats(all_stats_path, args.year, args.week)
+    else:
+        # Fallback to per-year files if all_players_stats.json missing
+        df_all = pd.concat([load_stats_json(os.path.join(sDir, f"combined_player_stats_{yr}.json")) for yr in range(2023, args.year + 1) if os.path.exists(os.path.join(sDir, f"combined_player_stats_{yr}.json"))], ignore_index=True)
+        df_all = df_all[~((df_all["year"] == args.year) & (df_all["week"] >= args.week))]
+    df_all = df_all.fillna(0)
+
     df_all = add_rolling_features(df_all)
     m_by_g = load_all_matchups(sDir)
     def_r, team_def, pair_r, pvst_r = compute_defender_ratings(df_all, m_by_g)
@@ -418,6 +534,88 @@ def main():
 
     team_current_foPct = df_all.groupby("team")[["faceoffsWon", "faceoffs"]].apply(lambda x: x["faceoffsWon"].sum() / max(1, x["faceoffs"].sum())).to_dict()
     
+    # -- Load gameday rosters to compute test-week injury features --
+    def clean_name(n): return (n or "").replace("'", "").replace("-", "").replace(".", "").replace(" ", "").lower()
+    
+    gameday_path = os.path.join(sDir, f"gameday_rosters_week{args.week}.json")
+    api_roster_by_team = {}  # team_id -> list of player dicts
+    if os.path.exists(gameday_path):
+        with open(gameday_path, encoding="utf-8") as f: gr = json.load(f)
+        for ev in gr.get("data", {}).get("items", []):
+            for side in ["homeTeam", "awayTeam"]:
+                t = ev.get(side) or {}
+                tid = t.get("officialId")
+                if tid:
+                    api_roster_by_team.setdefault(tid, []).extend(t.get("gamedayRoster") or [])
+
+    # Build per-team injury metrics using the gameday roster and player seasonal averages
+    def compute_test_injury_feats(team_id, opp_id):
+        """Returns (vacated_touch_share, inactive_fp_avg, opp_ssdm_health, opp_def_health, opp_goalie_health)"""
+        # Team own vacated touch share and inactive fp avg
+        t_vacated_touch = 0.0
+        t_inactive_fp_sum = 0.0
+        t_inactive_count = 0
+        t_total_exp_touches = 0.0
+
+        gameday_players = api_roster_by_team.get(team_id, [])
+        if gameday_players:
+            for gp in gameday_players:
+                fn = clean_name(gp.get("firstName", ""))
+                ln = clean_name(gp.get("lastName", ""))
+                # Match to p_avgs for this player
+                matched = p_avgs[(p_avgs["firstName"].apply(clean_name) == fn) & (p_avgs["lastName"].apply(clean_name) == ln)]
+                if matched.empty: continue
+                r = matched.iloc[0]
+                exp_touches = float(r.get("touches_season_avg", 0) or 0)
+                t_total_exp_touches += exp_touches
+                # DNP check: not in combined_player_stats fallback_data for this week
+                # We treat everyone in gameday roster as active (they are on the list)
+                # vacated = players who are listed but with injuryStatus indicating scratch
+                # Use rosterStatus: 'active' or 'starter' = playing, anything else = scratch
+                rs = gp.get("rosterStatus", "active")
+                if rs not in ("active", "starter"):
+                    t_vacated_touch += exp_touches
+                    fp_avg = float(r.get("fp_season_avg", 0) or 0)
+                    t_inactive_fp_sum += fp_avg
+                    t_inactive_count += 1
+
+        vts = t_vacated_touch / t_total_exp_touches if t_total_exp_touches > 0 else 0.0
+        inact_fp = t_inactive_fp_sum / t_inactive_count if t_inactive_count > 0 else 0.0
+
+        # Opponent defensive health (from opponent gameday roster)
+        opp_players = api_roster_by_team.get(opp_id, [])
+        active_ssdm, active_def = 0.0, 0.0
+        opp_goalie_players = []
+        if opp_players:
+            for gp in opp_players:
+                rs = gp.get("rosterStatus", "active")
+                is_active = rs in ("active", "starter")
+                pos = str(gp.get("position", "")).upper()
+                if pos in ("SSDM", "LSM") and is_active: active_ssdm += 1
+                if pos == "D" and is_active: active_def += 1
+                if pos == "G":
+                    fn = clean_name(gp.get("firstName", ""))
+                    ln = clean_name(gp.get("lastName", ""))
+                    matched = p_avgs[(p_avgs["firstName"].apply(clean_name) == fn) & (p_avgs["lastName"].apply(clean_name) == ln)]
+                    fp_avg = float(matched.iloc[0].get("fp_season_avg", 0) or 0) if not matched.empty else 0.0
+                    opp_goalie_players.append({"fp_avg": fp_avg, "is_active": is_active})
+
+        # Compare against historical seasonal averages for opponent
+        hist_opp = df_all[df_all["team"] == opp_id]
+        hist_ssdm_avg = hist_opp[hist_opp["subPosition"] == "SSDM"].groupby("eventId").size().mean() if not hist_opp.empty else None
+        hist_def_avg = hist_opp[hist_opp["subPosition"] == "Defensemen"].groupby("eventId").size().mean() if not hist_opp.empty else None
+
+        opp_ssdm_h = min(1.0, active_ssdm / hist_ssdm_avg) if (hist_ssdm_avg and hist_ssdm_avg > 0 and opp_players) else 1.0
+        opp_def_h = min(1.0, active_def / hist_def_avg) if (hist_def_avg and hist_def_avg > 0 and opp_players) else 1.0
+
+        # Goalie health: is the highest-avg goalie active?
+        opp_goalie_h = 1.0
+        if opp_goalie_players:
+            best = max(opp_goalie_players, key=lambda x: x["fp_avg"])
+            opp_goalie_h = 1.0 if best["is_active"] else 0.0
+
+        return vts, inact_fp, opp_ssdm_h, opp_def_h, opp_goalie_h
+
     test_rows = []
     for m in matchups:
         for t, opp in [(m["team_a"], m["team_b"]), (m["team_b"], m["team_a"])]:
@@ -431,6 +629,14 @@ def main():
                 t_df["days_since_last_game"] = 7.0
             
             t_df["team_faceoff_advantage"] = team_current_foPct.get(t, 0.5) - team_current_foPct.get(opp, 0.5)
+            
+            # Compute injury/roster features for this matchup
+            vts, inact_fp, opp_ssdm_h, opp_def_h, opp_goalie_h = compute_test_injury_feats(t, opp)
+            t_df["team_vacated_touch_share"] = vts
+            t_df["team_inactive_fp_avg"] = inact_fp
+            t_df["opp_ssdm_health"] = opp_ssdm_h
+            t_df["opp_def_health"] = opp_def_h
+            t_df["opp_goalie_health"] = opp_goalie_h
             
             tm = t_df.apply(lambda r: get_feats(r, m_by_g.get(m["game_id"], {}).get("matchups", [])), axis=1, result_type='expand')
             t_df["pairing_rating"], t_df["opponent_rating"], t_df["player_vs_team_rating"], t_df["team_def_rating"] = tm[0], tm[1], tm[2], tm[3]
