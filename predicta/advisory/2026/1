@@ -1,40 +1,52 @@
 {
     "Cash": [
         {
-            "firstName": "Jackson",
-            "lastName": "Eicher",
-            "team": "CHA",
-            "opponent": "ATL",
-            "game_id": "2026-ev-2",
-            "position": "Attack",
-            "salary": 26,
-            "EV": 52.7,
-            "ceiling": 22.2,
-            "boom": 93.2
-        },
-        {
-            "firstName": "Pat",
-            "lastName": "Kavanagh",
+            "firstName": "Brennan",
+            "lastName": "O'Neill",
             "team": "OUT",
             "opponent": "ARC",
             "game_id": "2026-ev-3",
             "position": "Attack",
-            "salary": 17,
-            "EV": 52.1,
-            "ceiling": 24.3,
-            "boom": 91.6
+            "salary": 44,
+            "EV": 54.2,
+            "ceiling": 23.6,
+            "boom": 97.4
         },
         {
-            "firstName": "Matt",
-            "lastName": "DeLuca",
-            "team": "WAT",
-            "opponent": "WHP",
+            "firstName": "Aidan",
+            "lastName": "Carroll",
+            "team": "WHP",
+            "opponent": "WAT",
             "game_id": "2026-ev-4",
+            "position": "Attack",
+            "salary": 39,
+            "EV": 46.7,
+            "ceiling": 21.0,
+            "boom": 77.2
+        },
+        {
+            "firstName": "Liam",
+            "lastName": "Entenmann",
+            "team": "ATL",
+            "opponent": "CHA",
+            "game_id": "2026-ev-2",
             "position": "Goalie",
-            "salary": 26,
-            "EV": 39.5,
-            "ceiling": 23.9,
-            "boom": 69.1
+            "salary": 47,
+            "EV": 42.6,
+            "ceiling": 21.4,
+            "boom": 80.8
+        },
+        {
+            "firstName": "Levi",
+            "lastName": "Anderson",
+            "team": "ATL",
+            "opponent": "CHA",
+            "game_id": "2026-ev-2",
+            "position": "Midfield",
+            "salary": 10,
+            "EV": 34.0,
+            "ceiling": 17.9,
+            "boom": 89.4
         },
         {
             "firstName": "Petey",
@@ -44,33 +56,9 @@
             "game_id": "2026-ev-4",
             "position": "Faceoff",
             "salary": 8,
-            "EV": 29.2,
-            "ceiling": 17.7,
-            "boom": 85.8
-        },
-        {
-            "firstName": "JJ",
-            "lastName": "Sillstrop",
-            "team": "CHA",
-            "opponent": "ATL",
-            "game_id": "2026-ev-2",
-            "position": "Midfield",
-            "salary": 7,
-            "EV": 27.7,
-            "ceiling": 11.7,
-            "boom": 68.1
-        },
-        {
-            "firstName": "Brendan",
-            "lastName": "Lavelle",
-            "team": "ARC",
-            "opponent": "OUT",
-            "game_id": "2026-ev-3",
-            "position": "Defense",
-            "salary": 9,
-            "EV": 25.7,
-            "ceiling": 16.6,
-            "boom": 98.3
+            "EV": 29.0,
+            "ceiling": 7.7,
+            "boom": 84.9
         },
         {
             "firstName": "Bryan",
@@ -80,23 +68,47 @@
             "game_id": "2026-ev-2",
             "position": "Midfield",
             "salary": 20,
-            "EV": 25.3,
-            "ceiling": 17.6,
-            "boom": 59.8
+            "EV": 28.0,
+            "ceiling": 17.1,
+            "boom": 68.9
+        },
+        {
+            "firstName": "Brendan",
+            "lastName": "Lavelle",
+            "team": "ARC",
+            "opponent": "OUT",
+            "game_id": "2026-ev-3",
+            "position": "Defense",
+            "salary": 9,
+            "EV": 25.9,
+            "ceiling": 17.8,
+            "boom": 99.1
         }
     ],
     "Ceiling": [
         {
-            "firstName": "Liam",
-            "lastName": "Entenmann",
-            "team": "ATL",
-            "opponent": "CHA",
-            "game_id": "2026-ev-2",
+            "firstName": "Emmet",
+            "lastName": "Carroll",
+            "team": "WHP",
+            "opponent": "WAT",
+            "game_id": "2026-ev-4",
             "position": "Goalie",
-            "salary": 47,
-            "EV": 35.2,
-            "ceiling": 26.0,
-            "boom": 53.0
+            "salary": 44,
+            "EV": 39.8,
+            "ceiling": 24.3,
+            "boom": 70.3
+        },
+        {
+            "firstName": "Brennan",
+            "lastName": "O'Neill",
+            "team": "OUT",
+            "opponent": "ARC",
+            "game_id": "2026-ev-3",
+            "position": "Attack",
+            "salary": 44,
+            "EV": 54.2,
+            "ceiling": 23.6,
+            "boom": 97.4
         },
         {
             "firstName": "Kieran",
@@ -106,69 +118,57 @@
             "game_id": "2026-ev-4",
             "position": "Attack",
             "salary": 35,
-            "EV": 26.1,
-            "ceiling": 24.8,
-            "boom": 22.4
+            "EV": 42.3,
+            "ceiling": 23.5,
+            "boom": 65.6
         },
         {
-            "firstName": "Rob",
-            "lastName": "Pannell",
+            "firstName": "Brad",
+            "lastName": "Smith",
             "team": "WHP",
             "opponent": "WAT",
             "game_id": "2026-ev-4",
-            "position": "Attack",
-            "salary": 28,
-            "EV": 21.0,
-            "ceiling": 24.7,
-            "boom": 8.9
+            "position": "Midfield",
+            "salary": 15,
+            "EV": 13.3,
+            "ceiling": 20.1,
+            "boom": 19.4
         },
         {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
-            "team": "ATL",
-            "opponent": "CHA",
-            "game_id": "2026-ev-2",
-            "position": "Faceoff",
-            "salary": 12,
-            "EV": 15.7,
-            "ceiling": 21.8,
-            "boom": 23.5
-        },
-        {
-            "firstName": "Grant",
-            "lastName": "Ament",
+            "firstName": "Mason",
+            "lastName": "Woodward",
             "team": "ARC",
             "opponent": "RED",
             "game_id": "2026-ev-1",
-            "position": "Midfield",
-            "salary": 14,
-            "EV": 16.3,
-            "ceiling": 20.1,
-            "boom": 29.4
+            "position": "Defense",
+            "salary": 16,
+            "EV": 20.5,
+            "ceiling": 18.5,
+            "boom": 73.9
         },
         {
-            "firstName": "Graham",
-            "lastName": "Bundy",
-            "team": "OUT",
-            "opponent": "ARC",
-            "game_id": "2026-ev-3",
+            "firstName": "Levi",
+            "lastName": "Anderson",
+            "team": "ATL",
+            "opponent": "CHA",
+            "game_id": "2026-ev-2",
             "position": "Midfield",
             "salary": 10,
-            "EV": 7.9,
-            "ceiling": 19.2,
-            "boom": 1.3
+            "EV": 34.0,
+            "ceiling": 17.9,
+            "boom": 89.4
         },
         {
-            "firstName": "Michael",
-            "lastName": "Manley",
-            "team": "OUT",
+            "firstName": "TD",
+            "lastName": "Ierlan",
+            "team": "RED",
             "opponent": "ARC",
-            "game_id": "2026-ev-3",
-            "position": "Defense",
-            "salary": 13,
-            "EV": 19.4,
-            "ceiling": 18.3,
-            "boom": 68.8
+            "game_id": "2026-ev-1",
+            "position": "Faceoff",
+            "salary": 23,
+            "EV": 17.1,
+            "ceiling": 14.4,
+            "boom": 30.3
         }
     ],
     "StackedBoom": [
@@ -180,95 +180,9 @@
             "game_id": "2026-ev-3",
             "position": "Defense",
             "salary": 9,
-            "EV": 25.7,
-            "ceiling": 16.6,
-            "boom": 98.3
-        },
-        {
-            "firstName": "Jackson",
-            "lastName": "Eicher",
-            "team": "CHA",
-            "opponent": "ATL",
-            "game_id": "2026-ev-2",
-            "position": "Attack",
-            "salary": 26,
-            "EV": 52.7,
-            "ceiling": 22.2,
-            "boom": 93.2
-        },
-        {
-            "firstName": "Pat",
-            "lastName": "Kavanagh",
-            "team": "OUT",
-            "opponent": "ARC",
-            "game_id": "2026-ev-3",
-            "position": "Attack",
-            "salary": 17,
-            "EV": 52.1,
-            "ceiling": 24.3,
-            "boom": 91.6
-        },
-        {
-            "firstName": "Petey",
-            "lastName": "LaSalla",
-            "team": "WHP",
-            "opponent": "WAT",
-            "game_id": "2026-ev-4",
-            "position": "Faceoff",
-            "salary": 8,
-            "EV": 29.2,
-            "ceiling": 17.7,
-            "boom": 85.8
-        },
-        {
-            "firstName": "Matt",
-            "lastName": "DeLuca",
-            "team": "WAT",
-            "opponent": "WHP",
-            "game_id": "2026-ev-4",
-            "position": "Goalie",
-            "salary": 26,
-            "EV": 39.5,
-            "ceiling": 23.9,
-            "boom": 69.1
-        },
-        {
-            "firstName": "JJ",
-            "lastName": "Sillstrop",
-            "team": "CHA",
-            "opponent": "ATL",
-            "game_id": "2026-ev-2",
-            "position": "Midfield",
-            "salary": 7,
-            "EV": 27.7,
-            "ceiling": 11.7,
-            "boom": 68.1
-        },
-        {
-            "firstName": "Bryan",
-            "lastName": "Costabile",
-            "team": "ATL",
-            "opponent": "CHA",
-            "game_id": "2026-ev-2",
-            "position": "Midfield",
-            "salary": 20,
-            "EV": 25.3,
-            "ceiling": 17.6,
-            "boom": 59.8
-        }
-    ],
-    "StackedReg": [
-        {
-            "firstName": "Liam",
-            "lastName": "Entenmann",
-            "team": "ATL",
-            "opponent": "CHA",
-            "game_id": "2026-ev-2",
-            "position": "Goalie",
-            "salary": 47,
-            "EV": 35.2,
-            "ceiling": 26.0,
-            "boom": 53.0
+            "EV": 25.9,
+            "ceiling": 17.8,
+            "boom": 99.1
         },
         {
             "firstName": "Brennan",
@@ -278,76 +192,162 @@
             "game_id": "2026-ev-3",
             "position": "Attack",
             "salary": 44,
-            "EV": 50.6,
-            "ceiling": 24.7,
-            "boom": 87.8
+            "EV": 54.2,
+            "ceiling": 23.6,
+            "boom": 97.4
         },
         {
-            "firstName": "Pat",
-            "lastName": "Kavanagh",
-            "team": "OUT",
-            "opponent": "ARC",
-            "game_id": "2026-ev-3",
-            "position": "Attack",
-            "salary": 17,
-            "EV": 52.1,
-            "ceiling": 24.3,
-            "boom": 91.6
-        },
-        {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
+            "firstName": "Levi",
+            "lastName": "Anderson",
             "team": "ATL",
             "opponent": "CHA",
             "game_id": "2026-ev-2",
-            "position": "Faceoff",
-            "salary": 12,
-            "EV": 15.7,
-            "ceiling": 21.8,
-            "boom": 23.5
-        },
-        {
-            "firstName": "Graham",
-            "lastName": "Bundy",
-            "team": "OUT",
-            "opponent": "ARC",
-            "game_id": "2026-ev-3",
             "position": "Midfield",
             "salary": 10,
-            "EV": 7.9,
-            "ceiling": 19.2,
-            "boom": 1.3
+            "EV": 34.0,
+            "ceiling": 17.9,
+            "boom": 89.4
         },
         {
-            "firstName": "Jared",
-            "lastName": "Bernhardt",
-            "team": "OUT",
-            "opponent": "ARC",
+            "firstName": "Petey",
+            "lastName": "LaSalla",
+            "team": "WHP",
+            "opponent": "WAT",
+            "game_id": "2026-ev-4",
+            "position": "Faceoff",
+            "salary": 8,
+            "EV": 29.0,
+            "ceiling": 7.7,
+            "boom": 84.9
+        },
+        {
+            "firstName": "Liam",
+            "lastName": "Entenmann",
+            "team": "ATL",
+            "opponent": "CHA",
+            "game_id": "2026-ev-2",
+            "position": "Goalie",
+            "salary": 47,
+            "EV": 42.6,
+            "ceiling": 21.4,
+            "boom": 80.8
+        },
+        {
+            "firstName": "Aidan",
+            "lastName": "Carroll",
+            "team": "WHP",
+            "opponent": "WAT",
+            "game_id": "2026-ev-4",
+            "position": "Attack",
+            "salary": 39,
+            "EV": 46.7,
+            "ceiling": 21.0,
+            "boom": 77.2
+        },
+        {
+            "firstName": "Bryan",
+            "lastName": "Costabile",
+            "team": "ATL",
+            "opponent": "CHA",
+            "game_id": "2026-ev-2",
+            "position": "Midfield",
+            "salary": 20,
+            "EV": 28.0,
+            "ceiling": 17.1,
+            "boom": 68.9
+        }
+    ],
+    "StackedReg": [
+        {
+            "firstName": "Emmet",
+            "lastName": "Carroll",
+            "team": "WHP",
+            "opponent": "WAT",
+            "game_id": "2026-ev-4",
+            "position": "Goalie",
+            "salary": 44,
+            "EV": 39.8,
+            "ceiling": 24.3,
+            "boom": 70.3
+        },
+        {
+            "firstName": "Connor",
+            "lastName": "Fields",
+            "team": "ARC",
+            "opponent": "OUT",
+            "game_id": "2026-ev-3",
+            "position": "Attack",
+            "salary": 23,
+            "EV": 39.0,
+            "ceiling": 22.0,
+            "boom": 56.7
+        },
+        {
+            "firstName": "Sam",
+            "lastName": "King",
+            "team": "ARC",
+            "opponent": "OUT",
+            "game_id": "2026-ev-3",
+            "position": "Attack",
+            "salary": 25,
+            "EV": 39.9,
+            "ceiling": 19.5,
+            "boom": 59.1
+        },
+        {
+            "firstName": "Mason",
+            "lastName": "Woodward",
+            "team": "ARC",
+            "opponent": "RED",
+            "game_id": "2026-ev-1",
+            "position": "Defense",
+            "salary": 16,
+            "EV": 20.5,
+            "ceiling": 18.5,
+            "boom": 73.9
+        },
+        {
+            "firstName": "Ryan",
+            "lastName": "Ambler",
+            "team": "ARC",
+            "opponent": "OUT",
             "game_id": "2026-ev-3",
             "position": "Midfield",
-            "salary": 18,
-            "EV": 19.3,
-            "ceiling": 18.0,
-            "boom": 39.6
+            "salary": 6,
+            "EV": 16.2,
+            "ceiling": 16.8,
+            "boom": 29.3
         },
         {
-            "firstName": "Nick",
-            "lastName": "Grill",
-            "team": "OUT",
-            "opponent": "ARC",
+            "firstName": "Dyson",
+            "lastName": "Williams",
+            "team": "ARC",
+            "opponent": "OUT",
             "game_id": "2026-ev-3",
-            "position": "Defense",
-            "salary": 5,
-            "EV": 19.2,
-            "ceiling": 16.8,
-            "boom": 68.1
+            "position": "Midfield",
+            "salary": 12,
+            "EV": 26.3,
+            "ceiling": 15.9,
+            "boom": 63.2
+        },
+        {
+            "firstName": "TD",
+            "lastName": "Ierlan",
+            "team": "RED",
+            "opponent": "ARC",
+            "game_id": "2026-ev-1",
+            "position": "Faceoff",
+            "salary": 23,
+            "EV": 17.1,
+            "ceiling": 14.4,
+            "boom": 30.3
         }
     ],
     "Core": [
-        "Pat Kavanagh"
+        "Brennan O'Neill",
+        "Levi Anderson"
     ],
     "Sleepers": [
-        "Graham Bundy",
-        "Nick Grill"
+        "Ryan Ambler"
     ]
 }

@@ -150,6 +150,15 @@ function populatePlayerList() {
         return aLast.localeCompare(bLast) || aParts[0].localeCompare(bParts[0]);
     });
     
+    const nameMap = new Map();
+    players.forEach(p => {
+        const nameParts = p.name.split(' ');
+        const lastName = nameParts[nameParts.length - 1];
+        const firstInitial = nameParts[0][0];
+        const key = `${lastName}, ${firstInitial}.`;
+        nameMap.set(key, (nameMap.get(key) || 0) + 1);
+    });
+    
     players.forEach(p => {
         const data = allPlayersStats[p.slug];
         
@@ -165,9 +174,11 @@ function populatePlayerList() {
 
         if (isMatch) {
             const nameParts = p.name.split(' ');
+            const firstName = nameParts[0];
             const lastName = nameParts[nameParts.length - 1];
-            const firstInitial = nameParts[0][0];
-            const formattedName = `${lastName}, ${firstInitial}.`;
+            const firstInitial = firstName[0];
+            const shortName = `${lastName}, ${firstInitial}.`;
+            const formattedName = (nameMap.get(shortName) > 1) ? `${lastName}, ${firstName}` : shortName;
             
             const opt = document.createElement('option');
             opt.value = p.slug;

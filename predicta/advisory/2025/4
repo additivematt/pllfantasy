@@ -1,298 +1,16 @@
 {
     "Cash": [
         {
-            "firstName": "Rob",
-            "lastName": "Pannell",
-            "team": "WHP",
-            "opponent": "CAN",
-            "game_id": "2025-ev-14",
-            "position": "Attack",
-            "salary": 27,
-            "EV": 52.4,
-            "ceiling": 23.2,
-            "boom": 93.7
-        },
-        {
-            "firstName": "Emmet",
+            "firstName": "Aidan",
             "lastName": "Carroll",
             "team": "WHP",
-            "opponent": "CHA",
-            "game_id": "2025-ev-16",
-            "position": "Goalie",
-            "salary": 16,
-            "EV": 46.2,
-            "ceiling": 24.9,
-            "boom": 95.5
-        },
-        {
-            "firstName": "Connor",
-            "lastName": "Fields",
-            "team": "ARC",
-            "opponent": "OUT",
-            "game_id": "2025-ev-15",
-            "position": "Attack",
-            "salary": 38,
-            "EV": 43.4,
-            "ceiling": 24.6,
-            "boom": 69.6
-        },
-        {
-            "firstName": "Justin",
-            "lastName": "Anderson",
-            "team": "OUT",
-            "opponent": "ARC",
-            "game_id": "2025-ev-15",
-            "position": "Midfield",
-            "salary": 8,
-            "EV": 34.9,
-            "ceiling": 20.4,
-            "boom": 90.6
-        },
-        {
-            "firstName": "Jack",
-            "lastName": "Hannah",
-            "team": "WAT",
-            "opponent": "ATL",
-            "game_id": "2025-ev-13",
-            "position": "Midfield",
-            "salary": 27,
-            "EV": 34.6,
-            "ceiling": 20.8,
-            "boom": 89.4
-        },
-        {
-            "firstName": "Piper",
-            "lastName": "Bond",
-            "team": "ARC",
-            "opponent": "OUT",
-            "game_id": "2025-ev-15",
-            "position": "Defense",
-            "salary": 5,
-            "EV": 25.8,
-            "ceiling": 20.2,
-            "boom": 98.5
-        },
-        {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
-            "team": "ATL",
-            "opponent": "WAT",
-            "game_id": "2025-ev-13",
-            "position": "Faceoff",
-            "salary": 35,
-            "EV": 23.0,
-            "ceiling": 23.9,
-            "boom": 53.7
-        }
-    ],
-    "Ceiling": [
-        {
-            "firstName": "Colin",
-            "lastName": "Kirst",
-            "team": "CAN",
-            "opponent": "WHP",
-            "game_id": "2025-ev-14",
-            "position": "Goalie",
-            "salary": 35,
-            "EV": 21.0,
-            "ceiling": 26.1,
-            "boom": 0.6
-        },
-        {
-            "firstName": "Brennan",
-            "lastName": "O'Neill",
-            "team": "OUT",
-            "opponent": "ARC",
-            "game_id": "2025-ev-15",
-            "position": "Attack",
-            "salary": 40,
-            "EV": 34.3,
-            "ceiling": 25.0,
-            "boom": 45.2
-        },
-        {
-            "firstName": "Marcus",
-            "lastName": "Holman",
-            "team": "CAN",
-            "opponent": "WHP",
-            "game_id": "2025-ev-14",
-            "position": "Attack",
-            "salary": 37,
-            "EV": 36.2,
-            "ceiling": 24.5,
-            "boom": 50.4
-        },
-        {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
-            "team": "ATL",
-            "opponent": "WAT",
-            "game_id": "2025-ev-13",
-            "position": "Faceoff",
-            "salary": 35,
-            "EV": 23.0,
-            "ceiling": 23.9,
-            "boom": 53.7
-        },
-        {
-            "firstName": "Adam",
-            "lastName": "Poitras",
-            "team": "WHP",
-            "opponent": "CAN",
-            "game_id": "2025-ev-14",
-            "position": "Midfield",
-            "salary": 29,
-            "EV": 29.1,
-            "ceiling": 22.4,
-            "boom": 71.2
-        },
-        {
-            "firstName": "Troy",
-            "lastName": "Reh",
-            "team": "CHA",
-            "opponent": "WHP",
-            "game_id": "2025-ev-16",
-            "position": "Defense",
-            "salary": 16,
-            "EV": 25.7,
-            "ceiling": 21.5,
-            "boom": 98.4
-        },
-        {
-            "firstName": "Justin",
-            "lastName": "Anderson",
-            "team": "OUT",
-            "opponent": "ARC",
-            "game_id": "2025-ev-15",
-            "position": "Midfield",
-            "salary": 8,
-            "EV": 34.9,
-            "ceiling": 20.4,
-            "boom": 90.6
-        }
-    ],
-    "StackedBoom": [
-        {
-            "firstName": "Piper",
-            "lastName": "Bond",
-            "team": "ARC",
-            "opponent": "OUT",
-            "game_id": "2025-ev-15",
-            "position": "Defense",
-            "salary": 5,
-            "EV": 25.8,
-            "ceiling": 20.2,
-            "boom": 98.5
-        },
-        {
-            "firstName": "Emmet",
-            "lastName": "Carroll",
-            "team": "WHP",
-            "opponent": "CHA",
-            "game_id": "2025-ev-16",
-            "position": "Goalie",
-            "salary": 16,
-            "EV": 46.2,
-            "ceiling": 24.9,
-            "boom": 95.5
-        },
-        {
-            "firstName": "Rob",
-            "lastName": "Pannell",
-            "team": "WHP",
             "opponent": "CAN",
             "game_id": "2025-ev-14",
             "position": "Attack",
-            "salary": 27,
-            "EV": 52.4,
-            "ceiling": 23.2,
-            "boom": 93.7
-        },
-        {
-            "firstName": "Jack",
-            "lastName": "Hannah",
-            "team": "WAT",
-            "opponent": "ATL",
-            "game_id": "2025-ev-13",
-            "position": "Midfield",
-            "salary": 27,
-            "EV": 34.6,
-            "ceiling": 20.8,
-            "boom": 89.4
-        },
-        {
-            "firstName": "Zach",
-            "lastName": "Currier",
-            "team": "WAT",
-            "opponent": "ATL",
-            "game_id": "2025-ev-13",
-            "position": "Midfield",
-            "salary": 19,
-            "EV": 33.9,
-            "ceiling": 18.7,
-            "boom": 87.2
-        },
-        {
-            "firstName": "Connor",
-            "lastName": "Fields",
-            "team": "ARC",
-            "opponent": "OUT",
-            "game_id": "2025-ev-15",
-            "position": "Attack",
-            "salary": 38,
-            "EV": 43.4,
-            "ceiling": 24.6,
-            "boom": 69.6
-        },
-        {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
-            "team": "ATL",
-            "opponent": "WAT",
-            "game_id": "2025-ev-13",
-            "position": "Faceoff",
-            "salary": 35,
-            "EV": 23.0,
-            "ceiling": 23.9,
-            "boom": 53.7
-        }
-    ],
-    "StackedReg": [
-        {
-            "firstName": "Emmet",
-            "lastName": "Carroll",
-            "team": "WHP",
-            "opponent": "CHA",
-            "game_id": "2025-ev-16",
-            "position": "Goalie",
-            "salary": 16,
-            "EV": 46.2,
-            "ceiling": 24.9,
-            "boom": 95.5
-        },
-        {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
-            "team": "ATL",
-            "opponent": "WAT",
-            "game_id": "2025-ev-13",
-            "position": "Faceoff",
-            "salary": 35,
-            "EV": 23.0,
-            "ceiling": 23.9,
-            "boom": 53.7
-        },
-        {
-            "firstName": "Rob",
-            "lastName": "Pannell",
-            "team": "WHP",
-            "opponent": "CAN",
-            "game_id": "2025-ev-14",
-            "position": "Attack",
-            "salary": 27,
-            "EV": 52.4,
-            "ceiling": 23.2,
-            "boom": 93.7
+            "salary": 31,
+            "EV": 54.5,
+            "ceiling": 23.4,
+            "boom": 99.3
         },
         {
             "firstName": "TJ",
@@ -302,33 +20,21 @@
             "game_id": "2025-ev-14",
             "position": "Attack",
             "salary": 48,
-            "EV": 21.4,
-            "ceiling": 23.0,
-            "boom": 10.7
+            "EV": 53.6,
+            "ceiling": 20.7,
+            "boom": 96.9
         },
         {
-            "firstName": "Adam",
-            "lastName": "Poitras",
-            "team": "WHP",
-            "opponent": "CAN",
-            "game_id": "2025-ev-14",
-            "position": "Midfield",
-            "salary": 29,
-            "EV": 29.1,
-            "ceiling": 22.4,
-            "boom": 71.2
-        },
-        {
-            "firstName": "Roman",
-            "lastName": "Puglise",
-            "team": "WHP",
-            "opponent": "CHA",
-            "game_id": "2025-ev-16",
-            "position": "Defense",
-            "salary": 6,
-            "EV": 24.3,
-            "ceiling": 20.2,
-            "boom": 91.9
+            "firstName": "Matt",
+            "lastName": "DeLuca",
+            "team": "WAT",
+            "opponent": "ATL",
+            "game_id": "2025-ev-13",
+            "position": "Goalie",
+            "salary": 38,
+            "EV": 46.9,
+            "ceiling": 12.7,
+            "boom": 98.0
         },
         {
             "firstName": "Brad",
@@ -338,17 +44,312 @@
             "game_id": "2025-ev-16",
             "position": "Midfield",
             "salary": 31,
-            "EV": 8.5,
-            "ceiling": 18.8,
-            "boom": 2.5
+            "EV": 37.1,
+            "ceiling": 14.2,
+            "boom": 97.9
+        },
+        {
+            "firstName": "Mic",
+            "lastName": "Kelly",
+            "team": "CAN",
+            "opponent": "WHP",
+            "game_id": "2025-ev-14",
+            "position": "Midfield",
+            "salary": 10,
+            "EV": 37.0,
+            "ceiling": 16.4,
+            "boom": 97.5
+        },
+        {
+            "firstName": "Beau",
+            "lastName": "Pederson",
+            "team": "ARC",
+            "opponent": "OUT",
+            "game_id": "2025-ev-15",
+            "position": "Defense",
+            "salary": 5,
+            "EV": 24.4,
+            "ceiling": 22.0,
+            "boom": 92.4
+        },
+        {
+            "firstName": "Trevor",
+            "lastName": "Baptiste",
+            "team": "ATL",
+            "opponent": "WAT",
+            "game_id": "2025-ev-13",
+            "position": "Faceoff",
+            "salary": 35,
+            "EV": 21.9,
+            "ceiling": 12.1,
+            "boom": 48.9
+        }
+    ],
+    "Ceiling": [
+        {
+            "firstName": "Emmet",
+            "lastName": "Carroll",
+            "team": "WHP",
+            "opponent": "CAN",
+            "game_id": "2025-ev-14",
+            "position": "Goalie",
+            "salary": 16,
+            "EV": 43.7,
+            "ceiling": 23.9,
+            "boom": 85.9
+        },
+        {
+            "firstName": "Aidan",
+            "lastName": "Carroll",
+            "team": "WHP",
+            "opponent": "CAN",
+            "game_id": "2025-ev-14",
+            "position": "Attack",
+            "salary": 31,
+            "EV": 54.5,
+            "ceiling": 23.4,
+            "boom": 99.3
+        },
+        {
+            "firstName": "Brendan",
+            "lastName": "Lavelle",
+            "team": "ARC",
+            "opponent": "OUT",
+            "game_id": "2025-ev-15",
+            "position": "Defense",
+            "salary": 4,
+            "EV": 23.8,
+            "ceiling": 22.1,
+            "boom": 89.3
+        },
+        {
+            "firstName": "Colin",
+            "lastName": "Heacock",
+            "team": "WHP",
+            "opponent": "CAN",
+            "game_id": "2025-ev-14",
+            "position": "Midfield",
+            "salary": 28,
+            "EV": 37.1,
+            "ceiling": 21.4,
+            "boom": 97.7
+        },
+        {
+            "firstName": "TJ",
+            "lastName": "Malone",
+            "team": "WHP",
+            "opponent": "CAN",
+            "game_id": "2025-ev-14",
+            "position": "Attack",
+            "salary": 48,
+            "EV": 53.6,
+            "ceiling": 20.7,
+            "boom": 96.9
+        },
+        {
+            "firstName": "Levi",
+            "lastName": "Anderson",
+            "team": "WHP",
+            "opponent": "CHA",
+            "game_id": "2025-ev-16",
+            "position": "Midfield",
+            "salary": 15,
+            "EV": 36.7,
+            "ceiling": 18.5,
+            "boom": 96.6
+        },
+        {
+            "firstName": "Trevor",
+            "lastName": "Baptiste",
+            "team": "ATL",
+            "opponent": "WAT",
+            "game_id": "2025-ev-13",
+            "position": "Faceoff",
+            "salary": 35,
+            "EV": 21.9,
+            "ceiling": 12.1,
+            "boom": 48.9
+        }
+    ],
+    "StackedBoom": [
+        {
+            "firstName": "Aidan",
+            "lastName": "Carroll",
+            "team": "WHP",
+            "opponent": "CAN",
+            "game_id": "2025-ev-14",
+            "position": "Attack",
+            "salary": 31,
+            "EV": 54.5,
+            "ceiling": 23.4,
+            "boom": 99.3
+        },
+        {
+            "firstName": "Matt",
+            "lastName": "DeLuca",
+            "team": "WAT",
+            "opponent": "ATL",
+            "game_id": "2025-ev-13",
+            "position": "Goalie",
+            "salary": 38,
+            "EV": 46.9,
+            "ceiling": 12.7,
+            "boom": 98.0
+        },
+        {
+            "firstName": "Colin",
+            "lastName": "Heacock",
+            "team": "WHP",
+            "opponent": "CAN",
+            "game_id": "2025-ev-14",
+            "position": "Midfield",
+            "salary": 28,
+            "EV": 37.1,
+            "ceiling": 21.4,
+            "boom": 97.7
+        },
+        {
+            "firstName": "TJ",
+            "lastName": "Malone",
+            "team": "WHP",
+            "opponent": "CAN",
+            "game_id": "2025-ev-14",
+            "position": "Attack",
+            "salary": 48,
+            "EV": 53.6,
+            "ceiling": 20.7,
+            "boom": 96.9
+        },
+        {
+            "firstName": "Levi",
+            "lastName": "Anderson",
+            "team": "WHP",
+            "opponent": "CHA",
+            "game_id": "2025-ev-16",
+            "position": "Midfield",
+            "salary": 15,
+            "EV": 36.7,
+            "ceiling": 18.5,
+            "boom": 96.6
+        },
+        {
+            "firstName": "Beau",
+            "lastName": "Pederson",
+            "team": "ARC",
+            "opponent": "OUT",
+            "game_id": "2025-ev-15",
+            "position": "Defense",
+            "salary": 5,
+            "EV": 24.4,
+            "ceiling": 22.0,
+            "boom": 92.4
+        },
+        {
+            "firstName": "Trevor",
+            "lastName": "Baptiste",
+            "team": "ATL",
+            "opponent": "WAT",
+            "game_id": "2025-ev-13",
+            "position": "Faceoff",
+            "salary": 35,
+            "EV": 21.9,
+            "ceiling": 12.1,
+            "boom": 48.9
+        }
+    ],
+    "StackedReg": [
+        {
+            "firstName": "Emmet",
+            "lastName": "Carroll",
+            "team": "WHP",
+            "opponent": "CAN",
+            "game_id": "2025-ev-14",
+            "position": "Goalie",
+            "salary": 16,
+            "EV": 43.7,
+            "ceiling": 23.9,
+            "boom": 85.9
+        },
+        {
+            "firstName": "Aidan",
+            "lastName": "Carroll",
+            "team": "WHP",
+            "opponent": "CAN",
+            "game_id": "2025-ev-14",
+            "position": "Attack",
+            "salary": 31,
+            "EV": 54.5,
+            "ceiling": 23.4,
+            "boom": 99.3
+        },
+        {
+            "firstName": "Beau",
+            "lastName": "Pederson",
+            "team": "ARC",
+            "opponent": "OUT",
+            "game_id": "2025-ev-15",
+            "position": "Defense",
+            "salary": 5,
+            "EV": 24.4,
+            "ceiling": 22.0,
+            "boom": 92.4
+        },
+        {
+            "firstName": "Colin",
+            "lastName": "Heacock",
+            "team": "WHP",
+            "opponent": "CAN",
+            "game_id": "2025-ev-14",
+            "position": "Midfield",
+            "salary": 28,
+            "EV": 37.1,
+            "ceiling": 21.4,
+            "boom": 97.7
+        },
+        {
+            "firstName": "TJ",
+            "lastName": "Malone",
+            "team": "WHP",
+            "opponent": "CAN",
+            "game_id": "2025-ev-14",
+            "position": "Attack",
+            "salary": 48,
+            "EV": 53.6,
+            "ceiling": 20.7,
+            "boom": 96.9
+        },
+        {
+            "firstName": "Levi",
+            "lastName": "Anderson",
+            "team": "WHP",
+            "opponent": "CHA",
+            "game_id": "2025-ev-16",
+            "position": "Midfield",
+            "salary": 15,
+            "EV": 36.7,
+            "ceiling": 18.5,
+            "boom": 96.6
+        },
+        {
+            "firstName": "Luke",
+            "lastName": "Wierman",
+            "team": "OUT",
+            "opponent": "ARC",
+            "game_id": "2025-ev-15",
+            "position": "Faceoff",
+            "salary": 19,
+            "EV": 14.6,
+            "ceiling": 12.0,
+            "boom": 16.1
         }
     ],
     "Core": [
-        "Rob Pannell",
-        "Emmet Carroll",
-        "Trevor Baptiste"
+        "Aidan Carroll",
+        "TJ Malone",
+        "Beau Pederson",
+        "Trevor Baptiste",
+        "Colin Heacock",
+        "Levi Anderson"
     ],
-    "Sleepers": [
-        "Roman Puglise"
-    ]
+    "Sleepers": []
 }

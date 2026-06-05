@@ -547,6 +547,30 @@ def main():
                 tid = t.get("officialId")
                 if tid:
                     api_roster_by_team.setdefault(tid, []).extend(t.get("gamedayRoster") or [])
+    else:
+        # Backtest fallback: load actual active/DNP status from all_players_stats.json
+        stats_path = os.path.join(sDir, "all_players_stats.json")
+        if os.path.exists(stats_path):
+            import re
+            print(f"No live gameday roster found. Simulating rosters from {stats_path} for {args.year} Week {args.week}...")
+            with open(stats_path, encoding="utf-8") as f:
+                all_stats = json.load(f)
+            for slug, p_data in all_stats.items():
+                for entry in p_data.get("stats", []):
+                    e_id = entry.get("event", {}).get("eventId", "")
+                    yr_match = re.search(r'^(\d{4})_', e_id)
+                    yr = int(yr_match.group(1)) if yr_match else None
+                    if yr == args.year and entry.get("week") == args.week:
+                        ident = entry.get("identity", {})
+                        tid = ident.get("team")
+                        if tid:
+                            is_dnp = entry.get("isDNP", False)
+                            api_roster_by_team.setdefault(tid, []).append({
+                                "firstName": ident.get("firstName") or slug.split("-")[0].capitalize(),
+                                "lastName": ident.get("lastName") or slug.split("-")[-1].capitalize(),
+                                "rosterStatus": "active" if not is_dnp else "scratched",
+                                "position": ident.get("position") or "M"
+                            })
 
     # Build per-team injury metrics using the gameday roster and player seasonal averages
     def compute_test_injury_feats(team_id, opp_id):
