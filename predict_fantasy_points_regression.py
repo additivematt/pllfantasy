@@ -312,6 +312,18 @@ FEATURE_LISTS = {
     "Goalie":   ["fp_season_avg", "fp_last3_avg", "fp_lag1", "saves_season_avg", "saves_last3_avg", "days_since_last_game", "pairing_rating", "player_vs_team_rating", "team_def_rating"],
 }
 
+def filter_played_only(df):
+    if df.empty:
+        return df
+    is_active = (df["isDNP"] != True) & df["TotalFantasyPoints"].notna()
+    is_goalie = (df["positionGroup"] == "Goalie")
+    saves = df["saves"] if "saves" in df.columns else 0
+    ga = df["goalsAgainst"] if "goalsAgainst" in df.columns else 0
+    fp = df["TotalFantasyPoints"] if "TotalFantasyPoints" in df.columns else 0
+    goalie_played = (saves > 0) | (ga > 0) | (fp > 0)
+    played = (~is_goalie & is_active) | (is_goalie & is_active & goalie_played)
+    return df[played].copy()
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--year", type=int, required=True)
@@ -673,6 +685,7 @@ def main():
     df_test = pd.concat(test_rows, ignore_index=True).fillna(1.0)
 
     df_train = df_all.dropna(subset=["TotalFantasyPoints"]).copy()
+    df_train = filter_played_only(df_train)
     
     preds_out = []
     for pg, feats in FEATURE_LISTS.items():

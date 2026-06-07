@@ -8,21 +8,21 @@
             "game_id": "2025_semifinal_2",
             "position": "Attack",
             "salary": 6,
-            "EV": 54.5,
-            "ceiling": 19.2,
-            "boom": 97.9
+            "EV": 42.5,
+            "ceiling": 24.0,
+            "boom": 66.2
         },
         {
-            "firstName": "Jeff",
-            "lastName": "Teat",
+            "firstName": "Connor",
+            "lastName": "Shellenberger",
             "team": "ATL",
             "opponent": "WAT",
             "game_id": "2025_semifinal_2",
             "position": "Attack",
-            "salary": 46,
-            "EV": 52.8,
-            "ceiling": 14.7,
-            "boom": 93.5
+            "salary": 47,
+            "EV": 39.8,
+            "ceiling": 22.7,
+            "boom": 59.1
         },
         {
             "firstName": "Logan",
@@ -32,9 +32,21 @@
             "game_id": "2025_semifinal_1",
             "position": "Goalie",
             "salary": 39,
-            "EV": 41.6,
-            "ceiling": 23.8,
-            "boom": 77.2
+            "EV": 37.4,
+            "ceiling": 24.0,
+            "boom": 61.2
+        },
+        {
+            "firstName": "Justin",
+            "lastName": "Anderson",
+            "team": "OUT",
+            "opponent": "RED",
+            "game_id": "2025_semifinal_1",
+            "position": "Midfield",
+            "salary": 14,
+            "EV": 29.3,
+            "ceiling": 17.5,
+            "boom": 72.8
         },
         {
             "firstName": "Bryan",
@@ -44,21 +56,9 @@
             "game_id": "2025_semifinal_2",
             "position": "Midfield",
             "salary": 28,
-            "EV": 35.9,
-            "ceiling": 19.0,
-            "boom": 95.1
-        },
-        {
-            "firstName": "Matt",
-            "lastName": "Traynor",
-            "team": "ATL",
-            "opponent": "WAT",
-            "game_id": "2025_semifinal_2",
-            "position": "Midfield",
-            "salary": 22,
-            "EV": 34.5,
-            "ceiling": 16.7,
-            "boom": 90.2
+            "EV": 25.8,
+            "ceiling": 19.5,
+            "boom": 61.1
         },
         {
             "firstName": "Brett",
@@ -68,9 +68,9 @@
             "game_id": "2025_semifinal_2",
             "position": "Defense",
             "salary": 16,
-            "EV": 26.1,
-            "ceiling": 20.7,
-            "boom": 99.7
+            "EV": 24.1,
+            "ceiling": 21.4,
+            "boom": 90.6
         },
         {
             "firstName": "Trevor",
@@ -80,9 +80,9 @@
             "game_id": "2025_semifinal_2",
             "position": "Faceoff",
             "salary": 33,
-            "EV": 24.4,
-            "ceiling": 19.9,
-            "boom": 62.3
+            "EV": 19.7,
+            "ceiling": 24.4,
+            "boom": 40.9
         }
     ],
     "Ceiling": [
@@ -94,33 +94,9 @@
             "game_id": "2025_semifinal_2",
             "position": "Goalie",
             "salary": 43,
-            "EV": 35.7,
-            "ceiling": 24.1,
-            "boom": 54.8
-        },
-        {
-            "firstName": "Brett",
-            "lastName": "Makar",
-            "team": "ATL",
-            "opponent": "WAT",
-            "game_id": "2025_semifinal_2",
-            "position": "Defense",
-            "salary": 16,
-            "EV": 26.1,
-            "ceiling": 20.7,
-            "boom": 99.7
-        },
-        {
-            "firstName": "Andrew",
-            "lastName": "McAdorey",
-            "team": "RED",
-            "opponent": "OUT",
-            "game_id": "2025_semifinal_1",
-            "position": "Midfield",
-            "salary": 32,
-            "EV": 34.2,
-            "ceiling": 20.0,
-            "boom": 89.3
+            "EV": 28.1,
+            "ceiling": 24.8,
+            "boom": 26.3
         },
         {
             "firstName": "Trevor",
@@ -130,21 +106,9 @@
             "game_id": "2025_semifinal_2",
             "position": "Faceoff",
             "salary": 33,
-            "EV": 24.4,
-            "ceiling": 19.9,
-            "boom": 62.3
-        },
-        {
-            "firstName": "Graham",
-            "lastName": "Bundy",
-            "team": "OUT",
-            "opponent": "RED",
-            "game_id": "2025_semifinal_1",
-            "position": "Midfield",
-            "salary": 18,
-            "EV": 32.4,
-            "ceiling": 19.3,
-            "boom": 83.1
+            "EV": 19.7,
+            "ceiling": 24.4,
+            "boom": 40.9
         },
         {
             "firstName": "CJ",
@@ -154,9 +118,9 @@
             "game_id": "2025_semifinal_2",
             "position": "Attack",
             "salary": 6,
-            "EV": 54.5,
-            "ceiling": 19.2,
-            "boom": 97.9
+            "EV": 42.5,
+            "ceiling": 24.0,
+            "boom": 66.2
         },
         {
             "firstName": "Logan",
@@ -166,9 +130,45 @@
             "game_id": "2025_semifinal_1",
             "position": "Attack",
             "salary": 24,
-            "EV": 51.1,
-            "ceiling": 19.2,
-            "boom": 88.9
+            "EV": 30.5,
+            "ceiling": 22.9,
+            "boom": 34.2
+        },
+        {
+            "firstName": "Brett",
+            "lastName": "Makar",
+            "team": "ATL",
+            "opponent": "WAT",
+            "game_id": "2025_semifinal_2",
+            "position": "Defense",
+            "salary": 16,
+            "EV": 24.1,
+            "ceiling": 21.4,
+            "boom": 90.6
+        },
+        {
+            "firstName": "Matt",
+            "lastName": "Traynor",
+            "team": "ATL",
+            "opponent": "WAT",
+            "game_id": "2025_semifinal_2",
+            "position": "Midfield",
+            "salary": 22,
+            "EV": 20.4,
+            "ceiling": 20.6,
+            "boom": 42.9
+        },
+        {
+            "firstName": "Hugh",
+            "lastName": "Kelleher",
+            "team": "ATL",
+            "opponent": "WAT",
+            "game_id": "2025_semifinal_2",
+            "position": "Midfield",
+            "salary": 8,
+            "EV": 17.4,
+            "ceiling": 19.7,
+            "boom": 32.9
         }
     ],
     "StackedBoom": [
@@ -180,119 +180,9 @@
             "game_id": "2025_semifinal_2",
             "position": "Defense",
             "salary": 16,
-            "EV": 26.1,
-            "ceiling": 20.7,
-            "boom": 99.7
-        },
-        {
-            "firstName": "CJ",
-            "lastName": "Kirst",
-            "team": "WAT",
-            "opponent": "ATL",
-            "game_id": "2025_semifinal_2",
-            "position": "Attack",
-            "salary": 6,
-            "EV": 54.5,
-            "ceiling": 19.2,
-            "boom": 97.9
-        },
-        {
-            "firstName": "Bryan",
-            "lastName": "Costabile",
-            "team": "ATL",
-            "opponent": "WAT",
-            "game_id": "2025_semifinal_2",
-            "position": "Midfield",
-            "salary": 28,
-            "EV": 35.9,
-            "ceiling": 19.0,
-            "boom": 95.1
-        },
-        {
-            "firstName": "Jeff",
-            "lastName": "Teat",
-            "team": "ATL",
-            "opponent": "WAT",
-            "game_id": "2025_semifinal_2",
-            "position": "Attack",
-            "salary": 46,
-            "EV": 52.8,
-            "ceiling": 14.7,
-            "boom": 93.5
-        },
-        {
-            "firstName": "Matt",
-            "lastName": "Traynor",
-            "team": "ATL",
-            "opponent": "WAT",
-            "game_id": "2025_semifinal_2",
-            "position": "Midfield",
-            "salary": 22,
-            "EV": 34.5,
-            "ceiling": 16.7,
-            "boom": 90.2
-        },
-        {
-            "firstName": "Logan",
-            "lastName": "McNaney",
-            "team": "OUT",
-            "opponent": "RED",
-            "game_id": "2025_semifinal_1",
-            "position": "Goalie",
-            "salary": 39,
-            "EV": 41.6,
-            "ceiling": 23.8,
-            "boom": 77.2
-        },
-        {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
-            "team": "ATL",
-            "opponent": "WAT",
-            "game_id": "2025_semifinal_2",
-            "position": "Faceoff",
-            "salary": 33,
-            "EV": 24.4,
-            "ceiling": 19.9,
-            "boom": 62.3
-        }
-    ],
-    "StackedReg": [
-        {
-            "firstName": "Liam",
-            "lastName": "Entenmann",
-            "team": "ATL",
-            "opponent": "WAT",
-            "game_id": "2025_semifinal_2",
-            "position": "Goalie",
-            "salary": 43,
-            "EV": 35.7,
-            "ceiling": 24.1,
-            "boom": 54.8
-        },
-        {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
-            "team": "ATL",
-            "opponent": "WAT",
-            "game_id": "2025_semifinal_2",
-            "position": "Faceoff",
-            "salary": 33,
-            "EV": 24.4,
-            "ceiling": 19.9,
-            "boom": 62.3
-        },
-        {
-            "firstName": "Graham",
-            "lastName": "Bundy",
-            "team": "OUT",
-            "opponent": "RED",
-            "game_id": "2025_semifinal_1",
-            "position": "Midfield",
-            "salary": 18,
-            "EV": 32.4,
-            "ceiling": 19.3,
-            "boom": 83.1
+            "EV": 24.1,
+            "ceiling": 21.4,
+            "boom": 90.6
         },
         {
             "firstName": "Justin",
@@ -302,9 +192,107 @@
             "game_id": "2025_semifinal_1",
             "position": "Midfield",
             "salary": 14,
-            "EV": 33.1,
-            "ceiling": 19.2,
-            "boom": 85.5
+            "EV": 29.3,
+            "ceiling": 17.5,
+            "boom": 72.8
+        },
+        {
+            "firstName": "CJ",
+            "lastName": "Kirst",
+            "team": "WAT",
+            "opponent": "ATL",
+            "game_id": "2025_semifinal_2",
+            "position": "Attack",
+            "salary": 6,
+            "EV": 42.5,
+            "ceiling": 24.0,
+            "boom": 66.2
+        },
+        {
+            "firstName": "Logan",
+            "lastName": "McNaney",
+            "team": "OUT",
+            "opponent": "RED",
+            "game_id": "2025_semifinal_1",
+            "position": "Goalie",
+            "salary": 39,
+            "EV": 37.4,
+            "ceiling": 24.0,
+            "boom": 61.2
+        },
+        {
+            "firstName": "Bryan",
+            "lastName": "Costabile",
+            "team": "ATL",
+            "opponent": "WAT",
+            "game_id": "2025_semifinal_2",
+            "position": "Midfield",
+            "salary": 28,
+            "EV": 25.8,
+            "ceiling": 19.5,
+            "boom": 61.1
+        },
+        {
+            "firstName": "Connor",
+            "lastName": "Shellenberger",
+            "team": "ATL",
+            "opponent": "WAT",
+            "game_id": "2025_semifinal_2",
+            "position": "Attack",
+            "salary": 47,
+            "EV": 39.8,
+            "ceiling": 22.7,
+            "boom": 59.1
+        },
+        {
+            "firstName": "Trevor",
+            "lastName": "Baptiste",
+            "team": "ATL",
+            "opponent": "WAT",
+            "game_id": "2025_semifinal_2",
+            "position": "Faceoff",
+            "salary": 33,
+            "EV": 19.7,
+            "ceiling": 24.4,
+            "boom": 40.9
+        }
+    ],
+    "StackedReg": [
+        {
+            "firstName": "Trevor",
+            "lastName": "Baptiste",
+            "team": "ATL",
+            "opponent": "WAT",
+            "game_id": "2025_semifinal_2",
+            "position": "Faceoff",
+            "salary": 33,
+            "EV": 19.7,
+            "ceiling": 24.4,
+            "boom": 40.9
+        },
+        {
+            "firstName": "CJ",
+            "lastName": "Kirst",
+            "team": "WAT",
+            "opponent": "ATL",
+            "game_id": "2025_semifinal_2",
+            "position": "Attack",
+            "salary": 6,
+            "EV": 42.5,
+            "ceiling": 24.0,
+            "boom": 66.2
+        },
+        {
+            "firstName": "Logan",
+            "lastName": "McNaney",
+            "team": "OUT",
+            "opponent": "RED",
+            "game_id": "2025_semifinal_1",
+            "position": "Goalie",
+            "salary": 39,
+            "EV": 37.4,
+            "ceiling": 24.0,
+            "boom": 61.2
         },
         {
             "firstName": "Logan",
@@ -314,41 +302,53 @@
             "game_id": "2025_semifinal_1",
             "position": "Attack",
             "salary": 24,
-            "EV": 51.1,
-            "ceiling": 19.2,
-            "boom": 88.9
+            "EV": 30.5,
+            "ceiling": 22.9,
+            "boom": 34.2
         },
         {
-            "firstName": "Ryan",
-            "lastName": "Terefenko",
-            "team": "OUT",
-            "opponent": "RED",
-            "game_id": "2025_semifinal_1",
+            "firstName": "Brett",
+            "lastName": "Makar",
+            "team": "ATL",
+            "opponent": "WAT",
+            "game_id": "2025_semifinal_2",
             "position": "Defense",
-            "salary": 9,
-            "EV": 21.8,
-            "ceiling": 17.7,
-            "boom": 79.7
+            "salary": 16,
+            "EV": 24.1,
+            "ceiling": 21.4,
+            "boom": 90.6
         },
         {
-            "firstName": "Brennan",
-            "lastName": "O'Neill",
-            "team": "OUT",
-            "opponent": "RED",
-            "game_id": "2025_semifinal_1",
-            "position": "Attack",
-            "salary": 40,
-            "EV": 17.9,
-            "ceiling": 17.0,
-            "boom": 0.9
+            "firstName": "Matt",
+            "lastName": "Traynor",
+            "team": "ATL",
+            "opponent": "WAT",
+            "game_id": "2025_semifinal_2",
+            "position": "Midfield",
+            "salary": 22,
+            "EV": 20.4,
+            "ceiling": 20.6,
+            "boom": 42.9
+        },
+        {
+            "firstName": "Jack",
+            "lastName": "Hannah",
+            "team": "WAT",
+            "opponent": "ATL",
+            "game_id": "2025_semifinal_2",
+            "position": "Midfield",
+            "salary": 25,
+            "EV": 16.5,
+            "ceiling": 19.2,
+            "boom": 30.0
         }
     ],
+    "Coulda": [],
     "Core": [
         "CJ Kirst",
+        "Logan McNaney",
         "Brett Makar",
         "Trevor Baptiste"
     ],
-    "Sleepers": [
-        "Ryan Terefenko"
-    ]
+    "Sleepers": []
 }

@@ -118,12 +118,26 @@ def load_historical_data(year, week, script_dir):
         for p in data:
             if yr == year and p.get("week", 1) >= week:
                 continue
+            
+            is_dnp = p.get("isDNP", False)
+            if is_dnp:
+                continue
+                
             ident = p.get("identity", {})
             stats = p.get("stats", {})
             f2p = p.get("f2p", {})
             fp = f2p.get("totalPoints") if f2p.get("totalPoints") is not None else calc_fantasy(stats)
+            
+            pos_group = assign_position_group(ident.get("position"))
+            if pos_group == "Goalie":
+                saves = stats.get("saves", 0)
+                ga = stats.get("goalsAgainst", 0)
+                if saves == 0 and ga == 0 and fp == 0:
+                    # Backup goalie didn't play
+                    continue
+            
             rows.append({
-                "positionGroup": assign_position_group(ident.get("position")),
+                "positionGroup": pos_group,
                 "TotalFantasyPoints": fp,
                 "week": p.get("week"),
                 "year": yr
@@ -246,6 +260,8 @@ def main():
                 sal = int(pred_row.iloc[0]['salary']) if not pred_row.empty else 10
             sal_map[(fname, lname, game_id)] = sal
         
+        active_roster_names = set(zip(df_class['firstName'], df_class['lastName']))
+        
         for p in week_data:
             ident = p.get("identity", {})
             evt = p.get("event", {})
@@ -254,11 +270,20 @@ def main():
             last = ident.get("lastName")
             event_id = evt.get("eventId")
             
-            # Skip DNPs
-            if not p.get("stats") and f2p.get("totalPoints", 0) == 0:
+            if (first, last) not in active_roster_names:
                 continue
                 
-            pts = f2p.get("totalPoints") if f2p.get("totalPoints") is not None else calc_fantasy(p.get("stats", {}))
+            pos_group = assign_position_group(ident.get("position"))
+            stats = p.get("stats", {})
+            pts = f2p.get("totalPoints") if f2p.get("totalPoints") is not None else calc_fantasy(stats)
+            
+            if pos_group == "Goalie":
+                saves = stats.get("saves", 0)
+                ga = stats.get("goalsAgainst", 0)
+                if saves == 0 and ga == 0 and pts == 0:
+                    # Backup goalie didn't play
+                    continue
+                    
             key = (first, last, event_id)
             actuals_map[key] = pts
             
@@ -268,7 +293,7 @@ def main():
             coulda_pool.append({
                 "firstName": first,
                 "lastName": last,
-                "positionGroup": assign_position_group(ident.get("position")),
+                "positionGroup": pos_group,
                 "game_id": event_id.replace("_game_", "-ev-"),
                 "salary": salary,
                 "actualPoints": pts
@@ -315,9 +340,9 @@ def main():
         team_ev = run_optimizer(df_class_sorted_ev.to_dict('records'), 200, 'EV')
         team_reg = run_optimizer(df_reg_sorted.to_dict('records'), 200, 'PredictedPoints')
         
-        # Run teammate stack optimizers (beta = 0.15)
-        team_boom_stack = optimize_stack(df_class_sorted_boom.to_dict('records'), 200, 'BoomProbability', 0.15)
-        team_reg_stack = optimize_stack(df_reg_sorted.to_dict('records'), 200, 'PredictedPoints', 0.15)
+        # Run teammate stack optimizers (beta = 1.0 to match correlation coefficients)
+        team_boom_stack = optimize_stack(df_class_sorted_boom.to_dict('records'), 200, 'BoomProbability', 1.0)
+        team_reg_stack = optimize_stack(df_reg_sorted.to_dict('records'), 200, 'PredictedPoints', 1.0)
         
         team_coulda = run_optimizer(df_coulda_pool, 200, 'actualPoints') if df_coulda_pool else None
         

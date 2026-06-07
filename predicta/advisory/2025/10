@@ -8,33 +8,33 @@
             "game_id": "2025-ev-36",
             "position": "Attack",
             "salary": 46,
-            "EV": 53.0,
-            "ceiling": 21.2,
-            "boom": 95.3
+            "EV": 38.8,
+            "ceiling": 23.6,
+            "boom": 57.7
         },
         {
-            "firstName": "Rob",
-            "lastName": "Pannell",
-            "team": "WHP",
-            "opponent": "RED",
-            "game_id": "2025-ev-37",
+            "firstName": "CJ",
+            "lastName": "Kirst",
+            "team": "WAT",
+            "opponent": "CAN",
+            "game_id": "2025-ev-36",
             "position": "Attack",
-            "salary": 19,
-            "EV": 50.9,
-            "ceiling": 8.9,
-            "boom": 89.7
+            "salary": 4,
+            "EV": 37.4,
+            "ceiling": 22.9,
+            "boom": 53.9
         },
         {
-            "firstName": "Emmet",
-            "lastName": "Carroll",
-            "team": "WHP",
-            "opponent": "RED",
-            "game_id": "2025-ev-37",
+            "firstName": "Logan",
+            "lastName": "McNaney",
+            "team": "OUT",
+            "opponent": "ATL",
+            "game_id": "2025-ev-38",
             "position": "Goalie",
-            "salary": 38,
-            "EV": 47.7,
-            "ceiling": 18.8,
-            "boom": 99.7
+            "salary": 44,
+            "EV": 35.6,
+            "ceiling": 25.2,
+            "boom": 54.2
         },
         {
             "firstName": "Bryan",
@@ -44,243 +44,21 @@
             "game_id": "2025-ev-38",
             "position": "Midfield",
             "salary": 23,
-            "EV": 37.2,
-            "ceiling": 20.6,
-            "boom": 97.8
+            "EV": 25.2,
+            "ceiling": 23.2,
+            "boom": 58.2
         },
         {
-            "firstName": "Zach",
-            "lastName": "Currier",
-            "team": "WAT",
-            "opponent": "CAN",
-            "game_id": "2025-ev-36",
-            "position": "Midfield",
-            "salary": 18,
-            "EV": 37.1,
-            "ceiling": 16.8,
-            "boom": 97.6
-        },
-        {
-            "firstName": "Zac",
-            "lastName": "Tucci",
-            "team": "CAN",
-            "opponent": "WAT",
-            "game_id": "2025-ev-36",
-            "position": "Faceoff",
-            "salary": 11,
-            "EV": 28.9,
-            "ceiling": 18.2,
-            "boom": 84.5
-        },
-        {
-            "firstName": "Jesse",
-            "lastName": "Bernhardt",
-            "team": "OUT",
-            "opponent": "ATL",
-            "game_id": "2025-ev-38",
-            "position": "Defense",
-            "salary": 9,
-            "EV": 25.7,
-            "ceiling": 22.8,
-            "boom": 98.3
-        }
-    ],
-    "Ceiling": [
-        {
-            "firstName": "Jesse",
-            "lastName": "Bernhardt",
-            "team": "OUT",
-            "opponent": "ATL",
-            "game_id": "2025-ev-38",
-            "position": "Defense",
-            "salary": 9,
-            "EV": 25.7,
-            "ceiling": 22.8,
-            "boom": 98.3
-        },
-        {
-            "firstName": "TJ",
-            "lastName": "Malone",
+            "firstName": "Colin",
+            "lastName": "Squires",
             "team": "WHP",
             "opponent": "RED",
             "game_id": "2025-ev-37",
-            "position": "Attack",
-            "salary": 39,
-            "EV": 49.1,
-            "ceiling": 22.4,
-            "boom": 85.0
-        },
-        {
-            "firstName": "Liam",
-            "lastName": "Entenmann",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2025-ev-38",
-            "position": "Goalie",
-            "salary": 45,
-            "EV": 46.7,
-            "ceiling": 22.3,
-            "boom": 95.7
-        },
-        {
-            "firstName": "Kieran",
-            "lastName": "McArdle",
-            "team": "WAT",
-            "opponent": "CAN",
-            "game_id": "2025-ev-36",
-            "position": "Attack",
-            "salary": 30,
-            "EV": 46.6,
-            "ceiling": 21.4,
-            "boom": 78.4
-        },
-        {
-            "firstName": "Jared",
-            "lastName": "Bernhardt",
-            "team": "OUT",
-            "opponent": "ATL",
-            "game_id": "2025-ev-38",
-            "position": "Midfield",
-            "salary": 14,
-            "EV": 36.4,
-            "ceiling": 21.4,
-            "boom": 95.3
-        },
-        {
-            "firstName": "Bryan",
-            "lastName": "Costabile",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2025-ev-38",
-            "position": "Midfield",
-            "salary": 23,
-            "EV": 37.2,
-            "ceiling": 20.6,
-            "boom": 97.8
-        },
-        {
-            "firstName": "Zac",
-            "lastName": "Tucci",
-            "team": "CAN",
-            "opponent": "WAT",
-            "game_id": "2025-ev-36",
-            "position": "Faceoff",
-            "salary": 11,
-            "EV": 28.9,
-            "ceiling": 18.2,
-            "boom": 84.5
-        }
-    ],
-    "StackedBoom": [
-        {
-            "firstName": "Emmet",
-            "lastName": "Carroll",
-            "team": "WHP",
-            "opponent": "RED",
-            "game_id": "2025-ev-37",
-            "position": "Goalie",
-            "salary": 38,
-            "EV": 47.7,
-            "ceiling": 18.8,
-            "boom": 99.7
-        },
-        {
-            "firstName": "Jesse",
-            "lastName": "Bernhardt",
-            "team": "OUT",
-            "opponent": "ATL",
-            "game_id": "2025-ev-38",
             "position": "Defense",
-            "salary": 9,
-            "EV": 25.7,
-            "ceiling": 22.8,
-            "boom": 98.3
-        },
-        {
-            "firstName": "Zach",
-            "lastName": "Currier",
-            "team": "WAT",
-            "opponent": "CAN",
-            "game_id": "2025-ev-36",
-            "position": "Midfield",
-            "salary": 18,
-            "EV": 37.1,
-            "ceiling": 16.8,
-            "boom": 97.6
-        },
-        {
-            "firstName": "Michael",
-            "lastName": "Sowers",
-            "team": "WAT",
-            "opponent": "CAN",
-            "game_id": "2025-ev-36",
-            "position": "Attack",
-            "salary": 46,
-            "EV": 53.0,
-            "ceiling": 21.2,
-            "boom": 95.3
-        },
-        {
-            "firstName": "Zac",
-            "lastName": "Tucci",
-            "team": "CAN",
-            "opponent": "WAT",
-            "game_id": "2025-ev-36",
-            "position": "Faceoff",
-            "salary": 11,
-            "EV": 28.9,
-            "ceiling": 18.2,
-            "boom": 84.5
-        },
-        {
-            "firstName": "Connor",
-            "lastName": "Kelly",
-            "team": "WAT",
-            "opponent": "CAN",
-            "game_id": "2025-ev-36",
-            "position": "Midfield",
-            "salary": 17,
-            "EV": 31.7,
-            "ceiling": 13.8,
-            "boom": 79.6
-        },
-        {
-            "firstName": "Kieran",
-            "lastName": "McArdle",
-            "team": "WAT",
-            "opponent": "CAN",
-            "game_id": "2025-ev-36",
-            "position": "Attack",
-            "salary": 30,
-            "EV": 46.6,
-            "ceiling": 21.4,
-            "boom": 78.4
-        }
-    ],
-    "StackedReg": [
-        {
-            "firstName": "Liam",
-            "lastName": "Entenmann",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2025-ev-38",
-            "position": "Goalie",
-            "salary": 45,
-            "EV": 46.7,
+            "salary": 7,
+            "EV": 20.8,
             "ceiling": 22.3,
-            "boom": 95.7
-        },
-        {
-            "firstName": "Jared",
-            "lastName": "Bernhardt",
-            "team": "OUT",
-            "opponent": "ATL",
-            "game_id": "2025-ev-38",
-            "position": "Midfield",
-            "salary": 14,
-            "EV": 36.4,
-            "ceiling": 21.4,
-            "boom": 95.3
+            "boom": 75.3
         },
         {
             "firstName": "Jonathan",
@@ -290,45 +68,35 @@
             "game_id": "2025-ev-38",
             "position": "Midfield",
             "salary": 8,
-            "EV": 25.3,
-            "ceiling": 20.0,
-            "boom": 58.4
+            "EV": 19.5,
+            "ceiling": 22.7,
+            "boom": 39.2
         },
         {
-            "firstName": "Nick",
-            "lastName": "Grill",
-            "team": "OUT",
-            "opponent": "CHA",
-            "game_id": "2025-ev-35",
-            "position": "Defense",
-            "salary": 4,
-            "EV": 25.7,
-            "ceiling": 19.7,
-            "boom": 98.1
-        },
-        {
-            "firstName": "Logan",
-            "lastName": "Wisnauskas",
-            "team": "OUT",
-            "opponent": "ATL",
-            "game_id": "2025-ev-38",
-            "position": "Attack",
-            "salary": 17,
-            "EV": 29.3,
-            "ceiling": 18.7,
-            "boom": 32.2
-        },
-        {
-            "firstName": "Zac",
-            "lastName": "Tucci",
-            "team": "CAN",
-            "opponent": "WAT",
-            "game_id": "2025-ev-36",
+            "firstName": "Joseph",
+            "lastName": "Nardella",
+            "team": "WHP",
+            "opponent": "RED",
+            "game_id": "2025-ev-37",
             "position": "Faceoff",
-            "salary": 11,
-            "EV": 28.9,
-            "ceiling": 18.2,
-            "boom": 84.5
+            "salary": 20,
+            "EV": 18.2,
+            "ceiling": 17.4,
+            "boom": 35.4
+        }
+    ],
+    "Ceiling": [
+        {
+            "firstName": "Blaze",
+            "lastName": "Riorden",
+            "team": "CHA",
+            "opponent": "OUT",
+            "game_id": "2025-ev-35",
+            "position": "Goalie",
+            "salary": 47,
+            "EV": 30.3,
+            "ceiling": 25.8,
+            "boom": 34.1
         },
         {
             "firstName": "Brennan",
@@ -338,17 +106,250 @@
             "game_id": "2025-ev-35",
             "position": "Attack",
             "salary": 43,
-            "EV": 35.7,
-            "ceiling": 17.4,
-            "boom": 49.3
+            "EV": 33.1,
+            "ceiling": 23.6,
+            "boom": 42.3
+        },
+        {
+            "firstName": "Michael",
+            "lastName": "Sowers",
+            "team": "WAT",
+            "opponent": "CAN",
+            "game_id": "2025-ev-36",
+            "position": "Attack",
+            "salary": 46,
+            "EV": 38.8,
+            "ceiling": 23.6,
+            "boom": 57.7
+        },
+        {
+            "firstName": "Bryan",
+            "lastName": "Costabile",
+            "team": "ATL",
+            "opponent": "OUT",
+            "game_id": "2025-ev-38",
+            "position": "Midfield",
+            "salary": 23,
+            "EV": 25.2,
+            "ceiling": 23.2,
+            "boom": 58.2
+        },
+        {
+            "firstName": "JJ",
+            "lastName": "Sillstrop",
+            "team": "CHA",
+            "opponent": "OUT",
+            "game_id": "2025-ev-35",
+            "position": "Midfield",
+            "salary": 11,
+            "EV": 19.4,
+            "ceiling": 23.0,
+            "boom": 38.7
+        },
+        {
+            "firstName": "Jesse",
+            "lastName": "Bernhardt",
+            "team": "OUT",
+            "opponent": "ATL",
+            "game_id": "2025-ev-38",
+            "position": "Defense",
+            "salary": 9,
+            "EV": 17.4,
+            "ceiling": 22.4,
+            "boom": 59.7
+        },
+        {
+            "firstName": "Zac",
+            "lastName": "Tucci",
+            "team": "CAN",
+            "opponent": "WAT",
+            "game_id": "2025-ev-36",
+            "position": "Faceoff",
+            "salary": 11,
+            "EV": 17.8,
+            "ceiling": 18.2,
+            "boom": 33.5
         }
     ],
+    "StackedBoom": [
+        {
+            "firstName": "Colin",
+            "lastName": "Squires",
+            "team": "WHP",
+            "opponent": "RED",
+            "game_id": "2025-ev-37",
+            "position": "Defense",
+            "salary": 7,
+            "EV": 20.8,
+            "ceiling": 22.3,
+            "boom": 75.3
+        },
+        {
+            "firstName": "Bryan",
+            "lastName": "Costabile",
+            "team": "ATL",
+            "opponent": "OUT",
+            "game_id": "2025-ev-38",
+            "position": "Midfield",
+            "salary": 23,
+            "EV": 25.2,
+            "ceiling": 23.2,
+            "boom": 58.2
+        },
+        {
+            "firstName": "Michael",
+            "lastName": "Sowers",
+            "team": "WAT",
+            "opponent": "CAN",
+            "game_id": "2025-ev-36",
+            "position": "Attack",
+            "salary": 46,
+            "EV": 38.8,
+            "ceiling": 23.6,
+            "boom": 57.7
+        },
+        {
+            "firstName": "Logan",
+            "lastName": "McNaney",
+            "team": "OUT",
+            "opponent": "ATL",
+            "game_id": "2025-ev-38",
+            "position": "Goalie",
+            "salary": 44,
+            "EV": 35.6,
+            "ceiling": 25.2,
+            "boom": 54.2
+        },
+        {
+            "firstName": "CJ",
+            "lastName": "Kirst",
+            "team": "WAT",
+            "opponent": "CAN",
+            "game_id": "2025-ev-36",
+            "position": "Attack",
+            "salary": 4,
+            "EV": 37.4,
+            "ceiling": 22.9,
+            "boom": 53.9
+        },
+        {
+            "firstName": "Jonathan",
+            "lastName": "Donville",
+            "team": "OUT",
+            "opponent": "ATL",
+            "game_id": "2025-ev-38",
+            "position": "Midfield",
+            "salary": 8,
+            "EV": 19.5,
+            "ceiling": 22.7,
+            "boom": 39.2
+        },
+        {
+            "firstName": "Joseph",
+            "lastName": "Nardella",
+            "team": "WHP",
+            "opponent": "RED",
+            "game_id": "2025-ev-37",
+            "position": "Faceoff",
+            "salary": 20,
+            "EV": 18.2,
+            "ceiling": 17.4,
+            "boom": 35.4
+        }
+    ],
+    "StackedReg": [
+        {
+            "firstName": "Blaze",
+            "lastName": "Riorden",
+            "team": "CHA",
+            "opponent": "OUT",
+            "game_id": "2025-ev-35",
+            "position": "Goalie",
+            "salary": 47,
+            "EV": 30.3,
+            "ceiling": 25.8,
+            "boom": 34.1
+        },
+        {
+            "firstName": "Michael",
+            "lastName": "Sowers",
+            "team": "WAT",
+            "opponent": "CAN",
+            "game_id": "2025-ev-36",
+            "position": "Attack",
+            "salary": 46,
+            "EV": 38.8,
+            "ceiling": 23.6,
+            "boom": 57.7
+        },
+        {
+            "firstName": "Kieran",
+            "lastName": "McArdle",
+            "team": "WAT",
+            "opponent": "CAN",
+            "game_id": "2025-ev-36",
+            "position": "Attack",
+            "salary": 30,
+            "EV": 32.2,
+            "ceiling": 23.2,
+            "boom": 40.1
+        },
+        {
+            "firstName": "Jonathan",
+            "lastName": "Donville",
+            "team": "OUT",
+            "opponent": "ATL",
+            "game_id": "2025-ev-38",
+            "position": "Midfield",
+            "salary": 8,
+            "EV": 19.5,
+            "ceiling": 22.7,
+            "boom": 39.2
+        },
+        {
+            "firstName": "Jared",
+            "lastName": "Bernhardt",
+            "team": "OUT",
+            "opponent": "ATL",
+            "game_id": "2025-ev-38",
+            "position": "Midfield",
+            "salary": 14,
+            "EV": 19.2,
+            "ceiling": 22.6,
+            "boom": 38.1
+        },
+        {
+            "firstName": "Jesse",
+            "lastName": "Bernhardt",
+            "team": "OUT",
+            "opponent": "ATL",
+            "game_id": "2025-ev-38",
+            "position": "Defense",
+            "salary": 9,
+            "EV": 17.4,
+            "ceiling": 22.4,
+            "boom": 59.7
+        },
+        {
+            "firstName": "Trevor",
+            "lastName": "Baptiste",
+            "team": "ATL",
+            "opponent": "OUT",
+            "game_id": "2025-ev-38",
+            "position": "Faceoff",
+            "salary": 24,
+            "EV": 16.3,
+            "ceiling": 16.2,
+            "boom": 26.7
+        }
+    ],
+    "Coulda": [],
     "Core": [
-        "Zac Tucci",
-        "Jesse Bernhardt"
+        "Michael Sowers",
+        "Bryan Costabile",
+        "Jonathan Donville"
     ],
     "Sleepers": [
-        "Jonathan Donville",
-        "Nick Grill"
+        "Jesse Bernhardt"
     ]
 }

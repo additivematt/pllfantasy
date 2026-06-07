@@ -5,8 +5,19 @@ const rosterDescriptions = {
     "Cash": "<strong>BOOM</strong>: Optimizes the roster to maximize expected value (EV) points based on classification probabilities. This focuses on high-floor consistency, making it best for head-to-head matches and double-ups.",
     "Ceiling": "<strong>CEILING</strong>: Optimizes the roster to maximize predicted 90th percentile ceiling points directly from the regression model. Ideal for finding high-upside sleeper combinations.",
     "StackedBoom": "<strong>STACK BOOM</strong>: Teammate-stacking tournament optimizer using Boom Probability. Pairs high-boom players on the same franchise to capture positive offensive correlation.",
-    "StackedReg": "<strong>STACK CEILING</strong>: Teammate-stacking tournament optimizer using 90th percentile ceilings. Pairs high-ceiling offensive players to maximize tournament-winning scoring explosions."
+    "StackedReg": "<strong>STACK CEILING</strong>: Teammate-stacking tournament optimizer using 90th percentile ceilings. Pairs high-ceiling offensive players to maximize tournament-winning scoring explosions.",
+    "Coulda": "<strong>COULDA</strong>: Retroactively solves the absolute best possible roster for this week based on actual fantasy points scored. Use this to compare how close predictions were to the ultimate ceiling."
 };
+
+function getCouldaSet() {
+    const couldaSet = new Set();
+    if (window.currentAdvisory && window.currentAdvisory.Coulda) {
+        window.currentAdvisory.Coulda.forEach(p => {
+            couldaSet.add(`${p.firstName.trim()} ${p.lastName.trim()}|${p.game_id}`);
+        });
+    }
+    return couldaSet;
+}
 
 async function loadPredictions(year, week) {
     const container = document.getElementById('plots-container');
@@ -45,6 +56,11 @@ async function loadPredictions(year, week) {
         }
 
         container.innerHTML = ''; // Clear loading and old plots
+        
+        // Store predictions and advisory data globally first so renderPlot can access it for Coulda highlighting
+        window.currentPredictions = data;
+        window.currentAdvisory = advisoryData;
+
         const renderQueue = [];
 
         positions.forEach(pos => {
@@ -67,9 +83,6 @@ async function loadPredictions(year, week) {
             if (displayTitle === "SSDM") displayTitle = "SSDM/LSM";
             renderPlot(item.id, displayTitle, item.data);
         });
-
-        // Store predictions data globally for lookup
-        window.currentPredictions = data;
 
         if (advisoryData) {
             renderAdvisor(advisoryData);
@@ -101,8 +114,17 @@ function renderPlot(targetId, title, data) {
     const xPadding = (xMax - xMin) * 0.15 || 5;
     const medianSalary = x.length > 0 ? x.slice().sort((a,b) => a-b)[Math.floor(x.length/2)] : 10;
 
-    // Sort data by star power so top players get priority for labels
-    const sortedData = [...data].sort((a, b) => b.fp_season_avg - a.fp_season_avg);
+    const couldaSet = getCouldaSet();
+
+    // Sort data by Coulda first (so they are processed first in overlap logic and are always labeled), then by star power
+    const sortedData = [...data].sort((a, b) => {
+        const aCoulda = couldaSet.has(`${a.firstName} ${a.lastName}|${a.game_id}`) ? 1 : 0;
+        const bCoulda = couldaSet.has(`${b.firstName} ${b.lastName}|${b.game_id}`) ? 1 : 0;
+        if (aCoulda !== bCoulda) {
+            return bCoulda - aCoulda;
+        }
+        return b.fp_season_avg - a.fp_season_avg;
+    });
 
     const placed = [];
     const textLabels = sortedData.map(d => {
@@ -118,19 +140,24 @@ function renderPlot(targetId, title, data) {
             }
         }
         
-        if (!overlap) {
+        if (!overlap || couldaSet.has(`${d.firstName} ${d.lastName}|${d.game_id}`)) {
             placed.push({ x: xNorm, y: yNorm });
             return d.lastName;
         }
         return "";
     });
 
+    // Custom marker line colors, widths, and text colors to highlight Coulda players in cyan (#00f0ff)
+    const markerLineColors = sortedData.map(d => couldaSet.has(`${d.firstName} ${d.lastName}|${d.game_id}`) ? '#00f0ff' : '#161b22');
+    const markerLineWidths = sortedData.map(d => couldaSet.has(`${d.firstName} ${d.lastName}|${d.game_id}`) ? 3 : 1);
+    const textColors = sortedData.map(d => couldaSet.has(`${d.firstName} ${d.lastName}|${d.game_id}`) ? '#00f0ff' : 'rgba(255,255,255,0.7)');
+
     const trace = {
         x: sortedData.map(d => d.salary),
         y: sortedData.map(d => d.BoomProbability),
         mode: 'markers+text',
         text: textLabels,
-        textfont: { family: 'Inter', size: 10, color: 'rgba(255,255,255,0.7)' },
+        textfont: { family: 'Inter', size: 10, color: textColors },
         textposition: 'top center',
         hoverinfo: 'none',
         customdata: sortedData,
@@ -152,7 +179,7 @@ function renderPlot(targetId, title, data) {
                 x: 1.1,
                 tickfont: { color: '#8b949e' }
             },
-            line: { color: '#161b22', width: 1 },
+            line: { color: markerLineColors, width: markerLineWidths },
             opacity: 0.9
         },
         type: 'scatter'
@@ -224,6 +251,22 @@ function renderPlot(targetId, title, data) {
 function renderAdvisor(advisoryData) {
     window.currentAdvisory = advisoryData;
     
+    // Manage display & layout columns of Coulda tab
+    const couldaTab = document.getElementById('coulda-tab');
+    const rosterTabsContainer = document.querySelector('.roster-tabs');
+    if (couldaTab && rosterTabsContainer) {
+        if (advisoryData.Coulda && advisoryData.Coulda.length > 0) {
+            couldaTab.style.display = 'inline-block';
+            rosterTabsContainer.style.gridTemplateColumns = 'repeat(5, 1fr)';
+        } else {
+            couldaTab.style.display = 'none';
+            rosterTabsContainer.style.gridTemplateColumns = 'repeat(4, 1fr)';
+            if (activeRosterTab === "Coulda") {
+                activeRosterTab = "Cash";
+            }
+        }
+    }
+
     // 1. Render Consensus Core Plays
     const coreContainer = document.getElementById('core-container');
     if (coreContainer) {
@@ -293,23 +336,50 @@ function renderRoster(rosterName) {
         return;
     }
 
+    const posMap = {
+        "A": "Attack",
+        "M": "Midfield",
+        "D": "Defense",
+        "FO": "Faceoff",
+        "G": "Goalie",
+        "Attack": "Attack",
+        "Midfield": "Midfield",
+        "Defense": "Defense",
+        "Faceoff": "Faceoff",
+        "Goalie": "Goalie"
+    };
+
     const posOrder = { "Attack": 0, "Midfield": 1, "Defense": 2, "Faceoff": 3, "Goalie": 4 };
-    const sortedRoster = [...roster].sort((a, b) => posOrder[a.position] - posOrder[b.position]);
+    const sortedRoster = [...roster].sort((a, b) => {
+        const aPos = posMap[a.position] || a.position;
+        const bPos = posMap[b.position] || b.position;
+        return (posOrder[aPos] ?? 99) - (posOrder[bPos] ?? 99);
+    });
 
     const totalCost = roster.reduce((sum, p) => sum + p.salary, 0);
     const totalEV = roster.reduce((sum, p) => sum + p.EV, 0);
     const totalCeiling = roster.reduce((sum, p) => sum + (p.ceiling || 0), 0);
     const totalBoom = roster.reduce((sum, p) => sum + (p.boom || 0), 0);
+    const totalActual = roster.reduce((sum, p) => sum + (p.actualPoints || 0), 0);
 
     const showBoom = (rosterName === "StackedBoom" || rosterName === "Cash");
-    const lastColHeader = showBoom ? "Boom" : "Ceil";
+    
+    let lastColHeader = "Ceil";
+    if (rosterName === "Coulda") {
+        lastColHeader = "Actual";
+    } else if (showBoom) {
+        lastColHeader = "Boom";
+    }
+    
     const avgBoom = totalBoom / roster.length;
+    const couldaSet = getCouldaSet();
+    const isCouldaTable = rosterName === "Coulda";
 
     let html = `
         <div class="roster-desc">
             ${rosterDescriptions[rosterName] || ""}
         </div>
-        <table class="roster-table">
+        <table class="roster-table ${isCouldaTable ? 'roster-table-coulda' : ''}">
             <thead>
                 <tr>
                     <th>Slot</th>
@@ -324,31 +394,62 @@ function renderRoster(rosterName) {
     `;
 
     sortedRoster.forEach(p => {
-        const lookup = window.currentPredictions ? window.currentPredictions.find(item => item.firstName === p.firstName && item.lastName === p.lastName) : null;
+        const lookup = window.currentPredictions ? window.currentPredictions.find(item => item.firstName === p.firstName && item.lastName === p.lastName && item.game_id === p.game_id) : null;
         let badgePos = p.position;
         if (lookup) {
             badgePos = lookup.subPosition;
-            if (badgePos === "SSDM") badgePos = "SSDM/LSM";
+        } else {
+            // fallback mapping for display
+            const displayPosMap = {
+                "A": "Attack",
+                "M": "Midfield",
+                "D": "Defensemen",
+                "FO": "Faceoff",
+                "G": "Goalie"
+            };
+            badgePos = displayPosMap[badgePos] || badgePos;
+        }
+        if (badgePos === "SSDM") badgePos = "SSDM/LSM";
+
+        let lastColVal = "";
+        if (rosterName === "Coulda") {
+            lastColVal = p.actualPoints ? p.actualPoints.toFixed(1) : "-";
+        } else if (showBoom) {
+            lastColVal = p.boom ? p.boom.toFixed(0) + "%" : "-";
+        } else {
+            lastColVal = p.ceiling ? p.ceiling.toFixed(1) : "-";
         }
 
+        const isCouldaPlayer = couldaSet.has(`${p.firstName} ${p.lastName}|${p.game_id}`);
+        const highlightClass = (isCouldaPlayer && rosterName !== "Coulda") ? "coulda-highlight" : "";
+
         html += `
-            <tr class="roster-row" onclick="highlightPlayerInPlot('${lookup ? lookup.subPosition : p.position}', '${p.firstName}', '${p.lastName}')" title="Click to highlight on chart">
+            <tr class="roster-row ${highlightClass}" onclick="highlightPlayerInPlot('${lookup ? lookup.subPosition : p.position}', '${p.firstName}', '${p.lastName}', '${p.game_id}')" title="Click to highlight on chart">
                 <td><span class="roster-pos-badge">${badgePos}</span></td>
                 <td><strong>${p.lastName}</strong>, ${p.firstName[0]}.</td>
                 <td><span style="font-weight:700;">${p.team}</span> <span style="font-size:0.6rem; color:#8b949e">@ ${p.opponent}</span></td>
                 <td>${p.salary}</td>
                 <td>${p.EV.toFixed(1)}</td>
-                <td>${showBoom ? (p.boom ? p.boom.toFixed(0) + "%" : "-") : p.ceiling.toFixed(1)}</td>
+                <td>${lastColVal}</td>
             </tr>
         `;
     });
+
+    let lastColTotal = "";
+    if (rosterName === "Coulda") {
+        lastColTotal = totalActual.toFixed(1);
+    } else if (showBoom) {
+        lastColTotal = avgBoom.toFixed(0) + "% (avg)";
+    } else {
+        lastColTotal = totalCeiling.toFixed(1);
+    }
 
     html += `
                 <tr class="roster-total-row">
                     <td colspan="3">Total</td>
                     <td>${totalCost}</td>
                     <td>${totalEV.toFixed(1)}</td>
-                    <td>${showBoom ? avgBoom.toFixed(0) + "% (avg)" : totalCeiling.toFixed(1)}</td>
+                    <td>${lastColTotal}</td>
                 </tr>
             </tbody>
         </table>
@@ -366,12 +467,20 @@ function renderRoster(rosterName) {
     container.innerHTML = html;
 }
 
-function highlightPlayerInPlot(position, firstName, lastName) {
+function highlightPlayerInPlot(position, firstName, lastName, gameId) {
     let displayPos = position;
     if (position === "SSDM" || position === "LSM") {
         displayPos = "SSDM";
-    } else if (position === "Defense" || position === "Defensemen") {
+    } else if (position === "Defense" || position === "Defensemen" || position === "D") {
         displayPos = "Defensemen";
+    } else if (position === "A" || position === "Attack") {
+        displayPos = "Attack";
+    } else if (position === "M" || position === "Midfield") {
+        displayPos = "Midfield";
+    } else if (position === "FO" || position === "Faceoff") {
+        displayPos = "Faceoff";
+    } else if (position === "G" || position === "Goalie") {
+        displayPos = "Goalie";
     }
     
     const plotId = `plot-${displayPos}`;
@@ -382,7 +491,7 @@ function highlightPlayerInPlot(position, firstName, lastName) {
     if (!gd.data || gd.data.length === 0) return;
     
     const customdata = gd.data[0].customdata;
-    const ptIdx = customdata.findIndex(p => p.firstName === firstName && p.lastName === lastName);
+    const ptIdx = customdata.findIndex(p => p.firstName === firstName && p.lastName === lastName && (!gameId || p.game_id === gameId));
     if (ptIdx === -1) return;
     
     plotEl.scrollIntoView({ behavior: 'smooth', block: 'center' });

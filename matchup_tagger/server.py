@@ -120,8 +120,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                     import optimize_weekly
                     team_cash = optimize_weekly.optimize_unstacked(pool_ev, 200, 'EV')
                     team_ceil = optimize_weekly.optimize_unstacked(pool_reg, 200, 'PredictedPoints')
-                    team_sboom = optimize_weekly.optimize_stacked(pool_boom, 200, 'BoomProbability', beta=0.15)
-                    team_sreg = optimize_weekly.optimize_stacked(pool_reg, 200, 'PredictedPoints', beta=0.15)
+                    team_sboom = optimize_weekly.optimize_stacked(pool_boom, 200, 'BoomProbability', beta=1.0)
+                    team_sreg = optimize_weekly.optimize_stacked(pool_reg, 200, 'PredictedPoints', beta=1.0)
                     
                     def strip_player(p):
                         return {
@@ -141,8 +141,76 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                         "Cash": [strip_player(p) for p in team_cash] if team_cash else [],
                         "Ceiling": [strip_player(p) for p in team_ceil] if team_ceil else [],
                         "StackedBoom": [strip_player(p) for p in team_sboom] if team_sboom else [],
-                        "StackedReg": [strip_player(p) for p in team_sreg] if team_sreg else []
+                        "StackedReg": [strip_player(p) for p in team_sreg] if team_sreg else [],
+                        "Coulda": []
                     }
+
+                    # Retroactive Coulda lineup (Only if actual stats exist for this week)
+                    try:
+                        import coulda_optimizer
+                        season_file = os.path.join(SCRIPTS_DIR, f"f2p_{year}_season.json")
+                        if os.path.exists(season_file):
+                            with open(season_file, "r") as f_f2p:
+                                f2p_data = json.load(f_f2p)
+                            # Check if actual stats are populated
+                            week_data = [p for p in f2p_data if p.get("week") == week]
+                            has_actuals = any(p.get("f2p", {}).get("totalPoints", 0.0) > 0.0 or p.get("totalPoints", 0.0) > 0.0 for p in week_data)
+                            
+                            if has_actuals:
+                                matchups_file = os.path.join(SCRIPTS_DIR, f"season_matchups_{year}.json")
+                                matchups = {}
+                                if os.path.exists(matchups_file):
+                                    with open(matchups_file, "r") as f_m:
+                                        matchups = json.load(f_m)
+                                
+                                processed_pool = coulda_optimizer.process_players(week_data, matchups)
+                                # Filter out backup goalies who didn't play (Method 3)
+                                active_roster_names = set(zip(df_class['firstName'], df_class['lastName']))
+                                cleaned_coulda_pool = []
+                                for p in processed_pool:
+                                    first = p['firstName']
+                                    last = p['lastName']
+                                    pos = p['position']
+                                    pts = p['totalPoints']
+                                    
+                                    if (first, last) not in active_roster_names:
+                                        continue
+                                    if pos == "G" and pts == 0:
+                                        continue
+                                    cleaned_coulda_pool.append(p)
+                                
+                                team_coulda, _ = coulda_optimizer.run_optimizer(cleaned_coulda_pool, 200)
+                                if team_coulda:
+                                    def strip_coulda_player(p):
+                                        fname = p["firstName"]
+                                        lname = p["lastName"]
+                                        lookup = df_merged[(df_merged["firstName"] == fname) & (df_merged["lastName"] == lname)]
+                                        
+                                        team_abbr = p.get("currentTeam", {}).get("teamId", "UNK")
+                                        opp_abbr = p.get("_opponent", "UNK")
+                                        game_id = p.get("eventId", "UNK").replace("_game_", "-ev-")
+                                        salary = int(p.get("salary", 10))
+                                        
+                                        ev_val = float(lookup.iloc[0]["EV"]) if not lookup.empty else 0.0
+                                        ceil_val = float(lookup.iloc[0]["PredictedPoints"]) if not lookup.empty else 0.0
+                                        boom_val = float(lookup.iloc[0]["BoomProbability"]) if not lookup.empty else 0.0
+                                        
+                                        return {
+                                            "firstName": fname,
+                                            "lastName": lname,
+                                            "team": team_abbr,
+                                            "opponent": opp_abbr,
+                                            "game_id": game_id,
+                                            "position": p["position"],
+                                            "salary": salary,
+                                            "EV": round(ev_val, 1),
+                                            "ceiling": round(ceil_val, 1),
+                                            "boom": round(boom_val, 1),
+                                            "actualPoints": round(float(p["totalPoints"]), 1)
+                                        }
+                                    response_data["Coulda"] = [strip_coulda_player(p) for p in team_coulda]
+                    except Exception as e_coulda:
+                        print(f"Warning: Could not run Coulda optimizer for {year} Week {week}: {e_coulda}")
                     
                     player_counts = {}
                     for key, roster in response_data.items():

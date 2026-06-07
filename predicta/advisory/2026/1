@@ -259,40 +259,52 @@
     ],
     "StackedReg": [
         {
-            "firstName": "Emmet",
-            "lastName": "Carroll",
+            "firstName": "Michael",
+            "lastName": "Sowers",
+            "team": "WAT",
+            "opponent": "WHP",
+            "game_id": "2026-ev-4",
+            "position": "Attack",
+            "salary": 50,
+            "EV": 44.9,
+            "ceiling": 23.5,
+            "boom": 72.5
+        },
+        {
+            "firstName": "Kieran",
+            "lastName": "McArdle",
+            "team": "WAT",
+            "opponent": "WHP",
+            "game_id": "2026-ev-4",
+            "position": "Attack",
+            "salary": 35,
+            "EV": 42.3,
+            "ceiling": 23.5,
+            "boom": 65.6
+        },
+        {
+            "firstName": "Liam",
+            "lastName": "Entenmann",
+            "team": "ATL",
+            "opponent": "CHA",
+            "game_id": "2026-ev-2",
+            "position": "Goalie",
+            "salary": 47,
+            "EV": 42.6,
+            "ceiling": 21.4,
+            "boom": 80.8
+        },
+        {
+            "firstName": "Brad",
+            "lastName": "Smith",
             "team": "WHP",
             "opponent": "WAT",
             "game_id": "2026-ev-4",
-            "position": "Goalie",
-            "salary": 44,
-            "EV": 39.8,
-            "ceiling": 24.3,
-            "boom": 70.3
-        },
-        {
-            "firstName": "Connor",
-            "lastName": "Fields",
-            "team": "ARC",
-            "opponent": "OUT",
-            "game_id": "2026-ev-3",
-            "position": "Attack",
-            "salary": 23,
-            "EV": 39.0,
-            "ceiling": 22.0,
-            "boom": 56.7
-        },
-        {
-            "firstName": "Sam",
-            "lastName": "King",
-            "team": "ARC",
-            "opponent": "OUT",
-            "game_id": "2026-ev-3",
-            "position": "Attack",
-            "salary": 25,
-            "EV": 39.9,
-            "ceiling": 19.5,
-            "boom": 59.1
+            "position": "Midfield",
+            "salary": 15,
+            "EV": 13.3,
+            "ceiling": 20.1,
+            "boom": 19.4
         },
         {
             "firstName": "Mason",
@@ -307,28 +319,16 @@
             "boom": 73.9
         },
         {
-            "firstName": "Ryan",
-            "lastName": "Ambler",
-            "team": "ARC",
-            "opponent": "OUT",
-            "game_id": "2026-ev-3",
+            "firstName": "Levi",
+            "lastName": "Anderson",
+            "team": "ATL",
+            "opponent": "CHA",
+            "game_id": "2026-ev-2",
             "position": "Midfield",
-            "salary": 6,
-            "EV": 16.2,
-            "ceiling": 16.8,
-            "boom": 29.3
-        },
-        {
-            "firstName": "Dyson",
-            "lastName": "Williams",
-            "team": "ARC",
-            "opponent": "OUT",
-            "game_id": "2026-ev-3",
-            "position": "Midfield",
-            "salary": 12,
-            "EV": 26.3,
-            "ceiling": 15.9,
-            "boom": 63.2
+            "salary": 10,
+            "EV": 34.0,
+            "ceiling": 17.9,
+            "boom": 89.4
         },
         {
             "firstName": "TD",
@@ -343,11 +343,104 @@
             "boom": 30.3
         }
     ],
+    "Coulda": [
+        {
+            "firstName": "Michael",
+            "lastName": "Boehm",
+            "team": "RED",
+            "opponent": "ARC",
+            "game_id": "2026-ev-1",
+            "position": "A",
+            "salary": 12,
+            "EV": 19.0,
+            "ceiling": 4.6,
+            "boom": 3.4,
+            "actualPoints": 54.0
+        },
+        {
+            "firstName": "Michael",
+            "lastName": "Sowers",
+            "team": "WAT",
+            "opponent": "WHP",
+            "game_id": "2026-ev-4",
+            "position": "A",
+            "salary": 50,
+            "EV": 44.9,
+            "ceiling": 23.5,
+            "boom": 72.5,
+            "actualPoints": 51.0
+        },
+        {
+            "firstName": "Levi",
+            "lastName": "Anderson",
+            "team": "ATL",
+            "opponent": "CHA",
+            "game_id": "2026-ev-2",
+            "position": "M",
+            "salary": 10,
+            "EV": 34.0,
+            "ceiling": 17.9,
+            "boom": 89.4,
+            "actualPoints": 76.0
+        },
+        {
+            "firstName": "Bryan",
+            "lastName": "Costabile",
+            "team": "ATL",
+            "opponent": "CHA",
+            "game_id": "2026-ev-2",
+            "position": "M",
+            "salary": 20,
+            "EV": 28.0,
+            "ceiling": 17.1,
+            "boom": 68.9,
+            "actualPoints": 65.0
+        },
+        {
+            "firstName": "Mitchell",
+            "lastName": "Dunham",
+            "team": "ARC",
+            "opponent": "OUT",
+            "game_id": "2026-ev-3",
+            "position": "D",
+            "salary": 3,
+            "EV": 5.0,
+            "ceiling": 6.0,
+            "boom": 2.4,
+            "actualPoints": 59.0
+        },
+        {
+            "firstName": "Luke",
+            "lastName": "Wierman",
+            "team": "OUT",
+            "opponent": "ARC",
+            "game_id": "2026-ev-3",
+            "position": "FO",
+            "salary": 20,
+            "EV": 11.5,
+            "ceiling": 9.3,
+            "boom": 4.4,
+            "actualPoints": 17.7
+        },
+        {
+            "firstName": "Liam",
+            "lastName": "Entenmann",
+            "team": "ATL",
+            "opponent": "CHA",
+            "game_id": "2026-ev-2",
+            "position": "G",
+            "salary": 47,
+            "EV": 42.6,
+            "ceiling": 21.4,
+            "boom": 80.8,
+            "actualPoints": 47.0
+        }
+    ],
     "Core": [
         "Brennan O'Neill",
-        "Levi Anderson"
+        "Liam Entenmann",
+        "Levi Anderson",
+        "Bryan Costabile"
     ],
-    "Sleepers": [
-        "Ryan Ambler"
-    ]
+    "Sleepers": []
 }

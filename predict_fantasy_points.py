@@ -5,8 +5,17 @@ import numpy as np
 import re
 import argparse
 from datetime import datetime, timezone
-from xgboost import XGBClassifier
+from xgboost import XGBClassifier, XGBRegressor
 from sklearn.preprocessing import StandardScaler, LabelEncoder
+from sklearn.calibration import CalibratedClassifierCV
+from sklearn.model_selection import KFold
+
+def quantile_obj(y_true, y_pred):
+    alpha = 0.9
+    errors = y_true - y_pred
+    grad = np.where(errors >= 0, -alpha, 1.0 - alpha)
+    hess = np.ones_like(y_true)
+    return grad, hess
 
 # ── Team Mapping ─────────────────────────────────────────────────────────────
 TEAM_NAME_TO_ID = {
@@ -309,6 +318,18 @@ FEATURE_LISTS = {
 def assign_tiers(s):
     q25, q75 = s.quantile(0.25), s.quantile(0.75)
     return pd.cut(s, bins=[-np.inf, q25, q75, np.inf], labels=["Bust", "Average", "Boom"])
+
+def filter_played_only(df):
+    if df.empty:
+        return df
+    is_active = (df["isDNP"] != True) & df["TotalFantasyPoints"].notna()
+    is_goalie = (df["positionGroup"] == "Goalie")
+    saves = df["saves"] if "saves" in df.columns else 0
+    ga = df["goalsAgainst"] if "goalsAgainst" in df.columns else 0
+    fp = df["TotalFantasyPoints"] if "TotalFantasyPoints" in df.columns else 0
+    goalie_played = (saves > 0) | (ga > 0) | (fp > 0)
+    played = (~is_goalie & is_active) | (is_goalie & is_active & goalie_played)
+    return df[played].copy()
 
 def main():
     p = argparse.ArgumentParser()
@@ -677,20 +698,61 @@ def main():
     df_test = pd.concat(test_rows, ignore_index=True).fillna(1.0)
 
     df_train = df_all.dropna(subset=["TotalFantasyPoints"]).copy()
+    df_train = filter_played_only(df_train)
     df_train["PerformanceTier"] = df_train.groupby("positionGroup")["TotalFantasyPoints"].transform(assign_tiers)
     
     preds_out = []
     for pg, feats in FEATURE_LISTS.items():
-        df_pg = df_train[df_train["positionGroup"] == pg].dropna(subset=feats + ["PerformanceTier"])
-        if len(df_pg) < 15: continue
-        sc, le = StandardScaler(), LabelEncoder()
-        Xs = sc.fit_transform(df_pg[feats])
+        df_pg = df_train[df_train["positionGroup"] == pg].dropna(subset=feats + ["PerformanceTier"]).copy()
+        tp = df_test[df_test["positionGroup"] == pg].copy()
+        if len(df_pg) < 15 or tp.empty: continue
+        
+        # 1. Stacking: Out-of-fold point predictions on training data (5-Fold CV)
+        df_pg["PredictedPoints"] = 0.0
+        kf = KFold(n_splits=5, shuffle=True, random_state=42)
+        
+        for train_idx, val_idx in kf.split(df_pg):
+            train_fold = df_pg.iloc[train_idx]
+            val_fold = df_pg.iloc[val_idx]
+            
+            sc_fold = StandardScaler()
+            X_tr = sc_fold.fit_transform(train_fold[feats])
+            X_val = sc_fold.transform(val_fold[feats])
+            
+            reg_fold = XGBRegressor(n_estimators=100, random_state=42, objective=quantile_obj)
+            reg_fold.fit(X_tr, train_fold["TotalFantasyPoints"])
+            
+            df_pg.loc[df_pg.index[val_idx], "PredictedPoints"] = reg_fold.predict(X_val)
+            
+        # 2. Stacking: Fit regression on entire training set and predict on test set
+        sc_all = StandardScaler()
+        X_all_reg = sc_all.fit_transform(df_pg[feats])
+        X_test_reg = sc_all.transform(tp[feats])
+        
+        reg_full = XGBRegressor(n_estimators=100, random_state=42, objective=quantile_obj)
+        reg_full.fit(X_all_reg, df_pg["TotalFantasyPoints"])
+        
+        tp["PredictedPoints"] = reg_full.predict(X_test_reg)
+        
+        # 3. Add PredictedPoints to classification feature list
+        pg_feats = feats + ["PredictedPoints"]
+        
+        # 4. Standard scale final features (including stacked prediction)
+        sc_clf = StandardScaler()
+        X_tr_clf = sc_clf.fit_transform(df_pg[pg_feats])
+        X_te_clf = sc_clf.transform(tp[pg_feats])
+        
+        # 5. Calibrated Classification
+        le = LabelEncoder()
         ye = le.fit_transform(df_pg["PerformanceTier"].astype(str))
-        mod = XGBClassifier(n_estimators=100, random_state=42).fit(Xs, ye)
-        tp = df_test[df_test["positionGroup"] == pg]
-        if tp.empty: continue
-        Xt = sc.transform(tp[feats])
-        pL, pP = le.inverse_transform(mod.predict(Xt)), mod.predict_proba(Xt)
+        
+        base_clf = XGBClassifier(n_estimators=100, random_state=42)
+        mod = CalibratedClassifierCV(estimator=base_clf, method='isotonic', cv=3)
+        mod.fit(X_tr_clf, ye)
+        
+        pL = le.inverse_transform(mod.predict(X_te_clf))
+        pP = mod.predict_proba(X_te_clf)
+        
         bI = list(le.classes_).index("Boom") if "Boom" in le.classes_ else -1
         for i, (_, r) in enumerate(tp.iterrows()):
             preds_out.append({**r.to_dict(), "PredictedTier": pL[i], "BoomProbability": round(pP[i][bI]*100, 1) if bI >= 0 else 0})

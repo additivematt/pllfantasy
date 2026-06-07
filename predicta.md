@@ -96,15 +96,20 @@ All optimizers target the core F2P roster requirements (select exactly 7 players
 - **Best Use Case**: Identifying high-value sleeper selections with enormous ceilings.
 - **File Link**: [roster_optimizer_regression.py](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/roster_optimizer_regression.py)
 
-#### C. Teammate Stacking Optimizer (`roster_optimizer_stack.py`)
-- **Approach**: Employs integer linear programming (ILP) using the `PuLP` library to optimize rosters while rewarding teammate stacks (players belonging to the same PLL franchise).
-- **Correlation Bonus**: Introduces a stacking incentive weight $\beta$ (default `0.15`) that adds a bonus to the objective function when two players $i$ and $j$ from the same team are rostered together:
-  $$\text{Bonus} = \beta \times \min(P_i, P_j)$$
-  where $P$ is the optimization metric. The optimization is linearized for binary quadratic constraints: $z_{ij} = x_i \cdot x_j$.
+#### C. Teammate & Opponent Correlation Stacking Optimizer (`roster_optimizer_stack.py`)
+- **Approach**: Employs integer linear programming (ILP) using the `PuLP` library to optimize rosters while factoring in teammate positive correlations and matchup/opponent negative correlations.
+- **Correlation Bonuses & Penalties**: Uses historical Pearson correlation coefficients ($\text{Corr}_{ij}$) calculated from 2023–2026 game data to adjust the objective score. Linearization is applied via binary quadratic constraints ($z_{ij} = x_i \cdot x_j$):
+  $$\text{Bonus/Penalty} = \beta \times \text{Corr}_{ij} \times \min(P_i, P_j)$$
+  where $\beta$ is a scaling multiplier (default `1.0`) and $P$ is the player's predicted performance metric (Boom probability or point ceiling).
+  *   **Positive Stacks ($\text{Corr}_{ij} > 0$)**: Encourages pairing correlated players (e.g. Same-Team Attack - Attack = `+0.124`).
+  *   **Negative Penalties ($\text{Corr}_{ij} < 0$)**: Penalizes co-rostering mutually-exclusive players in the same lineup:
+      *   *Same-Team Goalie - Defense/SSDM/LSM*: range `-0.25` to `-0.39` (defensemen stats and goalie save counts are negatively correlated).
+      *   *Cross-Team Faceoff - Faceoff*: `-0.435` (zero-sum possession battles).
+      *   *Cross-Team Attack - Goalie*: `-0.182` (attack goals hurt the opposing goalie's score).
 - **Configured Variants in Backtesting**:
-  - **Stacked Classification** (referred to as **Stacked Boom %**): Uses predictions from the **Classification Model** and optimizes for the `BoomProbability` metric. The stacking bonus rewards pairing players who are both highly likely to have a "Boom" performance on the same team.
-  - **Stacked Regression**: Uses predictions from the **Quantile Regression Model** and optimizes for the `PredictedPoints` metric (the 90th percentile points ceiling). The stacking bonus rewards pairing players with very high individual ceilings on the same team.
-- **Best Use Case**: High-volatility tournament (GPP) formats. Stacking aligns with high-correlation outcomes (e.g. goals assisted by teammates or general team offensive explosions), creating a higher team ceiling at the cost of consistency.
+  *   **Stacked Boom % (Tourney)**: Uses calibrated predictions from the **Classification Model** to maximize joint Boom probability.
+  *   **Stacked Regression (Tourney)**: Uses predictions from the **Quantile Regression Model** to maximize joint points ceiling.
+- **Best Use Case**: GPP tournament formats. Stacking captures same-team offensive explosions while negative correlation penalties actively prevent co-rostering players who limit each other's ceiling.
 - **File Link**: [roster_optimizer_stack.py](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/roster_optimizer_stack.py)
 
 ---
@@ -230,9 +235,9 @@ python predict_fantasy_points.py --year 2026 --week 2
 | Per-game output in double-game weeks | ✅ Verified |
 | **Defense slot unification** | ✅ SSDM/LSM/Defensemen share one boom pool; `subPosition` preserves opposition granularity and separate UI panels |
 | Model evaluation / backtesting | ✅ Complete (via `backtest_compare.py`) |
-| Probability calibration | ❌ Raw XGBoost probabilities, not calibrated |
+| Probability calibration | ✅ Complete (via `CalibratedClassifierCV`) |
 | Quantile Regression (90th Percentile) | ✅ Complete (via `predict_fantasy_points_regression.py`) |
-| Teammate Stacking Optimizer | ✅ Complete (via `roster_optimizer_stack.py`) |
+| Teammate Stacking Optimizer | ✅ Complete (via data-driven correlation model) |
 
 ---
 
@@ -243,8 +248,8 @@ python predict_fantasy_points.py --year 2026 --week 2
 - [x] **Unify the Defense slot**: SSDM, LSM, and Defensemen now share one boom pool via merged `positionGroup = "Defense"`.
 - [x] **Build a backtesting harness**: train on 2023–2024, predict 2025, compare vs. actual tier labels to measure accuracy.
 - [x] **Expand to regression**: Experiment with predicting point totals directly (using Quantile Regression for 90th percentile ceiling) and compare usefulness vs. tier classification.
-- [ ] **Regenerate all 2025 predictions** (weeks 1–14) and **2026 predictions** (weeks 1–3) following the Defense slot unification fix — boom probabilities were previously miscalibrated for D-slot players.
-- [ ] **Build a Predicta accuracy metric**: For each historical prediction week, compare `PredictedTier` against the actual tier (derived from real `TotalFantasyPoints`) and report per-position accuracy, tier confusion matrices, and Boom precision/recall. Aim to surface this in the UI or as a summary report alongside each week's predictions.
-- [ ] **Calibrate probabilities**: Use `CalibratedClassifierCV` to turn raw XGBoost outputs into reliable probability estimates.
+- [x] **Regenerate all 2025 predictions** (weeks 1–14) and **2026 predictions** (weeks 1–3) following the Defense slot unification fix — boom probabilities were previously miscalibrated for D-slot players.
+- [x] **Build a Predicta accuracy metric**: For each historical prediction week, compare `PredictedTier` against the actual tier (derived from real `TotalFantasyPoints`) and report per-position accuracy, tier confusion matrices, and Boom precision/recall. Aim to surface this in the UI or as a summary report alongside each week's predictions.
+- [x] **Calibrate probabilities**: Use `CalibratedClassifierCV` to turn raw XGBoost outputs into reliable probability estimates.
 - [ ] **Add salary efficiency scoring**: Combine predicted probability with F2P salary from `f2p_2026_season.json` to rank players by value.
 - [ ] **Audit double-game week logic**: Ensure the pipeline remains robust for mid-season double-headers.

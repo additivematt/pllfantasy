@@ -532,3 +532,26 @@ footer {
     padding-bottom: 0.25rem;
     border-radius: 0 4px 4px 0;
 }
+
+/* ── Coulda Highlight Styles ── */
+.roster-row.coulda-highlight td:first-child {
+    border-left: 3px solid #00f0ff;
+    padding-left: calc(0.5rem - 3px);
+}
+.roster-row.coulda-highlight {
+    background: rgba(0, 240, 255, 0.03);
+}
+.roster-row.coulda-highlight:hover {
+    background: rgba(0, 240, 255, 0.08);
+}
+
+.roster-table-coulda .roster-row td:first-child {
+    border-left: 3px solid #00f0ff;
+    padding-left: calc(0.5rem - 3px);
+}
+.roster-table-coulda .roster-row {
+    background: rgba(0, 240, 255, 0.02);
+}
+.roster-table-coulda .roster-row:hover {
+    background: rgba(0, 240, 255, 0.06);
+}
