@@ -345,11 +345,23 @@ function renderRoster(rosterName) {
         "Attack": "Attack",
         "Midfield": "Midfield",
         "Defense": "Defense",
+        "Defensemen": "Defense",
+        "SSDM": "Defense",
+        "LSM": "Defense",
         "Faceoff": "Faceoff",
         "Goalie": "Goalie"
     };
 
-    const posOrder = { "Attack": 0, "Midfield": 1, "Defense": 2, "Faceoff": 3, "Goalie": 4 };
+    const posOrder = {
+        "Attack": 0,
+        "Midfield": 1,
+        "Defense": 2,
+        "Defensemen": 2,
+        "SSDM": 2,
+        "LSM": 2,
+        "Faceoff": 3,
+        "Goalie": 4
+    };
     const sortedRoster = [...roster].sort((a, b) => {
         const aPos = posMap[a.position] || a.position;
         const bPos = posMap[b.position] || b.position;
