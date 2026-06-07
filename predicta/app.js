@@ -1,11 +1,11 @@
 const positions = ["Attack", "Midfield", "SSDM", "Defensemen", "Faceoff", "Goalie"];
-let activeRosterTab = "Cash";
+let activeRosterTab = "MC_EV";
 
 const rosterDescriptions = {
-    "Cash": "<strong>BOOM</strong>: Optimizes the roster to maximize expected value (EV) points based on classification probabilities. This focuses on high-floor consistency, making it best for head-to-head matches and double-ups.",
-    "Ceiling": "<strong>CEILING</strong>: Optimizes the roster to maximize predicted 90th percentile ceiling points directly from the regression model. Ideal for finding high-upside sleeper combinations.",
-    "StackedBoom": "<strong>STACK BOOM</strong>: Teammate-stacking tournament optimizer using Boom Probability. Pairs high-boom players on the same franchise to capture positive offensive correlation.",
-    "StackedReg": "<strong>STACK CEILING</strong>: Teammate-stacking tournament optimizer using 90th percentile ceilings. Pairs high-ceiling offensive players to maximize tournament-winning scoring explosions.",
+    "MC_EV": "Optimizes the roster to get the highest average points. Best for consistent, safe performance.",
+    "MC_Win_160": "Optimizes the roster to maximize the chance of scoring 160 or more points. Balances safety with some high-scoring potential.",
+    "MC_Win_180": "Optimizes the roster to maximize the chance of scoring 180 or more points. Focuses heavily on high-scoring teammate combinations.",
+    "MC_Ceil_90": "Optimizes the roster to maximize the highest possible potential score, ignoring the risk of a low score.",
     "Coulda": "<strong>COULDA</strong>: Retroactively solves the absolute best possible roster for this week based on actual fantasy points scored. Use this to compare how close predictions were to the ultimate ceiling."
 };
 
@@ -38,10 +38,10 @@ async function loadPredictions(year, week) {
     if (rosterContainer) rosterContainer.innerHTML = '<div class="muted-text" style="padding: 1rem 0;">Solving optimal rosters...</div>';
 
     try {
-        // Parallel fetch for predictions and optimizer data
+        const cacheBuster = `?t=${Date.now()}`;
         const [predRes, advRes] = await Promise.all([
-            fetch(`predictions/${year}/${week}`),
-            fetch(`advisory/${year}/${week}`).catch(err => {
+            fetch(`predictions/${year}/${week}${cacheBuster}`),
+            fetch(`advisory/${year}/${week}${cacheBuster}`).catch(err => {
                 console.warn('Advisory fetch failed:', err);
                 return null;
             })
@@ -76,12 +76,26 @@ async function loadPredictions(year, week) {
             renderQueue.push({ id: div.id, pos, data: posData });
         });
 
+        // Pre-compute shared Y-axis range for SSDM and Defensemen so they're comparable
+        const defPositions = ['SSDM', 'Defensemen'];
+        const getMcEvVal = d => (d.mc_ev != null && d.mc_ev > 0) ? d.mc_ev : (d.fp_season_avg || 0);
+        const defData = data.filter(d => defPositions.includes(d.subPosition));
+        let defYRange = null;
+        if (defData.length > 0) {
+            const defEvs = defData.map(getMcEvVal);
+            const defMin = Math.min(...defEvs);
+            const defMax = Math.max(...defEvs);
+            const defPad = (defMax - defMin) * 0.15 || 2;
+            defYRange = [Math.max(0, defMin - defPad), defMax + defPad * 2];
+        }
+
         // Render all plots
         renderQueue.forEach(item => {
             console.log(`Rendering ${item.pos} with ${item.data.length} players`);
             let displayTitle = item.pos;
             if (displayTitle === "SSDM") displayTitle = "SSDM/LSM";
-            renderPlot(item.id, displayTitle, item.data);
+            const lockedYRange = defPositions.includes(item.pos) ? defYRange : null;
+            renderPlot(item.id, displayTitle, item.data, lockedYRange);
         });
 
         if (advisoryData) {
@@ -105,10 +119,11 @@ async function loadPredictions(year, week) {
     }
 }
 
-function renderPlot(targetId, title, data) {
+function renderPlot(targetId, title, data, yRange = null) {
     const x = data.map(d => d.salary);
-    const y = data.map(d => d.BoomProbability);
-    
+    // Use mc_ev (Monte Carlo Expected Value) on Y-axis; fallback to season avg
+    const getMcEv = d => (d.mc_ev != null && d.mc_ev > 0) ? d.mc_ev : (d.fp_season_avg || 0);
+
     const xMin = Math.min(...x);
     const xMax = Math.max(...x);
     const xPadding = (xMax - xMin) * 0.15 || 5;
@@ -126,10 +141,22 @@ function renderPlot(targetId, title, data) {
         return b.fp_season_avg - a.fp_season_avg;
     });
 
+    const sortedY = sortedData.map(getMcEv);
+    const yMax = Math.max(...sortedY);
+    const yMin = Math.min(...sortedY);
+    const yPad = (yMax - yMin) * 0.15 || 2;
+    const medianEV = sortedY.length > 0 ? [...sortedY].sort((a,b) => a-b)[Math.floor(sortedY.length/2)] : 15;
+
+    // Use locked range if provided (for shared-axis position groups), else auto-scale to data
+    const yAxisRange = yRange !== null ? yRange : [Math.max(0, yMin - yPad), yMax + yPad * 2];
+
+    // For overlap detection use the actual axis range
+    const yAxisMin = yAxisRange[0];
+    const yAxisSpan = yAxisRange[1] - yAxisRange[0];
     const placed = [];
-    const textLabels = sortedData.map(d => {
+    const textLabels = sortedData.map((d, i) => {
         const xNorm = (d.salary - xMin) / (xMax - xMin || 1);
-        const yNorm = d.BoomProbability / 100;
+        const yNorm = (sortedY[i] - yAxisMin) / (yAxisSpan || 1);
         
         let overlap = false;
         for (let p of placed) {
@@ -152,9 +179,21 @@ function renderPlot(targetId, title, data) {
     const markerLineWidths = sortedData.map(d => couldaSet.has(`${d.firstName} ${d.lastName}|${d.game_id}`) ? 3 : 1);
     const textColors = sortedData.map(d => couldaSet.has(`${d.firstName} ${d.lastName}|${d.game_id}`) ? '#00f0ff' : 'rgba(255,255,255,0.7)');
 
+    // Dot size: MC p90 (90th percentile ceiling from simulation), fallback to mc_ev * 1.5 or season avg
+    const dotSizes = sortedData.map(d => {
+        const p90 = d.mc_p90 || (d.mc_ev ? d.mc_ev * 1.5 : null) || d.fp_season_avg || 8;
+        return Math.max(6, p90 * 0.55 + 4);
+    });
+
+    // Color by MC Std Dev (risk/volatility): green = safe floor, red = boom-or-bust
+    const stdValues = sortedData.map(d => d.mc_std != null ? d.mc_std : 0);
+    const stdMin = Math.max(0, Math.min(...stdValues));
+    const stdMax = Math.max(...stdValues);
+
+
     const trace = {
         x: sortedData.map(d => d.salary),
-        y: sortedData.map(d => d.BoomProbability),
+        y: sortedY,
         mode: 'markers+text',
         text: textLabels,
         textfont: { family: 'Inter', size: 10, color: textColors },
@@ -162,19 +201,21 @@ function renderPlot(targetId, title, data) {
         hoverinfo: 'none',
         customdata: sortedData,
         marker: {
-            size: sortedData.map(d => Math.max(2, d.PredictedPoints || 0) * 0.9 + 5),
-            color: sortedData.map(d => d.team_def_rating),
+            size: dotSizes,
+            color: stdValues,
             colorscale: [
-                [0, 'rgb(215,48,39)'],
-                [0.5, 'rgb(255,255,191)'],
-                [1, 'rgb(26,152,80)']
+                [0,   'rgb(26,152,80)'],
+                [0.4, 'rgb(166,217,106)'],
+                [0.6, 'rgb(255,255,191)'],
+                [0.8, 'rgb(253,174,97)'],
+                [1,   'rgb(215,48,39)']
             ],
-            reversescale: false, 
-            cmin: 0.6,
-            cmax: 1.4,
+            reversescale: false,
+            cmin: stdMin,
+            cmax: stdMax,
             showscale: true,
             colorbar: {
-                title: 'Hist. Perf vs Opp',
+                title: { text: 'Risk (σ)', font: { color: '#8b949e', size: 11 } },
                 thickness: 15,
                 x: 1.1,
                 tickfont: { color: '#8b949e' }
@@ -202,15 +243,15 @@ function renderPlot(targetId, title, data) {
             range: [xMin - xPadding, xMax + xPadding]
         },
         yaxis: { 
-            title: 'Boom Probability (%)', 
-            range: [-5, 115], 
+            title: 'MC Expected Value (Pts)', 
+            range: yAxisRange, 
             gridcolor: '#30363d', 
             zeroline: false 
         },
         margin: { t: 80, b: 80, l: 80, r: 100 },
         shapes: [
             { type: 'line', x0: medianSalary, x1: medianSalary, yref: 'paper', y0: 0, y1: 1, line: { color: 'rgba(255,255,255,0.1)', width: 1, dash: 'dash' } },
-            { type: 'line', xref: 'paper', x0: 0, x1: 1, y0: 50, y1: 50, line: { color: 'rgba(255,255,255,0.1)', width: 1, dash: 'dash' } }
+            { type: 'line', xref: 'paper', x0: 0, x1: 1, y0: medianEV, y1: medianEV, line: { color: 'rgba(255,255,255,0.1)', width: 1, dash: 'dash' } }
         ]
     };
 
@@ -237,13 +278,26 @@ function renderPlot(targetId, title, data) {
             <div class="tooltip-row"><span class="tooltip-label">Season Avg</span><span class="tooltip-value">${p.fp_season_avg.toFixed(1)}</span></div>
             <div class="tooltip-row"><span class="tooltip-label">Opp. Rating</span><span class="tooltip-value" style="color: ${p.team_def_rating > 1.1 ? '#00ff88' : p.team_def_rating < 0.9 ? '#ff4444' : '#ffffff'}">${p.team_def_rating.toFixed(2)}</span></div>
             <div class="tooltip-row" style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.1)">
-                <span class="tooltip-label">Boom Prob</span>
-                <span class="tooltip-value" style="color: #00ccff">${p.BoomProbability.toFixed(0)}%</span>
+                <span class="tooltip-label">MC EV</span>
+                <span class="tooltip-value" style="color: #00ccff">${(p.mc_ev != null ? p.mc_ev : 0).toFixed(1)} pts</span>
             </div>
             <div class="tooltip-row">
-                <span class="tooltip-label">Ceiling (Pts)</span>
-                <span class="tooltip-value" style="color: #9f7aea">${(p.PredictedPoints || 0).toFixed(1)}</span>
+                <span class="tooltip-label">Risk (σ)</span>
+                <span class="tooltip-value" style="color: ${p.mc_std > 20 ? '#ff4444' : p.mc_std > 12 ? '#fdae61' : '#6dbe6d'}">${(p.mc_std != null ? p.mc_std : 0).toFixed(1)}</span>
             </div>
+            <div class="tooltip-row">
+                <span class="tooltip-label">Boom Prob</span>
+                <span class="tooltip-value" style="color: rgba(255,255,255,0.55)">${(p.BoomProbability || 0).toFixed(0)}%</span>
+            </div>
+            <div class="tooltip-row">
+                <span class="tooltip-label">MC p90 (Ceil)</span>
+                <span class="tooltip-value" style="color: #9f7aea">${(p.mc_p90 || 0).toFixed(1)} pts</span>
+            </div>
+            ${p.actualPoints !== undefined && p.actualPoints !== null ? `
+            <div class="tooltip-row" style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.1)">
+                <span class="tooltip-label" style="color: #00f0ff; font-weight: 700;">Actual Score</span>
+                <span class="tooltip-value" style="color: #00f0ff; font-weight: 700;">${p.actualPoints.toFixed(1)} pts</span>
+            </div>` : ''}
         `;
     });
 }
@@ -262,7 +316,7 @@ function renderAdvisor(advisoryData) {
             couldaTab.style.display = 'none';
             rosterTabsContainer.style.gridTemplateColumns = 'repeat(4, 1fr)';
             if (activeRosterTab === "Coulda") {
-                activeRosterTab = "Cash";
+                activeRosterTab = "MC_EV";
             }
         }
     }
@@ -374,7 +428,7 @@ function renderRoster(rosterName) {
     const totalBoom = roster.reduce((sum, p) => sum + (p.boom || 0), 0);
     const totalActual = roster.reduce((sum, p) => sum + (p.actualPoints || 0), 0);
 
-    const showBoom = (rosterName === "StackedBoom" || rosterName === "Cash");
+    const showBoom = (rosterName === "MC_Win_160" || rosterName === "MC_Win_180");
     
     let lastColHeader = "Ceil";
     if (rosterName === "Coulda") {
@@ -566,13 +620,26 @@ function highlightPlayerInPlot(position, firstName, lastName, gameId) {
         <div class="tooltip-row"><span class="tooltip-label">Season Avg</span><span class="tooltip-value">${p.fp_season_avg.toFixed(1)}</span></div>
         <div class="tooltip-row"><span class="tooltip-label">Opp. Rating</span><span class="tooltip-value" style="color: ${p.team_def_rating > 1.1 ? '#00ff88' : p.team_def_rating < 0.9 ? '#ff4444' : '#ffffff'}">${p.team_def_rating.toFixed(2)}</span></div>
         <div class="tooltip-row" style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.1)">
-            <span class="tooltip-label">Boom Prob</span>
-            <span class="tooltip-value" style="color: #00ccff">${p.BoomProbability.toFixed(0)}%</span>
+            <span class="tooltip-label">MC EV</span>
+            <span class="tooltip-value" style="color: #00ccff">${(p.mc_ev != null ? p.mc_ev : 0).toFixed(1)} pts</span>
         </div>
         <div class="tooltip-row">
-            <span class="tooltip-label">Ceiling (Pts)</span>
-            <span class="tooltip-value" style="color: #9f7aea">${(p.PredictedPoints || 0).toFixed(1)}</span>
+            <span class="tooltip-label">Risk (σ)</span>
+            <span class="tooltip-value" style="color: ${p.mc_std > 20 ? '#ff4444' : p.mc_std > 12 ? '#fdae61' : '#6dbe6d'}">${(p.mc_std != null ? p.mc_std : 0).toFixed(1)}</span>
         </div>
+        <div class="tooltip-row">
+            <span class="tooltip-label">Boom Prob</span>
+            <span class="tooltip-value" style="color: rgba(255,255,255,0.55)">${(p.BoomProbability || 0).toFixed(0)}%</span>
+        </div>
+        <div class="tooltip-row">
+            <span class="tooltip-label">MC p90 (Ceil)</span>
+            <span class="tooltip-value" style="color: #9f7aea">${(p.mc_p90 || 0).toFixed(1)} pts</span>
+        </div>
+        ${p.actualPoints !== undefined && p.actualPoints !== null ? `
+        <div class="tooltip-row" style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.1)">
+            <span class="tooltip-label" style="color: #00f0ff; font-weight: 700;">Actual Score</span>
+            <span class="tooltip-value" style="color: #00f0ff; font-weight: 700;">${p.actualPoints.toFixed(1)} pts</span>
+        </div>` : ''}
     `;
     
     setTimeout(() => {
@@ -588,7 +655,7 @@ async function initDashboard() {
     const yearSelect = document.getElementById('year-select');
     const weekSelect = document.getElementById('week-select');
     try {
-        const response = await fetch('predictions/available');
+        const response = await fetch(`predictions/available?t=${Date.now()}`);
         if (!response.ok) throw new Error("Failed to load available prediction periods.");
         const available = await response.json();
         

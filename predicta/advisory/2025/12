@@ -1,29 +1,5 @@
 {
-    "Cash": [
-        {
-            "firstName": "Michael",
-            "lastName": "Sowers",
-            "team": "WAT",
-            "opponent": "WHP",
-            "game_id": "2025_quarterfinal_1",
-            "position": "Attack",
-            "salary": 48,
-            "EV": 38.8,
-            "ceiling": 24.0,
-            "boom": 56.9
-        },
-        {
-            "firstName": "Rob",
-            "lastName": "Pannell",
-            "team": "WHP",
-            "opponent": "WAT",
-            "game_id": "2025_quarterfinal_1",
-            "position": "Attack",
-            "salary": 28,
-            "EV": 32.5,
-            "ceiling": 22.4,
-            "boom": 40.1
-        },
+    "MC_EV": [
         {
             "firstName": "Emmet",
             "lastName": "Carroll",
@@ -32,9 +8,49 @@
             "game_id": "2025_quarterfinal_1",
             "position": "Goalie",
             "salary": 31,
-            "EV": 30.3,
+            "EV": 35.8,
             "ceiling": 24.2,
-            "boom": 34.8
+            "boom": 55.5,
+            "actualPoints": 25.0
+        },
+        {
+            "firstName": "Dylan",
+            "lastName": "Molloy",
+            "team": "RED",
+            "opponent": "CHA",
+            "game_id": "2025_quarterfinal_2",
+            "position": "Attack",
+            "salary": 36,
+            "EV": 32.0,
+            "ceiling": 23.6,
+            "boom": 38.7,
+            "actualPoints": 4.0
+        },
+        {
+            "firstName": "Aidan",
+            "lastName": "Carroll",
+            "team": "WHP",
+            "opponent": "WAT",
+            "game_id": "2025_quarterfinal_1",
+            "position": "Attack",
+            "salary": 27,
+            "EV": 30.9,
+            "ceiling": 19.6,
+            "boom": 35.9,
+            "actualPoints": 72.0
+        },
+        {
+            "firstName": "Andrew",
+            "lastName": "McAdorey",
+            "team": "RED",
+            "opponent": "CHA",
+            "game_id": "2025_quarterfinal_2",
+            "position": "Midfield",
+            "salary": 32,
+            "EV": 24.5,
+            "ceiling": 20.6,
+            "boom": 56.3,
+            "actualPoints": 32.5
         },
         {
             "firstName": "Matt",
@@ -44,21 +60,10 @@
             "game_id": "2025_quarterfinal_1",
             "position": "Midfield",
             "salary": 21,
-            "EV": 26.3,
-            "ceiling": 22.2,
-            "boom": 62.4
-        },
-        {
-            "firstName": "Ross",
-            "lastName": "Scott",
-            "team": "CHA",
-            "opponent": "RED",
-            "game_id": "2025_quarterfinal_2",
-            "position": "Midfield",
-            "salary": 19,
-            "EV": 20.5,
-            "ceiling": 17.8,
-            "boom": 43.0
+            "EV": 19.7,
+            "ceiling": 18.3,
+            "boom": 40.4,
+            "actualPoints": -4.0
         },
         {
             "firstName": "Joseph",
@@ -68,9 +73,10 @@
             "game_id": "2025_quarterfinal_1",
             "position": "Faceoff",
             "salary": 26,
-            "EV": 19.0,
-            "ceiling": 15.8,
-            "boom": 37.8
+            "EV": 19.3,
+            "ceiling": 15.6,
+            "boom": 38.8,
+            "actualPoints": 20.0
         },
         {
             "firstName": "Ajax",
@@ -80,23 +86,25 @@
             "game_id": "2025_quarterfinal_1",
             "position": "Defense",
             "salary": 27,
-            "EV": 15.6,
-            "ceiling": 15.4,
-            "boom": 51.3
+            "EV": 17.6,
+            "ceiling": 15.8,
+            "boom": 60.1,
+            "actualPoints": 15.0
         }
     ],
-    "Ceiling": [
+    "MC_Win_160": [
         {
-            "firstName": "Matt",
-            "lastName": "DeLuca",
-            "team": "WAT",
-            "opponent": "WHP",
+            "firstName": "Emmet",
+            "lastName": "Carroll",
+            "team": "WHP",
+            "opponent": "WAT",
             "game_id": "2025_quarterfinal_1",
             "position": "Goalie",
-            "salary": 32,
-            "EV": 31.3,
-            "ceiling": 24.8,
-            "boom": 38.3
+            "salary": 31,
+            "EV": 35.8,
+            "ceiling": 24.2,
+            "boom": 55.5,
+            "actualPoints": 25.0
         },
         {
             "firstName": "Dylan",
@@ -106,33 +114,23 @@
             "game_id": "2025_quarterfinal_2",
             "position": "Attack",
             "salary": 36,
-            "EV": 29.4,
-            "ceiling": 24.0,
-            "boom": 31.9
+            "EV": 32.0,
+            "ceiling": 23.6,
+            "boom": 38.7,
+            "actualPoints": 4.0
         },
         {
-            "firstName": "Rob",
-            "lastName": "Pannell",
+            "firstName": "Aidan",
+            "lastName": "Carroll",
             "team": "WHP",
             "opponent": "WAT",
             "game_id": "2025_quarterfinal_1",
             "position": "Attack",
-            "salary": 28,
-            "EV": 32.5,
-            "ceiling": 22.4,
-            "boom": 40.1
-        },
-        {
-            "firstName": "Matt",
-            "lastName": "Brandau",
-            "team": "WHP",
-            "opponent": "WAT",
-            "game_id": "2025_quarterfinal_1",
-            "position": "Midfield",
-            "salary": 21,
-            "EV": 26.3,
-            "ceiling": 22.2,
-            "boom": 62.4
+            "salary": 27,
+            "EV": 30.9,
+            "ceiling": 19.6,
+            "boom": 35.9,
+            "actualPoints": 72.0
         },
         {
             "firstName": "Andrew",
@@ -142,36 +140,11 @@
             "game_id": "2025_quarterfinal_2",
             "position": "Midfield",
             "salary": 32,
-            "EV": 18.4,
-            "ceiling": 21.7,
-            "boom": 36.1
+            "EV": 24.5,
+            "ceiling": 20.6,
+            "boom": 56.3,
+            "actualPoints": 32.5
         },
-        {
-            "firstName": "TD",
-            "lastName": "Ierlan",
-            "team": "RED",
-            "opponent": "CHA",
-            "game_id": "2025_quarterfinal_2",
-            "position": "Faceoff",
-            "salary": 34,
-            "EV": 18.5,
-            "ceiling": 20.7,
-            "boom": 35.4
-        },
-        {
-            "firstName": "Kenny",
-            "lastName": "Brower",
-            "team": "WAT",
-            "opponent": "WHP",
-            "game_id": "2025_quarterfinal_1",
-            "position": "Defense",
-            "salary": 16,
-            "EV": 10.1,
-            "ceiling": 18.6,
-            "boom": 26.0
-        }
-    ],
-    "StackedBoom": [
         {
             "firstName": "Matt",
             "lastName": "Brandau",
@@ -180,45 +153,10 @@
             "game_id": "2025_quarterfinal_1",
             "position": "Midfield",
             "salary": 21,
-            "EV": 26.3,
-            "ceiling": 22.2,
-            "boom": 62.4
-        },
-        {
-            "firstName": "Michael",
-            "lastName": "Sowers",
-            "team": "WAT",
-            "opponent": "WHP",
-            "game_id": "2025_quarterfinal_1",
-            "position": "Attack",
-            "salary": 48,
-            "EV": 38.8,
-            "ceiling": 24.0,
-            "boom": 56.9
-        },
-        {
-            "firstName": "Jack",
-            "lastName": "Hannah",
-            "team": "WAT",
-            "opponent": "WHP",
-            "game_id": "2025_quarterfinal_1",
-            "position": "Midfield",
-            "salary": 25,
-            "EV": 20.3,
-            "ceiling": 17.0,
-            "boom": 42.2
-        },
-        {
-            "firstName": "Rob",
-            "lastName": "Pannell",
-            "team": "WHP",
-            "opponent": "WAT",
-            "game_id": "2025_quarterfinal_1",
-            "position": "Attack",
-            "salary": 28,
-            "EV": 32.5,
-            "ceiling": 22.4,
-            "boom": 40.1
+            "EV": 19.7,
+            "ceiling": 18.3,
+            "boom": 40.4,
+            "actualPoints": -4.0
         },
         {
             "firstName": "Joseph",
@@ -228,36 +166,26 @@
             "game_id": "2025_quarterfinal_1",
             "position": "Faceoff",
             "salary": 26,
-            "EV": 19.0,
-            "ceiling": 15.8,
-            "boom": 37.8
+            "EV": 19.3,
+            "ceiling": 15.6,
+            "boom": 38.8,
+            "actualPoints": 20.0
         },
         {
-            "firstName": "Blaze",
-            "lastName": "Riorden",
-            "team": "CHA",
-            "opponent": "RED",
-            "game_id": "2025_quarterfinal_2",
-            "position": "Goalie",
-            "salary": 46,
-            "EV": 30.0,
-            "ceiling": 25.6,
-            "boom": 33.4
-        },
-        {
-            "firstName": "Tim",
-            "lastName": "Muller",
+            "firstName": "Ajax",
+            "lastName": "Zappitello",
             "team": "WHP",
             "opponent": "WAT",
             "game_id": "2025_quarterfinal_1",
             "position": "Defense",
-            "salary": 6,
-            "EV": 11.0,
-            "ceiling": 12.1,
-            "boom": 29.9
+            "salary": 27,
+            "EV": 17.6,
+            "ceiling": 15.8,
+            "boom": 60.1,
+            "actualPoints": 15.0
         }
     ],
-    "StackedReg": [
+    "MC_Win_180": [
         {
             "firstName": "Emmet",
             "lastName": "Carroll",
@@ -266,9 +194,10 @@
             "game_id": "2025_quarterfinal_1",
             "position": "Goalie",
             "salary": 31,
-            "EV": 30.3,
+            "EV": 35.8,
             "ceiling": 24.2,
-            "boom": 34.8
+            "boom": 55.5,
+            "actualPoints": 25.0
         },
         {
             "firstName": "Dylan",
@@ -278,21 +207,23 @@
             "game_id": "2025_quarterfinal_2",
             "position": "Attack",
             "salary": 36,
-            "EV": 29.4,
-            "ceiling": 24.0,
-            "boom": 31.9
+            "EV": 32.0,
+            "ceiling": 23.6,
+            "boom": 38.7,
+            "actualPoints": 4.0
         },
         {
-            "firstName": "Matt",
-            "lastName": "Brandau",
+            "firstName": "Aidan",
+            "lastName": "Carroll",
             "team": "WHP",
             "opponent": "WAT",
             "game_id": "2025_quarterfinal_1",
-            "position": "Midfield",
-            "salary": 21,
-            "EV": 26.3,
-            "ceiling": 22.2,
-            "boom": 62.4
+            "position": "Attack",
+            "salary": 27,
+            "EV": 30.9,
+            "ceiling": 19.6,
+            "boom": 35.9,
+            "actualPoints": 72.0
         },
         {
             "firstName": "Andrew",
@@ -302,33 +233,103 @@
             "game_id": "2025_quarterfinal_2",
             "position": "Midfield",
             "salary": 32,
-            "EV": 18.4,
-            "ceiling": 21.7,
-            "boom": 36.1
+            "EV": 24.5,
+            "ceiling": 20.6,
+            "boom": 56.3,
+            "actualPoints": 32.5
         },
         {
-            "firstName": "Chris",
-            "lastName": "Kavanagh",
+            "firstName": "Matt",
+            "lastName": "Brandau",
+            "team": "WHP",
+            "opponent": "WAT",
+            "game_id": "2025_quarterfinal_1",
+            "position": "Midfield",
+            "salary": 21,
+            "EV": 19.7,
+            "ceiling": 18.3,
+            "boom": 40.4,
+            "actualPoints": -4.0
+        },
+        {
+            "firstName": "Joseph",
+            "lastName": "Nardella",
+            "team": "WHP",
+            "opponent": "WAT",
+            "game_id": "2025_quarterfinal_1",
+            "position": "Faceoff",
+            "salary": 26,
+            "EV": 19.3,
+            "ceiling": 15.6,
+            "boom": 38.8,
+            "actualPoints": 20.0
+        },
+        {
+            "firstName": "Ajax",
+            "lastName": "Zappitello",
+            "team": "WHP",
+            "opponent": "WAT",
+            "game_id": "2025_quarterfinal_1",
+            "position": "Defense",
+            "salary": 27,
+            "EV": 17.6,
+            "ceiling": 15.8,
+            "boom": 60.1,
+            "actualPoints": 15.0
+        }
+    ],
+    "MC_Ceil_90": [
+        {
+            "firstName": "Dylan",
+            "lastName": "Molloy",
             "team": "RED",
             "opponent": "CHA",
             "game_id": "2025_quarterfinal_2",
             "position": "Attack",
             "salary": 36,
-            "EV": 26.0,
-            "ceiling": 20.9,
-            "boom": 22.7
+            "EV": 32.0,
+            "ceiling": 23.6,
+            "boom": 38.7,
+            "actualPoints": 4.0
         },
         {
-            "firstName": "TD",
-            "lastName": "Ierlan",
+            "firstName": "Michael",
+            "lastName": "Sowers",
+            "team": "WAT",
+            "opponent": "WHP",
+            "game_id": "2025_quarterfinal_1",
+            "position": "Attack",
+            "salary": 48,
+            "EV": 34.2,
+            "ceiling": 24.3,
+            "boom": 44.7,
+            "actualPoints": 87.0
+        },
+        {
+            "firstName": "Andrew",
+            "lastName": "McAdorey",
             "team": "RED",
             "opponent": "CHA",
             "game_id": "2025_quarterfinal_2",
-            "position": "Faceoff",
-            "salary": 34,
-            "EV": 18.5,
-            "ceiling": 20.7,
-            "boom": 35.4
+            "position": "Midfield",
+            "salary": 32,
+            "EV": 24.5,
+            "ceiling": 20.6,
+            "boom": 56.3,
+            "actualPoints": 32.5
+        },
+        {
+            "firstName": "Matt",
+            "lastName": "Brandau",
+            "team": "WHP",
+            "opponent": "WAT",
+            "game_id": "2025_quarterfinal_1",
+            "position": "Midfield",
+            "salary": 21,
+            "EV": 19.7,
+            "ceiling": 18.3,
+            "boom": 40.4,
+            "actualPoints": -4.0
         },
         {
             "firstName": "Chris",
@@ -338,15 +339,139 @@
             "game_id": "2025_quarterfinal_2",
             "position": "Defense",
             "salary": 9,
-            "EV": 12.0,
-            "ceiling": 18.0,
-            "boom": 34.6
+            "EV": 13.5,
+            "ceiling": 17.6,
+            "boom": 41.4,
+            "actualPoints": 12.0
+        },
+        {
+            "firstName": "Alec",
+            "lastName": "Stathakis",
+            "team": "WAT",
+            "opponent": "WHP",
+            "game_id": "2025_quarterfinal_1",
+            "position": "Faceoff",
+            "salary": 14,
+            "EV": 16.0,
+            "ceiling": 10.3,
+            "boom": 24.3,
+            "actualPoints": 7.8
+        },
+        {
+            "firstName": "Emmet",
+            "lastName": "Carroll",
+            "team": "WHP",
+            "opponent": "WAT",
+            "game_id": "2025_quarterfinal_1",
+            "position": "Goalie",
+            "salary": 31,
+            "EV": 35.8,
+            "ceiling": 24.2,
+            "boom": 55.5,
+            "actualPoints": 25.0
         }
     ],
-    "Coulda": [],
+    "Coulda": [
+        {
+            "firstName": "Michael",
+            "lastName": "Sowers",
+            "team": "WAT",
+            "opponent": "WHP",
+            "game_id": "2025_quarterfinal_1",
+            "position": "A",
+            "salary": 10,
+            "EV": 34.2,
+            "ceiling": 24.3,
+            "boom": 44.7,
+            "actualPoints": 87.0
+        },
+        {
+            "firstName": "Aidan",
+            "lastName": "Carroll",
+            "team": "WHP",
+            "opponent": "WAT",
+            "game_id": "2025_quarterfinal_1",
+            "position": "A",
+            "salary": 10,
+            "EV": 30.9,
+            "ceiling": 19.6,
+            "boom": 35.9,
+            "actualPoints": 72.0
+        },
+        {
+            "firstName": "Andrew",
+            "lastName": "McAdorey",
+            "team": "RED",
+            "opponent": "CHA",
+            "game_id": "2025_quarterfinal_2",
+            "position": "M",
+            "salary": 10,
+            "EV": 24.5,
+            "ceiling": 20.6,
+            "boom": 56.3,
+            "actualPoints": 32.5
+        },
+        {
+            "firstName": "Shane",
+            "lastName": "Knobloch",
+            "team": "CHA",
+            "opponent": "RED",
+            "game_id": "2025_quarterfinal_2",
+            "position": "M",
+            "salary": 10,
+            "EV": 16.8,
+            "ceiling": 14.4,
+            "boom": 30.5,
+            "actualPoints": 32.0
+        },
+        {
+            "firstName": "Colin",
+            "lastName": "Squires",
+            "team": "WHP",
+            "opponent": "WAT",
+            "game_id": "2025_quarterfinal_1",
+            "position": "LSM",
+            "salary": 10,
+            "EV": 7.3,
+            "ceiling": 12.6,
+            "boom": 13.1,
+            "actualPoints": 42.0
+        },
+        {
+            "firstName": "Joseph",
+            "lastName": "Nardella",
+            "team": "WHP",
+            "opponent": "WAT",
+            "game_id": "2025_quarterfinal_1",
+            "position": "FO",
+            "salary": 10,
+            "EV": 19.3,
+            "ceiling": 15.6,
+            "boom": 38.8,
+            "actualPoints": 20.0
+        },
+        {
+            "firstName": "Chayse",
+            "lastName": "Ierlan",
+            "team": "RED",
+            "opponent": "CHA",
+            "game_id": "2025_quarterfinal_2",
+            "position": "G",
+            "salary": 10,
+            "EV": 27.6,
+            "ceiling": 19.9,
+            "boom": 24.6,
+            "actualPoints": 51.0
+        }
+    ],
     "Core": [
-        "Rob Pannell",
-        "Matt Brandau"
+        "Emmet Carroll",
+        "Dylan Molloy",
+        "Aidan Carroll",
+        "Andrew McAdorey",
+        "Matt Brandau",
+        "Joseph Nardella",
+        "Ajax Zappitello"
     ],
     "Sleepers": [
         "Chris Conlin"

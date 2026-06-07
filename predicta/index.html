@@ -66,10 +66,10 @@
             <summary>How to Read This Data</summary>
             <div class="explainer-content">
                 <ul>
-                    <li><strong>Boom Probability (Y-Axis)</strong>: The model's confidence that a player will finish in the <strong>top 25%</strong> of their position group this week.</li>
-                    <li><strong>Historic Performance vs Opposition (Color)</strong>: Derived from our 4-tier hierarchy. <strong>Green</strong> is a favorable matchup where the player is historically likely to <strong>exceed their average</strong> (Ratio > 1.0).</li>
-                    <li><strong>90th Percentile Ceiling (Dot Size)</strong>: Bigger dots represent players with higher predicted maximum potential upside (the model's 90th percentile ceiling).</li>
-                    <li><strong>Salary (X-Axis)</strong>: The cost in fantasy coins. Look for dots in the top-left for high-value sleepers!</li>
+                    <li><strong>MC Expected Value (Y-Axis)</strong>: The mean fantasy points across 10,000 Monte Carlo simulations — what the model thinks a player will score on average. Higher = more valuable pick.</li>
+                    <li><strong>Risk Profile (Color)</strong>: The standard deviation of simulated outcomes. <strong style="color:#6dbe6d">Green</strong> = consistent floor player (low variance). <strong style="color:#ff4444">Red</strong> = boom-or-bust (high variance). Use color to calibrate risk: in cash games favour green; in GPP tournaments favour red.</li>
+                    <li><strong>MC p90 Ceiling (Dot Size)</strong>: The 90th percentile simulated outcome — the player's realistic ceiling. Bigger dots have higher upside. Pair with color: a big green dot is a safe star; a big red dot is a high-risk high-reward play.</li>
+                    <li><strong>Salary (X-Axis)</strong>: Fantasy coin cost. The top-left quadrant (cheap, high EV) is where sleepers live.</li>
                 </ul>
             </div>
         </details>
@@ -101,10 +101,10 @@
             <div class="advisor-section">
                 <h3>OPTIMIZED ROSTERS</h3>
                 <div class="roster-tabs">
-                    <button class="tab-btn active" data-roster="Cash">BOOM</button>
-                    <button class="tab-btn" data-roster="Ceiling">CEILING</button>
-                    <button class="tab-btn" data-roster="StackedBoom">STACK BOOM</button>
-                    <button class="tab-btn" data-roster="StackedReg">STACK CEILING</button>
+                    <button class="tab-btn active" data-roster="MC_EV">MC EV</button>
+                    <button class="tab-btn" data-roster="MC_Win_160">MC WIN 160</button>
+                    <button class="tab-btn" data-roster="MC_Win_180">MC WIN 180</button>
+                    <button class="tab-btn" data-roster="MC_Ceil_90">MC CEIL 90</button>
                     <button class="tab-btn" data-roster="Coulda" id="coulda-tab" style="display:none;">COULDA</button>
                 </div>
                 <div id="roster-container">
@@ -116,6 +116,6 @@
 
     <div id="custom-tooltip" class="tooltip"></div>
 
-    <script src="app.js?v=11"></script>
+    <script src="app.js?v=17"></script>
 </body>
 </html>

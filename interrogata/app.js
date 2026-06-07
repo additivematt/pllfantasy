@@ -323,11 +323,21 @@ function renderMatchupContext(targetOpponents) {
         // Use different color for second opponent if needed
         const accentColor = index === 0 ? 'var(--accent-secondary)' : '#4fd1c5';
         
+        const year = document.getElementById('yearSelect').value;
+        const week = document.getElementById('weekSelect').value;
+        const currentYear = parseInt(year);
+        const currentWeek = parseInt(week);
+
         // Calculate average points for these historical games (moved up for header)
         const historicalGames = currentPlayerData.stats.filter(s => {
             const home = s.event.homeTeam;
             const away = s.event.awayTeam;
-            return (home === targetOpponent || away === targetOpponent) && s.event.eventId.indexOf('2026') === -1;
+            const isMatchup = home === targetOpponent || away === targetOpponent;
+            if (!isMatchup) return false;
+            
+            const gYear = parseInt(s.event.eventId.split('_')[0]);
+            const gWeek = s.week;
+            return gYear < currentYear || (gYear === currentYear && gWeek < currentWeek);
         });
         historicalGames.sort((a, b) => b.event.startTime - a.event.startTime);
         const displayGames = historicalGames.slice(0, 4);
@@ -344,8 +354,6 @@ function renderMatchupContext(targetOpponents) {
         }
 
         // Look up target game for salary information
-        const year = document.getElementById('yearSelect').value;
-        const week = document.getElementById('weekSelect').value;
         const player = currentPlayerData.player;
         
         const targetGame = currentPlayerData.stats.find(s => {
@@ -478,10 +486,28 @@ function renderChart(stats, stats2, targetOpponents, targetOpponents2, player1Na
                     spanGaps: true,
                     segment: {
                         borderColor: ctx => {
-                            const p0 = chartStats[ctx.p0DataIndex];
-                            const p1 = chartStats[ctx.p1DataIndex];
-                            if (p0 && p1 && p0.event.eventId.split('_')[0] !== p1.event.eventId.split('_')[0]) {
-                                return 'transparent';
+                            let leftIndex = -1;
+                            for (let i = ctx.p0DataIndex; i >= 0; i--) {
+                                if (data[i] !== null && data[i] !== undefined) {
+                                    leftIndex = i;
+                                    break;
+                                }
+                            }
+                            let rightIndex = -1;
+                            for (let i = ctx.p1DataIndex; i < data.length; i++) {
+                                if (data[i] !== null && data[i] !== undefined) {
+                                    rightIndex = i;
+                                    break;
+                                }
+                            }
+                            if (leftIndex !== -1 && rightIndex !== -1) {
+                                const leftStat = chartStats[leftIndex];
+                                const rightStat = chartStats[rightIndex];
+                                if (leftStat && rightStat) {
+                                    const leftYear = leftStat.event.eventId.split('_')[0];
+                                    const rightYear = rightStat.event.eventId.split('_')[0];
+                                    if (leftYear !== rightYear) return 'transparent';
+                                }
                             }
                             return undefined;
                         },
@@ -656,15 +682,38 @@ function renderChart(stats, stats2, targetOpponents, targetOpponents2, player1Na
         const segmentHelper = (ctx, isDash) => {
             const datasetIndex = ctx.datasetIndex;
             const statsList = datasetIndex === 0 ? chartStatsForGrid1 : chartStatsForGrid2;
-            const p0 = statsList[ctx.p0DataIndex];
-            const p1 = statsList[ctx.p1DataIndex];
-            if (!p0 || !p1) return undefined;
+            const dataList = datasetIndex === 0 ? chartData1 : chartData2;
             
-            if (p0.event.eventId.split('_')[0] !== p1.event.eventId.split('_')[0]) {
-                return isDash ? undefined : 'transparent';
+            let leftIndex = -1;
+            for (let i = ctx.p0DataIndex; i >= 0; i--) {
+                if (dataList[i] !== null && dataList[i] !== undefined) {
+                    leftIndex = i;
+                    break;
+                }
+            }
+            let rightIndex = -1;
+            for (let i = ctx.p1DataIndex; i < dataList.length; i++) {
+                if (dataList[i] !== null && dataList[i] !== undefined) {
+                    rightIndex = i;
+                    break;
+                }
             }
             
-            if (isDash && p1.week - p0.week > 1) {
+            if (leftIndex !== -1 && rightIndex !== -1) {
+                const leftStat = statsList[leftIndex];
+                const rightStat = statsList[rightIndex];
+                if (leftStat && rightStat) {
+                    const leftYear = leftStat.event.eventId.split('_')[0];
+                    const rightYear = rightStat.event.eventId.split('_')[0];
+                    if (leftYear !== rightYear) {
+                        return isDash ? undefined : 'transparent';
+                    }
+                }
+            }
+            
+            const p0 = statsList[ctx.p0DataIndex];
+            const p1 = statsList[ctx.p1DataIndex];
+            if (p0 && p1 && isDash && p1.week - p0.week > 1) {
                 return [5, 5];
             }
             return undefined;
