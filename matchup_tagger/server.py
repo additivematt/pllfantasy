@@ -123,19 +123,41 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                     team_sboom = optimize_weekly.optimize_stacked(pool_boom, 200, 'BoomProbability', beta=1.0)
                     team_sreg = optimize_weekly.optimize_stacked(pool_reg, 200, 'PredictedPoints', beta=1.0)
                     
+                    actuals_lookup = {}
+                    season_file = os.path.join(SCRIPTS_DIR, f"f2p_{year}_season.json")
+                    if os.path.exists(season_file):
+                        with open(season_file, "r") as f_f2p:
+                            f2p_data = json.load(f_f2p)
+                        week_data = [p for p in f2p_data if p.get("week") == week]
+                        has_actuals = any(p.get("f2p", {}).get("totalPoints", 0.0) > 0.0 or p.get("totalPoints", 0.0) > 0.0 for p in week_data)
+                        if has_actuals:
+                            for p in week_data:
+                                fname = p.get("firstName")
+                                lname = p.get("lastName")
+                                g_id = p.get("eventId", "UNK").replace("_game_", "-ev-")
+                                pts = float(p.get("totalPoints", 0.0))
+                                actuals_lookup[(fname, lname, g_id)] = pts
+                    
                     def strip_player(p):
-                        return {
-                            "firstName": p["firstName"],
-                            "lastName": p["lastName"],
+                        fname = p["firstName"]
+                        lname = p["lastName"]
+                        g_id = p["game_id"]
+                        pts = actuals_lookup.get((fname, lname, g_id))
+                        res = {
+                            "firstName": fname,
+                            "lastName": lname,
                             "team": p["team"],
                             "opponent": p["opponent"],
-                            "game_id": p["game_id"],
+                            "game_id": g_id,
                             "position": p["positionGroup"],
                             "salary": int(p["salary"]),
                             "EV": round(float(p["EV"]), 1),
                             "ceiling": round(float(p["PredictedPoints"]), 1),
                             "boom": round(float(p["BoomProbability"]), 1)
                         }
+                        if pts is not None:
+                            res["actualPoints"] = round(pts, 1)
+                        return res
                     
                     response_data = {
                         "Cash": [strip_player(p) for p in team_cash] if team_cash else [],

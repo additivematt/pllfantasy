@@ -375,6 +375,9 @@ function renderRoster(rosterName) {
     const couldaSet = getCouldaSet();
     const isCouldaTable = rosterName === "Coulda";
 
+    const hasPlayed = window.currentAdvisory.Coulda && window.currentAdvisory.Coulda.length > 0;
+    const showActualCol = hasPlayed && rosterName !== "Coulda";
+
     let html = `
         <div class="roster-desc">
             ${rosterDescriptions[rosterName] || ""}
@@ -388,6 +391,7 @@ function renderRoster(rosterName) {
                     <th>Cost</th>
                     <th>EV</th>
                     <th>${lastColHeader}</th>
+                    ${showActualCol ? '<th style="color:#00f0ff;">Actual</th>' : ''}
                 </tr>
             </thead>
             <tbody>
@@ -423,6 +427,11 @@ function renderRoster(rosterName) {
         const isCouldaPlayer = couldaSet.has(`${p.firstName} ${p.lastName}|${p.game_id}`);
         const highlightClass = (isCouldaPlayer && rosterName !== "Coulda") ? "coulda-highlight" : "";
 
+        let actualColHtml = "";
+        if (showActualCol) {
+            actualColHtml = `<td style="color:#00f0ff; font-weight:700;">${p.actualPoints !== undefined ? p.actualPoints.toFixed(1) : "-"}</td>`;
+        }
+
         html += `
             <tr class="roster-row ${highlightClass}" onclick="highlightPlayerInPlot('${lookup ? lookup.subPosition : p.position}', '${p.firstName}', '${p.lastName}', '${p.game_id}')" title="Click to highlight on chart">
                 <td><span class="roster-pos-badge">${badgePos}</span></td>
@@ -431,6 +440,7 @@ function renderRoster(rosterName) {
                 <td>${p.salary}</td>
                 <td>${p.EV.toFixed(1)}</td>
                 <td>${lastColVal}</td>
+                ${actualColHtml}
             </tr>
         `;
     });
@@ -444,12 +454,19 @@ function renderRoster(rosterName) {
         lastColTotal = totalCeiling.toFixed(1);
     }
 
+    let actualTotalHtml = "";
+    if (showActualCol) {
+        const totalActualRoster = roster.reduce((sum, item) => sum + (item.actualPoints || 0), 0);
+        actualTotalHtml = `<td style="color:#00f0ff; font-weight:700;">${totalActualRoster.toFixed(1)}</td>`;
+    }
+
     html += `
                 <tr class="roster-total-row">
                     <td colspan="3">Total</td>
                     <td>${totalCost}</td>
                     <td>${totalEV.toFixed(1)}</td>
                     <td>${lastColTotal}</td>
+                    ${actualTotalHtml}
                 </tr>
             </tbody>
         </table>
