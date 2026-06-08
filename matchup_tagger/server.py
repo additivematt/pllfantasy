@@ -54,20 +54,110 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 parts = parts[1:]
             if len(parts) >= 3:
                 year, week = parts[1], parts[2]
+                
+                # Check for statically compiled predictions first
+                static_path = os.path.join(SCRIPTS_DIR, 'predicta', 'predictions', year, week)
+                if os.path.exists(static_path):
+                    self.send_response(200)
+                    self.send_header('Content-type', 'application/json')
+                    self.end_headers()
+                    with open(static_path, 'rb') as f:
+                        self.wfile.write(f.read())
+                    return
+
                 filepath = os.path.join(SCRIPTS_DIR, f"week{week}_{year}_predictions.csv")
                 reg_filepath = os.path.join(SCRIPTS_DIR, f"week{week}_{year}_predictions_regression.csv")
+                sim_filepath = os.path.join(SCRIPTS_DIR, f"week{week}_{year}_simulations.csv")
                 if os.path.exists(filepath):
                     import pandas as pd
+                    import re as _re
                     df = pd.read_csv(filepath)
                     if os.path.exists(reg_filepath):
                         df_reg = pd.read_csv(reg_filepath)
                         df = df.merge(
                             df_reg[['firstName', 'lastName', 'game_id', 'PredictedPoints']],
                             on=['firstName', 'lastName', 'game_id'],
-                            how='left'
+                            how='left',
+                            suffixes=('_x', '_reg')
                         ).fillna(0.0)
+                        # Use regression PredictedPoints as the canonical PredictedPoints
+                        if 'PredictedPoints_reg' in df.columns:
+                            df['PredictedPoints'] = df['PredictedPoints_reg']
                     else:
-                        df['PredictedPoints'] = 0.0
+                        df['PredictedPoints'] = df.get('PredictedPoints', 0.0)
+                    # Compute MC EV and Std Dev from simulation file if available
+                    if os.path.exists(sim_filepath):
+                        df_sims = pd.read_csv(sim_filepath)
+                        mc_stats_map = {}
+                        for col in df_sims.columns:
+                            m = _re.match(r'^(.+?)_(\d{4}-ev-\d+)$', col)
+                            if m:
+                                name_part, game_id_s = m.group(1), m.group(2)
+                                parts = name_part.split('_')
+                                first_s = parts[0]
+                                last_s = '_'.join(parts[1:]) if len(parts) > 1 else ''
+                                mc_stats_map[(first_s, last_s, game_id_s)] = {
+                                    'ev':  round(float(df_sims[col].mean()), 2),
+                                    'std': round(float(df_sims[col].std()), 2),
+                                    'p90': round(float(df_sims[col].quantile(0.9)), 2),
+                                }
+                        def _find_mc_stats(row):
+                            key = (row['firstName'], row['lastName'], row['game_id'])
+                            if key in mc_stats_map:
+                                return mc_stats_map[key]
+                            f_c = _re.sub(r'[^a-zA-Z]', '', row['firstName'])
+                            l_c = _re.sub(r'[^a-zA-Z]', '', row['lastName'])
+                            for (f2, l2, g2), stats in mc_stats_map.items():
+                                if g2 == row['game_id'] and _re.sub(r'[^a-zA-Z]', '', f2) == f_c and _re.sub(r'[^a-zA-Z]', '', l2) == l_c:
+                                    return stats
+                            return None
+                        df['mc_ev']  = df.apply(lambda r: (_find_mc_stats(r) or {}).get('ev'),  axis=1)
+                        df['mc_std'] = df.apply(lambda r: (_find_mc_stats(r) or {}).get('std'), axis=1)
+                        df['mc_p90'] = df.apply(lambda r: (_find_mc_stats(r) or {}).get('p90'), axis=1)
+
+                    # Add actual points from f2p season JSON or combined player stats if available
+                    actuals_lookup = {}
+                    season_file = os.path.join(SCRIPTS_DIR, f"f2p_{year}_season.json")
+                    if os.path.exists(season_file):
+                        with open(season_file, "r") as f_f2p:
+                            f2p_data = json.load(f_f2p)
+                        week_data = [p for p in f2p_data if p.get("week") == int(week)]
+                        has_actuals = any(p.get("f2p", {}).get("totalPoints", 0.0) > 0.0 or p.get("totalPoints", 0.0) > 0.0 for p in week_data)
+                        if has_actuals:
+                            for p in week_data:
+                                fname = p.get("firstName")
+                                lname = p.get("lastName")
+                                g_id = p.get("eventId", "UNK").replace("_game_", "-ev-")
+                                pts = float(p.get("totalPoints", 0.0))
+                                actuals_lookup[(fname, lname, g_id)] = pts
+                    else:
+                        stats_file = os.path.join(SCRIPTS_DIR, f"combined_player_stats_{year}.json")
+                        if os.path.exists(stats_file):
+                            with open(stats_file, "r", encoding="utf-8") as f_stats:
+                                stats_data = json.load(f_stats)
+                            for p in stats_data:
+                                if p.get("week") == int(week):
+                                    fname = p.get("identity", {}).get("firstName")
+                                    lname = p.get("identity", {}).get("lastName")
+                                    g_id = p.get("event", {}).get("eventId", "UNK").replace("_game_", "-ev-")
+                                    f2p = p.get("f2p", {})
+                                    pts = f2p.get("totalPoints")
+                                    if pts is not None:
+                                        actuals_lookup[(fname, lname, g_id)] = float(pts)
+                    
+                    def _find_actual_points(row):
+                        key = (row['firstName'], row['lastName'], row['game_id'])
+                        if key in actuals_lookup:
+                            return actuals_lookup[key]
+                        f_c = _re.sub(r'[^a-zA-Z]', '', row['firstName'])
+                        l_c = _re.sub(r'[^a-zA-Z]', '', row['lastName'])
+                        for (f2, l2, g2), pts in actuals_lookup.items():
+                            if g2 == row['game_id'] and _re.sub(r'[^a-zA-Z]', '', f2) == f_c and _re.sub(r'[^a-zA-Z]', '', l2) == l_c:
+                                return pts
+                        return None
+                    
+                    df['actualPoints'] = df.apply(_find_actual_points, axis=1)
+
                     self.send_response(200)
                     self.send_header('Content-type', 'application/json')
                     self.end_headers()
@@ -87,7 +177,19 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             if parts and parts[0] == 'pllpredicta':
                 parts = parts[1:]
             if len(parts) >= 3:
-                year, week = int(parts[1]), int(parts[2])
+                year_str, week_str = parts[1], parts[2]
+                
+                # Check for statically compiled advisory first
+                static_path = os.path.join(SCRIPTS_DIR, 'predicta', 'advisory', year_str, week_str)
+                if os.path.exists(static_path):
+                    self.send_response(200)
+                    self.send_header('Content-type', 'application/json')
+                    self.end_headers()
+                    with open(static_path, 'rb') as f:
+                        self.wfile.write(f.read())
+                    return
+
+                year, week = int(year_str), int(week_str)
                 class_file = os.path.join(SCRIPTS_DIR, f"week{week}_{year}_predictions.csv")
                 reg_file = os.path.join(SCRIPTS_DIR, f"week{week}_{year}_predictions_regression.csv")
                 if os.path.exists(class_file) and os.path.exists(reg_file):
@@ -234,13 +336,15 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                     except Exception as e_coulda:
                         print(f"Warning: Could not run Coulda optimizer for {year} Week {week}: {e_coulda}")
                     
+                    # Consensus Core: players appearing in all 4 forward-looking MC rosters.
+                    # Coulda is excluded — it is a retrospective lineup, not a forward-looking one.
+                    mc_roster_keys = ['MC_EV', 'MC_Win_160', 'MC_Win_180', 'MC_Ceil_90']
                     player_counts = {}
-                    for key, roster in response_data.items():
-                        if isinstance(roster, list):
-                            for p in roster:
-                                p_name = f"{p['firstName']} {p['lastName']}"
-                                player_counts[p_name] = player_counts.get(p_name, 0) + 1
-                    response_data["Core"] = [k for k, v in player_counts.items() if v >= 3]
+                    for key in mc_roster_keys:
+                        for p in response_data.get(key, []):
+                            p_name = f"{p['firstName']} {p['lastName']}"
+                            player_counts[p_name] = player_counts.get(p_name, 0) + 1
+                    response_data["Core"] = [k for k, v in player_counts.items() if v >= 4]
                     
                     cash_names = set(f"{p['firstName']} {p['lastName']}" for p in response_data["Cash"])
                     sleepers = []

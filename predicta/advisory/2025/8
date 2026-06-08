@@ -8,9 +8,8 @@
             "game_id": "2025-ev-30",
             "position": "Attack",
             "salary": 48,
-            "EV": 35.5,
-            "ceiling": 23.6,
-            "boom": 49.1,
+            "mc_ev": 35.6,
+            "mc_p90": 67.1,
             "actualPoints": 40.0
         },
         {
@@ -21,9 +20,8 @@
             "game_id": "2025-ev-29",
             "position": "Attack",
             "salary": 31,
-            "EV": 34.1,
-            "ceiling": 23.3,
-            "boom": 45.3,
+            "mc_ev": 34.1,
+            "mc_p90": 54.9,
             "actualPoints": 51.0
         },
         {
@@ -34,9 +32,8 @@
             "game_id": "2025-ev-28",
             "position": "Goalie",
             "salary": 40,
-            "EV": 31.0,
-            "ceiling": 25.1,
-            "boom": 37.2,
+            "mc_ev": 32.0,
+            "mc_p90": 49.9,
             "actualPoints": 45.0
         },
         {
@@ -47,9 +44,8 @@
             "game_id": "2025-ev-30",
             "position": "Midfield",
             "salary": 29,
-            "EV": 20.1,
-            "ceiling": 19.6,
-            "boom": 40.7,
+            "mc_ev": 20.6,
+            "mc_p90": 65.3,
             "actualPoints": 53.0
         },
         {
@@ -60,9 +56,8 @@
             "game_id": "2025-ev-27",
             "position": "Midfield",
             "salary": 11,
-            "EV": 17.0,
-            "ceiling": 19.1,
-            "boom": 30.3,
+            "mc_ev": 20.2,
+            "mc_p90": 53.7,
             "actualPoints": 2.0
         },
         {
@@ -73,9 +68,8 @@
             "game_id": "2025-ev-29",
             "position": "Faceoff",
             "salary": 17,
-            "EV": 18.1,
-            "ceiling": 17.1,
-            "boom": 33.5,
+            "mc_ev": 18.3,
+            "mc_p90": 33.6,
             "actualPoints": 3.2
         },
         {
@@ -86,26 +80,12 @@
             "game_id": "2025-ev-29",
             "position": "Defense",
             "salary": 11,
-            "EV": 16.8,
-            "ceiling": 21.1,
-            "boom": 57.3,
+            "mc_ev": 16.8,
+            "mc_p90": 44.3,
             "actualPoints": 8.0
         }
     ],
     "MC_Win_160": [
-        {
-            "firstName": "Marcus",
-            "lastName": "Holman",
-            "team": "CAN",
-            "opponent": "OUT",
-            "game_id": "2025-ev-29",
-            "position": "Attack",
-            "salary": 31,
-            "EV": 34.1,
-            "ceiling": 23.3,
-            "boom": 45.3,
-            "actualPoints": 51.0
-        },
         {
             "firstName": "Michael",
             "lastName": "Sowers",
@@ -114,10 +94,21 @@
             "game_id": "2025-ev-30",
             "position": "Attack",
             "salary": 48,
-            "EV": 35.5,
-            "ceiling": 23.6,
-            "boom": 49.1,
+            "mc_ev": 35.6,
+            "mc_p90": 67.1,
             "actualPoints": 40.0
+        },
+        {
+            "firstName": "Marcus",
+            "lastName": "Holman",
+            "team": "CAN",
+            "opponent": "OUT",
+            "game_id": "2025-ev-29",
+            "position": "Attack",
+            "salary": 31,
+            "mc_ev": 34.1,
+            "mc_p90": 54.9,
+            "actualPoints": 51.0
         },
         {
             "firstName": "Hugh",
@@ -127,9 +118,8 @@
             "game_id": "2025-ev-27",
             "position": "Midfield",
             "salary": 11,
-            "EV": 17.0,
-            "ceiling": 19.1,
-            "boom": 30.3,
+            "mc_ev": 20.2,
+            "mc_p90": 53.7,
             "actualPoints": 2.0
         },
         {
@@ -140,9 +130,8 @@
             "game_id": "2025-ev-29",
             "position": "Midfield",
             "salary": 34,
-            "EV": 19.4,
-            "ceiling": 20.9,
-            "boom": 38.4,
+            "mc_ev": 19.8,
+            "mc_p90": 39.6,
             "actualPoints": 42.0
         },
         {
@@ -153,9 +142,8 @@
             "game_id": "2025-ev-29",
             "position": "Defense",
             "salary": 26,
-            "EV": 16.7,
-            "ceiling": 19.2,
-            "boom": 57.2,
+            "mc_ev": 16.7,
+            "mc_p90": 34.7,
             "actualPoints": 9.0
         },
         {
@@ -166,9 +154,8 @@
             "game_id": "2025-ev-28",
             "position": "Faceoff",
             "salary": 8,
-            "EV": 17.6,
-            "ceiling": 15.0,
-            "boom": 31.0,
+            "mc_ev": 17.6,
+            "mc_p90": 38.7,
             "actualPoints": 5.2
         },
         {
@@ -179,9 +166,8 @@
             "game_id": "2025-ev-28",
             "position": "Goalie",
             "salary": 40,
-            "EV": 31.0,
-            "ceiling": 25.1,
-            "boom": 37.2,
+            "mc_ev": 32.0,
+            "mc_p90": 49.9,
             "actualPoints": 45.0
         }
     ],
@@ -194,9 +180,8 @@
             "game_id": "2025-ev-30",
             "position": "Attack",
             "salary": 48,
-            "EV": 35.5,
-            "ceiling": 23.6,
-            "boom": 49.1,
+            "mc_ev": 35.6,
+            "mc_p90": 67.1,
             "actualPoints": 40.0
         },
         {
@@ -207,9 +192,8 @@
             "game_id": "2025-ev-29",
             "position": "Attack",
             "salary": 31,
-            "EV": 34.1,
-            "ceiling": 23.3,
-            "boom": 45.3,
+            "mc_ev": 34.1,
+            "mc_p90": 54.9,
             "actualPoints": 51.0
         },
         {
@@ -220,9 +204,8 @@
             "game_id": "2025-ev-28",
             "position": "Goalie",
             "salary": 40,
-            "EV": 31.0,
-            "ceiling": 25.1,
-            "boom": 37.2,
+            "mc_ev": 32.0,
+            "mc_p90": 49.9,
             "actualPoints": 45.0
         },
         {
@@ -233,9 +216,8 @@
             "game_id": "2025-ev-30",
             "position": "Midfield",
             "salary": 29,
-            "EV": 20.1,
-            "ceiling": 19.6,
-            "boom": 40.7,
+            "mc_ev": 20.6,
+            "mc_p90": 65.3,
             "actualPoints": 53.0
         },
         {
@@ -246,9 +228,8 @@
             "game_id": "2025-ev-27",
             "position": "Midfield",
             "salary": 11,
-            "EV": 17.0,
-            "ceiling": 19.1,
-            "boom": 30.3,
+            "mc_ev": 20.2,
+            "mc_p90": 53.7,
             "actualPoints": 2.0
         },
         {
@@ -259,9 +240,8 @@
             "game_id": "2025-ev-28",
             "position": "Faceoff",
             "salary": 25,
-            "EV": 18.0,
-            "ceiling": 12.7,
-            "boom": 32.8,
+            "mc_ev": 18.2,
+            "mc_p90": 37.9,
             "actualPoints": 12.7
         },
         {
@@ -272,9 +252,8 @@
             "game_id": "2025-ev-29",
             "position": "Defense",
             "salary": 11,
-            "EV": 16.8,
-            "ceiling": 21.1,
-            "boom": 57.3,
+            "mc_ev": 16.8,
+            "mc_p90": 44.3,
             "actualPoints": 8.0
         }
     ],
@@ -287,9 +266,8 @@
             "game_id": "2025-ev-28",
             "position": "Attack",
             "salary": 18,
-            "EV": 40.2,
-            "ceiling": 19.6,
-            "boom": 61.7,
+            "mc_ev": 33.3,
+            "mc_p90": 55.0,
             "actualPoints": 33.0
         },
         {
@@ -300,9 +278,8 @@
             "game_id": "2025-ev-30",
             "position": "Attack",
             "salary": 48,
-            "EV": 35.5,
-            "ceiling": 23.6,
-            "boom": 49.1,
+            "mc_ev": 35.6,
+            "mc_p90": 67.1,
             "actualPoints": 40.0
         },
         {
@@ -313,9 +290,8 @@
             "game_id": "2025-ev-28",
             "position": "Midfield",
             "salary": 20,
-            "EV": 16.8,
-            "ceiling": 14.1,
-            "boom": 29.7,
+            "mc_ev": 19.2,
+            "mc_p90": 92.5,
             "actualPoints": 8.0
         },
         {
@@ -326,9 +302,8 @@
             "game_id": "2025-ev-30",
             "position": "Midfield",
             "salary": 29,
-            "EV": 20.1,
-            "ceiling": 19.6,
-            "boom": 40.7,
+            "mc_ev": 20.6,
+            "mc_p90": 65.3,
             "actualPoints": 53.0
         },
         {
@@ -339,9 +314,8 @@
             "game_id": "2025-ev-29",
             "position": "Defense",
             "salary": 11,
-            "EV": 16.8,
-            "ceiling": 21.1,
-            "boom": 57.3,
+            "mc_ev": 16.8,
+            "mc_p90": 44.3,
             "actualPoints": 8.0
         },
         {
@@ -352,9 +326,8 @@
             "game_id": "2025-ev-29",
             "position": "Faceoff",
             "salary": 17,
-            "EV": 18.1,
-            "ceiling": 17.1,
-            "boom": 33.5,
+            "mc_ev": 18.3,
+            "mc_p90": 33.6,
             "actualPoints": 3.2
         },
         {
@@ -365,9 +338,8 @@
             "game_id": "2025-ev-30",
             "position": "Goalie",
             "salary": 28,
-            "EV": 28.7,
-            "ceiling": 23.1,
-            "boom": 28.9,
+            "mc_ev": 30.0,
+            "mc_p90": 65.8,
             "actualPoints": 43.0
         }
     ],
@@ -380,9 +352,8 @@
             "game_id": "2025-ev-28",
             "position": "A",
             "salary": 35,
-            "EV": 20.8,
-            "ceiling": 15.7,
-            "boom": 9.9,
+            "mc_ev": 20.9,
+            "mc_p90": 48.0,
             "actualPoints": 71.0
         },
         {
@@ -393,9 +364,8 @@
             "game_id": "2025-ev-27",
             "position": "A",
             "salary": 45,
-            "EV": 30.5,
-            "ceiling": 23.5,
-            "boom": 35.7,
+            "mc_ev": 30.1,
+            "mc_p90": 72.1,
             "actualPoints": 69.0
         },
         {
@@ -406,9 +376,8 @@
             "game_id": "2025-ev-29",
             "position": "M",
             "salary": 20,
-            "EV": 12.6,
-            "ceiling": 12.8,
-            "boom": 15.6,
+            "mc_ev": 13.3,
+            "mc_p90": 27.1,
             "actualPoints": 54.0
         },
         {
@@ -419,9 +388,8 @@
             "game_id": "2025-ev-30",
             "position": "M",
             "salary": 29,
-            "EV": 20.1,
-            "ceiling": 19.6,
-            "boom": 40.7,
+            "mc_ev": 20.6,
+            "mc_p90": 65.3,
             "actualPoints": 53.0
         },
         {
@@ -432,9 +400,8 @@
             "game_id": "2025-ev-27",
             "position": "D",
             "salary": 8,
-            "EV": 10.4,
-            "ceiling": 16.7,
-            "boom": 27.8,
+            "mc_ev": 10.6,
+            "mc_p90": 22.3,
             "actualPoints": 56.0
         },
         {
@@ -445,9 +412,8 @@
             "game_id": "2025-ev-29",
             "position": "FO",
             "salary": 16,
-            "EV": 14.0,
-            "ceiling": 1.7,
-            "boom": 14.9,
+            "mc_ev": 14.4,
+            "mc_p90": 23.8,
             "actualPoints": 31.9
         },
         {
@@ -458,19 +424,13 @@
             "game_id": "2025-ev-28",
             "position": "G",
             "salary": 40,
-            "EV": 31.0,
-            "ceiling": 25.1,
-            "boom": 37.2,
+            "mc_ev": 32.0,
+            "mc_p90": 49.9,
             "actualPoints": 45.0
         }
     ],
     "Core": [
-        "Michael Sowers",
-        "Marcus Holman",
-        "Brett Dobson",
-        "Matt Brandau",
-        "Hugh Kelleher",
-        "JT Giles-Harris"
+        "Michael Sowers"
     ],
     "Sleepers": []
 }

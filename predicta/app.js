@@ -423,26 +423,13 @@ function renderRoster(rosterName) {
     });
 
     const totalCost = roster.reduce((sum, p) => sum + p.salary, 0);
-    const totalEV = roster.reduce((sum, p) => sum + p.EV, 0);
-    const totalCeiling = roster.reduce((sum, p) => sum + (p.ceiling || 0), 0);
-    const totalBoom = roster.reduce((sum, p) => sum + (p.boom || 0), 0);
+    const totalEV = roster.reduce((sum, p) => sum + (p.mc_ev || 0), 0);
+    const totalCeiling = roster.reduce((sum, p) => sum + (p.mc_p90 || 0), 0);
     const totalActual = roster.reduce((sum, p) => sum + (p.actualPoints || 0), 0);
 
-    const showBoom = (rosterName === "MC_Win_160" || rosterName === "MC_Win_180");
-    
-    let lastColHeader = "Ceil";
-    if (rosterName === "Coulda") {
-        lastColHeader = "Actual";
-    } else if (showBoom) {
-        lastColHeader = "Boom";
-    }
-    
-    const avgBoom = totalBoom / roster.length;
     const couldaSet = getCouldaSet();
     const isCouldaTable = rosterName === "Coulda";
-
     const hasPlayed = window.currentAdvisory.Coulda && window.currentAdvisory.Coulda.length > 0;
-    const showActualCol = hasPlayed && rosterName !== "Coulda";
 
     let html = `
         <div class="roster-desc">
@@ -455,9 +442,9 @@ function renderRoster(rosterName) {
                     <th>Player</th>
                     <th>Team</th>
                     <th>Cost</th>
-                    <th>EV</th>
-                    <th>${lastColHeader}</th>
-                    ${showActualCol ? '<th style="color:#00f0ff;">Actual</th>' : ''}
+                    <th>MC EV</th>
+                    <th>MC p90</th>
+                    ${hasPlayed ? '<th style="color:#00f0ff;">Actual</th>' : ''}
                 </tr>
             </thead>
             <tbody>
@@ -481,20 +468,11 @@ function renderRoster(rosterName) {
         }
         if (badgePos === "SSDM") badgePos = "SSDM/LSM";
 
-        let lastColVal = "";
-        if (rosterName === "Coulda") {
-            lastColVal = p.actualPoints ? p.actualPoints.toFixed(1) : "-";
-        } else if (showBoom) {
-            lastColVal = p.boom ? p.boom.toFixed(0) + "%" : "-";
-        } else {
-            lastColVal = p.ceiling ? p.ceiling.toFixed(1) : "-";
-        }
-
         const isCouldaPlayer = couldaSet.has(`${p.firstName} ${p.lastName}|${p.game_id}`);
         const highlightClass = (isCouldaPlayer && rosterName !== "Coulda") ? "coulda-highlight" : "";
 
         let actualColHtml = "";
-        if (showActualCol) {
+        if (hasPlayed) {
             actualColHtml = `<td style="color:#00f0ff; font-weight:700;">${p.actualPoints !== undefined ? p.actualPoints.toFixed(1) : "-"}</td>`;
         }
 
@@ -504,26 +482,16 @@ function renderRoster(rosterName) {
                 <td><strong>${p.lastName}</strong>, ${p.firstName[0]}.</td>
                 <td><span style="font-weight:700;">${p.team}</span> <span style="font-size:0.6rem; color:#8b949e">@ ${p.opponent}</span></td>
                 <td>${p.salary}</td>
-                <td>${p.EV.toFixed(1)}</td>
-                <td>${lastColVal}</td>
+                <td>${(p.mc_ev || 0).toFixed(1)}</td>
+                <td>${(p.mc_p90 || 0).toFixed(1)}</td>
                 ${actualColHtml}
             </tr>
         `;
     });
 
-    let lastColTotal = "";
-    if (rosterName === "Coulda") {
-        lastColTotal = totalActual.toFixed(1);
-    } else if (showBoom) {
-        lastColTotal = avgBoom.toFixed(0) + "% (avg)";
-    } else {
-        lastColTotal = totalCeiling.toFixed(1);
-    }
-
     let actualTotalHtml = "";
-    if (showActualCol) {
-        const totalActualRoster = roster.reduce((sum, item) => sum + (item.actualPoints || 0), 0);
-        actualTotalHtml = `<td style="color:#00f0ff; font-weight:700;">${totalActualRoster.toFixed(1)}</td>`;
+    if (hasPlayed) {
+        actualTotalHtml = `<td style="color:#00f0ff; font-weight:700;">${totalActual.toFixed(1)}</td>`;
     }
 
     html += `
@@ -531,7 +499,7 @@ function renderRoster(rosterName) {
                     <td colspan="3">Total</td>
                     <td>${totalCost}</td>
                     <td>${totalEV.toFixed(1)}</td>
-                    <td>${lastColTotal}</td>
+                    <td>${totalCeiling.toFixed(1)}</td>
                     ${actualTotalHtml}
                 </tr>
             </tbody>

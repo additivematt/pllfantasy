@@ -190,6 +190,23 @@ def main():
 
             reg_filepath = os.path.join(SCRIPTS_DIR, f"week{week}_{year}_predictions_regression.csv")
 
+            # Initialize Monte Carlo statistics map and helper function for predictions and advisory
+            mc_stats_map = {}
+            def get_mc_stats(row):
+                first = row.get("firstName", "")
+                last = row.get("lastName", "")
+                game_id = row.get("game_id", "")
+                key = (first, last, game_id)
+                if key in mc_stats_map:
+                    return mc_stats_map[key]
+                
+                f_c = re.sub(r"[^a-zA-Z]", "", first)
+                l_c = re.sub(r"[^a-zA-Z]", "", last)
+                for (f2, l2, g2), stats in mc_stats_map.items():
+                    if g2 == game_id and re.sub(r"[^a-zA-Z]", "", f2) == f_c and re.sub(r"[^a-zA-Z]", "", l2) == l_c:
+                        return stats
+                return {}
+
             # Load actual points map for predictions and advisory
             actuals_lookup = {}
             season_file = os.path.join(SCRIPTS_DIR, f"f2p_{year}_season.json")
@@ -235,11 +252,9 @@ def main():
                 else:
                     df['PredictedPoints'] = 0.0
 
-                # Compute and bake MC EV, risk/volatility, and ceiling if simulations file is available
                 sims_filepath = os.path.join(SCRIPTS_DIR, f"week{week}_{year}_simulations.csv")
                 if os.path.exists(sims_filepath):
                     df_sims = pd.read_csv(sims_filepath)
-                    mc_stats_map = {}
                     for col in df_sims.columns:
                         m = re.match(r'^(.+?)_(\d{4}-ev-\d+)$', col)
                         if not m:
@@ -263,21 +278,6 @@ def main():
                             "mc_std": round(float(col_data.std()), 2),
                             "mc_p90": round(float(col_data.quantile(0.9)), 2),
                         }
-                    
-                    def get_mc_stats(row):
-                        first = row.get("firstName", "")
-                        last = row.get("lastName", "")
-                        game_id = row.get("game_id", "")
-                        key = (first, last, game_id)
-                        if key in mc_stats_map:
-                            return mc_stats_map[key]
-                        
-                        f_c = re.sub(r"[^a-zA-Z]", "", first)
-                        l_c = re.sub(r"[^a-zA-Z]", "", last)
-                        for (f2, l2, g2), stats in mc_stats_map.items():
-                            if g2 == game_id and re.sub(r"[^a-zA-Z]", "", f2) == f_c and re.sub(r"[^a-zA-Z]", "", l2) == l_c:
-                                return stats
-                        return {}
                     
                     df["mc_ev"]  = df.apply(lambda r: get_mc_stats(r).get("mc_ev"), axis=1)
                     df["mc_std"] = df.apply(lambda r: get_mc_stats(r).get("mc_std"), axis=1)
@@ -373,6 +373,8 @@ def main():
                         on=['firstName', 'lastName', 'game_id'],
                         how='inner'
                     )
+                    df_merged["mc_ev"]  = df_merged.apply(lambda r: get_mc_stats(r).get("mc_ev"), axis=1)
+                    df_merged["mc_p90"] = df_merged.apply(lambda r: get_mc_stats(r).get("mc_p90"), axis=1)
                     
                     # Load simulations CSV
                     sims_file = os.path.join(SCRIPTS_DIR, f"week{week}_{year}_simulations.csv")
@@ -439,6 +441,10 @@ def main():
                     for idx, r in df_merged.iterrows():
                         col_name = f"{r['firstName']}_{r['lastName']}_{r['game_id']}"
                         sim_idx = df_sims.columns.get_loc(col_name)
+                        
+                        ev_val = float(r["mc_ev"]) if (pd.notna(r["mc_ev"]) and r["mc_ev"] is not None) else float(r["EV"])
+                        ceil_val = float(r["mc_p90"]) if (pd.notna(r["mc_p90"]) and r["mc_p90"] is not None) else float(r["PredictedPoints"])
+                        
                         player_pool.append({
                             "firstName": r["firstName"],
                             "lastName": r["lastName"],
@@ -451,7 +457,9 @@ def main():
                             "sim_idx": sim_idx,
                             "EV": round(float(r["EV"]), 1),
                             "ceiling": round(float(r["PredictedPoints"]), 1),
-                            "boom": round(float(r["BoomProbability"]), 1)
+                            "boom": round(float(r["BoomProbability"]), 1),
+                            "mc_ev": round(ev_val, 1),
+                            "mc_p90": round(ceil_val, 1)
                         })
                         
                     # 1. Run MC EV Baseline
@@ -488,9 +496,8 @@ def main():
                             "game_id": g_id,
                             "position": p["positionGroup"],
                             "salary": int(p["salary"]),
-                            "EV": round(float(p["EV"]), 1),
-                            "ceiling": round(float(p["ceiling"]), 1),
-                            "boom": round(float(p["boom"]), 1)
+                            "mc_ev": p["mc_ev"],
+                            "mc_p90": p["mc_p90"]
                         }
                         if pts is not None:
                             res["actualPoints"] = round(pts, 1)
@@ -595,9 +602,8 @@ def main():
                                     game_id = p.get("eventId", "UNK").replace("_game_", "-ev-")
                                     salary = int(p.get("salary", 10))
                                     
-                                    ev_val = float(lookup.iloc[0]["EV"]) if not lookup.empty else 0.0
-                                    ceil_val = float(lookup.iloc[0]["PredictedPoints"]) if not lookup.empty else 0.0
-                                    boom_val = float(lookup.iloc[0]["BoomProbability"]) if not lookup.empty else 0.0
+                                    ev_val = float(lookup.iloc[0]["mc_ev"]) if (not lookup.empty and pd.notna(lookup.iloc[0]["mc_ev"])) else (float(lookup.iloc[0]["EV"]) if not lookup.empty else 0.0)
+                                    ceil_val = float(lookup.iloc[0]["mc_p90"]) if (not lookup.empty and pd.notna(lookup.iloc[0]["mc_p90"])) else (float(lookup.iloc[0]["PredictedPoints"]) if not lookup.empty else 0.0)
                                     
                                     return {
                                         "firstName": fname,
@@ -607,9 +613,8 @@ def main():
                                         "game_id": game_id,
                                         "position": p["position"],
                                         "salary": salary,
-                                        "EV": round(ev_val, 1),
-                                        "ceiling": round(ceil_val, 1),
-                                        "boom": boom_val,
+                                        "mc_ev": round(ev_val, 1),
+                                        "mc_p90": round(ceil_val, 1),
                                         "actualPoints": round(float(p["totalPoints"]), 1)
                                     }
                                 adv_response["Coulda"] = [strip_coulda_player(p) for p in team_coulda]
@@ -618,7 +623,7 @@ def main():
                         traceback.print_exc()
                         print(f"  Warning: Could not run Coulda optimizer for {year} Week {week}: {e_coulda}")
                         
-                    # Consensus Core: players appearing in >= 3 of the 4 forward-looking MC rosters.
+                    # Consensus Core: players appearing in all 4 forward-looking MC rosters.
                     # Coulda is excluded — it is a retrospective lineup, not a forward-looking one.
                     mc_roster_keys = ['MC_EV', 'MC_Win_160', 'MC_Win_180', 'MC_Ceil_90']
                     player_counts = {}
@@ -626,7 +631,7 @@ def main():
                         for p in adv_response.get(key, []):
                             p_name = f"{p['firstName']} {p['lastName']}"
                             player_counts[p_name] = player_counts.get(p_name, 0) + 1
-                    adv_response["Core"] = [k for k, v in player_counts.items() if v >= 3]
+                    adv_response["Core"] = [k for k, v in player_counts.items() if v >= 4]
                     
                     ev_names = set(f"{p['firstName']} {p['lastName']}" for p in adv_response["MC_EV"])
                     sleepers = []
