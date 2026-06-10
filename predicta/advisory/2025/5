@@ -259,18 +259,6 @@
     ],
     "MC_Ceil_90": [
         {
-            "firstName": "Dylan",
-            "lastName": "Molloy",
-            "team": "RED",
-            "opponent": "OUT",
-            "game_id": "2025-ev-17",
-            "position": "Attack",
-            "salary": 46,
-            "mc_ev": 32.0,
-            "mc_p90": 56.5,
-            "actualPoints": 17.0
-        },
-        {
             "firstName": "Michael",
             "lastName": "Sowers",
             "team": "WAT",
@@ -283,16 +271,16 @@
             "actualPoints": 42.0
         },
         {
-            "firstName": "Jack",
-            "lastName": "VanOverbeke",
-            "team": "OUT",
-            "opponent": "RED",
+            "firstName": "Dylan",
+            "lastName": "Molloy",
+            "team": "RED",
+            "opponent": "OUT",
             "game_id": "2025-ev-17",
-            "position": "Midfield",
-            "salary": 3,
-            "mc_ev": 17.7,
-            "mc_p90": 63.0,
-            "actualPoints": 10.0
+            "position": "Attack",
+            "salary": 46,
+            "mc_ev": 32.0,
+            "mc_p90": 56.5,
+            "actualPoints": 17.0
         },
         {
             "firstName": "Justin",
@@ -305,6 +293,18 @@
             "mc_ev": 20.5,
             "mc_p90": 56.3,
             "actualPoints": 29.0
+        },
+        {
+            "firstName": "Jack",
+            "lastName": "VanOverbeke",
+            "team": "OUT",
+            "opponent": "RED",
+            "game_id": "2025-ev-17",
+            "position": "Midfield",
+            "salary": 3,
+            "mc_ev": 17.7,
+            "mc_p90": 63.0,
+            "actualPoints": 10.0
         },
         {
             "firstName": "Zach",
@@ -435,8 +435,8 @@
         "TD Ierlan"
     ],
     "Sleepers": [
-        "Jack VanOverbeke",
         "Justin Anderson",
+        "Jack VanOverbeke",
         "Zach Goodrich"
     ]
 }

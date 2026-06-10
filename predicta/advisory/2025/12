@@ -87,16 +87,28 @@
     ],
     "MC_Win_160": [
         {
-            "firstName": "Michael",
-            "lastName": "Sowers",
-            "team": "WAT",
-            "opponent": "WHP",
+            "firstName": "Emmet",
+            "lastName": "Carroll",
+            "team": "WHP",
+            "opponent": "WAT",
             "game_id": "2025_quarterfinal_1",
+            "position": "Goalie",
+            "salary": 31,
+            "mc_ev": 35.8,
+            "mc_p90": 24.2,
+            "actualPoints": 25.0
+        },
+        {
+            "firstName": "Dylan",
+            "lastName": "Molloy",
+            "team": "RED",
+            "opponent": "CHA",
+            "game_id": "2025_quarterfinal_2",
             "position": "Attack",
-            "salary": 48,
-            "mc_ev": 34.2,
-            "mc_p90": 24.3,
-            "actualPoints": 87.0
+            "salary": 36,
+            "mc_ev": 32.0,
+            "mc_p90": 23.6,
+            "actualPoints": 4.0
         },
         {
             "firstName": "Aidan",
@@ -123,28 +135,16 @@
             "actualPoints": 32.5
         },
         {
-            "firstName": "Jack",
-            "lastName": "Hannah",
-            "team": "WAT",
-            "opponent": "WHP",
+            "firstName": "Matt",
+            "lastName": "Brandau",
+            "team": "WHP",
+            "opponent": "WAT",
             "game_id": "2025_quarterfinal_1",
             "position": "Midfield",
-            "salary": 25,
-            "mc_ev": 20.5,
-            "mc_p90": 13.3,
-            "actualPoints": 7.0
-        },
-        {
-            "firstName": "Chris",
-            "lastName": "Conlin",
-            "team": "RED",
-            "opponent": "CHA",
-            "game_id": "2025_quarterfinal_2",
-            "position": "Defense",
-            "salary": 9,
-            "mc_ev": 13.5,
-            "mc_p90": 17.6,
-            "actualPoints": 12.0
+            "salary": 21,
+            "mc_ev": 19.7,
+            "mc_p90": 18.3,
+            "actualPoints": -4.0
         },
         {
             "firstName": "Joseph",
@@ -159,16 +159,16 @@
             "actualPoints": 20.0
         },
         {
-            "firstName": "Emmet",
-            "lastName": "Carroll",
+            "firstName": "Ajax",
+            "lastName": "Zappitello",
             "team": "WHP",
             "opponent": "WAT",
             "game_id": "2025_quarterfinal_1",
-            "position": "Goalie",
-            "salary": 31,
-            "mc_ev": 35.8,
-            "mc_p90": 24.2,
-            "actualPoints": 25.0
+            "position": "Defense",
+            "salary": 27,
+            "mc_ev": 17.6,
+            "mc_p90": 15.8,
+            "actualPoints": 15.0
         }
     ],
     "MC_Win_180": [
@@ -431,7 +431,9 @@
     ],
     "Core": [
         "Emmet Carroll",
-        "Andrew McAdorey"
+        "Dylan Molloy",
+        "Andrew McAdorey",
+        "Matt Brandau"
     ],
     "Sleepers": [
         "Chris Conlin"

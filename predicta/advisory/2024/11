@@ -87,18 +87,6 @@
     ],
     "MC_Win_160": [
         {
-            "firstName": "Josh",
-            "lastName": "Byrne",
-            "team": "CHA",
-            "opponent": "CAN",
-            "game_id": "2024-ev-39",
-            "position": "Attack",
-            "salary": 39,
-            "mc_ev": 32.1,
-            "mc_p90": 49.0,
-            "actualPoints": 41.0
-        },
-        {
             "firstName": "Brennan",
             "lastName": "O'Neill",
             "team": "OUT",
@@ -109,6 +97,18 @@
             "mc_ev": 32.4,
             "mc_p90": 60.8,
             "actualPoints": -5.0
+        },
+        {
+            "firstName": "Josh",
+            "lastName": "Byrne",
+            "team": "CHA",
+            "opponent": "CAN",
+            "game_id": "2024-ev-39",
+            "position": "Attack",
+            "salary": 39,
+            "mc_ev": 32.1,
+            "mc_p90": 49.0,
+            "actualPoints": 41.0
         },
         {
             "firstName": "Josh",
@@ -147,28 +147,28 @@
             "actualPoints": 2.0
         },
         {
-            "firstName": "James",
-            "lastName": "Reilly",
-            "team": "CHA",
-            "opponent": "CAN",
-            "game_id": "2024-ev-39",
+            "firstName": "Trevor",
+            "lastName": "Baptiste",
+            "team": "ATL",
+            "opponent": "WAT",
+            "game_id": "2024-ev-40",
             "position": "Faceoff",
-            "salary": 3,
-            "mc_ev": 20.0,
-            "mc_p90": 43.4,
-            "actualPoints": 5.6
+            "salary": 37,
+            "mc_ev": 22.4,
+            "mc_p90": 43.6,
+            "actualPoints": 13.1
         },
         {
-            "firstName": "Brett",
-            "lastName": "Dobson",
-            "team": "ARC",
-            "opponent": "RED",
-            "game_id": "2024-ev-38",
+            "firstName": "Matt",
+            "lastName": "DeLuca",
+            "team": "WAT",
+            "opponent": "ATL",
+            "game_id": "2024-ev-40",
             "position": "Goalie",
-            "salary": 46,
-            "mc_ev": 35.7,
-            "mc_p90": 50.6,
-            "actualPoints": 35.0
+            "salary": 28,
+            "mc_ev": 35.6,
+            "mc_p90": 70.2,
+            "actualPoints": 42.0
         }
     ],
     "MC_Win_180": [
@@ -432,6 +432,7 @@
     "Core": [
         "Brennan O'Neill",
         "Josh Zawada",
+        "Trevor Baptiste",
         "Graeme Hossack"
     ],
     "Sleepers": []
