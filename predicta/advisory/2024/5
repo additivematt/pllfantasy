@@ -99,92 +99,6 @@
             "actualPoints": 56.0
         },
         {
-            "firstName": "Jeff",
-            "lastName": "Teat",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2024-ev-18",
-            "position": "Attack",
-            "salary": 50,
-            "mc_ev": 32.0,
-            "mc_p90": 59.2,
-            "actualPoints": 105.0
-        },
-        {
-            "firstName": "Bryan",
-            "lastName": "Costabile",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2024-ev-18",
-            "position": "Midfield",
-            "salary": 19,
-            "mc_ev": 26.3,
-            "mc_p90": 51.2,
-            "actualPoints": 41.0
-        },
-        {
-            "firstName": "Cross",
-            "lastName": "Ferrara",
-            "team": "OUT",
-            "opponent": "ATL",
-            "game_id": "2024-ev-18",
-            "position": "Midfield",
-            "salary": 14,
-            "mc_ev": 26.4,
-            "mc_p90": 80.7,
-            "actualPoints": 10.0
-        },
-        {
-            "firstName": "Ben",
-            "lastName": "Randall",
-            "team": "WAT",
-            "opponent": "CAN",
-            "game_id": "2024-ev-20",
-            "position": "Defense",
-            "salary": 23,
-            "mc_ev": 16.9,
-            "mc_p90": 31.5,
-            "actualPoints": 20.0
-        },
-        {
-            "firstName": "TD",
-            "lastName": "Ierlan",
-            "team": "RED",
-            "opponent": "CAN",
-            "game_id": "2024-ev-17",
-            "position": "Faceoff",
-            "salary": 39,
-            "mc_ev": 24.7,
-            "mc_p90": 51.8,
-            "actualPoints": 14.1
-        },
-        {
-            "firstName": "Matt",
-            "lastName": "DeLuca",
-            "team": "WAT",
-            "opponent": "CAN",
-            "game_id": "2024-ev-20",
-            "position": "Goalie",
-            "salary": 7,
-            "mc_ev": 29.6,
-            "mc_p90": 56.9,
-            "actualPoints": -3.0
-        }
-    ],
-    "MC_Win_180": [
-        {
-            "firstName": "Michael",
-            "lastName": "Sowers",
-            "team": "WAT",
-            "opponent": "CAN",
-            "game_id": "2024-ev-20",
-            "position": "Attack",
-            "salary": 45,
-            "mc_ev": 34.7,
-            "mc_p90": 66.8,
-            "actualPoints": 56.0
-        },
-        {
             "firstName": "Marcus",
             "lastName": "Holman",
             "team": "CAN",
@@ -197,18 +111,6 @@
             "actualPoints": 40.0
         },
         {
-            "firstName": "Cross",
-            "lastName": "Ferrara",
-            "team": "OUT",
-            "opponent": "ATL",
-            "game_id": "2024-ev-18",
-            "position": "Midfield",
-            "salary": 14,
-            "mc_ev": 26.4,
-            "mc_p90": 80.7,
-            "actualPoints": 10.0
-        },
-        {
             "firstName": "Bryan",
             "lastName": "Costabile",
             "team": "ATL",
@@ -219,6 +121,18 @@
             "mc_ev": 26.3,
             "mc_p90": 51.2,
             "actualPoints": 41.0
+        },
+        {
+            "firstName": "Josh",
+            "lastName": "Zawada",
+            "team": "OUT",
+            "opponent": "ATL",
+            "game_id": "2024-ev-18",
+            "position": "Midfield",
+            "salary": 22,
+            "mc_ev": 23.2,
+            "mc_p90": 48.0,
+            "actualPoints": 1.0
         },
         {
             "firstName": "Brian",
@@ -255,6 +169,92 @@
             "mc_ev": 30.7,
             "mc_p90": 48.4,
             "actualPoints": 51.0
+        }
+    ],
+    "MC_Win_180": [
+        {
+            "firstName": "Jeff",
+            "lastName": "Teat",
+            "team": "ATL",
+            "opponent": "OUT",
+            "game_id": "2024-ev-18",
+            "position": "Attack",
+            "salary": 50,
+            "mc_ev": 32.0,
+            "mc_p90": 59.2,
+            "actualPoints": 105.0
+        },
+        {
+            "firstName": "Michael",
+            "lastName": "Sowers",
+            "team": "WAT",
+            "opponent": "CAN",
+            "game_id": "2024-ev-20",
+            "position": "Attack",
+            "salary": 45,
+            "mc_ev": 34.7,
+            "mc_p90": 66.8,
+            "actualPoints": 56.0
+        },
+        {
+            "firstName": "Bryan",
+            "lastName": "Costabile",
+            "team": "ATL",
+            "opponent": "OUT",
+            "game_id": "2024-ev-18",
+            "position": "Midfield",
+            "salary": 19,
+            "mc_ev": 26.3,
+            "mc_p90": 51.2,
+            "actualPoints": 41.0
+        },
+        {
+            "firstName": "Cross",
+            "lastName": "Ferrara",
+            "team": "OUT",
+            "opponent": "ATL",
+            "game_id": "2024-ev-18",
+            "position": "Midfield",
+            "salary": 14,
+            "mc_ev": 26.4,
+            "mc_p90": 80.7,
+            "actualPoints": 10.0
+        },
+        {
+            "firstName": "Graeme",
+            "lastName": "Hossack",
+            "team": "ARC",
+            "opponent": "WHP",
+            "game_id": "2024-ev-19",
+            "position": "Defense",
+            "salary": 24,
+            "mc_ev": 17.8,
+            "mc_p90": 43.4,
+            "actualPoints": 13.0
+        },
+        {
+            "firstName": "TD",
+            "lastName": "Ierlan",
+            "team": "RED",
+            "opponent": "CAN",
+            "game_id": "2024-ev-17",
+            "position": "Faceoff",
+            "salary": 39,
+            "mc_ev": 24.7,
+            "mc_p90": 51.8,
+            "actualPoints": 14.1
+        },
+        {
+            "firstName": "Matt",
+            "lastName": "DeLuca",
+            "team": "WAT",
+            "opponent": "CAN",
+            "game_id": "2024-ev-20",
+            "position": "Goalie",
+            "salary": 7,
+            "mc_ev": 29.6,
+            "mc_p90": 56.9,
+            "actualPoints": -3.0
         }
     ],
     "MC_Ceil_90": [
@@ -431,7 +431,6 @@
     ],
     "Core": [
         "Michael Sowers",
-        "Cross Ferrara",
         "Bryan Costabile"
     ],
     "Sleepers": [
