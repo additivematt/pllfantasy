@@ -325,6 +325,32 @@ python roster_optimizer_mc.py --year 2026 --week 2 --objective MC_EV
 - `--week`: Roster week.
 - `--objective`: Optimization objective (`MC_EV`, `MC_Ceiling_90`, `MC_Win_Prob`).
 
+### ⚠️ CRITICAL: Web UI Static Data Update Workflow
+
+When predictions or simulations are regenerated (e.g. to filter out injured players or update matchups), they do **NOT** automatically reflect in the frontend Web UI. The UI reads from static, extensionless JSON payloads stored in `predicta/predictions/{YEAR}/{WEEK}` and `predicta/advisory/{YEAR}/{WEEK}`.
+
+To update the UI and prevent it from recommending out/injured players, you **MUST** run the following compilation steps:
+
+1. **Compile Static JSON Payloads**:
+   ```bash
+   python scratch/prepare_static_data.py
+   ```
+   *This reads the CSV predictions and builds the static JSON outputs for the dashboard and sidebar.*
+
+2. **Bake Simulation Stats**:
+   ```bash
+   python bake_mc_ev.py [YEAR] [WEEK]
+   ```
+   *This computes the Monte Carlo Expected Value (`mc_ev`), standard deviation (`mc_std`), and 90th percentile ceiling (`mc_p90`) from the simulation trials and bakes them directly into the extensionless week prediction file.*
+
+3. **Stage and Push to GitHub**:
+   ```bash
+   git add -u
+   git commit -m "Update static predictions"
+   git push
+   ```
+   *Stage the modified static JSON files and push to GitHub so they are live on the secure GitHub Pages hosting origin.*
+
 ---
 
 ## Current State
