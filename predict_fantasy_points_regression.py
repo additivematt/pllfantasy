@@ -452,12 +452,46 @@ def main():
         if target_salaries and len(set(target_salaries)) <= 1:
             is_placeholder = True
 
+        # Load F2P data to check for injured reserve (IR) and out (O) players
+        injured_keys = set()
+        clean_name_local = lambda n: (n or "").replace("'", "").replace("-", "").replace(".", "").replace(" ", "").lower()
+        f2p_paths = [
+            os.path.join(sDir, f"f2p_{args.year}_season.json"),
+            os.path.join(sDir, "f2p_weekly_data.json")
+        ]
+        f2p_data_local = []
+        for path in f2p_paths:
+            if os.path.exists(path):
+                try:
+                    with open(path, encoding="utf-8") as f_f2p:
+                        f2p_data_local = json.load(f_f2p)
+                    break
+                except Exception as e:
+                    print(f"Error loading {path}: {e}")
+                    
+        for p in f2p_data_local:
+            if p.get("week") == args.week:
+                injury_status = p.get("injuryStatus")
+                if injury_status in ("IR", "O"):
+                    if p.get("officialId"):
+                        injured_keys.add(p.get("officialId"))
+                    first_clean = clean_name_local(p.get("firstName"))
+                    last_clean = clean_name_local(p.get("lastName"))
+                    injured_keys.add((first_clean, last_clean))
+
         roster_rows = []
         for p in fallback_data:
             ident = p.get("identity", {})
             f2p = p.get("f2p", {})
             first = ident.get("firstName")
             last = ident.get("lastName")
+            off_id = ident.get("officialId")
+            
+            # Filter out injured reserve (IR) and out (O) players
+            if off_id in injured_keys or (clean_name_local(first), clean_name_local(last)) in injured_keys:
+                print(f"  Skipping injured/out player (fallback_data): {first} {last}")
+                continue
+                
             salary = f2p.get("salary", 0)
             
             if not salary or salary == 0 or is_placeholder or (args.year == 2025 and args.week in [12, 13, 14]):
@@ -515,6 +549,13 @@ def main():
                 if p.get("week") == args.week:
                     first = p.get("firstName")
                     last = p.get("lastName")
+                    
+                    # Filter out injured reserve (IR) and out (O) players
+                    injury_status = p.get("injuryStatus")
+                    if injury_status in ("IR", "O"):
+                        print(f"  Skipping injured/out player (f2d): {first} {last} (Status: {injury_status})")
+                        continue
+                        
                     salary = p.get("salary", 0)
                     if not salary or salary == 0 or is_placeholder:
                         avg_sal = avg_salaries.get((first, last))

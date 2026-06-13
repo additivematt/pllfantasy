@@ -415,6 +415,21 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             print(f"GET Matchups: {filepath}")
             return self.serve_json(filepath)
 
+        if clean_path.startswith('/active-rosters/'):
+            week = [p for p in clean_path.split('/') if p][-1]
+            import urllib.parse
+            week = urllib.parse.unquote(week).replace('Week ', '').strip()
+            filepath = os.path.join(SCRIPTS_DIR, f'gameday_rosters_week{week}.json')
+            print(f"GET Active Rosters: {filepath}")
+            if os.path.exists(filepath):
+                return self.serve_json(filepath)
+            else:
+                self.send_response(200)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(b'{}')
+                return
+
         # 4. Default behavior (serves from TAGGER_DIR)
         return super().do_GET()
 
