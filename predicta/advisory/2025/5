@@ -283,18 +283,6 @@
             "actualPoints": 42.0
         },
         {
-            "firstName": "Justin",
-            "lastName": "Anderson",
-            "team": "OUT",
-            "opponent": "RED",
-            "game_id": "2025-ev-17",
-            "position": "Midfield",
-            "salary": 6,
-            "mc_ev": 20.5,
-            "mc_p90": 56.3,
-            "actualPoints": 29.0
-        },
-        {
             "firstName": "Jack",
             "lastName": "VanOverbeke",
             "team": "OUT",
@@ -305,6 +293,18 @@
             "mc_ev": 17.7,
             "mc_p90": 63.0,
             "actualPoints": 10.0
+        },
+        {
+            "firstName": "Justin",
+            "lastName": "Anderson",
+            "team": "OUT",
+            "opponent": "RED",
+            "game_id": "2025-ev-17",
+            "position": "Midfield",
+            "salary": 6,
+            "mc_ev": 20.5,
+            "mc_p90": 56.3,
+            "actualPoints": 29.0
         },
         {
             "firstName": "Zach",
@@ -435,8 +435,8 @@
         "TD Ierlan"
     ],
     "Sleepers": [
-        "Justin Anderson",
         "Jack VanOverbeke",
+        "Justin Anderson",
         "Zach Goodrich"
     ]
 }

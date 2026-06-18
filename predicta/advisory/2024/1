@@ -259,6 +259,18 @@
     ],
     "MC_Ceil_90": [
         {
+            "firstName": "Ross",
+            "lastName": "Scott",
+            "team": "CHA",
+            "opponent": "OUT",
+            "game_id": "2024-ev-3",
+            "position": "Attack",
+            "salary": 11,
+            "mc_ev": 30.4,
+            "mc_p90": 74.9,
+            "actualPoints": 14.0
+        },
+        {
             "firstName": "Matt",
             "lastName": "Rambo",
             "team": "WHP",
@@ -269,30 +281,6 @@
             "mc_ev": 35.0,
             "mc_p90": 121.6,
             "actualPoints": 14.0
-        },
-        {
-            "firstName": "Connor",
-            "lastName": "Fields",
-            "team": "ARC",
-            "opponent": "WAT",
-            "game_id": "2024-ev-1",
-            "position": "Attack",
-            "salary": 47,
-            "mc_ev": 34.3,
-            "mc_p90": 70.6,
-            "actualPoints": 27.0
-        },
-        {
-            "firstName": "Dillon",
-            "lastName": "Ward",
-            "team": "WAT",
-            "opponent": "ARC",
-            "game_id": "2024-ev-1",
-            "position": "Goalie",
-            "salary": 26,
-            "mc_ev": 31.6,
-            "mc_p90": 58.8,
-            "actualPoints": 10.0
         },
         {
             "firstName": "Cross",
@@ -319,6 +307,18 @@
             "actualPoints": 7.0
         },
         {
+            "firstName": "Eli",
+            "lastName": "Gobrecht",
+            "team": "WAT",
+            "opponent": "ARC",
+            "game_id": "2024-ev-1",
+            "position": "Defense",
+            "salary": 10,
+            "mc_ev": 22.8,
+            "mc_p90": 76.0,
+            "actualPoints": 22.0
+        },
+        {
             "firstName": "Trevor",
             "lastName": "Baptiste",
             "team": "ATL",
@@ -331,16 +331,16 @@
             "actualPoints": 39.0
         },
         {
-            "firstName": "Eli",
-            "lastName": "Gobrecht",
-            "team": "WAT",
-            "opponent": "ARC",
-            "game_id": "2024-ev-1",
-            "position": "Defense",
-            "salary": 10,
-            "mc_ev": 22.8,
-            "mc_p90": 76.0,
-            "actualPoints": 22.0
+            "firstName": "Blaze",
+            "lastName": "Riorden",
+            "team": "CHA",
+            "opponent": "OUT",
+            "game_id": "2024-ev-3",
+            "position": "Goalie",
+            "salary": 43,
+            "mc_ev": 32.7,
+            "mc_p90": 46.9,
+            "actualPoints": 32.0
         }
     ],
     "Coulda": [
@@ -430,8 +430,6 @@
         }
     ],
     "Core": [
-        "Connor Fields",
-        "Dillon Ward",
         "Cross Ferrara",
         "Tre Leclaire",
         "Trevor Baptiste"

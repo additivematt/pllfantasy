@@ -788,7 +788,10 @@ def main():
         ye = le.fit_transform(df_pg["PerformanceTier"].astype(str))
         
         base_clf = XGBClassifier(n_estimators=100, random_state=42)
-        mod = CalibratedClassifierCV(estimator=base_clf, method='isotonic', cv=3)
+        try:
+            mod = CalibratedClassifierCV(estimator=base_clf, method='isotonic', cv=3)
+        except TypeError:
+            mod = CalibratedClassifierCV(base_estimator=base_clf, method='isotonic', cv=3)
         mod.fit(X_tr_clf, ye)
         
         pL = le.inverse_transform(mod.predict(X_te_clf))
