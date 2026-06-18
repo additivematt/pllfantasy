@@ -650,7 +650,8 @@ def main():
             active_gameday_names = set()
             for gp in gameday_players:
                 rs = gp.get("rosterStatus", "active")
-                if rs in ("active", "starter"):
+                is_inj = gp.get("injuryStatus") in ("O", "IR")
+                if rs in ("active", "starter") and not is_inj:
                     fn = clean_name(gp.get("firstName", ""))
                     ln = clean_name(gp.get("lastName", ""))
                     active_gameday_names.add((fn, ln))
@@ -684,7 +685,8 @@ def main():
         if opp_players:
             for gp in opp_players:
                 rs = gp.get("rosterStatus", "active")
-                is_active = rs in ("active", "starter")
+                is_inj = gp.get("injuryStatus") in ("O", "IR")
+                is_active = rs in ("active", "starter") and not is_inj
                 pos = str(gp.get("position", "")).upper()
                 if pos in ("SSDM", "LSM") and is_active: active_ssdm += 1
                 if pos == "D" and is_active: active_def += 1

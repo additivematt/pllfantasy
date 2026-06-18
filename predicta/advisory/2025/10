@@ -25,6 +25,30 @@
             "actualPoints": 66.0
         },
         {
+            "firstName": "Logan",
+            "lastName": "McNaney",
+            "team": "OUT",
+            "opponent": "ATL",
+            "game_id": "2025-ev-38",
+            "position": "Goalie",
+            "salary": 44,
+            "mc_ev": 34.4,
+            "mc_p90": 49.0,
+            "actualPoints": 40.0
+        },
+        {
+            "firstName": "Colin",
+            "lastName": "Squires",
+            "team": "WHP",
+            "opponent": "RED",
+            "game_id": "2025-ev-37",
+            "position": "Defense",
+            "salary": 7,
+            "mc_ev": 21.7,
+            "mc_p90": 51.0,
+            "actualPoints": 1.0
+        },
+        {
             "firstName": "Bryan",
             "lastName": "Costabile",
             "team": "ATL",
@@ -48,18 +72,6 @@
             "mc_p90": 48.5
         },
         {
-            "firstName": "Colin",
-            "lastName": "Squires",
-            "team": "WHP",
-            "opponent": "RED",
-            "game_id": "2025-ev-37",
-            "position": "Defense",
-            "salary": 7,
-            "mc_ev": 21.7,
-            "mc_p90": 51.0,
-            "actualPoints": 1.0
-        },
-        {
             "firstName": "Luke",
             "lastName": "Wierman",
             "team": "OUT",
@@ -70,18 +82,6 @@
             "mc_ev": 18.6,
             "mc_p90": 30.8,
             "actualPoints": 30.2
-        },
-        {
-            "firstName": "Logan",
-            "lastName": "McNaney",
-            "team": "OUT",
-            "opponent": "ATL",
-            "game_id": "2025-ev-38",
-            "position": "Goalie",
-            "salary": 44,
-            "mc_ev": 34.4,
-            "mc_p90": 49.0,
-            "actualPoints": 40.0
         }
     ],
     "MC_Win_160": [
@@ -427,9 +427,9 @@
     ],
     "Core": [
         "Michael Sowers",
-        "Jonathan Donville",
+        "Logan McNaney",
         "Colin Squires",
-        "Logan McNaney"
+        "Jonathan Donville"
     ],
     "Sleepers": []
 }

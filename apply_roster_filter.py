@@ -68,8 +68,9 @@ def filter_csv(raw_path, out_path, api_rosters, team_matchups):
             if clean_fn == clean_p_fn and (clean_ln == clean_p_ln or 
                (clean_ln == "molloy" and clean_p_ln == "malloy") or
                (clean_ln == "mcardle" and clean_p_ln == "mckardle")):
-                is_active = True
-                active_team = pred_team
+                if p.get("injuryStatus") not in ("O", "IR"):
+                    is_active = True
+                    active_team = pred_team
                 break
                 
         # If not found on their listed team, check other teams (detect trades!)
@@ -84,8 +85,9 @@ def filter_csv(raw_path, out_path, api_rosters, team_matchups):
                        (clean_ln == "molloy" and clean_p_ln == "malloy") or
                        (clean_ln == "mcardle" and clean_p_ln == "mckardle") or
                        (clean_ln == "croddick" and clean_p_ln == "croddick")): # Ryan Croddick trade
-                        is_active = True
-                        active_team = t_code
+                        if p.get("injuryStatus") not in ("O", "IR"):
+                            is_active = True
+                            active_team = t_code
                         break
                 if is_active:
                     break

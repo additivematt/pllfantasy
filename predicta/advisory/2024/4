@@ -87,18 +87,6 @@
     ],
     "MC_Win_160": [
         {
-            "firstName": "Dillon",
-            "lastName": "Ward",
-            "team": "WAT",
-            "opponent": "CHA",
-            "game_id": "2024-ev-16",
-            "position": "Goalie",
-            "salary": 28,
-            "mc_ev": 36.2,
-            "mc_p90": 57.2,
-            "actualPoints": 36.0
-        },
-        {
             "firstName": "TJ",
             "lastName": "Malone",
             "team": "WHP",
@@ -135,28 +123,16 @@
             "actualPoints": 24.0
         },
         {
-            "firstName": "Nick",
-            "lastName": "Rowlett",
-            "team": "CHA",
-            "opponent": "WAT",
-            "game_id": "2024-ev-16",
-            "position": "Faceoff",
-            "salary": 25,
-            "mc_ev": 24.1,
-            "mc_p90": 53.0,
-            "actualPoints": 28.5
-        },
-        {
-            "firstName": "Jack",
-            "lastName": "Hannah",
-            "team": "WAT",
-            "opponent": "CHA",
-            "game_id": "2024-ev-16",
+            "firstName": "Garrett",
+            "lastName": "Degnon",
+            "team": "RED",
+            "opponent": "OUT",
+            "game_id": "2024-ev-15",
             "position": "Midfield",
-            "salary": 14,
-            "mc_ev": 20.7,
-            "mc_p90": 58.1,
-            "actualPoints": 33.0
+            "salary": 27,
+            "mc_ev": 21.4,
+            "mc_p90": 45.3,
+            "actualPoints": -5.0
         },
         {
             "firstName": "Ethan",
@@ -169,6 +145,30 @@
             "mc_ev": 15.9,
             "mc_p90": 37.5,
             "actualPoints": 3.0
+        },
+        {
+            "firstName": "Alec",
+            "lastName": "Stathakis",
+            "team": "WAT",
+            "opponent": "CHA",
+            "game_id": "2024-ev-16",
+            "position": "Faceoff",
+            "salary": 11,
+            "mc_ev": 22.8,
+            "mc_p90": 34.7,
+            "actualPoints": 4.4
+        },
+        {
+            "firstName": "Dillon",
+            "lastName": "Ward",
+            "team": "WAT",
+            "opponent": "CHA",
+            "game_id": "2024-ev-16",
+            "position": "Goalie",
+            "salary": 28,
+            "mc_ev": 36.2,
+            "mc_p90": 57.2,
+            "actualPoints": 36.0
         }
     ],
     "MC_Win_180": [
@@ -433,8 +433,7 @@
         "Dillon Ward",
         "TJ Malone",
         "Brennan O'Neill",
-        "Tom Schreiber",
-        "Nick Rowlett"
+        "Tom Schreiber"
     ],
     "Sleepers": [
         "Nakeie Montgomery"
