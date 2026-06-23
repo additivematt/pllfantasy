@@ -1,18 +1,6 @@
 {
     "MC_EV": [
         {
-            "firstName": "Brett",
-            "lastName": "Dobson",
-            "team": "ARC",
-            "opponent": "RED",
-            "game_id": "2024-ev-38",
-            "position": "Goalie",
-            "salary": 46,
-            "mc_ev": 35.7,
-            "mc_p90": 50.6,
-            "actualPoints": 35.0
-        },
-        {
             "firstName": "Ethan",
             "lastName": "Walker",
             "team": "WAT",
@@ -61,6 +49,18 @@
             "actualPoints": 26.0
         },
         {
+            "firstName": "Graeme",
+            "lastName": "Hossack",
+            "team": "ARC",
+            "opponent": "OUT",
+            "game_id": "2024-ev-41",
+            "position": "Defense",
+            "salary": 13,
+            "mc_ev": 21.1,
+            "mc_p90": 56.5,
+            "actualPoints": 2.0
+        },
+        {
             "firstName": "Trevor",
             "lastName": "Baptiste",
             "team": "ATL",
@@ -73,16 +73,16 @@
             "actualPoints": 13.1
         },
         {
-            "firstName": "Graeme",
-            "lastName": "Hossack",
+            "firstName": "Brett",
+            "lastName": "Dobson",
             "team": "ARC",
-            "opponent": "OUT",
-            "game_id": "2024-ev-41",
-            "position": "Defense",
-            "salary": 13,
-            "mc_ev": 21.1,
-            "mc_p90": 56.5,
-            "actualPoints": 2.0
+            "opponent": "RED",
+            "game_id": "2024-ev-38",
+            "position": "Goalie",
+            "salary": 46,
+            "mc_ev": 35.7,
+            "mc_p90": 50.6,
+            "actualPoints": 35.0
         }
     ],
     "MC_Win_160": [
@@ -147,28 +147,28 @@
             "actualPoints": 2.0
         },
         {
-            "firstName": "James",
-            "lastName": "Reilly",
-            "team": "CHA",
-            "opponent": "CAN",
-            "game_id": "2024-ev-39",
+            "firstName": "Trevor",
+            "lastName": "Baptiste",
+            "team": "ATL",
+            "opponent": "WAT",
+            "game_id": "2024-ev-40",
             "position": "Faceoff",
-            "salary": 3,
-            "mc_ev": 20.0,
-            "mc_p90": 43.4,
-            "actualPoints": 5.6
+            "salary": 37,
+            "mc_ev": 22.4,
+            "mc_p90": 43.6,
+            "actualPoints": 13.1
         },
         {
-            "firstName": "Brett",
-            "lastName": "Dobson",
-            "team": "ARC",
-            "opponent": "RED",
-            "game_id": "2024-ev-38",
+            "firstName": "Matt",
+            "lastName": "DeLuca",
+            "team": "WAT",
+            "opponent": "ATL",
+            "game_id": "2024-ev-40",
             "position": "Goalie",
-            "salary": 46,
-            "mc_ev": 35.7,
-            "mc_p90": 50.6,
-            "actualPoints": 35.0
+            "salary": 28,
+            "mc_ev": 35.6,
+            "mc_p90": 70.2,
+            "actualPoints": 42.0
         }
     ],
     "MC_Win_180": [
@@ -432,7 +432,10 @@
     "Core": [
         "Brennan O'Neill",
         "Josh Zawada",
-        "Graeme Hossack"
+        "Graeme Hossack",
+        "Trevor Baptiste"
     ],
-    "Sleepers": []
+    "Sleepers": [],
+    "RecommendedStrategy": "MC_EV",
+    "RecommendedReason": "Tight pricing / short slate (4 games, 39 cheap value players). Optimizing for floor is best."
 }

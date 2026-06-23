@@ -99,6 +99,9 @@ async function loadPredictions(year, week) {
         });
 
         if (advisoryData) {
+            if (advisoryData.RecommendedStrategy) {
+                activeRosterTab = advisoryData.RecommendedStrategy;
+            }
             renderAdvisor(advisoryData);
         } else {
             if (coreContainer) coreContainer.innerHTML = '<span class="muted-text">Advisory unavailable.</span>';
@@ -304,6 +307,16 @@ function renderPlot(targetId, title, data, yRange = null) {
 
 function renderAdvisor(advisoryData) {
     window.currentAdvisory = advisoryData;
+    
+    // 0. Render Recommended Strategy
+    const recSection = document.getElementById('recommended-strategy-section');
+    if (recSection && advisoryData.RecommendedStrategy) {
+        document.getElementById('recommended-strategy-name').textContent = advisoryData.RecommendedStrategy.replace(/_/g, ' ') + ' (RECOMMENDED)';
+        document.getElementById('recommended-strategy-reason').textContent = advisoryData.RecommendedReason;
+        recSection.style.display = 'block';
+    } else if (recSection) {
+        recSection.style.display = 'none';
+    }
     
     // Manage display & layout columns of Coulda tab
     const couldaTab = document.getElementById('coulda-tab');

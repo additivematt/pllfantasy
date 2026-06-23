@@ -25,6 +25,18 @@
             "actualPoints": -4.0
         },
         {
+            "firstName": "Blaze",
+            "lastName": "Riorden",
+            "team": "CHA",
+            "opponent": "RED",
+            "game_id": "2024-ev-26",
+            "position": "Goalie",
+            "salary": 45,
+            "mc_ev": 29.8,
+            "mc_p90": 43.4,
+            "actualPoints": 41.0
+        },
+        {
             "firstName": "Bryan",
             "lastName": "Costabile",
             "team": "ATL",
@@ -49,18 +61,6 @@
             "actualPoints": 10.0
         },
         {
-            "firstName": "Jared",
-            "lastName": "Conners",
-            "team": "RED",
-            "opponent": "WHP",
-            "game_id": "2024-ev-29",
-            "position": "Defense",
-            "salary": 8,
-            "mc_ev": 16.9,
-            "mc_p90": 32.5,
-            "actualPoints": 11.0
-        },
-        {
             "firstName": "Luke",
             "lastName": "Wierman",
             "team": "OUT",
@@ -73,16 +73,16 @@
             "actualPoints": 0.2
         },
         {
-            "firstName": "Blaze",
-            "lastName": "Riorden",
-            "team": "CHA",
-            "opponent": "RED",
-            "game_id": "2024-ev-26",
-            "position": "Goalie",
-            "salary": 45,
-            "mc_ev": 29.8,
-            "mc_p90": 43.4,
-            "actualPoints": 41.0
+            "firstName": "Jared",
+            "lastName": "Conners",
+            "team": "RED",
+            "opponent": "WHP",
+            "game_id": "2024-ev-29",
+            "position": "Defense",
+            "salary": 8,
+            "mc_ev": 16.9,
+            "mc_p90": 32.5,
+            "actualPoints": 11.0
         }
     ],
     "MC_Win_160": [
@@ -431,10 +431,12 @@
     ],
     "Core": [
         "Ryan Drenner",
-        "Jared Conners",
-        "Luke Wierman"
+        "Luke Wierman",
+        "Jared Conners"
     ],
     "Sleepers": [
         "Matt DeLuca"
-    ]
+    ],
+    "RecommendedStrategy": "MC_EV",
+    "RecommendedReason": "Tight pricing / short slate (4 games, 37 cheap value players). Optimizing for floor is best."
 }

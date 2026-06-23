@@ -658,6 +658,15 @@ def main():
                             sleepers.append(p_name)
                     adv_response["Sleepers"] = sleepers
                     
+                    slate_size = len(set(p['game_id'] for p in player_pool))
+                    cheap_value_count = sum(1 for p in player_pool if p['salary'] <= 12 and p['mc_ev'] >= 10)
+                    if slate_size < 4 or cheap_value_count < 40:
+                        adv_response["RecommendedStrategy"] = "MC_EV"
+                        adv_response["RecommendedReason"] = f"Tight pricing / short slate ({slate_size} games, {cheap_value_count} cheap value players). Optimizing for floor is best."
+                    else:
+                        adv_response["RecommendedStrategy"] = "MC_Win_160"
+                        adv_response["RecommendedReason"] = f"Stars & Scrubs slate ({slate_size} games, {cheap_value_count} cheap value players). Optimizing for variance with MC Win 160 is best."
+                    
                     adv_year_dir = os.path.join(advisory_root, str(year))
                     os.makedirs(adv_year_dir, exist_ok=True)
                     

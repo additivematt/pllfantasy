@@ -111,18 +111,6 @@
             "actualPoints": 13.0
         },
         {
-            "firstName": "Tom",
-            "lastName": "Schreiber",
-            "team": "ARC",
-            "opponent": "CAN",
-            "game_id": "2024-ev-14",
-            "position": "Midfield",
-            "salary": 40,
-            "mc_ev": 27.1,
-            "mc_p90": 59.7,
-            "actualPoints": 24.0
-        },
-        {
             "firstName": "Garrett",
             "lastName": "Degnon",
             "team": "RED",
@@ -133,6 +121,18 @@
             "mc_ev": 21.4,
             "mc_p90": 45.3,
             "actualPoints": -5.0
+        },
+        {
+            "firstName": "Tom",
+            "lastName": "Schreiber",
+            "team": "ARC",
+            "opponent": "CAN",
+            "game_id": "2024-ev-14",
+            "position": "Midfield",
+            "salary": 40,
+            "mc_ev": 27.1,
+            "mc_p90": 59.7,
+            "actualPoints": 24.0
         },
         {
             "firstName": "Ethan",
@@ -437,5 +437,7 @@
     ],
     "Sleepers": [
         "Nakeie Montgomery"
-    ]
+    ],
+    "RecommendedStrategy": "MC_EV",
+    "RecommendedReason": "Tight pricing / short slate (4 games, 25 cheap value players). Optimizing for floor is best."
 }

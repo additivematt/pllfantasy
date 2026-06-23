@@ -111,18 +111,6 @@
             "actualPoints": 32.0
         },
         {
-            "firstName": "Jared",
-            "lastName": "Bernhardt",
-            "team": "OUT",
-            "opponent": "ARC",
-            "game_id": "2026-ev-3",
-            "position": "Midfield",
-            "salary": 18,
-            "mc_ev": 16.7,
-            "mc_p90": 29.2,
-            "actualPoints": 19.0
-        },
-        {
             "firstName": "Brad",
             "lastName": "Smith",
             "team": "WHP",
@@ -133,6 +121,18 @@
             "mc_ev": 16.8,
             "mc_p90": 34.8,
             "actualPoints": 17.0
+        },
+        {
+            "firstName": "Jared",
+            "lastName": "Bernhardt",
+            "team": "OUT",
+            "opponent": "ARC",
+            "game_id": "2026-ev-3",
+            "position": "Midfield",
+            "salary": 18,
+            "mc_ev": 16.7,
+            "mc_p90": 29.2,
+            "actualPoints": 19.0
         },
         {
             "firstName": "Brendan",
@@ -438,5 +438,7 @@
     ],
     "Sleepers": [
         "Levi Anderson"
-    ]
+    ],
+    "RecommendedStrategy": "MC_Win_160",
+    "RecommendedReason": "Stars & Scrubs slate (4 games, 40 cheap value players). Optimizing for variance with MC Win 160 is best."
 }
