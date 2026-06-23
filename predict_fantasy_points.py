@@ -306,8 +306,8 @@ def compute_defender_ratings(df_all, matchups_by_game):
     return def_r, team_def, pair_r, p_vs_t
 
 FEATURE_LISTS = {
-    "Attack":   ["fp_season_avg", "fp_last3_avg", "fp_lag1", "shots_season_avg", "shots_last3_avg", "assists_season_avg", "assists_last3_avg", "touches_season_avg", "touches_last3_avg", "shotPct_anomaly", "days_since_last_game", "team_faceoff_advantage", "pairing_rating", "opponent_rating", "player_vs_team_rating", "team_def_rating"],
-    "Midfield": ["fp_season_avg", "fp_last3_avg", "fp_lag1", "shots_season_avg", "shots_last3_avg", "groundBalls_season_avg", "groundBalls_last3_avg", "touches_season_avg", "touches_last3_avg", "shotPct_anomaly", "days_since_last_game", "team_faceoff_advantage", "pairing_rating", "opponent_rating", "player_vs_team_rating", "team_def_rating"],
+    "Attack":   ["fp_season_avg", "fp_last3_avg", "fp_lag1", "shots_season_avg", "shots_last3_avg", "assists_season_avg", "assists_last3_avg", "touches_season_avg", "touches_last3_avg", "shotPct_anomaly", "days_since_last_game", "team_faceoff_advantage", "pairing_rating", "opponent_rating", "player_vs_team_rating", "team_def_rating", "team_vacated_touch_share", "team_inactive_fp_avg", "opp_def_health", "opp_goalie_health"],
+    "Midfield": ["fp_season_avg", "fp_last3_avg", "fp_lag1", "shots_season_avg", "shots_last3_avg", "groundBalls_season_avg", "groundBalls_last3_avg", "touches_season_avg", "touches_last3_avg", "shotPct_anomaly", "days_since_last_game", "team_faceoff_advantage", "pairing_rating", "opponent_rating", "player_vs_team_rating", "team_def_rating", "team_vacated_touch_share", "team_inactive_fp_avg", "opp_ssdm_health"],
     # SSDM/LSM and Defensemen share one 'Defense' model so boom = top 25% of
     # all D-slot players combined, matching the single F2P roster slot they occupy.
     "Defense":  ["fp_season_avg", "fp_last3_avg", "fp_lag1", "groundBalls_season_avg", "groundBalls_last3_avg", "causedTurnovers_season_avg", "causedTurnovers_last3_avg", "days_since_last_game", "team_faceoff_advantage", "pairing_rating", "opponent_rating", "player_vs_team_rating", "team_def_rating"],

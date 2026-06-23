@@ -8,33 +8,33 @@
             "game_id": "2025-ev-26",
             "position": "Attack",
             "salary": 45,
-            "mc_ev": 37.0,
-            "mc_p90": 59.6,
+            "mc_ev": 34.9,
+            "mc_p90": 58.0,
             "actualPoints": 12.0
         },
         {
             "firstName": "Connor",
-            "lastName": "Fields",
+            "lastName": "Shellenberger",
+            "team": "ATL",
+            "opponent": "CAN",
+            "game_id": "2025-ev-23",
+            "position": "Attack",
+            "salary": 42,
+            "mc_ev": 34.5,
+            "mc_p90": 76.9,
+            "actualPoints": 70.0
+        },
+        {
+            "firstName": "Brett",
+            "lastName": "Dobson",
             "team": "ARC",
             "opponent": "WAT",
             "game_id": "2025-ev-24",
-            "position": "Attack",
-            "salary": 39,
-            "mc_ev": 35.1,
-            "mc_p90": 60.6,
-            "actualPoints": -5.0
-        },
-        {
-            "firstName": "Emmet",
-            "lastName": "Carroll",
-            "team": "WHP",
-            "opponent": "OUT",
-            "game_id": "2025-ev-26",
             "position": "Goalie",
-            "salary": 40,
-            "mc_ev": 30.7,
-            "mc_p90": 49.4,
-            "actualPoints": 40.0
+            "salary": 41,
+            "mc_ev": 32.8,
+            "mc_p90": 50.3,
+            "actualPoints": 35.0
         },
         {
             "firstName": "Dalton",
@@ -45,32 +45,20 @@
             "position": "Midfield",
             "salary": 21,
             "mc_ev": 20.9,
-            "mc_p90": 48.5,
+            "mc_p90": 42.7,
             "actualPoints": -1.0
         },
         {
-            "firstName": "Grant",
-            "lastName": "Ament",
+            "firstName": "Tre",
+            "lastName": "Leclaire",
             "team": "ARC",
             "opponent": "WAT",
             "game_id": "2025-ev-24",
             "position": "Midfield",
-            "salary": 12,
-            "mc_ev": 19.4,
-            "mc_p90": 43.0,
-            "actualPoints": 39.0
-        },
-        {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
-            "team": "ATL",
-            "opponent": "CAN",
-            "game_id": "2025-ev-23",
-            "position": "Faceoff",
-            "salary": 35,
-            "mc_ev": 19.3,
-            "mc_p90": 35.5,
-            "actualPoints": 17.6
+            "salary": 10,
+            "mc_ev": 20.3,
+            "mc_p90": 47.5,
+            "actualPoints": 23.0
         },
         {
             "firstName": "Matt",
@@ -80,9 +68,21 @@
             "game_id": "2025-ev-24",
             "position": "Defense",
             "salary": 6,
-            "mc_ev": 18.1,
-            "mc_p90": 42.5,
+            "mc_ev": 19.0,
+            "mc_p90": 44.6,
             "actualPoints": 0.0
+        },
+        {
+            "firstName": "Joseph",
+            "lastName": "Nardella",
+            "team": "WHP",
+            "opponent": "OUT",
+            "game_id": "2025-ev-26",
+            "position": "Faceoff",
+            "salary": 28,
+            "mc_ev": 18.7,
+            "mc_p90": 30.1,
+            "actualPoints": 22.8
         }
     ],
     "MC_Win_160": [
@@ -94,81 +94,81 @@
             "game_id": "2025-ev-26",
             "position": "Attack",
             "salary": 45,
-            "mc_ev": 37.0,
-            "mc_p90": 59.6,
+            "mc_ev": 34.9,
+            "mc_p90": 58.0,
             "actualPoints": 12.0
         },
         {
             "firstName": "Connor",
-            "lastName": "Fields",
-            "team": "ARC",
-            "opponent": "WAT",
-            "game_id": "2025-ev-24",
-            "position": "Attack",
-            "salary": 39,
-            "mc_ev": 35.1,
-            "mc_p90": 60.6,
-            "actualPoints": -5.0
-        },
-        {
-            "firstName": "Emmet",
-            "lastName": "Carroll",
-            "team": "WHP",
-            "opponent": "OUT",
-            "game_id": "2025-ev-26",
-            "position": "Goalie",
-            "salary": 40,
-            "mc_ev": 30.7,
-            "mc_p90": 49.4,
-            "actualPoints": 40.0
-        },
-        {
-            "firstName": "Dalton",
-            "lastName": "Young",
-            "team": "OUT",
-            "opponent": "WHP",
-            "game_id": "2025-ev-26",
-            "position": "Midfield",
-            "salary": 21,
-            "mc_ev": 20.9,
-            "mc_p90": 48.5,
-            "actualPoints": -1.0
-        },
-        {
-            "firstName": "Mic",
-            "lastName": "Kelly",
-            "team": "CAN",
-            "opponent": "ATL",
-            "game_id": "2025-ev-23",
-            "position": "Midfield",
-            "salary": 14,
-            "mc_ev": 19.2,
-            "mc_p90": 39.9,
-            "actualPoints": 5.0
-        },
-        {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
+            "lastName": "Shellenberger",
             "team": "ATL",
             "opponent": "CAN",
             "game_id": "2025-ev-23",
-            "position": "Faceoff",
-            "salary": 35,
-            "mc_ev": 19.3,
-            "mc_p90": 35.5,
-            "actualPoints": 17.6
+            "position": "Attack",
+            "salary": 42,
+            "mc_ev": 34.5,
+            "mc_p90": 76.9,
+            "actualPoints": 70.0
         },
         {
-            "firstName": "Matt",
-            "lastName": "Whitcher",
+            "firstName": "Brett",
+            "lastName": "Dobson",
+            "team": "ARC",
+            "opponent": "WAT",
+            "game_id": "2025-ev-24",
+            "position": "Goalie",
+            "salary": 41,
+            "mc_ev": 32.8,
+            "mc_p90": 50.3,
+            "actualPoints": 35.0
+        },
+        {
+            "firstName": "Jack",
+            "lastName": "Hannah",
             "team": "WAT",
             "opponent": "ARC",
             "game_id": "2025-ev-24",
+            "position": "Midfield",
+            "salary": 27,
+            "mc_ev": 20.6,
+            "mc_p90": 56.3,
+            "actualPoints": 14.0
+        },
+        {
+            "firstName": "Tre",
+            "lastName": "Leclaire",
+            "team": "ARC",
+            "opponent": "WAT",
+            "game_id": "2025-ev-24",
+            "position": "Midfield",
+            "salary": 10,
+            "mc_ev": 20.3,
+            "mc_p90": 47.5,
+            "actualPoints": 23.0
+        },
+        {
+            "firstName": "Michael",
+            "lastName": "Rexrode",
+            "team": "ATL",
+            "opponent": "CAN",
+            "game_id": "2025-ev-23",
             "position": "Defense",
-            "salary": 6,
-            "mc_ev": 18.1,
-            "mc_p90": 42.5,
-            "actualPoints": 0.0
+            "salary": 4,
+            "mc_ev": 17.8,
+            "mc_p90": 35.9,
+            "actualPoints": 11.0
+        },
+        {
+            "firstName": "Joseph",
+            "lastName": "Nardella",
+            "team": "WHP",
+            "opponent": "OUT",
+            "game_id": "2025-ev-26",
+            "position": "Faceoff",
+            "salary": 28,
+            "mc_ev": 18.7,
+            "mc_p90": 30.1,
+            "actualPoints": 22.8
         }
     ],
     "MC_Win_180": [
@@ -180,33 +180,33 @@
             "game_id": "2025-ev-26",
             "position": "Attack",
             "salary": 45,
-            "mc_ev": 37.0,
-            "mc_p90": 59.6,
+            "mc_ev": 34.9,
+            "mc_p90": 58.0,
             "actualPoints": 12.0
         },
         {
             "firstName": "Connor",
-            "lastName": "Fields",
+            "lastName": "Shellenberger",
+            "team": "ATL",
+            "opponent": "CAN",
+            "game_id": "2025-ev-23",
+            "position": "Attack",
+            "salary": 42,
+            "mc_ev": 34.5,
+            "mc_p90": 76.9,
+            "actualPoints": 70.0
+        },
+        {
+            "firstName": "Brett",
+            "lastName": "Dobson",
             "team": "ARC",
             "opponent": "WAT",
             "game_id": "2025-ev-24",
-            "position": "Attack",
-            "salary": 39,
-            "mc_ev": 35.1,
-            "mc_p90": 60.6,
-            "actualPoints": -5.0
-        },
-        {
-            "firstName": "Emmet",
-            "lastName": "Carroll",
-            "team": "WHP",
-            "opponent": "OUT",
-            "game_id": "2025-ev-26",
             "position": "Goalie",
-            "salary": 40,
-            "mc_ev": 30.7,
-            "mc_p90": 49.4,
-            "actualPoints": 40.0
+            "salary": 41,
+            "mc_ev": 32.8,
+            "mc_p90": 50.3,
+            "actualPoints": 35.0
         },
         {
             "firstName": "Dalton",
@@ -217,7 +217,7 @@
             "position": "Midfield",
             "salary": 21,
             "mc_ev": 20.9,
-            "mc_p90": 48.5,
+            "mc_p90": 42.7,
             "actualPoints": -1.0
         },
         {
@@ -228,21 +228,9 @@
             "game_id": "2025-ev-24",
             "position": "Midfield",
             "salary": 10,
-            "mc_ev": 19.3,
-            "mc_p90": 43.5,
+            "mc_ev": 20.3,
+            "mc_p90": 47.5,
             "actualPoints": 23.0
-        },
-        {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
-            "team": "ATL",
-            "opponent": "CAN",
-            "game_id": "2025-ev-23",
-            "position": "Faceoff",
-            "salary": 35,
-            "mc_ev": 19.3,
-            "mc_p90": 35.5,
-            "actualPoints": 17.6
         },
         {
             "firstName": "Matt",
@@ -252,47 +240,71 @@
             "game_id": "2025-ev-24",
             "position": "Defense",
             "salary": 6,
-            "mc_ev": 18.1,
-            "mc_p90": 42.5,
+            "mc_ev": 19.0,
+            "mc_p90": 44.6,
             "actualPoints": 0.0
+        },
+        {
+            "firstName": "Joseph",
+            "lastName": "Nardella",
+            "team": "WHP",
+            "opponent": "OUT",
+            "game_id": "2025-ev-26",
+            "position": "Faceoff",
+            "salary": 28,
+            "mc_ev": 18.7,
+            "mc_p90": 30.1,
+            "actualPoints": 22.8
         }
     ],
     "MC_Ceil_90": [
         {
-            "firstName": "Dylan",
-            "lastName": "Molloy",
-            "team": "RED",
-            "opponent": "CHA",
-            "game_id": "2025-ev-25",
+            "firstName": "Pat",
+            "lastName": "Kavanagh",
+            "team": "OUT",
+            "opponent": "WHP",
+            "game_id": "2025-ev-26",
             "position": "Attack",
-            "salary": 40,
+            "salary": 47,
+            "mc_ev": 33.5,
+            "mc_p90": 66.3,
+            "actualPoints": 44.0
+        },
+        {
+            "firstName": "Connor",
+            "lastName": "Shellenberger",
+            "team": "ATL",
+            "opponent": "CAN",
+            "game_id": "2025-ev-23",
+            "position": "Attack",
+            "salary": 42,
             "mc_ev": 34.5,
-            "mc_p90": 63.8,
-            "actualPoints": 18.0
+            "mc_p90": 76.9,
+            "actualPoints": 70.0
         },
         {
-            "firstName": "Josh",
-            "lastName": "Zawada",
-            "team": "CHA",
-            "opponent": "RED",
-            "game_id": "2025-ev-25",
-            "position": "Attack",
-            "salary": 15,
-            "mc_ev": 32.7,
-            "mc_p90": 55.0,
-            "actualPoints": 14.0
-        },
-        {
-            "firstName": "Blaze",
-            "lastName": "Riorden",
-            "team": "CHA",
-            "opponent": "RED",
-            "game_id": "2025-ev-25",
+            "firstName": "Brett",
+            "lastName": "Dobson",
+            "team": "ARC",
+            "opponent": "WAT",
+            "game_id": "2025-ev-24",
             "position": "Goalie",
-            "salary": 44,
-            "mc_ev": 30.7,
-            "mc_p90": 45.2,
-            "actualPoints": 48.0
+            "salary": 41,
+            "mc_ev": 32.8,
+            "mc_p90": 50.3,
+            "actualPoints": 35.0
+        },
+        {
+            "firstName": "Jack",
+            "lastName": "VanOverbeke",
+            "team": "OUT",
+            "opponent": "WHP",
+            "game_id": "2025-ev-26",
+            "position": "Midfield",
+            "salary": 4,
+            "mc_ev": 19.2,
+            "mc_p90": 66.3,
+            "actualPoints": -9.0
         },
         {
             "firstName": "Dalton",
@@ -303,32 +315,8 @@
             "position": "Midfield",
             "salary": 21,
             "mc_ev": 20.9,
-            "mc_p90": 48.5,
+            "mc_p90": 42.7,
             "actualPoints": -1.0
-        },
-        {
-            "firstName": "Connor",
-            "lastName": "Kelly",
-            "team": "WAT",
-            "opponent": "ARC",
-            "game_id": "2025-ev-24",
-            "position": "Midfield",
-            "salary": 12,
-            "mc_ev": 18.6,
-            "mc_p90": 52.5,
-            "actualPoints": 37.0
-        },
-        {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
-            "team": "ATL",
-            "opponent": "CAN",
-            "game_id": "2025-ev-23",
-            "position": "Faceoff",
-            "salary": 35,
-            "mc_ev": 19.3,
-            "mc_p90": 35.5,
-            "actualPoints": 17.6
         },
         {
             "firstName": "Matt",
@@ -338,9 +326,21 @@
             "game_id": "2025-ev-24",
             "position": "Defense",
             "salary": 6,
-            "mc_ev": 18.1,
-            "mc_p90": 42.5,
+            "mc_ev": 19.0,
+            "mc_p90": 44.6,
             "actualPoints": 0.0
+        },
+        {
+            "firstName": "Joseph",
+            "lastName": "Nardella",
+            "team": "WHP",
+            "opponent": "OUT",
+            "game_id": "2025-ev-26",
+            "position": "Faceoff",
+            "salary": 28,
+            "mc_ev": 18.7,
+            "mc_p90": 30.1,
+            "actualPoints": 22.8
         }
     ],
     "Coulda": [
@@ -352,8 +352,8 @@
             "game_id": "2025-ev-23",
             "position": "A",
             "salary": 42,
-            "mc_ev": 29.9,
-            "mc_p90": 74.6,
+            "mc_ev": 34.5,
+            "mc_p90": 76.9,
             "actualPoints": 70.0
         },
         {
@@ -364,8 +364,8 @@
             "game_id": "2025-ev-26",
             "position": "A",
             "salary": 37,
-            "mc_ev": 21.1,
-            "mc_p90": 38.6,
+            "mc_ev": 19.7,
+            "mc_p90": 32.7,
             "actualPoints": 62.0
         },
         {
@@ -376,8 +376,8 @@
             "game_id": "2025-ev-25",
             "position": "M",
             "salary": 18,
-            "mc_ev": 14.8,
-            "mc_p90": 30.4,
+            "mc_ev": 11.3,
+            "mc_p90": 24.4,
             "actualPoints": 46.0
         },
         {
@@ -388,8 +388,8 @@
             "game_id": "2025-ev-24",
             "position": "M",
             "salary": 12,
-            "mc_ev": 19.4,
-            "mc_p90": 43.0,
+            "mc_ev": 17.7,
+            "mc_p90": 39.8,
             "actualPoints": 39.0
         },
         {
@@ -400,8 +400,8 @@
             "game_id": "2025-ev-26",
             "position": "LSM",
             "salary": 25,
-            "mc_ev": 8.2,
-            "mc_p90": 18.6,
+            "mc_ev": 8.8,
+            "mc_p90": 20.9,
             "actualPoints": 45.0
         },
         {
@@ -412,8 +412,8 @@
             "game_id": "2025-ev-24",
             "position": "FO",
             "salary": 16,
-            "mc_ev": 16.4,
-            "mc_p90": 29.2,
+            "mc_ev": 16.9,
+            "mc_p90": 30.0,
             "actualPoints": 47.1
         },
         {
@@ -424,15 +424,17 @@
             "game_id": "2025-ev-26",
             "position": "G",
             "salary": 42,
-            "mc_ev": 30.4,
-            "mc_p90": 37.9,
+            "mc_ev": 28.3,
+            "mc_p90": 35.3,
             "actualPoints": 56.0
         }
     ],
     "Core": [
-        "Dalton Young",
-        "Trevor Baptiste",
-        "Matt Whitcher"
+        "Connor Shellenberger",
+        "Brett Dobson",
+        "Joseph Nardella"
     ],
-    "Sleepers": []
+    "Sleepers": [
+        "Jack VanOverbeke"
+    ]
 }

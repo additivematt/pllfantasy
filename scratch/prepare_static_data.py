@@ -163,15 +163,13 @@ def main():
 
     # 2. Setup predictions static directory
     predictions_root = os.path.join(PREDICTA_DIR, "predictions")
-    shutil.rmtree(predictions_root, ignore_errors=True)
     os.makedirs(predictions_root, exist_ok=True)
-    print(f"Created predictions root: {predictions_root}")
+    print(f"Predictions root: {predictions_root}")
 
     # 3. Setup advisory static directory
     advisory_root = os.path.join(PREDICTA_DIR, "advisory")
-    shutil.rmtree(advisory_root, ignore_errors=True)
     os.makedirs(advisory_root, exist_ok=True)
-    print(f"Created advisory root: {advisory_root}")
+    print(f"Advisory root: {advisory_root}")
 
     # 4. Scan and compile CSV predictions
     csv_pattern = os.path.join(SCRIPTS_DIR, "week*_predictions.csv")
@@ -187,6 +185,25 @@ def main():
             week = int(match.group(1))
             year = int(match.group(2))
             available_periods.append({"year": year, "week": week})
+
+            # Check if output is already up-to-date (incremental compile)
+            pred_out = os.path.join(predictions_root, str(year), str(week))
+            adv_out = os.path.join(advisory_root, str(year), str(week))
+            
+            src_files = [
+                filepath,
+                os.path.join(SCRIPTS_DIR, f"week{week}_{year}_predictions_regression.csv"),
+                os.path.join(SCRIPTS_DIR, f"week{week}_{year}_simulations.csv"),
+                os.path.join(SCRIPTS_DIR, f"season_matchups_{year}.json"),
+                os.path.join(SCRIPTS_DIR, f"f2p_{year}_season.json")
+            ]
+            
+            if os.path.exists(pred_out) and os.path.exists(adv_out):
+                t_out = min(os.path.getmtime(pred_out), os.path.getmtime(adv_out))
+                t_src = max(os.path.getmtime(f) for f in src_files if os.path.exists(f))
+                if t_out > t_src:
+                    print(f"  Skipping {year} Week {week} (Up-to-date)")
+                    continue
 
             reg_filepath = os.path.join(SCRIPTS_DIR, f"week{week}_{year}_predictions_regression.csv")
 
