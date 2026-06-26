@@ -1,0 +1,9 @@
+# Ignore compiled python files
+__pycache__/
+*.pyc
+
+# Ignore all CSV prediction and simulation files in predicta/predictions/
+predicta/predictions/*.csv
+
+# Ignore large temporary files
+*.log
