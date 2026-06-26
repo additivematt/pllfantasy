@@ -74,13 +74,13 @@ def get_week_for_event(event_id):
             elif game_num <= 12: return 3
             elif game_num <= 16: return 4
             elif game_num <= 19: return 5
-            elif game_num <= 23: return 6
-            elif game_num <= 27: return 7
-            elif game_num <= 31: return 8
-            elif game_num <= 36: return 9
-            elif game_num <= 41: return 10
-            elif game_num <= 45: return 11
-            elif game_num <= 48: return 12
+            elif game_num in (21, 22, 23, 24): return 6
+            elif game_num in (25, 26, 27, 28): return 7
+            elif game_num in (29, 30, 31, 32): return 8
+            elif game_num in (20, 33, 34, 35, 36): return 9
+            elif game_num in (37, 38, 39, 40, 41): return 10
+            elif game_num in (42, 43, 44, 45): return 11
+            elif game_num in (46, 47, 48): return 12
             
         if game_num <= 20:
             return math.ceil(game_num / 4)
@@ -97,4 +97,168 @@ def get_week_for_event(event_id):
             return math.ceil(normalized_num / 4) + 1
             
     return None
+
+def assign_position_group(pos):
+    """Merged position group used for tier assignment and model training.
+    SSDM, LSM, and Defensemen share the 'Defense' pool so boom thresholds
+    reflect all players competing for the same F2P roster slot."""
+    pos = str(pos).upper()
+    if pos in ["A", "ATTACK"]: return "Attack"
+    if pos in ["M", "MIDFIELD"]: return "Midfield"
+    if pos in ["SSDM", "LSM", "D", "DEFENSE", "DEFENSEMEN"]: return "Defense"
+    if pos in ["FO", "FACEOFF"]: return "Faceoff"
+    if pos in ["G", "GOALIE"]: return "Goalie"
+    return "Unknown"
+
+def assign_sub_position(pos):
+    """Granular sub-position used for opposition ratings and visualisation.
+    Keeps SSDM/LSM together and Defensemen separate within the Defense slot."""
+    pos = str(pos).upper()
+    if pos in ["A", "ATTACK"]: return "Attack"
+    if pos in ["M", "MIDFIELD"]: return "Midfield"
+    if pos in ["SSDM", "LSM"]: return "SSDM"
+    if pos in ["D", "DEFENSE", "DEFENSEMEN"]: return "Defensemen"
+    if pos in ["FO", "FACEOFF"]: return "Faceoff"
+    if pos in ["G", "GOALIE"]: return "Goalie"
+    return "Unknown"
+
+def calc_fantasy(s):
+    pts = (s.get("onePointGoals", 0) * 10 + s.get("twoPointGoals", 0) * 15 + s.get("assists", 0) * 7 + s.get("faceoffsWon", 0) * 0.8 + (s.get("faceoffs", 0) - s.get("faceoffsWon", 0)) * -0.5 + s.get("groundBalls", 0) + s.get("saves", 0) * 3 + s.get("causedTurnovers", 0) * 10)
+    if s.get("onePointGoals", 0) + s.get("twoPointGoals", 0) >= 3: pts += 5
+    if s.get("assists", 0) >= 3: pts += 5
+    if s.get("causedTurnovers", 0) >= 3: pts += 5
+    if s.get("saves", 0) >= 15: pts += 5
+    return pts
+
+def clean_name(name):
+    if not name:
+        return ""
+    return name.replace("'", "").replace("-", "").replace(".", "").replace(" ", "").lower()
+
+def get_standard_pos(pos):
+    pos = str(pos).upper().strip()
+    if pos in ['A', 'ATTACK']: return 'A'
+    if pos in ['M', 'MIDFIELD', 'MID']: return 'M'
+    if pos in ['D', 'DEFENSE', 'DEF', 'SSDM', 'LSM']: return 'D'
+    if pos in ['FO', 'FACEOFF']: return 'FO'
+    if pos in ['G', 'GOALIE']: return 'G'
+    return pos
+
+def run_mc_ev_optimizer(players, budget=200):
+    import pulp
+    prob = pulp.LpProblem("MC_EV_Optimizer", pulp.LpMaximize)
+    player_vars = {}
+    for i, p in enumerate(players):
+        player_vars[i] = pulp.LpVariable(f"x_{i}", cat='Binary')
+    prob += pulp.lpSum([p['sim_ev'] * player_vars[i] for i, p in enumerate(players)]), "Total_EV"
+    prob += pulp.lpSum([p['salary'] * player_vars[i] for i, p in enumerate(players)]) <= budget, "Budget"
+    pos_requirements = {'A': 2, 'M': 2, 'D': 1, 'FO': 1, 'G': 1}
+    for r_pos, count in pos_requirements.items():
+        prob += pulp.lpSum([
+            player_vars[i] for i, p in enumerate(players)
+            if get_standard_pos(p['positionGroup']) == r_pos
+        ]) == count, f"Count_{r_pos}"
+    prob.solve(pulp.PULP_CBC_CMD(msg=False))
+    if pulp.LpStatus[prob.status] == 'Optimal':
+        selected_indices = [i for i, var in player_vars.items() if pulp.value(var) == 1]
+        return [players[i] for i in selected_indices]
+    return None
+
+def generate_random_valid_lineup(players, budget=200):
+    import numpy as np
+    attackmen = [p for p in players if get_standard_pos(p['positionGroup']) == 'A']
+    midfielders = [p for p in players if get_standard_pos(p['positionGroup']) == 'M']
+    defenders = [p for p in players if get_standard_pos(p['positionGroup']) == 'D']
+    faceoffs = [p for p in players if get_standard_pos(p['positionGroup']) == 'FO']
+    goalies = [p for p in players if get_standard_pos(p['positionGroup']) == 'G']
+    
+    for _ in range(100):
+        selected = []
+        if len(attackmen) < 2: continue
+        selected.extend(np.random.choice(attackmen, size=2, replace=False))
+        if len(midfielders) < 2: continue
+        selected.extend(np.random.choice(midfielders, size=2, replace=False))
+        if len(defenders) < 1: continue
+        selected.append(np.random.choice(defenders))
+        if len(faceoffs) < 1: continue
+        selected.append(np.random.choice(faceoffs))
+        if len(goalies) < 1: continue
+        selected.append(np.random.choice(goalies))
+        
+        total_cost = sum(p['salary'] for p in selected)
+        if total_cost <= budget:
+            return selected
+    return None
+
+def evaluate_lineup_mc(lineup, sim_matrix, objective, target_win_score=165.0):
+    import numpy as np
+    indices = [p['sim_idx'] for p in lineup]
+    lineup_sim_scores = sim_matrix[:, indices].sum(axis=1)
+    if objective == 'MC_EV':
+        return np.mean(lineup_sim_scores)
+    elif objective == 'MC_Ceiling_90':
+        return np.percentile(lineup_sim_scores, 90)
+    elif objective == 'MC_Win_Prob':
+        return np.mean(lineup_sim_scores > target_win_score)
+    return 0.0
+
+def run_local_search(players, sim_matrix, objective, initial_lineup, budget=200, target_win_score=165.0, restarts=10):
+    best_lineup = list(initial_lineup)
+    best_val = evaluate_lineup_mc(best_lineup, sim_matrix, objective, target_win_score)
+    
+    for r in range(restarts):
+        if r == 0:
+            current_lineup = list(initial_lineup)
+        else:
+            current_lineup = generate_random_valid_lineup(players, budget)
+            if current_lineup is None:
+                continue
+                
+        current_val = evaluate_lineup_mc(current_lineup, sim_matrix, objective, target_win_score)
+        
+        improved = True
+        while improved:
+            improved = False
+            
+            pool_by_pos = {}
+            for p in players:
+                p_pos = get_standard_pos(p['positionGroup'])
+                pool_by_pos.setdefault(p_pos, []).append(p)
+                
+            for i in range(len(current_lineup)):
+                curr_player = current_lineup[i]
+                pos_group = get_standard_pos(curr_player['positionGroup'])
+                
+                best_swap_player = None
+                best_swap_val = current_val
+                
+                for candidate in pool_by_pos.get(pos_group, []):
+                    if candidate['sim_idx'] == curr_player['sim_idx']:
+                        continue
+                    if any(p['firstName'] == candidate['firstName'] and p['lastName'] == candidate['lastName'] for p in current_lineup):
+                        continue
+                        
+                    test_lineup = list(current_lineup)
+                    test_lineup[i] = candidate
+                    
+                    cost = sum(p['salary'] for p in test_lineup)
+                    if cost > budget:
+                        continue
+                        
+                    val = evaluate_lineup_mc(test_lineup, sim_matrix, objective, target_win_score)
+                    if val > best_swap_val:
+                        best_swap_val = val
+                        best_swap_player = candidate
+                        
+                if best_swap_player is not None:
+                    current_lineup[i] = best_swap_player
+                    current_val = best_swap_val
+                    improved = True
+                    
+        if current_val > best_val:
+            best_val = current_val
+            best_lineup = current_lineup
+            
+    return best_lineup
+
 

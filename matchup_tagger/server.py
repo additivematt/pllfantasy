@@ -13,7 +13,10 @@ import sys
 if SCRIPTS_DIR not in sys.path:
     sys.path.append(SCRIPTS_DIR)
 import extract_trial_data
-from optimize_weekly import load_historical_data, calculate_tier_averages
+import importlib
+opt_lineups = importlib.import_module("06_optimize_lineups")
+load_historical_data = opt_lineups.load_historical_data
+calculate_tier_averages = opt_lineups.calculate_tier_averages
 
 class Handler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
