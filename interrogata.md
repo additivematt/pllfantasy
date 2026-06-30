@@ -1,7 +1,7 @@
 # Player Stats Interrogator (interrogata)
 
 > [!NOTE]
-> **Design System**: All Interrogator UI development must follow the [styla.md](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/styla.md) guide (Electric Purple aesthetic).
+> **Design System**: All Interrogator UI development must follow the [styla.md](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/styla.md) guide (Electric Purple aesthetic).
 > **Hosted Address (Local)**: [http://localhost:8000/interrogata/](http://localhost:8000/interrogata/)
 > **Hosted Address (Public)**: [https://additivematt.github.io/pllfantasy/interrogata/](https://additivematt.github.io/pllfantasy/interrogata/) (GitHub Pages secure origin)
 
@@ -80,6 +80,6 @@ To enable data-driven fantasy decisions by visualizing a player's career traject
 ```
 
 ## Future Expansion
-- **Prediction Overlay**: Overlay projected points from the `predicta` pipeline onto the trend chart.
-- **League Averages**: Add a "League Average" baseline to the trend chart for position-based comparison.
-- **Venue Analytics**: Track performance based on venue type (Turf vs Grass) if available.
+
+> [!NOTE]
+> All improvement ideas are tracked centrally in [improva.md](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/improva.md). Do not add new improvement ideas to this file.

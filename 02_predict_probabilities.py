@@ -21,6 +21,7 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.calibration import CalibratedClassifierCV
 from sklearn.model_selection import KFold
 from utils import assign_position_group, assign_sub_position, calc_fantasy, clean_name
+from config import GAME_PACE_ENABLED
 from feature_engineering import (
     TEAM_NAME_TO_ID,
     FEATURE_LISTS,
@@ -32,7 +33,8 @@ from feature_engineering import (
     compute_defender_ratings,
     assign_tiers,
     filter_played_only,
-    get_historical_average_salary
+    get_historical_average_salary,
+    compute_game_pace_features
 )
 
 def quantile_obj(y_true, y_pred):
@@ -47,7 +49,18 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument("--year", type=int, required=True)
     p.add_argument("--week", type=int, required=True)
+    # Game pace toggle: defaults to config.GAME_PACE_ENABLED, overridable via CLI
+    pace_group = p.add_mutually_exclusive_group()
+    pace_group.add_argument("--pace-scale", action="store_true", default=None, help="Enable game pace scaling of GBDT features")
+    pace_group.add_argument("--no-pace-scale", action="store_true", default=None, help="Disable game pace scaling of GBDT features")
     args = p.parse_args()
+    # Resolve pace scaling: CLI overrides config toggle
+    if args.pace_scale:
+        args.use_pace_scale = True
+    elif args.no_pace_scale:
+        args.use_pace_scale = False
+    else:
+        args.use_pace_scale = GAME_PACE_ENABLED
     sDir = os.path.dirname(__file__)
     matchups, _ = parse_schedule(os.path.join(sDir, "pll-schedule.ics"), args.year, args.week)
     
@@ -76,6 +89,11 @@ def main():
         df_all = df_all[~((df_all["year"] == args.year) & (df_all["week"] >= args.week))]
     df_all = df_all.fillna(0)
 
+    # Compute rolling game pace features
+    df_all, test_pace_map, test_expected_goals, league_avg_pace, global_avg_goals = compute_game_pace_features(
+        df_all, matchups, args.year, args.week
+    )
+
     df_all = add_rolling_features(df_all)
     m_by_g = load_all_matchups(sDir)
     def_r, team_def, pair_r, pvst_r = compute_defender_ratings(df_all, m_by_g)
@@ -96,7 +114,13 @@ def main():
     if not df_all.empty:
         mf = df_all.apply(get_feats, axis=1, result_type='expand')
         df_all["pairing_rating"], df_all["opponent_rating"], df_all["player_vs_team_rating"], df_all["team_def_rating"] = mf[0], mf[1], mf[2], mf[3]
-    else: df_all["pairing_rating"], df_all["opponent_rating"], df_all["player_vs_team_rating"], df_all["team_def_rating"] = 1.0, 1.0, 1.0, 1.0
+        
+        # Scale matchup ratings by game pace (Option C) — gated by config.GAME_PACE_ENABLED
+        if args.use_pace_scale:
+            for col in ["pairing_rating", "opponent_rating", "player_vs_team_rating", "team_def_rating"]:
+                df_all[col] = df_all[col] * df_all["game_pace"]
+    else:
+        df_all["pairing_rating"], df_all["opponent_rating"], df_all["player_vs_team_rating"], df_all["team_def_rating"] = 1.0, 1.0, 1.0, 1.0
 
     def calc_player_avgs(grp):
         res = {
@@ -464,6 +488,13 @@ def main():
             t_df["pairing_rating"], t_df["opponent_rating"], t_df["player_vs_team_rating"], t_df["team_def_rating"] = tm[0], tm[1], tm[2], tm[3]
             test_rows.append(t_df)
     df_test = pd.concat(test_rows, ignore_index=True).fillna(1.0)
+
+    # Scale matchup ratings by game pace (Option C) — gated by config.GAME_PACE_ENABLED
+    df_test["expected_pace"] = df_test["game_id"].map(test_pace_map).fillna(24.0)
+    df_test["game_pace"] = df_test["expected_pace"] / league_avg_pace
+    if args.use_pace_scale:
+        for col in ["pairing_rating", "opponent_rating", "player_vs_team_rating", "team_def_rating"]:
+            df_test[col] = df_test[col] * df_test["game_pace"]
 
     df_train = df_all.dropna(subset=["TotalFantasyPoints"]).copy()
     df_train = filter_played_only(df_train)

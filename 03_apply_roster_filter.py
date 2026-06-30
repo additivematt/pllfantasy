@@ -4,6 +4,7 @@ import requests
 import json
 import pandas as pd
 import subprocess
+from config import API_TOKEN_ROSTER
 
 # 1. Clean player names for matching (remove spaces, quotes, hyphens, periods, case-insensitive)
 def clean_name(name):
@@ -17,7 +18,7 @@ def fetch_gameday_rosters(year, week):
     params = {"year": year, "week": week}
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-        "Authorization": "Bearer 2<b}_K/x8JU1mn/",
+        "Authorization": f"Bearer {API_TOKEN_ROSTER}",
         "content-type": "application/json",
         "authSource": "web"
     }
@@ -119,12 +120,11 @@ def main():
     args = parser.parse_args()
     
     script_dir = os.path.dirname(os.path.abspath(__file__))
+    predictions_dir = os.path.join(script_dir, "predicta", "predictions")
+    os.makedirs(predictions_dir, exist_ok=True)
     
-    class_raw = os.path.join(script_dir, f"week{args.week}_{args.year}_predictions_raw.csv")
-    reg_raw = os.path.join(script_dir, f"week{args.week}_{args.year}_predictions_regression_raw.csv")
-    
-    class_out = os.path.join(script_dir, f"week{args.week}_{args.year}_predictions.csv")
-    reg_out = os.path.join(script_dir, f"week{args.week}_{args.year}_predictions_regression.csv")
+    class_raw = os.path.join(predictions_dir, f"week{args.week}_{args.year}_predictions_raw.csv")
+    class_out = os.path.join(predictions_dir, f"week{args.week}_{args.year}_predictions.csv")
     
     # Get active rosters from API
     roster_items = fetch_gameday_rosters(args.year, args.week)
@@ -141,14 +141,10 @@ def main():
             import shutil
             shutil.copy2(class_raw, class_out)
             print(f"Copied {class_raw} to {class_out}")
-        if os.path.exists(reg_raw):
-            import shutil
-            shutil.copy2(reg_raw, reg_out)
-            print(f"Copied {reg_raw} to {reg_out}")
             
         # Run optimizer anyway with unfiltered data
         print("\nRegenerating advisory report on unfiltered data...")
-        subprocess.run(["python", "optimize_weekly.py", "--year", str(args.year), "--week", str(args.week)], cwd=script_dir, check=True)
+        subprocess.run(["python", "06_optimize_lineups.py", "--year", str(args.year), "--week", str(args.week)], cwd=script_dir, check=True)
         return
         
     # Map rosters: team_id -> list of player objects
@@ -177,11 +173,10 @@ def main():
                 
     # Filter predictions CSVs
     filter_csv(class_raw, class_out, api_rosters, team_matchups)
-    filter_csv(reg_raw, reg_out, api_rosters, team_matchups)
     
     # Regenerate advisory report and optimized lineups
-    print("\nRegenerating advisory report by running optimize_weekly.py...")
-    subprocess.run(["python", "optimize_weekly.py", "--year", str(args.year), "--week", str(args.week)], cwd=script_dir, check=True)
+    print("\nRegenerating advisory report by running 06_optimize_lineups.py...")
+    subprocess.run(["python", "06_optimize_lineups.py", "--year", str(args.year), "--week", str(args.week)], cwd=script_dir, check=True)
     print("\nSuccess! Rosters successfully filtered and optimization report updated.")
 
 if __name__ == "__main__":

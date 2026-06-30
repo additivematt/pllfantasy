@@ -1,0 +1,389 @@
+import json
+import os
+import pandas as pd
+import numpy as np
+import re
+from datetime import datetime, timezone
+from utils import assign_position_group, assign_sub_position, calc_fantasy, clean_name
+
+TEAM_NAME_TO_ID = {
+    "California Redwoods": "RED",
+    "Denver Outlaws": "OUT",
+    "Philadelphia Waterdogs": "WAT",
+    "Boston Cannons": "CAN",
+    "Maryland Whipsnakes": "WHP",
+    "New York Atlas": "ATL",
+    "Utah Archers": "ARC",
+    "Carolina Chaos": "CHA",
+}
+
+FEATURE_LISTS = {
+    "Attack":   ["fp_season_avg", "fp_last3_avg", "fp_lag1", "shots_season_avg", "shots_last3_avg", "assists_season_avg", "assists_last3_avg", "touches_season_avg", "touches_last3_avg", "shotPct_anomaly", "days_since_last_game", "team_faceoff_advantage", "pairing_rating", "opponent_rating", "player_vs_team_rating", "team_def_rating", "team_vacated_touch_share", "team_inactive_fp_avg", "opp_def_health", "opp_goalie_health"],
+    "Midfield": ["fp_season_avg", "fp_last3_avg", "fp_lag1", "shots_season_avg", "shots_last3_avg", "groundBalls_season_avg", "groundBalls_last3_avg", "touches_season_avg", "touches_last3_avg", "shotPct_anomaly", "days_since_last_game", "team_faceoff_advantage", "pairing_rating", "opponent_rating", "player_vs_team_rating", "team_def_rating", "team_vacated_touch_share", "team_inactive_fp_avg", "opp_ssdm_health"],
+    "Defense":  ["fp_season_avg", "fp_last3_avg", "fp_lag1", "groundBalls_season_avg", "groundBalls_last3_avg", "causedTurnovers_season_avg", "causedTurnovers_last3_avg", "days_since_last_game", "team_faceoff_advantage", "pairing_rating", "opponent_rating", "player_vs_team_rating", "team_def_rating"],
+    "Faceoff":  ["fp_season_avg", "fp_last3_avg", "fp_lag1", "faceoffsWon_season_avg", "faceoffsWon_last3_avg", "faceoffPct_season_avg", "faceoffPct_last3_avg", "days_since_last_game", "team_faceoff_advantage", "pairing_rating", "opponent_rating", "player_vs_team_rating", "team_def_rating"],
+    "Goalie":   ["fp_season_avg", "fp_last3_avg", "fp_lag1", "saves_season_avg", "saves_last3_avg", "days_since_last_game", "pairing_rating", "player_vs_team_rating", "team_def_rating"],
+}
+
+def load_stats_json(path):
+    yr_match = re.search(r'combined_player_stats_(\d{4})', path)
+    yr = int(yr_match.group(1)) if yr_match else None
+    with open(path, encoding="utf-8") as f: data = json.load(f)
+    rows = []
+    for p in data:
+        ident, stats, f2p, evt = p.get("identity", {}), p.get("stats", {}), p.get("f2p", {}), p.get("event", {})
+        is_dnp = p.get("isDNP", False)
+        if is_dnp:
+            fp = np.nan
+        else:
+            fp = f2p.get("totalPoints") if f2p.get("totalPoints") is not None else calc_fantasy(stats)
+        team = ident.get("team")
+        home, away = evt.get("homeTeam"), evt.get("awayTeam")
+        opponent = home if team == away else away
+        row = {"firstName": ident.get("firstName"), "lastName": ident.get("lastName"), "position": ident.get("position"), "team": team, "opponent": opponent, "eventId": evt.get("eventId"), "TotalFantasyPoints": fp, "week": p.get("week"), "year": yr, "startTime": evt.get("startTime", 0), "isDNP": is_dnp}
+        if not is_dnp:
+            for k, v in stats.items(): row[k] = v
+        rows.append(row)
+    df = pd.DataFrame(rows)
+    df["positionGroup"] = df["position"].apply(assign_position_group)
+    df["subPosition"] = df["position"].apply(assign_sub_position)
+    return df
+
+def load_all_players_stats(path, target_year, target_week):
+    """Load from consolidated all_players_stats.json, including DNP rows.
+    Excludes rows from target_year >= target_week to prevent data leakage."""
+    with open(path, encoding="utf-8") as f: data = json.load(f)
+    rows = []
+    for slug, p_data in data.items():
+        for entry in p_data.get("stats", []):
+            ident = entry.get("identity", {})
+            stats = entry.get("stats", {})
+            f2p = entry.get("f2p", {})
+            evt = entry.get("event", {})
+            e_id = evt.get("eventId", "")
+            yr_match = re.search(r'^(\d{4})_', e_id)
+            yr = int(yr_match.group(1)) if yr_match else None
+            w = entry.get("week")
+            if yr == target_year and w is not None and w >= target_week:
+                continue
+            is_dnp = entry.get("isDNP", False)
+            if is_dnp:
+                fp = np.nan
+            else:
+                fp = f2p.get("totalPoints") if f2p.get("totalPoints") is not None else calc_fantasy(stats)
+            team = ident.get("team")
+            home, away = evt.get("homeTeam"), evt.get("awayTeam")
+            opponent = home if team == away else away
+            row = {"firstName": ident.get("firstName"), "lastName": ident.get("lastName"), "position": ident.get("position"), "team": team, "opponent": opponent, "eventId": e_id, "TotalFantasyPoints": fp, "week": w, "year": yr, "startTime": float(evt.get("startTime", 0)), "isDNP": is_dnp}
+            if not is_dnp:
+                for k, v in stats.items(): row[k] = v
+            rows.append(row)
+    df = pd.DataFrame(rows)
+    df["positionGroup"] = df["position"].apply(assign_position_group)
+    df["subPosition"] = df["position"].apply(assign_sub_position)
+    return df
+
+def parse_schedule(ics_path, year, week_number):
+    with open(ics_path, encoding="utf-8") as f: text = f.read()
+    blocks = re.findall(r"BEGIN:VEVENT(.*?)END:VEVENT", text, re.DOTALL)
+    games = []
+    for b in blocks:
+        def field(n):
+            m = re.search(rf"^{n}:(.+)$", b, re.MULTILINE)
+            return m.group(1).strip() if m else ""
+        url, dts = field("URL"), field("DTSTART")
+        if f"{year}-ev-" not in url: continue
+        try: dt = datetime.strptime(dts, "%Y%m%dT%H%M%SZ").replace(tzinfo=timezone.utc)
+        except: continue
+        games.append({"summary": field("SUMMARY"), "url": url, "dt": dt, "iso_week": dt.isocalendar()[1]})
+    if not games: return [], []
+    u_weeks = sorted(set(g["iso_week"] for g in games))
+    w_map = {w: i+1 for i, w in enumerate(u_weeks)}
+    w_games = [g for g in games if w_map[g["iso_week"]] == week_number]
+    matchups = []
+    for g in w_games:
+        m = re.search(r"^(.+?) vs (.+)$", g["summary"])
+        if not m: continue
+        tA, tB = m.group(1).strip(), m.group(2).strip()
+        matchups.append({"game_id": re.search(r"(\d{4}-ev-\d+)$", g["url"]).group(1), "team_a": TEAM_NAME_TO_ID.get(tA, tA), "team_b": TEAM_NAME_TO_ID.get(tB, tB), "team_a_name": tA, "team_b_name": tB, "startTime": g["dt"].timestamp()})
+    return matchups, u_weeks
+
+def compute_game_pace_features(df_all, target_matchups, target_year, target_week):
+    """Computes expected pace and goals using rolling team histories prior to target week/year."""
+    game_stats = {}
+    for eventId, grp in df_all.groupby("eventId"):
+        if grp.empty: continue
+        start_time = grp["startTime"].iloc[0]
+        active = grp[grp["isDNP"] != True]
+        teams = active["team"].dropna().unique()
+        if len(teams) != 2:
+            continue
+        t1, t2 = teams[0], teams[1]
+        
+        # Sum goals scored by players on each team in this event
+        g1 = active[active["team"] == t1][["onePointGoals", "twoPointGoals"]].fillna(0).sum(axis=1).sum()
+        g2 = active[active["team"] == t2][["onePointGoals", "twoPointGoals"]].fillna(0).sum(axis=1).sum()
+        
+        game_stats[eventId] = {
+            "eventId": eventId,
+            "startTime": start_time,
+            "team_a": t1,
+            "team_b": t2,
+            "goals_a": g1,
+            "goals_b": g2
+        }
+        
+    all_team_goals = []
+    for g in game_stats.values():
+        all_team_goals.extend([g["goals_a"], g["goals_b"]])
+    global_avg_goals = np.mean(all_team_goals) if all_team_goals else 12.0
+    
+    def get_team_rolling_goals(team, before_time):
+        prior = [g for g in game_stats.values() if g["startTime"] < before_time and (g["team_a"] == team or g["team_b"] == team)]
+        prior = sorted(prior, key=lambda x: x["startTime"])[-10:] # last 10 games
+        
+        scored = []
+        allowed = []
+        for g in prior:
+            if g["team_a"] == team:
+                scored.append(g["goals_a"])
+                allowed.append(g["goals_b"])
+            else:
+                scored.append(g["goals_b"])
+                allowed.append(g["goals_a"])
+                
+        avg_scored = np.mean(scored) if len(scored) >= 3 else global_avg_goals
+        avg_allowed = np.mean(allowed) if len(allowed) >= 3 else global_avg_goals
+        return avg_scored, avg_allowed
+
+    # Calculate expected pace for historical games
+    expected_paces = {}
+    expected_goals_team = {}
+    for eventId, g in game_stats.items():
+        st = g["startTime"]
+        tA = g["team_a"]
+        tB = g["team_b"]
+        
+        avg_s_A, avg_a_A = get_team_rolling_goals(tA, st)
+        avg_s_B, avg_a_B = get_team_rolling_goals(tB, st)
+        
+        exp_s_A = (avg_s_A + avg_a_B) / 2.0
+        exp_s_B = (avg_s_B + avg_a_A) / 2.0
+        
+        expected_paces[eventId] = exp_s_A + exp_s_B
+        expected_goals_team[(eventId, tA)] = exp_s_A
+        expected_goals_team[(eventId, tB)] = exp_s_B
+        
+    all_exp_paces = list(expected_paces.values())
+    league_avg_pace = np.mean(all_exp_paces) if all_exp_paces else 24.0
+    
+    # Map to training df_all
+    df_all["expected_pace"] = df_all["eventId"].map(expected_paces).fillna(league_avg_pace)
+    df_all["game_pace"] = df_all["expected_pace"] / league_avg_pace
+    df_all["team_expected_goals"] = df_all.apply(lambda r: expected_goals_team.get((r["eventId"], r["team"]), global_avg_goals), axis=1)
+    df_all["opp_expected_goals"] = df_all.apply(lambda r: expected_goals_team.get((r["eventId"], r["opponent"]), global_avg_goals), axis=1)
+    
+    # Map to target week matchups (test set)
+    test_pace_map = {}
+    test_expected_goals = {}
+    for m in target_matchups:
+        gid = m["game_id"]
+        tA = m["team_a"]
+        tB = m["team_b"]
+        st = m.get("startTime") or 9e9
+        
+        avg_s_A, avg_a_A = get_team_rolling_goals(tA, st)
+        avg_s_B, avg_a_B = get_team_rolling_goals(tB, st)
+        
+        exp_s_A = (avg_s_A + avg_a_B) / 2.0
+        exp_s_B = (avg_s_B + avg_a_A) / 2.0
+        exp_pace = exp_s_A + exp_s_B
+        
+        test_pace_map[gid] = exp_pace
+        test_expected_goals[(gid, tA)] = exp_s_A
+        test_expected_goals[(gid, tB)] = exp_s_B
+        
+    return df_all, test_pace_map, test_expected_goals, league_avg_pace, global_avg_goals
+
+def add_rolling_features(df):
+    df = df.sort_values(["firstName", "lastName", "startTime"])
+    
+    if "startTime" in df.columns:
+        df["startTime"] = pd.to_numeric(df["startTime"], errors="coerce")
+        df["days_since_last_game"] = df.groupby(["firstName", "lastName"])["startTime"].diff() / 86400.0
+        df["days_since_last_game"] = df["days_since_last_game"].fillna(7.0)
+    else:
+        df["days_since_last_game"] = 7.0
+
+    cols = ["shots", "groundBalls", "saves", "faceoffsWon", "assists", "causedTurnovers", "touches", "shotPct"]
+    for c in cols:
+        if c not in df.columns: df[c] = np.nan
+        df[f"{c}_season_avg"] = df.groupby(["firstName", "lastName"])[c].transform(lambda x: x.expanding().mean().shift(1))
+        df[f"{c}_last3_avg"] = df.groupby(["firstName", "lastName"])[c].transform(lambda x: x.rolling(3, min_periods=1).mean().shift(1))
+    
+    df["fp_season_avg"] = df.groupby(["firstName", "lastName"])["TotalFantasyPoints"].transform(lambda x: x.expanding().mean().shift(1))
+    df["fp_last3_avg"] = df.groupby(["firstName", "lastName"])["TotalFantasyPoints"].transform(lambda x: x.rolling(3, min_periods=1).mean().shift(1))
+    df["fp_lag1"] = df.groupby(["firstName", "lastName"])["TotalFantasyPoints"].shift(1)
+    
+    df["shotPct_anomaly"] = df["shotPct_last3_avg"] - df["shotPct_season_avg"]
+    
+    if "faceoffs" in df.columns and "faceoffsWon" in df.columns:
+        df["faceoffPct"] = df["faceoffsWon"] / df["faceoffs"].replace(0, np.nan)
+        df["faceoffPct_season_avg"] = df.groupby(["firstName", "lastName"])["faceoffPct"].transform(lambda x: x.expanding().mean().shift(1))
+        df["faceoffPct_last3_avg"] = df.groupby(["firstName", "lastName"])["faceoffPct"].transform(lambda x: x.rolling(3, min_periods=1).mean().shift(1))
+        
+        fo_df = df[df["isDNP"] != True].copy() if "isDNP" in df.columns else df.copy()
+        team_fo = fo_df.groupby(["eventId", "team", "startTime"], as_index=False)[["faceoffsWon", "faceoffs"]].sum()
+        team_fo = team_fo.sort_values(["team", "startTime"])
+        team_fo["team_foPct"] = team_fo["faceoffsWon"] / team_fo["faceoffs"].replace(0, np.nan)
+        team_fo["team_foPct_season_avg"] = team_fo.groupby("team")["team_foPct"].transform(lambda x: x.expanding().mean().shift(1))
+        
+        df = df.merge(team_fo[["eventId", "team", "team_foPct_season_avg"]], on=["eventId", "team"], how="left")
+        opp_fo = team_fo[["eventId", "team", "team_foPct_season_avg"]].rename(columns={"team": "opponent", "team_foPct_season_avg": "opp_foPct_season_avg"})
+        df = df.merge(opp_fo, on=["eventId", "opponent"], how="left")
+        
+        df["team_foPct_season_avg"] = df["team_foPct_season_avg"].fillna(0.5)
+        df["opp_foPct_season_avg"] = df["opp_foPct_season_avg"].fillna(0.5)
+        df["team_faceoff_advantage"] = df["team_foPct_season_avg"] - df["opp_foPct_season_avg"]
+    else:
+        df["team_faceoff_advantage"] = 0.0
+
+    # Roster injury features
+    df["player_exp_touches"] = df["touches_season_avg"].fillna(0.0)
+    df["is_dnp"] = (df.get("isDNP", False) == True).astype(float) if "isDNP" in df.columns else 0.0
+    df["dnp_touches_contrib"] = df["player_exp_touches"] * df["is_dnp"]
+    df["dnp_fp_contrib"] = df["fp_season_avg"].fillna(0.0) * df["is_dnp"]
+    df["dnp_fp_count"] = df["is_dnp"]
+    
+    team_inj = df.groupby(["eventId", "team"], as_index=False).agg(
+        total_exp_touches=("player_exp_touches", "sum"),
+        total_dnp_touches=("dnp_touches_contrib", "sum"),
+        total_dnp_fp=("dnp_fp_contrib", "sum"),
+        total_dnp_count=("dnp_fp_count", "sum")
+    )
+    team_inj["team_vacated_touch_share"] = team_inj["total_dnp_touches"] / team_inj["total_exp_touches"].replace(0, np.nan)
+    team_inj["team_vacated_touch_share"] = team_inj["team_vacated_touch_share"].fillna(0.0)
+    team_inj["team_inactive_fp_avg"] = team_inj["total_dnp_fp"] / team_inj["total_dnp_count"].replace(0, np.nan)
+    team_inj["team_inactive_fp_avg"] = team_inj["team_inactive_fp_avg"].fillna(0.0)
+    df = df.merge(team_inj[["eventId", "team", "team_vacated_touch_share", "team_inactive_fp_avg"]], on=["eventId", "team"], how="left")
+    df["team_vacated_touch_share"] = df["team_vacated_touch_share"].fillna(0.0)
+    df["team_inactive_fp_avg"] = df["team_inactive_fp_avg"].fillna(0.0)
+
+    df["is_active_ssdm"] = np.where((df.get("subPosition", "") == "SSDM") & (df["is_dnp"] == 0.0), 1.0, 0.0) if "subPosition" in df.columns else 0.0
+    df["is_active_def"] = np.where((df.get("subPosition", "") == "Defensemen") & (df["is_dnp"] == 0.0), 1.0, 0.0) if "subPosition" in df.columns else 0.0
+
+    game_def = df.groupby(["eventId", "team", "startTime"], as_index=False).agg(
+        active_ssdm=("is_active_ssdm", "sum"),
+        active_def=("is_active_def", "sum")
+    )
+    game_def = game_def.sort_values(["team", "startTime"])
+    game_def["ssdm_avg"] = game_def.groupby("team")["active_ssdm"].transform(lambda x: x.expanding().mean().shift(1))
+    game_def["def_avg"] = game_def.groupby("team")["active_def"].transform(lambda x: x.expanding().mean().shift(1))
+    game_def["team_ssdm_health"] = np.minimum(1.0, game_def["active_ssdm"] / game_def["ssdm_avg"].replace(0, np.nan))
+    game_def["team_def_health_idx"] = np.minimum(1.0, game_def["active_def"] / game_def["def_avg"].replace(0, np.nan))
+    game_def["team_ssdm_health"] = game_def["team_ssdm_health"].fillna(1.0)
+    game_def["team_def_health_idx"] = game_def["team_def_health_idx"].fillna(1.0)
+    
+    df = df.merge(game_def[["eventId", "team", "team_ssdm_health", "team_def_health_idx"]], on=["eventId", "team"], how="left")
+    opp_def = game_def[["eventId", "team", "team_ssdm_health", "team_def_health_idx"]].rename(
+        columns={"team": "opponent", "team_ssdm_health": "opp_ssdm_health", "team_def_health_idx": "opp_def_health"}
+    )
+    df = df.merge(opp_def, on=["eventId", "opponent"], how="left")
+    df["opp_ssdm_health"] = df["opp_ssdm_health"].fillna(1.0)
+    df["opp_def_health"] = df["opp_def_health"].fillna(1.0)
+
+    # Opponent Goalie Health
+    goalies = df[df.get("subPosition", pd.Series(dtype=str)) == "Goalie"].copy() if "subPosition" in df.columns else pd.DataFrame()
+    if not goalies.empty:
+        goalies["starter_score"] = goalies["fp_season_avg"].fillna(0.0)
+        idx_starters = goalies.groupby(["eventId", "team"])["starter_score"].idxmax()
+        starters = goalies.loc[idx_starters, ["eventId", "team", "firstName", "lastName"]].rename(
+            columns={"firstName": "g_first", "lastName": "g_last"}
+        )
+        goalies = goalies.merge(starters, on=["eventId", "team"], how="left")
+        goalies["is_starter_active"] = np.where(
+            (goalies["firstName"] == goalies["g_first"]) & (goalies["lastName"] == goalies["g_last"]) & (goalies["is_dnp"] == 0.0), 1.0, 0.0
+        )
+        goalie_health = goalies.groupby(["eventId", "team"])["is_starter_active"].max().reset_index()
+        goalie_health = goalie_health.rename(columns={"team": "opponent", "is_starter_active": "opp_goalie_health"})
+        df = df.merge(goalie_health, on=["eventId", "opponent"], how="left")
+    else:
+        df["opp_goalie_health"] = 1.0
+    df["opp_goalie_health"] = df["opp_goalie_health"].fillna(1.0)
+
+    df = df.drop(columns=["player_exp_touches", "is_dnp", "dnp_touches_contrib", "dnp_fp_contrib", "dnp_fp_count", "is_active_ssdm", "is_active_def"], errors="ignore")
+    return df
+
+def load_all_matchups(script_dir):
+    all_m = {}
+    for yr in range(2023, 2027):
+        p = os.path.join(script_dir, f"season_matchups_{yr}.json")
+        if os.path.exists(p):
+            with open(p, encoding="utf-8") as f: all_m.update(json.load(f))
+    return all_m
+
+def compute_defender_ratings(df_all, matchups_by_game):
+    p_avgs = df_all.groupby(["firstName", "lastName"])["TotalFantasyPoints"].mean().to_dict()
+    m_res = []
+    for gid, gdata in matchups_by_game.items():
+        ms = gdata.get("matchups", [])
+        grows = df_all[df_all["eventId"] == gid]
+        if grows.empty: continue
+        for m in ms:
+            pA, pB = m["playerA"], m["playerB"]
+            rA = grows[(grows["firstName"] + " " + grows["lastName"]) == pA]
+            rB = grows[(grows["firstName"] + " " + grows["lastName"]) == pB]
+            if not rA.empty and not rB.empty:
+                rA, rB = rA.iloc[0], rB.iloc[0]
+                def add(oN, dN, oR, dR):
+                    oAvg = p_avgs.get(tuple(oN.split(" ", 1)), 0)
+                    if oAvg > 5: m_res.append({"off_name": oN, "defender": dN, "def_team": dR["team"], "off_pos": oR["positionGroup"], "ratio": oR["TotalFantasyPoints"] / oAvg})
+                add(pA, pB, rA, rB); add(pB, pA, rB, rA)
+    
+    dfB = df_all.copy()
+    a_df = pd.DataFrame([{"firstName": k[0], "lastName": k[1], "p_avg": v} for k, v in p_avgs.items()])
+    dfB = dfB.merge(a_df, on=["firstName", "lastName"], how="left")
+    dfB = dfB[dfB["p_avg"] > 5].copy()
+    dfB["ratio"] = dfB["TotalFantasyPoints"] / dfB["p_avg"]
+    team_def = dfB.groupby(["opponent", "subPosition"])["ratio"].mean().to_dict()
+    p_vs_t = dfB.groupby(["firstName", "lastName", "opponent"])["ratio"].mean().to_dict()
+    p_vs_t = {((k[0], k[1]), k[2]): v for k, v in p_vs_t.items()}
+    def_r, pair_r = {}, {}
+    if m_res:
+        df_res = pd.DataFrame(m_res)
+        def_r = df_res.groupby("defender")["ratio"].mean().to_dict()
+        pair_r = df_res.groupby(["off_name", "defender"])["ratio"].mean().to_dict()
+    return def_r, team_def, pair_r, p_vs_t
+
+def assign_tiers(s):
+    q25, q75 = s.quantile(0.25), s.quantile(0.75)
+    return pd.cut(s, bins=[-np.inf, q25, q75, np.inf], labels=["Bust", "Average", "Boom"])
+
+def filter_played_only(df):
+    if df.empty:
+        return df
+    is_active = (df["isDNP"] != True) & df["TotalFantasyPoints"].notna()
+    is_goalie = (df["positionGroup"] == "Goalie")
+    saves = df["saves"] if "saves" in df.columns else 0
+    ga = df["goalsAgainst"] if "goalsAgainst" in df.columns else 0
+    fp = df["TotalFantasyPoints"] if "TotalFantasyPoints" in df.columns else 0
+    goalie_played = (saves > 0) | (ga > 0) | (fp > 0)
+    played = (~is_goalie & is_active) | (is_goalie & is_active & goalie_played)
+    return df[played].copy()
+
+def get_historical_average_salary(first, last, current_year, s_dir):
+    sals = []
+    for yr in range(current_year - 1, 2023, -1):
+        path = os.path.join(s_dir, f"combined_player_stats_{yr}.json")
+        if os.path.exists(path):
+            with open(path, encoding="utf-8") as f_yr:
+                data_yr = json.load(f_yr)
+            for p_yr in data_yr:
+                ident_yr = p_yr.get("identity", {})
+                if ident_yr.get("firstName") == first and ident_yr.get("lastName") == last:
+                    sal_yr = p_yr.get("f2p", {}).get("salary", 0)
+                    if sal_yr and sal_yr > 0:
+                        sals.append(sal_yr)
+            if sals:
+                break
+    return sum(sals) / len(sals) if sals else None
