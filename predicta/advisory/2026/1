@@ -73,16 +73,16 @@
             "actualPoints": 76.0
         },
         {
-            "firstName": "Jimmy",
-            "lastName": "Freehill",
+            "firstName": "Marcus",
+            "lastName": "Hudgins",
             "team": "WAT",
             "opponent": "WHP",
             "game_id": "2026-ev-4",
             "position": "Defense",
-            "salary": 16,
-            "mc_ev": 16.3,
-            "mc_p90": 28.2,
-            "actualPoints": 0.0
+            "salary": 15,
+            "mc_ev": 15.4,
+            "mc_p90": 52.2,
+            "actualPoints": 12.0
         }
     ],
     "MC_Win_160": [
@@ -159,16 +159,16 @@
             "actualPoints": 40.0
         },
         {
-            "firstName": "Jimmy",
-            "lastName": "Freehill",
+            "firstName": "Marcus",
+            "lastName": "Hudgins",
             "team": "WAT",
             "opponent": "WHP",
             "game_id": "2026-ev-4",
             "position": "Defense",
-            "salary": 16,
-            "mc_ev": 16.3,
-            "mc_p90": 28.2,
-            "actualPoints": 0.0
+            "salary": 15,
+            "mc_ev": 15.4,
+            "mc_p90": 52.2,
+            "actualPoints": 12.0
         }
     ],
     "MC_Win_180": [
@@ -197,16 +197,16 @@
             "actualPoints": 32.0
         },
         {
-            "firstName": "Emmet",
-            "lastName": "Carroll",
-            "team": "WHP",
-            "opponent": "WAT",
+            "firstName": "Matt",
+            "lastName": "DeLuca",
+            "team": "WAT",
+            "opponent": "WHP",
             "game_id": "2026-ev-4",
             "position": "Goalie",
-            "salary": 44,
-            "mc_ev": 29.6,
-            "mc_p90": 35.6,
-            "actualPoints": 13.0
+            "salary": 26,
+            "mc_ev": 29.3,
+            "mc_p90": 60.6,
+            "actualPoints": 35.0
         },
         {
             "firstName": "Brad",
@@ -245,16 +245,16 @@
             "actualPoints": 76.0
         },
         {
-            "firstName": "Jimmy",
-            "lastName": "Freehill",
+            "firstName": "Marcus",
+            "lastName": "Hudgins",
             "team": "WAT",
             "opponent": "WHP",
             "game_id": "2026-ev-4",
             "position": "Defense",
-            "salary": 16,
-            "mc_ev": 16.3,
-            "mc_p90": 28.2,
-            "actualPoints": 0.0
+            "salary": 15,
+            "mc_ev": 15.4,
+            "mc_p90": 52.2,
+            "actualPoints": 12.0
         }
     ],
     "MC_Ceil_90": [
@@ -338,8 +338,8 @@
             "game_id": "2026-ev-3",
             "position": "Defense",
             "salary": 9,
-            "mc_ev": 15.3,
-            "mc_p90": 55.8,
+            "mc_ev": 15.1,
+            "mc_p90": 55.4,
             "actualPoints": 22.0
         }
     ],
@@ -400,8 +400,8 @@
             "game_id": "2026-ev-3",
             "position": "D",
             "salary": 3,
-            "mc_ev": 11.0,
-            "mc_p90": 25.4,
+            "mc_ev": 11.5,
+            "mc_p90": 26.5,
             "actualPoints": 59.0
         },
         {
@@ -438,7 +438,7 @@
         "Brendan Lavelle"
     ],
     "RecommendedStrategy": "MC_Win_160",
-    "RecommendedReason": "Stars & Scrubs slate (4 games, 45 cheap value players). Optimizing for variance with MC Win 160 is best.",
+    "RecommendedReason": "Stars & Scrubs slate (4 games, 44 cheap value players). Optimizing for variance with MC Win 160 is best.",
     "Narrative": {
         "RecommendedRoster": [
             {
@@ -501,13 +501,12 @@
                 ]
             },
             {
-                "firstName": "Jimmy",
-                "lastName": "Freehill",
+                "firstName": "Marcus",
+                "lastName": "Hudgins",
                 "position": "Defense",
-                "salary": 16,
+                "salary": 15,
                 "bullets": [
-                    "Hot Form: Averaging 27.0 fantasy pts over last 3 games (vs 14.2 season avg).",
-                    "Matchup Specialist: Historically performs well against WHP (1.20x average scoring rate)."
+                    "Matchup Specialist: Historically performs well against WHP (1.72x average scoring rate)."
                 ]
             }
         ],
@@ -527,12 +526,14 @@
                 "strategy": "MC_Win_180",
                 "strategyLabel": "MC Win 180",
                 "in": [
+                    "Matt DeLuca",
                     "Levi Anderson"
                 ],
                 "out": [
+                    "Emmet Carroll",
                     "Jack Hannah"
                 ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Levi Anderson (Midfield, 10c)) to increase the joint probability of the entire lineup hitting the 180 target score."
+                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Matt DeLuca (Goalie, 26c), Levi Anderson (Midfield, 10c)) to increase the joint probability of the entire lineup hitting the 180 target score."
             },
             {
                 "strategy": "MC_Ceil_90",
@@ -547,7 +548,7 @@
                     "Sam King",
                     "Emmet Carroll",
                     "Jack Hannah",
-                    "Jimmy Freehill"
+                    "Marcus Hudgins"
                 ],
                 "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Kieran McArdle (Attack, 35c), Matt DeLuca (Goalie, 26c), Levi Anderson (Midfield, 10c), Brendan Lavelle (Defense, 9c)) to maximize the team's 90th percentile ceiling (projecting up to 66.3 pts)."
             }
