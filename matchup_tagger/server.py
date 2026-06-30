@@ -27,19 +27,33 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         clean_path = self.path.split('?')[0]
 
         # 0a. Serve dynamic predictions endpoints (within pllpredicta scope or fallback)
-        if clean_path in ['/predictions/available', '/pllpredicta/predictions/available']:
+        if clean_path in ['/predictions/available', '/pllpredicta/predictions/available', '/predicta/predictions/available']:
+            # Check for statically compiled available file first
+            static_path = os.path.join(SCRIPTS_DIR, 'predicta', 'predictions', 'available')
+            if os.path.exists(static_path):
+                self.send_response(200)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                with open(static_path, 'rb') as f:
+                    self.wfile.write(f.read())
+                return
+
             import glob
             import re
-            pattern = os.path.join(SCRIPTS_DIR, "week*_predictions.csv")
-            files = glob.glob(pattern)
+            files = glob.glob(os.path.join(SCRIPTS_DIR, "week*_predictions.csv"))
+            files += glob.glob(os.path.join(SCRIPTS_DIR, "predicta", "predictions", "week*_predictions.csv"))
             available = []
+            seen = set()
             for filepath in files:
                 filename = os.path.basename(filepath)
                 match = re.match(r"week(\d+)_(\d+)_predictions\.csv", filename)
                 if match:
                     week = int(match.group(1))
                     year = int(match.group(2))
-                    available.append({"year": year, "week": week})
+                    period = (year, week)
+                    if period not in seen:
+                        seen.add(period)
+                        available.append({"year": year, "week": week})
             
             # Sort chronologically (year desc, week desc)
             available.sort(key=lambda x: (x['year'], x['week']), reverse=True)
@@ -50,10 +64,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self.wfile.write(json.dumps(available).encode('utf-8'))
             return
 
-        if clean_path.startswith('/predictions/') or clean_path.startswith('/pllpredicta/predictions/'):
-            # Format: /predictions/2026/2 or /pllpredicta/predictions/2026/2
+        if clean_path.startswith('/predictions/') or clean_path.startswith('/pllpredicta/predictions/') or clean_path.startswith('/predicta/predictions/'):
+            # Format: /predictions/2026/2 or /pllpredicta/predictions/2026/2 or /predicta/predictions/2026/2
             parts = [p for p in clean_path.split('/') if p]
-            if parts and parts[0] == 'pllpredicta':
+            if parts and parts[0] in ['pllpredicta', 'predicta']:
                 parts = parts[1:]
             if len(parts) >= 3:
                 year, week = parts[1], parts[2]
@@ -174,10 +188,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 return
 
         # 0c. Serve dynamic advisory endpoints for optimized lineups
-        if clean_path.startswith('/advisory/') or clean_path.startswith('/pllpredicta/advisory/'):
-            # Format: /advisory/2026/2 or /pllpredicta/advisory/2026/2
+        if clean_path.startswith('/advisory/') or clean_path.startswith('/pllpredicta/advisory/') or clean_path.startswith('/predicta/advisory/'):
+            # Format: /advisory/2026/2 or /pllpredicta/advisory/2026/2 or /predicta/advisory/2026/2
             parts = [p for p in clean_path.split('/') if p]
-            if parts and parts[0] == 'pllpredicta':
+            if parts and parts[0] in ['pllpredicta', 'predicta']:
                 parts = parts[1:]
             if len(parts) >= 3:
                 year_str, week_str = parts[1], parts[2]
@@ -375,8 +389,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             return self.serve_file(filepath)
 
         # 1. Serve Predicta UI files
-        if clean_path.startswith('/pllpredicta/'):
-            sub_path = clean_path.replace('/pllpredicta/', '')
+        if clean_path.startswith('/pllpredicta/') or clean_path.startswith('/predicta/'):
+            sub_path = clean_path.replace('/pllpredicta/', '').replace('/predicta/', '')
             # Try new folder name 'predicta' first, then fallback to 'predicta_ui'
             filepath = os.path.join(SCRIPTS_DIR, 'predicta', sub_path.lstrip('/'))
             if not os.path.exists(filepath) and not filepath.endswith('index.html'):

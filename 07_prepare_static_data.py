@@ -30,6 +30,109 @@ def get_standard_pos(pos):
     if pos in ['G', 'GOALIE']: return 'G'
     return pos
 
+def generate_roster_insights(df_class, adv_response):
+    rec_strategy = adv_response.get("RecommendedStrategy", "MC_EV")
+    rec_roster = adv_response.get(rec_strategy, [])
+    
+    # 1. Recommended Roster Insights
+    recommended_insights = []
+    for p in rec_roster:
+        fname = p["firstName"]
+        lname = p["lastName"]
+        pos = p["position"]
+        opp = p["opponent"]
+        salary = p["salary"]
+        mc_ev = p["mc_ev"]
+        mc_p90 = p["mc_p90"]
+        
+        # Look up in df_class
+        lookup = df_class[(df_class["firstName"] == fname) & (df_class["lastName"] == lname)]
+        if lookup.empty:
+            continue
+        row = lookup.iloc[0]
+        
+        bullets = []
+        
+        # Form check
+        fp_last3 = row.get("fp_last3_avg", 0.0)
+        fp_season = row.get("fp_season_avg", 0.0)
+        if pd.notna(fp_last3) and pd.notna(fp_season):
+            if fp_season > 0.0 and fp_last3 > fp_season * 1.15:
+                bullets.append(f"Hot Form: Averaging {fp_last3:.1f} fantasy pts over last 3 games (vs {fp_season:.1f} season avg).")
+            elif fp_season == 0.0:
+                bullets.append("Returning Sleeper: Returning or debuting player with low salary cap cost.")
+        
+        # Matchup check
+        p_vs_t = row.get("player_vs_team_rating", 1.0)
+        if pd.notna(p_vs_t) and p_vs_t > 1.15:
+            bullets.append(f"Matchup Specialist: Historically performs well against {opp} ({p_vs_t:.2f}x average scoring rate).")
+            
+        t_def = row.get("team_def_rating", 1.0)
+        sub_pos = row.get("subPosition", pos)
+        if pd.notna(t_def) and t_def > 1.05:
+            pct_extra = (t_def - 1.0) * 100.0
+            bullets.append(f"Opponent Weakness: {opp} defense allows {pct_extra:.0f}% extra fantasy points to {sub_pos} position.")
+            
+        # Value check
+        if salary <= 12 and mc_ev >= 15.0:
+            bullets.append(f"Salary Cap Enabler: Excellent cost efficiency, projecting {mc_ev:.1f} EV for just {salary} coins.")
+            
+        # Default fallback bullet if none triggered
+        if not bullets:
+            bullets.append(f"Consistent Pick: Selected for steady expected floor ({mc_ev:.1f} EV) and reliable role.")
+            
+        recommended_insights.append({
+            "firstName": fname,
+            "lastName": lname,
+            "position": pos,
+            "salary": salary,
+            "bullets": bullets
+        })
+        
+    # 2. Roster Swaps / Variants
+    variants = []
+    for alt_strategy in ["MC_EV", "MC_Win_160", "MC_Win_180", "MC_Ceil_90"]:
+        if alt_strategy == rec_strategy:
+            continue
+        alt_roster = adv_response.get(alt_strategy, [])
+        if not alt_roster:
+            continue
+            
+        rec_names = set(f"{p['firstName']} {p['lastName']}" for p in rec_roster)
+        alt_names = set(f"{p['firstName']} {p['lastName']}" for p in alt_roster)
+        
+        in_players = [p for p in alt_roster if f"{p['firstName']} {p['lastName']}" not in rec_names]
+        out_players = [p for p in rec_roster if f"{p['firstName']} {p['lastName']}" not in alt_names]
+        
+        if not in_players:
+            continue
+            
+        in_str = ", ".join(f"{p['firstName']} {p['lastName']} ({p['position']}, {p['salary']}c)" for p in in_players)
+        out_str = ", ".join(f"{p['firstName']} {p['lastName']}" for p in out_players)
+        
+        rationale = ""
+        if alt_strategy == "MC_Ceil_90":
+            max_in_ceil = max(p.get("mc_p90", 0.0) for p in in_players)
+            rationale = f"Swaps out lower-ceiling floor plays for high-upside players (like {in_str}) to maximize the team's 90th percentile ceiling (projecting up to {max_in_ceil:.1f} pts)."
+        elif "MC_Win_" in alt_strategy:
+            target_val = alt_strategy.split("_")[-1]
+            rationale = f"Swaps out high-variance sleepers for higher-floor consistent stars (like {in_str}) to increase the joint probability of the entire lineup hitting the {target_val} target score."
+        elif alt_strategy == "MC_EV":
+            rationale = f"Optimizes strictly for the highest average expected points (mean floor) rather than variance or win probability."
+            
+        variants.append({
+            "strategy": alt_strategy,
+            "strategyLabel": alt_strategy.replace("_", " "),
+            "in": [f"{p['firstName']} {p['lastName']}" for p in in_players],
+            "out": [f"{p['firstName']} {p['lastName']}" for p in out_players],
+            "rationale": rationale
+        })
+        
+    return {
+        "RecommendedRoster": recommended_insights,
+        "Variants": variants
+    }
+
 def run_mc_ev_optimizer(players, budget=200):
     prob = pulp.LpProblem("MC_EV_Optimizer", pulp.LpMaximize)
     player_vars = {}
@@ -674,6 +777,12 @@ def main():
                     else:
                         adv_response["RecommendedStrategy"] = "MC_Win_160"
                         adv_response["RecommendedReason"] = f"Stars & Scrubs slate ({slate_size} games, {cheap_value_count} cheap value players). Optimizing for variance with MC Win 160 is best."
+                    
+                    # Generate dynamic narrative insights
+                    try:
+                        adv_response["Narrative"] = generate_roster_insights(df_class, adv_response)
+                    except Exception as e_narrative:
+                        print(f"  Warning: Failed to generate roster narrative: {e_narrative}")
                     
                     adv_year_dir = os.path.join(advisory_root, str(year))
                     os.makedirs(adv_year_dir, exist_ok=True)

@@ -378,6 +378,113 @@ function renderAdvisor(advisoryData) {
             sleeperContainer.innerHTML = '<span class="muted-text">No sleepers found.</span>';
         }
     }
+
+    // 2.5 Render Roster Insights Narrative
+    const insightsSection = document.getElementById('roster-insights-section');
+    const insightsContainer = document.getElementById('roster-insights-container');
+    if (insightsSection && insightsContainer) {
+        insightsContainer.innerHTML = '';
+        if (advisoryData.Narrative) {
+            insightsSection.style.display = 'block';
+            const insights = advisoryData.Narrative;
+            
+            const containerDiv = document.createElement('div');
+            containerDiv.className = 'insights-container';
+            
+            // Render Recommended Roster Insights
+            if (insights.RecommendedRoster && insights.RecommendedRoster.length > 0) {
+                insights.RecommendedRoster.forEach(p => {
+                    const card = document.createElement('div');
+                    card.className = 'insight-card';
+                    
+                    const header = document.createElement('div');
+                    header.className = 'insight-player-header';
+                    
+                    const name = document.createElement('span');
+                    name.className = 'insight-player-name';
+                    name.textContent = `${p.firstName} ${p.lastName}`;
+                    name.title = "Click to highlight on chart";
+                    name.onclick = () => {
+                        const lookup = window.currentPredictions ? window.currentPredictions.find(pr => pr.firstName === p.firstName && pr.lastName === p.lastName) : null;
+                        const subPos = lookup ? lookup.subPosition : 'Attack';
+                        highlightPlayerInPlot(subPos, p.firstName, p.lastName);
+                    };
+                    
+                    const meta = document.createElement('span');
+                    meta.className = 'insight-player-meta';
+                    meta.textContent = `${p.position} | ${p.salary}c`;
+                    
+                    header.appendChild(name);
+                    header.appendChild(meta);
+                    
+                    const bullets = document.createElement('ul');
+                    bullets.className = 'insight-bullets';
+                    p.bullets.forEach(b => {
+                        const li = document.createElement('li');
+                        if (b.includes(":")) {
+                            const index = b.indexOf(":");
+                            const tag = b.substring(0, index);
+                            const rest = b.substring(index);
+                            li.innerHTML = `<strong>${tag}</strong>${rest}`;
+                        } else {
+                            li.textContent = b;
+                        }
+                        bullets.appendChild(li);
+                    });
+                    
+                    card.appendChild(header);
+                    card.appendChild(bullets);
+                    containerDiv.appendChild(card);
+                });
+            }
+            
+            // Render Variants/Swaps
+            if (insights.Variants && insights.Variants.length > 0) {
+                const subHeader = document.createElement('h3');
+                subHeader.style.marginTop = '1.5rem';
+                subHeader.style.marginBottom = '0.75rem';
+                subHeader.textContent = 'ROSTER VARIANTS & SWAPS';
+                containerDiv.appendChild(subHeader);
+                
+                insights.Variants.forEach(v => {
+                    const card = document.createElement('div');
+                    card.className = 'insight-swap-card';
+                    
+                    const header = document.createElement('div');
+                    header.className = 'insight-swap-header';
+                    header.textContent = v.strategyLabel;
+                    
+                    const players = document.createElement('div');
+                    players.className = 'insight-swap-players';
+                    
+                    const inSpan = document.createElement('span');
+                    inSpan.className = 'swap-in';
+                    inSpan.textContent = `+ ${v.in.join(', ')}`;
+                    
+                    const outSpan = document.createElement('span');
+                    outSpan.className = 'swap-out';
+                    outSpan.textContent = `- ${v.out.join(', ')}`;
+                    
+                    players.appendChild(inSpan);
+                    players.appendChild(document.createElement('br'));
+                    players.appendChild(outSpan);
+                    
+                    const rationale = document.createElement('p');
+                    rationale.className = 'insight-swap-rationale';
+                    rationale.textContent = v.rationale;
+                    
+                    card.appendChild(header);
+                    card.appendChild(players);
+                    card.appendChild(rationale);
+                    containerDiv.appendChild(card);
+                });
+            }
+            
+            insightsContainer.appendChild(containerDiv);
+        } else {
+            insightsSection.style.display = 'none';
+        }
+    }
     
     // 3. Render Roster
     renderRoster(activeRosterTab);
