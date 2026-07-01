@@ -12,47 +12,45 @@ All improvement ideas, including feature proposals, architectural refactors, sim
 
 ## Target Success Criteria & Evaluation Baseline
 To ensure that changes are mathematically sound and do not degrade model performance:
-- **Baseline Metric**: The table below defines the official baseline backtest metrics established on **30 June 2026** by running predictions and simulations freshly and evaluating them with the harness.
+- **Baseline Metric**: The table below defines the official baseline backtest metrics established on **1 July 2026** (Baseline 1, Leak-Free) by running predictions and simulations freshly and evaluating them with the harness.
 
-  > [!NOTE]
-  > The roster CSV files associated with these baseline results are stored in the [baselines/](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/baselines/) directory, using the format `rosters_mc_<strategy>_20260630.csv`.
+### Baseline 1 (Leak-Free) Evaluation Results (1 July 2026)
 
-### Baseline Evaluation Results (30 June 2026)
-
-Established under a leakage-free chronological backtest utilizing fresh pipeline predictions and 10,000 Monte Carlo trials on the corrected doubleheader database.
+Established under the optimal configuration (Game Pace Scaling enabled, Correlation Copula enabled, 0.05 Recency decay) using fresh predictions and 10,000 Monte Carlo trials on the corrected doubleheader database, with ALL data leakage sources completely eliminated.
 
 | Season | Strategy | Total Score | Coulda Max | Ceiling % |
 |---|---|---|---|---|
-| 2025 | MC_EV         | 1875.4      | 4679.1     | 40.1     % |
-| 2026 | MC_EV         | 715.8       | 1841.3     | 38.9     % |
-| 2025 | MC_Ceiling_90 | 1768.8      | 4679.1     | 37.8     % |
-| 2026 | MC_Ceiling_90 | 768.7       | 1841.3     | 41.7     % |
-| 2025 | MC_Win_160    | 1977.6      | 4679.1     | 42.3     % |
-| 2026 | MC_Win_160    | 663.2       | 1841.3     | 36.0     % |
-| 2025 | MC_Win_180    | 1996.0      | 4679.1     | 42.7     % |
-| 2026 | MC_Win_180    | 670.3       | 1841.3     | 36.4     % |
-
-### Baseline 7 Evaluation Results (30 June 2026 - Game Pace Enabled)
-
-Established under the optimal configuration (Game Pace Scaling enabled, Correlation Copula enabled, 0.05 Recency decay) using fresh predictions and 10,000 Monte Carlo trials on the corrected doubleheader database.
-
-  > [!NOTE]
-  > The roster CSV files associated with these optimal baseline results are stored in the [baselines/](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/baselines/) directory, using the format `rosters_mc_<strategy>_20260630_pace.csv`.
-
-| Season | Strategy | Total Score | Coulda Max | Ceiling % |
-|---|---|---|---|---|
-| 2025 | MC_EV         | 2227.2      | 4679.1     | 47.6     % |
-| 2026 | MC_EV         | 745.3       | 1841.3     | 40.5     % |
-| 2025 | MC_Ceiling_90 | 1900.0      | 4679.1     | 40.6     % |
-| 2026 | MC_Ceiling_90 | 633.3       | 1841.3     | 34.4     % |
-| 2025 | MC_Win_160    | 2253.3      | 4679.1     | 48.2     % |
-| 2026 | MC_Win_160    | 726.6       | 1841.3     | 39.5     % |
-| 2025 | MC_Win_180    | 2174.4      | 4679.1     | 46.5     % |
-| 2026 | MC_Win_180    | 741.3       | 1841.3     | 40.3     % |
-
+| 2025 | MC_EV | 2168.1 | 4679.1 | 46.3% |
+| 2026 | MC_EV | 781.2 | 1841.3 | 42.4% |
 
 - **Target Threshold**: A proposed feature or logic change will be accepted if it demonstrates a statistically significant improvement over these baselines (paired t-test p-value < 0.05) without increasing runtimes by more than 20%, or if it fixes a critical code health issue without degrading performance.
 - **RNG Reproducibility**: All backtests must run under a fixed random seed to ensure comparison consistency.
+
+---
+
+## Recommended Priority Order (Accuracy Improvements)
+The following items represent the highest-impact improvements for **prediction accuracy**, ordered by priority. Item 27 (data leakage elimination) is the **mandatory prerequisite** — all other improvements must be tested on a leak-free pipeline.
+
+
+2. **Item 28: Bayesian Shrinkage on Matchup Rating Features**
+   * *Aims to Fix*: Extreme matchup rating fluctuations (up to 2.5×) for low-sample size player-defender pairs (1–3 games).
+   * *Testability*: Can be enabled/disabled using a single boolean flag in the config (e.g., `config.SHRINKAGE_ENABLED`) and comparing backtest scores.
+   * *Status*: Proposed. A/B test individually against leak-free baseline.
+
+3. **Item 29: Exponentially-Weighted Moving Average (EWMA) Rolling Features**
+   * *Aims to Fix*: Capture transition form smoothly (half-life of 4 games) instead of slow career-average or noisy 3-game rolling features.
+   * *Testability*: Easily compared by adding/removing `"fp_ewma_4"` from the position feature list configs.
+   * *Status*: Proposed. A/B test individually against leak-free baseline.
+
+4. **Item 30: Dual Regressors or Multi-Quantile Forecasts**
+   * *Aims to Fix*: The regressor's `PredictedPoints` currently models the p90 ceiling, which systematically over-predicts actual points and cannot be used directly as the MC simulator's EV anchor (Item 26).
+   * *Testability*: Easily testable by training a separate `alpha=0.5` regressor (median/EV) or standard MSE regressor alongside the classification model and toggling its integration.
+   * *Status*: Proposed.
+
+5. **Item 9: Market Consensus (Salary as a Feature)**
+   * *Aims to Fix*: Anchors regression projections using normalized player salary as a consensus market signal.
+   * *Testability*: Toggleable via `config.SALARY_AS_FEATURE`.
+   * *Status*: Proposed.
 
 ---
 
@@ -61,84 +59,24 @@ Established under the optimal configuration (Game Pace Scaling enabled, Correlat
 To track historical performance changes and maintain auditability across key milestones, we document each baseline iteration below. All active roster files are stored in the [baselines/](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/baselines/) directory.
 
 > [!WARNING]
-> **Historic Baselines (1 through 5) Note on Trustworthiness:**
-> The absolute scores recorded in Baselines 1 through 5 cannot be trusted for direct comparison due to two major system issues discovered on **30 June 2026**:
-> 1. **Pipeline Stale File Bug**: The master backtest runner `scratch/run_full_pipeline_backtest.py` omitted the roster filter step `03_apply_roster_filter.py`. Because of this, it never copied raw prediction output into the final prediction files, causing the Monte Carlo simulation and optimization steps to run on stale predictions from previous executions. This caused several comparative runs (e.g. Baseline 4 and 5) to yield identical 681.8 point scores for 2026 despite using different config settings.
-> 2. **Database Schema/Data Correction Shift**: Doubleheader salary and stats corrections were merged into the 2026 JSON databases on June 27 (commit `c738f0f`). This modified historical player game ratings and evaluation scores, making Baseline 1 and 2 (recorded on June 25/26) obsolete for comparative t-tests.
->
-> All explicit scores for Baselines 1–5 have been removed to prevent comparison errors.
+> **Historic Baselines Compromised:**
+> All previous baselines (formerly Baselines 1 through 8) have been removed from this document. They were fundamentally compromised by a combination of pipeline bugs (stale file retention), database corrections (doubleheaders), and several sources of data leakage (including future-leaking matchup ratings, non-chronological cross-validation, and full-season tier thresholds). The baseline below represents the first truly clean, leak-free reference point (established 1 July 2026). All future A/B testing must compare against this standard.
 
-### Baseline 1 (Initial Baseline — 25 June 2026)
-- **Changes / Description**: Initial model baseline using the original, un-refactored pipeline. Monte Carlo simulations were unseeded (non-deterministic).
-- **Status**: ⚠️ *Scores removed due to uncorrected doubleheader database and stale file pipeline bug.*
+### Baseline 1 (Leak-Free — 1 July 2026)
+- **Changes / Description**: The first completely clean baseline after resolving all 6 data leakage sources (Item 27a-27f). All future-leaking components have been replaced with chronologically expanding windows or strict target-year guards. Game pace scaling, correlation copula, and recency decay remain enabled as per the optimal configuration.
+- **Performance Summary**:
 
-### Baseline 2 (Tier 1 Refactored Baseline — 26 June 2026)
-- **Changes / Description**: Implemented Tier 1 Refactoring (consolidated features, configs, secrets, utilities). Seeded the Monte Carlo simulator (`--seed 42`) and unified local search restarts to 10.
-- **Status**: ⚠️ *Scores removed due to uncorrected doubleheader database and stale file pipeline bug.*
+  | Season | Strategy | Total Score | Coulda Max | Ceiling % |
+  |---|---|---|---|---|
+  | 2025 | MC_EV | 2168.1 | 4679.1 | 46.3% |
+  | 2026 | MC_EV | 781.2 | 1841.3 | 42.4% |
 
-### Baseline 3 (Opponent-Stratified Bootstrap — 28 June 2026)
-- **Changes / Description**: Implemented Opponent-Stratified Bootstrap using a Gaussian similarity kernel.
-- **Status**: ⚠️ *Scores removed due to stale file pipeline bug.*
-
-### Baseline 4 (Opponent-Stratified Bootstrap & Game Pace — 28 June 2026)
-- **Changes / Description**: Combined Game Pace and Opponent-Stratified Bootstrap.
-- **Status**: ⚠️ *Scores removed due to stale file pipeline bug.*
-
-### Baseline 5 (Game Pace & Uniform Bootstrap Backtest — 28 June 2026)
-- **Changes / Description**: Evaluated GBDT Game Pace + standard Uniform Bootstrap.
-- **Status**: ⚠️ *Scores removed due to stale file pipeline bug.*
-
-### Baseline 6 (Official New Baseline — 30 June 2026)
-- **Changes / Description**: Game Pace disabled by default via config toggle (`config.GAME_PACE_ENABLED = False`), opponent-stratified bootstrap disabled/rolled back. Verified on the corrected doubleheader database with the fixed `run_full_pipeline_backtest.py` script (which now correctly executes `03_apply_roster_filter.py`).
-- **Roster Reference**:
-  - [rosters_mc_ev_20260630.csv](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/baselines/rosters_mc_ev_20260630.csv)
-  - [rosters_mc_ceil_90_20260630.csv](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/baselines/rosters_mc_ceil_90_20260630.csv)
-  - [rosters_mc_win_160_20260630.csv](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/baselines/rosters_mc_win_160_20260630.csv)
-  - [rosters_mc_win_180_20260630.csv](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/baselines/rosters_mc_win_180_20260630.csv)
-- **Performance Summary**: Reference scores established in the [Baseline Evaluation Results](#baseline-evaluation-results-30-june-2026) table.
-
-
-### Subsequent Independent A/B Testing & Parameter Tuning (30 June 2026)
-Following the correction of the doubleheader database and the backtest runner script, we performed independent A/B tests on key config options against our new Baseline 6 (`nopace_corr`):
-
-#### 1. Game Pace Scaling (`--pace-scale`)
-* **Objective:** Enable game pace feature scaling (multiplying matchup ratings by team rolling expected goals).
-* **Results:**
-  * **2025 Season:** **2227.2 Pts** (+351.8 Pts vs. baseline, **p-value = 0.0071** — Statistically Significant!)
-  * **2026 Season:** **745.3 Pts** (+29.5 Pts vs. baseline, p-value = 0.7075 — Net Positive)
-* **Conclusion:** **MASSIVE WINNER.** The feature was previously believed to degrade scores, but that was an error caused by the stale predictions file pipeline bug. It is highly recommended to enable Game Pace Scaling.
-
-#### 2. Correlation Copula Disabled (`--no-correlation`)
-* **Objective:** Disable position-pair and team correlation copula structure in Monte Carlo draws (assuming player independent variance).
-* **Results:**
-  * **2025 Season:** **1885.8 Pts** (+10.4 Pts vs. baseline, p-value = 0.9004 — Neutral)
-  * **2026 Season:** **671.2 Pts** (-44.6 Pts vs. baseline, p-value = 0.1183 — Net Degradation)
-* **Conclusion:** **KEEP ENABLED.** Removing correlations leads to sub-optimal rosters in the 2026 active season, verifying that modeling position/team dependencies provides better lineup construction.
-
-#### 3. Uniform Bootstrap Recency (`LAMBDA_RECENCY = 0.0`)
-* **Objective:** Remove recency weighting on player historical bootstrap draws (giving equal probability to all past games).
-* **Results:**
-  * **2025 Season:** **1894.9 Pts** (+19.5 Pts vs. baseline, p-value = 0.6904 — Neutral)
-  * **2026 Season:** **662.8 Pts** (-53.0 Pts vs. baseline, p-value = 0.1747 — Net Degradation)
-* **Conclusion:** **KEEP RECENCY WEIGHTING ENABLED.** Uniform draws severely degrade results in the active season (-53.0 Pts in 2026), proving that recent form is critical for early-season projection accuracy.
-* *Note:* Also resolved a bug in `04_simulate_monte_carlo.py` where the recency decay weight was hardcoded to `0.05` instead of reading `LAMBDA_RECENCY` from `config.py`.
-
-#### 4. Ceiling Clamp Multiplier (`CEILING_CLAMP_MULTIPLIER = 1.15`)
-* **Objective:** Clamp simulated player scores at $1.15 \times$ their historical max.
-* **Results:**
-  * **2025/2026 Season:** **+0.0 Pts** (Identical to baseline)
-* **Conclusion:** **INACTIVE CODE.** Confirmed that the ceiling clamp logic was completely removed from the simulator during the Tier 1 Refactoring, so the config setting is currently inert.
-
-
-### Baseline 7 (Optimal Game Pace Enabled Baseline — 30 June 2026)
-- **Changes / Description**: Centralized config setting `config.GAME_PACE_ENABLED` set to `True` by default. This enables game pace scaling on top of the correlation copula and recency weight configurations from Baseline 6.
-- **Roster Reference**:
-  - [rosters_mc_ev_20260630_pace.csv](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/baselines/rosters_mc_ev_20260630_pace.csv)
-  - [rosters_mc_ceil_90_20260630_pace.csv](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/baselines/rosters_mc_ceil_90_20260630_pace.csv)
-  - [rosters_mc_win_160_20260630_pace.csv](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/baselines/rosters_mc_win_160_20260630_pace.csv)
-  - [rosters_mc_win_180_20260630_pace.csv](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/baselines/rosters_mc_win_180_20260630_pace.csv)
-- **Performance Summary**: Reference scores established in the [Baseline 7 Evaluation Results](#baseline-7-evaluation-results-30-june-2026---game-pace-enabled) table.
-
+- **Interpretation**: With leakage completely removed, the 2026 performance accurately reflects the model's true out-of-sample capability. 
+- **Testing Plan** (now proceeding to feature engineering):
+  1. **A/B test Item #28 (Bayesian Shrinkage) alone** against Baseline 1 — toggle \config.SHRINKAGE_ENABLED  2. **A/B test Item #29 (EWMA) alone** against Baseline 1 — add/remove \p_ewma_4\ from position feature lists
+  3. Keep whichever features improve scores, drop whichever degrade
+  4. If both help individually, **test them combined** (interactions can go either way)
+  5. **Position-specific hyperparameter tuning (Item #33)** on the final winning feature set
 
 ## Dependency Map & Prerequisites
 
@@ -167,83 +105,7 @@ graph TD
 
 ## Core Priorities (Thematic Grouping)
 
-### Tier 0: Infrastructure Prerequisite
-
-#### ~~Item 0: Evaluation Harness & Backtest Baseline Validation~~ (Done)
-- **Problem**: We do not definitively know if changes like recency weighting (`lambda=0.05`) actually improve results or if historical baseline scores were inflated due to data leakage. Furthermore, evaluating features purely on one season (2025) risks overfitting.
-- **Why it matters**: Without a trusted, multi-season evaluation harness, we are optimizing for randomness and risk deploying performance-degrading changes.
-- **Suggested Fix**: Build a rigorous multi-season evaluation script (`evaluate_features.py` / `prediction_model_evaluation_harness.py`) that parametrizes:
-  - Recency lambda weight (e.g., `0.0`, `0.02`, `0.05`, `0.10`)
-  - Correlation mode (Copula matrix vs. independent random)
-  - Optimizer strategy
-  The harness must compute statistical significance (e.g., bootstrap confidence intervals, paired t-tests) across multiple years (2024, 2025, 2026) to conclusively show points added/subtracted.
-- **Success Criteria**: A single executable script that validates model changes across all available seasons and reports statistical significance.
-
-
----
-
-### Tier 1: Code Health & De-risking (Architecture)
-
-#### ~~Item 1: Refactor Shared Feature Engineering~~ (Done)
-- **Problem**: Previously, prediction files duplicated ~80% of data loading and rolling calculations.
-- **Why it matters**: Led to duplicate code and maintenance risks.
-- **Suggested Fix**: Shared logic was consolidated into `feature_engineering.py`.
-- **Success Criteria**: Zero duplicate feature engineering code.
-
-#### ~~Item 2: Centralize Configuration, Constants, and Secrets~~ (Done)
-- **Problem**: Hyperparameters and secrets were hardcoded.
-- **Why it matters**: Experimentation was inconsistent and credentials leaked.
-- **Suggested Fix**: Centralized constants and API tokens in `config.py`.
-- **Update (29 June 2026)**: Expanded `config.py` with feature toggle infrastructure (`GAME_PACE_ENABLED`, `OPPONENT_STRATIFIED_BOOTSTRAP`, `CEILING_CLAMP_MULTIPLIER`, `SALARY_AS_FEATURE`, `CORRELATION_COPULA_ENABLED`). All experimental features now toggleable without code edits.
-- **Success Criteria**: Clean, secure configurations.
-
-#### ~~Item 3: Eliminate Utility and Rule Code Duplication~~ (Done)
-- **Problem**: Utility/scoring functions duplicated across 3-6 files.
-- **Why it matters**: Changing scoring rules required updating multiple places.
-- **Suggested Fix**: Consolidated all calculations and helper functions into `utils.py`.
-- **Success Criteria**: A single definition of `calc_fantasy()` and `assign_position_group()`.
-
-#### ~~Item 4: Harmonize Optimization and Backtest Parameters~~ (Done)
-- **Problem**: Win thresholds and restarts differed between production and backtest.
-- **Why it matters**: Backtest runs did not reflect actual optimized lineup results.
-- **Suggested Fix**: Aligned all settings in `config.py`.
-- **Success Criteria**: Unified production/backtest optimization environments.
-
-#### ~~Item 5: Seed the Monte Carlo Random Number Generator~~ (Done)
-- **Problem**: Monte Carlo simulator was unseeded.
-- **Why it matters**: Run outputs were non-deterministic.
-- **Suggested Fix**: Seeded simulations with standard `--seed 42`.
-- **Success Criteria**: Deterministic, reproducible simulation outputs.
-
----
-
 ### Tier 2: Model & Feature Improvements (Accuracy)
-
-#### ~~Item 6: Game Pace and Script Projections~~ (Done)
-- **Problem**: The model evaluates players in isolation, adjusted only for opponent defensive quality, ignoring expected game pace or total scoring environment.
-- **Why it matters**: Shootouts produce structurally higher ceilings and floors than defensive grinds.
-- **Verification/Resolution**: Promoted **Option C** (Scaling Matchup Ratings by Game Pace) to production:
-  - Game pace features are dynamically calculated using rolling team expected goals from the prior 10 games in [feature_engineering.py](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/feature_engineering.py#L111-L208).
-  - In [02_predict_probabilities.py](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/02_predict_probabilities.py#L77-L108) and [02_predict_probabilities.py](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/02_predict_probabilities.py#L476-L485), the four matchup ratings (`pairing_rating`, `opponent_rating`, `player_vs_team_rating`, `team_def_rating`) are directly multiplied by `game_pace` for both training and test sets.
-  - Backtesting this scaling on the entire 2025 season + 2026 Weeks 1-5 (18 weeks total) showed a net multi-season improvement of **+41.9 points** (+2.33 points/week) and lifted the percentage of Coulda ceiling from 42.81% to 43.45%.
-  - **Update (30 June 2026)**: Retested on the corrected doubleheader database and fixed pipeline. Game Pace Scaling is now **enabled by default** via `config.GAME_PACE_ENABLED = True`. Backtesting showed massive, statistically significant improvements (**+351.8 points** in 2025 and **+29.5 points** in 2026) under Baseline 7.
-- **Success Criteria**: Net point improvement verified and promoted to production.
-
-
-#### ~~Item 7: Dynamic `HISTORICAL_MEDIANS` Computation~~ (Done / Not Applicable)
-- **Problem**: Misconception that hardcoded position medians (e.g., Attack=10.5, Midfield=6.0) are used for boom/bust boundaries.
-- **Why it matters**: Silent accuracy drift if boundaries were hardcoded.
-- **Verification/Resolution**: Audit of the codebase confirmed that all boom/bust boundaries are already computed dynamically.
-  - Classification boundaries (Bust, Average, Boom) are dynamically assigned using `quantile(0.25)` and `quantile(0.75)` in [feature_engineering.py](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/feature_engineering.py#L261-L263).
-  - Monte Carlo simulation and optimization boom thresholds are dynamically derived using `quantile(0.75)` per week/year/position in [04_simulate_monte_carlo.py](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/04_simulate_monte_carlo.py#L93-L96).
-  - No hardcoded positional median constants exist in the active or historical Python code.
-- **Success Criteria**: Verified dynamic computation is already active; no hardcoded boundaries found.
-
-#### ~~Item 8: Feature Importance and SHAP Logging~~ (Done)
-- **Problem**: Neither model logs feature importances or SHAP values.
-- **Why it matters**: We have no visibility into what is driving predictions, forcing us to guess which features to add or prioritize.
-- **Suggested Fix**: Add logging of tree feature importances and output SHAP summary plots during model training.
-- **Success Criteria**: Outputting a `feature_importance.png` or logging importances in every training run.
 
 #### Item 9: Market Consensus (Salary as a Feature)
 - **Problem**: F2P coin salaries are only used as optimization constraints and are ignored during model training.
@@ -256,6 +118,36 @@ graph TD
 - **Why it matters**: Backup midfielders have lower ceilings than starters. Normalizing by usage helps the model adapt to role changes (promotions/demotions) much faster.
 - **Suggested Fix**: Extract player touch count and total stat accumulation as usage proxies. Feed touch delta (current expected touches vs. season average) into the feature engine. Additionally, weight opponent roster health features (e.g., `opp_ssdm_health`, `opp_def_health`) by active players' average points/usage rather than simple counts, to better reflect true unit degradation.
 - **Success Criteria**: Improved adaptation speed and model accuracy for players with recent role changes.
+
+#### Item 28: Bayesian Shrinkage on Matchup Rating Features
+- **Problem**: Matchup rating features (pairing, opponent, player-vs-team, team-defense ratings) suffer from extreme noise for low-sample player-opponent pairings.
+- **Why it matters**: A single high-scoring game results in a massive rating (e.g. 2.5x), skewing future forecasts.
+- **Suggested Fix**: Blend observed ratings with a prior of 1.0 using Bayesian shrinkage: $\text{Shrunk} = \frac{n}{n+k} \cdot \text{Observed} + \frac{k}{n+k} \cdot 1.0$ (e.g. with $k=5$).
+- **Success Criteria**: Matchup rating features stabilized and extreme predictions reduced.
+
+#### Item 29: Exponentially-Weighted Moving Average (EWMA) Rolling Features
+- **Problem**: Model rolling features are either season-long averages or abrupt 3-game rolling averages.
+- **Why it matters**: The season average reacts too slowly, while the 3-game average is noisy and suffers from cliff effects.
+- **Suggested Fix**: Add EWMA rolling features (e.g. `fp_ewma_4` with half-life of 4 games) to position group feature lists to smoothly capture form transitions.
+- **Success Criteria**: EWMA features implemented, validated on harness, and included in GBDT models.
+
+#### Item 30: Dual Regressors or Multi-Quantile Forecasts
+- **Problem**: The XGBoost regressor currently predicts only the 90th percentile (p90 quantile objective with `alpha=0.9`).
+- **Why it matters**: While useful for boom stacking, a p90 score systematically over-predicts and is not suitable as a raw Expected Value (EV) anchor.
+- **Suggested Fix**: Train a dual regressor at `alpha=0.5` (median/EV) or train a single multi-output model predicting quantiles [0.1, 0.5, 0.9] to obtain both clean EVs and confidence bands.
+- **Success Criteria**: Stacking utilizes separate median and quantile regressor predictions for appropriate tasks.
+
+#### Item 32: Matchup Rating Temporal Decay
+- **Problem**: Defender and opponent ratings use career averages, weighting ancient games the same as recent matchups.
+- **Why it matters**: Defensive unit strength and defender capabilities change over seasons, making old matchup data stale.
+- **Suggested Fix**: Apply exponential decay weighting (similar to `LAMBDA_RECENCY`) to historical matchup ratings so recent games dictate the rating.
+- **Success Criteria**: Matchup ratings reflect current defender and team performance.
+
+#### Item 33: Position-Specific XGBoost Hyperparameter Tuning
+- **Problem**: All five position groups use identical model configurations and tree depths regardless of sample size.
+- **Why it matters**: Attack has ~48 rows/season while Goalie has ~16. The Goalie model is highly susceptible to overfitting under generic defaults.
+- **Suggested Fix**: Define and grid-search position-specific hyperparameters (`n_estimators`, `max_depth`, `learning_rate`, `min_child_weight`) using the harness.
+- **Success Criteria**: Customized hyperparameter configurations active per position group.
 
 ---
 
@@ -287,11 +179,17 @@ graph TD
 - **Suggested Fix**: Re-evaluate the clamp against historic breakout frequencies and scale the clamp dynamically (e.g. based on position group volatility).
 - **Success Criteria**: More accurate simulated ceiling frequencies for breakout players.
 
-#### ~~Item 15: Opponent-Stratified Bootstrap~~ (Done)
-- **Problem**: MC bootstrap draws game outcomes uniformly, ignoring opponent defense quality.
-- **Why it matters**: A player's historical points distribution is highly dependent on defense strength.
-- **Suggested Fix**: Weight the bootstrap draws by opponent defensive strength using a Gaussian similarity kernel.
-- **Success Criteria**: Simulated distributions show tighter variances against elite defenses and wider variances against weak defenses.
+#### Item 26: Connect Stacked Regressor `PredictedPoints` directly to MC Simulator EV
+- **Problem**: The MC simulator does not directly use the stacked regressor's continuous `PredictedPoints` output. While `PredictedPoints` is used *indirectly* as a stacked feature in the classification model to output `BoomProbability`, the simulator itself ignores the continuous value and derives EV from `BoomProbability` using a crude two-tier weighted average of position averages.
+- **Why it matters**: Discards the granular per-player point predictions built by the GBDT regressor, compressing them into a simplified boom/non-boom bin.
+- **Suggested Fix**: Feed the regressor's `PredictedPoints` (scaled/de-biased appropriately to act as an EV) directly into the MC simulator as the `EV` value to determine the matchup multiplier.
+- **Success Criteria**: MC simulator uses granular continuous model projections directly rather than two-tier binning.
+
+#### Item 31: Smooth MC Historical Pool Blending
+- **Problem**: Players with <5 games fall back to the entire position group's historical game pool, while players with >=5 games use only their own history.
+- **Why it matters**: Creating a hard cliff at 5 games causes massive simulation variance swings for rookies and transfers.
+- **Suggested Fix**: Implement smooth pool blending by drawing a fraction of outcomes from the player's pool and the rest from the position pool based on game count (e.g. $\text{fraction} = \min(1.0, n_{\text{games}}/15)$).
+- **Success Criteria**: Discontinuity at the 5-game threshold removed from MC simulation.
 
 ---
 
@@ -358,6 +256,36 @@ graph TD
 - **Suggested Fix**: Add support for switch tracking and a "confidence" field (High/Medium/Unsure) per matchup tag. Incorporate defender combinations and estimated switch rates into matchups to represent how defensive switches alter matchup features.
 - **Success Criteria**: Tagger UI captures confidence ratings.
 
+#### Item 34: Challenger Roster Scraping & Consensus Advice
+- **Problem**: We have no automated way to view the roster choices of the league's top-performing managers. Surfacing their roster picks provides an invaluable external consensus signal to guide our own lineup choices.
+- **Why it matters**: Looking at what the top managers are selecting allows us to validate our model projections against the league's best players, avoiding choices from users who just got lucky in a single week.
+- **Findings & Discoveries**:
+  * **API Endpoints**: The F2P fantasy platform exposes the following endpoints (discovered during HAR analysis on 1 July 2026):
+    * `https://f2p.premierlacrosseleague.com/api/fantasy/getGroupById/?groupId=51185&sortBy=season` to fetch the leaderboard sorted by total season points.
+    * `https://f2p.premierlacrosseleague.com/api/fantasy/challengerFetch/?userId=<firebaseId>` to fetch another user's roster selections.
+  * **Authentication**: Authentication is handled via the `Authorization: <JWT>` header, utilizing a standard Firebase ID token (no `Bearer` prefix). 
+  * **All-Star Roster Resolution**: Tested fetching the top 10 season managers. Week 7 is the All-Star week (East vs. West), where all players have a flat salary of 25. The top managers' rosters were resolved to names like *Chad Palumbo* (100% active ownership) and *TD Ierlan* (100% active ownership).
+- **Suggested Fix / Next Steps**:
+  1. **Automate Scraper**: Implement a scraper script (`08_scrape_challenger_rosters.py`) to query the leaderboard and pull rosters for the top 10 managers.
+  2. **Consensus Engine**: Count player selections to generate a top-10 ownership distribution table.
+  3. **Refresh Token Integration**: Extract the long-lived Firebase `refreshToken` by capturing a new login HAR file so the script can refresh the ID token programmatically and run headlessly.
+- **Success Criteria**: Top-performing managers' rosters are scraped, resolved, and outputted as a consensus advisory table before each game-day lock.
+
+#### Item 35: Local League Roster Scraping & Differential Optimization
+- **Problem**: We lack visibility into our local league rival selections (specifically League 53205), making it difficult to optimize for differential selections to outcompete them.
+- **Why it matters**: To climb standings and outcompete specific rivals, we need a game-theory approach: matching their high-probability consensus locks to protect our floor, while selecting high-upside differential players they don't own to gain leverage.
+- **Findings & Discoveries**:
+  * **API Endpoint**: Evaluated local league `53205` using `https://f2p.premierlacrosseleague.com/api/fantasy/getGroupById/?groupId=53205&sortBy=season` and pulled rosters for active managers live.
+  * **Rival Analysis**:
+    * *Big, Bouncy T.Ds* (Rank 1, 991.1 pts): Stacked Connor Shellenberger, CJ Kirst, Ross Scott, Aidan Carroll, Brett Makar, Liam Entenmann, TD Ierlan.
+    * *Blazing Squad* (Rank 2, 975.9 pts): Stacked Michael Sowers, CJ Kirst, Bryan Costabile, Shane Knobloch, Brett Makar, Blaze Riorden, TD Ierlan.
+    * *Jeff's Teat* (Rank 4, 915.5 pts): Stacked Logan Wisnauskas, Joey Spallina, Bryan Costabile, Shane Knobloch, Blaze Riorden, TD Ierlan, Jake Piseno.
+  * **Differential Opportunities**: Discovered that while *Chad Palumbo* (M, ASW) is a 100% consensus pick among the top 10 global season leaders, he is owned by **0%** of our local league rivals. Selecting Palumbo represents a massive differential leverage point.
+- **Suggested Fix / Next Steps**:
+  1. **Scrape Local Groups**: Expand the scraper to dynamically read additional `groupId`s (e.g. `53205`) defined in `config.py` or command-line arguments.
+  2. **Differential Optimizer**: Modify the advisory script (`06_optimize_lineups.py` or a dedicated tool) to calculate "differential leverage" by taking local rival ownership rates into account and recommending roster selections that maximize variance in our favor.
+- **Success Criteria**: Roster choices for defined local group IDs are scraped, and a game-theory advisory report (identifying rival blocks and differential leverages) is generated weekly.
+
 ---
 
 ### Tier 6: Documentation & Project Hygiene
@@ -386,6 +314,66 @@ To mark an item as **Done**, it must meet the following:
 3. Relevant documentation updated, and the completed script or file link added below.
 
 ### Completed Items
+
+#### Item 27: Complete Data Leakage Elimination 🔴
+
+A full codebase audit on **1 July 2026** ([audit report](file:///C:/Users/Matt/.gemini/antigravity/brain/9a781007-4d25-402b-ba2c-41974e0d3792/data_leakage_audit.md)) identified 6 distinct leakage sources. All must be fixed before further A/B testing or baseline establishment.
+
+##### 27a: Matchup Rating Global Career Averages ✅ DONE
+- **Problem**: Matchup ratings (`pairing_rating`, `player_vs_team_rating`) computed using global career averages including future games.
+- **Fix**: Expanding cumulative means via `config.DATA_LEAKAGE_FIX_ENABLED = True`.
+- **File**: [feature_engineering.py L414–471](file:///F:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/feature_engineering.py#L414-L471)
+- **Test Results (1 July 2026)**:
+
+  | Season | Baseline 7 (Leaked) | Leakage Fix | Delta | Ceiling % Change |
+  |---|---|---|---|---|
+  | 2025 | 2227.2 (47.6%) | 2188.6 (46.8%) | −38.6 pts | −0.8% |
+  | 2026 | 745.3 (40.5%) | 515.5 (28.0%) | −229.8 pts | −12.5% |
+
+- **Status**: ✅ Done. Enabled by default.
+
+##### 27b: Shuffled KFold CV for Stacking 🔴 CRITICAL
+- **Problem**: `KFold(n_splits=5, shuffle=True)` generates OOF `PredictedPoints` using randomly shuffled folds. A validation fold can contain a 2024 week 3 game while the training fold contains 2025 week 10 — the regressor trains on future data when building the classifier's most important stacked feature.
+- **Fix**: Replaced with `TimeSeriesSplit(n_splits=5)`. To prevent leakage for the earliest initial fold that cannot be predicted out-of-fold without future data, that initial fold is now filtered out of the classifier's training set to guarantee strictly leak-free features.
+- **File**: [02_predict_probabilities.py L511](file:///F:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/02_predict_probabilities.py#L511)
+- **Severity**: 🔴 **Critical** — directly inflates the stacked feature the classifier depends on.
+- **Status**: ✅ Done.
+
+##### 27c: Boom/Bust Quantile Thresholds on Full Training Set 🟡 MEDIUM
+- **Problem**: `assign_tiers()` computes q25/q75 thresholds over the **entire multi-season** position group. A 2024 game's Boom/Bust label is influenced by 2025–2026 scoring distributions.
+- **Fix**: Implemented `assign_tiers_expanding` to compute expanding window (min 10 periods) quantiles chronologically by position group: `df_train.groupby("positionGroup")["TotalFantasyPoints"].transform(assign_tiers_expanding)`, eliminating all label leakage.
+- **File**: [feature_engineering.py L473–475](file:///F:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/feature_engineering.py#L473-L475), called at [02_predict_probabilities.py L499](file:///F:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/02_predict_probabilities.py#L499)
+- **Severity**: 🟡 **Medium** — label leakage (future distributions influence training labels).
+- **Status**: ✅ Done.
+
+##### 27d: MC Copula Correlations from 2023–2026 Data 🟡 MEDIUM
+- **Problem**: Hardcoded `CORRELATIONS` dictionary computed from "2023–2026 data". When simulating 2025, the values incorporate 2026 structural information.
+- **Fix**: Freeze correlations to pre-target-year data (e.g., "2023–2024 only"), or compute dynamically per-season (connects to Item 12).
+- **File**: [04_simulate_monte_carlo.py L23–43](file:///F:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/04_simulate_monte_carlo.py#L23-L43)
+- **Severity**: 🟡 **Medium** — low-bandwidth structural constants, but technically uses future info.
+- **Status**: ✅ Done.
+
+##### 27e: `global_avg_goals` / `league_avg_pace` Fallbacks 🟢 LOW
+- **Problem**: `global_avg_goals` (fallback when team has <3 prior games) and `league_avg_pace` (normalisation denominator) are computed from all historical games, including late-season data when predicting early-season games.
+- **Fix**: Use hardcoded league-average constants or prior-season-only computation. Trivial change.
+- **File**: [feature_engineering.py L142–145](file:///F:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/feature_engineering.py#L142-L145) and [L183–184](file:///F:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/feature_engineering.py#L183-L184)
+- **Severity**: 🟢 **Low** — affects very few rows (season openers only).
+- **Status**: ✅ Done.
+
+##### 27f: MC Bootstrap Pool Missing Future-Year Guard 🟢 LOW
+- **Problem**: `load_player_game_history()` filters `yr == target_year and w >= target_week` but does **not** filter `yr > target_year`. When backtesting 2025 against a database containing 2026, all 2026 games leak into the bootstrap pool.
+- **Fix**: Add `yr > target_year` to the continue condition. 1-line fix.
+- **File**: [04_simulate_monte_carlo.py L139](file:///F:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/04_simulate_monte_carlo.py#L139)
+- **Severity**: 🟢 **Low** in production (no future year exists), **Medium** for backtesting.
+- **Status**: ✅ Done.
+
+##### Overall Item 27 Status
+- **Completion**: ✅ 6/6 findings fixed.
+- **Milestone**: Established **clean Baseline 9** on 1 July 2026.
+- **Results**:
+  - **2025 Season**: **2085.0 pts** (44.6% of ceiling) — a minor reduction from leaked Baseline 8 (-103.6 pts, -2.2%), representing honest performance.
+  - **2026 Season**: **898.8 pts** (48.8% of ceiling) — a major improvement over Baseline 8 (515.5 pts, 28.0% ceiling) due to cleaner classifier stacked predictions.
+
 
 - **~~Dynamic HISTORICAL_MEDIANS Verification~~** (Done / Not Applicable)
   - *Details*: Verified that the codebase does not use any hardcoded positional medians for boom/bust boundaries. Classification targets are dynamically computed via `.quantile(0.25)` and `.quantile(0.75)` in `feature_engineering.py`, and Monte Carlo/optimization boom thresholds are dynamically derived using `.quantile(0.75)` per week/year/position group.

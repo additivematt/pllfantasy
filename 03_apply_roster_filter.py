@@ -117,6 +117,7 @@ def main():
     parser = argparse.ArgumentParser(description="Filter prediction CSV files using live official gameday rosters.")
     parser.add_argument("--year", type=int, default=2026, help="Target year (default: 2026)")
     parser.add_argument("--week", type=int, default=4, help="Target week (default: 4)")
+    parser.add_argument("--no-opt", action="store_true", help="Skip running downstream optimization")
     args = parser.parse_args()
     
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -143,8 +144,9 @@ def main():
             print(f"Copied {class_raw} to {class_out}")
             
         # Run optimizer anyway with unfiltered data
-        print("\nRegenerating advisory report on unfiltered data...")
-        subprocess.run(["python", "06_optimize_lineups.py", "--year", str(args.year), "--week", str(args.week)], cwd=script_dir, check=True)
+        if not args.no_opt:
+            print("\nRegenerating advisory report on unfiltered data...")
+            subprocess.run(["python", "06_optimize_lineups.py", "--year", str(args.year), "--week", str(args.week)], cwd=script_dir, check=True)
         return
         
     # Map rosters: team_id -> list of player objects
@@ -175,9 +177,12 @@ def main():
     filter_csv(class_raw, class_out, api_rosters, team_matchups)
     
     # Regenerate advisory report and optimized lineups
-    print("\nRegenerating advisory report by running 06_optimize_lineups.py...")
-    subprocess.run(["python", "06_optimize_lineups.py", "--year", str(args.year), "--week", str(args.week)], cwd=script_dir, check=True)
-    print("\nSuccess! Rosters successfully filtered and optimization report updated.")
+    if not args.no_opt:
+        print("\nRegenerating advisory report by running 06_optimize_lineups.py...")
+        subprocess.run(["python", "06_optimize_lineups.py", "--year", str(args.year), "--week", str(args.week)], cwd=script_dir, check=True)
+        print("\nSuccess! Rosters successfully filtered and optimization report updated.")
+    else:
+        print("\nSkipping advisory report generation as requested (--no-opt).")
 
 if __name__ == "__main__":
     main()

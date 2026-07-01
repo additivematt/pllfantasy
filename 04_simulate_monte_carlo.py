@@ -115,17 +115,32 @@ def clean_name(n):
     return (n or "").replace("'", "").replace("-", "").replace(".", "").replace(" ", "").lower()
 
 def load_player_game_history(all_stats_path, target_year, target_week):
-    """Loads all historical game-level actual fantasy points for each player up to target_week/target_year."""
+    """Loads all historical game-level actual fantasy points for each player up to target_week/target_year.
+    Also computes dynamic leak-free position-pair correlations from this history."""
     with open(all_stats_path, encoding="utf-8") as f:
         data = json.load(f)
     
     player_games = {} # (clean_first, clean_last) -> list of points
     position_games = {} # posGroup -> list of points
     
+    # Gather game player info for dynamic correlation calculation
+    game_players = {}
+    
+    def get_corr_pos_local(pos_str):
+        pos_str = str(pos_str).upper().strip()
+        if pos_str in ["A", "ATTACK"]: return "Attack"
+        if pos_str in ["M", "MIDFIELD", "MID"]: return "Midfield"
+        if pos_str == "SSDM": return "SSDM"
+        if pos_str == "LSM": return "LSM"
+        if pos_str in ["D", "DEFENSE", "DEFENSEMEN", "DEF"]: return "Defense"
+        if pos_str in ["FO", "FACEOFF"]: return "Faceoff"
+        if pos_str in ["G", "GOALIE"]: return "Goalie"
+        return "Unknown"
+    
     for slug, p_data in data.items():
         for entry in p_data.get("stats", []):
             ident = entry.get("identity", {})
-            stats = entry.get("stats", {})
+            stats_dict = entry.get("stats", {})
             f2p = entry.get("f2p", {})
             evt = entry.get("event", {})
             e_id = evt.get("eventId", "")
@@ -136,20 +151,20 @@ def load_player_game_history(all_stats_path, target_year, target_week):
             w = entry.get("week")
             
             # Data leakage prevention
-            if yr == target_year and w is not None and w >= target_week:
+            if yr is not None and (yr > target_year or (yr == target_year and w is not None and w >= target_week)):
                 continue
                 
             is_dnp = entry.get("isDNP", False)
             if is_dnp:
                 continue
                 
-            pts = f2p.get("totalPoints") if f2p.get("totalPoints") is not None else calc_fantasy(stats)
+            pts = f2p.get("totalPoints") if f2p.get("totalPoints") is not None else calc_fantasy(stats_dict)
             pos = assign_position_group(ident.get("position"))
             
             # Goalie backup check
             if pos == "Goalie":
-                saves = stats.get("saves", 0)
-                ga = stats.get("goalsAgainst", 0)
+                saves = stats_dict.get("saves", 0)
+                ga = stats_dict.get("goalsAgainst", 0)
                 if saves == 0 and ga == 0 and pts == 0:
                     continue
             
@@ -160,7 +175,46 @@ def load_player_game_history(all_stats_path, target_year, target_week):
             player_games.setdefault(key, []).append((pts, yr, w))
             position_games.setdefault(pos, []).append((pts, yr, w))
             
-    return player_games, position_games
+            # Record for dynamic correlations
+            c_pos = get_corr_pos_local(ident.get("position"))
+            team = ident.get("team")
+            if c_pos != "Unknown" and team and e_id:
+                game_players.setdefault(e_id, []).append({
+                    "team": team,
+                    "corr_pos": c_pos,
+                    "points": pts
+                })
+                
+    # Now compute correlations dynamically from the gathered game_players
+    pair_values = {}
+    for e_id, players in game_players.items():
+        num_p = len(players)
+        for i in range(num_p):
+            for j in range(i+1, num_p):
+                p1 = players[i]
+                p2 = players[j]
+                
+                is_same = p1["team"] == p2["team"]
+                rel_type = "same" if is_same else "opp"
+                
+                key = (rel_type,) + tuple(sorted([p1["corr_pos"], p2["corr_pos"]]))
+                pair_values.setdefault(key, ([], []))
+                
+                pair_values[key][0].append(p1["points"])
+                pair_values[key][1].append(p2["points"])
+                # For symmetric position groups on the same team, append reverse to ensure symmetry
+                if is_same and p1["corr_pos"] == p2["corr_pos"]:
+                    pair_values[key][0].append(p2["points"])
+                    pair_values[key][1].append(p1["points"])
+                    
+    dynamic_correlations = {}
+    for key, (x, y) in pair_values.items():
+        if len(x) >= 15:
+            r, _ = stats.pearsonr(x, y)
+            if not np.isnan(r):
+                dynamic_correlations[key] = float(np.clip(r, -0.99, 0.99))
+                
+    return player_games, position_games, dynamic_correlations
 
 def make_pos_semidefinite(matrix):
     """Finds the nearest positive semi-definite matrix by clipping negative eigenvalues."""
@@ -220,7 +274,7 @@ def main():
         return
         
     print("Loading player game histories...")
-    player_histories, position_histories = load_player_game_history(all_stats_path, args.year, args.week)
+    player_histories, position_histories, dynamic_correlations = load_player_game_history(all_stats_path, args.year, args.week)
     
     # 4. Prepare multipliers and sorted historical pools for each row in df_preds
     pools = []
@@ -320,7 +374,7 @@ def main():
                     pos2 = get_corr_pos(p2)
                     sorted_pos = tuple(sorted([pos1, pos2]))
                     lookup_key = (rel_type,) + sorted_pos
-                    corr = CORRELATIONS.get(lookup_key, 0.0)
+                    corr = dynamic_correlations.get(lookup_key, CORRELATIONS.get(lookup_key, 0.0))
                     if corr != 0.0:
                         C[i, j] = corr
                         C[j, i] = corr

@@ -19,9 +19,9 @@ except Exception as e:
 from xgboost import XGBClassifier, XGBRegressor
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.calibration import CalibratedClassifierCV
-from sklearn.model_selection import KFold
+from sklearn.model_selection import KFold, TimeSeriesSplit
 from utils import assign_position_group, assign_sub_position, calc_fantasy, clean_name
-from config import GAME_PACE_ENABLED
+from config import GAME_PACE_ENABLED, DATA_LEAKAGE_FIX_ENABLED
 from feature_engineering import (
     TEAM_NAME_TO_ID,
     FEATURE_LISTS,
@@ -31,7 +31,8 @@ from feature_engineering import (
     add_rolling_features,
     load_all_matchups,
     compute_defender_ratings,
-    assign_tiers,
+    add_matchup_ratings,
+    assign_tiers_expanding,
     filter_played_only,
     get_historical_average_salary,
     compute_game_pace_features
@@ -96,7 +97,7 @@ def main():
 
     df_all = add_rolling_features(df_all)
     m_by_g = load_all_matchups(sDir)
-    def_r, team_def, pair_r, pvst_r = compute_defender_ratings(df_all, m_by_g)
+    df_all, def_r, team_def, pair_r, pvst_r = add_matchup_ratings(df_all, m_by_g, DATA_LEAKAGE_FIX_ENABLED)
 
     def get_feats(row, gml=None):
         pN = f"{row['firstName']} {row['lastName']}"
@@ -112,9 +113,6 @@ def main():
         return pd.Series([pR, iR, pvst, team_def.get((row["opponent"], sub_pos), 1.0)])
 
     if not df_all.empty:
-        mf = df_all.apply(get_feats, axis=1, result_type='expand')
-        df_all["pairing_rating"], df_all["opponent_rating"], df_all["player_vs_team_rating"], df_all["team_def_rating"] = mf[0], mf[1], mf[2], mf[3]
-        
         # Scale matchup ratings by game pace (Option C) — gated by config.GAME_PACE_ENABLED
         if args.use_pace_scale:
             for col in ["pairing_rating", "opponent_rating", "player_vs_team_rating", "team_def_rating"]:
@@ -498,21 +496,25 @@ def main():
 
     df_train = df_all.dropna(subset=["TotalFantasyPoints"]).copy()
     df_train = filter_played_only(df_train)
-    df_train["PerformanceTier"] = df_train.groupby("positionGroup")["TotalFantasyPoints"].transform(assign_tiers)
+    df_train = df_train.sort_values("startTime")
+    df_train["PerformanceTier"] = df_train.groupby("positionGroup")["TotalFantasyPoints"].transform(assign_tiers_expanding)
     
     importance_data = {}
     shap_data = {}
     preds_out = []
     for pg, feats in FEATURE_LISTS.items():
         df_pg = df_train[df_train["positionGroup"] == pg].dropna(subset=feats + ["PerformanceTier"]).copy()
+        df_pg = df_pg.sort_values("startTime").copy()
         tp = df_test[df_test["positionGroup"] == pg].copy()
         if len(df_pg) < 15 or tp.empty: continue
         
-        # 1. Stacking: Out-of-fold point predictions on training data (5-Fold CV)
+        # 1. Stacking: Out-of-fold point predictions on training data (5-Fold CV using TimeSeriesSplit)
         df_pg["PredictedPoints"] = 0.0
-        kf = KFold(n_splits=5, shuffle=True, random_state=42)
+        tscv = TimeSeriesSplit(n_splits=5)
         
-        for train_idx, val_idx in kf.split(df_pg):
+        predicted_mask = np.zeros(len(df_pg), dtype=bool)
+        
+        for train_idx, val_idx in tscv.split(df_pg):
             train_fold = df_pg.iloc[train_idx]
             val_fold = df_pg.iloc[val_idx]
             
@@ -524,7 +526,13 @@ def main():
             reg_fold.fit(X_tr, train_fold["TotalFantasyPoints"])
             
             df_pg.loc[df_pg.index[val_idx], "PredictedPoints"] = reg_fold.predict(X_val)
+            predicted_mask[val_idx] = True
             
+        # For the earliest games (first training split), we cannot generate leak-free OOF predictions
+        # via KFold(shuffle=True) as it leaks future data within the fold.
+        # Instead, we leave them as 0.0 and filter them out before training the classifier
+        # to ensure the classifier only trains on strictly leak-free stacked features.
+        
         # 2. Stacking: Fit regression on entire training set and predict on test set
         sc_all = StandardScaler()
         X_all_reg = sc_all.fit_transform(df_pg[feats])
@@ -538,14 +546,18 @@ def main():
         # 3. Add PredictedPoints to classification feature list
         pg_feats = feats + ["PredictedPoints"]
         
-        # 4. Standard scale final features (including stacked prediction)
+        # 4. Filter out rows without leak-free stacked predictions, then scale
+        clf_train = df_pg[predicted_mask].copy()
+        if len(clf_train) < 10:
+            clf_train = df_pg.copy() # Fallback if data is too small
+            
         sc_clf = StandardScaler()
-        X_tr_clf = sc_clf.fit_transform(df_pg[pg_feats])
+        X_tr_clf = sc_clf.fit_transform(clf_train[pg_feats])
         X_te_clf = sc_clf.transform(tp[pg_feats])
         
         # 5. Calibrated Classification
         le = LabelEncoder()
-        ye = le.fit_transform(df_pg["PerformanceTier"].astype(str))
+        ye = le.fit_transform(clf_train["PerformanceTier"].astype(str))
         
         base_clf = XGBClassifier(n_estimators=100, random_state=42)
         try:
@@ -556,7 +568,8 @@ def main():
         
         # 5b. Extract and log classifier feature importances and SHAP values
         try:
-            importances = np.mean([c.base_estimator.feature_importances_ for c in mod.calibrated_classifiers_], axis=0)
+            estimators = [getattr(c, "estimator", getattr(c, "base_estimator", None)) for c in mod.calibrated_classifiers_]
+            importances = np.mean([est.feature_importances_ for est in estimators if est is not None], axis=0)
             importance_data[pg] = (pg_feats, importances)
             
             # Print top 5 features to console
@@ -572,7 +585,8 @@ def main():
                 shap_values_clf_list = []
                 is_list_format = True
                 for c in mod.calibrated_classifiers_:
-                    explainer_clf = shap.TreeExplainer(c.base_estimator)
+                    est = getattr(c, "estimator", getattr(c, "base_estimator", None))
+                    explainer_clf = shap.TreeExplainer(est)
                     shap_vals_fold = explainer_clf.shap_values(X_tr_clf)
                     if not isinstance(shap_vals_fold, list):
                         is_list_format = False

@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 import re
 from datetime import datetime, timezone
+import config
 from utils import assign_position_group, assign_sub_position, calc_fantasy, clean_name
 
 TEAM_NAME_TO_ID = {
@@ -24,6 +25,11 @@ FEATURE_LISTS = {
     "Faceoff":  ["fp_season_avg", "fp_last3_avg", "fp_lag1", "faceoffsWon_season_avg", "faceoffsWon_last3_avg", "faceoffPct_season_avg", "faceoffPct_last3_avg", "days_since_last_game", "team_faceoff_advantage", "pairing_rating", "opponent_rating", "player_vs_team_rating", "team_def_rating"],
     "Goalie":   ["fp_season_avg", "fp_last3_avg", "fp_lag1", "saves_season_avg", "saves_last3_avg", "days_since_last_game", "pairing_rating", "player_vs_team_rating", "team_def_rating"],
 }
+
+if getattr(config, "EWMA_ENABLED", False):
+    for pos, feats in FEATURE_LISTS.items():
+        if "fp_ewma_4" not in feats:
+            feats.append("fp_ewma_4")
 
 def load_stats_json(path):
     yr_match = re.search(r'combined_player_stats_(\d{4})', path)
@@ -64,7 +70,7 @@ def load_all_players_stats(path, target_year, target_week):
             yr_match = re.search(r'^(\d{4})_', e_id)
             yr = int(yr_match.group(1)) if yr_match else None
             w = entry.get("week")
-            if yr == target_year and w is not None and w >= target_week:
+            if yr is not None and (yr > target_year or (yr == target_year and w is not None and w >= target_week)):
                 continue
             is_dnp = entry.get("isDNP", False)
             if is_dnp:
@@ -136,11 +142,17 @@ def compute_game_pace_features(df_all, target_matchups, target_year, target_week
     all_team_goals = []
     for g in game_stats.values():
         all_team_goals.extend([g["goals_a"], g["goals_b"]])
-    global_avg_goals = np.mean(all_team_goals) if all_team_goals else 12.0
     
     def get_team_rolling_goals(team, before_time):
         prior = [g for g in game_stats.values() if g["startTime"] < before_time and (g["team_a"] == team or g["team_b"] == team)]
         prior = sorted(prior, key=lambda x: x["startTime"])[-10:] # last 10 games
+        
+        # Calculate expanding local global average goals for games prior to before_time
+        prior_global_goals = []
+        for g in game_stats.values():
+            if g["startTime"] < before_time:
+                prior_global_goals.extend([g["goals_a"], g["goals_b"]])
+        local_global_avg = np.mean(prior_global_goals) if prior_global_goals else 12.0
         
         scored = []
         allowed = []
@@ -152,8 +164,8 @@ def compute_game_pace_features(df_all, target_matchups, target_year, target_week
                 scored.append(g["goals_b"])
                 allowed.append(g["goals_a"])
                 
-        avg_scored = np.mean(scored) if len(scored) >= 3 else global_avg_goals
-        avg_allowed = np.mean(allowed) if len(allowed) >= 3 else global_avg_goals
+        avg_scored = np.mean(scored) if len(scored) >= 3 else local_global_avg
+        avg_allowed = np.mean(allowed) if len(allowed) >= 3 else local_global_avg
         return avg_scored, avg_allowed
 
     # Calculate expected pace for historical games
@@ -175,13 +187,41 @@ def compute_game_pace_features(df_all, target_matchups, target_year, target_week
         expected_goals_team[(eventId, tB)] = exp_s_B
         
     all_exp_paces = list(expected_paces.values())
-    league_avg_pace = np.mean(all_exp_paces) if all_exp_paces else 24.0
+    global_league_avg_pace = np.mean(all_exp_paces) if all_exp_paces else 24.0
     
-    # Map to training df_all
-    df_all["expected_pace"] = df_all["eventId"].map(expected_paces).fillna(league_avg_pace)
-    df_all["game_pace"] = df_all["expected_pace"] / league_avg_pace
-    df_all["team_expected_goals"] = df_all.apply(lambda r: expected_goals_team.get((r["eventId"], r["team"]), global_avg_goals), axis=1)
-    df_all["opp_expected_goals"] = df_all.apply(lambda r: expected_goals_team.get((r["eventId"], r["opponent"]), global_avg_goals), axis=1)
+    # Map to training df_all with expanding league average pace and global average goals fallbacks
+    expected_pace_col = []
+    game_pace_col = []
+    team_exp_goals = []
+    opp_exp_goals = []
+    
+    for idx, r in df_all.iterrows():
+        eid = r["eventId"]
+        t = r["team"]
+        opp = r["opponent"]
+        st = r["startTime"]
+        
+        # Calculate local/expanding global average goals and pace for the game's start time
+        prior_global_goals = []
+        for g in game_stats.values():
+            if g["startTime"] < st:
+                prior_global_goals.extend([g["goals_a"], g["goals_b"]])
+        local_global_avg_goals = np.mean(prior_global_goals) if prior_global_goals else 12.0
+        
+        prior_paces = [p for e, p in expected_paces.items() if game_stats[e]["startTime"] < st]
+        local_league_avg_pace = np.mean(prior_paces) if prior_paces else 24.0
+        
+        exp_pace = expected_paces.get(eid, local_league_avg_pace)
+        expected_pace_col.append(exp_pace)
+        game_pace_col.append(exp_pace / local_league_avg_pace)
+        
+        team_exp_goals.append(expected_goals_team.get((eid, t), local_global_avg_goals))
+        opp_exp_goals.append(expected_goals_team.get((eid, opp), local_global_avg_goals))
+        
+    df_all["expected_pace"] = expected_pace_col
+    df_all["game_pace"] = game_pace_col
+    df_all["team_expected_goals"] = team_exp_goals
+    df_all["opp_expected_goals"] = opp_exp_goals
     
     # Map to target week matchups (test set)
     test_pace_map = {}
@@ -203,7 +243,7 @@ def compute_game_pace_features(df_all, target_matchups, target_year, target_week
         test_expected_goals[(gid, tA)] = exp_s_A
         test_expected_goals[(gid, tB)] = exp_s_B
         
-    return df_all, test_pace_map, test_expected_goals, league_avg_pace, global_avg_goals
+    return df_all, test_pace_map, test_expected_goals, global_league_avg_pace, np.mean(all_team_goals) if all_team_goals else 12.0
 
 def add_rolling_features(df):
     df = df.sort_values(["firstName", "lastName", "startTime"])
@@ -224,6 +264,9 @@ def add_rolling_features(df):
     df["fp_season_avg"] = df.groupby(["firstName", "lastName"])["TotalFantasyPoints"].transform(lambda x: x.expanding().mean().shift(1))
     df["fp_last3_avg"] = df.groupby(["firstName", "lastName"])["TotalFantasyPoints"].transform(lambda x: x.rolling(3, min_periods=1).mean().shift(1))
     df["fp_lag1"] = df.groupby(["firstName", "lastName"])["TotalFantasyPoints"].shift(1)
+    
+    if getattr(config, "EWMA_ENABLED", False):
+        df["fp_ewma_4"] = df.groupby(["firstName", "lastName"])["TotalFantasyPoints"].transform(lambda x: x.ewm(halflife=4, min_periods=1).mean().shift(1))
     
     df["shotPct_anomaly"] = df["shotPct_last3_avg"] - df["shotPct_season_avg"]
     
@@ -345,19 +388,133 @@ def compute_defender_ratings(df_all, matchups_by_game):
     dfB = dfB.merge(a_df, on=["firstName", "lastName"], how="left")
     dfB = dfB[dfB["p_avg"] > 5].copy()
     dfB["ratio"] = dfB["TotalFantasyPoints"] / dfB["p_avg"]
-    team_def = dfB.groupby(["opponent", "subPosition"])["ratio"].mean().to_dict()
-    p_vs_t = dfB.groupby(["firstName", "lastName", "opponent"])["ratio"].mean().to_dict()
+    
+    use_shrinkage = getattr(config, "SHRINKAGE_ENABLED", False)
+    k_val = getattr(config, "SHRINKAGE_K", 5)
+    
+    def apply_shrinkage(groupby_obj):
+        agg = groupby_obj.agg(["mean", "count"])
+        if use_shrinkage:
+            return (agg["count"] / (agg["count"] + k_val) * agg["mean"] + k_val / (agg["count"] + k_val) * 1.0).to_dict()
+        return agg["mean"].to_dict()
+
+    team_def = apply_shrinkage(dfB.groupby(["opponent", "subPosition"])["ratio"])
+    p_vs_t = apply_shrinkage(dfB.groupby(["firstName", "lastName", "opponent"])["ratio"])
     p_vs_t = {((k[0], k[1]), k[2]): v for k, v in p_vs_t.items()}
+    
     def_r, pair_r = {}, {}
     if m_res:
         df_res = pd.DataFrame(m_res)
-        def_r = df_res.groupby("defender")["ratio"].mean().to_dict()
-        pair_r = df_res.groupby(["off_name", "defender"])["ratio"].mean().to_dict()
+        def_r = apply_shrinkage(df_res.groupby("defender")["ratio"])
+        pair_r = apply_shrinkage(df_res.groupby(["off_name", "defender"])["ratio"])
     return def_r, team_def, pair_r, p_vs_t
 
-def assign_tiers(s):
-    q25, q75 = s.quantile(0.25), s.quantile(0.75)
-    return pd.cut(s, bins=[-np.inf, q25, q75, np.inf], labels=["Bust", "Average", "Boom"])
+def add_matchup_ratings(df_all, matchups_by_game, leakage_fix_enabled):
+    if df_all.empty:
+        return df_all, {}, {}, {}, {}
+
+    # Initialize result columns in df_all
+    df_all = df_all.copy()
+    df_all["pairing_rating"] = 1.0
+    df_all["opponent_rating"] = 1.0
+    df_all["player_vs_team_rating"] = 1.0
+    df_all["team_def_rating"] = 1.0
+    
+    if not leakage_fix_enabled:
+        # Legacy behavior: global computation with look-ahead leakage
+        def_r, team_def, pair_r, pvst_r = compute_defender_ratings(df_all, matchups_by_game)
+        
+        def get_feats_row(row):
+            pN = f"{row['firstName']} {row['lastName']}"
+            gID = row.get("eventId") or row.get("game_id")
+            ms = matchups_by_game.get(gID, {}).get("matchups", [])
+            pR, iR = 1.0, 1.0
+            for m in ms:
+                opp = m["playerB"] if m["playerA"] == pN else (m["playerA"] if m["playerB"] == pN else None)
+                if opp: pR, iR = pair_r.get((pN, opp), 1.0), def_r.get(opp, 1.0); break
+            pvst = pvst_r.get(((row["firstName"], row["lastName"]), row["opponent"]), 1.0)
+            sub_pos = row.get("subPosition", row["positionGroup"])
+            return pd.Series([pR, iR, pvst, team_def.get((row["opponent"], sub_pos), 1.0)])
+            
+        if not df_all.empty:
+            mf = df_all.apply(get_feats_row, axis=1, result_type='expand')
+            df_all["pairing_rating"] = mf[0]
+            df_all["opponent_rating"] = mf[1]
+            df_all["player_vs_team_rating"] = mf[2]
+            df_all["team_def_rating"] = mf[3]
+            
+        return df_all, def_r, team_def, pair_r, pvst_r
+    
+    else:
+        # Chronological expanding window behavior (leakage-free)
+        game_sort_keys = {}
+        for gid, grp in df_all.groupby("eventId"):
+            y = grp["year"].iloc[0]
+            w = grp["week"].iloc[0]
+            st = grp["startTime"].iloc[0] if "startTime" in grp.columns else 0.0
+            try:
+                st_val = float(st)
+            except (ValueError, TypeError):
+                st_val = 0.0
+            game_sort_keys[gid] = (st_val if st_val > 0 else 0.0, int(y), int(w))
+            
+        sorted_gids = sorted(game_sort_keys.keys(), key=lambda gid: game_sort_keys[gid])
+        
+        # Loop through each game
+        for idx, gid in enumerate(sorted_gids):
+            # Prior completed games
+            prior_gids = sorted_gids[:idx]
+            if len(prior_gids) == 0:
+                continue
+                
+            df_hist = df_all[df_all["eventId"].isin(prior_gids)]
+            if df_hist.empty:
+                continue
+                
+            # Compute ratings on prior history
+            def_r, team_def, pair_r, pvst_r = compute_defender_ratings(df_hist, matchups_by_game)
+            
+            # Map ratings to the rows belonging to current game `gid`
+            g_rows = df_all[df_all["eventId"] == gid]
+            if g_rows.empty:
+                continue
+                
+            g_rows_idx = g_rows.index
+            
+            def get_feats_row_expanding(row):
+                pN = f"{row['firstName']} {row['lastName']}"
+                ms = matchups_by_game.get(gid, {}).get("matchups", [])
+                pR, iR = 1.0, 1.0
+                for m in ms:
+                    opp = m["playerB"] if m["playerA"] == pN else (m["playerA"] if m["playerB"] == pN else None)
+                    if opp: pR, iR = pair_r.get((pN, opp), 1.0), def_r.get(opp, 1.0); break
+                pvst = pvst_r.get(((row["firstName"], row["lastName"]), row["opponent"]), 1.0)
+                sub_pos = row.get("subPosition", row["positionGroup"])
+                return pd.Series([pR, iR, pvst, team_def.get((row["opponent"], sub_pos), 1.0)])
+                
+            # Compute features for rows in this game
+            mf = g_rows.apply(get_feats_row_expanding, axis=1, result_type='expand')
+            df_all.loc[g_rows_idx, "pairing_rating"] = mf[0]
+            df_all.loc[g_rows_idx, "opponent_rating"] = mf[1]
+            df_all.loc[g_rows_idx, "player_vs_team_rating"] = mf[2]
+            df_all.loc[g_rows_idx, "team_def_rating"] = mf[3]
+            
+        # Compute the final ratings using 100% of df_all to serve as the prediction (test-set) lookups
+        def_r_final, team_def_final, pair_r_final, pvst_r_final = compute_defender_ratings(df_all, matchups_by_game)
+        
+        return df_all, def_r_final, team_def_final, pair_r_final, pvst_r_final
+
+def assign_tiers_expanding(grp):
+    q25 = grp.expanding(min_periods=10).quantile(0.25).bfill().fillna(8.0)
+    q75 = grp.expanding(min_periods=10).quantile(0.75).bfill().fillna(25.0)
+    
+    conditions = [
+        grp < q25,
+        (grp >= q25) & (grp <= q75),
+        grp > q75
+    ]
+    return pd.Series(np.select(conditions, ["Bust", "Average", "Boom"], default="Average"), index=grp.index)
+
 
 def filter_played_only(df):
     if df.empty:
