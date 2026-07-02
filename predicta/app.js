@@ -318,19 +318,53 @@ function renderAdvisor(advisoryData) {
         recSection.style.display = 'none';
     }
     
-    // Manage display & layout columns of Coulda tab
-    const couldaTab = document.getElementById('coulda-tab');
+    // Rebuild roster tabs dynamically
     const rosterTabsContainer = document.querySelector('.roster-tabs');
-    if (couldaTab && rosterTabsContainer) {
-        if (advisoryData.Coulda && advisoryData.Coulda.length > 0) {
-            couldaTab.style.display = 'inline-block';
-            rosterTabsContainer.style.gridTemplateColumns = 'repeat(5, 1fr)';
-        } else {
-            couldaTab.style.display = 'none';
-            rosterTabsContainer.style.gridTemplateColumns = 'repeat(4, 1fr)';
-            if (activeRosterTab === "Coulda") {
-                activeRosterTab = "MC_EV";
+    if (rosterTabsContainer) {
+        rosterTabsContainer.innerHTML = '';
+        
+        // Define display names
+        const labelMap = {
+            "MC_EV": "MC EV",
+            "MC_Win_160": "MC WIN 160",
+            "MC_Win_180": "MC WIN 180",
+            "MC_Ceil_90": "MC CEIL 90",
+            "MC_Consensus": "MC CONSENSUS",
+            "MC_Differential": "MC DIFFERENTIAL"
+        };
+        
+        // Find all available roster keys in advisoryData
+        const availableRosters = [];
+        const order = ["MC_EV", "MC_Win_160", "MC_Win_180", "MC_Ceil_90", "MC_Consensus", "MC_Differential"];
+        for (const k of order) {
+            if (advisoryData[k] && advisoryData[k].length > 0) {
+                availableRosters.push({ key: k, label: labelMap[k] || k });
             }
+        }
+        
+        // Add Coulda if present
+        if (advisoryData.Coulda && advisoryData.Coulda.length > 0) {
+            availableRosters.push({ key: "Coulda", label: "COULDA" });
+        }
+        
+        availableRosters.forEach(r => {
+            const btn = document.createElement('button');
+            btn.className = 'tab-btn';
+            if (r.key === activeRosterTab) {
+                btn.classList.add('active');
+            }
+            btn.setAttribute('data-roster', r.key);
+            btn.textContent = r.label;
+            btn.addEventListener('click', (e) => {
+                const rName = e.target.getAttribute('data-roster');
+                renderRoster(rName);
+            });
+            rosterTabsContainer.appendChild(btn);
+        });
+        
+        // If our activeRosterTab is no longer in the list, fall back to first
+        if (!availableRosters.some(r => r.key === activeRosterTab) && availableRosters.length > 0) {
+            activeRosterTab = availableRosters[0].key;
         }
     }
 

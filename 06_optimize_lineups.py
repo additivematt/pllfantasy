@@ -178,6 +178,82 @@ def main():
     print("Running local search for MC Ceil 90...")
     team_mc_ceil_90 = run_local_search(player_pool, sim_matrix, 'MC_Ceiling_90', ev_baseline, args.budget, restarts=LOCAL_SEARCH_RESTARTS)
     
+    # ── Consensus and Differential Options (Incorporating User Feedback) ─────────
+    def clean_name(n):
+        return (n or "").replace("'", "").replace("-", "").replace(".", "").replace(" ", "").lower()
+
+    consensus_file = os.path.join(script_dir, "predicta", "advisory", f"week{args.week}_{args.year}_consensus_ownership.json")
+    global_ownership = {}
+    rival_rosters = {}
+    team_mc_consensus = None
+    team_mc_differential = None
+
+    if os.path.exists(consensus_file):
+        print(f"Loading consensus ownership data from {consensus_file}...")
+        try:
+            with open(consensus_file, "r", encoding="utf-8") as f:
+                c_data = json.load(f)
+            for item in c_data.get("global_top_25", []):
+                global_ownership[item["clean_name"]] = item["rate"]
+            rival_rosters = c_data.get("local_league_rosters", {})
+        except Exception as e:
+            print(f"Error loading consensus ownership: {e}")
+
+        # 1. Consensus-Aligned Optimization
+        from config import F2P_CONSENSUS_WEIGHT
+        print(f"Running consensus-adjusted EV optimization (weight = {F2P_CONSENSUS_WEIGHT})...")
+        player_pool_consensus = []
+        for p in player_pool:
+            p_clean = clean_name(p["firstName"] + p["lastName"])
+            rate = global_ownership.get(p_clean, 0.0)
+            p_copy = p.copy()
+            p_copy["sim_ev"] = p["sim_ev"] * (1.0 + rate * F2P_CONSENSUS_WEIGHT)
+            player_pool_consensus.append(p_copy)
+            
+        consensus_baseline = run_mc_ev_optimizer(player_pool_consensus, args.budget)
+        if consensus_baseline:
+            team_mc_consensus = run_local_search(player_pool_consensus, sim_matrix, 'MC_EV', consensus_baseline, args.budget, restarts=LOCAL_SEARCH_RESTARTS)
+
+        # 2. Differential Compromise Optimization vs Top 3 Rivals
+        if rival_rosters:
+            print(f"Running differential optimization vs top local rivals...")
+            rival_player_cols = {}
+            for r_name, r_info in rival_rosters.items():
+                rival_player_cols[r_name] = []
+                for p_name in r_info.get("players", []):
+                    p_clean = clean_name(p_name)
+                    matched = False
+                    for p in player_pool:
+                        p_pool_clean = clean_name(p["firstName"] + p["lastName"])
+                        if p_pool_clean == p_clean:
+                            col_name = f"{p['firstName']}_{p['lastName']}_{p['game_id']}"
+                            if col_name in df_sims.columns:
+                                rival_player_cols[r_name].append(col_name)
+                                matched = True
+                                break
+                    if not matched:
+                        # Try loose matching (e.g. lastName check)
+                        for p in player_pool:
+                            if clean_name(p["lastName"]) == clean_name(p_name.split()[-1]):
+                                col_name = f"{p['firstName']}_{p['lastName']}_{p['game_id']}"
+                                if col_name in df_sims.columns:
+                                    rival_player_cols[r_name].append(col_name)
+                                    matched = True
+                                    break
+            
+            rival_score_vectors = []
+            for r_name, cols in rival_player_cols.items():
+                if cols:
+                    r_scores = df_sims[cols].sum(axis=1).values
+                    rival_score_vectors.append(r_scores)
+                else:
+                    rival_score_vectors.append(np.zeros(10000))
+            
+            if rival_score_vectors:
+                target_win_score = np.array(rival_score_vectors) # Shape (K, 10000)
+                # Optimize to maximize average win probability vs all K rivals
+                team_mc_differential = run_local_search(player_pool, sim_matrix, 'MC_Win_Prob', ev_baseline, args.budget, target_win_score=target_win_score, restarts=LOCAL_SEARCH_RESTARTS)
+
     # Cross-Reference Selections
     rosters = {
         "MC EV": team_mc_ev,
@@ -185,6 +261,11 @@ def main():
         "MC Win 180": team_mc_win_180,
         "MC Ceil 90": team_mc_ceil_90
     }
+    if team_mc_consensus:
+        rosters["MC Consensus"] = team_mc_consensus
+    if team_mc_differential:
+        rosters["MC Differential"] = team_mc_differential
+
     
     player_appearances = {}
     for r_name, roster in rosters.items():

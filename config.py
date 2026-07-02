@@ -56,3 +56,10 @@ EWMA_ENABLED = False
 # --- API Tokens (with environment variable fallbacks) ─────────────────────────
 API_TOKEN_STATS = os.environ.get("PLL_STATS_API_TOKEN", "N)eIKy1rZ%/%fm1WhM7tuVcrR*UIsc")
 API_TOKEN_ROSTER = os.environ.get("PLL_ROSTER_API_TOKEN", "2<b}_K/x8JU1mn/")
+
+# --- F2P Leaderboard & Rival Scraping ---
+F2P_LEADERBOARD_GROUP_ID = int(os.environ.get("F2P_LEADERBOARD_GROUP_ID", 51185))
+F2P_LOCAL_LEAGUE_GROUP_ID = int(os.environ.get("F2P_LOCAL_LEAGUE_GROUP_ID", 53205))
+F2P_CONSENSUS_WEIGHT = float(os.environ.get("F2P_CONSENSUS_WEIGHT", 0.2))
+F2P_FIREBASE_ID_TOKEN = os.environ.get("F2P_FIREBASE_ID_TOKEN", "")
+

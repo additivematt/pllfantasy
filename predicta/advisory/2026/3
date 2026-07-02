@@ -1,64 +1,40 @@
 {
     "MC_EV": [
         {
-            "firstName": "Liam",
-            "lastName": "Entenmann",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2026-ev-10",
-            "position": "Goalie",
-            "salary": 50,
-            "mc_ev": 31.0,
-            "mc_p90": 46.1,
-            "actualPoints": 46.0
-        },
-        {
-            "firstName": "Aidan",
-            "lastName": "Carroll",
-            "team": "WHP",
-            "opponent": "CAN",
-            "game_id": "2026-ev-9",
-            "position": "Attack",
-            "salary": 42,
-            "mc_ev": 30.6,
-            "mc_p90": 61.6,
-            "actualPoints": 35.0
-        },
-        {
-            "firstName": "TJ",
-            "lastName": "Malone",
-            "team": "WHP",
-            "opponent": "CAN",
-            "game_id": "2026-ev-9",
-            "position": "Attack",
-            "salary": 34,
-            "mc_ev": 26.6,
-            "mc_p90": 46.5,
-            "actualPoints": 50.0
-        },
-        {
-            "firstName": "Dalton",
-            "lastName": "Young",
+            "firstName": "Jared",
+            "lastName": "Bernhardt",
             "team": "OUT",
             "opponent": "ATL",
             "game_id": "2026-ev-10",
-            "position": "Midfield",
-            "salary": 16,
-            "mc_ev": 16.4,
-            "mc_p90": 30.3,
-            "actualPoints": 19.0
+            "position": "Attack",
+            "salary": 28,
+            "mc_ev": 26.3,
+            "mc_p90": 45.0,
+            "actualPoints": 55.0
         },
         {
-            "firstName": "Mic",
-            "lastName": "Kelly",
+            "firstName": "Brett",
+            "lastName": "Dobson",
+            "team": "ARC",
+            "opponent": "WHP",
+            "game_id": "2026-ev-11",
+            "position": "Goalie",
+            "salary": 45,
+            "mc_ev": 14.4,
+            "mc_p90": 20.9,
+            "actualPoints": 34.0
+        },
+        {
+            "firstName": "Marcus",
+            "lastName": "Holman",
             "team": "CAN",
             "opponent": "WHP",
             "game_id": "2026-ev-9",
-            "position": "Midfield",
-            "salary": 10,
-            "mc_ev": 16.3,
-            "mc_p90": 23.9,
-            "actualPoints": 51.0
+            "position": "Attack",
+            "salary": 39,
+            "mc_ev": 10.8,
+            "mc_p90": 20.7,
+            "actualPoints": 18.0
         },
         {
             "firstName": "Mike",
@@ -68,83 +44,107 @@
             "game_id": "2026-ev-11",
             "position": "Faceoff",
             "salary": 9,
-            "mc_ev": 14.2,
-            "mc_p90": 40.4,
+            "mc_ev": 8.2,
+            "mc_p90": 23.2,
             "actualPoints": 13.8
         },
         {
-            "firstName": "Ajax",
-            "lastName": "Zappitello",
+            "firstName": "Matt",
+            "lastName": "Brandau",
             "team": "WHP",
             "opponent": "CAN",
             "game_id": "2026-ev-9",
+            "position": "Midfield",
+            "salary": 28,
+            "mc_ev": 7.5,
+            "mc_p90": 16.1,
+            "actualPoints": 8.0
+        },
+        {
+            "firstName": "Ross",
+            "lastName": "Scott",
+            "team": "CHA",
+            "opponent": "WAT",
+            "game_id": "2026-ev-12",
+            "position": "Midfield",
+            "salary": 18,
+            "mc_ev": 7.2,
+            "mc_p90": 15.2,
+            "actualPoints": 35.0
+        },
+        {
+            "firstName": "Jeff",
+            "lastName": "Trainor",
+            "team": "CAN",
+            "opponent": "WHP",
+            "game_id": "2026-ev-9",
             "position": "Defense",
-            "salary": 20,
-            "mc_ev": 12.7,
-            "mc_p90": 25.6,
-            "actualPoints": 33.0
+            "salary": 15,
+            "mc_ev": 6.8,
+            "mc_p90": 22.8,
+            "actualPoints": -2.0
         }
     ],
     "MC_Win_160": [
         {
-            "firstName": "Matt",
-            "lastName": "DeLuca",
-            "team": "WAT",
-            "opponent": "CHA",
-            "game_id": "2026-ev-12",
-            "position": "Goalie",
-            "salary": 27,
-            "mc_ev": 30.4,
-            "mc_p90": 63.5,
-            "actualPoints": 36.0
-        },
-        {
-            "firstName": "Aidan",
-            "lastName": "Carroll",
-            "team": "WHP",
-            "opponent": "CAN",
-            "game_id": "2026-ev-9",
-            "position": "Attack",
-            "salary": 42,
-            "mc_ev": 30.6,
-            "mc_p90": 61.6,
-            "actualPoints": 35.0
-        },
-        {
-            "firstName": "CJ",
-            "lastName": "Kirst",
-            "team": "WAT",
-            "opponent": "CHA",
-            "game_id": "2026-ev-12",
-            "position": "Attack",
-            "salary": 37,
-            "mc_ev": 26.1,
-            "mc_p90": 51.9,
-            "actualPoints": 63.0
-        },
-        {
-            "firstName": "Dalton",
-            "lastName": "Young",
+            "firstName": "Jared",
+            "lastName": "Bernhardt",
             "team": "OUT",
             "opponent": "ATL",
             "game_id": "2026-ev-10",
-            "position": "Midfield",
-            "salary": 16,
-            "mc_ev": 16.4,
-            "mc_p90": 30.3,
-            "actualPoints": 19.0
+            "position": "Attack",
+            "salary": 28,
+            "mc_ev": 26.3,
+            "mc_p90": 45.0,
+            "actualPoints": 55.0
         },
         {
-            "firstName": "Mic",
-            "lastName": "Kelly",
+            "firstName": "Graydon",
+            "lastName": "Hogg",
+            "team": "CAN",
+            "opponent": "WHP",
+            "game_id": "2026-ev-9",
+            "position": "Attack",
+            "salary": 10,
+            "mc_ev": 7.9,
+            "mc_p90": 34.6,
+            "actualPoints": 10.0
+        },
+        {
+            "firstName": "Tre",
+            "lastName": "Leclaire",
+            "team": "ARC",
+            "opponent": "WHP",
+            "game_id": "2026-ev-11",
+            "position": "Midfield",
+            "salary": 13,
+            "mc_ev": 7.1,
+            "mc_p90": 18.8,
+            "actualPoints": -3.0
+        },
+        {
+            "firstName": "Mikey",
+            "lastName": "Weisshaar",
             "team": "CAN",
             "opponent": "WHP",
             "game_id": "2026-ev-9",
             "position": "Midfield",
-            "salary": 10,
-            "mc_ev": 16.3,
-            "mc_p90": 23.9,
-            "actualPoints": 51.0
+            "salary": 12,
+            "mc_ev": 6.3,
+            "mc_p90": 16.2,
+            "actualPoints": 7.0
+        },
+        {
+            "firstName": "Jack",
+            "lastName": "Pilling",
+            "team": "WHP",
+            "opponent": "CAN",
+            "game_id": "2026-ev-9",
+            "position": "Defense",
+            "salary": 2,
+            "mc_ev": 5.9,
+            "mc_p90": 13.8,
+            "actualPoints": 10.0
         },
         {
             "firstName": "Mike",
@@ -154,169 +154,59 @@
             "game_id": "2026-ev-11",
             "position": "Faceoff",
             "salary": 9,
-            "mc_ev": 14.2,
-            "mc_p90": 40.4,
+            "mc_ev": 8.2,
+            "mc_p90": 23.2,
             "actualPoints": 13.8
         },
         {
-            "firstName": "Ajax",
-            "lastName": "Zappitello",
-            "team": "WHP",
-            "opponent": "CAN",
-            "game_id": "2026-ev-9",
-            "position": "Defense",
-            "salary": 20,
-            "mc_ev": 12.7,
-            "mc_p90": 25.6,
-            "actualPoints": 33.0
+            "firstName": "Matt",
+            "lastName": "DeLuca",
+            "team": "WAT",
+            "opponent": "CHA",
+            "game_id": "2026-ev-12",
+            "position": "Goalie",
+            "salary": 27,
+            "mc_ev": 12.6,
+            "mc_p90": 26.2,
+            "actualPoints": 36.0
         }
     ],
     "MC_Win_180": [
         {
-            "firstName": "Aidan",
-            "lastName": "Carroll",
-            "team": "WHP",
-            "opponent": "CAN",
-            "game_id": "2026-ev-9",
-            "position": "Attack",
-            "salary": 42,
-            "mc_ev": 30.6,
-            "mc_p90": 61.6,
-            "actualPoints": 35.0
-        },
-        {
-            "firstName": "Josh",
-            "lastName": "Yago",
-            "team": "WAT",
-            "opponent": "CHA",
-            "game_id": "2026-ev-12",
-            "position": "Attack",
-            "salary": 11,
-            "mc_ev": 25.5,
-            "mc_p90": 52.1,
-            "actualPoints": 10.0
-        },
-        {
-            "firstName": "Dalton",
-            "lastName": "Young",
+            "firstName": "Jared",
+            "lastName": "Bernhardt",
             "team": "OUT",
             "opponent": "ATL",
             "game_id": "2026-ev-10",
-            "position": "Midfield",
-            "salary": 16,
-            "mc_ev": 16.4,
-            "mc_p90": 30.3,
-            "actualPoints": 19.0
-        },
-        {
-            "firstName": "Jake",
-            "lastName": "Stevens",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2026-ev-10",
-            "position": "Midfield",
-            "salary": 6,
-            "mc_ev": 15.4,
-            "mc_p90": 33.1,
-            "actualPoints": -5.0
-        },
-        {
-            "firstName": "Ajax",
-            "lastName": "Zappitello",
-            "team": "WHP",
-            "opponent": "CAN",
-            "game_id": "2026-ev-9",
-            "position": "Defense",
-            "salary": 20,
-            "mc_ev": 12.7,
-            "mc_p90": 25.6,
-            "actualPoints": 33.0
-        },
-        {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2026-ev-10",
-            "position": "Faceoff",
-            "salary": 26,
-            "mc_ev": 14.0,
-            "mc_p90": 28.6,
-            "actualPoints": 9.1
-        },
-        {
-            "firstName": "Matt",
-            "lastName": "DeLuca",
-            "team": "WAT",
-            "opponent": "CHA",
-            "game_id": "2026-ev-12",
-            "position": "Goalie",
-            "salary": 27,
-            "mc_ev": 30.4,
-            "mc_p90": 63.5,
-            "actualPoints": 36.0
-        }
-    ],
-    "MC_Ceil_90": [
-        {
-            "firstName": "Josh",
-            "lastName": "Yago",
-            "team": "WAT",
-            "opponent": "CHA",
-            "game_id": "2026-ev-12",
             "position": "Attack",
-            "salary": 11,
-            "mc_ev": 25.5,
-            "mc_p90": 52.1,
-            "actualPoints": 10.0
+            "salary": 28,
+            "mc_ev": 26.3,
+            "mc_p90": 45.0,
+            "actualPoints": 55.0
         },
         {
-            "firstName": "Kieran",
-            "lastName": "McArdle",
-            "team": "WAT",
-            "opponent": "CHA",
-            "game_id": "2026-ev-12",
-            "position": "Attack",
-            "salary": 30,
-            "mc_ev": 25.7,
-            "mc_p90": 55.0,
-            "actualPoints": 30.0
-        },
-        {
-            "firstName": "Dalton",
-            "lastName": "Young",
-            "team": "OUT",
-            "opponent": "ATL",
-            "game_id": "2026-ev-10",
-            "position": "Midfield",
-            "salary": 16,
-            "mc_ev": 16.4,
-            "mc_p90": 30.3,
-            "actualPoints": 19.0
-        },
-        {
-            "firstName": "Connor",
+            "firstName": "Colin",
             "lastName": "Kirst",
             "team": "CAN",
             "opponent": "WHP",
             "game_id": "2026-ev-9",
-            "position": "Midfield",
-            "salary": 6,
-            "mc_ev": 13.2,
-            "mc_p90": 40.0,
-            "actualPoints": 12.8
+            "position": "Goalie",
+            "salary": 34,
+            "mc_ev": 12.6,
+            "mc_p90": 21.6,
+            "actualPoints": 33.0
         },
         {
-            "firstName": "Ben",
-            "lastName": "Ramsey",
+            "firstName": "Marcus",
+            "lastName": "Holman",
             "team": "CAN",
             "opponent": "WHP",
             "game_id": "2026-ev-9",
-            "position": "Defense",
-            "salary": 8,
-            "mc_ev": 10.9,
-            "mc_p90": 32.9,
-            "actualPoints": 3.0
+            "position": "Attack",
+            "salary": 39,
+            "mc_ev": 10.8,
+            "mc_p90": 20.7,
+            "actualPoints": 18.0
         },
         {
             "firstName": "Mike",
@@ -326,9 +216,59 @@
             "game_id": "2026-ev-11",
             "position": "Faceoff",
             "salary": 9,
-            "mc_ev": 14.2,
-            "mc_p90": 40.4,
+            "mc_ev": 8.2,
+            "mc_p90": 23.2,
             "actualPoints": 13.8
+        },
+        {
+            "firstName": "Matt",
+            "lastName": "Brandau",
+            "team": "WHP",
+            "opponent": "CAN",
+            "game_id": "2026-ev-9",
+            "position": "Midfield",
+            "salary": 28,
+            "mc_ev": 7.5,
+            "mc_p90": 16.1,
+            "actualPoints": 8.0
+        },
+        {
+            "firstName": "Ross",
+            "lastName": "Scott",
+            "team": "CHA",
+            "opponent": "WAT",
+            "game_id": "2026-ev-12",
+            "position": "Midfield",
+            "salary": 18,
+            "mc_ev": 7.2,
+            "mc_p90": 15.2,
+            "actualPoints": 35.0
+        },
+        {
+            "firstName": "Jimmy",
+            "lastName": "Freehill",
+            "team": "WAT",
+            "opponent": "CHA",
+            "game_id": "2026-ev-12",
+            "position": "Defense",
+            "salary": 12,
+            "mc_ev": 5.4,
+            "mc_p90": 13.2,
+            "actualPoints": 1.0
+        }
+    ],
+    "MC_Ceil_90": [
+        {
+            "firstName": "Jared",
+            "lastName": "Bernhardt",
+            "team": "OUT",
+            "opponent": "ATL",
+            "game_id": "2026-ev-10",
+            "position": "Attack",
+            "salary": 28,
+            "mc_ev": 26.3,
+            "mc_p90": 45.0,
+            "actualPoints": 55.0
         },
         {
             "firstName": "Matt",
@@ -338,11 +278,73 @@
             "game_id": "2026-ev-12",
             "position": "Goalie",
             "salary": 27,
-            "mc_ev": 30.4,
-            "mc_p90": 63.5,
+            "mc_ev": 12.6,
+            "mc_p90": 26.2,
             "actualPoints": 36.0
+        },
+        {
+            "firstName": "Brennan",
+            "lastName": "O'Neill",
+            "team": "OUT",
+            "opponent": "ATL",
+            "game_id": "2026-ev-10",
+            "position": "Attack",
+            "salary": 37,
+            "mc_ev": 10.2,
+            "mc_p90": 20.6,
+            "actualPoints": 31.0
+        },
+        {
+            "firstName": "Mike",
+            "lastName": "Sisselberger",
+            "team": "ARC",
+            "opponent": "WHP",
+            "game_id": "2026-ev-11",
+            "position": "Faceoff",
+            "salary": 9,
+            "mc_ev": 8.2,
+            "mc_p90": 23.2,
+            "actualPoints": 13.8
+        },
+        {
+            "firstName": "Matt",
+            "lastName": "Brandau",
+            "team": "WHP",
+            "opponent": "CAN",
+            "game_id": "2026-ev-9",
+            "position": "Midfield",
+            "salary": 28,
+            "mc_ev": 7.5,
+            "mc_p90": 16.1,
+            "actualPoints": 8.0
+        },
+        {
+            "firstName": "Tre",
+            "lastName": "Leclaire",
+            "team": "ARC",
+            "opponent": "WHP",
+            "game_id": "2026-ev-11",
+            "position": "Midfield",
+            "salary": 13,
+            "mc_ev": 7.1,
+            "mc_p90": 18.8,
+            "actualPoints": -3.0
+        },
+        {
+            "firstName": "Jeff",
+            "lastName": "Trainor",
+            "team": "CAN",
+            "opponent": "WHP",
+            "game_id": "2026-ev-9",
+            "position": "Defense",
+            "salary": 15,
+            "mc_ev": 6.8,
+            "mc_p90": 22.8,
+            "actualPoints": -2.0
         }
     ],
+    "MC_Consensus": [],
+    "MC_Differential": [],
     "Coulda": [
         {
             "firstName": "CJ",
@@ -352,8 +354,8 @@
             "game_id": "2026-ev-12",
             "position": "A",
             "salary": 37,
-            "mc_ev": 26.1,
-            "mc_p90": 51.9,
+            "mc_ev": 8.7,
+            "mc_p90": 17.2,
             "actualPoints": 63.0
         },
         {
@@ -364,8 +366,8 @@
             "game_id": "2026-ev-10",
             "position": "A",
             "salary": 23,
-            "mc_ev": 23.0,
-            "mc_p90": 46.4,
+            "mc_ev": 9.0,
+            "mc_p90": 18.1,
             "actualPoints": 62.0
         },
         {
@@ -376,8 +378,8 @@
             "game_id": "2026-ev-9",
             "position": "M",
             "salary": 10,
-            "mc_ev": 16.3,
-            "mc_p90": 23.9,
+            "mc_ev": 5.4,
+            "mc_p90": 7.9,
             "actualPoints": 51.0
         },
         {
@@ -388,8 +390,8 @@
             "game_id": "2026-ev-9",
             "position": "M",
             "salary": 18,
-            "mc_ev": 14.4,
-            "mc_p90": 28.6,
+            "mc_ev": 5.1,
+            "mc_p90": 10.2,
             "actualPoints": 48.0
         },
         {
@@ -400,8 +402,8 @@
             "game_id": "2026-ev-10",
             "position": "LSM",
             "salary": 3,
-            "mc_ev": 9.4,
-            "mc_p90": 16.8,
+            "mc_ev": 5.2,
+            "mc_p90": 9.3,
             "actualPoints": 36.0
         },
         {
@@ -412,8 +414,8 @@
             "game_id": "2026-ev-11",
             "position": "FO",
             "salary": 9,
-            "mc_ev": 14.2,
-            "mc_p90": 40.4,
+            "mc_ev": 8.2,
+            "mc_p90": 23.2,
             "actualPoints": 13.8
         },
         {
@@ -424,70 +426,46 @@
             "game_id": "2026-ev-10",
             "position": "G",
             "salary": 50,
-            "mc_ev": 31.0,
-            "mc_p90": 46.1,
+            "mc_ev": 13.6,
+            "mc_p90": 20.1,
             "actualPoints": 46.0
         }
     ],
     "Core": [
-        "Dalton Young"
+        "Jared Bernhardt",
+        "Mike Sisselberger"
     ],
-    "Sleepers": [
-        "Connor Kirst",
-        "Ben Ramsey"
-    ],
+    "Sleepers": [],
     "RecommendedStrategy": "MC_EV",
-    "RecommendedReason": "Tight pricing / short slate (4 games, 30 cheap value players). Optimizing for floor is best.",
+    "RecommendedReason": "Tight pricing / short slate (4 games, 0 cheap value players). Optimizing for floor is best.",
     "Narrative": {
         "RecommendedRoster": [
             {
-                "firstName": "Liam",
-                "lastName": "Entenmann",
+                "firstName": "Jared",
+                "lastName": "Bernhardt",
+                "position": "Attack",
+                "salary": 28,
+                "bullets": [
+                    "Matchup Specialist: Historically performs well against ATL (1.21x average scoring rate).",
+                    "Opponent Weakness: ATL defense allows 22% extra fantasy points to Attack position."
+                ]
+            },
+            {
+                "firstName": "Brett",
+                "lastName": "Dobson",
                 "position": "Goalie",
-                "salary": 50,
+                "salary": 45,
                 "bullets": [
-                    "Hot Form: Averaging 41.3 fantasy pts over last 3 games (vs 31.0 season avg).",
-                    "Matchup Specialist: Historically performs well against OUT (1.19x average scoring rate).",
-                    "Opponent Weakness: OUT defense allows 12% extra fantasy points to Goalie position."
+                    "Consistent Pick: Selected for steady expected floor (14.4 EV) and reliable role."
                 ]
             },
             {
-                "firstName": "Aidan",
-                "lastName": "Carroll",
+                "firstName": "Marcus",
+                "lastName": "Holman",
                 "position": "Attack",
-                "salary": 42,
+                "salary": 39,
                 "bullets": [
-                    "Hot Form: Averaging 51.0 fantasy pts over last 3 games (vs 33.8 season avg).",
-                    "Opponent Weakness: CAN defense allows 18% extra fantasy points to Attack position."
-                ]
-            },
-            {
-                "firstName": "TJ",
-                "lastName": "Malone",
-                "position": "Attack",
-                "salary": 34,
-                "bullets": [
-                    "Opponent Weakness: CAN defense allows 18% extra fantasy points to Attack position."
-                ]
-            },
-            {
-                "firstName": "Dalton",
-                "lastName": "Young",
-                "position": "Midfield",
-                "salary": 16,
-                "bullets": [
-                    "Opponent Weakness: ATL defense allows 11% extra fantasy points to Midfield position."
-                ]
-            },
-            {
-                "firstName": "Mic",
-                "lastName": "Kelly",
-                "position": "Midfield",
-                "salary": 10,
-                "bullets": [
-                    "Hot Form: Averaging 15.3 fantasy pts over last 3 games (vs 7.6 season avg).",
-                    "Matchup Specialist: Historically performs well against WHP (1.27x average scoring rate).",
-                    "Salary Cap Enabler: Excellent cost efficiency, projecting 16.3 EV for just 10 coins."
+                    "Consistent Pick: Selected for steady expected floor (10.8 EV) and reliable role."
                 ]
             },
             {
@@ -496,16 +474,35 @@
                 "position": "Faceoff",
                 "salary": 9,
                 "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (14.2 EV) and reliable role."
+                    "Consistent Pick: Selected for steady expected floor (8.2 EV) and reliable role."
                 ]
             },
             {
-                "firstName": "Ajax",
-                "lastName": "Zappitello",
-                "position": "Defense",
-                "salary": 20,
+                "firstName": "Matt",
+                "lastName": "Brandau",
+                "position": "Midfield",
+                "salary": 28,
                 "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (12.7 EV) and reliable role."
+                    "Matchup Specialist: Historically performs well against CAN (1.21x average scoring rate).",
+                    "Opponent Weakness: CAN defense allows 8% extra fantasy points to Midfield position."
+                ]
+            },
+            {
+                "firstName": "Ross",
+                "lastName": "Scott",
+                "position": "Midfield",
+                "salary": 18,
+                "bullets": [
+                    "Consistent Pick: Selected for steady expected floor (7.2 EV) and reliable role."
+                ]
+            },
+            {
+                "firstName": "Jeff",
+                "lastName": "Trainor",
+                "position": "Defense",
+                "salary": 15,
+                "bullets": [
+                    "Hot Form: Averaging 28.0 fantasy pts over last 3 games (vs 12.0 season avg)."
                 ]
             }
         ],
@@ -514,50 +511,48 @@
                 "strategy": "MC_Win_160",
                 "strategyLabel": "MC Win 160",
                 "in": [
-                    "Matt DeLuca",
-                    "CJ Kirst"
+                    "Graydon Hogg",
+                    "Tre Leclaire",
+                    "Mikey Weisshaar",
+                    "Jack Pilling",
+                    "Matt DeLuca"
                 ],
                 "out": [
-                    "Liam Entenmann",
-                    "TJ Malone"
+                    "Brett Dobson",
+                    "Marcus Holman",
+                    "Matt Brandau",
+                    "Ross Scott",
+                    "Jeff Trainor"
                 ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Matt DeLuca (Goalie, 27c), CJ Kirst (Attack, 37c)) to increase the joint probability of the entire lineup hitting the 160 target score."
+                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Graydon Hogg (Attack, 10c), Tre Leclaire (Midfield, 13c), Mikey Weisshaar (Midfield, 12c), Jack Pilling (Defense, 2c), Matt DeLuca (Goalie, 27c)) to increase the joint probability of the entire lineup hitting the 160 target score."
             },
             {
                 "strategy": "MC_Win_180",
                 "strategyLabel": "MC Win 180",
                 "in": [
-                    "Josh Yago",
-                    "Jake Stevens",
-                    "Trevor Baptiste",
-                    "Matt DeLuca"
+                    "Colin Kirst",
+                    "Jimmy Freehill"
                 ],
                 "out": [
-                    "Liam Entenmann",
-                    "TJ Malone",
-                    "Mic Kelly",
-                    "Mike Sisselberger"
+                    "Brett Dobson",
+                    "Jeff Trainor"
                 ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Josh Yago (Attack, 11c), Jake Stevens (Midfield, 6c), Trevor Baptiste (Faceoff, 26c), Matt DeLuca (Goalie, 27c)) to increase the joint probability of the entire lineup hitting the 180 target score."
+                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Colin Kirst (Goalie, 34c), Jimmy Freehill (Defense, 12c)) to increase the joint probability of the entire lineup hitting the 180 target score."
             },
             {
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
-                    "Josh Yago",
-                    "Kieran McArdle",
-                    "Connor Kirst",
-                    "Ben Ramsey",
-                    "Matt DeLuca"
+                    "Matt DeLuca",
+                    "Brennan O'Neill",
+                    "Tre Leclaire"
                 ],
                 "out": [
-                    "Liam Entenmann",
-                    "Aidan Carroll",
-                    "TJ Malone",
-                    "Mic Kelly",
-                    "Ajax Zappitello"
+                    "Brett Dobson",
+                    "Marcus Holman",
+                    "Ross Scott"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Josh Yago (Attack, 11c), Kieran McArdle (Attack, 30c), Connor Kirst (Midfield, 6c), Ben Ramsey (Defense, 8c), Matt DeLuca (Goalie, 27c)) to maximize the team's 90th percentile ceiling (projecting up to 63.5 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Matt DeLuca (Goalie, 27c), Brennan O'Neill (Attack, 37c), Tre Leclaire (Midfield, 13c)) to maximize the team's 90th percentile ceiling (projecting up to 26.2 pts)."
             }
         ]
     }

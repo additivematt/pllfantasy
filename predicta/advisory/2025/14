@@ -1,6 +1,18 @@
 {
     "MC_EV": [
         {
+            "firstName": "Logan",
+            "lastName": "McNaney",
+            "team": "OUT",
+            "opponent": "ATL",
+            "game_id": "2025_championship_game",
+            "position": "Goalie",
+            "salary": 39,
+            "mc_ev": 27.7,
+            "mc_p90": 0.0,
+            "actualPoints": 24.0
+        },
+        {
             "firstName": "Connor",
             "lastName": "Shellenberger",
             "team": "ATL",
@@ -13,28 +25,16 @@
             "actualPoints": 35.0
         },
         {
-            "firstName": "Liam",
-            "lastName": "Entenmann",
+            "firstName": "Jeff",
+            "lastName": "Teat",
             "team": "ATL",
             "opponent": "OUT",
             "game_id": "2025_championship_game",
-            "position": "Goalie",
-            "salary": 43,
-            "mc_ev": 30.3,
-            "mc_p90": 0.0,
-            "actualPoints": 39.0
-        },
-        {
-            "firstName": "Brennan",
-            "lastName": "O'Neill",
-            "team": "OUT",
-            "opponent": "ATL",
-            "game_id": "2025_championship_game",
             "position": "Attack",
-            "salary": 40,
-            "mc_ev": 29.4,
+            "salary": 46,
+            "mc_ev": 28.4,
             "mc_p90": 0.0,
-            "actualPoints": 25.0
+            "actualPoints": 71.0
         },
         {
             "firstName": "Jake",
@@ -49,300 +49,302 @@
             "actualPoints": -5.0
         },
         {
-            "firstName": "Dalton",
-            "lastName": "Young",
+            "firstName": "Luke",
+            "lastName": "Wierman",
             "team": "OUT",
             "opponent": "ATL",
-            "game_id": "2025_championship_game",
-            "position": "Midfield",
-            "salary": 19,
-            "mc_ev": 17.5,
-            "mc_p90": 0.0,
-            "actualPoints": 20.0
-        },
-        {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
-            "team": "ATL",
-            "opponent": "OUT",
             "game_id": "2025_championship_game",
             "position": "Faceoff",
-            "salary": 33,
-            "mc_ev": 16.6,
+            "salary": 18,
+            "mc_ev": 14.1,
             "mc_p90": 0.0,
-            "actualPoints": 23.6
-        },
-        {
-            "firstName": "Max",
-            "lastName": "Krevsky",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2025_championship_game",
-            "position": "Defense",
-            "salary": 3,
-            "mc_ev": 9.1,
-            "mc_p90": 0.0,
-            "actualPoints": 2.0
-        }
-    ],
-    "MC_Win_160": [
-        {
-            "firstName": "Connor",
-            "lastName": "Shellenberger",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2025_championship_game",
-            "position": "Attack",
-            "salary": 47,
-            "mc_ev": 32.3,
-            "mc_p90": 0.0,
-            "actualPoints": 35.0
-        },
-        {
-            "firstName": "Liam",
-            "lastName": "Entenmann",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2025_championship_game",
-            "position": "Goalie",
-            "salary": 43,
-            "mc_ev": 30.3,
-            "mc_p90": 0.0,
-            "actualPoints": 39.0
-        },
-        {
-            "firstName": "Brennan",
-            "lastName": "O'Neill",
-            "team": "OUT",
-            "opponent": "ATL",
-            "game_id": "2025_championship_game",
-            "position": "Attack",
-            "salary": 40,
-            "mc_ev": 29.4,
-            "mc_p90": 0.0,
-            "actualPoints": 25.0
-        },
-        {
-            "firstName": "Jake",
-            "lastName": "Stevens",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2025_championship_game",
-            "position": "Midfield",
-            "salary": 10,
-            "mc_ev": 15.1,
-            "mc_p90": 0.0,
-            "actualPoints": -5.0
-        },
-        {
-            "firstName": "Dalton",
-            "lastName": "Young",
-            "team": "OUT",
-            "opponent": "ATL",
-            "game_id": "2025_championship_game",
-            "position": "Midfield",
-            "salary": 19,
-            "mc_ev": 17.5,
-            "mc_p90": 0.0,
-            "actualPoints": 20.0
-        },
-        {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2025_championship_game",
-            "position": "Faceoff",
-            "salary": 33,
-            "mc_ev": 16.6,
-            "mc_p90": 0.0,
-            "actualPoints": 23.6
-        },
-        {
-            "firstName": "Max",
-            "lastName": "Krevsky",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2025_championship_game",
-            "position": "Defense",
-            "salary": 3,
-            "mc_ev": 9.1,
-            "mc_p90": 0.0,
-            "actualPoints": 2.0
-        }
-    ],
-    "MC_Win_180": [
-        {
-            "firstName": "Connor",
-            "lastName": "Shellenberger",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2025_championship_game",
-            "position": "Attack",
-            "salary": 47,
-            "mc_ev": 32.3,
-            "mc_p90": 0.0,
-            "actualPoints": 35.0
-        },
-        {
-            "firstName": "Liam",
-            "lastName": "Entenmann",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2025_championship_game",
-            "position": "Goalie",
-            "salary": 43,
-            "mc_ev": 30.3,
-            "mc_p90": 0.0,
-            "actualPoints": 39.0
-        },
-        {
-            "firstName": "Brennan",
-            "lastName": "O'Neill",
-            "team": "OUT",
-            "opponent": "ATL",
-            "game_id": "2025_championship_game",
-            "position": "Attack",
-            "salary": 40,
-            "mc_ev": 29.4,
-            "mc_p90": 0.0,
-            "actualPoints": 25.0
-        },
-        {
-            "firstName": "Jake",
-            "lastName": "Stevens",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2025_championship_game",
-            "position": "Midfield",
-            "salary": 10,
-            "mc_ev": 15.1,
-            "mc_p90": 0.0,
-            "actualPoints": -5.0
-        },
-        {
-            "firstName": "Dalton",
-            "lastName": "Young",
-            "team": "OUT",
-            "opponent": "ATL",
-            "game_id": "2025_championship_game",
-            "position": "Midfield",
-            "salary": 19,
-            "mc_ev": 17.5,
-            "mc_p90": 0.0,
-            "actualPoints": 20.0
-        },
-        {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2025_championship_game",
-            "position": "Faceoff",
-            "salary": 33,
-            "mc_ev": 16.6,
-            "mc_p90": 0.0,
-            "actualPoints": 23.6
-        },
-        {
-            "firstName": "Max",
-            "lastName": "Krevsky",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2025_championship_game",
-            "position": "Defense",
-            "salary": 3,
-            "mc_ev": 9.1,
-            "mc_p90": 0.0,
-            "actualPoints": 2.0
-        }
-    ],
-    "MC_Ceil_90": [
-        {
-            "firstName": "Connor",
-            "lastName": "Shellenberger",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2025_championship_game",
-            "position": "Attack",
-            "salary": 47,
-            "mc_ev": 32.3,
-            "mc_p90": 0.0,
-            "actualPoints": 35.0
-        },
-        {
-            "firstName": "Liam",
-            "lastName": "Entenmann",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2025_championship_game",
-            "position": "Goalie",
-            "salary": 43,
-            "mc_ev": 30.3,
-            "mc_p90": 0.0,
-            "actualPoints": 39.0
-        },
-        {
-            "firstName": "Brennan",
-            "lastName": "O'Neill",
-            "team": "OUT",
-            "opponent": "ATL",
-            "game_id": "2025_championship_game",
-            "position": "Attack",
-            "salary": 40,
-            "mc_ev": 29.4,
-            "mc_p90": 0.0,
-            "actualPoints": 25.0
-        },
-        {
-            "firstName": "Jonathan",
-            "lastName": "Donville",
-            "team": "OUT",
-            "opponent": "ATL",
-            "game_id": "2025_championship_game",
-            "position": "Midfield",
-            "salary": 10,
-            "mc_ev": 14.0,
-            "mc_p90": 0.0,
-            "actualPoints": 8.0
-        },
-        {
-            "firstName": "Jake",
-            "lastName": "Stevens",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2025_championship_game",
-            "position": "Midfield",
-            "salary": 10,
-            "mc_ev": 15.1,
-            "mc_p90": 0.0,
-            "actualPoints": -5.0
-        },
-        {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2025_championship_game",
-            "position": "Faceoff",
-            "salary": 33,
-            "mc_ev": 16.6,
-            "mc_p90": 0.0,
-            "actualPoints": 23.6
+            "actualPoints": -4.3
         },
         {
             "firstName": "Michael",
-            "lastName": "Manley",
-            "team": "OUT",
-            "opponent": "ATL",
+            "lastName": "Grace",
+            "team": "ATL",
+            "opponent": "OUT",
             "game_id": "2025_championship_game",
             "position": "Defense",
-            "salary": 17,
-            "mc_ev": 11.7,
+            "salary": 13,
+            "mc_ev": 10.2,
+            "mc_p90": 0.0,
+            "actualPoints": 12.0
+        },
+        {
+            "firstName": "Hugh",
+            "lastName": "Kelleher",
+            "team": "ATL",
+            "opponent": "OUT",
+            "game_id": "2025_championship_game",
+            "position": "Midfield",
+            "salary": 8,
+            "mc_ev": 14.6,
             "mc_p90": 0.0,
             "actualPoints": 10.0
         }
     ],
+    "MC_Win_160": [
+        {
+            "firstName": "Logan",
+            "lastName": "McNaney",
+            "team": "OUT",
+            "opponent": "ATL",
+            "game_id": "2025_championship_game",
+            "position": "Goalie",
+            "salary": 39,
+            "mc_ev": 27.7,
+            "mc_p90": 0.0,
+            "actualPoints": 24.0
+        },
+        {
+            "firstName": "Connor",
+            "lastName": "Shellenberger",
+            "team": "ATL",
+            "opponent": "OUT",
+            "game_id": "2025_championship_game",
+            "position": "Attack",
+            "salary": 47,
+            "mc_ev": 32.3,
+            "mc_p90": 0.0,
+            "actualPoints": 35.0
+        },
+        {
+            "firstName": "Jeff",
+            "lastName": "Teat",
+            "team": "ATL",
+            "opponent": "OUT",
+            "game_id": "2025_championship_game",
+            "position": "Attack",
+            "salary": 46,
+            "mc_ev": 28.4,
+            "mc_p90": 0.0,
+            "actualPoints": 71.0
+        },
+        {
+            "firstName": "Jake",
+            "lastName": "Stevens",
+            "team": "ATL",
+            "opponent": "OUT",
+            "game_id": "2025_championship_game",
+            "position": "Midfield",
+            "salary": 10,
+            "mc_ev": 15.1,
+            "mc_p90": 0.0,
+            "actualPoints": -5.0
+        },
+        {
+            "firstName": "Luke",
+            "lastName": "Wierman",
+            "team": "OUT",
+            "opponent": "ATL",
+            "game_id": "2025_championship_game",
+            "position": "Faceoff",
+            "salary": 18,
+            "mc_ev": 14.1,
+            "mc_p90": 0.0,
+            "actualPoints": -4.3
+        },
+        {
+            "firstName": "Michael",
+            "lastName": "Grace",
+            "team": "ATL",
+            "opponent": "OUT",
+            "game_id": "2025_championship_game",
+            "position": "Defense",
+            "salary": 13,
+            "mc_ev": 10.2,
+            "mc_p90": 0.0,
+            "actualPoints": 12.0
+        },
+        {
+            "firstName": "Hugh",
+            "lastName": "Kelleher",
+            "team": "ATL",
+            "opponent": "OUT",
+            "game_id": "2025_championship_game",
+            "position": "Midfield",
+            "salary": 8,
+            "mc_ev": 14.6,
+            "mc_p90": 0.0,
+            "actualPoints": 10.0
+        }
+    ],
+    "MC_Win_180": [
+        {
+            "firstName": "Logan",
+            "lastName": "McNaney",
+            "team": "OUT",
+            "opponent": "ATL",
+            "game_id": "2025_championship_game",
+            "position": "Goalie",
+            "salary": 39,
+            "mc_ev": 27.7,
+            "mc_p90": 0.0,
+            "actualPoints": 24.0
+        },
+        {
+            "firstName": "Connor",
+            "lastName": "Shellenberger",
+            "team": "ATL",
+            "opponent": "OUT",
+            "game_id": "2025_championship_game",
+            "position": "Attack",
+            "salary": 47,
+            "mc_ev": 32.3,
+            "mc_p90": 0.0,
+            "actualPoints": 35.0
+        },
+        {
+            "firstName": "Jeff",
+            "lastName": "Teat",
+            "team": "ATL",
+            "opponent": "OUT",
+            "game_id": "2025_championship_game",
+            "position": "Attack",
+            "salary": 46,
+            "mc_ev": 28.4,
+            "mc_p90": 0.0,
+            "actualPoints": 71.0
+        },
+        {
+            "firstName": "Jake",
+            "lastName": "Stevens",
+            "team": "ATL",
+            "opponent": "OUT",
+            "game_id": "2025_championship_game",
+            "position": "Midfield",
+            "salary": 10,
+            "mc_ev": 15.1,
+            "mc_p90": 0.0,
+            "actualPoints": -5.0
+        },
+        {
+            "firstName": "Luke",
+            "lastName": "Wierman",
+            "team": "OUT",
+            "opponent": "ATL",
+            "game_id": "2025_championship_game",
+            "position": "Faceoff",
+            "salary": 18,
+            "mc_ev": 14.1,
+            "mc_p90": 0.0,
+            "actualPoints": -4.3
+        },
+        {
+            "firstName": "Michael",
+            "lastName": "Grace",
+            "team": "ATL",
+            "opponent": "OUT",
+            "game_id": "2025_championship_game",
+            "position": "Defense",
+            "salary": 13,
+            "mc_ev": 10.2,
+            "mc_p90": 0.0,
+            "actualPoints": 12.0
+        },
+        {
+            "firstName": "Hugh",
+            "lastName": "Kelleher",
+            "team": "ATL",
+            "opponent": "OUT",
+            "game_id": "2025_championship_game",
+            "position": "Midfield",
+            "salary": 8,
+            "mc_ev": 14.6,
+            "mc_p90": 0.0,
+            "actualPoints": 10.0
+        }
+    ],
+    "MC_Ceil_90": [
+        {
+            "firstName": "Logan",
+            "lastName": "McNaney",
+            "team": "OUT",
+            "opponent": "ATL",
+            "game_id": "2025_championship_game",
+            "position": "Goalie",
+            "salary": 39,
+            "mc_ev": 27.7,
+            "mc_p90": 0.0,
+            "actualPoints": 24.0
+        },
+        {
+            "firstName": "Logan",
+            "lastName": "Wisnauskas",
+            "team": "OUT",
+            "opponent": "ATL",
+            "game_id": "2025_championship_game",
+            "position": "Attack",
+            "salary": 24,
+            "mc_ev": 22.6,
+            "mc_p90": 0.0,
+            "actualPoints": 19.0
+        },
+        {
+            "firstName": "Jeff",
+            "lastName": "Teat",
+            "team": "ATL",
+            "opponent": "OUT",
+            "game_id": "2025_championship_game",
+            "position": "Attack",
+            "salary": 46,
+            "mc_ev": 28.4,
+            "mc_p90": 0.0,
+            "actualPoints": 71.0
+        },
+        {
+            "firstName": "Jake",
+            "lastName": "Stevens",
+            "team": "ATL",
+            "opponent": "OUT",
+            "game_id": "2025_championship_game",
+            "position": "Midfield",
+            "salary": 10,
+            "mc_ev": 15.1,
+            "mc_p90": 0.0,
+            "actualPoints": -5.0
+        },
+        {
+            "firstName": "Luke",
+            "lastName": "Wierman",
+            "team": "OUT",
+            "opponent": "ATL",
+            "game_id": "2025_championship_game",
+            "position": "Faceoff",
+            "salary": 18,
+            "mc_ev": 14.1,
+            "mc_p90": 0.0,
+            "actualPoints": -4.3
+        },
+        {
+            "firstName": "Michael",
+            "lastName": "Rexrode",
+            "team": "ATL",
+            "opponent": "OUT",
+            "game_id": "2025_championship_game",
+            "position": "Defense",
+            "salary": 10,
+            "mc_ev": 10.3,
+            "mc_p90": 0.0,
+            "actualPoints": 13.0
+        },
+        {
+            "firstName": "Hugh",
+            "lastName": "Kelleher",
+            "team": "ATL",
+            "opponent": "OUT",
+            "game_id": "2025_championship_game",
+            "position": "Midfield",
+            "salary": 8,
+            "mc_ev": 14.6,
+            "mc_p90": 0.0,
+            "actualPoints": 10.0
+        }
+    ],
+    "MC_Consensus": [],
+    "MC_Differential": [],
     "Coulda": [
         {
             "firstName": "Jeff",
@@ -430,19 +432,29 @@
         }
     ],
     "Core": [
-        "Connor Shellenberger",
-        "Liam Entenmann",
-        "Brennan O'Neill",
+        "Logan McNaney",
+        "Jeff Teat",
         "Jake Stevens",
-        "Trevor Baptiste"
+        "Luke Wierman",
+        "Hugh Kelleher"
     ],
     "Sleepers": [
-        "Jonathan Donville"
+        "Michael Rexrode"
     ],
     "RecommendedStrategy": "MC_EV",
     "RecommendedReason": "Tight pricing / short slate (1 games, 5 cheap value players). Optimizing for floor is best.",
     "Narrative": {
         "RecommendedRoster": [
+            {
+                "firstName": "Logan",
+                "lastName": "McNaney",
+                "position": "Goalie",
+                "salary": 39,
+                "bullets": [
+                    "Hot Form: Averaging 29.7 fantasy pts over last 3 games (vs 24.4 season avg).",
+                    "Matchup Specialist: Historically performs well against ATL (1.15x average scoring rate)."
+                ]
+            },
             {
                 "firstName": "Connor",
                 "lastName": "Shellenberger",
@@ -453,23 +465,12 @@
                 ]
             },
             {
-                "firstName": "Liam",
-                "lastName": "Entenmann",
-                "position": "Goalie",
-                "salary": 43,
-                "bullets": [
-                    "Hot Form: Averaging 39.3 fantasy pts over last 3 games (vs 29.5 season avg).",
-                    "Matchup Specialist: Historically performs well against OUT (1.24x average scoring rate).",
-                    "Opponent Weakness: OUT defense allows 13% extra fantasy points to Goalie position."
-                ]
-            },
-            {
-                "firstName": "Brennan",
-                "lastName": "O'Neill",
+                "firstName": "Jeff",
+                "lastName": "Teat",
                 "position": "Attack",
-                "salary": 40,
+                "salary": 46,
                 "bullets": [
-                    "Opponent Weakness: ATL defense allows 21% extra fantasy points to Attack position."
+                    "Matchup Specialist: Historically performs well against OUT (1.24x average scoring rate)."
                 ]
             },
             {
@@ -483,30 +484,32 @@
                 ]
             },
             {
-                "firstName": "Dalton",
-                "lastName": "Young",
-                "position": "Midfield",
-                "salary": 19,
-                "bullets": [
-                    "Opponent Weakness: ATL defense allows 14% extra fantasy points to Midfield position."
-                ]
-            },
-            {
-                "firstName": "Trevor",
-                "lastName": "Baptiste",
+                "firstName": "Luke",
+                "lastName": "Wierman",
                 "position": "Faceoff",
-                "salary": 33,
+                "salary": 18,
                 "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (16.6 EV) and reliable role."
+                    "Hot Form: Averaging 29.7 fantasy pts over last 3 games (vs 15.4 season avg).",
+                    "Matchup Specialist: Historically performs well against ATL (1.27x average scoring rate)."
                 ]
             },
             {
-                "firstName": "Max",
-                "lastName": "Krevsky",
+                "firstName": "Michael",
+                "lastName": "Grace",
                 "position": "Defense",
-                "salary": 3,
+                "salary": 13,
                 "bullets": [
-                    "Hot Form: Averaging 5.8 fantasy pts over last 3 games (vs 3.2 season avg)."
+                    "Hot Form: Averaging 23.0 fantasy pts over last 3 games (vs 16.1 season avg)."
+                ]
+            },
+            {
+                "firstName": "Hugh",
+                "lastName": "Kelleher",
+                "position": "Midfield",
+                "salary": 8,
+                "bullets": [
+                    "Hot Form: Averaging 7.0 fantasy pts over last 3 games (vs 4.9 season avg).",
+                    "Opponent Weakness: OUT defense allows 14% extra fantasy points to Midfield position."
                 ]
             }
         ],
@@ -515,14 +518,14 @@
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
-                    "Jonathan Donville",
-                    "Michael Manley"
+                    "Logan Wisnauskas",
+                    "Michael Rexrode"
                 ],
                 "out": [
-                    "Dalton Young",
-                    "Max Krevsky"
+                    "Connor Shellenberger",
+                    "Michael Grace"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Jonathan Donville (Midfield, 10c), Michael Manley (Defense, 17c)) to maximize the team's 90th percentile ceiling (projecting up to 0.0 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Logan Wisnauskas (Attack, 24c), Michael Rexrode (Defense, 10c)) to maximize the team's 90th percentile ceiling (projecting up to 0.0 pts)."
             }
         ]
     }

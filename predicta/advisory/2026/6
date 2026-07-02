@@ -173,18 +173,6 @@
     ],
     "MC_Win_180": [
         {
-            "firstName": "Mac",
-            "lastName": "O'Keefe",
-            "team": "ARC",
-            "opponent": "WAT",
-            "game_id": "2026-ev-23",
-            "position": "Attack",
-            "salary": 25,
-            "mc_ev": 22.7,
-            "mc_p90": 59.4,
-            "actualPoints": 20.0
-        },
-        {
             "firstName": "Connor",
             "lastName": "Fields",
             "team": "ARC",
@@ -195,6 +183,18 @@
             "mc_ev": 24.4,
             "mc_p90": 52.1,
             "actualPoints": 22.0
+        },
+        {
+            "firstName": "Mac",
+            "lastName": "O'Keefe",
+            "team": "ARC",
+            "opponent": "WAT",
+            "game_id": "2026-ev-23",
+            "position": "Attack",
+            "salary": 25,
+            "mc_ev": 22.7,
+            "mc_p90": 59.4,
+            "actualPoints": 20.0
         },
         {
             "firstName": "Aidan",
@@ -259,18 +259,6 @@
     ],
     "MC_Ceil_90": [
         {
-            "firstName": "Connor",
-            "lastName": "Fields",
-            "team": "ARC",
-            "opponent": "WAT",
-            "game_id": "2026-ev-23",
-            "position": "Attack",
-            "salary": 25,
-            "mc_ev": 24.4,
-            "mc_p90": 52.1,
-            "actualPoints": 22.0
-        },
-        {
             "firstName": "Mac",
             "lastName": "O'Keefe",
             "team": "ARC",
@@ -281,6 +269,18 @@
             "mc_ev": 22.7,
             "mc_p90": 59.4,
             "actualPoints": 20.0
+        },
+        {
+            "firstName": "Connor",
+            "lastName": "Fields",
+            "team": "ARC",
+            "opponent": "WAT",
+            "game_id": "2026-ev-23",
+            "position": "Attack",
+            "salary": 25,
+            "mc_ev": 24.4,
+            "mc_p90": 52.1,
+            "actualPoints": 22.0
         },
         {
             "firstName": "Aidan",
@@ -341,6 +341,178 @@
             "mc_ev": 34.1,
             "mc_p90": 45.5,
             "actualPoints": 39.0
+        }
+    ],
+    "MC_Consensus": [
+        {
+            "firstName": "Dylan",
+            "lastName": "Molloy",
+            "team": "RED",
+            "opponent": "CHA",
+            "game_id": "2026-ev-24",
+            "position": "Attack",
+            "salary": 44,
+            "mc_ev": 25.4,
+            "mc_p90": 68.5,
+            "actualPoints": 12.0
+        },
+        {
+            "firstName": "Brennan",
+            "lastName": "O'Neill",
+            "team": "OUT",
+            "opponent": "WHP",
+            "game_id": "2026-ev-21",
+            "position": "Attack",
+            "salary": 36,
+            "mc_ev": 24.9,
+            "mc_p90": 46.1,
+            "actualPoints": 28.0
+        },
+        {
+            "firstName": "Kyle",
+            "lastName": "Lewis",
+            "team": "WAT",
+            "opponent": "ARC",
+            "game_id": "2026-ev-23",
+            "position": "Midfield",
+            "salary": 18,
+            "mc_ev": 15.0,
+            "mc_p90": 36.2,
+            "actualPoints": 2.0
+        },
+        {
+            "firstName": "Josh",
+            "lastName": "Balcarcel",
+            "team": "RED",
+            "opponent": "CAN",
+            "game_id": "2026-ev-22",
+            "position": "Midfield",
+            "salary": 12,
+            "mc_ev": 14.9,
+            "mc_p90": 36.0,
+            "actualPoints": 0.0
+        },
+        {
+            "firstName": "Ajax",
+            "lastName": "Zappitello",
+            "team": "WHP",
+            "opponent": "OUT",
+            "game_id": "2026-ev-21",
+            "position": "Defense",
+            "salary": 25,
+            "mc_ev": 15.3,
+            "mc_p90": 25.4,
+            "actualPoints": 19.0
+        },
+        {
+            "firstName": "Petey",
+            "lastName": "LaSalla",
+            "team": "WHP",
+            "opponent": "OUT",
+            "game_id": "2026-ev-21",
+            "position": "Faceoff",
+            "salary": 23,
+            "mc_ev": 14.4,
+            "mc_p90": 31.7,
+            "actualPoints": 2.9
+        },
+        {
+            "firstName": "Dillon",
+            "lastName": "Ward",
+            "team": "RED",
+            "opponent": "CHA",
+            "game_id": "2026-ev-24",
+            "position": "Goalie",
+            "salary": 41,
+            "mc_ev": 33.7,
+            "mc_p90": 52.6,
+            "actualPoints": 34.0
+        }
+    ],
+    "MC_Differential": [
+        {
+            "firstName": "Brett",
+            "lastName": "Dobson",
+            "team": "ARC",
+            "opponent": "WAT",
+            "game_id": "2026-ev-23",
+            "position": "Goalie",
+            "salary": 48,
+            "mc_ev": 34.1,
+            "mc_p90": 45.5,
+            "actualPoints": 39.0
+        },
+        {
+            "firstName": "Pat",
+            "lastName": "Kavanagh",
+            "team": "OUT",
+            "opponent": "WHP",
+            "game_id": "2026-ev-21",
+            "position": "Attack",
+            "salary": 41,
+            "mc_ev": 24.3,
+            "mc_p90": 38.9,
+            "actualPoints": 64.0
+        },
+        {
+            "firstName": "Joey",
+            "lastName": "Spallina",
+            "team": "WHP",
+            "opponent": "OUT",
+            "game_id": "2026-ev-21",
+            "position": "Attack",
+            "salary": 24,
+            "mc_ev": 23.4,
+            "mc_p90": 50.1,
+            "actualPoints": 48.0
+        },
+        {
+            "firstName": "Ajax",
+            "lastName": "Zappitello",
+            "team": "WHP",
+            "opponent": "OUT",
+            "game_id": "2026-ev-21",
+            "position": "Defense",
+            "salary": 25,
+            "mc_ev": 15.3,
+            "mc_p90": 25.4,
+            "actualPoints": 19.0
+        },
+        {
+            "firstName": "Zach",
+            "lastName": "Currier",
+            "team": "WAT",
+            "opponent": "ARC",
+            "game_id": "2026-ev-23",
+            "position": "Midfield",
+            "salary": 23,
+            "mc_ev": 14.9,
+            "mc_p90": 23.9,
+            "actualPoints": 6.8
+        },
+        {
+            "firstName": "Mikey",
+            "lastName": "Weisshaar",
+            "team": "CAN",
+            "opponent": "RED",
+            "game_id": "2026-ev-22",
+            "position": "Midfield",
+            "salary": 12,
+            "mc_ev": 14.0,
+            "mc_p90": 21.2,
+            "actualPoints": 17.0
+        },
+        {
+            "firstName": "Mike",
+            "lastName": "Sisselberger",
+            "team": "ARC",
+            "opponent": "WAT",
+            "game_id": "2026-ev-23",
+            "position": "Faceoff",
+            "salary": 8,
+            "mc_ev": 13.7,
+            "mc_p90": 22.3,
+            "actualPoints": 24.0
         }
     ],
     "Coulda": [
@@ -526,21 +698,21 @@
                 "strategy": "MC_Win_180",
                 "strategyLabel": "MC Win 180",
                 "in": [
-                    "Mac O'Keefe",
-                    "Connor Fields"
+                    "Connor Fields",
+                    "Mac O'Keefe"
                 ],
                 "out": [
                     "Dylan Molloy",
                     "Michael Boehm"
                 ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Mac O'Keefe (Attack, 25c), Connor Fields (Attack, 25c)) to increase the joint probability of the entire lineup hitting the 180 target score."
+                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Connor Fields (Attack, 25c), Mac O'Keefe (Attack, 25c)) to increase the joint probability of the entire lineup hitting the 180 target score."
             },
             {
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
-                    "Connor Fields",
                     "Mac O'Keefe",
+                    "Connor Fields",
                     "Tre Leclaire"
                 ],
                 "out": [
@@ -548,7 +720,7 @@
                     "Michael Boehm",
                     "Josh Balcarcel"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Connor Fields (Attack, 25c), Mac O'Keefe (Attack, 25c), Tre Leclaire (Midfield, 20c)) to maximize the team's 90th percentile ceiling (projecting up to 59.4 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Mac O'Keefe (Attack, 25c), Connor Fields (Attack, 25c), Tre Leclaire (Midfield, 20c)) to maximize the team's 90th percentile ceiling (projecting up to 59.4 pts)."
             }
         ]
     }

@@ -406,7 +406,7 @@ footer {
 /* Roster Tabs & Tables */
 .roster-tabs {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
     gap: 0.25rem;
     background: rgba(0, 0, 0, 0.2);
     padding: 0.25rem;

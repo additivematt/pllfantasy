@@ -607,6 +607,87 @@ def main():
                     
                     # 5. Run MC Ceil 90 Optimization
                     team_mc_ceil_90 = run_local_search(player_pool, sim_matrix, 'MC_Ceiling_90', ev_baseline, budget=200)
+
+                    # 6. Consensus & Differential Options (Incorporating User Feedback)
+                    def clean_name_local(n):
+                        return (n or "").replace("'", "").replace("-", "").replace(".", "").replace(" ", "").lower()
+                        
+                    consensus_file = os.path.join(SCRIPTS_DIR, "predicta", "advisory", f"week{week}_{year}_consensus_ownership.json")
+                    global_ownership = {}
+                    rival_rosters = {}
+                    team_mc_consensus = None
+                    team_mc_differential = None
+                    
+                    if os.path.exists(consensus_file):
+                        print(f"  Loading consensus data from {consensus_file}...")
+                        try:
+                            with open(consensus_file, "r", encoding="utf-8") as f_c:
+                                c_data = json.load(f_c)
+                            for item in c_data.get("global_top_25", []):
+                                global_ownership[item["clean_name"]] = item["rate"]
+                            rival_rosters = c_data.get("local_league_rosters", {})
+                        except Exception as e:
+                            print(f"  Error loading consensus ownership: {e}")
+                            
+                        # Consensus-Aligned Optimization
+                        try:
+                            from config import F2P_CONSENSUS_WEIGHT
+                            print(f"  Running consensus optimization (weight = {F2P_CONSENSUS_WEIGHT})...")
+                            player_pool_consensus = []
+                            for p in player_pool:
+                                p_clean = clean_name_local(p["firstName"] + p["lastName"])
+                                rate = global_ownership.get(p_clean, 0.0)
+                                p_copy = p.copy()
+                                p_copy["sim_ev"] = p["sim_ev"] * (1.0 + rate * F2P_CONSENSUS_WEIGHT)
+                                player_pool_consensus.append(p_copy)
+                                
+                            consensus_baseline = run_mc_ev_optimizer(player_pool_consensus, budget=200)
+                            if consensus_baseline:
+                                team_mc_consensus = run_local_search(player_pool_consensus, sim_matrix, 'MC_EV', consensus_baseline, budget=200)
+                        except Exception as e_cons:
+                            print(f"  Error in consensus optimization: {e_cons}")
+                            
+                        # Differential compromise optimization vs top local rivals
+                        try:
+                            if rival_rosters:
+                                print(f"  Running differential optimization vs rivals...")
+                                rival_player_cols = {}
+                                for r_name, r_info in rival_rosters.items():
+                                    rival_player_cols[r_name] = []
+                                    for p_name in r_info.get("players", []):
+                                        p_clean = clean_name_local(p_name)
+                                        matched = False
+                                        for p in player_pool:
+                                            p_pool_clean = clean_name_local(p["firstName"] + p["lastName"])
+                                            if p_pool_clean == p_clean:
+                                                col_name = f"{p['firstName']}_{p['lastName']}_{p['game_id']}"
+                                                if col_name in df_sims.columns:
+                                                    rival_player_cols[r_name].append(col_name)
+                                                    matched = True
+                                                    break
+                                        if not matched:
+                                            # Try loose matching
+                                            for p in player_pool:
+                                                if clean_name_local(p["lastName"]) == clean_name_local(p_name.split()[-1]):
+                                                    col_name = f"{p['firstName']}_{p['lastName']}_{p['game_id']}"
+                                                    if col_name in df_sims.columns:
+                                                        rival_player_cols[r_name].append(col_name)
+                                                        matched = True
+                                                        break
+                                                        
+                                rival_score_vectors = []
+                                for r_name, cols in rival_player_cols.items():
+                                    if cols:
+                                        r_scores = df_sims[cols].sum(axis=1).values
+                                        rival_score_vectors.append(r_scores)
+                                    else:
+                                        rival_score_vectors.append(np.zeros(10000))
+                                        
+                                if rival_score_vectors:
+                                    target_win_score = np.array(rival_score_vectors) # Shape (K, 10000)
+                                    team_mc_differential = run_local_search(player_pool, sim_matrix, 'MC_Win_Prob', ev_baseline, budget=200, target_win_score=target_win_score)
+                        except Exception as e_diff:
+                            print(f"  Error in differential optimization: {e_diff}")
                     
                     # actuals_lookup is already loaded at the start of the week loop
                     pass
@@ -636,6 +717,8 @@ def main():
                         "MC_Win_160": [strip_player(p) for p in team_mc_win_160] if team_mc_win_160 else [],
                         "MC_Win_180": [strip_player(p) for p in team_mc_win_180] if team_mc_win_180 else [],
                         "MC_Ceil_90": [strip_player(p) for p in team_mc_ceil_90] if team_mc_ceil_90 else [],
+                        "MC_Consensus": [strip_player(p) for p in team_mc_consensus] if team_mc_consensus else [],
+                        "MC_Differential": [strip_player(p) for p in team_mc_differential] if team_mc_differential else [],
                         "Coulda": []
                     }
                     
