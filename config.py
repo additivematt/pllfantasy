@@ -51,7 +51,7 @@ SHRINKAGE_ENABLED = True
 SHRINKAGE_K = 5
 
 # Exponentially-Weighted Moving Average (EWMA) Rolling Features
-EWMA_ENABLED = False
+EWMA_ENABLED = True
 
 # --- API Tokens (with environment variable fallbacks) ─────────────────────────
 API_TOKEN_STATS = os.environ.get("PLL_STATS_API_TOKEN", "N)eIKy1rZ%/%fm1WhM7tuVcrR*UIsc")

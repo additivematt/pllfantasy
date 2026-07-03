@@ -662,3 +662,143 @@ footer {
     font-style: italic;
 }
 
+/* ── Tactical Advisory styles ── */
+.tactical-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.tactical-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.tactical-card:hover {
+    transform: translateX(2px);
+}
+
+.tactical-card.floor-lock {
+    border-left: 3px solid #48bb78; /* Green */
+}
+
+.tactical-card.floor-lock:hover {
+    border-color: rgba(72, 187, 120, 0.4);
+    background: rgba(72, 187, 120, 0.02);
+}
+
+.tactical-card.diff-leverage {
+    border-left: 3px solid #9f7aea; /* Purple */
+}
+
+.tactical-card.diff-leverage:hover {
+    border-color: rgba(159, 122, 234, 0.4);
+    background: rgba(159, 122, 234, 0.02);
+}
+
+.tactical-player-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tactical-player-name {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #f0f6fc;
+    cursor: pointer;
+    transition: color 0.15s ease;
+}
+
+.tactical-player-name:hover {
+    color: #00f0ff;
+}
+
+.tactical-player-meta {
+    font-size: 0.7rem;
+    color: #8b949e;
+    font-weight: 700;
+}
+
+.tactical-card-description {
+    font-size: 0.75rem;
+    color: #8b949e;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.tactical-card-stats {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.2rem;
+}
+
+.tactical-stat-badge {
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.tactical-stat-badge.green {
+    background: rgba(72, 187, 120, 0.12);
+    color: #48bb78;
+    border: 1px solid rgba(72, 187, 120, 0.2);
+}
+
+.tactical-stat-badge.purple {
+    background: rgba(159, 122, 234, 0.12);
+    color: #b794f4;
+    border: 1px solid rgba(159, 122, 234, 0.2);
+}
+
+/* Rival Radar Styles */
+.rival-radar-card {
+    background: rgba(255, 255, 255, 0.01);
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.75rem;
+}
+
+.rival-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.5rem;
+}
+
+.rival-table th {
+    text-align: left;
+    color: #8b949e;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    padding: 2px 4px;
+    border-bottom: 1px solid var(--border);
+}
+
+.rival-table td {
+    padding: 4px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+    color: #cbd5e0;
+    vertical-align: top;
+}
+
+.rival-name-cell {
+    font-weight: 700;
+    color: #f0f6fc;
+}
+
+.rival-roster-cell {
+    font-size: 0.7rem;
+    color: #8b949e;
+    line-height: 1.3;
+}
+

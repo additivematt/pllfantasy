@@ -238,6 +238,17 @@
     ],
     "MC_Ceil_90": [
         {
+            "firstName": "Blaze",
+            "lastName": "Riorden",
+            "team": "ASW",
+            "opponent": "WHP",
+            "game_id": "2026-ev-26",
+            "position": "Goalie",
+            "salary": 39,
+            "mc_ev": 30.9,
+            "mc_p90": 55.4
+        },
+        {
             "firstName": "Dylan",
             "lastName": "Molloy",
             "team": "ASW",
@@ -249,15 +260,15 @@
             "mc_p90": 49.4
         },
         {
-            "firstName": "Logan",
-            "lastName": "Wisnauskas",
-            "team": "ASW",
-            "opponent": "CAN",
-            "game_id": "2026-ev-28",
+            "firstName": "Michael",
+            "lastName": "Sowers",
+            "team": "ASE",
+            "opponent": "RED",
+            "game_id": "2026-ev-25",
             "position": "Attack",
-            "salary": 24,
-            "mc_ev": 24.7,
-            "mc_p90": 47.0
+            "salary": 46,
+            "mc_ev": 27.7,
+            "mc_p90": 55.1
         },
         {
             "firstName": "Andrew",
@@ -271,15 +282,15 @@
             "mc_p90": 42.4
         },
         {
-            "firstName": "Bryan",
-            "lastName": "Costabile",
+            "firstName": "Zach",
+            "lastName": "Currier",
             "team": "ASE",
-            "opponent": "ARC",
-            "game_id": "2026-ev-27",
+            "opponent": "RED",
+            "game_id": "2026-ev-25",
             "position": "Midfield",
-            "salary": 28,
-            "mc_ev": 15.1,
-            "mc_p90": 35.2
+            "salary": 18,
+            "mc_ev": 16.1,
+            "mc_p90": 26.9
         },
         {
             "firstName": "Ethan",
@@ -302,17 +313,6 @@
             "salary": 12,
             "mc_ev": 13.5,
             "mc_p90": 33.1
-        },
-        {
-            "firstName": "Blaze",
-            "lastName": "Riorden",
-            "team": "ASW",
-            "opponent": "WHP",
-            "game_id": "2026-ev-26",
-            "position": "Goalie",
-            "salary": 39,
-            "mc_ev": 30.9,
-            "mc_p90": 55.4
         }
     ],
     "MC_Consensus": [
@@ -475,7 +475,9 @@
     ],
     "Coulda": [],
     "Core": [
+        "Michael Sowers",
         "Andrew McAdorey",
+        "Zach Currier",
         "Ethan Rall"
     ],
     "Sleepers": [],
@@ -580,20 +582,74 @@
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
+                    "Blaze Riorden",
                     "Dylan Molloy",
-                    "Logan Wisnauskas",
-                    "Bryan Costabile",
-                    "Connor Farrell",
-                    "Blaze Riorden"
+                    "Connor Farrell"
                 ],
                 "out": [
                     "Brett Dobson",
-                    "Michael Sowers",
                     "Chris Kavanagh",
-                    "Zach Currier",
                     "TD Ierlan"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Dylan Molloy (Attack, 36c), Logan Wisnauskas (Attack, 24c), Bryan Costabile (Midfield, 28c), Connor Farrell (Faceoff, 12c), Blaze Riorden (Goalie, 39c)) to maximize the team's 90th percentile ceiling (projecting up to 55.4 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Blaze Riorden (Goalie, 39c), Dylan Molloy (Attack, 36c), Connor Farrell (Faceoff, 12c)) to maximize the team's 90th percentile ceiling (projecting up to 55.4 pts)."
+            }
+        ]
+    },
+    "TacticalAdvice": {
+        "FloorLocks": [
+            {
+                "firstName": "TD",
+                "lastName": "Ierlan",
+                "position": "Faceoff",
+                "globalRate": 76,
+                "rivalCount": 2,
+                "description": "Critical Floor Lock: Owned by 76% of global leaders and 2 of your top 3 local rivals. High floor risk if omitted."
+            },
+            {
+                "firstName": "CJ",
+                "lastName": "Kirst",
+                "position": "Attack",
+                "globalRate": 60,
+                "rivalCount": 2,
+                "description": "Critical Floor Lock: Owned by 60% of global leaders and 2 of your top 3 local rivals. High floor risk if omitted."
+            },
+            {
+                "firstName": "Brett",
+                "lastName": "Makar",
+                "position": "Defense",
+                "globalRate": 40,
+                "rivalCount": 2,
+                "description": "Critical Floor Lock: Owned by 40% of global leaders and 2 of your top 3 local rivals. High floor risk if omitted."
+            }
+        ],
+        "DifferentialLeverage": [
+            {
+                "firstName": "Chad",
+                "lastName": "Palumbo",
+                "position": "Midfield",
+                "globalRate": 56,
+                "rivalCount": 0,
+                "description": "High Leverage Differential: Owned by 56% of global leaders but 0 of your top 3 local rivals. Start him to gain ground."
+            }
+        ],
+        "Rivals": [
+            {
+                "teamName": "Big, Bouncy T.Ds",
+                "rank": 1,
+                "points": 991.1,
+                "roster": "Connor Shellenberger, CJ Kirst, Ross Scott, Aidan Carroll, Brett Makar, Liam Entenmann, TD Ierlan"
+            },
+            {
+                "teamName": "Blazing Squad",
+                "rank": 2,
+                "points": 975.9,
+                "roster": "Michael Sowers, CJ Kirst, Bryan Costabile, Shane Knobloch, Brett Makar, Blaze Riorden, TD Ierlan"
+            },
+            {
+                "teamName": "Haribo Sowers",
+                "rank": 3,
+                "points": 934.8,
+                "roster": ""
             }
         ]
     }

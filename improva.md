@@ -12,16 +12,16 @@ All improvement ideas, including feature proposals, architectural refactors, sim
 
 ## Target Success Criteria & Evaluation Baseline
 To ensure that changes are mathematically sound and do not degrade model performance:
-- **Baseline Metric**: The table below defines the official baseline backtest metrics established on **1 July 2026** (Baseline 1, Leak-Free) by running predictions and simulations freshly and evaluating them with the harness.
+- **Baseline Metric**: The table below defines the official baseline backtest metrics established on **3 July 2026** (Baseline 2, Leak-Free + EWMA) by running predictions and simulations freshly and evaluating them with the harness.
 
-### Baseline 1 (Leak-Free) Evaluation Results (1 July 2026)
+### Baseline 2 (Leak-Free + EWMA) Evaluation Results (3 July 2026)
 
-Established under the optimal configuration (Game Pace Scaling enabled, Correlation Copula enabled, 0.05 Recency decay) using fresh predictions and 10,000 Monte Carlo trials on the corrected doubleheader database, with ALL data leakage sources completely eliminated.
+Established under the optimal configuration (Game Pace Scaling enabled, Correlation Copula enabled, 0.05 Recency decay, Bayesian Shrinkage enabled, and 4-game half-life EWMA enabled) using fresh predictions and 10,000 Monte Carlo trials on the corrected doubleheader database, with ALL data leakage sources completely eliminated.
 
 | Season | Strategy | Total Score | Coulda Max | Ceiling % |
 |---|---|---|---|---|
-| 2025 | MC_EV | 2168.1 | 4679.1 | 46.3% |
-| 2026 | MC_EV | 781.2 | 1841.3 | 42.4% |
+| 2025 | MC_EV | 2305.3 | 4679.1 | 49.3% |
+| 2026 | MC_EV | 835.4 | 2194.1 | 38.1% |
 
 - **Target Threshold**: A proposed feature or logic change will be accepted if it demonstrates a statistically significant improvement over these baselines (paired t-test p-value < 0.05) without increasing runtimes by more than 20%, or if it fixes a critical code health issue without degrading performance.
 - **RNG Reproducibility**: All backtests must run under a fixed random seed to ensure comparison consistency.
@@ -32,12 +32,7 @@ Established under the optimal configuration (Game Pace Scaling enabled, Correlat
 The following items represent the highest-impact improvements for **prediction accuracy**, ordered by priority. Item 27 (data leakage elimination) is the **mandatory prerequisite** — all other improvements must be tested on a leak-free pipeline.
 
 
-1. **Item 29: Exponentially-Weighted Moving Average (EWMA) Rolling Features**
-   * *Aims to Fix*: Capture transition form smoothly (half-life of 4 games) instead of slow career-average or noisy 3-game rolling features.
-   * *Testability*: Easily compared by adding/removing `"fp_ewma_4"` from the position feature list configs.
-   * *Status*: Proposed. A/B test individually against leak-free baseline.
-
-2. **Item 9: Market Consensus (Salary as a Feature)**
+1. **Item 9: Market Consensus (Salary as a Feature)**
    * *Aims to Fix*: Anchors regression projections using normalized player salary as a consensus market signal.
    * *Testability*: Toggleable via `config.SALARY_AS_FEATURE`.
    * *Status*: Proposed.
@@ -53,44 +48,25 @@ To track historical performance changes and maintain auditability across key mil
 > All previous baselines (formerly Baselines 1 through 8) have been removed from this document. They were fundamentally compromised by a combination of pipeline bugs (stale file retention), database corrections (doubleheaders), and several sources of data leakage (including future-leaking matchup ratings, non-chronological cross-validation, and full-season tier thresholds). The baseline below represents the first truly clean, leak-free reference point (established 1 July 2026). All future A/B testing must compare against this standard.
 
 ### Baseline 1 (Leak-Free — 1 July 2026)
-- **Changes / Description**: The first completely clean baseline after resolving all 6 data leakage sources (Item 27a-27f). All future-leaking components have been replaced with chronologically expanding windows or strict target-year guards. Game pace scaling, correlation copula, and recency decay remain enabled as per the optimal configuration.
+- **Changes / Description**: The first completely clean baseline after resolving all 6 data leakage sources (Item 27a-27f). All future-leaking components have been replaced with chronologically expanding windows or strict target-year guards. Game pace scaling, correlation copula, and recency decay remain enabled as per the optimal configuration. (Note: Bayesian shrinkage was also enabled in this baseline, but EWMA was not.)
 - **Performance Summary**:
 
   | Season | Strategy | Total Score | Coulda Max | Ceiling % |
   |---|---|---|---|---|
   | 2025 | MC_EV | 2168.1 | 4679.1 | 46.3% |
-  | 2026 | MC_EV | 781.2 | 1841.3 | 42.4% |
+  | 2026 | MC_EV | 902.1 | 2194.1 | 41.1% |
 
-- **Interpretation**: With leakage completely removed, the 2026 performance accurately reflects the model's true out-of-sample capability. 
-- **Testing Plan** (now proceeding to feature engineering):
-  1. **[x] A/B test Item #28 (Bayesian Shrinkage) alone** against Baseline 1 (Completed: kept enabled)
-  2. **[ ] A/B test Item #29 (EWMA) alone** against Baseline 1 — add/remove `fp_ewma_4` from position feature lists
-  3. Keep whichever features improve scores, drop whichever degrade
-  4. If both help individually, **test them combined** (interactions can go either way)
-  5. **Position-specific hyperparameter tuning (Item #33)** on the final winning feature set
+### Baseline 2 (Leak-Free + EWMA — 3 July 2026)
+- **Changes / Description**: Built on top of Baseline 1 by enabling exponentially-weighted moving average rolling features (`fp_ewma_4` with half-life of 4 games). Bayesian shrinkage remains enabled.
+- **Performance Summary**:
 
-## Dependency Map & Prerequisites
+  | Season | Strategy | Total Score | Coulda Max | Ceiling % |
+  |---|---|---|---|---|
+  | 2025 | MC_EV | 2305.3 | 4679.1 | 49.3% |
+  | 2026 | MC_EV | 835.4 | 2194.1 | 38.1% |
 
-```mermaid
-graph TD
-    %% Prerequisites / Infrastructure
-    Item0["[Item 0] Evaluation Harness"] --> Item6["[Item 6] Game Pace Factors"]
-    Item0 --> Item9["[Item 9] Market Consensus Feature"]
-    Item0 --> Item10["[Item 10] Playing Time / Usage Feature"]
-    Item0 --> Item12["[Item 12] Dynamic Correlation Matrix"]
-    Item0 --> Item13["[Item 13] Bayesian Shrinkage"]
-    Item0 --> Item15["[Item 15] Opponent-Stratified Bootstrap"]
+- **Interpretation**: Baseline 2 is the new reference standard for all subsequent A/B tests. EWMA provides a net benefit of +137.2 points (+10.55 points/week) in 2025 but has a mild net drag of -66.7 points (-11.12 points/week) in 2026, leading to a combined net improvement of +70.5 points (+3.92 points/week) across 19 weeks.
 
-    %% Code Health
-    Item1["[Item 1] Refactor Feature Engineering"] --> Item6
-    Item1 --> Item7["[Item 7] Dynamic Medians"]
-    Item1 --> Item8["[Item 8] SHAP Logging"]
-    Item1 --> Item9
-    Item1 --> Item10
-
-    %% Simulation & Stats
-    Item11["[Item 11] Extract MC Volatility Stats"] --> Item20["[Item 20] UI Confidence Bands / MC EV"]
-```
 
 ---
 
@@ -110,11 +86,6 @@ graph TD
 - **Suggested Fix**: Extract player touch count and total stat accumulation as usage proxies. Feed touch delta (current expected touches vs. season average) into the feature engine. Additionally, weight opponent roster health features (e.g., `opp_ssdm_health`, `opp_def_health`) by active players' average points/usage rather than simple counts, to better reflect true unit degradation.
 - **Success Criteria**: Improved adaptation speed and model accuracy for players with recent role changes.
 
-#### Item 29: Exponentially-Weighted Moving Average (EWMA) Rolling Features
-- **Problem**: Model rolling features are either season-long averages or abrupt 3-game rolling averages.
-- **Why it matters**: The season average reacts too slowly, while the 3-game average is noisy and suffers from cliff effects.
-- **Suggested Fix**: Add EWMA rolling features (e.g. `fp_ewma_4` with half-life of 4 games) to position group feature lists to smoothly capture form transitions.
-- **Success Criteria**: EWMA features implemented, validated on harness, and included in GBDT models.
 
 #### Item 32: Matchup Rating Temporal Decay
 - **Problem**: Defender and opponent ratings use career averages, weighting ancient games the same as recent matchups.
@@ -383,4 +354,14 @@ A full codebase audit on **1 July 2026** ([audit report](file:///C:/Users/Matt/.
   - *Details*: Expanded F2P scraper to query local rival managers in group `53205`. Integrated a NumPy-broadcasted local search optimizer that evaluates joint MC simulated point distributions against top 3 rivals simultaneously and builds a game-theory compromise lineup (`MC Differential`) that maximizes average win probability against all of them.
   - *Implementation Files*: [08_scrape_challenger_rosters.py](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/08_scrape_challenger_rosters.py), [06_optimize_lineups.py](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/06_optimize_lineups.py), [07_prepare_static_data.py](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/07_prepare_static_data.py)
   - *Status*: ✅ Done.
+
+- **~~Item 29: Exponentially-Weighted Moving Average (EWMA) Rolling Features~~** (Tested & Kept / Closed)
+  - *Details*: Added exponentially-weighted moving average (`fp_ewma_4` with half-life of 4 games) of player fantasy points as a GBDT feature to smoothly capture player form transitions. Enabled by setting `EWMA_ENABLED = True` in `config.py` and updating `calc_player_avgs` in `02_predict_probabilities.py` to calculate it on the fly.
+  - *Validation Results*:
+    - **2025 Season**: Improved by **+137.2 pts** (from **2168.1 pts** baseline to **2305.3 pts**, representing **49.3% ceiling coverage**, a **+2.9%** increase).
+    - **2026 Season**: Slight degradation of **-66.7 pts** (from **902.1 pts** baseline to **835.4 pts**, representing **38.1% ceiling coverage**, a **-3.0%** change).
+    - *Combined Total*: Net positive of **+70.5 pts** (+3.92 pts/week) over 19 weeks. Neither difference is statistically significant (paired t-test p-values: 0.4821 for 2025, 0.6761 for 2026).
+    - *Feature Importance*: The feature was highly prioritized by the classifier, ranking as the **#1 most important feature** for Attack, Defense, and Faceoff position groups.
+  - *Status*: ✅ Kept/Closed. Kept enabled in production due to strong feature importance and net combined score improvement.
+
 

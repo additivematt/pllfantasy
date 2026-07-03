@@ -21,7 +21,7 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.calibration import CalibratedClassifierCV
 from sklearn.model_selection import KFold, TimeSeriesSplit
 from utils import assign_position_group, assign_sub_position, calc_fantasy, clean_name
-from config import GAME_PACE_ENABLED, DATA_LEAKAGE_FIX_ENABLED
+from config import GAME_PACE_ENABLED, DATA_LEAKAGE_FIX_ENABLED, EWMA_ENABLED
 from feature_engineering import (
     TEAM_NAME_TO_ID,
     FEATURE_LISTS,
@@ -126,6 +126,8 @@ def main():
             "fp_last3_avg": grp["TotalFantasyPoints"].tail(3).mean(),
             "fp_lag1": grp["TotalFantasyPoints"].iloc[-1] if not grp.empty else 0,
         }
+        if EWMA_ENABLED:
+            res["fp_ewma_4"] = grp["TotalFantasyPoints"].ewm(halflife=4, min_periods=1).mean().iloc[-1] if not grp.empty else 0.0
         cols_to_avg = ["shots", "groundBalls", "saves", "faceoffsWon", "assists", "causedTurnovers", "faceoffPct", "touches", "shotPct"]
         for c in cols_to_avg:
             if c in grp.columns:

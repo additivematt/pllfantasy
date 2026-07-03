@@ -520,8 +520,111 @@ function renderAdvisor(advisoryData) {
         }
     }
     
+    // 2.7 Render Tactical Advisory
+    const tacticalSection = document.getElementById('tactical-advice-section');
+    const tacticalContainer = document.getElementById('tactical-advice-container');
+    if (tacticalSection && tacticalContainer) {
+        tacticalContainer.innerHTML = '';
+        if (advisoryData.TacticalAdvice && 
+            ((advisoryData.TacticalAdvice.FloorLocks && advisoryData.TacticalAdvice.FloorLocks.length > 0) ||
+             (advisoryData.TacticalAdvice.DifferentialLeverage && advisoryData.TacticalAdvice.DifferentialLeverage.length > 0) ||
+             (advisoryData.TacticalAdvice.Rivals && advisoryData.TacticalAdvice.Rivals.length > 0))) {
+            
+            tacticalSection.style.display = 'block';
+            renderTacticalAdvice(advisoryData.TacticalAdvice);
+        } else {
+            tacticalSection.style.display = 'none';
+        }
+    }
+    
     // 3. Render Roster
     renderRoster(activeRosterTab);
+}
+
+function renderTacticalAdvice(tacticalData) {
+    const container = document.getElementById('tactical-advice-container');
+    if (!container) return;
+
+    let html = '<div class="tactical-container">';
+
+    // 1. Render Floor Locks
+    if (tacticalData.FloorLocks && tacticalData.FloorLocks.length > 0) {
+        html += `
+            <div style="margin-bottom: 0.5rem; font-size: 0.75rem; font-weight: 700; color: #48bb78; letter-spacing: 0.5px; text-transform: uppercase;">🔒 Floor Locks</div>
+        `;
+        tacticalData.FloorLocks.forEach(p => {
+            html += `
+                <div class="tactical-card floor-lock">
+                    <div class="tactical-player-header">
+                        <span class="tactical-player-name" onclick="highlightPlayerInPlot('${p.position}', '${p.firstName}', '${p.lastName}')" title="Click to highlight on chart">${p.firstName} ${p.lastName}</span>
+                        <span class="tactical-player-meta">${p.position}</span>
+                    </div>
+                    <p class="tactical-card-description">${p.description}</p>
+                    <div class="tactical-card-stats">
+                        <span class="tactical-stat-badge green">Global: ${p.globalRate}%</span>
+                        <span class="tactical-stat-badge green">Rivals: ${p.rivalCount}/3</span>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    // 2. Render Differential Leverage
+    if (tacticalData.DifferentialLeverage && tacticalData.DifferentialLeverage.length > 0) {
+        html += `
+            <div style="margin-top: 1rem; margin-bottom: 0.5rem; font-size: 0.75rem; font-weight: 700; color: #9f7aea; letter-spacing: 0.5px; text-transform: uppercase;">⚡ Differential Leverage</div>
+        `;
+        tacticalData.DifferentialLeverage.forEach(p => {
+            html += `
+                <div class="tactical-card diff-leverage">
+                    <div class="tactical-player-header">
+                        <span class="tactical-player-name" onclick="highlightPlayerInPlot('${p.position}', '${p.firstName}', '${p.lastName}')" title="Click to highlight on chart">${p.firstName} ${p.lastName}</span>
+                        <span class="tactical-player-meta">${p.position}</span>
+                    </div>
+                    <p class="tactical-card-description">${p.description}</p>
+                    <div class="tactical-card-stats">
+                        <span class="tactical-stat-badge purple">Global: ${p.globalRate}%</span>
+                        <span class="tactical-stat-badge purple">Rivals: 0/3</span>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    // 3. Render Rival Radar
+    if (tacticalData.Rivals && tacticalData.Rivals.length > 0) {
+        html += `
+            <div style="margin-top: 1rem; margin-bottom: 0.5rem; font-size: 0.75rem; font-weight: 700; color: #8b949e; letter-spacing: 0.5px; text-transform: uppercase;">📡 Rival Radar</div>
+            <div class="rival-radar-card">
+                <table class="rival-table">
+                    <thead>
+                        <tr>
+                            <th width="30%">Rival</th>
+                            <th width="70%">Roster selections</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
+        tacticalData.Rivals.forEach(rival => {
+            html += `
+                <tr>
+                    <td class="rival-name-cell">
+                        ${rival.teamName}<br/>
+                        <span style="font-size: 0.6rem; color: #8b949e;">#${rival.rank} (${rival.points.toFixed(1)} pts)</span>
+                    </td>
+                    <td class="rival-roster-cell">${rival.roster}</td>
+                </tr>
+            `;
+        });
+        html += `
+                    </tbody>
+                </table>
+            </div>
+        `;
+    }
+
+    html += '</div>';
+    container.innerHTML = html;
 }
 
 function renderRoster(rosterName) {

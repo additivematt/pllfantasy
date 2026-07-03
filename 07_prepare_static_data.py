@@ -867,6 +867,62 @@ def main():
                     except Exception as e_narrative:
                         print(f"  Warning: Failed to generate roster narrative: {e_narrative}")
                     
+                    # Generate Tactical Advice
+                    floor_locks = []
+                    diff_leverage = []
+                    rivals_radar = []
+                    
+                    # Target top 3 rivals
+                    for r_name, r_info in rival_rosters.items():
+                        rivals_radar.append({
+                            "teamName": r_name,
+                            "rank": r_info.get("rank"),
+                            "points": r_info.get("points"),
+                            "roster": ", ".join(r_info.get("players", []))
+                        })
+                    
+                    # Sort rivals by rank ascending
+                    rivals_radar.sort(key=lambda x: x.get("rank", 99))
+                    
+                    for p in player_pool:
+                        p_clean = clean_name_local(p["firstName"] + p["lastName"])
+                        global_rate = global_ownership.get(p_clean, 0.0)
+                        
+                        rival_count = 0
+                        for r_name, r_info in rival_rosters.items():
+                            r_players_cleaned = [clean_name_local(rp) for rp in r_info.get("players", [])]
+                            if p_clean in r_players_cleaned:
+                                rival_count += 1
+                                
+                        if global_rate >= 0.40:
+                            if rival_count >= 2:
+                                floor_locks.append({
+                                    "firstName": p["firstName"],
+                                    "lastName": p["lastName"],
+                                    "position": p["positionGroup"],
+                                    "globalRate": int(global_rate * 100),
+                                    "rivalCount": rival_count,
+                                    "description": f"Critical Floor Lock: Owned by {int(global_rate*100)}% of global leaders and {rival_count} of your top 3 local rivals. High floor risk if omitted."
+                                })
+                            elif rival_count == 0:
+                                diff_leverage.append({
+                                    "firstName": p["firstName"],
+                                    "lastName": p["lastName"],
+                                    "position": p["positionGroup"],
+                                    "globalRate": int(global_rate * 100),
+                                    "rivalCount": 0,
+                                    "description": f"High Leverage Differential: Owned by {int(global_rate*100)}% of global leaders but 0 of your top 3 local rivals. Start him to gain ground."
+                                })
+                                
+                    floor_locks.sort(key=lambda x: x["globalRate"], reverse=True)
+                    diff_leverage.sort(key=lambda x: x["globalRate"], reverse=True)
+                    
+                    adv_response["TacticalAdvice"] = {
+                        "FloorLocks": floor_locks,
+                        "DifferentialLeverage": diff_leverage,
+                        "Rivals": rivals_radar
+                    }
+                    
                     adv_year_dir = os.path.join(advisory_root, str(year))
                     os.makedirs(adv_year_dir, exist_ok=True)
                     
