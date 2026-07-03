@@ -32,22 +32,12 @@ Established under the optimal configuration (Game Pace Scaling enabled, Correlat
 The following items represent the highest-impact improvements for **prediction accuracy**, ordered by priority. Item 27 (data leakage elimination) is the **mandatory prerequisite** — all other improvements must be tested on a leak-free pipeline.
 
 
-2. **Item 28: Bayesian Shrinkage on Matchup Rating Features**
-   * *Aims to Fix*: Extreme matchup rating fluctuations (up to 2.5×) for low-sample size player-defender pairs (1–3 games).
-   * *Testability*: Can be enabled/disabled using a single boolean flag in the config (e.g., `config.SHRINKAGE_ENABLED`) and comparing backtest scores.
-   * *Status*: Proposed. A/B test individually against leak-free baseline.
-
-3. **Item 29: Exponentially-Weighted Moving Average (EWMA) Rolling Features**
+1. **Item 29: Exponentially-Weighted Moving Average (EWMA) Rolling Features**
    * *Aims to Fix*: Capture transition form smoothly (half-life of 4 games) instead of slow career-average or noisy 3-game rolling features.
    * *Testability*: Easily compared by adding/removing `"fp_ewma_4"` from the position feature list configs.
    * *Status*: Proposed. A/B test individually against leak-free baseline.
 
-4. **Item 30: Dual Regressors or Multi-Quantile Forecasts**
-   * *Aims to Fix*: The regressor's `PredictedPoints` currently models the p90 ceiling, which systematically over-predicts actual points and cannot be used directly as the MC simulator's EV anchor (Item 26).
-   * *Testability*: Easily testable by training a separate `alpha=0.5` regressor (median/EV) or standard MSE regressor alongside the classification model and toggling its integration.
-   * *Status*: Proposed.
-
-5. **Item 9: Market Consensus (Salary as a Feature)**
+2. **Item 9: Market Consensus (Salary as a Feature)**
    * *Aims to Fix*: Anchors regression projections using normalized player salary as a consensus market signal.
    * *Testability*: Toggleable via `config.SALARY_AS_FEATURE`.
    * *Status*: Proposed.
@@ -73,7 +63,8 @@ To track historical performance changes and maintain auditability across key mil
 
 - **Interpretation**: With leakage completely removed, the 2026 performance accurately reflects the model's true out-of-sample capability. 
 - **Testing Plan** (now proceeding to feature engineering):
-  1. **A/B test Item #28 (Bayesian Shrinkage) alone** against Baseline 1 — toggle \config.SHRINKAGE_ENABLED  2. **A/B test Item #29 (EWMA) alone** against Baseline 1 — add/remove \p_ewma_4\ from position feature lists
+  1. **[x] A/B test Item #28 (Bayesian Shrinkage) alone** against Baseline 1 (Completed: kept enabled)
+  2. **[ ] A/B test Item #29 (EWMA) alone** against Baseline 1 — add/remove `fp_ewma_4` from position feature lists
   3. Keep whichever features improve scores, drop whichever degrade
   4. If both help individually, **test them combined** (interactions can go either way)
   5. **Position-specific hyperparameter tuning (Item #33)** on the final winning feature set
@@ -119,23 +110,11 @@ graph TD
 - **Suggested Fix**: Extract player touch count and total stat accumulation as usage proxies. Feed touch delta (current expected touches vs. season average) into the feature engine. Additionally, weight opponent roster health features (e.g., `opp_ssdm_health`, `opp_def_health`) by active players' average points/usage rather than simple counts, to better reflect true unit degradation.
 - **Success Criteria**: Improved adaptation speed and model accuracy for players with recent role changes.
 
-#### Item 28: Bayesian Shrinkage on Matchup Rating Features
-- **Problem**: Matchup rating features (pairing, opponent, player-vs-team, team-defense ratings) suffer from extreme noise for low-sample player-opponent pairings.
-- **Why it matters**: A single high-scoring game results in a massive rating (e.g. 2.5x), skewing future forecasts.
-- **Suggested Fix**: Blend observed ratings with a prior of 1.0 using Bayesian shrinkage: $\text{Shrunk} = \frac{n}{n+k} \cdot \text{Observed} + \frac{k}{n+k} \cdot 1.0$ (e.g. with $k=5$).
-- **Success Criteria**: Matchup rating features stabilized and extreme predictions reduced.
-
 #### Item 29: Exponentially-Weighted Moving Average (EWMA) Rolling Features
 - **Problem**: Model rolling features are either season-long averages or abrupt 3-game rolling averages.
 - **Why it matters**: The season average reacts too slowly, while the 3-game average is noisy and suffers from cliff effects.
 - **Suggested Fix**: Add EWMA rolling features (e.g. `fp_ewma_4` with half-life of 4 games) to position group feature lists to smoothly capture form transitions.
 - **Success Criteria**: EWMA features implemented, validated on harness, and included in GBDT models.
-
-#### Item 30: Dual Regressors or Multi-Quantile Forecasts
-- **Problem**: The XGBoost regressor currently predicts only the 90th percentile (p90 quantile objective with `alpha=0.9`).
-- **Why it matters**: While useful for boom stacking, a p90 score systematically over-predicts and is not suitable as a raw Expected Value (EV) anchor.
-- **Suggested Fix**: Train a dual regressor at `alpha=0.5` (median/EV) or train a single multi-output model predicting quantiles [0.1, 0.5, 0.9] to obtain both clean EVs and confidence bands.
-- **Success Criteria**: Stacking utilizes separate median and quantile regressor predictions for appropriate tasks.
 
 #### Item 32: Matchup Rating Temporal Decay
 - **Problem**: Defender and opponent ratings use career averages, weighting ancient games the same as recent matchups.
@@ -178,12 +157,6 @@ graph TD
 - **Why it matters**: An arbitrary 1.15 multiplier limits the simulated ceiling of breakout players, which hurts ceiling-based tournament optimizations.
 - **Suggested Fix**: Re-evaluate the clamp against historic breakout frequencies and scale the clamp dynamically (e.g. based on position group volatility).
 - **Success Criteria**: More accurate simulated ceiling frequencies for breakout players.
-
-#### Item 26: Connect Stacked Regressor `PredictedPoints` directly to MC Simulator EV
-- **Problem**: The MC simulator does not directly use the stacked regressor's continuous `PredictedPoints` output. While `PredictedPoints` is used *indirectly* as a stacked feature in the classification model to output `BoomProbability`, the simulator itself ignores the continuous value and derives EV from `BoomProbability` using a crude two-tier weighted average of position averages.
-- **Why it matters**: Discards the granular per-player point predictions built by the GBDT regressor, compressing them into a simplified boom/non-boom bin.
-- **Suggested Fix**: Feed the regressor's `PredictedPoints` (scaled/de-biased appropriately to act as an EV) directly into the MC simulator as the `EV` value to determine the matchup multiplier.
-- **Success Criteria**: MC simulator uses granular continuous model projections directly rather than two-tier binning.
 
 #### Item 31: Smooth MC Historical Pool Blending
 - **Problem**: Players with <5 games fall back to the entire position group's historical game pool, while players with >=5 games use only their own history.
@@ -255,37 +228,6 @@ graph TD
 - **Why it matters**: Manual tagging is the bottleneck for matchup data.
 - **Suggested Fix**: Add support for switch tracking and a "confidence" field (High/Medium/Unsure) per matchup tag. Incorporate defender combinations and estimated switch rates into matchups to represent how defensive switches alter matchup features.
 - **Success Criteria**: Tagger UI captures confidence ratings.
-
-#### Item 34: Challenger Roster Scraping & Consensus Advice
-- **Problem**: We have no automated way to view the roster choices of the league's top-performing managers. Surfacing their roster picks provides an invaluable external consensus signal to guide our own lineup choices.
-- **Why it matters**: Looking at what the top managers are selecting allows us to validate our model projections against the league's best players, avoiding choices from users who just got lucky in a single week.
-- **Findings & Discoveries**:
-  * **API Endpoints**: The F2P fantasy platform exposes the following endpoints (discovered during HAR analysis on 1 July 2026):
-    * `https://f2p.premierlacrosseleague.com/api/fantasy/getGroupById/?groupId=51185&sortBy=season` to fetch the leaderboard sorted by total season points.
-    * `https://f2p.premierlacrosseleague.com/api/fantasy/challengerFetch/?userId=<firebaseId>` to fetch another user's roster selections.
-  * **Authentication**: Authentication is handled via the `Authorization: <JWT>` header, utilizing a standard Firebase ID token (no `Bearer` prefix). 
-  * **All-Star Roster Resolution**: Tested fetching the top 10 season managers. Week 7 is the All-Star week (East vs. West), where all players have a flat salary of 25. The top managers' rosters were resolved to names like *Chad Palumbo* (100% active ownership) and *TD Ierlan* (100% active ownership).
-- **Suggested Fix / Next Steps**:
-  1. **Automate Scraper**: Implement a scraper script (`08_scrape_challenger_rosters.py`) to query the leaderboard and pull rosters for the top 10 managers.
-  2. **Consensus Engine**: Count player selections to generate a top-10 ownership distribution table.
-  3. **Refresh Token Integration**: Extract the long-lived Firebase `refreshToken` by capturing a new login HAR file so the script can refresh the ID token programmatically and run headlessly.
-- **Success Criteria**: Top-performing managers' rosters are scraped, resolved, and outputted as a consensus advisory table before each game-day lock.
-
-#### Item 35: Local League Roster Scraping & Differential Optimization
-- **Problem**: We lack visibility into our local league rival selections (specifically League 53205), making it difficult to optimize for differential selections to outcompete them.
-- **Why it matters**: To climb standings and outcompete specific rivals, we need a game-theory approach: matching their high-probability consensus locks to protect our floor, while selecting high-upside differential players they don't own to gain leverage.
-- **Findings & Discoveries**:
-  * **API Endpoint**: Evaluated local league `53205` using `https://f2p.premierlacrosseleague.com/api/fantasy/getGroupById/?groupId=53205&sortBy=season` and pulled rosters for active managers live.
-  * **Rival Analysis**:
-    * *Big, Bouncy T.Ds* (Rank 1, 991.1 pts): Stacked Connor Shellenberger, CJ Kirst, Ross Scott, Aidan Carroll, Brett Makar, Liam Entenmann, TD Ierlan.
-    * *Blazing Squad* (Rank 2, 975.9 pts): Stacked Michael Sowers, CJ Kirst, Bryan Costabile, Shane Knobloch, Brett Makar, Blaze Riorden, TD Ierlan.
-    * *Jeff's Teat* (Rank 4, 915.5 pts): Stacked Logan Wisnauskas, Joey Spallina, Bryan Costabile, Shane Knobloch, Blaze Riorden, TD Ierlan, Jake Piseno.
-  * **Differential Opportunities**: Discovered that while *Chad Palumbo* (M, ASW) is a 100% consensus pick among the top 10 global season leaders, he is owned by **0%** of our local league rivals. Selecting Palumbo represents a massive differential leverage point.
-- **Suggested Fix / Next Steps**:
-  1. **Scrape Local Groups**: Expand the scraper to dynamically read additional `groupId`s (e.g. `53205`) defined in `config.py` or command-line arguments.
-  2. **Differential Optimizer**: Modify the advisory script (`06_optimize_lineups.py` or a dedicated tool) to calculate "differential leverage" by taking local rival ownership rates into account and recommending roster selections that maximize variance in our favor.
-- **Success Criteria**: Roster choices for defined local group IDs are scraped, and a game-theory advisory report (identifying rival blocks and differential leverages) is generated weekly.
-
 ---
 
 ### Tier 6: Documentation & Project Hygiene
@@ -413,3 +355,32 @@ A full codebase audit on **1 July 2026** ([audit report](file:///C:/Users/Matt/.
 - **~~Opponent-Stratified Bootstrap~~** (Rolled Back / Disabled)
   - *Details*: Implemented Gaussian similarity kernel weighting ($\sigma = 0.15$) to player/position bootstrap draws. However, fresh evaluations on the corrected database showed a point degradation in 2026 (**739.8 pts** vs. fresh baseline of **754.1 pts**). Furthermore, combining it with GBDT pace features caused scale-conflicts that compressed simulated ceilings. Therefore, the production codebase was reverted back to standard uniform (recency-weighted) bootstrapping.
   - *Implementation File*: [04_simulate_monte_carlo.py](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/04_simulate_monte_carlo.py)
+
+- **~~Item 26: Connect Stacked Regressor PredictedPoints directly to MC Simulator EV~~** (Tested & Rejected / Closed)
+  - *Details*: Tested feeding de-biased and raw GBDT regression predictions (`PredictedPoints`) directly into the Monte Carlo simulator as the expected value (EV) anchor, under various quantile targets ($\alpha=0.9$ and $\alpha=0.5$). Backtesting demonstrated significant performance degradation compared to the baseline classification-based EV method. The baseline's calibrated `BoomProbability` two-tier interpolation acts as a crucial regularizer, preventing over-optimization on GBDT regression noise.
+  - *Validation Results*:
+    - **Config 1 ($\alpha=0.9$ de-biased)**: Degradation of **-402.3 pts** in 2025 (p-val = 0.0146, statistically significant) and **-65.3 pts** in 2026.
+    - **Config 2 ($\alpha=0.5$ de-biased)**: Degradation of **-344.9 pts** in 2025 (p-val = 0.0919) and **-9.4 pts** in 2026.
+    - **Config 3 ($\alpha=0.5$ raw)**: Degradation of **-272.9 pts** in 2025 (p-val = 0.2046) and small improvement of **+12.6 pts** in 2026 (p-val = 0.8976, not significant).
+  - *Status*: ❌ Rejected/Closed. Kept the baseline classification-based EV method.
+
+- **~~Item 30: Dual Regressors or Multi-Quantile Forecasts~~** (Tested & Rejected / Closed)
+  - *Details*: Evaluated training the regressor at median quantile ($\alpha=0.5$) to serve as the MC simulator EV anchor. Tested both a de-biased median (Config 2) and a raw median (Config 3). Both configurations resulted in overall performance degradation compared to the baseline classification-based EV method. Bypassing the calibrated `BoomProbability` classifier eliminates the robust probability calibration and regularization (shrinkage to the position mean), leaving the Monte Carlo simulations highly sensitive to GBDT regression noise.
+  - *Validation Results*: Confirmed via A/B backtest configurations 2 and 3 (see Item 26 above).
+  - *Status*: ❌ Rejected/Closed. Kept the baseline classification-based EV method.
+
+- **~~Item 28: Bayesian Shrinkage on Matchup Rating Features~~** (Tested & Kept / Closed)
+  - *Details*: Tested disabling Bayesian shrinkage (`SHRINKAGE_ENABLED = False`) in matchup ratings to evaluate its impact.
+  - *Validation Results*: Disabling shrinkage resulted in a major degradation in 2026 performance (**612.5 pts** vs baseline of **781.2 pts**, a loss of **-168.7 pts** / **-9.2% ceiling coverage**), despite a minor increase in 2025 (**2260.7 pts** vs baseline of **2168.1 pts**, **+92.6 pts**).
+  - *Status*: ✅ Kept/Closed. The feature is crucial for early-season stability and is kept enabled.
+
+- **~~Item 34: Challenger Roster Scraping & Consensus Advice~~** (Done)
+  - *Details*: Implemented automated scraper script `08_scrape_challenger_rosters.py` to fetch top-performing season managers' rosters. Integrated expert consensus player weights into standard EV lineup optimization, yielding `MC Consensus` roster recommendations. Enabled programmatic headless JWT token refreshing using long-lived Firebase `F2P_REFRESH_TOKEN` values.
+  - *Implementation Files*: [08_scrape_challenger_rosters.py](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/08_scrape_challenger_rosters.py), [06_optimize_lineups.py](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/06_optimize_lineups.py), [07_prepare_static_data.py](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/07_prepare_static_data.py)
+  - *Status*: ✅ Done.
+
+- **~~Item 35: Local League Roster Scraping & Differential Optimization~~** (Done)
+  - *Details*: Expanded F2P scraper to query local rival managers in group `53205`. Integrated a NumPy-broadcasted local search optimizer that evaluates joint MC simulated point distributions against top 3 rivals simultaneously and builds a game-theory compromise lineup (`MC Differential`) that maximizes average win probability against all of them.
+  - *Implementation Files*: [08_scrape_challenger_rosters.py](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/08_scrape_challenger_rosters.py), [06_optimize_lineups.py](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/06_optimize_lineups.py), [07_prepare_static_data.py](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/07_prepare_static_data.py)
+  - *Status*: ✅ Done.
+
