@@ -21,10 +21,22 @@ Established under the optimal configuration (Game Pace Scaling enabled, Correlat
 | Season | Strategy | Total Score | Coulda Max | Ceiling % |
 |---|---|---|---|---|
 | 2025 | MC_EV | 2305.3 | 4679.1 | 49.3% |
+| 2025 | MC_Ceil_90 | 1999.5 | 4679.1 | 42.7% |
+| 2025 | MC_Win_160 | 2317.3 | 4679.1 | 49.5% |
+| 2025 | MC_Win_180 | 2127.8 | 4679.1 | 45.5% |
 | 2026 | MC_EV | 835.4 | 2194.1 | 38.1% |
+| 2026 | MC_Ceil_90 | 615.0 | 2194.1 | 28.0% |
+| 2026 | MC_Win_160 | 838.6 | 2194.1 | 38.2% |
+| 2026 | MC_Win_180 | 775.8 | 2194.1 | 35.4% |
 
 - **Target Threshold**: A proposed feature or logic change will be accepted if it demonstrates a statistically significant improvement over these baselines (paired t-test p-value < 0.05) without increasing runtimes by more than 20%, or if it fixes a critical code health issue without degrading performance.
 - **RNG Reproducibility**: All backtests must run under a fixed random seed to ensure comparison consistency.
+
+> [!IMPORTANT]
+> **Instructions for AI Agents / Backtesting Rules:**
+> 1. **Do NOT Re-Backtest the Baseline**: When A/B testing a new feature, do not waste compute resources re-running backtests for baseline configurations. All baseline scores are frozen and archived directly in `baselines/rosters_<strategy>_baseline_2.csv` (which includes the `actualPoints` column). Use those existing scores for comparison.
+> 2. **Do NOT Create New Baselines**: Do not establish a new baseline (e.g. Baseline 3) or overwrite Baseline 2 data unless the user explicitly instructs you to do so.
+
 
 ---
 
@@ -43,6 +55,10 @@ The following items represent the highest-impact improvements for **prediction a
 
 To track historical performance changes and maintain auditability across key milestones, we document each baseline iteration below. All active roster files are stored in the [baselines/](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/baselines/) directory.
 
+> [!NOTE]
+> **Baseline Roster Generation Policy:**
+> Every time a new baseline is established and rosters are saved to `baselines/`, we must include the actual player scores in the `.csv` files as an `actualPoints` column. This is achieved by running `scratch/append_actual_points.py`, which cross-references selected player names and `eventId`s against the post-game database in `combined_player_stats_YYYY.json` to calculate and write the correct fantasy points. This preserves the out-of-sample scores directly inside the roster artifacts without requiring subsequent lookups or re-evaluations.
+
 > [!WARNING]
 > **Historic Baselines Compromised:**
 > All previous baselines (formerly Baselines 1 through 8) have been removed from this document. They were fundamentally compromised by a combination of pipeline bugs (stale file retention), database corrections (doubleheaders), and several sources of data leakage (including future-leaking matchup ratings, non-chronological cross-validation, and full-season tier thresholds). The baseline below represents the first truly clean, leak-free reference point (established 1 July 2026). All future A/B testing must compare against this standard.
@@ -58,12 +74,19 @@ To track historical performance changes and maintain auditability across key mil
 
 ### Baseline 2 (Leak-Free + EWMA — 3 July 2026)
 - **Changes / Description**: Built on top of Baseline 1 by enabling exponentially-weighted moving average rolling features (`fp_ewma_4` with half-life of 4 games). Bayesian shrinkage remains enabled.
+- **Roster Files**: All Baseline 2 rosters are archived in the `baselines/` directory as `rosters_<strategy>_baseline_2.csv` (e.g. [rosters_mc_ev_baseline_2.csv](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/baselines/rosters_mc_ev_baseline_2.csv)).
 - **Performance Summary**:
 
   | Season | Strategy | Total Score | Coulda Max | Ceiling % |
   |---|---|---|---|---|
   | 2025 | MC_EV | 2305.3 | 4679.1 | 49.3% |
+  | 2025 | MC_Ceil_90 | 1999.5 | 4679.1 | 42.7% |
+  | 2025 | MC_Win_160 | 2317.3 | 4679.1 | 49.5% |
+  | 2025 | MC_Win_180 | 2127.8 | 4679.1 | 45.5% |
   | 2026 | MC_EV | 835.4 | 2194.1 | 38.1% |
+  | 2026 | MC_Ceil_90 | 615.0 | 2194.1 | 28.0% |
+  | 2026 | MC_Win_160 | 838.6 | 2194.1 | 38.2% |
+  | 2026 | MC_Win_180 | 775.8 | 2194.1 | 35.4% |
 
 - **Interpretation**: Baseline 2 is the new reference standard for all subsequent A/B tests. EWMA provides a net benefit of +137.2 points (+10.55 points/week) in 2025 but has a mild net drag of -66.7 points (-11.12 points/week) in 2026, leading to a combined net improvement of +70.5 points (+3.92 points/week) across 19 weeks.
 
