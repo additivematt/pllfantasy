@@ -49,28 +49,28 @@
             "actualPoints": 22.2
         },
         {
-            "firstName": "Jack",
-            "lastName": "VanOverbeke",
+            "firstName": "Dalton",
+            "lastName": "Young",
             "team": "OUT",
             "opponent": "RED",
             "game_id": "2025-ev-2",
             "position": "Midfield",
-            "salary": 10,
-            "mc_ev": 17.0,
-            "mc_p90": 36.6,
+            "salary": 17,
+            "mc_ev": 16.9,
+            "mc_p90": 35.3,
             "actualPoints": 7.0
         },
         {
-            "firstName": "Kyle",
-            "lastName": "Jackson",
-            "team": "ATL",
-            "opponent": "CAN",
-            "game_id": "2025-ev-4",
+            "firstName": "Aidan",
+            "lastName": "Danenza",
+            "team": "RED",
+            "opponent": "OUT",
+            "game_id": "2025-ev-2",
             "position": "Midfield",
-            "salary": 9,
-            "mc_ev": 16.5,
-            "mc_p90": 36.8,
-            "actualPoints": 20.0
+            "salary": 2,
+            "mc_ev": 15.6,
+            "mc_p90": 38.9,
+            "actualPoints": 7.0
         },
         {
             "firstName": "Ben",
@@ -111,16 +111,16 @@
             "actualPoints": 66.0
         },
         {
-            "firstName": "Rob",
-            "lastName": "Pannell",
-            "team": "WHP",
-            "opponent": "ARC",
-            "game_id": "2025-ev-3",
+            "firstName": "Jeff",
+            "lastName": "Teat",
+            "team": "ATL",
+            "opponent": "CHA",
+            "game_id": "2025-ev-1",
             "position": "Attack",
-            "salary": 44,
-            "mc_ev": 30.5,
-            "mc_p90": 47.1,
-            "actualPoints": -1.0
+            "salary": 48,
+            "mc_ev": 31.1,
+            "mc_p90": 60.2,
+            "actualPoints": 9.0
         },
         {
             "firstName": "Trevor",
@@ -135,18 +135,6 @@
             "actualPoints": 22.2
         },
         {
-            "firstName": "Jack",
-            "lastName": "VanOverbeke",
-            "team": "OUT",
-            "opponent": "RED",
-            "game_id": "2025-ev-2",
-            "position": "Midfield",
-            "salary": 10,
-            "mc_ev": 17.0,
-            "mc_p90": 36.6,
-            "actualPoints": 7.0
-        },
-        {
             "firstName": "Kyle",
             "lastName": "Jackson",
             "team": "ATL",
@@ -157,6 +145,18 @@
             "mc_ev": 16.5,
             "mc_p90": 36.8,
             "actualPoints": 20.0
+        },
+        {
+            "firstName": "JJ",
+            "lastName": "Sillstrop",
+            "team": "CHA",
+            "opponent": "ATL",
+            "game_id": "2025-ev-1",
+            "position": "Midfield",
+            "salary": 5,
+            "mc_ev": 15.8,
+            "mc_p90": 37.9,
+            "actualPoints": 47.0
         },
         {
             "firstName": "Ben",
@@ -197,18 +197,6 @@
             "actualPoints": 17.0
         },
         {
-            "firstName": "Dalton",
-            "lastName": "Young",
-            "team": "OUT",
-            "opponent": "RED",
-            "game_id": "2025-ev-2",
-            "position": "Midfield",
-            "salary": 17,
-            "mc_ev": 16.9,
-            "mc_p90": 35.3,
-            "actualPoints": 7.0
-        },
-        {
             "firstName": "Eric",
             "lastName": "Dobson",
             "team": "CHA",
@@ -219,6 +207,18 @@
             "mc_ev": 15.3,
             "mc_p90": 67.5,
             "actualPoints": -2.0
+        },
+        {
+            "firstName": "Dalton",
+            "lastName": "Young",
+            "team": "OUT",
+            "opponent": "RED",
+            "game_id": "2025-ev-2",
+            "position": "Midfield",
+            "salary": 17,
+            "mc_ev": 16.9,
+            "mc_p90": 35.3,
+            "actualPoints": 7.0
         },
         {
             "firstName": "Piper",
@@ -378,12 +378,12 @@
                 ]
             },
             {
-                "firstName": "Rob",
-                "lastName": "Pannell",
+                "firstName": "Jeff",
+                "lastName": "Teat",
                 "position": "Attack",
-                "salary": 44,
+                "salary": 48,
                 "bullets": [
-                    "Hot Form: Averaging 34.0 fantasy pts over last 3 games (vs 22.6 season avg)."
+                    "Hot Form: Averaging 57.3 fantasy pts over last 3 games (vs 38.9 season avg)."
                 ]
             },
             {
@@ -396,17 +396,6 @@
                 ]
             },
             {
-                "firstName": "Jack",
-                "lastName": "VanOverbeke",
-                "position": "Midfield",
-                "salary": 10,
-                "bullets": [
-                    "Hot Form: Averaging 6.7 fantasy pts over last 3 games (vs 3.4 season avg).",
-                    "Opponent Weakness: RED defense allows 9% extra fantasy points to Midfield position.",
-                    "Salary Cap Enabler: Excellent cost efficiency, projecting 17.0 EV for just 10 coins."
-                ]
-            },
-            {
                 "firstName": "Kyle",
                 "lastName": "Jackson",
                 "position": "Midfield",
@@ -414,6 +403,15 @@
                 "bullets": [
                     "Opponent Weakness: CAN defense allows 17% extra fantasy points to Midfield position.",
                     "Salary Cap Enabler: Excellent cost efficiency, projecting 16.5 EV for just 9 coins."
+                ]
+            },
+            {
+                "firstName": "JJ",
+                "lastName": "Sillstrop",
+                "position": "Midfield",
+                "salary": 5,
+                "bullets": [
+                    "Salary Cap Enabler: Excellent cost efficiency, projecting 15.8 EV for just 5 coins."
                 ]
             },
             {
@@ -431,10 +429,12 @@
                 "strategy": "MC_EV",
                 "strategyLabel": "MC EV",
                 "in": [
-                    "Jeff Teat"
+                    "Dalton Young",
+                    "Aidan Danenza"
                 ],
                 "out": [
-                    "Rob Pannell"
+                    "Kyle Jackson",
+                    "JJ Sillstrop"
                 ],
                 "rationale": "Optimizes strictly for the highest average expected points (mean floor) rather than variance or win probability."
             },
@@ -444,18 +444,18 @@
                 "in": [
                     "Dylan Molloy",
                     "Josh Zawada",
-                    "Dalton Young",
                     "Eric Dobson",
+                    "Dalton Young",
                     "Piper Bond"
                 ],
                 "out": [
                     "Connor Fields",
-                    "Rob Pannell",
-                    "Jack VanOverbeke",
+                    "Jeff Teat",
                     "Kyle Jackson",
+                    "JJ Sillstrop",
                     "Ben Ramsey"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Dylan Molloy (Attack, 23c), Josh Zawada (Attack, 16c), Dalton Young (Midfield, 17c), Eric Dobson (Midfield, 8c), Piper Bond (Defense, 5c)) to maximize the team's 90th percentile ceiling (projecting up to 88.7 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Dylan Molloy (Attack, 23c), Josh Zawada (Attack, 16c), Eric Dobson (Midfield, 8c), Dalton Young (Midfield, 17c), Piper Bond (Defense, 5c)) to maximize the team's 90th percentile ceiling (projecting up to 88.7 pts)."
             }
         ]
     },

@@ -524,9 +524,18 @@ function renderTacticalAdvice(tacticalData) {
     const container = document.getElementById('tactical-advice-container');
     if (!container) return;
 
-    const totalRivals = (window.currentConsensus && window.currentConsensus.local_league_rosters) 
-        ? Object.keys(window.currentConsensus.local_league_rosters).length 
-        : 3;
+    let totalRivals = 3;
+    if (window.currentConsensus && window.currentConsensus.local_league_rosters) {
+        const rosters = window.currentConsensus.local_league_rosters;
+        const keys = Object.keys(rosters);
+        let activeCount = 0;
+        keys.forEach(k => {
+            if (rosters[k].players && rosters[k].players.length > 0) {
+                activeCount++;
+            }
+        });
+        totalRivals = activeCount > 0 ? activeCount : keys.length;
+    }
 
     const players = [];
     if (tacticalData.FloorLocks) {
@@ -592,10 +601,10 @@ function renderTacticalAdvice(tacticalData) {
                         <span class="insight-player-name"><strong>${p.lastName}</strong>, ${p.firstName[0]}.</span><br/>
                         <span class="insight-player-meta">${posLabel} ${salary ? `| ${salary}c` : ''}</span>
                     </td>
-                    <td class="insight-badges-cell" style="vertical-align: middle;">
+                    <td class="insight-badges-cell">
                         <span class="${p.badgeClass}">${p.label}</span>
                     </td>
-                    <td class="insight-badges-cell" style="min-width: 65px; vertical-align: middle;">
+                    <td class="insight-badges-cell" style="min-width: 65px;">
                         ${statsBadges}
                     </td>
                     <td class="insight-rationale-cell" style="line-height: 1.35;">
@@ -613,39 +622,53 @@ function renderTacticalAdvice(tacticalData) {
         html += '<span class="muted-text">No floor locks or differential leverage plays identified.</span>';
     }
 
-    // 3. Render Rival Radar
-    if (tacticalData.Rivals && tacticalData.Rivals.length > 0) {
-        html += `
-            <div style="margin-top: 1.5rem; margin-bottom: 0.5rem; font-size: 0.75rem; font-weight: 700; color: #8b949e; letter-spacing: 0.5px; text-transform: uppercase;">📡 Rival Radar</div>
-            <div class="rival-radar-card">
-                <table class="rival-table">
-                    <thead>
-                        <tr>
-                            <th width="30%">Rival</th>
-                            <th width="70%">Roster selections</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-        `;
-        tacticalData.Rivals.forEach(rival => {
-            html += `
-                <tr>
-                    <td class="rival-name-cell">
-                        ${rival.teamName}<br/>
-                        <span style="font-size: 0.6rem; color: #8b949e;">#${rival.rank} (${rival.points.toFixed(1)} pts)</span>
-                    </td>
-                    <td class="rival-roster-cell">${rival.roster}</td>
-                </tr>
-            `;
-        });
-        html += `
-                    </tbody>
-                </table>
-            </div>
-        `;
+    html += '</div>';
+    container.innerHTML = html;
+
+    // Render Rival Radar under rosters table
+    renderRivalRadar(tacticalData.Rivals);
+}
+
+function renderRivalRadar(rivals) {
+    const container = document.getElementById('rival-radar-container');
+    if (!container) return;
+
+    if (!rivals || rivals.length === 0) {
+        container.style.display = 'none';
+        return;
     }
 
-    html += '</div>';
+    container.style.display = 'block';
+    let html = `
+        <div style="margin-bottom: 0.5rem; font-size: 0.75rem; font-weight: 700; color: #8b949e; letter-spacing: 0.5px; text-transform: uppercase;">📡 Rival Radar</div>
+        <div class="rival-radar-card">
+            <table class="rival-table">
+                <thead>
+                    <tr>
+                        <th width="30%">Rival</th>
+                        <th width="70%">Roster selections</th>
+                    </tr>
+                </thead>
+                <tbody>
+    `;
+
+    rivals.forEach(rival => {
+        html += `
+            <tr>
+                <td class="rival-name-cell">
+                    ${rival.teamName}<br/>
+                    <span style="font-size: 0.6rem; color: #8b949e;">#${rival.rank} (${rival.points.toFixed(1)} pts)</span>
+                </td>
+                <td class="rival-roster-cell">${rival.roster}</td>
+            </tr>
+        `;
+    });
+
+    html += `
+                </tbody>
+            </table>
+        </div>
+    `;
     container.innerHTML = html;
 }
 
@@ -667,18 +690,23 @@ function getPlayerOwnership(firstName, lastName) {
     if (window.currentConsensus.local_league_rosters) {
         const rivalRosters = window.currentConsensus.local_league_rosters;
         const keys = Object.keys(rivalRosters);
-        res.totalRivals = keys.length;
+        
+        let totalActiveRivals = 0;
         let count = 0;
         keys.forEach(k => {
             const players = rivalRosters[k].players || [];
-            const hasPlayer = players.some(pName => {
-                const pClean = pName.replace(/['\-\. ]/g, '').toLowerCase();
-                return pClean === cleanName;
-            });
-            if (hasPlayer) {
-                count++;
+            if (players.length > 0) {
+                totalActiveRivals++;
+                const hasPlayer = players.some(pName => {
+                    const pClean = pName.replace(/['\-\. ]/g, '').toLowerCase();
+                    return pClean === cleanName;
+                });
+                if (hasPlayer) {
+                    count++;
+                }
             }
         });
+        res.totalRivals = totalActiveRivals;
         res.rivalCount = count;
     }
 

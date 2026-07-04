@@ -457,6 +457,9 @@ def main():
                         if pts is not None:
                             cleaned_row["actualPoints"] = round(pts, 1)
 
+                        if year == 2026 and week == 7:
+                            cleaned_row["salary"] = 25
+
                         records.append(cleaned_row)
 
             # Create year directory inside predictions
@@ -473,8 +476,12 @@ def main():
             if True:
                 try:
                     df_class = pd.read_csv(filepath)
+                    if year == 2026 and week == 7:
+                        df_class['salary'] = 25
                     if os.path.exists(reg_filepath):
                         df_reg = pd.read_csv(reg_filepath)
+                        if year == 2026 and week == 7:
+                            df_reg['salary'] = 25
                     else:
                         df_reg = None
                     
@@ -811,6 +818,10 @@ def main():
                                     continue
                                 if pos == "G" and pts == 0:
                                     continue
+                                
+                                if year == 2026 and week == 7:
+                                    p['salary'] = 25
+                                    
                                 cleaned_coulda_pool.append(p)
                                 
                             team_coulda, _ = coulda_optimizer.run_optimizer(cleaned_coulda_pool, 200)
@@ -823,7 +834,7 @@ def main():
                                     team_abbr = p.get("currentTeam", {}).get("teamId", "UNK")
                                     opp_abbr = p.get("_opponent", "UNK")
                                     game_id = p.get("eventId", "UNK").replace("_game_", "-ev-")
-                                    salary = int(p.get("salary", 10))
+                                    salary = 25 if (year == 2026 and week == 7) else int(p.get("salary", 10))
                                     
                                     ev_val = float(lookup.iloc[0]["mc_ev"]) if (not lookup.empty and pd.notna(lookup.iloc[0]["mc_ev"])) else (float(lookup.iloc[0]["EV"]) if not lookup.empty else 0.0)
                                     ceil_val = float(lookup.iloc[0]["mc_p90"]) if (not lookup.empty and pd.notna(lookup.iloc[0]["mc_p90"])) else (float(lookup.iloc[0]["PredictedPoints"]) if not lookup.empty else 0.0)
@@ -884,14 +895,16 @@ def main():
                     diff_leverage = []
                     rivals_radar = []
                     
-                    # Target top 3 rivals
+                    # Include everyone in the rivals league who has set a roster
                     for r_name, r_info in rival_rosters.items():
-                        rivals_radar.append({
-                            "teamName": r_name,
-                            "rank": r_info.get("rank"),
-                            "points": r_info.get("points"),
-                            "roster": ", ".join(r_info.get("players", []))
-                        })
+                        players = r_info.get("players", [])
+                        if players: # Only include if they have set a roster
+                            rivals_radar.append({
+                                "teamName": r_name,
+                                "rank": r_info.get("rank"),
+                                "points": r_info.get("points"),
+                                "roster": ", ".join(players)
+                            })
                     
                     # Sort rivals by rank ascending
                     rivals_radar.sort(key=lambda x: x.get("rank", 99))
@@ -902,7 +915,10 @@ def main():
                         
                         rival_count = 0
                         for r_name, r_info in rival_rosters.items():
-                            r_players_cleaned = [clean_name_local(rp) for rp in r_info.get("players", [])]
+                            players = r_info.get("players", [])
+                            if not players:
+                                continue
+                            r_players_cleaned = [clean_name_local(rp) for rp in players]
                             if p_clean in r_players_cleaned:
                                 rival_count += 1
                                 

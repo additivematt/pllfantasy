@@ -99,18 +99,6 @@
             "actualPoints": 15.0
         },
         {
-            "firstName": "CJ",
-            "lastName": "Kirst",
-            "team": "WAT",
-            "opponent": "WHP",
-            "game_id": "2025_quarterfinal_1",
-            "position": "Attack",
-            "salary": 6,
-            "mc_ev": 27.2,
-            "mc_p90": 0.0,
-            "actualPoints": 54.0
-        },
-        {
             "firstName": "Kieran",
             "lastName": "McArdle",
             "team": "WAT",
@@ -121,6 +109,18 @@
             "mc_ev": 28.4,
             "mc_p90": 0.0,
             "actualPoints": 64.0
+        },
+        {
+            "firstName": "Aidan",
+            "lastName": "Carroll",
+            "team": "WHP",
+            "opponent": "WAT",
+            "game_id": "2025_quarterfinal_1",
+            "position": "Attack",
+            "salary": 27,
+            "mc_ev": 27.0,
+            "mc_p90": 0.0,
+            "actualPoints": 72.0
         },
         {
             "firstName": "Zach",
@@ -185,18 +185,6 @@
             "actualPoints": 14.0
         },
         {
-            "firstName": "CJ",
-            "lastName": "Kirst",
-            "team": "WAT",
-            "opponent": "WHP",
-            "game_id": "2025_quarterfinal_1",
-            "position": "Attack",
-            "salary": 6,
-            "mc_ev": 27.2,
-            "mc_p90": 0.0,
-            "actualPoints": 54.0
-        },
-        {
             "firstName": "Kieran",
             "lastName": "McArdle",
             "team": "WAT",
@@ -207,6 +195,18 @@
             "mc_ev": 28.4,
             "mc_p90": 0.0,
             "actualPoints": 64.0
+        },
+        {
+            "firstName": "CJ",
+            "lastName": "Kirst",
+            "team": "WAT",
+            "opponent": "WHP",
+            "game_id": "2025_quarterfinal_1",
+            "position": "Attack",
+            "salary": 6,
+            "mc_ev": 27.2,
+            "mc_p90": 0.0,
+            "actualPoints": 54.0
         },
         {
             "firstName": "Sergio",
@@ -221,16 +221,16 @@
             "actualPoints": 21.0
         },
         {
-            "firstName": "Cole",
-            "lastName": "Williams",
-            "team": "CHA",
-            "opponent": "RED",
-            "game_id": "2025_quarterfinal_2",
+            "firstName": "Zach",
+            "lastName": "Currier",
+            "team": "WAT",
+            "opponent": "WHP",
+            "game_id": "2025_quarterfinal_1",
             "position": "Midfield",
-            "salary": 10,
-            "mc_ev": 14.5,
+            "salary": 22,
+            "mc_ev": 20.0,
             "mc_p90": 0.0,
-            "actualPoints": 10.0
+            "actualPoints": 12.6
         },
         {
             "firstName": "Joseph",
@@ -245,16 +245,16 @@
             "actualPoints": 20.0
         },
         {
-            "firstName": "Carter",
-            "lastName": "Rice",
-            "team": "RED",
-            "opponent": "CHA",
+            "firstName": "Jarrod",
+            "lastName": "Neumann",
+            "team": "CHA",
+            "opponent": "RED",
             "game_id": "2025_quarterfinal_2",
             "position": "Defense",
-            "salary": 3,
-            "mc_ev": 9.9,
+            "salary": 9,
+            "mc_ev": 9.8,
             "mc_p90": 0.0,
-            "actualPoints": 10.0
+            "actualPoints": 1.0
         }
     ],
     "MC_Consensus": [],
@@ -347,12 +347,12 @@
     ],
     "Core": [
         "Kieran McArdle",
+        "Zach Currier",
         "Joseph Nardella"
     ],
     "Sleepers": [
         "CJ Kirst",
-        "Cole Williams",
-        "Carter Rice"
+        "Jarrod Neumann"
     ],
     "RecommendedStrategy": "MC_EV",
     "RecommendedReason": "Tight pricing / short slate (2 games, 10 cheap value players). Optimizing for floor is best.",
@@ -428,12 +428,12 @@
                 "strategy": "MC_Win_160",
                 "strategyLabel": "MC Win 160",
                 "in": [
-                    "CJ Kirst"
+                    "Aidan Carroll"
                 ],
                 "out": [
                     "Ryder Garnsey"
                 ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like CJ Kirst (Attack, 6c)) to increase the joint probability of the entire lineup hitting the 160 target score."
+                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Aidan Carroll (Attack, 27c)) to increase the joint probability of the entire lineup hitting the 160 target score."
             },
             {
                 "strategy": "MC_Ceil_90",
@@ -442,17 +442,15 @@
                     "Matt DeLuca",
                     "CJ Kirst",
                     "Sergio Perkovic",
-                    "Cole Williams",
-                    "Carter Rice"
+                    "Jarrod Neumann"
                 ],
                 "out": [
                     "Blaze Riorden",
                     "Ryder Garnsey",
-                    "Zach Currier",
                     "Andrew McAdorey",
                     "Christian Scarpello"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Matt DeLuca (Goalie, 32c), CJ Kirst (Attack, 6c), Sergio Perkovic (Midfield, 14c), Cole Williams (Midfield, 10c), Carter Rice (Defense, 3c)) to maximize the team's 90th percentile ceiling (projecting up to 0.0 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Matt DeLuca (Goalie, 32c), CJ Kirst (Attack, 6c), Sergio Perkovic (Midfield, 14c), Jarrod Neumann (Defense, 9c)) to maximize the team's 90th percentile ceiling (projecting up to 0.0 pts)."
             }
         ]
     },

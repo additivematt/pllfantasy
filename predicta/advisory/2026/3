@@ -173,40 +173,28 @@
     ],
     "MC_Ceil_90": [
         {
-            "firstName": "Eric",
-            "lastName": "Spanos",
-            "team": "CHA",
-            "opponent": "WAT",
+            "firstName": "CJ",
+            "lastName": "Kirst",
+            "team": "WAT",
+            "opponent": "CHA",
             "game_id": "2026-ev-12",
             "position": "Attack",
-            "salary": 6,
-            "mc_ev": 24.1,
-            "mc_p90": 63.4,
-            "actualPoints": 0.0
+            "salary": 37,
+            "mc_ev": 26.6,
+            "mc_p90": 52.9,
+            "actualPoints": 63.0
         },
         {
-            "firstName": "Teddy",
-            "lastName": "Malone",
-            "team": "CHA",
-            "opponent": "WAT",
+            "firstName": "Kieran",
+            "lastName": "McArdle",
+            "team": "WAT",
+            "opponent": "CHA",
             "game_id": "2026-ev-12",
             "position": "Attack",
-            "salary": 8,
-            "mc_ev": 25.7,
-            "mc_p90": 60.3,
-            "actualPoints": 0.0
-        },
-        {
-            "firstName": "Jake",
-            "lastName": "Stevens",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2026-ev-10",
-            "position": "Midfield",
-            "salary": 6,
-            "mc_ev": 15.6,
-            "mc_p90": 33.4,
-            "actualPoints": -5.0
+            "salary": 30,
+            "mc_ev": 26.4,
+            "mc_p90": 58.2,
+            "actualPoints": 30.0
         },
         {
             "firstName": "Connor",
@@ -221,6 +209,18 @@
             "actualPoints": 12.8
         },
         {
+            "firstName": "Reid",
+            "lastName": "Bowering",
+            "team": "ATL",
+            "opponent": "OUT",
+            "game_id": "2026-ev-10",
+            "position": "Midfield",
+            "salary": 22,
+            "mc_ev": 17.6,
+            "mc_p90": 32.0,
+            "actualPoints": 18.5
+        },
+        {
             "firstName": "Ben",
             "lastName": "Ramsey",
             "team": "CAN",
@@ -233,28 +233,28 @@
             "actualPoints": 3.0
         },
         {
-            "firstName": "Petey",
-            "lastName": "LaSalla",
-            "team": "WHP",
-            "opponent": "CAN",
-            "game_id": "2026-ev-9",
+            "firstName": "Mike",
+            "lastName": "Sisselberger",
+            "team": "ARC",
+            "opponent": "WHP",
+            "game_id": "2026-ev-11",
             "position": "Faceoff",
-            "salary": 14,
-            "mc_ev": 14.1,
-            "mc_p90": 26.1,
-            "actualPoints": 10.8
+            "salary": 9,
+            "mc_ev": 14.0,
+            "mc_p90": 40.4,
+            "actualPoints": 13.8
         },
         {
-            "firstName": "Blaze",
-            "lastName": "Riorden",
-            "team": "CHA",
-            "opponent": "WAT",
+            "firstName": "Matt",
+            "lastName": "DeLuca",
+            "team": "WAT",
+            "opponent": "CHA",
             "game_id": "2026-ev-12",
             "position": "Goalie",
-            "salary": 43,
-            "mc_ev": 31.4,
-            "mc_p90": 50.6,
-            "actualPoints": 35.0
+            "salary": 27,
+            "mc_ev": 29.7,
+            "mc_p90": 61.4,
+            "actualPoints": 36.0
         }
     ],
     "MC_Consensus": [],
@@ -346,14 +346,12 @@
         }
     ],
     "Core": [
-        "Blaze Riorden",
-        "Jake Stevens"
+        "Reid Bowering"
     ],
     "Sleepers": [
-        "Eric Spanos",
-        "Teddy Malone",
         "Connor Kirst",
-        "Ben Ramsey"
+        "Ben Ramsey",
+        "Mike Sisselberger"
     ],
     "RecommendedStrategy": "MC_EV",
     "RecommendedReason": "Tight pricing / short slate (4 games, 26 cheap value players). Optimizing for floor is best.",
@@ -446,20 +444,22 @@
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
-                    "Eric Spanos",
-                    "Teddy Malone",
+                    "CJ Kirst",
+                    "Kieran McArdle",
                     "Connor Kirst",
                     "Ben Ramsey",
-                    "Petey LaSalla"
+                    "Mike Sisselberger",
+                    "Matt DeLuca"
                 ],
                 "out": [
+                    "Blaze Riorden",
                     "Aidan Carroll",
                     "Brennan O'Neill",
-                    "Reid Bowering",
+                    "Jake Stevens",
                     "Trevor Baptiste",
                     "Gavin Adler"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Eric Spanos (Attack, 6c), Teddy Malone (Attack, 8c), Connor Kirst (Midfield, 6c), Ben Ramsey (Defense, 8c), Petey LaSalla (Faceoff, 14c)) to maximize the team's 90th percentile ceiling (projecting up to 63.4 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like CJ Kirst (Attack, 37c), Kieran McArdle (Attack, 30c), Connor Kirst (Midfield, 6c), Ben Ramsey (Defense, 8c), Mike Sisselberger (Faceoff, 9c), Matt DeLuca (Goalie, 27c)) to maximize the team's 90th percentile ceiling (projecting up to 61.4 pts)."
             }
         ]
     },

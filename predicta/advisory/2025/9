@@ -1,6 +1,18 @@
 {
     "MC_EV": [
         {
+            "firstName": "Brett",
+            "lastName": "Dobson",
+            "team": "ARC",
+            "opponent": "OUT",
+            "game_id": "2025-ev-34",
+            "position": "Goalie",
+            "salary": 39,
+            "mc_ev": 30.4,
+            "mc_p90": 46.8,
+            "actualPoints": 43.0
+        },
+        {
             "firstName": "Connor",
             "lastName": "Shellenberger",
             "team": "ATL",
@@ -49,6 +61,18 @@
             "actualPoints": -6.0
         },
         {
+            "firstName": "Jake",
+            "lastName": "Naso",
+            "team": "ARC",
+            "opponent": "RED",
+            "game_id": "2025-ev-31",
+            "position": "Faceoff",
+            "salary": 8,
+            "mc_ev": 14.0,
+            "mc_p90": 29.0,
+            "actualPoints": 1.3
+        },
+        {
             "firstName": "Christian",
             "lastName": "Scarpello",
             "team": "WAT",
@@ -59,30 +83,6 @@
             "mc_ev": 11.6,
             "mc_p90": 28.8,
             "actualPoints": 19.5
-        },
-        {
-            "firstName": "Jake",
-            "lastName": "Naso",
-            "team": "ARC",
-            "opponent": "RED",
-            "game_id": "2025-ev-31",
-            "position": "Faceoff",
-            "salary": 8,
-            "mc_ev": 15.8,
-            "mc_p90": 41.0,
-            "actualPoints": 1.3
-        },
-        {
-            "firstName": "Brett",
-            "lastName": "Dobson",
-            "team": "ARC",
-            "opponent": "OUT",
-            "game_id": "2025-ev-34",
-            "position": "Goalie",
-            "salary": 39,
-            "mc_ev": 30.4,
-            "mc_p90": 46.8,
-            "actualPoints": 43.0
         }
     ],
     "MC_Win_160": [
@@ -135,16 +135,16 @@
             "actualPoints": 15.0
         },
         {
-            "firstName": "Reid",
-            "lastName": "Bowering",
-            "team": "ATL",
-            "opponent": "WHP",
-            "game_id": "2025-ev-32",
+            "firstName": "Andrew",
+            "lastName": "McAdorey",
+            "team": "RED",
+            "opponent": "ARC",
+            "game_id": "2025-ev-31",
             "position": "Midfield",
-            "salary": 20,
-            "mc_ev": 17.1,
-            "mc_p90": 32.5,
-            "actualPoints": 12.0
+            "salary": 33,
+            "mc_ev": 17.4,
+            "mc_p90": 38.2,
+            "actualPoints": -6.0
         },
         {
             "firstName": "Jake",
@@ -154,8 +154,8 @@
             "game_id": "2025-ev-31",
             "position": "Faceoff",
             "salary": 8,
-            "mc_ev": 15.8,
-            "mc_p90": 41.0,
+            "mc_ev": 14.0,
+            "mc_p90": 29.0,
             "actualPoints": 1.3
         },
         {
@@ -172,18 +172,6 @@
         }
     ],
     "MC_Ceil_90": [
-        {
-            "firstName": "Will",
-            "lastName": "Mark",
-            "team": "ATL",
-            "opponent": "WHP",
-            "game_id": "2025-ev-32",
-            "position": "Goalie",
-            "salary": 2,
-            "mc_ev": 28.5,
-            "mc_p90": 48.9,
-            "actualPoints": 1.0
-        },
         {
             "firstName": "Connor",
             "lastName": "Shellenberger",
@@ -209,6 +197,18 @@
             "actualPoints": 51.0
         },
         {
+            "firstName": "JJ",
+            "lastName": "Sillstrop",
+            "team": "CHA",
+            "opponent": "WAT",
+            "game_id": "2025-ev-33",
+            "position": "Midfield",
+            "salary": 15,
+            "mc_ev": 14.2,
+            "mc_p90": 68.4,
+            "actualPoints": -2.0
+        },
+        {
             "firstName": "Sergio",
             "lastName": "Perkovic",
             "team": "CHA",
@@ -221,30 +221,6 @@
             "actualPoints": 10.0
         },
         {
-            "firstName": "Aidan",
-            "lastName": "Danenza",
-            "team": "RED",
-            "opponent": "ARC",
-            "game_id": "2025-ev-31",
-            "position": "Midfield",
-            "salary": 3,
-            "mc_ev": 16.0,
-            "mc_p90": 38.1,
-            "actualPoints": 10.0
-        },
-        {
-            "firstName": "Jake",
-            "lastName": "Naso",
-            "team": "ARC",
-            "opponent": "RED",
-            "game_id": "2025-ev-31",
-            "position": "Faceoff",
-            "salary": 8,
-            "mc_ev": 15.8,
-            "mc_p90": 41.0,
-            "actualPoints": 1.3
-        },
-        {
             "firstName": "Dylan",
             "lastName": "Hess",
             "team": "WAT",
@@ -255,6 +231,30 @@
             "mc_ev": 9.8,
             "mc_p90": 65.1,
             "actualPoints": 13.0
+        },
+        {
+            "firstName": "Justin",
+            "lastName": "Inacio",
+            "team": "CHA",
+            "opponent": "WAT",
+            "game_id": "2025-ev-33",
+            "position": "Faceoff",
+            "salary": 23,
+            "mc_ev": 13.7,
+            "mc_p90": 28.5,
+            "actualPoints": 18.0
+        },
+        {
+            "firstName": "Chayse",
+            "lastName": "Ierlan",
+            "team": "RED",
+            "opponent": "ARC",
+            "game_id": "2025-ev-31",
+            "position": "Goalie",
+            "salary": 29,
+            "mc_ev": 30.3,
+            "mc_p90": 44.1,
+            "actualPoints": 34.0
         }
     ],
     "MC_Consensus": [],
@@ -347,18 +347,24 @@
     ],
     "Core": [
         "Connor Shellenberger",
-        "Jeff Teat",
-        "Jake Naso"
+        "Jeff Teat"
     ],
     "Sleepers": [
-        "Will Mark",
-        "Aidan Danenza",
         "Dylan Hess"
     ],
     "RecommendedStrategy": "MC_EV",
     "RecommendedReason": "Tight pricing / short slate (4 games, 27 cheap value players). Optimizing for floor is best.",
     "Narrative": {
         "RecommendedRoster": [
+            {
+                "firstName": "Brett",
+                "lastName": "Dobson",
+                "position": "Goalie",
+                "salary": 39,
+                "bullets": [
+                    "Consistent Pick: Selected for steady expected floor (30.4 EV) and reliable role."
+                ]
+            },
             {
                 "firstName": "Connor",
                 "lastName": "Shellenberger",
@@ -396,30 +402,21 @@
                 ]
             },
             {
+                "firstName": "Jake",
+                "lastName": "Naso",
+                "position": "Faceoff",
+                "salary": 8,
+                "bullets": [
+                    "Consistent Pick: Selected for steady expected floor (14.0 EV) and reliable role."
+                ]
+            },
+            {
                 "firstName": "Christian",
                 "lastName": "Scarpello",
                 "position": "Defense",
                 "salary": 3,
                 "bullets": [
                     "Consistent Pick: Selected for steady expected floor (11.6 EV) and reliable role."
-                ]
-            },
-            {
-                "firstName": "Jake",
-                "lastName": "Naso",
-                "position": "Faceoff",
-                "salary": 8,
-                "bullets": [
-                    "Salary Cap Enabler: Excellent cost efficiency, projecting 15.8 EV for just 8 coins."
-                ]
-            },
-            {
-                "firstName": "Brett",
-                "lastName": "Dobson",
-                "position": "Goalie",
-                "salary": 39,
-                "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (30.4 EV) and reliable role."
                 ]
             }
         ],
@@ -428,31 +425,31 @@
                 "strategy": "MC_Win_160",
                 "strategyLabel": "MC Win 160",
                 "in": [
-                    "Matt DeLuca",
-                    "Reid Bowering"
+                    "Matt DeLuca"
                 ],
                 "out": [
-                    "Andrew McAdorey",
                     "Brett Dobson"
                 ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Matt DeLuca (Goalie, 35c), Reid Bowering (Midfield, 20c)) to increase the joint probability of the entire lineup hitting the 160 target score."
+                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Matt DeLuca (Goalie, 35c)) to increase the joint probability of the entire lineup hitting the 160 target score."
             },
             {
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
-                    "Will Mark",
+                    "JJ Sillstrop",
                     "Sergio Perkovic",
-                    "Aidan Danenza",
-                    "Dylan Hess"
+                    "Dylan Hess",
+                    "Justin Inacio",
+                    "Chayse Ierlan"
                 ],
                 "out": [
+                    "Brett Dobson",
                     "Tom Schreiber",
                     "Andrew McAdorey",
-                    "Christian Scarpello",
-                    "Brett Dobson"
+                    "Jake Naso",
+                    "Christian Scarpello"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Will Mark (Goalie, 2c), Sergio Perkovic (Midfield, 16c), Aidan Danenza (Midfield, 3c), Dylan Hess (Defense, 6c)) to maximize the team's 90th percentile ceiling (projecting up to 72.0 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like JJ Sillstrop (Midfield, 15c), Sergio Perkovic (Midfield, 16c), Dylan Hess (Defense, 6c), Justin Inacio (Faceoff, 23c), Chayse Ierlan (Goalie, 29c)) to maximize the team's 90th percentile ceiling (projecting up to 72.0 pts)."
             }
         ]
     },

@@ -185,6 +185,18 @@
             "actualPoints": 12.0
         },
         {
+            "firstName": "Nick",
+            "lastName": "Washuta",
+            "team": "ARC",
+            "opponent": "RED",
+            "game_id": "2026-ev-1",
+            "position": "Goalie",
+            "salary": 14,
+            "mc_ev": 29.0,
+            "mc_p90": 71.6,
+            "actualPoints": 30.0
+        },
+        {
             "firstName": "Brendan",
             "lastName": "Nichtern",
             "team": "CHA",
@@ -195,18 +207,6 @@
             "mc_ev": 28.9,
             "mc_p90": 83.5,
             "actualPoints": 29.0
-        },
-        {
-            "firstName": "Jonathan",
-            "lastName": "Donville",
-            "team": "OUT",
-            "opponent": "ARC",
-            "game_id": "2026-ev-3",
-            "position": "Midfield",
-            "salary": 5,
-            "mc_ev": 15.6,
-            "mc_p90": 34.7,
-            "actualPoints": 18.0
         },
         {
             "firstName": "Jake",
@@ -221,40 +221,40 @@
             "actualPoints": 0.0
         },
         {
-            "firstName": "Alexander",
-            "lastName": "Smith",
-            "team": "OUT",
-            "opponent": "ARC",
-            "game_id": "2026-ev-3",
-            "position": "Defense",
-            "salary": 4,
-            "mc_ev": 10.3,
-            "mc_p90": 42.3,
-            "actualPoints": 22.0
-        },
-        {
-            "firstName": "Nathan",
-            "lastName": "Laliberte",
-            "team": "ATL",
-            "opponent": "CHA",
-            "game_id": "2026-ev-2",
-            "position": "Faceoff",
-            "salary": 6,
-            "mc_ev": 16.9,
-            "mc_p90": 34.3,
-            "actualPoints": 1.6
-        },
-        {
-            "firstName": "Nick",
-            "lastName": "Washuta",
+            "firstName": "Mike",
+            "lastName": "Sisselberger",
             "team": "ARC",
             "opponent": "RED",
             "game_id": "2026-ev-1",
-            "position": "Goalie",
-            "salary": 14,
-            "mc_ev": 29.0,
-            "mc_p90": 71.6,
-            "actualPoints": 30.0
+            "position": "Faceoff",
+            "salary": 6,
+            "mc_ev": 17.4,
+            "mc_p90": 43.1,
+            "actualPoints": 3.1
+        },
+        {
+            "firstName": "Jonathan",
+            "lastName": "Donville",
+            "team": "OUT",
+            "opponent": "ARC",
+            "game_id": "2026-ev-3",
+            "position": "Midfield",
+            "salary": 5,
+            "mc_ev": 15.6,
+            "mc_p90": 34.7,
+            "actualPoints": 18.0
+        },
+        {
+            "firstName": "Brian",
+            "lastName": "Tevlin",
+            "team": "RED",
+            "opponent": "ARC",
+            "game_id": "2026-ev-1",
+            "position": "Defense",
+            "salary": 16,
+            "mc_ev": 12.3,
+            "mc_p90": 26.8,
+            "actualPoints": 20.0
         }
     ],
     "MC_Consensus": [],
@@ -346,13 +346,13 @@
         }
     ],
     "Core": [
-        "Jake Stevens"
+        "Jake Stevens",
+        "Mike Sisselberger",
+        "Brian Tevlin"
     ],
     "Sleepers": [
         "Brayden Mayea",
-        "Jonathan Donville",
-        "Alexander Smith",
-        "Nathan Laliberte"
+        "Jonathan Donville"
     ],
     "RecommendedStrategy": "MC_Win_160",
     "RecommendedReason": "Stars & Scrubs slate (4 games, 51 cheap value players). Optimizing for variance with MC Win 160 is best.",
@@ -445,18 +445,14 @@
                 "in": [
                     "Brayden Mayea",
                     "Brendan Nichtern",
-                    "Jonathan Donville",
-                    "Alexander Smith",
-                    "Nathan Laliberte"
+                    "Jonathan Donville"
                 ],
                 "out": [
                     "Connor Shellenberger",
                     "Brennan O'Neill",
-                    "Mike Sisselberger",
-                    "Matt Brandau",
-                    "Brian Tevlin"
+                    "Matt Brandau"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Brayden Mayea (Attack, 4c), Brendan Nichtern (Attack, 5c), Jonathan Donville (Midfield, 5c), Alexander Smith (Defense, 4c), Nathan Laliberte (Faceoff, 6c)) to maximize the team's 90th percentile ceiling (projecting up to 93.6 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Brayden Mayea (Attack, 4c), Brendan Nichtern (Attack, 5c), Jonathan Donville (Midfield, 5c)) to maximize the team's 90th percentile ceiling (projecting up to 93.6 pts)."
             }
         ]
     },

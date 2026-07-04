@@ -1,6 +1,18 @@
 {
     "MC_EV": [
         {
+            "firstName": "Blaze",
+            "lastName": "Riorden",
+            "team": "CHA",
+            "opponent": "CAN",
+            "game_id": "2025-ev-20",
+            "position": "Goalie",
+            "salary": 43,
+            "mc_ev": 30.6,
+            "mc_p90": 57.5,
+            "actualPoints": 57.0
+        },
+        {
             "firstName": "Josh",
             "lastName": "Zawada",
             "team": "CHA",
@@ -49,18 +61,6 @@
             "actualPoints": 32.0
         },
         {
-            "firstName": "Levi",
-            "lastName": "Verch",
-            "team": "CHA",
-            "opponent": "CAN",
-            "game_id": "2025-ev-20",
-            "position": "Defense",
-            "salary": 3,
-            "mc_ev": 12.1,
-            "mc_p90": 29.0,
-            "actualPoints": -1.0
-        },
-        {
             "firstName": "Justin",
             "lastName": "Inacio",
             "team": "CHA",
@@ -68,10 +68,24 @@
             "game_id": "2025-ev-20",
             "position": "Faceoff",
             "salary": 10,
-            "mc_ev": 16.1,
-            "mc_p90": 31.2,
+            "mc_ev": 16.2,
+            "mc_p90": 32.2,
             "actualPoints": 28.0
         },
+        {
+            "firstName": "Piper",
+            "lastName": "Bond",
+            "team": "ARC",
+            "opponent": "ATL",
+            "game_id": "2025-ev-18",
+            "position": "Defense",
+            "salary": 7,
+            "mc_ev": 11.1,
+            "mc_p90": 20.2,
+            "actualPoints": 0.5
+        }
+    ],
+    "MC_Win_160": [
         {
             "firstName": "Blaze",
             "lastName": "Riorden",
@@ -83,20 +97,6 @@
             "mc_ev": 30.6,
             "mc_p90": 57.5,
             "actualPoints": 57.0
-        }
-    ],
-    "MC_Win_160": [
-        {
-            "firstName": "Liam",
-            "lastName": "Entenmann",
-            "team": "ATL",
-            "opponent": "ARC",
-            "game_id": "2025-ev-18",
-            "position": "Goalie",
-            "salary": 49,
-            "mc_ev": 30.5,
-            "mc_p90": 49.6,
-            "actualPoints": 29.0
         },
         {
             "firstName": "Josh",
@@ -154,21 +154,21 @@
             "game_id": "2025-ev-20",
             "position": "Faceoff",
             "salary": 10,
-            "mc_ev": 16.1,
-            "mc_p90": 31.2,
+            "mc_ev": 16.2,
+            "mc_p90": 32.2,
             "actualPoints": 28.0
         },
         {
-            "firstName": "Levi",
-            "lastName": "Verch",
-            "team": "CHA",
-            "opponent": "CAN",
-            "game_id": "2025-ev-20",
+            "firstName": "Piper",
+            "lastName": "Bond",
+            "team": "ARC",
+            "opponent": "ATL",
+            "game_id": "2025-ev-18",
             "position": "Defense",
-            "salary": 3,
-            "mc_ev": 12.1,
-            "mc_p90": 29.0,
-            "actualPoints": -1.0
+            "salary": 7,
+            "mc_ev": 11.1,
+            "mc_p90": 20.2,
+            "actualPoints": 0.5
         }
     ],
     "MC_Ceil_90": [
@@ -240,21 +240,21 @@
             "game_id": "2025-ev-20",
             "position": "Faceoff",
             "salary": 10,
-            "mc_ev": 16.1,
-            "mc_p90": 31.2,
+            "mc_ev": 16.2,
+            "mc_p90": 32.2,
             "actualPoints": 28.0
         },
         {
-            "firstName": "Carter",
-            "lastName": "Rice",
-            "team": "RED",
-            "opponent": "WAT",
-            "game_id": "2025-ev-19",
+            "firstName": "JT",
+            "lastName": "Giles-Harris",
+            "team": "OUT",
+            "opponent": "RED",
+            "game_id": "2025-ev-17",
             "position": "Defense",
             "salary": 3,
-            "mc_ev": 10.6,
-            "mc_p90": 31.5,
-            "actualPoints": 2.0
+            "mc_ev": 10.2,
+            "mc_p90": 23.0,
+            "actualPoints": 6.0
         }
     ],
     "MC_Consensus": [],
@@ -281,7 +281,7 @@
             "position": "A",
             "salary": 13,
             "mc_ev": 25.4,
-            "mc_p90": 55.9,
+            "mc_p90": 51.9,
             "actualPoints": 37.0
         },
         {
@@ -292,8 +292,8 @@
             "game_id": "2025-ev-17",
             "position": "M",
             "salary": 37,
-            "mc_ev": 14.9,
-            "mc_p90": 33.3,
+            "mc_ev": 15.2,
+            "mc_p90": 37.1,
             "actualPoints": 64.0
         },
         {
@@ -304,8 +304,8 @@
             "game_id": "2025-ev-17",
             "position": "M",
             "salary": 17,
-            "mc_ev": 15.1,
-            "mc_p90": 32.0,
+            "mc_ev": 15.3,
+            "mc_p90": 37.1,
             "actualPoints": 48.0
         },
         {
@@ -346,18 +346,28 @@
         }
     ],
     "Core": [
+        "Blaze Riorden",
         "Josh Zawada",
         "Ross Scott",
         "Justin Inacio"
     ],
     "Sleepers": [
         "Jack VanOverbeke",
-        "Carter Rice"
+        "JT Giles-Harris"
     ],
     "RecommendedStrategy": "MC_EV",
-    "RecommendedReason": "Tight pricing / short slate (4 games, 37 cheap value players). Optimizing for floor is best.",
+    "RecommendedReason": "Tight pricing / short slate (4 games, 35 cheap value players). Optimizing for floor is best.",
     "Narrative": {
         "RecommendedRoster": [
+            {
+                "firstName": "Blaze",
+                "lastName": "Riorden",
+                "position": "Goalie",
+                "salary": 43,
+                "bullets": [
+                    "Consistent Pick: Selected for steady expected floor (30.6 EV) and reliable role."
+                ]
+            },
             {
                 "firstName": "Josh",
                 "lastName": "Zawada",
@@ -395,15 +405,6 @@
                 ]
             },
             {
-                "firstName": "Levi",
-                "lastName": "Verch",
-                "position": "Defense",
-                "salary": 3,
-                "bullets": [
-                    "Hot Form: Averaging 4.7 fantasy pts over last 3 games (vs 2.2 season avg)."
-                ]
-            },
-            {
                 "firstName": "Justin",
                 "lastName": "Inacio",
                 "position": "Faceoff",
@@ -411,45 +412,35 @@
                 "bullets": [
                     "Hot Form: Averaging 4.2 fantasy pts over last 3 games (vs 2.5 season avg).",
                     "Opponent Weakness: CAN defense allows 13% extra fantasy points to Faceoff position.",
-                    "Salary Cap Enabler: Excellent cost efficiency, projecting 16.1 EV for just 10 coins."
+                    "Salary Cap Enabler: Excellent cost efficiency, projecting 16.2 EV for just 10 coins."
                 ]
             },
             {
-                "firstName": "Blaze",
-                "lastName": "Riorden",
-                "position": "Goalie",
-                "salary": 43,
+                "firstName": "Piper",
+                "lastName": "Bond",
+                "position": "Defense",
+                "salary": 7,
                 "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (30.6 EV) and reliable role."
+                    "Hot Form: Averaging 6.1 fantasy pts over last 3 games (vs 4.9 season avg).",
+                    "Opponent Weakness: ATL defense allows 40% extra fantasy points to SSDM position."
                 ]
             }
         ],
         "Variants": [
-            {
-                "strategy": "MC_Win_160",
-                "strategyLabel": "MC Win 160",
-                "in": [
-                    "Liam Entenmann"
-                ],
-                "out": [
-                    "Blaze Riorden"
-                ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Liam Entenmann (Goalie, 49c)) to increase the joint probability of the entire lineup hitting the 160 target score."
-            },
             {
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
                     "Adam Charalambides",
                     "Jack VanOverbeke",
-                    "Carter Rice"
+                    "JT Giles-Harris"
                 ],
                 "out": [
                     "Kieran McArdle",
                     "Zach Currier",
-                    "Levi Verch"
+                    "Piper Bond"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Adam Charalambides (Attack, 21c), Jack VanOverbeke (Midfield, 3c), Carter Rice (Defense, 3c)) to maximize the team's 90th percentile ceiling (projecting up to 72.5 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Adam Charalambides (Attack, 21c), Jack VanOverbeke (Midfield, 3c), JT Giles-Harris (Defense, 3c)) to maximize the team's 90th percentile ceiling (projecting up to 72.5 pts)."
             }
         ]
     },

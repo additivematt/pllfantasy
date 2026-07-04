@@ -113,6 +113,9 @@ def main():
     df_class = pd.read_csv(class_file)
     df_sims = pd.read_csv(sims_file)
     
+    if args.year == 2026 and args.week == 7:
+        df_class['salary'] = 25
+        
     df_merged = df_class.copy()
     
     # Map simulated EV and simulated standard deviation / ceiling from Monte Carlo simulations
@@ -229,45 +232,47 @@ def main():
             team_mc_consensus = None
             print("Warning: Could not solve Consensus Roster optimization.")
 
-        # 2. Differential Compromise Optimization vs Top 3 Rivals
+        # 2. Differential Compromise Optimization vs Active Rivals
         if rival_rosters:
-            print(f"Running differential optimization vs top local rivals...")
-            rival_player_cols = {}
-            for r_name, r_info in rival_rosters.items():
-                rival_player_cols[r_name] = []
-                for p_name in r_info.get("players", []):
-                    p_clean = clean_name(p_name)
-                    matched = False
-                    for p in player_pool:
-                        p_pool_clean = clean_name(p["firstName"] + p["lastName"])
-                        if p_pool_clean == p_clean:
-                            col_name = f"{p['firstName']}_{p['lastName']}_{p['game_id']}"
-                            if col_name in df_sims.columns:
-                                rival_player_cols[r_name].append(col_name)
-                                matched = True
-                                break
-                    if not matched:
-                        # Try loose matching (e.g. lastName check)
+            active_rival_rosters = {k: v for k, v in rival_rosters.items() if v.get("players")}
+            if active_rival_rosters:
+                print(f"Running differential optimization vs active local rivals ({len(active_rival_rosters)})...")
+                rival_player_cols = {}
+                for r_name, r_info in active_rival_rosters.items():
+                    rival_player_cols[r_name] = []
+                    for p_name in r_info.get("players", []):
+                        p_clean = clean_name(p_name)
+                        matched = False
                         for p in player_pool:
-                            if clean_name(p["lastName"]) == clean_name(p_name.split()[-1]):
+                            p_pool_clean = clean_name(p["firstName"] + p["lastName"])
+                            if p_pool_clean == p_clean:
                                 col_name = f"{p['firstName']}_{p['lastName']}_{p['game_id']}"
                                 if col_name in df_sims.columns:
                                     rival_player_cols[r_name].append(col_name)
                                     matched = True
                                     break
-            
-            rival_score_vectors = []
-            for r_name, cols in rival_player_cols.items():
-                if cols:
-                    r_scores = df_sims[cols].sum(axis=1).values
-                    rival_score_vectors.append(r_scores)
-                else:
-                    rival_score_vectors.append(np.zeros(10000))
-            
-            if rival_score_vectors:
-                target_win_score = np.array(rival_score_vectors) # Shape (K, 10000)
-                # Optimize to maximize average win probability vs all K rivals
-                team_mc_differential = run_local_search(player_pool, sim_matrix, 'MC_Win_Prob', ev_baseline, args.budget, target_win_score=target_win_score, restarts=LOCAL_SEARCH_RESTARTS)
+                        if not matched:
+                            # Try loose matching (e.g. lastName check)
+                            for p in player_pool:
+                                if clean_name(p["lastName"]) == clean_name(p_name.split()[-1]):
+                                    col_name = f"{p['firstName']}_{p['lastName']}_{p['game_id']}"
+                                    if col_name in df_sims.columns:
+                                        rival_player_cols[r_name].append(col_name)
+                                        matched = True
+                                        break
+                
+                rival_score_vectors = []
+                for r_name, cols in rival_player_cols.items():
+                    if cols:
+                        r_scores = df_sims[cols].sum(axis=1).values
+                        rival_score_vectors.append(r_scores)
+                    else:
+                        rival_score_vectors.append(np.zeros(10000))
+                
+                if rival_score_vectors:
+                    target_win_score = np.array(rival_score_vectors) # Shape (K, 10000)
+                    # Optimize to maximize average win probability vs all K rivals
+                    team_mc_differential = run_local_search(player_pool, sim_matrix, 'MC_Win_Prob', ev_baseline, args.budget, target_win_score=target_win_score, restarts=LOCAL_SEARCH_RESTARTS)
 
     # Cross-Reference Selections
     rosters = {

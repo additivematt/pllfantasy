@@ -159,16 +159,16 @@
             "actualPoints": -9.0
         },
         {
-            "firstName": "Levi",
-            "lastName": "Verch",
-            "team": "CHA",
-            "opponent": "OUT",
-            "game_id": "2025-ev-5",
+            "firstName": "Kenny",
+            "lastName": "Brower",
+            "team": "WAT",
+            "opponent": "WHP",
+            "game_id": "2025-ev-6",
             "position": "Defense",
-            "salary": 4,
-            "mc_ev": 11.7,
-            "mc_p90": 32.9,
-            "actualPoints": -1.0
+            "salary": 2,
+            "mc_ev": 11.8,
+            "mc_p90": 27.5,
+            "actualPoints": 23.0
         }
     ],
     "MC_Ceil_90": [
@@ -292,8 +292,8 @@
             "game_id": "2025-ev-8",
             "position": "M",
             "salary": 27,
-            "mc_ev": 14.1,
-            "mc_p90": 28.9,
+            "mc_ev": 14.3,
+            "mc_p90": 35.7,
             "actualPoints": 56.5
         },
         {
@@ -423,17 +423,6 @@
             }
         ],
         "Variants": [
-            {
-                "strategy": "MC_Win_160",
-                "strategyLabel": "MC Win 160",
-                "in": [
-                    "Levi Verch"
-                ],
-                "out": [
-                    "Kenny Brower"
-                ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Levi Verch (Defense, 4c)) to increase the joint probability of the entire lineup hitting the 160 target score."
-            },
             {
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",

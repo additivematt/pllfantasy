@@ -13,18 +13,6 @@
             "actualPoints": 75.0
         },
         {
-            "firstName": "Brendan",
-            "lastName": "Krebs",
-            "team": "WHP",
-            "opponent": "ATL",
-            "game_id": "2025-ev-11",
-            "position": "Goalie",
-            "salary": 13,
-            "mc_ev": 33.9,
-            "mc_p90": 58.4,
-            "actualPoints": 26.0
-        },
-        {
             "firstName": "Jeff",
             "lastName": "Teat",
             "team": "ATL",
@@ -49,18 +37,6 @@
             "actualPoints": 20.0
         },
         {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
-            "team": "ATL",
-            "opponent": "WHP",
-            "game_id": "2025-ev-11",
-            "position": "Faceoff",
-            "salary": 37,
-            "mc_ev": 18.1,
-            "mc_p90": 30.9,
-            "actualPoints": 20.2
-        },
-        {
             "firstName": "Jack",
             "lastName": "VanOverbeke",
             "team": "OUT",
@@ -81,8 +57,32 @@
             "position": "Defense",
             "salary": 6,
             "mc_ev": 12.2,
-            "mc_p90": 26.9,
+            "mc_p90": 28.3,
             "actualPoints": -2.0
+        },
+        {
+            "firstName": "Trevor",
+            "lastName": "Baptiste",
+            "team": "ATL",
+            "opponent": "WHP",
+            "game_id": "2025-ev-11",
+            "position": "Faceoff",
+            "salary": 37,
+            "mc_ev": 18.1,
+            "mc_p90": 30.9,
+            "actualPoints": 20.2
+        },
+        {
+            "firstName": "Brendan",
+            "lastName": "Krebs",
+            "team": "WHP",
+            "opponent": "ATL",
+            "game_id": "2025-ev-11",
+            "position": "Goalie",
+            "salary": 13,
+            "mc_ev": 33.9,
+            "mc_p90": 58.4,
+            "actualPoints": 26.0
         }
     ],
     "MC_Win_160": [
@@ -167,23 +167,11 @@
             "position": "Defense",
             "salary": 6,
             "mc_ev": 12.2,
-            "mc_p90": 26.9,
+            "mc_p90": 28.3,
             "actualPoints": -2.0
         }
     ],
     "MC_Ceil_90": [
-        {
-            "firstName": "Michael",
-            "lastName": "Sowers",
-            "team": "WAT",
-            "opponent": "CAN",
-            "game_id": "2025-ev-9",
-            "position": "Attack",
-            "salary": 50,
-            "mc_ev": 35.0,
-            "mc_p90": 61.9,
-            "actualPoints": 75.0
-        },
         {
             "firstName": "Connor",
             "lastName": "Shellenberger",
@@ -195,6 +183,18 @@
             "mc_ev": 31.1,
             "mc_p90": 79.0,
             "actualPoints": 80.0
+        },
+        {
+            "firstName": "Michael",
+            "lastName": "Sowers",
+            "team": "WAT",
+            "opponent": "CAN",
+            "game_id": "2025-ev-9",
+            "position": "Attack",
+            "salary": 50,
+            "mc_ev": 35.0,
+            "mc_p90": 61.9,
+            "actualPoints": 75.0
         },
         {
             "firstName": "Jack",
@@ -316,8 +316,8 @@
             "game_id": "2025-ev-9",
             "position": "D",
             "salary": 13,
-            "mc_ev": 9.8,
-            "mc_p90": 18.1,
+            "mc_ev": 10.0,
+            "mc_p90": 23.0,
             "actualPoints": 45.0
         },
         {
@@ -347,14 +347,14 @@
     ],
     "Core": [
         "Michael Sowers",
-        "Brendan Krebs",
-        "Charlie Bertrand"
+        "Charlie Bertrand",
+        "Brendan Krebs"
     ],
     "Sleepers": [
         "Piper Bond"
     ],
     "RecommendedStrategy": "MC_EV",
-    "RecommendedReason": "Tight pricing / short slate (4 games, 33 cheap value players). Optimizing for floor is best.",
+    "RecommendedReason": "Tight pricing / short slate (4 games, 34 cheap value players). Optimizing for floor is best.",
     "Narrative": {
         "RecommendedRoster": [
             {
@@ -364,16 +364,6 @@
                 "salary": 50,
                 "bullets": [
                     "Hot Form: Averaging 47.7 fantasy pts over last 3 games (vs 36.2 season avg)."
-                ]
-            },
-            {
-                "firstName": "Brendan",
-                "lastName": "Krebs",
-                "position": "Goalie",
-                "salary": 13,
-                "bullets": [
-                    "Matchup Specialist: Historically performs well against ATL (1.33x average scoring rate).",
-                    "Opponent Weakness: ATL defense allows 11% extra fantasy points to Goalie position."
                 ]
             },
             {
@@ -395,15 +385,6 @@
                 ]
             },
             {
-                "firstName": "Trevor",
-                "lastName": "Baptiste",
-                "position": "Faceoff",
-                "salary": 37,
-                "bullets": [
-                    "Hot Form: Averaging 34.0 fantasy pts over last 3 games (vs 24.7 season avg)."
-                ]
-            },
-            {
                 "firstName": "Jack",
                 "lastName": "VanOverbeke",
                 "position": "Midfield",
@@ -419,6 +400,25 @@
                 "salary": 6,
                 "bullets": [
                     "Consistent Pick: Selected for steady expected floor (12.2 EV) and reliable role."
+                ]
+            },
+            {
+                "firstName": "Trevor",
+                "lastName": "Baptiste",
+                "position": "Faceoff",
+                "salary": 37,
+                "bullets": [
+                    "Hot Form: Averaging 34.0 fantasy pts over last 3 games (vs 24.7 season avg)."
+                ]
+            },
+            {
+                "firstName": "Brendan",
+                "lastName": "Krebs",
+                "position": "Goalie",
+                "salary": 13,
+                "bullets": [
+                    "Matchup Specialist: Historically performs well against ATL (1.33x average scoring rate).",
+                    "Opponent Weakness: ATL defense allows 11% extra fantasy points to Goalie position."
                 ]
             }
         ],
@@ -444,8 +444,8 @@
                 ],
                 "out": [
                     "Jeff Teat",
-                    "Trevor Baptiste",
-                    "Ben Wayer"
+                    "Ben Wayer",
+                    "Trevor Baptiste"
                 ],
                 "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Connor Shellenberger (Attack, 43c), Piper Bond (Defense, 6c), Zac Tucci (Faceoff, 28c)) to maximize the team's 90th percentile ceiling (projecting up to 79.0 pts)."
             }
