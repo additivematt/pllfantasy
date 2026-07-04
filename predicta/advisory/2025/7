@@ -56,8 +56,8 @@
             "game_id": "2025-ev-23",
             "position": "Midfield",
             "salary": 34,
-            "mc_ev": 19.1,
-            "mc_p90": 37.2,
+            "mc_ev": 18.9,
+            "mc_p90": 30.1,
             "actualPoints": 16.0
         },
         {
@@ -73,16 +73,16 @@
             "actualPoints": 8.0
         },
         {
-            "firstName": "Jeff",
-            "lastName": "Trainor",
-            "team": "CAN",
-            "opponent": "ATL",
+            "firstName": "Max",
+            "lastName": "Krevsky",
+            "team": "ATL",
+            "opponent": "CAN",
             "game_id": "2025-ev-23",
             "position": "Defense",
-            "salary": 9,
-            "mc_ev": 11.6,
-            "mc_p90": 22.0,
-            "actualPoints": 10.0
+            "salary": 4,
+            "mc_ev": 12.2,
+            "mc_p90": 29.2,
+            "actualPoints": -3.5
         }
     ],
     "MC_Win_160": [
@@ -142,8 +142,8 @@
             "game_id": "2025-ev-23",
             "position": "Midfield",
             "salary": 34,
-            "mc_ev": 19.1,
-            "mc_p90": 37.2,
+            "mc_ev": 18.9,
+            "mc_p90": 30.1,
             "actualPoints": 16.0
         },
         {
@@ -197,40 +197,16 @@
             "actualPoints": 55.0
         },
         {
-            "firstName": "Sergio",
-            "lastName": "Perkovic",
-            "team": "CHA",
-            "opponent": "RED",
-            "game_id": "2025-ev-25",
-            "position": "Midfield",
-            "salary": 26,
-            "mc_ev": 15.6,
-            "mc_p90": 57.9,
-            "actualPoints": -3.0
-        },
-        {
-            "firstName": "Jack",
-            "lastName": "VanOverbeke",
-            "team": "OUT",
-            "opponent": "WHP",
-            "game_id": "2025-ev-26",
-            "position": "Midfield",
-            "salary": 4,
-            "mc_ev": 16.7,
-            "mc_p90": 71.8,
-            "actualPoints": -9.0
-        },
-        {
-            "firstName": "Matt",
-            "lastName": "Whitcher",
-            "team": "WAT",
-            "opponent": "ARC",
-            "game_id": "2025-ev-24",
-            "position": "Defense",
-            "salary": 6,
-            "mc_ev": 11.4,
-            "mc_p90": 37.5,
-            "actualPoints": 0.0
+            "firstName": "Liam",
+            "lastName": "Entenmann",
+            "team": "ATL",
+            "opponent": "CAN",
+            "game_id": "2025-ev-23",
+            "position": "Goalie",
+            "salary": 44,
+            "mc_ev": 30.5,
+            "mc_p90": 51.2,
+            "actualPoints": 22.0
         },
         {
             "firstName": "Trevor",
@@ -245,16 +221,40 @@
             "actualPoints": 17.6
         },
         {
-            "firstName": "Liam",
-            "lastName": "Entenmann",
+            "firstName": "Jack",
+            "lastName": "VanOverbeke",
+            "team": "OUT",
+            "opponent": "WHP",
+            "game_id": "2025-ev-26",
+            "position": "Midfield",
+            "salary": 4,
+            "mc_ev": 16.7,
+            "mc_p90": 71.8,
+            "actualPoints": -9.0
+        },
+        {
+            "firstName": "Hugh",
+            "lastName": "Kelleher",
             "team": "ATL",
             "opponent": "CAN",
             "game_id": "2025-ev-23",
-            "position": "Goalie",
-            "salary": 44,
-            "mc_ev": 30.5,
-            "mc_p90": 51.2,
-            "actualPoints": 22.0
+            "position": "Midfield",
+            "salary": 5,
+            "mc_ev": 16.2,
+            "mc_p90": 37.1,
+            "actualPoints": 18.0
+        },
+        {
+            "firstName": "Matt",
+            "lastName": "Whitcher",
+            "team": "WAT",
+            "opponent": "ARC",
+            "game_id": "2025-ev-24",
+            "position": "Defense",
+            "salary": 6,
+            "mc_ev": 11.4,
+            "mc_p90": 37.5,
+            "actualPoints": 0.0
         }
     ],
     "MC_Consensus": [],
@@ -341,7 +341,7 @@
             "position": "G",
             "salary": 42,
             "mc_ev": 29.1,
-            "mc_p90": 39.5,
+            "mc_p90": 35.1,
             "actualPoints": 56.0
         }
     ],
@@ -352,10 +352,11 @@
     ],
     "Sleepers": [
         "Jack VanOverbeke",
+        "Hugh Kelleher",
         "Matt Whitcher"
     ],
     "RecommendedStrategy": "MC_EV",
-    "RecommendedReason": "Tight pricing / short slate (4 games, 34 cheap value players). Optimizing for floor is best.",
+    "RecommendedReason": "Tight pricing / short slate (4 games, 33 cheap value players). Optimizing for floor is best.",
     "Narrative": {
         "RecommendedRoster": [
             {
@@ -414,33 +415,43 @@
                 ]
             },
             {
-                "firstName": "Jeff",
-                "lastName": "Trainor",
+                "firstName": "Max",
+                "lastName": "Krevsky",
                 "position": "Defense",
-                "salary": 9,
+                "salary": 4,
                 "bullets": [
-                    "Matchup Specialist: Historically performs well against ATL (1.45x average scoring rate).",
-                    "Opponent Weakness: ATL defense allows 45% extra fantasy points to SSDM position."
+                    "Hot Form: Averaging 1.0 fantasy pts over last 3 games (vs 0.6 season avg)."
                 ]
             }
         ],
         "Variants": [
             {
+                "strategy": "MC_Win_160",
+                "strategyLabel": "MC Win 160",
+                "in": [
+                    "Jeff Trainor"
+                ],
+                "out": [
+                    "Max Krevsky"
+                ],
+                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Jeff Trainor (Defense, 9c)) to increase the joint probability of the entire lineup hitting the 160 target score."
+            },
+            {
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
-                    "Sergio Perkovic",
+                    "Liam Entenmann",
                     "Jack VanOverbeke",
-                    "Matt Whitcher",
-                    "Liam Entenmann"
+                    "Hugh Kelleher",
+                    "Matt Whitcher"
                 ],
                 "out": [
                     "Dillon Ward",
                     "Matt Traynor",
                     "Sam Handley",
-                    "Jeff Trainor"
+                    "Max Krevsky"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Sergio Perkovic (Midfield, 26c), Jack VanOverbeke (Midfield, 4c), Matt Whitcher (Defense, 6c), Liam Entenmann (Goalie, 44c)) to maximize the team's 90th percentile ceiling (projecting up to 71.8 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Liam Entenmann (Goalie, 44c), Jack VanOverbeke (Midfield, 4c), Hugh Kelleher (Midfield, 5c), Matt Whitcher (Defense, 6c)) to maximize the team's 90th percentile ceiling (projecting up to 71.8 pts)."
             }
         ]
     },

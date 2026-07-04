@@ -29,11 +29,7 @@ async function loadPredictions(year, week) {
     container.innerHTML = '<div class="loading">Analyzing Matchups...</div>';
 
     // Show loading in advisor panel
-    const coreContainer = document.getElementById('core-container');
-    const sleeperContainer = document.getElementById('sleeper-container');
     const rosterContainer = document.getElementById('roster-container');
-    if (coreContainer) coreContainer.innerHTML = '<span class="muted-text">Analyzing...</span>';
-    if (sleeperContainer) sleeperContainer.innerHTML = '<span class="muted-text">Analyzing...</span>';
     if (rosterContainer) rosterContainer.innerHTML = '<div class="muted-text" style="padding: 1rem 0;">Solving optimal rosters...</div>';
 
     try {
@@ -113,8 +109,6 @@ async function loadPredictions(year, week) {
             }
             renderAdvisor(advisoryData);
         } else {
-            if (coreContainer) coreContainer.innerHTML = '<span class="muted-text">Advisory unavailable.</span>';
-            if (sleeperContainer) sleeperContainer.innerHTML = '<span class="muted-text">Advisory unavailable.</span>';
             if (rosterContainer) rosterContainer.innerHTML = '<div class="muted-text" style="padding: 1rem 0;">Optimizer unavailable.</div>';
         }
 
@@ -377,50 +371,7 @@ function renderAdvisor(advisoryData) {
         }
     }
 
-    // 1. Render Consensus Core Plays
-    const coreContainer = document.getElementById('core-container');
-    if (coreContainer) {
-        coreContainer.innerHTML = '';
-        if (advisoryData.Core && advisoryData.Core.length > 0) {
-            advisoryData.Core.forEach(fullName => {
-                const nameParts = fullName.split(' ');
-                const lookup = window.currentPredictions ? window.currentPredictions.find(p => p.firstName === nameParts[0] && p.lastName === nameParts[1]) : null;
-                const pos = lookup ? lookup.subPosition : 'Attack';
-                
-                const pill = document.createElement('span');
-                pill.className = 'pill core';
-                pill.textContent = fullName;
-                pill.title = "Click to highlight on chart";
-                pill.onclick = () => highlightPlayerInPlot(pos, nameParts[0], nameParts[1]);
-                coreContainer.appendChild(pill);
-            });
-        } else {
-            coreContainer.innerHTML = '<span class="muted-text">No consensus core plays this week.</span>';
-        }
-    }
-    
-    // 2. Render Ceiling Sleepers
-    const sleeperContainer = document.getElementById('sleeper-container');
-    if (sleeperContainer) {
-        sleeperContainer.innerHTML = '';
-        if (advisoryData.Sleepers && advisoryData.Sleepers.length > 0) {
-            advisoryData.Sleepers.forEach(fullName => {
-                const nameParts = fullName.split(' ');
-                const lookup = window.currentPredictions ? window.currentPredictions.find(p => p.firstName === nameParts[0] && p.lastName === nameParts[1]) : null;
-                const pos = lookup ? lookup.subPosition : 'Attack';
-                const salary = lookup ? lookup.salary : '';
-                
-                const pill = document.createElement('span');
-                pill.className = 'pill sleeper';
-                pill.textContent = `${fullName} (${salary}c)`;
-                pill.title = "Click to highlight on chart";
-                pill.onclick = () => highlightPlayerInPlot(pos, nameParts[0], nameParts[1]);
-                sleeperContainer.appendChild(pill);
-            });
-        } else {
-            sleeperContainer.innerHTML = '<span class="muted-text">No sleepers found.</span>';
-        }
-    }
+
 
     // 2.5 Render Roster Insights Narrative
     const insightsSection = document.getElementById('roster-insights-section');
@@ -577,56 +528,95 @@ function renderTacticalAdvice(tacticalData) {
         ? Object.keys(window.currentConsensus.local_league_rosters).length 
         : 3;
 
-    let html = '<div class="tactical-container">';
-
-    // 1. Render Floor Locks
-    if (tacticalData.FloorLocks && tacticalData.FloorLocks.length > 0) {
-        html += `
-            <div style="margin-bottom: 0.5rem; font-size: 0.75rem; font-weight: 700; color: #48bb78; letter-spacing: 0.5px; text-transform: uppercase;">🔒 Floor Locks</div>
-        `;
+    const players = [];
+    if (tacticalData.FloorLocks) {
         tacticalData.FloorLocks.forEach(p => {
-            html += `
-                <div class="tactical-card floor-lock">
-                    <div class="tactical-player-header">
-                        <span class="tactical-player-name" onclick="highlightPlayerInPlot('${p.position}', '${p.firstName}', '${p.lastName}')" title="Click to highlight on chart">${p.firstName} ${p.lastName}</span>
-                        <span class="tactical-player-meta">${p.position}</span>
-                    </div>
-                    <p class="tactical-card-description">${p.description}</p>
-                    <div class="tactical-card-stats">
-                        <span class="tactical-stat-badge green">Global: ${p.globalRate}%</span>
-                        <span class="tactical-stat-badge green">Rivals: ${p.rivalCount}/${totalRivals}</span>
-                    </div>
-                </div>
-            `;
+            players.push({
+                ...p,
+                type: 'lock',
+                label: 'LOCK',
+                badgeClass: 'insight-badge ev' // green
+            });
+        });
+    }
+    if (tacticalData.DifferentialLeverage) {
+        tacticalData.DifferentialLeverage.forEach(p => {
+            players.push({
+                ...p,
+                type: 'diff',
+                label: 'LEVERAGE',
+                badgeClass: 'insight-badge ceil' // purple
+            });
         });
     }
 
-    // 2. Render Differential Leverage
-    if (tacticalData.DifferentialLeverage && tacticalData.DifferentialLeverage.length > 0) {
+    let html = '<div class="tactical-container">';
+
+    if (players.length > 0) {
         html += `
-            <div style="margin-top: 1rem; margin-bottom: 0.5rem; font-size: 0.75rem; font-weight: 700; color: #9f7aea; letter-spacing: 0.5px; text-transform: uppercase;">⚡ Differential Leverage</div>
+            <table class="insights-table">
+                <thead>
+                    <tr>
+                        <th>Player</th>
+                        <th>Type</th>
+                        <th>Stats</th>
+                        <th>Advisory</th>
+                    </tr>
+                </thead>
+                <tbody>
         `;
-        tacticalData.DifferentialLeverage.forEach(p => {
+
+        players.forEach(p => {
+            // Lookup player in currentPredictions to get team and salary info
+            const lookup = window.currentPredictions ? window.currentPredictions.find(item => item.firstName === p.firstName && item.lastName === p.lastName) : null;
+            const salary = lookup ? lookup.salary : '';
+            const displayPosMap = {
+                "Attack": "Attack",
+                "Midfield": "Midfield",
+                "Defense": "Defense",
+                "FO": "Faceoff",
+                "Faceoff": "Faceoff",
+                "G": "Goalie",
+                "Goalie": "Goalie"
+            };
+            const posLabel = displayPosMap[p.position] || p.position;
+
+            let statsBadges = `
+                <span class="insight-badge ev" style="margin-bottom: 2px;">G: ${p.globalRate}%</span><br/>
+                <span class="insight-badge ${p.rivalCount > 0 ? 'win160' : 'ceil'}">R: ${p.rivalCount}/${totalRivals}</span>
+            `;
+
             html += `
-                <div class="tactical-card diff-leverage">
-                    <div class="tactical-player-header">
-                        <span class="tactical-player-name" onclick="highlightPlayerInPlot('${p.position}', '${p.firstName}', '${p.lastName}')" title="Click to highlight on chart">${p.firstName} ${p.lastName}</span>
-                        <span class="tactical-player-meta">${p.position}</span>
-                    </div>
-                    <p class="tactical-card-description">${p.description}</p>
-                    <div class="tactical-card-stats">
-                        <span class="tactical-stat-badge purple">Global: ${p.globalRate}%</span>
-                        <span class="tactical-stat-badge purple">Rivals: 0/${totalRivals}</span>
-                    </div>
-                </div>
+                <tr class="insight-table-row" onclick="highlightPlayerInPlot('${lookup ? lookup.subPosition : p.position}', '${p.firstName}', '${p.lastName}')" title="Click to highlight on chart">
+                    <td class="insight-player-cell">
+                        <span class="insight-player-name"><strong>${p.lastName}</strong>, ${p.firstName[0]}.</span><br/>
+                        <span class="insight-player-meta">${posLabel} ${salary ? `| ${salary}c` : ''}</span>
+                    </td>
+                    <td class="insight-badges-cell" style="vertical-align: middle;">
+                        <span class="${p.badgeClass}">${p.label}</span>
+                    </td>
+                    <td class="insight-badges-cell" style="min-width: 65px; vertical-align: middle;">
+                        ${statsBadges}
+                    </td>
+                    <td class="insight-rationale-cell" style="line-height: 1.35;">
+                        ${p.description}
+                    </td>
+                </tr>
             `;
         });
+
+        html += `
+                </tbody>
+            </table>
+        `;
+    } else {
+        html += '<span class="muted-text">No floor locks or differential leverage plays identified.</span>';
     }
 
     // 3. Render Rival Radar
     if (tacticalData.Rivals && tacticalData.Rivals.length > 0) {
         html += `
-            <div style="margin-top: 1rem; margin-bottom: 0.5rem; font-size: 0.75rem; font-weight: 700; color: #8b949e; letter-spacing: 0.5px; text-transform: uppercase;">📡 Rival Radar</div>
+            <div style="margin-top: 1.5rem; margin-bottom: 0.5rem; font-size: 0.75rem; font-weight: 700; color: #8b949e; letter-spacing: 0.5px; text-transform: uppercase;">📡 Rival Radar</div>
             <div class="rival-radar-card">
                 <table class="rival-table">
                     <thead>

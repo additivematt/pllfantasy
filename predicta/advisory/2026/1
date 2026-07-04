@@ -25,16 +25,16 @@
             "actualPoints": 13.0
         },
         {
-            "firstName": "Brennan",
-            "lastName": "O'Neill",
-            "team": "OUT",
-            "opponent": "ARC",
-            "game_id": "2026-ev-3",
+            "firstName": "Brendan",
+            "lastName": "Nichtern",
+            "team": "CHA",
+            "opponent": "ATL",
+            "game_id": "2026-ev-2",
             "position": "Attack",
-            "salary": 44,
-            "mc_ev": 28.4,
-            "mc_p90": 52.1,
-            "actualPoints": 21.0
+            "salary": 5,
+            "mc_ev": 28.9,
+            "mc_p90": 83.5,
+            "actualPoints": 29.0
         },
         {
             "firstName": "Jake",
@@ -99,16 +99,16 @@
             "actualPoints": 29.0
         },
         {
-            "firstName": "Matt",
-            "lastName": "DeLuca",
-            "team": "WAT",
-            "opponent": "WHP",
-            "game_id": "2026-ev-4",
+            "firstName": "Nick",
+            "lastName": "Washuta",
+            "team": "ARC",
+            "opponent": "RED",
+            "game_id": "2026-ev-1",
             "position": "Goalie",
-            "salary": 26,
-            "mc_ev": 29.3,
-            "mc_p90": 60.7,
-            "actualPoints": 35.0
+            "salary": 14,
+            "mc_ev": 29.0,
+            "mc_p90": 71.6,
+            "actualPoints": 30.0
         },
         {
             "firstName": "Brennan",
@@ -147,16 +147,16 @@
             "actualPoints": 3.1
         },
         {
-            "firstName": "Kyle",
-            "lastName": "Jackson",
-            "team": "ATL",
-            "opponent": "CHA",
-            "game_id": "2026-ev-2",
+            "firstName": "Matt",
+            "lastName": "Brandau",
+            "team": "WHP",
+            "opponent": "WAT",
+            "game_id": "2026-ev-4",
             "position": "Midfield",
-            "salary": 4,
-            "mc_ev": 15.7,
-            "mc_p90": 37.7,
-            "actualPoints": -6.0
+            "salary": 27,
+            "mc_ev": 15.4,
+            "mc_p90": 33.7,
+            "actualPoints": 56.0
         },
         {
             "firstName": "Brian",
@@ -173,6 +173,18 @@
     ],
     "MC_Ceil_90": [
         {
+            "firstName": "Brayden",
+            "lastName": "Mayea",
+            "team": "RED",
+            "opponent": "ARC",
+            "game_id": "2026-ev-1",
+            "position": "Attack",
+            "salary": 4,
+            "mc_ev": 28.0,
+            "mc_p90": 93.6,
+            "actualPoints": 12.0
+        },
+        {
             "firstName": "Brendan",
             "lastName": "Nichtern",
             "team": "CHA",
@@ -180,33 +192,21 @@
             "game_id": "2026-ev-2",
             "position": "Attack",
             "salary": 5,
-            "mc_ev": 27.2,
-            "mc_p90": 55.7,
+            "mc_ev": 28.9,
+            "mc_p90": 83.5,
             "actualPoints": 29.0
         },
         {
-            "firstName": "Austin",
-            "lastName": "Kaut",
-            "team": "CHA",
-            "opponent": "ATL",
-            "game_id": "2026-ev-2",
-            "position": "Goalie",
-            "salary": 10,
-            "mc_ev": 29.3,
-            "mc_p90": 81.4,
-            "actualPoints": 31.0
-        },
-        {
-            "firstName": "Adam",
-            "lastName": "Charalambides",
-            "team": "CHA",
-            "opponent": "ATL",
-            "game_id": "2026-ev-2",
-            "position": "Attack",
-            "salary": 12,
-            "mc_ev": 27.7,
-            "mc_p90": 56.1,
-            "actualPoints": 19.0
+            "firstName": "Jonathan",
+            "lastName": "Donville",
+            "team": "OUT",
+            "opponent": "ARC",
+            "game_id": "2026-ev-3",
+            "position": "Midfield",
+            "salary": 5,
+            "mc_ev": 15.6,
+            "mc_p90": 34.7,
+            "actualPoints": 18.0
         },
         {
             "firstName": "Jake",
@@ -221,40 +221,40 @@
             "actualPoints": 0.0
         },
         {
-            "firstName": "Mike",
-            "lastName": "Sisselberger",
+            "firstName": "Alexander",
+            "lastName": "Smith",
+            "team": "OUT",
+            "opponent": "ARC",
+            "game_id": "2026-ev-3",
+            "position": "Defense",
+            "salary": 4,
+            "mc_ev": 10.3,
+            "mc_p90": 42.3,
+            "actualPoints": 22.0
+        },
+        {
+            "firstName": "Nathan",
+            "lastName": "Laliberte",
+            "team": "ATL",
+            "opponent": "CHA",
+            "game_id": "2026-ev-2",
+            "position": "Faceoff",
+            "salary": 6,
+            "mc_ev": 16.9,
+            "mc_p90": 34.3,
+            "actualPoints": 1.6
+        },
+        {
+            "firstName": "Nick",
+            "lastName": "Washuta",
             "team": "ARC",
             "opponent": "RED",
             "game_id": "2026-ev-1",
-            "position": "Faceoff",
-            "salary": 6,
-            "mc_ev": 17.4,
-            "mc_p90": 43.1,
-            "actualPoints": 3.1
-        },
-        {
-            "firstName": "Aidan",
-            "lastName": "Danenza",
-            "team": "RED",
-            "opponent": "ARC",
-            "game_id": "2026-ev-1",
-            "position": "Midfield",
-            "salary": 10,
-            "mc_ev": 14.4,
-            "mc_p90": 55.8,
-            "actualPoints": 18.0
-        },
-        {
-            "firstName": "Brian",
-            "lastName": "Tevlin",
-            "team": "RED",
-            "opponent": "ARC",
-            "game_id": "2026-ev-1",
-            "position": "Defense",
-            "salary": 16,
-            "mc_ev": 12.3,
-            "mc_p90": 26.8,
-            "actualPoints": 20.0
+            "position": "Goalie",
+            "salary": 14,
+            "mc_ev": 29.0,
+            "mc_p90": 71.6,
+            "actualPoints": 30.0
         }
     ],
     "MC_Consensus": [],
@@ -268,8 +268,8 @@
             "game_id": "2026-ev-1",
             "position": "A",
             "salary": 12,
-            "mc_ev": 21.0,
-            "mc_p90": 41.8,
+            "mc_ev": 20.8,
+            "mc_p90": 52.8,
             "actualPoints": 54.0
         },
         {
@@ -346,14 +346,13 @@
         }
     ],
     "Core": [
-        "Jake Stevens",
-        "Mike Sisselberger",
-        "Brian Tevlin"
+        "Jake Stevens"
     ],
     "Sleepers": [
-        "Brendan Nichtern",
-        "Austin Kaut",
-        "Aidan Danenza"
+        "Brayden Mayea",
+        "Jonathan Donville",
+        "Alexander Smith",
+        "Nathan Laliberte"
     ],
     "RecommendedStrategy": "MC_Win_160",
     "RecommendedReason": "Stars & Scrubs slate (4 games, 51 cheap value players). Optimizing for variance with MC Win 160 is best.",
@@ -369,12 +368,12 @@
                 ]
             },
             {
-                "firstName": "Matt",
-                "lastName": "DeLuca",
+                "firstName": "Nick",
+                "lastName": "Washuta",
                 "position": "Goalie",
-                "salary": 26,
+                "salary": 14,
                 "bullets": [
-                    "Opponent Weakness: WHP defense allows 12% extra fantasy points to Goalie position."
+                    "Opponent Weakness: RED defense allows 9% extra fantasy points to Goalie position."
                 ]
             },
             {
@@ -406,13 +405,12 @@
                 ]
             },
             {
-                "firstName": "Kyle",
-                "lastName": "Jackson",
+                "firstName": "Matt",
+                "lastName": "Brandau",
                 "position": "Midfield",
-                "salary": 4,
+                "salary": 27,
                 "bullets": [
-                    "Opponent Weakness: CHA defense allows 10% extra fantasy points to Midfield position.",
-                    "Salary Cap Enabler: Excellent cost efficiency, projecting 15.7 EV for just 4 coins."
+                    "Consistent Pick: Selected for steady expected floor (15.4 EV) and reliable role."
                 ]
             },
             {
@@ -431,11 +429,13 @@
                 "strategyLabel": "MC EV",
                 "in": [
                     "Emmet Carroll",
+                    "Brendan Nichtern",
                     "Bryan Costabile"
                 ],
                 "out": [
-                    "Matt DeLuca",
-                    "Kyle Jackson"
+                    "Nick Washuta",
+                    "Brennan O'Neill",
+                    "Matt Brandau"
                 ],
                 "rationale": "Optimizes strictly for the highest average expected points (mean floor) rather than variance or win probability."
             },
@@ -443,18 +443,20 @@
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
+                    "Brayden Mayea",
                     "Brendan Nichtern",
-                    "Austin Kaut",
-                    "Adam Charalambides",
-                    "Aidan Danenza"
+                    "Jonathan Donville",
+                    "Alexander Smith",
+                    "Nathan Laliberte"
                 ],
                 "out": [
                     "Connor Shellenberger",
-                    "Matt DeLuca",
                     "Brennan O'Neill",
-                    "Kyle Jackson"
+                    "Mike Sisselberger",
+                    "Matt Brandau",
+                    "Brian Tevlin"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Brendan Nichtern (Attack, 5c), Austin Kaut (Goalie, 10c), Adam Charalambides (Attack, 12c), Aidan Danenza (Midfield, 10c)) to maximize the team's 90th percentile ceiling (projecting up to 81.4 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Brayden Mayea (Attack, 4c), Brendan Nichtern (Attack, 5c), Jonathan Donville (Midfield, 5c), Alexander Smith (Defense, 4c), Nathan Laliberte (Faceoff, 6c)) to maximize the team's 90th percentile ceiling (projecting up to 93.6 pts)."
             }
         ]
     },

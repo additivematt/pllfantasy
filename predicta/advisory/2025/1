@@ -49,16 +49,16 @@
             "actualPoints": 22.2
         },
         {
-            "firstName": "Eric",
-            "lastName": "Dobson",
-            "team": "CHA",
-            "opponent": "ATL",
-            "game_id": "2025-ev-1",
+            "firstName": "Jack",
+            "lastName": "VanOverbeke",
+            "team": "OUT",
+            "opponent": "RED",
+            "game_id": "2025-ev-2",
             "position": "Midfield",
-            "salary": 8,
-            "mc_ev": 19.1,
-            "mc_p90": 61.8,
-            "actualPoints": -2.0
+            "salary": 10,
+            "mc_ev": 17.0,
+            "mc_p90": 36.6,
+            "actualPoints": 7.0
         },
         {
             "firstName": "Kyle",
@@ -135,16 +135,16 @@
             "actualPoints": 22.2
         },
         {
-            "firstName": "Eric",
-            "lastName": "Dobson",
-            "team": "CHA",
-            "opponent": "ATL",
-            "game_id": "2025-ev-1",
+            "firstName": "Jack",
+            "lastName": "VanOverbeke",
+            "team": "OUT",
+            "opponent": "RED",
+            "game_id": "2025-ev-2",
             "position": "Midfield",
-            "salary": 8,
-            "mc_ev": 19.1,
-            "mc_p90": 61.8,
-            "actualPoints": -2.0
+            "salary": 10,
+            "mc_ev": 17.0,
+            "mc_p90": 36.6,
+            "actualPoints": 7.0
         },
         {
             "firstName": "Kyle",
@@ -197,18 +197,6 @@
             "actualPoints": 17.0
         },
         {
-            "firstName": "Eric",
-            "lastName": "Dobson",
-            "team": "CHA",
-            "opponent": "ATL",
-            "game_id": "2025-ev-1",
-            "position": "Midfield",
-            "salary": 8,
-            "mc_ev": 19.1,
-            "mc_p90": 61.8,
-            "actualPoints": -2.0
-        },
-        {
             "firstName": "Dalton",
             "lastName": "Young",
             "team": "OUT",
@@ -219,6 +207,18 @@
             "mc_ev": 16.9,
             "mc_p90": 35.3,
             "actualPoints": 7.0
+        },
+        {
+            "firstName": "Eric",
+            "lastName": "Dobson",
+            "team": "CHA",
+            "opponent": "ATL",
+            "game_id": "2025-ev-1",
+            "position": "Midfield",
+            "salary": 8,
+            "mc_ev": 15.3,
+            "mc_p90": 67.5,
+            "actualPoints": -2.0
         },
         {
             "firstName": "Piper",
@@ -347,14 +347,14 @@
     ],
     "Core": [
         "Owen McElroy",
-        "Trevor Baptiste",
-        "Eric Dobson"
+        "Trevor Baptiste"
     ],
     "Sleepers": [
+        "Eric Dobson",
         "Piper Bond"
     ],
     "RecommendedStrategy": "MC_Win_160",
-    "RecommendedReason": "Stars & Scrubs slate (4 games, 44 cheap value players). Optimizing for variance with MC Win 160 is best.",
+    "RecommendedReason": "Stars & Scrubs slate (4 games, 43 cheap value players). Optimizing for variance with MC Win 160 is best.",
     "Narrative": {
         "RecommendedRoster": [
             {
@@ -396,12 +396,14 @@
                 ]
             },
             {
-                "firstName": "Eric",
-                "lastName": "Dobson",
+                "firstName": "Jack",
+                "lastName": "VanOverbeke",
                 "position": "Midfield",
-                "salary": 8,
+                "salary": 10,
                 "bullets": [
-                    "Salary Cap Enabler: Excellent cost efficiency, projecting 19.1 EV for just 8 coins."
+                    "Hot Form: Averaging 6.7 fantasy pts over last 3 games (vs 3.4 season avg).",
+                    "Opponent Weakness: RED defense allows 9% extra fantasy points to Midfield position.",
+                    "Salary Cap Enabler: Excellent cost efficiency, projecting 17.0 EV for just 10 coins."
                 ]
             },
             {
@@ -443,15 +445,17 @@
                     "Dylan Molloy",
                     "Josh Zawada",
                     "Dalton Young",
+                    "Eric Dobson",
                     "Piper Bond"
                 ],
                 "out": [
                     "Connor Fields",
                     "Rob Pannell",
+                    "Jack VanOverbeke",
                     "Kyle Jackson",
                     "Ben Ramsey"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Dylan Molloy (Attack, 23c), Josh Zawada (Attack, 16c), Dalton Young (Midfield, 17c), Piper Bond (Defense, 5c)) to maximize the team's 90th percentile ceiling (projecting up to 88.7 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Dylan Molloy (Attack, 23c), Josh Zawada (Attack, 16c), Dalton Young (Midfield, 17c), Eric Dobson (Midfield, 8c), Piper Bond (Defense, 5c)) to maximize the team's 90th percentile ceiling (projecting up to 88.7 pts)."
             }
         ]
     },

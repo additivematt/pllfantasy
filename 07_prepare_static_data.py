@@ -626,21 +626,37 @@ def main():
                         except Exception as e:
                             print(f"  Error loading consensus ownership: {e}")
                             
-                        # Consensus-Aligned Optimization
+                        # Consensus Roster Optimization (maximizing percentage picks for the top 25 managers)
                         try:
-                            from config import F2P_CONSENSUS_WEIGHT
-                            print(f"  Running consensus optimization (weight = {F2P_CONSENSUS_WEIGHT})...")
-                            player_pool_consensus = []
+                            print("  Finding consensus optimal roster based on top 25 manager selections...")
+                            prob_c = pulp.LpProblem("Consensus_Optimizer", pulp.LpMaximize)
+                            player_vars = {}
+                            for i, p in enumerate(player_pool):
+                                player_vars[i] = pulp.LpVariable(f"xc_{i}", cat='Binary')
+                                
+                            rates = []
                             for p in player_pool:
                                 p_clean = clean_name_local(p["firstName"] + p["lastName"])
                                 rate = global_ownership.get(p_clean, 0.0)
-                                p_copy = p.copy()
-                                p_copy["sim_ev"] = p["sim_ev"] * (1.0 + rate * F2P_CONSENSUS_WEIGHT)
-                                player_pool_consensus.append(p_copy)
+                                rates.append(rate)
                                 
-                            consensus_baseline = run_mc_ev_optimizer(player_pool_consensus, budget=200)
-                            if consensus_baseline:
-                                team_mc_consensus = run_local_search(player_pool_consensus, sim_matrix, 'MC_EV', consensus_baseline, budget=200)
+                            prob_c += pulp.lpSum([rates[i] * player_vars[i] for i in range(len(player_pool))]), "Total_Consensus_Rate"
+                            prob_c += pulp.lpSum([p['salary'] * player_vars[i] for i, p in enumerate(player_pool)]) <= 200, "Budget"
+                            
+                            pos_requirements = {'A': 2, 'M': 2, 'D': 1, 'FO': 1, 'G': 1}
+                            for r_pos, count in pos_requirements.items():
+                                prob_c += pulp.lpSum([
+                                    player_vars[i] for i, p in enumerate(player_pool)
+                                    if get_standard_pos(p['positionGroup']) == r_pos
+                                ]) == count, f"Count_{r_pos}"
+                                
+                            prob_c.solve(pulp.PULP_CBC_CMD(msg=False))
+                            if pulp.LpStatus[prob_c.status] == 'Optimal':
+                                team_mc_consensus = [player_pool[i] for i in range(len(player_pool)) if player_vars[i].varValue > 0.5]
+                                print(f"  Consensus Optimal Roster found (Sum of rates: {sum(rates[i] for i in range(len(player_pool)) if player_vars[i].varValue > 0.5):.2f})")
+                            else:
+                                team_mc_consensus = None
+                                print("  Warning: Could not solve Consensus Roster optimization.")
                         except Exception as e_cons:
                             print(f"  Error in consensus optimization: {e_cons}")
                             

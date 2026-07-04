@@ -173,16 +173,16 @@
     ],
     "MC_Ceil_90": [
         {
-            "firstName": "Logan",
-            "lastName": "McNaney",
-            "team": "OUT",
-            "opponent": "CHA",
+            "firstName": "Eric",
+            "lastName": "Spanos",
+            "team": "CHA",
+            "opponent": "OUT",
             "game_id": "2026-ev-15",
-            "position": "Goalie",
-            "salary": 43,
-            "mc_ev": 32.0,
-            "mc_p90": 46.0,
-            "actualPoints": 46.0
+            "position": "Attack",
+            "salary": 4,
+            "mc_ev": 21.2,
+            "mc_p90": 67.1,
+            "actualPoints": 4.0
         },
         {
             "firstName": "Matt",
@@ -197,16 +197,16 @@
             "actualPoints": 30.0
         },
         {
-            "firstName": "Hunter",
-            "lastName": "Drouin",
-            "team": "ATL",
-            "opponent": "RED",
-            "game_id": "2026-ev-14",
-            "position": "Attack",
-            "salary": 5,
-            "mc_ev": 25.4,
-            "mc_p90": 52.8,
-            "actualPoints": -2.0
+            "firstName": "Dalton",
+            "lastName": "Young",
+            "team": "OUT",
+            "opponent": "CHA",
+            "game_id": "2026-ev-15",
+            "position": "Midfield",
+            "salary": 17,
+            "mc_ev": 17.4,
+            "mc_p90": 30.9,
+            "actualPoints": 1.0
         },
         {
             "firstName": "Hugh",
@@ -221,16 +221,16 @@
             "actualPoints": 29.0
         },
         {
-            "firstName": "Dalton",
-            "lastName": "Young",
-            "team": "OUT",
-            "opponent": "CHA",
-            "game_id": "2026-ev-15",
-            "position": "Midfield",
-            "salary": 17,
-            "mc_ev": 17.4,
-            "mc_p90": 30.9,
-            "actualPoints": 1.0
+            "firstName": "Ben",
+            "lastName": "Ramsey",
+            "team": "CAN",
+            "opponent": "WAT",
+            "game_id": "2026-ev-16",
+            "position": "Defense",
+            "salary": 7,
+            "mc_ev": 10.6,
+            "mc_p90": 35.0,
+            "actualPoints": 10.0
         },
         {
             "firstName": "Andrew",
@@ -245,16 +245,16 @@
             "actualPoints": 27.9
         },
         {
-            "firstName": "Jarrod",
-            "lastName": "Neumann",
-            "team": "CHA",
-            "opponent": "OUT",
+            "firstName": "Logan",
+            "lastName": "McNaney",
+            "team": "OUT",
+            "opponent": "CHA",
             "game_id": "2026-ev-15",
-            "position": "Defense",
-            "salary": 3,
-            "mc_ev": 9.6,
-            "mc_p90": 25.8,
-            "actualPoints": -3.0
+            "position": "Goalie",
+            "salary": 43,
+            "mc_ev": 32.0,
+            "mc_p90": 46.0,
+            "actualPoints": 46.0
         }
     ],
     "MC_Consensus": [],
@@ -304,8 +304,8 @@
             "game_id": "2026-ev-15",
             "position": "M",
             "salary": 19,
-            "mc_ev": 13.7,
-            "mc_p90": 35.2,
+            "mc_ev": 13.5,
+            "mc_p90": 24.6,
             "actualPoints": 38.0
         },
         {
@@ -347,13 +347,13 @@
     ],
     "Core": [
         "Logan McNaney",
-        "Hunter Drouin",
         "Dalton Young",
         "Andrew McMeekin"
     ],
     "Sleepers": [
+        "Eric Spanos",
         "Hugh Kelleher",
-        "Jarrod Neumann"
+        "Ben Ramsey"
     ],
     "RecommendedStrategy": "MC_EV",
     "RecommendedReason": "Tight pricing / short slate (4 games, 28 cheap value players). Optimizing for floor is best.",
@@ -445,16 +445,18 @@
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
+                    "Eric Spanos",
                     "Matt Rambo",
                     "Hugh Kelleher",
-                    "Jarrod Neumann"
+                    "Ben Ramsey"
                 ],
                 "out": [
                     "Michael Sowers",
+                    "Hunter Drouin",
                     "Zach Currier",
                     "Connor Maher"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Matt Rambo (Attack, 11c), Hugh Kelleher (Midfield, 5c), Jarrod Neumann (Defense, 3c)) to maximize the team's 90th percentile ceiling (projecting up to 50.0 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Eric Spanos (Attack, 4c), Matt Rambo (Attack, 11c), Hugh Kelleher (Midfield, 5c), Ben Ramsey (Defense, 7c)) to maximize the team's 90th percentile ceiling (projecting up to 67.1 pts)."
             }
         ]
     },

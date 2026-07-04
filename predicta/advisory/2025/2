@@ -49,6 +49,18 @@
             "actualPoints": 14.5
         },
         {
+            "firstName": "Jack",
+            "lastName": "VanOverbeke",
+            "team": "OUT",
+            "opponent": "CHA",
+            "game_id": "2025-ev-5",
+            "position": "Midfield",
+            "salary": 9,
+            "mc_ev": 16.4,
+            "mc_p90": 42.7,
+            "actualPoints": 2.0
+        },
+        {
             "firstName": "Ross",
             "lastName": "Scott",
             "team": "CHA",
@@ -59,18 +71,6 @@
             "mc_ev": 15.6,
             "mc_p90": 36.6,
             "actualPoints": -9.0
-        },
-        {
-            "firstName": "Jack",
-            "lastName": "VanOverbeke",
-            "team": "OUT",
-            "opponent": "CHA",
-            "game_id": "2025-ev-5",
-            "position": "Midfield",
-            "salary": 9,
-            "mc_ev": 15.6,
-            "mc_p90": 37.1,
-            "actualPoints": 2.0
         },
         {
             "firstName": "Kenny",
@@ -135,6 +135,18 @@
             "actualPoints": 14.5
         },
         {
+            "firstName": "Jack",
+            "lastName": "VanOverbeke",
+            "team": "OUT",
+            "opponent": "CHA",
+            "game_id": "2025-ev-5",
+            "position": "Midfield",
+            "salary": 9,
+            "mc_ev": 16.4,
+            "mc_p90": 42.7,
+            "actualPoints": 2.0
+        },
+        {
             "firstName": "Ross",
             "lastName": "Scott",
             "team": "CHA",
@@ -147,18 +159,6 @@
             "actualPoints": -9.0
         },
         {
-            "firstName": "Jack",
-            "lastName": "VanOverbeke",
-            "team": "OUT",
-            "opponent": "CHA",
-            "game_id": "2025-ev-5",
-            "position": "Midfield",
-            "salary": 9,
-            "mc_ev": 15.6,
-            "mc_p90": 37.1,
-            "actualPoints": 2.0
-        },
-        {
             "firstName": "Levi",
             "lastName": "Verch",
             "team": "CHA",
@@ -166,23 +166,23 @@
             "game_id": "2025-ev-5",
             "position": "Defense",
             "salary": 4,
-            "mc_ev": 11.5,
-            "mc_p90": 30.7,
+            "mc_ev": 11.7,
+            "mc_p90": 32.9,
             "actualPoints": -1.0
         }
     ],
     "MC_Ceil_90": [
         {
-            "firstName": "Michael",
-            "lastName": "Sowers",
+            "firstName": "Matt",
+            "lastName": "DeLuca",
             "team": "WAT",
             "opponent": "WHP",
             "game_id": "2025-ev-6",
-            "position": "Attack",
-            "salary": 49,
-            "mc_ev": 30.3,
-            "mc_p90": 56.2,
-            "actualPoints": 71.0
+            "position": "Goalie",
+            "salary": 24,
+            "mc_ev": 28.9,
+            "mc_p90": 71.8,
+            "actualPoints": 35.0
         },
         {
             "firstName": "Kieran",
@@ -197,16 +197,40 @@
             "actualPoints": 59.0
         },
         {
-            "firstName": "Eric",
-            "lastName": "Dobson",
+            "firstName": "Michael",
+            "lastName": "Sowers",
+            "team": "WAT",
+            "opponent": "WHP",
+            "game_id": "2025-ev-6",
+            "position": "Attack",
+            "salary": 49,
+            "mc_ev": 30.3,
+            "mc_p90": 56.2,
+            "actualPoints": 71.0
+        },
+        {
+            "firstName": "Nick",
+            "lastName": "Rowlett",
             "team": "CHA",
             "opponent": "OUT",
             "game_id": "2025-ev-5",
+            "position": "Faceoff",
+            "salary": 5,
+            "mc_ev": 18.7,
+            "mc_p90": 54.8,
+            "actualPoints": 14.5
+        },
+        {
+            "firstName": "Jack",
+            "lastName": "VanOverbeke",
+            "team": "OUT",
+            "opponent": "CHA",
+            "game_id": "2025-ev-5",
             "position": "Midfield",
-            "salary": 8,
-            "mc_ev": 14.6,
-            "mc_p90": 67.5,
-            "actualPoints": -6.0
+            "salary": 9,
+            "mc_ev": 16.4,
+            "mc_p90": 42.7,
+            "actualPoints": 2.0
         },
         {
             "firstName": "Dalton",
@@ -231,30 +255,6 @@
             "mc_ev": 11.3,
             "mc_p90": 42.2,
             "actualPoints": 12.0
-        },
-        {
-            "firstName": "Nick",
-            "lastName": "Rowlett",
-            "team": "CHA",
-            "opponent": "OUT",
-            "game_id": "2025-ev-5",
-            "position": "Faceoff",
-            "salary": 5,
-            "mc_ev": 18.7,
-            "mc_p90": 54.8,
-            "actualPoints": 14.5
-        },
-        {
-            "firstName": "Matt",
-            "lastName": "DeLuca",
-            "team": "WAT",
-            "opponent": "WHP",
-            "game_id": "2025-ev-6",
-            "position": "Goalie",
-            "salary": 24,
-            "mc_ev": 28.9,
-            "mc_p90": 71.8,
-            "actualPoints": 35.0
         }
     ],
     "MC_Consensus": [],
@@ -293,7 +293,7 @@
             "position": "M",
             "salary": 27,
             "mc_ev": 14.1,
-            "mc_p90": 32.1,
+            "mc_p90": 28.9,
             "actualPoints": 56.5
         },
         {
@@ -328,7 +328,7 @@
             "game_id": "2025-ev-6",
             "position": "FO",
             "salary": 6,
-            "mc_ev": 15.0,
+            "mc_ev": 11.2,
             "mc_p90": 24.2,
             "actualPoints": 16.5
         },
@@ -348,14 +348,14 @@
     "Core": [
         "Kieran McArdle",
         "Michael Sowers",
-        "Nick Rowlett"
+        "Nick Rowlett",
+        "Jack VanOverbeke"
     ],
     "Sleepers": [
-        "Eric Dobson",
         "Zach Goodrich"
     ],
     "RecommendedStrategy": "MC_EV",
-    "RecommendedReason": "Tight pricing / short slate (4 games, 39 cheap value players). Optimizing for floor is best.",
+    "RecommendedReason": "Tight pricing / short slate (4 games, 38 cheap value players). Optimizing for floor is best.",
     "Narrative": {
         "RecommendedRoster": [
             {
@@ -395,21 +395,21 @@
                 ]
             },
             {
+                "firstName": "Jack",
+                "lastName": "VanOverbeke",
+                "position": "Midfield",
+                "salary": 9,
+                "bullets": [
+                    "Salary Cap Enabler: Excellent cost efficiency, projecting 16.4 EV for just 9 coins."
+                ]
+            },
+            {
                 "firstName": "Ross",
                 "lastName": "Scott",
                 "position": "Midfield",
                 "salary": 13,
                 "bullets": [
                     "Consistent Pick: Selected for steady expected floor (15.6 EV) and reliable role."
-                ]
-            },
-            {
-                "firstName": "Jack",
-                "lastName": "VanOverbeke",
-                "position": "Midfield",
-                "salary": 9,
-                "bullets": [
-                    "Salary Cap Enabler: Excellent cost efficiency, projecting 15.6 EV for just 9 coins."
                 ]
             },
             {
@@ -438,18 +438,16 @@
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
-                    "Eric Dobson",
+                    "Matt DeLuca",
                     "Dalton Young",
-                    "Zach Goodrich",
-                    "Matt DeLuca"
+                    "Zach Goodrich"
                 ],
                 "out": [
                     "Brett Dobson",
                     "Ross Scott",
-                    "Jack VanOverbeke",
                     "Kenny Brower"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Eric Dobson (Midfield, 8c), Dalton Young (Midfield, 16c), Zach Goodrich (Defense, 3c), Matt DeLuca (Goalie, 24c)) to maximize the team's 90th percentile ceiling (projecting up to 71.8 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Matt DeLuca (Goalie, 24c), Dalton Young (Midfield, 16c), Zach Goodrich (Defense, 3c)) to maximize the team's 90th percentile ceiling (projecting up to 71.8 pts)."
             }
         ]
     },

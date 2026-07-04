@@ -73,16 +73,16 @@
             "actualPoints": 48.0
         },
         {
-            "firstName": "Piper",
-            "lastName": "Bond",
-            "team": "ARC",
-            "opponent": "OUT",
-            "game_id": "2025-ev-15",
+            "firstName": "Max",
+            "lastName": "Krevsky",
+            "team": "ATL",
+            "opponent": "WAT",
+            "game_id": "2025-ev-13",
             "position": "Defense",
-            "salary": 5,
-            "mc_ev": 11.4,
-            "mc_p90": 22.8,
-            "actualPoints": 12.0
+            "salary": 3,
+            "mc_ev": 11.8,
+            "mc_p90": 33.0,
+            "actualPoints": 7.0
         }
     ],
     "MC_Win_160": [
@@ -166,24 +166,12 @@
             "game_id": "2025-ev-13",
             "position": "Defense",
             "salary": 3,
-            "mc_ev": 10.9,
-            "mc_p90": 28.6,
+            "mc_ev": 11.8,
+            "mc_p90": 33.0,
             "actualPoints": 7.0
         }
     ],
     "MC_Ceil_90": [
-        {
-            "firstName": "Blaze",
-            "lastName": "Riorden",
-            "team": "CHA",
-            "opponent": "WHP",
-            "game_id": "2025-ev-16",
-            "position": "Goalie",
-            "salary": 48,
-            "mc_ev": 37.3,
-            "mc_p90": 62.5,
-            "actualPoints": 0.0
-        },
         {
             "firstName": "Connor",
             "lastName": "Shellenberger",
@@ -209,18 +197,6 @@
             "actualPoints": 93.0
         },
         {
-            "firstName": "Mike",
-            "lastName": "Sisselberger",
-            "team": "ARC",
-            "opponent": "OUT",
-            "game_id": "2025-ev-15",
-            "position": "Faceoff",
-            "salary": 13,
-            "mc_ev": 16.7,
-            "mc_p90": 36.7,
-            "actualPoints": 6.8
-        },
-        {
             "firstName": "Sergio",
             "lastName": "Perkovic",
             "team": "CHA",
@@ -240,21 +216,45 @@
             "game_id": "2025-ev-15",
             "position": "Midfield",
             "salary": 10,
-            "mc_ev": 15.1,
-            "mc_p90": 42.9,
+            "mc_ev": 15.5,
+            "mc_p90": 50.9,
             "actualPoints": 51.0
         },
         {
-            "firstName": "Jake",
-            "lastName": "Bernhardt",
-            "team": "WHP",
-            "opponent": "CAN",
-            "game_id": "2025-ev-14",
+            "firstName": "Levi",
+            "lastName": "Verch",
+            "team": "CHA",
+            "opponent": "WHP",
+            "game_id": "2025-ev-16",
             "position": "Defense",
             "salary": 3,
-            "mc_ev": 11.0,
+            "mc_ev": 11.3,
+            "mc_p90": 35.0,
+            "actualPoints": 12.0
+        },
+        {
+            "firstName": "Mike",
+            "lastName": "Sisselberger",
+            "team": "ARC",
+            "opponent": "OUT",
+            "game_id": "2025-ev-15",
+            "position": "Faceoff",
+            "salary": 13,
+            "mc_ev": 16.7,
             "mc_p90": 36.7,
-            "actualPoints": -3.0
+            "actualPoints": 6.8
+        },
+        {
+            "firstName": "Blaze",
+            "lastName": "Riorden",
+            "team": "CHA",
+            "opponent": "WHP",
+            "game_id": "2025-ev-16",
+            "position": "Goalie",
+            "salary": 48,
+            "mc_ev": 37.3,
+            "mc_p90": 62.5,
+            "actualPoints": 0.0
         }
     ],
     "MC_Consensus": [],
@@ -281,7 +281,7 @@
             "position": "A",
             "salary": 29,
             "mc_ev": 27.3,
-            "mc_p90": 49.5,
+            "mc_p90": 44.0,
             "actualPoints": 72.0
         },
         {
@@ -353,7 +353,7 @@
     "Sleepers": [
         "Sergio Perkovic",
         "Jared Bernhardt",
-        "Jake Bernhardt"
+        "Levi Verch"
     ],
     "RecommendedStrategy": "MC_EV",
     "RecommendedReason": "Tight pricing / short slate (4 games, 32 cheap value players). Optimizing for floor is best.",
@@ -416,43 +416,32 @@
                 ]
             },
             {
-                "firstName": "Piper",
-                "lastName": "Bond",
+                "firstName": "Max",
+                "lastName": "Krevsky",
                 "position": "Defense",
-                "salary": 5,
+                "salary": 3,
                 "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (11.4 EV) and reliable role."
+                    "Consistent Pick: Selected for steady expected floor (11.8 EV) and reliable role."
                 ]
             }
         ],
         "Variants": [
             {
-                "strategy": "MC_Win_160",
-                "strategyLabel": "MC Win 160",
-                "in": [
-                    "Max Krevsky"
-                ],
-                "out": [
-                    "Piper Bond"
-                ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Max Krevsky (Defense, 3c)) to increase the joint probability of the entire lineup hitting the 160 target score."
-            },
-            {
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
-                    "Mike Sisselberger",
                     "Sergio Perkovic",
                     "Jared Bernhardt",
-                    "Jake Bernhardt"
+                    "Levi Verch",
+                    "Mike Sisselberger"
                 ],
                 "out": [
                     "Justin Inacio",
                     "Brad Smith",
                     "Matt Brandau",
-                    "Piper Bond"
+                    "Max Krevsky"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Mike Sisselberger (Faceoff, 13c), Sergio Perkovic (Midfield, 9c), Jared Bernhardt (Midfield, 10c), Jake Bernhardt (Defense, 3c)) to maximize the team's 90th percentile ceiling (projecting up to 62.5 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Sergio Perkovic (Midfield, 9c), Jared Bernhardt (Midfield, 10c), Levi Verch (Defense, 3c), Mike Sisselberger (Faceoff, 13c)) to maximize the team's 90th percentile ceiling (projecting up to 62.5 pts)."
             }
         ]
     },

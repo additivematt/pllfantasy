@@ -99,18 +99,6 @@
             "actualPoints": 15.0
         },
         {
-            "firstName": "Kieran",
-            "lastName": "McArdle",
-            "team": "WAT",
-            "opponent": "WHP",
-            "game_id": "2025_quarterfinal_1",
-            "position": "Attack",
-            "salary": 38,
-            "mc_ev": 28.4,
-            "mc_p90": 0.0,
-            "actualPoints": 64.0
-        },
-        {
             "firstName": "CJ",
             "lastName": "Kirst",
             "team": "WAT",
@@ -121,6 +109,18 @@
             "mc_ev": 27.2,
             "mc_p90": 0.0,
             "actualPoints": 54.0
+        },
+        {
+            "firstName": "Kieran",
+            "lastName": "McArdle",
+            "team": "WAT",
+            "opponent": "WHP",
+            "game_id": "2025_quarterfinal_1",
+            "position": "Attack",
+            "salary": 38,
+            "mc_ev": 28.4,
+            "mc_p90": 0.0,
+            "actualPoints": 64.0
         },
         {
             "firstName": "Zach",
@@ -221,16 +221,16 @@
             "actualPoints": 21.0
         },
         {
-            "firstName": "Zach",
-            "lastName": "Currier",
-            "team": "WAT",
-            "opponent": "WHP",
-            "game_id": "2025_quarterfinal_1",
+            "firstName": "Cole",
+            "lastName": "Williams",
+            "team": "CHA",
+            "opponent": "RED",
+            "game_id": "2025_quarterfinal_2",
             "position": "Midfield",
-            "salary": 22,
-            "mc_ev": 20.0,
+            "salary": 10,
+            "mc_ev": 14.5,
             "mc_p90": 0.0,
-            "actualPoints": 12.6
+            "actualPoints": 10.0
         },
         {
             "firstName": "Joseph",
@@ -245,16 +245,16 @@
             "actualPoints": 20.0
         },
         {
-            "firstName": "Jarrod",
-            "lastName": "Neumann",
-            "team": "CHA",
-            "opponent": "RED",
+            "firstName": "Carter",
+            "lastName": "Rice",
+            "team": "RED",
+            "opponent": "CHA",
             "game_id": "2025_quarterfinal_2",
             "position": "Defense",
-            "salary": 9,
-            "mc_ev": 9.8,
+            "salary": 3,
+            "mc_ev": 9.9,
             "mc_p90": 0.0,
-            "actualPoints": 1.0
+            "actualPoints": 10.0
         }
     ],
     "MC_Consensus": [],
@@ -347,12 +347,12 @@
     ],
     "Core": [
         "Kieran McArdle",
-        "Zach Currier",
         "Joseph Nardella"
     ],
     "Sleepers": [
         "CJ Kirst",
-        "Jarrod Neumann"
+        "Cole Williams",
+        "Carter Rice"
     ],
     "RecommendedStrategy": "MC_EV",
     "RecommendedReason": "Tight pricing / short slate (2 games, 10 cheap value players). Optimizing for floor is best.",
@@ -442,15 +442,17 @@
                     "Matt DeLuca",
                     "CJ Kirst",
                     "Sergio Perkovic",
-                    "Jarrod Neumann"
+                    "Cole Williams",
+                    "Carter Rice"
                 ],
                 "out": [
                     "Blaze Riorden",
                     "Ryder Garnsey",
+                    "Zach Currier",
                     "Andrew McAdorey",
                     "Christian Scarpello"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Matt DeLuca (Goalie, 32c), CJ Kirst (Attack, 6c), Sergio Perkovic (Midfield, 14c), Jarrod Neumann (Defense, 9c)) to maximize the team's 90th percentile ceiling (projecting up to 0.0 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Matt DeLuca (Goalie, 32c), CJ Kirst (Attack, 6c), Sergio Perkovic (Midfield, 14c), Cole Williams (Midfield, 10c), Carter Rice (Defense, 3c)) to maximize the team's 90th percentile ceiling (projecting up to 0.0 pts)."
             }
         ]
     },

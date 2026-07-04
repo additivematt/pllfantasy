@@ -87,18 +87,6 @@
     ],
     "MC_Win_160": [
         {
-            "firstName": "Liam",
-            "lastName": "Entenmann",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2025_championship_game",
-            "position": "Goalie",
-            "salary": 43,
-            "mc_ev": 29.4,
-            "mc_p90": 0.0,
-            "actualPoints": 39.0
-        },
-        {
             "firstName": "Jeff",
             "lastName": "Teat",
             "team": "ATL",
@@ -111,28 +99,16 @@
             "actualPoints": 71.0
         },
         {
-            "firstName": "Brennan",
-            "lastName": "O'Neill",
-            "team": "OUT",
-            "opponent": "ATL",
+            "firstName": "Connor",
+            "lastName": "Shellenberger",
+            "team": "ATL",
+            "opponent": "OUT",
             "game_id": "2025_championship_game",
             "position": "Attack",
-            "salary": 40,
-            "mc_ev": 28.2,
+            "salary": 47,
+            "mc_ev": 29.3,
             "mc_p90": 0.0,
-            "actualPoints": 25.0
-        },
-        {
-            "firstName": "Dalton",
-            "lastName": "Young",
-            "team": "OUT",
-            "opponent": "ATL",
-            "game_id": "2025_championship_game",
-            "position": "Midfield",
-            "salary": 19,
-            "mc_ev": 17.0,
-            "mc_p90": 0.0,
-            "actualPoints": 20.0
+            "actualPoints": 35.0
         },
         {
             "firstName": "Jake",
@@ -147,16 +123,16 @@
             "actualPoints": -5.0
         },
         {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
-            "team": "ATL",
-            "opponent": "OUT",
+            "firstName": "Jonathan",
+            "lastName": "Donville",
+            "team": "OUT",
+            "opponent": "ATL",
             "game_id": "2025_championship_game",
-            "position": "Faceoff",
-            "salary": 33,
-            "mc_ev": 17.1,
+            "position": "Midfield",
+            "salary": 10,
+            "mc_ev": 14.1,
             "mc_p90": 0.0,
-            "actualPoints": 23.6
+            "actualPoints": 8.0
         },
         {
             "firstName": "Max",
@@ -169,6 +145,30 @@
             "mc_ev": 9.3,
             "mc_p90": 0.0,
             "actualPoints": 2.0
+        },
+        {
+            "firstName": "Trevor",
+            "lastName": "Baptiste",
+            "team": "ATL",
+            "opponent": "OUT",
+            "game_id": "2025_championship_game",
+            "position": "Faceoff",
+            "salary": 33,
+            "mc_ev": 17.1,
+            "mc_p90": 0.0,
+            "actualPoints": 23.6
+        },
+        {
+            "firstName": "Liam",
+            "lastName": "Entenmann",
+            "team": "ATL",
+            "opponent": "OUT",
+            "game_id": "2025_championship_game",
+            "position": "Goalie",
+            "salary": 43,
+            "mc_ev": 29.4,
+            "mc_p90": 0.0,
+            "actualPoints": 39.0
         }
     ],
     "MC_Ceil_90": [
@@ -426,6 +426,19 @@
             }
         ],
         "Variants": [
+            {
+                "strategy": "MC_Win_160",
+                "strategyLabel": "MC Win 160",
+                "in": [
+                    "Connor Shellenberger",
+                    "Jonathan Donville"
+                ],
+                "out": [
+                    "Brennan O'Neill",
+                    "Dalton Young"
+                ],
+                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Connor Shellenberger (Attack, 47c), Jonathan Donville (Midfield, 10c)) to increase the joint probability of the entire lineup hitting the 160 target score."
+            },
             {
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",

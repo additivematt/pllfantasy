@@ -1,6 +1,18 @@
 {
     "MC_EV": [
         {
+            "firstName": "Brett",
+            "lastName": "Dobson",
+            "team": "ARC",
+            "opponent": "RED",
+            "game_id": "2026-ev-18",
+            "position": "Goalie",
+            "salary": 48,
+            "mc_ev": 31.0,
+            "mc_p90": 40.8,
+            "actualPoints": 55.0
+        },
+        {
             "firstName": "Matt",
             "lastName": "Rambo",
             "team": "ATL",
@@ -49,6 +61,18 @@
             "actualPoints": 17.0
         },
         {
+            "firstName": "Andrew",
+            "lastName": "McMeekin",
+            "team": "CAN",
+            "opponent": "ATL",
+            "game_id": "2026-ev-17",
+            "position": "Faceoff",
+            "salary": 17,
+            "mc_ev": 13.9,
+            "mc_p90": 22.9,
+            "actualPoints": 32.3
+        },
+        {
             "firstName": "Ethan",
             "lastName": "Rall",
             "team": "CAN",
@@ -59,30 +83,6 @@
             "mc_ev": 11.3,
             "mc_p90": 24.5,
             "actualPoints": 16.0
-        },
-        {
-            "firstName": "Andrew",
-            "lastName": "McMeekin",
-            "team": "CAN",
-            "opponent": "ATL",
-            "game_id": "2026-ev-17",
-            "position": "Faceoff",
-            "salary": 17,
-            "mc_ev": 14.0,
-            "mc_p90": 28.5,
-            "actualPoints": 32.3
-        },
-        {
-            "firstName": "Brett",
-            "lastName": "Dobson",
-            "team": "ARC",
-            "opponent": "RED",
-            "game_id": "2026-ev-18",
-            "position": "Goalie",
-            "salary": 48,
-            "mc_ev": 31.0,
-            "mc_p90": 40.8,
-            "actualPoints": 55.0
         }
     ],
     "MC_Win_160": [
@@ -154,8 +154,8 @@
             "game_id": "2026-ev-17",
             "position": "Faceoff",
             "salary": 17,
-            "mc_ev": 14.0,
-            "mc_p90": 28.5,
+            "mc_ev": 13.9,
+            "mc_p90": 22.9,
             "actualPoints": 32.3
         },
         {
@@ -166,8 +166,8 @@
             "game_id": "2026-ev-18",
             "position": "Defense",
             "salary": 12,
-            "mc_ev": 11.0,
-            "mc_p90": 26.2,
+            "mc_ev": 10.7,
+            "mc_p90": 31.3,
             "actualPoints": 12.0
         }
     ],
@@ -185,16 +185,16 @@
             "actualPoints": 1.0
         },
         {
-            "firstName": "Joey",
-            "lastName": "Spallina",
-            "team": "WHP",
-            "opponent": "ATL",
-            "game_id": "2026-ev-19",
+            "firstName": "Reid",
+            "lastName": "Bowering",
+            "team": "ATL",
+            "opponent": "CAN",
+            "game_id": "2026-ev-17",
             "position": "Attack",
-            "salary": 27,
-            "mc_ev": 24.9,
-            "mc_p90": 52.9,
-            "actualPoints": 11.0
+            "salary": 20,
+            "mc_ev": 25.1,
+            "mc_p90": 53.0,
+            "actualPoints": 0.0
         },
         {
             "firstName": "Tre",
@@ -221,16 +221,16 @@
             "actualPoints": 17.0
         },
         {
-            "firstName": "Mitchell",
-            "lastName": "Dunham",
+            "firstName": "Cam",
+            "lastName": "Wyers",
             "team": "ARC",
             "opponent": "RED",
             "game_id": "2026-ev-18",
             "position": "Defense",
-            "salary": 12,
-            "mc_ev": 11.0,
-            "mc_p90": 26.2,
-            "actualPoints": 12.0
+            "salary": 5,
+            "mc_ev": 10.8,
+            "mc_p90": 28.4,
+            "actualPoints": 0.0
         },
         {
             "firstName": "Andrew",
@@ -240,8 +240,8 @@
             "game_id": "2026-ev-17",
             "position": "Faceoff",
             "salary": 17,
-            "mc_ev": 14.0,
-            "mc_p90": 28.5,
+            "mc_ev": 13.9,
+            "mc_p90": 22.9,
             "actualPoints": 32.3
         },
         {
@@ -304,7 +304,7 @@
             "game_id": "2026-ev-18",
             "position": "M",
             "salary": 5,
-            "mc_ev": 12.6,
+            "mc_ev": 12.5,
             "mc_p90": 30.6,
             "actualPoints": 46.0
         },
@@ -347,15 +347,27 @@
     ],
     "Core": [
         "Matt Rambo",
+        "Reid Bowering",
         "Matt Brandau",
         "Tre Leclaire",
         "Andrew McMeekin"
     ],
-    "Sleepers": [],
+    "Sleepers": [
+        "Cam Wyers"
+    ],
     "RecommendedStrategy": "MC_EV",
     "RecommendedReason": "Tight pricing / short slate (3 games, 20 cheap value players). Optimizing for floor is best.",
     "Narrative": {
         "RecommendedRoster": [
+            {
+                "firstName": "Brett",
+                "lastName": "Dobson",
+                "position": "Goalie",
+                "salary": 48,
+                "bullets": [
+                    "Opponent Weakness: RED defense allows 5% extra fantasy points to Goalie position."
+                ]
+            },
             {
                 "firstName": "Matt",
                 "lastName": "Rambo",
@@ -395,15 +407,6 @@
                 ]
             },
             {
-                "firstName": "Ethan",
-                "lastName": "Rall",
-                "position": "Defense",
-                "salary": 21,
-                "bullets": [
-                    "Opponent Weakness: ATL defense allows 45% extra fantasy points to SSDM position."
-                ]
-            },
-            {
                 "firstName": "Andrew",
                 "lastName": "McMeekin",
                 "position": "Faceoff",
@@ -413,12 +416,12 @@
                 ]
             },
             {
-                "firstName": "Brett",
-                "lastName": "Dobson",
-                "position": "Goalie",
-                "salary": 48,
+                "firstName": "Ethan",
+                "lastName": "Rall",
+                "position": "Defense",
+                "salary": 21,
                 "bullets": [
-                    "Opponent Weakness: RED defense allows 5% extra fantasy points to Goalie position."
+                    "Opponent Weakness: ATL defense allows 45% extra fantasy points to SSDM position."
                 ]
             }
         ],
@@ -431,8 +434,8 @@
                     "Mitchell Dunham"
                 ],
                 "out": [
-                    "Ethan Rall",
-                    "Brett Dobson"
+                    "Brett Dobson",
+                    "Ethan Rall"
                 ],
                 "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Liam Entenmann (Goalie, 48c), Mitchell Dunham (Defense, 12c)) to increase the joint probability of the entire lineup hitting the 160 target score."
             },
@@ -440,16 +443,14 @@
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
-                    "Joey Spallina",
-                    "Mitchell Dunham",
+                    "Cam Wyers",
                     "Liam Entenmann"
                 ],
                 "out": [
-                    "Reid Bowering",
-                    "Ethan Rall",
-                    "Brett Dobson"
+                    "Brett Dobson",
+                    "Ethan Rall"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Joey Spallina (Attack, 27c), Mitchell Dunham (Defense, 12c), Liam Entenmann (Goalie, 48c)) to maximize the team's 90th percentile ceiling (projecting up to 52.9 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Cam Wyers (Defense, 5c), Liam Entenmann (Goalie, 48c)) to maximize the team's 90th percentile ceiling (projecting up to 45.3 pts)."
             }
         ]
     },
