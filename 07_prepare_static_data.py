@@ -91,7 +91,7 @@ def generate_roster_insights(df_class, adv_response):
         
     # 2. Roster Swaps / Variants
     variants = []
-    for alt_strategy in ["MC_EV", "MC_Win_160", "MC_Win_180", "MC_Ceil_90"]:
+    for alt_strategy in ["MC_EV", "MC_Win_160", "MC_Ceil_90"]:
         if alt_strategy == rec_strategy:
             continue
         alt_roster = adv_response.get(alt_strategy, [])
@@ -602,10 +602,7 @@ def main():
                     # 3. Run MC Win 160 Optimization
                     team_mc_win_160 = run_local_search(player_pool, sim_matrix, 'MC_Win_Prob', ev_baseline, budget=200, target_win_score=160.0)
                     
-                    # 4. Run MC Win 180 Optimization
-                    team_mc_win_180 = run_local_search(player_pool, sim_matrix, 'MC_Win_Prob', ev_baseline, budget=200, target_win_score=180.0)
-                    
-                    # 5. Run MC Ceil 90 Optimization
+                    # 4. Run MC Ceil 90 Optimization
                     team_mc_ceil_90 = run_local_search(player_pool, sim_matrix, 'MC_Ceiling_90', ev_baseline, budget=200)
 
                     # 6. Consensus & Differential Options (Incorporating User Feedback)
@@ -715,7 +712,6 @@ def main():
                     adv_response = {
                         "MC_EV": [strip_player(p) for p in team_mc_ev] if team_mc_ev else [],
                         "MC_Win_160": [strip_player(p) for p in team_mc_win_160] if team_mc_win_160 else [],
-                        "MC_Win_180": [strip_player(p) for p in team_mc_win_180] if team_mc_win_180 else [],
                         "MC_Ceil_90": [strip_player(p) for p in team_mc_ceil_90] if team_mc_ceil_90 else [],
                         "MC_Consensus": [strip_player(p) for p in team_mc_consensus] if team_mc_consensus else [],
                         "MC_Differential": [strip_player(p) for p in team_mc_differential] if team_mc_differential else [],
@@ -834,15 +830,15 @@ def main():
                         traceback.print_exc()
                         print(f"  Warning: Could not run Coulda optimizer for {year} Week {week}: {e_coulda}")
                         
-                    # Consensus Core: players appearing in all 4 forward-looking MC rosters.
+                    # Consensus Core: players appearing in all 3 forward-looking MC rosters.
                     # Coulda is excluded — it is a retrospective lineup, not a forward-looking one.
-                    mc_roster_keys = ['MC_EV', 'MC_Win_160', 'MC_Win_180', 'MC_Ceil_90']
+                    mc_roster_keys = ['MC_EV', 'MC_Win_160', 'MC_Ceil_90']
                     player_counts = {}
                     for key in mc_roster_keys:
                         for p in adv_response.get(key, []):
                             p_name = f"{p['firstName']} {p['lastName']}"
                             player_counts[p_name] = player_counts.get(p_name, 0) + 1
-                    adv_response["Core"] = [k for k, v in player_counts.items() if v >= 4]
+                    adv_response["Core"] = [k for k, v in player_counts.items() if v >= 3]
                     
                     ev_names = set(f"{p['firstName']} {p['lastName']}" for p in adv_response["MC_EV"])
                     sleepers = []
@@ -902,7 +898,7 @@ def main():
                                     "position": p["positionGroup"],
                                     "globalRate": int(global_rate * 100),
                                     "rivalCount": rival_count,
-                                    "description": f"Critical Floor Lock: Owned by {int(global_rate*100)}% of global leaders and {rival_count} of your top 3 local rivals. High floor risk if omitted."
+                                    "description": f"Critical Floor Lock: Owned by {int(global_rate*100)}% of global leaders and {rival_count} of your local rivals. High floor risk if omitted."
                                 })
                             elif rival_count == 0:
                                 diff_leverage.append({
@@ -911,7 +907,7 @@ def main():
                                     "position": p["positionGroup"],
                                     "globalRate": int(global_rate * 100),
                                     "rivalCount": 0,
-                                    "description": f"High Leverage Differential: Owned by {int(global_rate*100)}% of global leaders but 0 of your top 3 local rivals. Start him to gain ground."
+                                    "description": f"High Leverage Differential: Owned by {int(global_rate*100)}% of global leaders but 0 of your local rivals. Start him to gain ground."
                                 })
                                 
                     floor_locks.sort(key=lambda x: x["globalRate"], reverse=True)

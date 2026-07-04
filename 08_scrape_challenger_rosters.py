@@ -194,7 +194,7 @@ def main():
         rank = idx + 1
         points = user.get("seasonTotalPoints")
         
-        is_targeted_rival = user in top_3_rivals
+        is_targeted_rival = user in rival_candidates
         
         url_roster = f"https://f2p.premierlacrosseleague.com/api/fantasy/challengerFetch/?userId={uid}"
         try:

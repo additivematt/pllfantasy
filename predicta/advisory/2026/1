@@ -171,92 +171,6 @@
             "actualPoints": 20.0
         }
     ],
-    "MC_Win_180": [
-        {
-            "firstName": "Adam",
-            "lastName": "Charalambides",
-            "team": "CHA",
-            "opponent": "ATL",
-            "game_id": "2026-ev-2",
-            "position": "Attack",
-            "salary": 12,
-            "mc_ev": 27.7,
-            "mc_p90": 56.1,
-            "actualPoints": 19.0
-        },
-        {
-            "firstName": "Austin",
-            "lastName": "Kaut",
-            "team": "CHA",
-            "opponent": "ATL",
-            "game_id": "2026-ev-2",
-            "position": "Goalie",
-            "salary": 10,
-            "mc_ev": 29.3,
-            "mc_p90": 81.4,
-            "actualPoints": 31.0
-        },
-        {
-            "firstName": "Jackson",
-            "lastName": "Eicher",
-            "team": "CHA",
-            "opponent": "ATL",
-            "game_id": "2026-ev-2",
-            "position": "Attack",
-            "salary": 26,
-            "mc_ev": 27.6,
-            "mc_p90": 66.1,
-            "actualPoints": 27.0
-        },
-        {
-            "firstName": "Jake",
-            "lastName": "Stevens",
-            "team": "ATL",
-            "opponent": "CHA",
-            "game_id": "2026-ev-2",
-            "position": "Midfield",
-            "salary": 5,
-            "mc_ev": 18.6,
-            "mc_p90": 49.8,
-            "actualPoints": 0.0
-        },
-        {
-            "firstName": "Mike",
-            "lastName": "Sisselberger",
-            "team": "ARC",
-            "opponent": "RED",
-            "game_id": "2026-ev-1",
-            "position": "Faceoff",
-            "salary": 6,
-            "mc_ev": 17.4,
-            "mc_p90": 43.1,
-            "actualPoints": 3.1
-        },
-        {
-            "firstName": "Jonathan",
-            "lastName": "Donville",
-            "team": "OUT",
-            "opponent": "ARC",
-            "game_id": "2026-ev-3",
-            "position": "Midfield",
-            "salary": 5,
-            "mc_ev": 15.6,
-            "mc_p90": 34.7,
-            "actualPoints": 18.0
-        },
-        {
-            "firstName": "Brian",
-            "lastName": "Tevlin",
-            "team": "RED",
-            "opponent": "ARC",
-            "game_id": "2026-ev-1",
-            "position": "Defense",
-            "salary": 16,
-            "mc_ev": 12.3,
-            "mc_p90": 26.8,
-            "actualPoints": 20.0
-        }
-    ],
     "MC_Ceil_90": [
         {
             "firstName": "Brendan",
@@ -524,23 +438,6 @@
                     "Kyle Jackson"
                 ],
                 "rationale": "Optimizes strictly for the highest average expected points (mean floor) rather than variance or win probability."
-            },
-            {
-                "strategy": "MC_Win_180",
-                "strategyLabel": "MC Win 180",
-                "in": [
-                    "Adam Charalambides",
-                    "Austin Kaut",
-                    "Jackson Eicher",
-                    "Jonathan Donville"
-                ],
-                "out": [
-                    "Connor Shellenberger",
-                    "Matt DeLuca",
-                    "Brennan O'Neill",
-                    "Kyle Jackson"
-                ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Adam Charalambides (Attack, 12c), Austin Kaut (Goalie, 10c), Jackson Eicher (Attack, 26c), Jonathan Donville (Midfield, 5c)) to increase the joint probability of the entire lineup hitting the 180 target score."
             },
             {
                 "strategy": "MC_Ceil_90",

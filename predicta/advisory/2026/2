@@ -171,92 +171,6 @@
             "actualPoints": 19.0
         }
     ],
-    "MC_Win_180": [
-        {
-            "firstName": "Matt",
-            "lastName": "DeLuca",
-            "team": "WAT",
-            "opponent": "CAN",
-            "game_id": "2026-ev-8",
-            "position": "Goalie",
-            "salary": 26,
-            "mc_ev": 30.0,
-            "mc_p90": 55.6,
-            "actualPoints": 3.0
-        },
-        {
-            "firstName": "Brendan",
-            "lastName": "Nichtern",
-            "team": "CHA",
-            "opponent": "CAN",
-            "game_id": "2026-ev-5",
-            "position": "Attack",
-            "salary": 24,
-            "mc_ev": 28.9,
-            "mc_p90": 57.2,
-            "actualPoints": 46.0
-        },
-        {
-            "firstName": "Teddy",
-            "lastName": "Malone",
-            "team": "CHA",
-            "opponent": "CAN",
-            "game_id": "2026-ev-5",
-            "position": "Attack",
-            "salary": 12,
-            "mc_ev": 26.5,
-            "mc_p90": 53.4,
-            "actualPoints": 10.0
-        },
-        {
-            "firstName": "Mic",
-            "lastName": "Kelly",
-            "team": "CAN",
-            "opponent": "CHA",
-            "game_id": "2026-ev-5",
-            "position": "Midfield",
-            "salary": 9,
-            "mc_ev": 18.6,
-            "mc_p90": 50.8,
-            "actualPoints": 22.0
-        },
-        {
-            "firstName": "Evan",
-            "lastName": "Plunkett",
-            "team": "OUT",
-            "opponent": "RED",
-            "game_id": "2026-ev-7",
-            "position": "Midfield",
-            "salary": 10,
-            "mc_ev": 17.4,
-            "mc_p90": 43.7,
-            "actualPoints": 7.0
-        },
-        {
-            "firstName": "Petey",
-            "lastName": "LaSalla",
-            "team": "WHP",
-            "opponent": "ATL",
-            "game_id": "2026-ev-6",
-            "position": "Faceoff",
-            "salary": 9,
-            "mc_ev": 14.7,
-            "mc_p90": 47.0,
-            "actualPoints": 35.9
-        },
-        {
-            "firstName": "Liam",
-            "lastName": "Byrnes",
-            "team": "CHA",
-            "opponent": "CAN",
-            "game_id": "2026-ev-5",
-            "position": "Defense",
-            "salary": 2,
-            "mc_ev": 10.8,
-            "mc_p90": 37.8,
-            "actualPoints": 19.0
-        }
-    ],
     "MC_Ceil_90": [
         {
             "firstName": "Matt",
@@ -527,19 +441,6 @@
                     "Liam Byrnes"
                 ],
                 "rationale": "Optimizes strictly for the highest average expected points (mean floor) rather than variance or win probability."
-            },
-            {
-                "strategy": "MC_Win_180",
-                "strategyLabel": "MC Win 180",
-                "in": [
-                    "Matt DeLuca",
-                    "Petey LaSalla"
-                ],
-                "out": [
-                    "Logan McNaney",
-                    "Justin Inacio"
-                ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Matt DeLuca (Goalie, 26c), Petey LaSalla (Faceoff, 9c)) to increase the joint probability of the entire lineup hitting the 180 target score."
             },
             {
                 "strategy": "MC_Ceil_90",

@@ -4,7 +4,6 @@ let activeRosterTab = "MC_EV";
 const rosterDescriptions = {
     "MC_EV": "Optimizes the roster to get the highest average points. Best for consistent, safe performance.",
     "MC_Win_160": "Optimizes the roster to maximize the chance of scoring 160 or more points. Balances safety with some high-scoring potential.",
-    "MC_Win_180": "Optimizes the roster to maximize the chance of scoring 180 or more points. Focuses heavily on high-scoring teammate combinations.",
     "MC_Ceil_90": "Optimizes the roster to maximize the highest possible potential score, ignoring the risk of a low score.",
     "Coulda": "<strong>COULDA</strong>: Retroactively solves the absolute best possible roster for this week based on actual fantasy points scored. Use this to compare how close predictions were to the ultimate ceiling."
 };
@@ -39,10 +38,14 @@ async function loadPredictions(year, week) {
 
     try {
         const cacheBuster = `?t=${Date.now()}`;
-        const [predRes, advRes] = await Promise.all([
+        const [predRes, advRes, conRes] = await Promise.all([
             fetch(`predictions/${year}/${week}${cacheBuster}`),
             fetch(`advisory/${year}/${week}${cacheBuster}`).catch(err => {
                 console.warn('Advisory fetch failed:', err);
+                return null;
+            }),
+            fetch(`advisory/week${week}_${year}_consensus_ownership.json${cacheBuster}`).catch(err => {
+                console.warn('Consensus fetch failed:', err);
                 return null;
             })
         ]);
@@ -54,6 +57,12 @@ async function loadPredictions(year, week) {
         if (advRes && advRes.ok) {
             advisoryData = await advRes.json();
         }
+        
+        let consensusData = null;
+        if (conRes && conRes.ok) {
+            consensusData = await conRes.json();
+        }
+        window.currentConsensus = consensusData;
 
         container.innerHTML = ''; // Clear loading and old plots
         
@@ -308,16 +317,6 @@ function renderPlot(targetId, title, data, yRange = null) {
 function renderAdvisor(advisoryData) {
     window.currentAdvisory = advisoryData;
     
-    // 0. Render Recommended Strategy
-    const recSection = document.getElementById('recommended-strategy-section');
-    if (recSection && advisoryData.RecommendedStrategy) {
-        document.getElementById('recommended-strategy-name').textContent = advisoryData.RecommendedStrategy.replace(/_/g, ' ') + ' (RECOMMENDED)';
-        document.getElementById('recommended-strategy-reason').textContent = advisoryData.RecommendedReason;
-        recSection.style.display = 'block';
-    } else if (recSection) {
-        recSection.style.display = 'none';
-    }
-    
     // Rebuild roster tabs dynamically
     const rosterTabsContainer = document.querySelector('.roster-tabs');
     if (rosterTabsContainer) {
@@ -327,7 +326,6 @@ function renderAdvisor(advisoryData) {
         const labelMap = {
             "MC_EV": "MC EV",
             "MC_Win_160": "MC WIN 160",
-            "MC_Win_180": "MC WIN 180",
             "MC_Ceil_90": "MC CEIL 90",
             "MC_Consensus": "MC CONSENSUS",
             "MC_Differential": "MC DIFFERENTIAL"
@@ -335,7 +333,7 @@ function renderAdvisor(advisoryData) {
         
         // Find all available roster keys in advisoryData
         const availableRosters = [];
-        const order = ["MC_EV", "MC_Win_160", "MC_Win_180", "MC_Ceil_90", "MC_Consensus", "MC_Differential"];
+        const order = ["MC_EV", "MC_Win_160", "MC_Ceil_90", "MC_Consensus", "MC_Differential"];
         for (const k of order) {
             if (advisoryData[k] && advisoryData[k].length > 0) {
                 availableRosters.push({ key: k, label: labelMap[k] || k });
@@ -354,9 +352,20 @@ function renderAdvisor(advisoryData) {
                 btn.classList.add('active');
             }
             btn.setAttribute('data-roster', r.key);
-            btn.textContent = r.label;
+            
+            if (r.key === advisoryData.RecommendedStrategy) {
+                btn.innerHTML = `${r.label} <span class="rec-star" style="color: #ecc94b; margin-left: 2px;">⭐</span>`;
+                btn.setAttribute('title', `Recommended: ${advisoryData.RecommendedReason}`);
+            } else {
+                btn.textContent = r.label;
+            }
+            
             btn.addEventListener('click', (e) => {
-                const rName = e.target.getAttribute('data-roster');
+                let target = e.target;
+                if (target.tagName === 'SPAN') {
+                    target = target.parentElement;
+                }
+                const rName = target.getAttribute('data-roster');
                 renderRoster(rName);
             });
             rosterTabsContainer.appendChild(btn);
@@ -418,103 +427,122 @@ function renderAdvisor(advisoryData) {
     const insightsContainer = document.getElementById('roster-insights-container');
     if (insightsSection && insightsContainer) {
         insightsContainer.innerHTML = '';
-        if (advisoryData.Narrative) {
+        if (advisoryData) {
             insightsSection.style.display = 'block';
-            const insights = advisoryData.Narrative;
             
-            const containerDiv = document.createElement('div');
-            containerDiv.className = 'insights-container';
-            
-            // Render Recommended Roster Insights
-            if (insights.RecommendedRoster && insights.RecommendedRoster.length > 0) {
-                insights.RecommendedRoster.forEach(p => {
-                    const card = document.createElement('div');
-                    card.className = 'insight-card';
-                    
-                    const header = document.createElement('div');
-                    header.className = 'insight-player-header';
-                    
-                    const name = document.createElement('span');
-                    name.className = 'insight-player-name';
-                    name.textContent = `${p.firstName} ${p.lastName}`;
-                    name.title = "Click to highlight on chart";
-                    name.onclick = () => {
-                        const lookup = window.currentPredictions ? window.currentPredictions.find(pr => pr.firstName === p.firstName && pr.lastName === p.lastName) : null;
-                        const subPos = lookup ? lookup.subPosition : 'Attack';
-                        highlightPlayerInPlot(subPos, p.firstName, p.lastName);
-                    };
-                    
-                    const meta = document.createElement('span');
-                    meta.className = 'insight-player-meta';
-                    meta.textContent = `${p.position} | ${p.salary}c`;
-                    
-                    header.appendChild(name);
-                    header.appendChild(meta);
-                    
-                    const bullets = document.createElement('ul');
-                    bullets.className = 'insight-bullets';
-                    p.bullets.forEach(b => {
-                        const li = document.createElement('li');
-                        if (b.includes(":")) {
-                            const index = b.indexOf(":");
-                            const tag = b.substring(0, index);
-                            const rest = b.substring(index);
-                            li.innerHTML = `<strong>${tag}</strong>${rest}`;
+            const rostersToInspect = ["MC_EV", "MC_Win_160", "MC_Ceil_90"];
+            const uniquePlayers = new Map();
+
+            rostersToInspect.forEach(rKey => {
+                const roster = advisoryData[rKey];
+                if (roster) {
+                    roster.forEach(p => {
+                        const fullName = `${p.firstName} ${p.lastName}`;
+                        if (!uniquePlayers.has(fullName)) {
+                            uniquePlayers.set(fullName, {
+                                firstName: p.firstName,
+                                lastName: p.lastName,
+                                position: p.position,
+                                salary: p.salary,
+                                team: p.team,
+                                opponent: p.opponent,
+                                game_id: p.game_id,
+                                rosters: [rKey]
+                            });
                         } else {
-                            li.textContent = b;
+                            uniquePlayers.get(fullName).rosters.push(rKey);
                         }
-                        bullets.appendChild(li);
                     });
+                }
+            });
+
+            // Convert map to sorted array
+            const sortedPlayers = Array.from(uniquePlayers.values()).sort((a, b) => {
+                if (b.rosters.length !== a.rosters.length) {
+                    return b.rosters.length - a.rosters.length;
+                }
+                return b.salary - a.salary;
+            });
+
+            if (sortedPlayers.length > 0) {
+                let tableHtml = `
+                    <table class="insights-table">
+                        <thead>
+                            <tr>
+                                <th>Player</th>
+                                <th>Rosters</th>
+                                <th>Rationale</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                sortedPlayers.forEach(p => {
+                    const fullName = `${p.firstName} ${p.lastName}`;
                     
-                    card.appendChild(header);
-                    card.appendChild(bullets);
-                    containerDiv.appendChild(card);
+                    // Build badges
+                    let badgesHtml = '';
+                    if (p.rosters.includes("MC_EV")) {
+                        badgesHtml += `<span class="insight-badge ev" title="MC Expected Value">EV</span>`;
+                    }
+                    if (p.rosters.includes("MC_Win_160")) {
+                        badgesHtml += `<span class="insight-badge win160" title="MC Win 160">160</span>`;
+                    }
+                    if (p.rosters.includes("MC_Ceil_90")) {
+                        badgesHtml += `<span class="insight-badge ceil" title="MC Ceiling 90">Ceil</span>`;
+                    }
+
+                    // Resolve whyIncluded
+                    let rationale = '';
+                    const recPlayer = advisoryData.Narrative && advisoryData.Narrative.RecommendedRoster ? advisoryData.Narrative.RecommendedRoster.find(rp => rp.firstName === p.firstName && rp.lastName === p.lastName) : null;
+                    if (recPlayer && recPlayer.bullets && recPlayer.bullets.length > 0) {
+                        rationale = recPlayer.bullets.map(b => {
+                            if (b.includes(":")) {
+                                const index = b.indexOf(":");
+                                const tag = b.substring(0, index);
+                                const rest = b.substring(index);
+                                return `<strong>${tag}</strong>${rest}`;
+                            }
+                            return b;
+                        }).join(" ");
+                    } else {
+                        // Look up in variants
+                        const matchingVariants = (advisoryData.Narrative && advisoryData.Narrative.Variants || []).filter(v => v.in && v.in.includes(fullName));
+                        if (matchingVariants.length > 0) {
+                            rationale = matchingVariants.map(v => {
+                                if (v.strategy === "MC_Win_160") {
+                                    return "<strong>Roster Swap:</strong> Swapped in for higher floor stability.";
+                                } else if (v.strategy === "MC_Ceil_90") {
+                                    return "<strong>Roster Swap:</strong> Swapped in for higher ceiling upside.";
+                                }
+                                return `<strong>Roster Swap:</strong> ${v.rationale}`;
+                            }).join(" ");
+                        } else {
+                            rationale = "Included to satisfy lineup budget and position optimization constraints.";
+                        }
+                    }
+
+                    tableHtml += `
+                        <tr class="insight-table-row" onclick="highlightPlayerInPlot('${p.position}', '${p.firstName}', '${p.lastName}')" title="Click to highlight on chart">
+                            <td class="insight-player-cell">
+                                <span class="insight-player-name"><strong>${p.lastName}</strong>, ${p.firstName[0]}.</span><br/>
+                                <span class="insight-player-meta">${p.position} | ${p.salary}c</span>
+                            </td>
+                            <td class="insight-badges-cell">${badgesHtml}</td>
+                            <td class="insight-rationale-cell">${rationale}</td>
+                        </tr>
+                    `;
                 });
-            }
-            
-            // Render Variants/Swaps
-            if (insights.Variants && insights.Variants.length > 0) {
-                const subHeader = document.createElement('h3');
-                subHeader.style.marginTop = '1.5rem';
-                subHeader.style.marginBottom = '0.75rem';
-                subHeader.textContent = 'ROSTER VARIANTS & SWAPS';
-                containerDiv.appendChild(subHeader);
+
+                tableHtml += `
+                        </tbody>
+                    </table>
+                `;
                 
-                insights.Variants.forEach(v => {
-                    const card = document.createElement('div');
-                    card.className = 'insight-swap-card';
-                    
-                    const header = document.createElement('div');
-                    header.className = 'insight-swap-header';
-                    header.textContent = v.strategyLabel;
-                    
-                    const players = document.createElement('div');
-                    players.className = 'insight-swap-players';
-                    
-                    const inSpan = document.createElement('span');
-                    inSpan.className = 'swap-in';
-                    inSpan.textContent = `+ ${v.in.join(', ')}`;
-                    
-                    const outSpan = document.createElement('span');
-                    outSpan.className = 'swap-out';
-                    outSpan.textContent = `- ${v.out.join(', ')}`;
-                    
-                    players.appendChild(inSpan);
-                    players.appendChild(document.createElement('br'));
-                    players.appendChild(outSpan);
-                    
-                    const rationale = document.createElement('p');
-                    rationale.className = 'insight-swap-rationale';
-                    rationale.textContent = v.rationale;
-                    
-                    card.appendChild(header);
-                    card.appendChild(players);
-                    card.appendChild(rationale);
-                    containerDiv.appendChild(card);
-                });
+                insightsContainer.innerHTML = tableHtml;
+            } else {
+                insightsContainer.innerHTML = '<span class="muted-text">No roster insights available.</span>';
             }
-            
-            insightsContainer.appendChild(containerDiv);
         } else {
             insightsSection.style.display = 'none';
         }
@@ -545,6 +573,10 @@ function renderTacticalAdvice(tacticalData) {
     const container = document.getElementById('tactical-advice-container');
     if (!container) return;
 
+    const totalRivals = (window.currentConsensus && window.currentConsensus.local_league_rosters) 
+        ? Object.keys(window.currentConsensus.local_league_rosters).length 
+        : 3;
+
     let html = '<div class="tactical-container">';
 
     // 1. Render Floor Locks
@@ -562,7 +594,7 @@ function renderTacticalAdvice(tacticalData) {
                     <p class="tactical-card-description">${p.description}</p>
                     <div class="tactical-card-stats">
                         <span class="tactical-stat-badge green">Global: ${p.globalRate}%</span>
-                        <span class="tactical-stat-badge green">Rivals: ${p.rivalCount}/3</span>
+                        <span class="tactical-stat-badge green">Rivals: ${p.rivalCount}/${totalRivals}</span>
                     </div>
                 </div>
             `;
@@ -584,7 +616,7 @@ function renderTacticalAdvice(tacticalData) {
                     <p class="tactical-card-description">${p.description}</p>
                     <div class="tactical-card-stats">
                         <span class="tactical-stat-badge purple">Global: ${p.globalRate}%</span>
-                        <span class="tactical-stat-badge purple">Rivals: 0/3</span>
+                        <span class="tactical-stat-badge purple">Rivals: 0/${totalRivals}</span>
                     </div>
                 </div>
             `;
@@ -625,6 +657,42 @@ function renderTacticalAdvice(tacticalData) {
 
     html += '</div>';
     container.innerHTML = html;
+}
+
+function getPlayerOwnership(firstName, lastName) {
+    const res = { globalRate: 0, rivalCount: 0, totalRivals: 0 };
+    if (!window.currentConsensus) return res;
+
+    const cleanName = (firstName + lastName).replace(/['\-\. ]/g, '').toLowerCase();
+
+    // 1. Get global ownership
+    if (window.currentConsensus.global_top_25) {
+        const item = window.currentConsensus.global_top_25.find(c => c.clean_name === cleanName);
+        if (item) {
+            res.globalRate = Math.round(item.rate * 100);
+        }
+    }
+
+    // 2. Get local rival ownership count
+    if (window.currentConsensus.local_league_rosters) {
+        const rivalRosters = window.currentConsensus.local_league_rosters;
+        const keys = Object.keys(rivalRosters);
+        res.totalRivals = keys.length;
+        let count = 0;
+        keys.forEach(k => {
+            const players = rivalRosters[k].players || [];
+            const hasPlayer = players.some(pName => {
+                const pClean = pName.replace(/['\-\. ]/g, '').toLowerCase();
+                return pClean === cleanName;
+            });
+            if (hasPlayer) {
+                count++;
+            }
+        });
+        res.rivalCount = count;
+    }
+
+    return res;
 }
 
 function renderRoster(rosterName) {
@@ -688,10 +756,32 @@ function renderRoster(rosterName) {
     const isCouldaTable = rosterName === "Coulda";
     const hasPlayed = window.currentAdvisory.Coulda && window.currentAdvisory.Coulda.length > 0;
 
+    // Determine conditional columns: Omit MC p90 for MC_Consensus and MC_Differential
+    const showCeiling = (rosterName !== "MC_Consensus" && rosterName !== "MC_Differential");
+    
+    let extraHeaderHtml = "";
+    if (rosterName === "MC_Consensus") {
+        extraHeaderHtml = '<th style="text-align: right;">Global %</th>';
+    } else if (rosterName === "MC_Differential") {
+        extraHeaderHtml = '<th style="text-align: right;">Rivals</th>';
+    }
+
     let html = `
         <div class="roster-desc">
             ${rosterDescriptions[rosterName] || ""}
         </div>
+    `;
+
+    if (rosterName === window.currentAdvisory.RecommendedStrategy) {
+        html += `
+            <div class="roster-rec-badge">
+                <span class="rec-icon">⭐</span>
+                <span class="rec-reason"><strong>Recommended Strategy:</strong> ${window.currentAdvisory.RecommendedReason}</span>
+            </div>
+        `;
+    }
+
+    html += `
         <table class="roster-table ${isCouldaTable ? 'roster-table-coulda' : ''}">
             <thead>
                 <tr>
@@ -700,7 +790,8 @@ function renderRoster(rosterName) {
                     <th>Team</th>
                     <th>Cost</th>
                     <th>MC EV</th>
-                    <th>MC p90</th>
+                    ${showCeiling ? '<th>MC p90</th>' : ''}
+                    ${extraHeaderHtml}
                     ${hasPlayed ? '<th style="color:#00f0ff;">Actual</th>' : ''}
                 </tr>
             </thead>
@@ -713,7 +804,6 @@ function renderRoster(rosterName) {
         if (lookup) {
             badgePos = lookup.subPosition;
         } else {
-            // fallback mapping for display
             const displayPosMap = {
                 "A": "Attack",
                 "M": "Midfield",
@@ -733,6 +823,20 @@ function renderRoster(rosterName) {
             actualColHtml = `<td style="color:#00f0ff; font-weight:700;">${p.actualPoints !== undefined ? p.actualPoints.toFixed(1) : "-"}</td>`;
         }
 
+        let p90ColHtml = "";
+        if (showCeiling) {
+            p90ColHtml = `<td>${(p.mc_p90 || 0).toFixed(1)}</td>`;
+        }
+
+        let extraColHtml = "";
+        if (rosterName === "MC_Consensus") {
+            const own = getPlayerOwnership(p.firstName, p.lastName);
+            extraColHtml = `<td style="text-align: right; font-weight:700; color: #b794f4;">${own.globalRate}%</td>`;
+        } else if (rosterName === "MC_Differential") {
+            const own = getPlayerOwnership(p.firstName, p.lastName);
+            extraColHtml = `<td style="text-align: right; font-weight:700; color: #9f7aea;">${own.rivalCount}/${own.totalRivals || 3}</td>`;
+        }
+
         html += `
             <tr class="roster-row ${highlightClass}" onclick="highlightPlayerInPlot('${lookup ? lookup.subPosition : p.position}', '${p.firstName}', '${p.lastName}', '${p.game_id}')" title="Click to highlight on chart">
                 <td><span class="roster-pos-badge">${badgePos}</span></td>
@@ -740,7 +844,8 @@ function renderRoster(rosterName) {
                 <td><span style="font-weight:700;">${p.team}</span> <span style="font-size:0.6rem; color:#8b949e">@ ${p.opponent}</span></td>
                 <td>${p.salary}</td>
                 <td>${(p.mc_ev || 0).toFixed(1)}</td>
-                <td>${(p.mc_p90 || 0).toFixed(1)}</td>
+                ${p90ColHtml}
+                ${extraColHtml}
                 ${actualColHtml}
             </tr>
         `;
@@ -751,12 +856,23 @@ function renderRoster(rosterName) {
         actualTotalHtml = `<td style="color:#00f0ff; font-weight:700;">${totalActual.toFixed(1)}</td>`;
     }
 
+    let p90TotalHtml = "";
+    if (showCeiling) {
+        p90TotalHtml = `<td>${totalCeiling.toFixed(1)}</td>`;
+    }
+
+    let extraTotalHtml = "";
+    if (rosterName === "MC_Consensus" || rosterName === "MC_Differential") {
+        extraTotalHtml = `<td></td>`;
+    }
+
     html += `
                 <tr class="roster-total-row">
                     <td colspan="3">Total</td>
                     <td>${totalCost}</td>
                     <td>${totalEV.toFixed(1)}</td>
-                    <td>${totalCeiling.toFixed(1)}</td>
+                    ${p90TotalHtml}
+                    ${extraTotalHtml}
                     ${actualTotalHtml}
                 </tr>
             </tbody>

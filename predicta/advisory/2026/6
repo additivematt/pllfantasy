@@ -171,105 +171,7 @@
             "actualPoints": 12.0
         }
     ],
-    "MC_Win_180": [
-        {
-            "firstName": "Dylan",
-            "lastName": "Molloy",
-            "team": "RED",
-            "opponent": "CHA",
-            "game_id": "2026-ev-24",
-            "position": "Attack",
-            "salary": 44,
-            "mc_ev": 28.4,
-            "mc_p90": 76.7,
-            "actualPoints": 12.0
-        },
-        {
-            "firstName": "Joey",
-            "lastName": "Spallina",
-            "team": "WHP",
-            "opponent": "OUT",
-            "game_id": "2026-ev-21",
-            "position": "Attack",
-            "salary": 24,
-            "mc_ev": 25.0,
-            "mc_p90": 53.7,
-            "actualPoints": 48.0
-        },
-        {
-            "firstName": "Andrew",
-            "lastName": "McAdorey",
-            "team": "RED",
-            "opponent": "CHA",
-            "game_id": "2026-ev-24",
-            "position": "Midfield",
-            "salary": 24,
-            "mc_ev": 17.6,
-            "mc_p90": 36.3,
-            "actualPoints": -2.2
-        },
-        {
-            "firstName": "Zach",
-            "lastName": "Currier",
-            "team": "WAT",
-            "opponent": "ARC",
-            "game_id": "2026-ev-23",
-            "position": "Midfield",
-            "salary": 23,
-            "mc_ev": 17.6,
-            "mc_p90": 28.2,
-            "actualPoints": 6.8
-        },
-        {
-            "firstName": "Ben",
-            "lastName": "Randall",
-            "team": "OUT",
-            "opponent": "WHP",
-            "game_id": "2026-ev-21",
-            "position": "Defense",
-            "salary": 15,
-            "mc_ev": 11.6,
-            "mc_p90": 25.4,
-            "actualPoints": 12.0
-        },
-        {
-            "firstName": "Petey",
-            "lastName": "LaSalla",
-            "team": "WHP",
-            "opponent": "OUT",
-            "game_id": "2026-ev-21",
-            "position": "Faceoff",
-            "salary": 23,
-            "mc_ev": 13.9,
-            "mc_p90": 30.6,
-            "actualPoints": 2.9
-        },
-        {
-            "firstName": "Matt",
-            "lastName": "DeLuca",
-            "team": "WAT",
-            "opponent": "ARC",
-            "game_id": "2026-ev-23",
-            "position": "Goalie",
-            "salary": 36,
-            "mc_ev": 30.6,
-            "mc_p90": 63.8,
-            "actualPoints": 22.0
-        }
-    ],
     "MC_Ceil_90": [
-        {
-            "firstName": "Dylan",
-            "lastName": "Molloy",
-            "team": "RED",
-            "opponent": "CHA",
-            "game_id": "2026-ev-24",
-            "position": "Attack",
-            "salary": 44,
-            "mc_ev": 28.4,
-            "mc_p90": 76.7,
-            "actualPoints": 12.0
-        },
         {
             "firstName": "Mac",
             "lastName": "O'Keefe",
@@ -281,6 +183,18 @@
             "mc_ev": 23.3,
             "mc_p90": 61.1,
             "actualPoints": 20.0
+        },
+        {
+            "firstName": "Dylan",
+            "lastName": "Molloy",
+            "team": "RED",
+            "opponent": "CHA",
+            "game_id": "2026-ev-24",
+            "position": "Attack",
+            "salary": 44,
+            "mc_ev": 28.4,
+            "mc_p90": 76.7,
+            "actualPoints": 12.0
         },
         {
             "firstName": "Andrew",
@@ -369,18 +283,6 @@
             "actualPoints": 28.0
         },
         {
-            "firstName": "Zach",
-            "lastName": "Currier",
-            "team": "WAT",
-            "opponent": "ARC",
-            "game_id": "2026-ev-23",
-            "position": "Midfield",
-            "salary": 23,
-            "mc_ev": 17.6,
-            "mc_p90": 28.2,
-            "actualPoints": 6.8
-        },
-        {
             "firstName": "Andrew",
             "lastName": "McAdorey",
             "team": "RED",
@@ -391,6 +293,18 @@
             "mc_ev": 17.6,
             "mc_p90": 36.3,
             "actualPoints": -2.2
+        },
+        {
+            "firstName": "Zach",
+            "lastName": "Currier",
+            "team": "WAT",
+            "opponent": "ARC",
+            "game_id": "2026-ev-23",
+            "position": "Midfield",
+            "salary": 23,
+            "mc_ev": 17.6,
+            "mc_p90": 28.2,
+            "actualPoints": 6.8
         },
         {
             "firstName": "Ben",
@@ -602,6 +516,7 @@
         }
     ],
     "Core": [
+        "Brett Dobson",
         "Dylan Molloy",
         "Zach Currier",
         "Andrew McAdorey"
@@ -693,21 +608,6 @@
                 "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Michael Boehm (Attack, 35c)) to increase the joint probability of the entire lineup hitting the 160 target score."
             },
             {
-                "strategy": "MC_Win_180",
-                "strategyLabel": "MC Win 180",
-                "in": [
-                    "Joey Spallina",
-                    "Petey LaSalla",
-                    "Matt DeLuca"
-                ],
-                "out": [
-                    "Brett Dobson",
-                    "Brennan O'Neill",
-                    "Mike Sisselberger"
-                ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Joey Spallina (Attack, 24c), Petey LaSalla (Faceoff, 23c), Matt DeLuca (Goalie, 36c)) to increase the joint probability of the entire lineup hitting the 180 target score."
-            },
-            {
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
@@ -732,7 +632,7 @@
                 "position": "Attack",
                 "globalRate": 80,
                 "rivalCount": 2,
-                "description": "Critical Floor Lock: Owned by 80% of global leaders and 2 of your top 3 local rivals. High floor risk if omitted."
+                "description": "Critical Floor Lock: Owned by 80% of global leaders and 2 of your local rivals. High floor risk if omitted."
             },
             {
                 "firstName": "Pat",
@@ -740,7 +640,7 @@
                 "position": "Attack",
                 "globalRate": 60,
                 "rivalCount": 2,
-                "description": "Critical Floor Lock: Owned by 60% of global leaders and 2 of your top 3 local rivals. High floor risk if omitted."
+                "description": "Critical Floor Lock: Owned by 60% of global leaders and 2 of your local rivals. High floor risk if omitted."
             }
         ],
         "DifferentialLeverage": [
@@ -750,7 +650,7 @@
                 "position": "Attack",
                 "globalRate": 76,
                 "rivalCount": 0,
-                "description": "High Leverage Differential: Owned by 76% of global leaders but 0 of your top 3 local rivals. Start him to gain ground."
+                "description": "High Leverage Differential: Owned by 76% of global leaders but 0 of your local rivals. Start him to gain ground."
             }
         ],
         "Rivals": [

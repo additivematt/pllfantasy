@@ -173,8 +173,7 @@ def main():
     team_mc_ev = run_local_search(player_pool, sim_matrix, 'MC_EV', ev_baseline, args.budget, restarts=LOCAL_SEARCH_RESTARTS)
     print("Running local search for MC Win 160...")
     team_mc_win_160 = run_local_search(player_pool, sim_matrix, 'MC_Win_Prob', ev_baseline, args.budget, target_win_score=160.0, restarts=LOCAL_SEARCH_RESTARTS)
-    print("Running local search for MC Win 180...")
-    team_mc_win_180 = run_local_search(player_pool, sim_matrix, 'MC_Win_Prob', ev_baseline, args.budget, target_win_score=180.0, restarts=LOCAL_SEARCH_RESTARTS)
+
     print("Running local search for MC Ceil 90...")
     team_mc_ceil_90 = run_local_search(player_pool, sim_matrix, 'MC_Ceiling_90', ev_baseline, args.budget, restarts=LOCAL_SEARCH_RESTARTS)
     
@@ -258,7 +257,6 @@ def main():
     rosters = {
         "MC EV": team_mc_ev,
         "MC Win 160": team_mc_win_160,
-        "MC Win 180": team_mc_win_180,
         "MC Ceil 90": team_mc_ceil_90
     }
     if team_mc_consensus:

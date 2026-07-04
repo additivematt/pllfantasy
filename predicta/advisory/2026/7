@@ -157,85 +157,6 @@
             "mc_p90": 27.9
         }
     ],
-    "MC_Win_180": [
-        {
-            "firstName": "Blaze",
-            "lastName": "Riorden",
-            "team": "ASW",
-            "opponent": "WHP",
-            "game_id": "2026-ev-26",
-            "position": "Goalie",
-            "salary": 39,
-            "mc_ev": 30.9,
-            "mc_p90": 55.4
-        },
-        {
-            "firstName": "Dylan",
-            "lastName": "Molloy",
-            "team": "ASW",
-            "opponent": "WAT",
-            "game_id": "2026-ev-25",
-            "position": "Attack",
-            "salary": 36,
-            "mc_ev": 24.1,
-            "mc_p90": 49.4
-        },
-        {
-            "firstName": "Michael",
-            "lastName": "Sowers",
-            "team": "ASE",
-            "opponent": "RED",
-            "game_id": "2026-ev-25",
-            "position": "Attack",
-            "salary": 46,
-            "mc_ev": 27.7,
-            "mc_p90": 55.1
-        },
-        {
-            "firstName": "Andrew",
-            "lastName": "McAdorey",
-            "team": "ASW",
-            "opponent": "WAT",
-            "game_id": "2026-ev-25",
-            "position": "Midfield",
-            "salary": 24,
-            "mc_ev": 19.3,
-            "mc_p90": 42.4
-        },
-        {
-            "firstName": "Zach",
-            "lastName": "Currier",
-            "team": "ASE",
-            "opponent": "RED",
-            "game_id": "2026-ev-25",
-            "position": "Midfield",
-            "salary": 18,
-            "mc_ev": 16.1,
-            "mc_p90": 26.9
-        },
-        {
-            "firstName": "Ethan",
-            "lastName": "Rall",
-            "team": "ASE",
-            "opponent": "OUT",
-            "game_id": "2026-ev-28",
-            "position": "Defense",
-            "salary": 18,
-            "mc_ev": 15.1,
-            "mc_p90": 31.1
-        },
-        {
-            "firstName": "Connor",
-            "lastName": "Farrell",
-            "team": "ASE",
-            "opponent": "RED",
-            "game_id": "2026-ev-25",
-            "position": "Faceoff",
-            "salary": 12,
-            "mc_ev": 13.5,
-            "mc_p90": 33.1
-        }
-    ],
     "MC_Ceil_90": [
         {
             "firstName": "Blaze",
@@ -564,21 +485,6 @@
                 "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Rob Pannell (Attack, 29c)) to increase the joint probability of the entire lineup hitting the 160 target score."
             },
             {
-                "strategy": "MC_Win_180",
-                "strategyLabel": "MC Win 180",
-                "in": [
-                    "Blaze Riorden",
-                    "Dylan Molloy",
-                    "Connor Farrell"
-                ],
-                "out": [
-                    "Brett Dobson",
-                    "Chris Kavanagh",
-                    "TD Ierlan"
-                ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Blaze Riorden (Goalie, 39c), Dylan Molloy (Attack, 36c), Connor Farrell (Faceoff, 12c)) to increase the joint probability of the entire lineup hitting the 180 target score."
-            },
-            {
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
@@ -603,7 +509,7 @@
                 "position": "Faceoff",
                 "globalRate": 76,
                 "rivalCount": 2,
-                "description": "Critical Floor Lock: Owned by 76% of global leaders and 2 of your top 3 local rivals. High floor risk if omitted."
+                "description": "Critical Floor Lock: Owned by 76% of global leaders and 2 of your local rivals. High floor risk if omitted."
             },
             {
                 "firstName": "CJ",
@@ -611,7 +517,7 @@
                 "position": "Attack",
                 "globalRate": 60,
                 "rivalCount": 2,
-                "description": "Critical Floor Lock: Owned by 60% of global leaders and 2 of your top 3 local rivals. High floor risk if omitted."
+                "description": "Critical Floor Lock: Owned by 60% of global leaders and 2 of your local rivals. High floor risk if omitted."
             },
             {
                 "firstName": "Brett",
@@ -619,7 +525,7 @@
                 "position": "Defense",
                 "globalRate": 40,
                 "rivalCount": 2,
-                "description": "Critical Floor Lock: Owned by 40% of global leaders and 2 of your top 3 local rivals. High floor risk if omitted."
+                "description": "Critical Floor Lock: Owned by 40% of global leaders and 2 of your local rivals. High floor risk if omitted."
             }
         ],
         "DifferentialLeverage": [
@@ -629,7 +535,7 @@
                 "position": "Midfield",
                 "globalRate": 56,
                 "rivalCount": 0,
-                "description": "High Leverage Differential: Owned by 56% of global leaders but 0 of your top 3 local rivals. Start him to gain ground."
+                "description": "High Leverage Differential: Owned by 56% of global leaders but 0 of your local rivals. Start him to gain ground."
             }
         ],
         "Rivals": [

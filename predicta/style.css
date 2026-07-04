@@ -556,110 +556,117 @@ footer {
     background: rgba(0, 240, 255, 0.06);
 }
 
-/* ── Roster Insights styles ── */
-.insights-container {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-}
-
-.insight-card {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 0.75rem 1rem;
-    transition: all 0.2s ease;
+/* ── Recommended Roster Badge ── */
+.roster-rec-badge {
+    background: rgba(159, 122, 234, 0.05);
+    border: 1px solid rgba(159, 122, 234, 0.25);
     border-left: 3px solid var(--accent);
-}
-
-.insight-card:hover {
-    border-color: rgba(159, 122, 234, 0.4);
-    background: rgba(159, 122, 234, 0.02);
-}
-
-.insight-player-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.5rem;
-}
-
-.insight-player-name {
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: #f0f6fc;
-    cursor: pointer;
-    transition: color 0.15s ease;
-}
-
-.insight-player-name:hover {
-    color: var(--accent);
-}
-
-.insight-player-meta {
-    font-size: 0.7rem;
-    color: #8b949e;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-weight: 700;
-}
-
-.insight-bullets {
-    margin: 0;
-    padding-left: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
     font-size: 0.75rem;
-    color: #8b949e;
+    color: #cbd5e0;
+    margin-bottom: 1.25rem;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
     line-height: 1.4;
 }
-
-.insight-bullets li {
-    margin-bottom: 0.25rem;
+.roster-rec-badge .rec-icon {
+    font-size: 1rem;
+}
+.roster-rec-badge .rec-reason {
+    flex: 1;
 }
 
-.insight-bullets li strong {
+/* ── Roster Insights styles ── */
+.insights-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.75rem;
     color: #cbd5e0;
 }
 
-.insight-swap-card {
-    background: rgba(255, 255, 255, 0.01);
-    border: 1px dashed var(--border);
-    border-radius: 8px;
-    padding: 0.75rem 1rem;
-}
-
-.insight-swap-header {
-    font-size: 0.8rem;
+.insights-table th {
+    text-align: left;
+    color: #8b949e;
     font-weight: 700;
-    color: var(--accent);
-    margin-bottom: 0.4rem;
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--border);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    font-size: 0.65rem;
 }
 
-.insight-swap-players {
+.insights-table td {
+    padding: 0.6rem 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    vertical-align: top;
+}
+
+.insight-table-row {
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.insight-table-row:hover {
+    background: rgba(159, 122, 234, 0.08);
+}
+
+.insight-player-cell {
+    white-space: nowrap;
+    min-width: 100px;
+}
+
+.insight-player-name {
+    color: #f0f6fc;
+}
+
+.insight-player-meta {
+    font-size: 0.65rem;
+    color: #8b949e;
+}
+
+.insight-badges-cell {
+    min-width: 90px;
+    white-space: nowrap;
+}
+
+.insight-badge {
+    display: inline-block;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-size: 0.6rem;
+    font-weight: 800;
+    margin-right: 4px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.insight-badge.ev {
+    background: rgba(72, 187, 120, 0.12);
+    color: #48bb78;
+    border: 1px solid rgba(72, 187, 120, 0.2);
+}
+
+.insight-badge.win160 {
+    background: rgba(66, 153, 225, 0.12);
+    color: #63b3ed;
+    border: 1px solid rgba(66, 153, 225, 0.2);
+}
+
+.insight-badge.ceil {
+    background: rgba(159, 122, 234, 0.12);
+    color: #b794f4;
+    border: 1px solid rgba(159, 122, 234, 0.2);
+}
+
+.insight-rationale-cell {
     font-size: 0.72rem;
     color: #8b949e;
-    line-height: 1.4;
-    margin-bottom: 0.4rem;
+    line-height: 1.35;
 }
 
-.insight-swap-players .swap-in {
-    color: #48bb78; /* Green */
-    font-weight: 700;
-}
-
-.insight-swap-players .swap-out {
-    color: #e53e3e; /* Red */
-    font-weight: 700;
-}
-
-.insight-swap-rationale {
-    font-size: 0.75rem;
-    color: #8b949e;
-    line-height: 1.4;
-    margin: 0;
-    font-style: italic;
+.insight-rationale-cell strong {
+    color: #f0f6fc;
 }
 
 /* ── Tactical Advisory styles ── */

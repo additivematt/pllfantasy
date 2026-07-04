@@ -68,21 +68,21 @@
             "game_id": "2025-ev-20",
             "position": "Faceoff",
             "salary": 10,
-            "mc_ev": 16.2,
+            "mc_ev": 16.1,
             "mc_p90": 32.2,
             "actualPoints": 28.0
         },
         {
-            "firstName": "Piper",
-            "lastName": "Bond",
-            "team": "ARC",
-            "opponent": "ATL",
-            "game_id": "2025-ev-18",
+            "firstName": "Levi",
+            "lastName": "Verch",
+            "team": "CHA",
+            "opponent": "CAN",
+            "game_id": "2025-ev-20",
             "position": "Defense",
-            "salary": 7,
-            "mc_ev": 11.1,
-            "mc_p90": 20.2,
-            "actualPoints": 0.5
+            "salary": 3,
+            "mc_ev": 11.5,
+            "mc_p90": 32.6,
+            "actualPoints": -1.0
         }
     ],
     "MC_Win_160": [
@@ -154,7 +154,7 @@
             "game_id": "2025-ev-20",
             "position": "Faceoff",
             "salary": 10,
-            "mc_ev": 16.2,
+            "mc_ev": 16.1,
             "mc_p90": 32.2,
             "actualPoints": 28.0
         },
@@ -169,92 +169,6 @@
             "mc_ev": 11.1,
             "mc_p90": 20.2,
             "actualPoints": 0.5
-        }
-    ],
-    "MC_Win_180": [
-        {
-            "firstName": "Josh",
-            "lastName": "Zawada",
-            "team": "CHA",
-            "opponent": "CAN",
-            "game_id": "2025-ev-20",
-            "position": "Attack",
-            "salary": 6,
-            "mc_ev": 29.2,
-            "mc_p90": 55.0,
-            "actualPoints": 19.0
-        },
-        {
-            "firstName": "Kieran",
-            "lastName": "McArdle",
-            "team": "WAT",
-            "opponent": "RED",
-            "game_id": "2025-ev-19",
-            "position": "Attack",
-            "salary": 37,
-            "mc_ev": 28.6,
-            "mc_p90": 56.0,
-            "actualPoints": 25.0
-        },
-        {
-            "firstName": "Jack",
-            "lastName": "VanOverbeke",
-            "team": "OUT",
-            "opponent": "RED",
-            "game_id": "2025-ev-17",
-            "position": "Midfield",
-            "salary": 3,
-            "mc_ev": 15.4,
-            "mc_p90": 72.5,
-            "actualPoints": 10.0
-        },
-        {
-            "firstName": "Ross",
-            "lastName": "Scott",
-            "team": "CHA",
-            "opponent": "CAN",
-            "game_id": "2025-ev-20",
-            "position": "Midfield",
-            "salary": 15,
-            "mc_ev": 16.6,
-            "mc_p90": 62.2,
-            "actualPoints": 32.0
-        },
-        {
-            "firstName": "JT",
-            "lastName": "Giles-Harris",
-            "team": "OUT",
-            "opponent": "RED",
-            "game_id": "2025-ev-17",
-            "position": "Defense",
-            "salary": 3,
-            "mc_ev": 10.2,
-            "mc_p90": 23.0,
-            "actualPoints": 6.0
-        },
-        {
-            "firstName": "Justin",
-            "lastName": "Inacio",
-            "team": "CHA",
-            "opponent": "CAN",
-            "game_id": "2025-ev-20",
-            "position": "Faceoff",
-            "salary": 10,
-            "mc_ev": 16.2,
-            "mc_p90": 32.2,
-            "actualPoints": 28.0
-        },
-        {
-            "firstName": "Blaze",
-            "lastName": "Riorden",
-            "team": "CHA",
-            "opponent": "CAN",
-            "game_id": "2025-ev-20",
-            "position": "Goalie",
-            "salary": 43,
-            "mc_ev": 30.6,
-            "mc_p90": 57.5,
-            "actualPoints": 57.0
         }
     ],
     "MC_Ceil_90": [
@@ -290,8 +204,8 @@
             "game_id": "2025-ev-20",
             "position": "Attack",
             "salary": 21,
-            "mc_ev": 25.7,
-            "mc_p90": 57.6,
+            "mc_ev": 25.6,
+            "mc_p90": 50.4,
             "actualPoints": 3.0
         },
         {
@@ -326,7 +240,7 @@
             "game_id": "2025-ev-20",
             "position": "Faceoff",
             "salary": 10,
-            "mc_ev": 16.2,
+            "mc_ev": 16.1,
             "mc_p90": 32.2,
             "actualPoints": 28.0
         },
@@ -367,7 +281,7 @@
             "position": "A",
             "salary": 13,
             "mc_ev": 25.4,
-            "mc_p90": 51.9,
+            "mc_p90": 54.6,
             "actualPoints": 37.0
         },
         {
@@ -378,8 +292,8 @@
             "game_id": "2025-ev-17",
             "position": "M",
             "salary": 37,
-            "mc_ev": 15.2,
-            "mc_p90": 37.1,
+            "mc_ev": 14.9,
+            "mc_p90": 39.4,
             "actualPoints": 64.0
         },
         {
@@ -390,8 +304,8 @@
             "game_id": "2025-ev-17",
             "position": "M",
             "salary": 17,
-            "mc_ev": 15.3,
-            "mc_p90": 37.1,
+            "mc_ev": 15.2,
+            "mc_p90": 34.3,
             "actualPoints": 48.0
         },
         {
@@ -442,7 +356,7 @@
         "JT Giles-Harris"
     ],
     "RecommendedStrategy": "MC_EV",
-    "RecommendedReason": "Tight pricing / short slate (4 games, 35 cheap value players). Optimizing for floor is best.",
+    "RecommendedReason": "Tight pricing / short slate (4 games, 36 cheap value players). Optimizing for floor is best.",
     "Narrative": {
         "RecommendedRoster": [
             {
@@ -498,33 +412,30 @@
                 "bullets": [
                     "Hot Form: Averaging 4.2 fantasy pts over last 3 games (vs 2.5 season avg).",
                     "Opponent Weakness: CAN defense allows 13% extra fantasy points to Faceoff position.",
-                    "Salary Cap Enabler: Excellent cost efficiency, projecting 16.2 EV for just 10 coins."
+                    "Salary Cap Enabler: Excellent cost efficiency, projecting 16.1 EV for just 10 coins."
                 ]
             },
             {
-                "firstName": "Piper",
-                "lastName": "Bond",
+                "firstName": "Levi",
+                "lastName": "Verch",
                 "position": "Defense",
-                "salary": 7,
+                "salary": 3,
                 "bullets": [
-                    "Hot Form: Averaging 6.1 fantasy pts over last 3 games (vs 4.9 season avg).",
-                    "Opponent Weakness: ATL defense allows 40% extra fantasy points to SSDM position."
+                    "Hot Form: Averaging 4.7 fantasy pts over last 3 games (vs 2.2 season avg)."
                 ]
             }
         ],
         "Variants": [
             {
-                "strategy": "MC_Win_180",
-                "strategyLabel": "MC Win 180",
+                "strategy": "MC_Win_160",
+                "strategyLabel": "MC Win 160",
                 "in": [
-                    "Jack VanOverbeke",
-                    "JT Giles-Harris"
-                ],
-                "out": [
-                    "Zach Currier",
                     "Piper Bond"
                 ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Jack VanOverbeke (Midfield, 3c), JT Giles-Harris (Defense, 3c)) to increase the joint probability of the entire lineup hitting the 180 target score."
+                "out": [
+                    "Levi Verch"
+                ],
+                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Piper Bond (Defense, 7c)) to increase the joint probability of the entire lineup hitting the 160 target score."
             },
             {
                 "strategy": "MC_Ceil_90",
@@ -537,7 +448,7 @@
                 "out": [
                     "Kieran McArdle",
                     "Zach Currier",
-                    "Piper Bond"
+                    "Levi Verch"
                 ],
                 "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Adam Charalambides (Attack, 21c), Jack VanOverbeke (Midfield, 3c), JT Giles-Harris (Defense, 3c)) to maximize the team's 90th percentile ceiling (projecting up to 72.5 pts)."
             }

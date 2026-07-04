@@ -56,8 +56,8 @@
             "game_id": "2025-ev-38",
             "position": "Midfield",
             "salary": 14,
-            "mc_ev": 18.1,
-            "mc_p90": 41.2,
+            "mc_ev": 18.0,
+            "mc_p90": 42.5,
             "actualPoints": 36.0
         },
         {
@@ -80,8 +80,8 @@
             "game_id": "2025-ev-38",
             "position": "Defense",
             "salary": 3,
-            "mc_ev": 12.6,
-            "mc_p90": 47.5,
+            "mc_ev": 12.4,
+            "mc_p90": 37.8,
             "actualPoints": 10.0
         }
     ],
@@ -142,8 +142,8 @@
             "game_id": "2025-ev-38",
             "position": "Midfield",
             "salary": 14,
-            "mc_ev": 18.1,
-            "mc_p90": 41.2,
+            "mc_ev": 18.0,
+            "mc_p90": 42.5,
             "actualPoints": 36.0
         },
         {
@@ -166,94 +166,8 @@
             "game_id": "2025-ev-38",
             "position": "Defense",
             "salary": 3,
-            "mc_ev": 12.6,
-            "mc_p90": 47.5,
-            "actualPoints": 10.0
-        }
-    ],
-    "MC_Win_180": [
-        {
-            "firstName": "Matt",
-            "lastName": "DeLuca",
-            "team": "WAT",
-            "opponent": "CAN",
-            "game_id": "2025-ev-36",
-            "position": "Goalie",
-            "salary": 27,
-            "mc_ev": 30.5,
-            "mc_p90": 54.6,
-            "actualPoints": 15.0
-        },
-        {
-            "firstName": "Kieran",
-            "lastName": "McArdle",
-            "team": "WAT",
-            "opponent": "CAN",
-            "game_id": "2025-ev-36",
-            "position": "Attack",
-            "salary": 30,
-            "mc_ev": 27.5,
-            "mc_p90": 55.3,
-            "actualPoints": 19.0
-        },
-        {
-            "firstName": "CJ",
-            "lastName": "Kirst",
-            "team": "WAT",
-            "opponent": "CAN",
-            "game_id": "2025-ev-36",
-            "position": "Attack",
-            "salary": 4,
-            "mc_ev": 27.4,
-            "mc_p90": 56.8,
-            "actualPoints": 66.0
-        },
-        {
-            "firstName": "Dalton",
-            "lastName": "Young",
-            "team": "OUT",
-            "opponent": "ATL",
-            "game_id": "2025-ev-38",
-            "position": "Midfield",
-            "salary": 21,
-            "mc_ev": 18.8,
-            "mc_p90": 54.4,
-            "actualPoints": 10.0
-        },
-        {
-            "firstName": "Jared",
-            "lastName": "Bernhardt",
-            "team": "OUT",
-            "opponent": "ATL",
-            "game_id": "2025-ev-38",
-            "position": "Midfield",
-            "salary": 14,
-            "mc_ev": 18.1,
-            "mc_p90": 41.2,
-            "actualPoints": 36.0
-        },
-        {
-            "firstName": "Luke",
-            "lastName": "Wierman",
-            "team": "OUT",
-            "opponent": "CHA",
-            "game_id": "2025-ev-35",
-            "position": "Faceoff",
-            "salary": 17,
-            "mc_ev": 16.7,
-            "mc_p90": 31.5,
-            "actualPoints": 39.0
-        },
-        {
-            "firstName": "Max",
-            "lastName": "Krevsky",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2025-ev-38",
-            "position": "Defense",
-            "salary": 3,
-            "mc_ev": 12.6,
-            "mc_p90": 47.5,
+            "mc_ev": 12.4,
+            "mc_p90": 37.8,
             "actualPoints": 10.0
         }
     ],
@@ -271,6 +185,18 @@
             "actualPoints": 15.0
         },
         {
+            "firstName": "CJ",
+            "lastName": "Kirst",
+            "team": "WAT",
+            "opponent": "CAN",
+            "game_id": "2025-ev-36",
+            "position": "Attack",
+            "salary": 4,
+            "mc_ev": 28.2,
+            "mc_p90": 69.1,
+            "actualPoints": 66.0
+        },
+        {
             "firstName": "Kieran",
             "lastName": "McArdle",
             "team": "WAT",
@@ -281,18 +207,6 @@
             "mc_ev": 27.5,
             "mc_p90": 55.3,
             "actualPoints": 19.0
-        },
-        {
-            "firstName": "CJ",
-            "lastName": "Kirst",
-            "team": "WAT",
-            "opponent": "CAN",
-            "game_id": "2025-ev-36",
-            "position": "Attack",
-            "salary": 4,
-            "mc_ev": 27.4,
-            "mc_p90": 56.8,
-            "actualPoints": 66.0
         },
         {
             "firstName": "JJ",
@@ -331,16 +245,16 @@
             "actualPoints": 39.0
         },
         {
-            "firstName": "Max",
-            "lastName": "Krevsky",
-            "team": "ATL",
+            "firstName": "Levi",
+            "lastName": "Verch",
+            "team": "CHA",
             "opponent": "OUT",
-            "game_id": "2025-ev-38",
+            "game_id": "2025-ev-35",
             "position": "Defense",
-            "salary": 3,
-            "mc_ev": 12.6,
-            "mc_p90": 47.5,
-            "actualPoints": 10.0
+            "salary": 4,
+            "mc_ev": 11.7,
+            "mc_p90": 49.3,
+            "actualPoints": 4.0
         }
     ],
     "MC_Consensus": [],
@@ -366,8 +280,8 @@
             "game_id": "2025-ev-36",
             "position": "A",
             "salary": 4,
-            "mc_ev": 27.4,
-            "mc_p90": 56.8,
+            "mc_ev": 28.2,
+            "mc_p90": 69.1,
             "actualPoints": 66.0
         },
         {
@@ -390,8 +304,8 @@
             "game_id": "2025-ev-38",
             "position": "M",
             "salary": 10,
-            "mc_ev": 18.1,
-            "mc_p90": 41.2,
+            "mc_ev": 18.0,
+            "mc_p90": 42.5,
             "actualPoints": 36.0
         },
         {
@@ -433,14 +347,14 @@
     ],
     "Core": [
         "Dalton Young",
-        "Luke Wierman",
-        "Max Krevsky"
+        "Luke Wierman"
     ],
     "Sleepers": [
-        "CJ Kirst"
+        "CJ Kirst",
+        "Levi Verch"
     ],
     "RecommendedStrategy": "MC_EV",
-    "RecommendedReason": "Tight pricing / short slate (4 games, 39 cheap value players). Optimizing for floor is best.",
+    "RecommendedReason": "Tight pricing / short slate (4 games, 38 cheap value players). Optimizing for floor is best.",
     "Narrative": {
         "RecommendedRoster": [
             {
@@ -510,36 +424,23 @@
         ],
         "Variants": [
             {
-                "strategy": "MC_Win_180",
-                "strategyLabel": "MC Win 180",
-                "in": [
-                    "Matt DeLuca",
-                    "Kieran McArdle",
-                    "CJ Kirst"
-                ],
-                "out": [
-                    "Blaze Riorden",
-                    "Jeff Teat",
-                    "Connor Shellenberger"
-                ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Matt DeLuca (Goalie, 27c), Kieran McArdle (Attack, 30c), CJ Kirst (Attack, 4c)) to increase the joint probability of the entire lineup hitting the 180 target score."
-            },
-            {
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
                     "Matt DeLuca",
-                    "Kieran McArdle",
                     "CJ Kirst",
-                    "JJ Sillstrop"
+                    "Kieran McArdle",
+                    "JJ Sillstrop",
+                    "Levi Verch"
                 ],
                 "out": [
                     "Blaze Riorden",
                     "Jeff Teat",
                     "Connor Shellenberger",
-                    "Jared Bernhardt"
+                    "Jared Bernhardt",
+                    "Max Krevsky"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Matt DeLuca (Goalie, 27c), Kieran McArdle (Attack, 30c), CJ Kirst (Attack, 4c), JJ Sillstrop (Midfield, 11c)) to maximize the team's 90th percentile ceiling (projecting up to 84.7 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Matt DeLuca (Goalie, 27c), CJ Kirst (Attack, 4c), Kieran McArdle (Attack, 30c), JJ Sillstrop (Midfield, 11c), Levi Verch (Defense, 4c)) to maximize the team's 90th percentile ceiling (projecting up to 84.7 pts)."
             }
         ]
     },

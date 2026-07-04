@@ -111,92 +111,6 @@
             "actualPoints": 64.0
         },
         {
-            "firstName": "Aidan",
-            "lastName": "Carroll",
-            "team": "WHP",
-            "opponent": "WAT",
-            "game_id": "2025_quarterfinal_1",
-            "position": "Attack",
-            "salary": 27,
-            "mc_ev": 27.0,
-            "mc_p90": 0.0,
-            "actualPoints": 72.0
-        },
-        {
-            "firstName": "Zach",
-            "lastName": "Currier",
-            "team": "WAT",
-            "opponent": "WHP",
-            "game_id": "2025_quarterfinal_1",
-            "position": "Midfield",
-            "salary": 22,
-            "mc_ev": 20.0,
-            "mc_p90": 0.0,
-            "actualPoints": 12.6
-        },
-        {
-            "firstName": "Andrew",
-            "lastName": "McAdorey",
-            "team": "RED",
-            "opponent": "CHA",
-            "game_id": "2025_quarterfinal_2",
-            "position": "Midfield",
-            "salary": 32,
-            "mc_ev": 19.4,
-            "mc_p90": 0.0,
-            "actualPoints": 32.5
-        },
-        {
-            "firstName": "Joseph",
-            "lastName": "Nardella",
-            "team": "WHP",
-            "opponent": "WAT",
-            "game_id": "2025_quarterfinal_1",
-            "position": "Faceoff",
-            "salary": 26,
-            "mc_ev": 18.7,
-            "mc_p90": 0.0,
-            "actualPoints": 20.0
-        },
-        {
-            "firstName": "Christian",
-            "lastName": "Scarpello",
-            "team": "WAT",
-            "opponent": "WHP",
-            "game_id": "2025_quarterfinal_1",
-            "position": "Defense",
-            "salary": 5,
-            "mc_ev": 9.9,
-            "mc_p90": 0.0,
-            "actualPoints": 11.0
-        }
-    ],
-    "MC_Win_180": [
-        {
-            "firstName": "Blaze",
-            "lastName": "Riorden",
-            "team": "CHA",
-            "opponent": "RED",
-            "game_id": "2025_quarterfinal_2",
-            "position": "Goalie",
-            "salary": 46,
-            "mc_ev": 32.8,
-            "mc_p90": 0.0,
-            "actualPoints": 15.0
-        },
-        {
-            "firstName": "Kieran",
-            "lastName": "McArdle",
-            "team": "WAT",
-            "opponent": "WHP",
-            "game_id": "2025_quarterfinal_1",
-            "position": "Attack",
-            "salary": 38,
-            "mc_ev": 28.4,
-            "mc_p90": 0.0,
-            "actualPoints": 64.0
-        },
-        {
             "firstName": "CJ",
             "lastName": "Kirst",
             "team": "WAT",
@@ -271,18 +185,6 @@
             "actualPoints": 14.0
         },
         {
-            "firstName": "Kieran",
-            "lastName": "McArdle",
-            "team": "WAT",
-            "opponent": "WHP",
-            "game_id": "2025_quarterfinal_1",
-            "position": "Attack",
-            "salary": 38,
-            "mc_ev": 28.4,
-            "mc_p90": 0.0,
-            "actualPoints": 64.0
-        },
-        {
             "firstName": "CJ",
             "lastName": "Kirst",
             "team": "WAT",
@@ -293,6 +195,18 @@
             "mc_ev": 27.2,
             "mc_p90": 0.0,
             "actualPoints": 54.0
+        },
+        {
+            "firstName": "Kieran",
+            "lastName": "McArdle",
+            "team": "WAT",
+            "opponent": "WHP",
+            "game_id": "2025_quarterfinal_1",
+            "position": "Attack",
+            "salary": 38,
+            "mc_ev": 28.4,
+            "mc_p90": 0.0,
+            "actualPoints": 64.0
         },
         {
             "firstName": "Sergio",
@@ -514,23 +428,12 @@
                 "strategy": "MC_Win_160",
                 "strategyLabel": "MC Win 160",
                 "in": [
-                    "Aidan Carroll"
-                ],
-                "out": [
-                    "Ryder Garnsey"
-                ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Aidan Carroll (Attack, 27c)) to increase the joint probability of the entire lineup hitting the 160 target score."
-            },
-            {
-                "strategy": "MC_Win_180",
-                "strategyLabel": "MC Win 180",
-                "in": [
                     "CJ Kirst"
                 ],
                 "out": [
                     "Ryder Garnsey"
                 ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like CJ Kirst (Attack, 6c)) to increase the joint probability of the entire lineup hitting the 180 target score."
+                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like CJ Kirst (Attack, 6c)) to increase the joint probability of the entire lineup hitting the 160 target score."
             },
             {
                 "strategy": "MC_Ceil_90",
