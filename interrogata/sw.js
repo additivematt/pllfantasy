@@ -1,5 +1,5 @@
 const CACHE_VERSION = 'interrogata-v3';
-const DATA_CACHE = 'interrogata-data-v1';
+const DATA_CACHE = 'interrogata-data-v2';
 
 // App shell assets — cache on install, serve cache-first
 const APP_SHELL = [
