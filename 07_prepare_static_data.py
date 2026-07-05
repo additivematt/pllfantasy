@@ -450,7 +450,8 @@ def main():
                     f_c = re.sub(r"[^a-zA-Z]", "", first)
                     l_c = re.sub(r"[^a-zA-Z]", "", last)
                     for (f2, l2, g2), pts in actuals_lookup.items():
-                        if g2 == game_id and re.sub(r"[^a-zA-Z]", "", f2) == f_c and re.sub(r"[^a-zA-Z]", "", l2) == l_c:
+                        is_game_match = (g2 == game_id) or (year == 2026 and week == 7)
+                        if is_game_match and re.sub(r"[^a-zA-Z]", "", f2) == f_c and re.sub(r"[^a-zA-Z]", "", l2) == l_c:
                             return pts
                     return None
                 
@@ -489,7 +490,8 @@ def main():
                             f_c = re.sub(r"[^a-zA-Z]", "", first)
                             l_c = re.sub(r"[^a-zA-Z]", "", last)
                             for (f2, l2, g2), p_pts in actuals_lookup.items():
-                                if g2 == game_id and re.sub(r"[^a-zA-Z]", "", f2) == f_c and re.sub(r"[^a-zA-Z]", "", l2) == l_c:
+                                is_game_match = (g2 == game_id) or (year == 2026 and week == 7)
+                                if is_game_match and re.sub(r"[^a-zA-Z]", "", f2) == f_c and re.sub(r"[^a-zA-Z]", "", l2) == l_c:
                                     pts = p_pts
                                     break
                         if pts is not None:
@@ -760,7 +762,17 @@ def main():
                         fname = p["firstName"]
                         lname = p["lastName"]
                         g_id = p["game_id"]
+                        
                         pts = actuals_lookup.get((fname, lname, g_id))
+                        if pts is None:
+                            f_c = re.sub(r"[^a-zA-Z]", "", fname)
+                            l_c = re.sub(r"[^a-zA-Z]", "", lname)
+                            for (f2, l2, g2), p_pts in actuals_lookup.items():
+                                is_game_match = (g2 == g_id) or (year == 2026 and week == 7)
+                                if is_game_match and re.sub(r"[^a-zA-Z]", "", f2) == f_c and re.sub(r"[^a-zA-Z]", "", l2) == l_c:
+                                    pts = p_pts
+                                    break
+
                         res = {
                             "firstName": fname,
                             "lastName": lname,
