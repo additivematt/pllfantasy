@@ -456,6 +456,9 @@ def main():
                 
                 df["actualPoints"] = df.apply(get_actual_pts, axis=1)
 
+                if year == 2026 and week == 7:
+                    df["salary"] = 25
+
                 records_json = df.to_json(orient='records')
                 records = json.loads(records_json)
             except Exception as e:

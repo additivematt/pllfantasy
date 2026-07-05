@@ -173,18 +173,6 @@
     ],
     "MC_Ceil_90": [
         {
-            "firstName": "Dylan",
-            "lastName": "Molloy",
-            "team": "ASW",
-            "opponent": "WAT",
-            "game_id": "2026-ev-25",
-            "position": "Attack",
-            "salary": 25,
-            "mc_ev": 24.1,
-            "mc_p90": 49.4,
-            "mc_p10": 3.1
-        },
-        {
             "firstName": "Logan",
             "lastName": "Wisnauskas",
             "team": "ASW",
@@ -197,16 +185,16 @@
             "mc_p10": 3.2
         },
         {
-            "firstName": "Bryan",
-            "lastName": "Costabile",
-            "team": "ASE",
-            "opponent": "ARC",
-            "game_id": "2026-ev-27",
-            "position": "Midfield",
+            "firstName": "Dylan",
+            "lastName": "Molloy",
+            "team": "ASW",
+            "opponent": "WAT",
+            "game_id": "2026-ev-25",
+            "position": "Attack",
             "salary": 25,
-            "mc_ev": 15.1,
-            "mc_p90": 35.2,
-            "mc_p10": 4.1
+            "mc_ev": 24.1,
+            "mc_p90": 49.4,
+            "mc_p10": 3.1
         },
         {
             "firstName": "Andrew",
@@ -219,6 +207,18 @@
             "mc_ev": 19.3,
             "mc_p90": 42.4,
             "mc_p10": 0.0
+        },
+        {
+            "firstName": "Bryan",
+            "lastName": "Costabile",
+            "team": "ASE",
+            "opponent": "ARC",
+            "game_id": "2026-ev-27",
+            "position": "Midfield",
+            "salary": 25,
+            "mc_ev": 15.1,
+            "mc_p90": 35.2,
+            "mc_p10": 4.1
         },
         {
             "firstName": "Ethan",
@@ -614,8 +614,8 @@
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
-                    "Dylan Molloy",
                     "Logan Wisnauskas",
+                    "Dylan Molloy",
                     "Bryan Costabile",
                     "Connor Farrell",
                     "Blaze Riorden"
@@ -627,7 +627,7 @@
                     "Zach Currier",
                     "TD Ierlan"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Dylan Molloy (Attack, 25c), Logan Wisnauskas (Attack, 25c), Bryan Costabile (Midfield, 25c), Connor Farrell (Faceoff, 25c), Blaze Riorden (Goalie, 25c)) to maximize the team's 90th percentile ceiling (projecting up to 55.4 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Logan Wisnauskas (Attack, 25c), Dylan Molloy (Attack, 25c), Bryan Costabile (Midfield, 25c), Connor Farrell (Faceoff, 25c), Blaze Riorden (Goalie, 25c)) to maximize the team's 90th percentile ceiling (projecting up to 55.4 pts)."
             }
         ]
     },
