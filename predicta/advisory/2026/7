@@ -1,9 +1,434 @@
 {
-    "MC_EV": [],
-    "MC_Win_160": [],
-    "MC_Ceil_90": [],
-    "MC_Consensus": [],
-    "MC_Differential": [],
+    "MC_EV": [
+        {
+            "firstName": "Brett",
+            "lastName": "Dobson",
+            "team": "ASW",
+            "opponent": "ATL",
+            "game_id": "2026-ev-27",
+            "position": "Goalie",
+            "salary": 25,
+            "mc_ev": 31.2,
+            "mc_p90": 41.8,
+            "mc_p10": 23.6
+        },
+        {
+            "firstName": "Michael",
+            "lastName": "Sowers",
+            "team": "ASE",
+            "opponent": "RED",
+            "game_id": "2026-ev-25",
+            "position": "Attack",
+            "salary": 25,
+            "mc_ev": 27.7,
+            "mc_p90": 55.1,
+            "mc_p10": 11.6
+        },
+        {
+            "firstName": "Brennan",
+            "lastName": "O'Neill",
+            "team": "ASW",
+            "opponent": "CAN",
+            "game_id": "2026-ev-28",
+            "position": "Attack",
+            "salary": 25,
+            "mc_ev": 25.2,
+            "mc_p90": 47.4,
+            "mc_p10": 10.4
+        },
+        {
+            "firstName": "Andrew",
+            "lastName": "McAdorey",
+            "team": "ASW",
+            "opponent": "WAT",
+            "game_id": "2026-ev-25",
+            "position": "Midfield",
+            "salary": 25,
+            "mc_ev": 19.3,
+            "mc_p90": 42.4,
+            "mc_p10": 0.0
+        },
+        {
+            "firstName": "Zach",
+            "lastName": "Currier",
+            "team": "ASE",
+            "opponent": "RED",
+            "game_id": "2026-ev-25",
+            "position": "Midfield",
+            "salary": 25,
+            "mc_ev": 16.1,
+            "mc_p90": 26.9,
+            "mc_p10": 3.4
+        },
+        {
+            "firstName": "Ethan",
+            "lastName": "Rall",
+            "team": "ASE",
+            "opponent": "OUT",
+            "game_id": "2026-ev-28",
+            "position": "Defense",
+            "salary": 25,
+            "mc_ev": 15.1,
+            "mc_p90": 31.1,
+            "mc_p10": 0.0
+        },
+        {
+            "firstName": "TD",
+            "lastName": "Ierlan",
+            "team": "ASW",
+            "opponent": "WAT",
+            "game_id": "2026-ev-25",
+            "position": "Faceoff",
+            "salary": 25,
+            "mc_ev": 14.2,
+            "mc_p90": 27.9,
+            "mc_p10": 4.5
+        }
+    ],
+    "MC_Win_160": [
+        {
+            "firstName": "Brett",
+            "lastName": "Dobson",
+            "team": "ASW",
+            "opponent": "ATL",
+            "game_id": "2026-ev-27",
+            "position": "Goalie",
+            "salary": 25,
+            "mc_ev": 31.2,
+            "mc_p90": 41.8,
+            "mc_p10": 23.6
+        },
+        {
+            "firstName": "Michael",
+            "lastName": "Sowers",
+            "team": "ASE",
+            "opponent": "RED",
+            "game_id": "2026-ev-25",
+            "position": "Attack",
+            "salary": 25,
+            "mc_ev": 27.7,
+            "mc_p90": 55.1,
+            "mc_p10": 11.6
+        },
+        {
+            "firstName": "Rob",
+            "lastName": "Pannell",
+            "team": "ASE",
+            "opponent": "CHA",
+            "game_id": "2026-ev-26",
+            "position": "Attack",
+            "salary": 25,
+            "mc_ev": 24.7,
+            "mc_p90": 55.1,
+            "mc_p10": 0.0
+        },
+        {
+            "firstName": "Andrew",
+            "lastName": "McAdorey",
+            "team": "ASW",
+            "opponent": "WAT",
+            "game_id": "2026-ev-25",
+            "position": "Midfield",
+            "salary": 25,
+            "mc_ev": 19.3,
+            "mc_p90": 42.4,
+            "mc_p10": 0.0
+        },
+        {
+            "firstName": "Zach",
+            "lastName": "Currier",
+            "team": "ASE",
+            "opponent": "RED",
+            "game_id": "2026-ev-25",
+            "position": "Midfield",
+            "salary": 25,
+            "mc_ev": 16.1,
+            "mc_p90": 26.9,
+            "mc_p10": 3.4
+        },
+        {
+            "firstName": "Ethan",
+            "lastName": "Rall",
+            "team": "ASE",
+            "opponent": "OUT",
+            "game_id": "2026-ev-28",
+            "position": "Defense",
+            "salary": 25,
+            "mc_ev": 15.1,
+            "mc_p90": 31.1,
+            "mc_p10": 0.0
+        },
+        {
+            "firstName": "TD",
+            "lastName": "Ierlan",
+            "team": "ASW",
+            "opponent": "WAT",
+            "game_id": "2026-ev-25",
+            "position": "Faceoff",
+            "salary": 25,
+            "mc_ev": 14.2,
+            "mc_p90": 27.9,
+            "mc_p10": 4.5
+        }
+    ],
+    "MC_Ceil_90": [
+        {
+            "firstName": "Dylan",
+            "lastName": "Molloy",
+            "team": "ASW",
+            "opponent": "WAT",
+            "game_id": "2026-ev-25",
+            "position": "Attack",
+            "salary": 25,
+            "mc_ev": 24.1,
+            "mc_p90": 49.4,
+            "mc_p10": 3.1
+        },
+        {
+            "firstName": "Logan",
+            "lastName": "Wisnauskas",
+            "team": "ASW",
+            "opponent": "CAN",
+            "game_id": "2026-ev-28",
+            "position": "Attack",
+            "salary": 25,
+            "mc_ev": 24.7,
+            "mc_p90": 47.0,
+            "mc_p10": 3.2
+        },
+        {
+            "firstName": "Bryan",
+            "lastName": "Costabile",
+            "team": "ASE",
+            "opponent": "ARC",
+            "game_id": "2026-ev-27",
+            "position": "Midfield",
+            "salary": 25,
+            "mc_ev": 15.1,
+            "mc_p90": 35.2,
+            "mc_p10": 4.1
+        },
+        {
+            "firstName": "Andrew",
+            "lastName": "McAdorey",
+            "team": "ASW",
+            "opponent": "WAT",
+            "game_id": "2026-ev-25",
+            "position": "Midfield",
+            "salary": 25,
+            "mc_ev": 19.3,
+            "mc_p90": 42.4,
+            "mc_p10": 0.0
+        },
+        {
+            "firstName": "Ethan",
+            "lastName": "Rall",
+            "team": "ASE",
+            "opponent": "OUT",
+            "game_id": "2026-ev-28",
+            "position": "Defense",
+            "salary": 25,
+            "mc_ev": 15.1,
+            "mc_p90": 31.1,
+            "mc_p10": 0.0
+        },
+        {
+            "firstName": "Connor",
+            "lastName": "Farrell",
+            "team": "ASE",
+            "opponent": "RED",
+            "game_id": "2026-ev-25",
+            "position": "Faceoff",
+            "salary": 25,
+            "mc_ev": 13.5,
+            "mc_p90": 33.1,
+            "mc_p10": 0.9
+        },
+        {
+            "firstName": "Blaze",
+            "lastName": "Riorden",
+            "team": "ASW",
+            "opponent": "WHP",
+            "game_id": "2026-ev-26",
+            "position": "Goalie",
+            "salary": 25,
+            "mc_ev": 30.9,
+            "mc_p90": 55.4,
+            "mc_p10": 13.9
+        }
+    ],
+    "MC_Consensus": [
+        {
+            "firstName": "Liam",
+            "lastName": "Entenmann",
+            "team": "ASE",
+            "opponent": "ARC",
+            "game_id": "2026-ev-27",
+            "position": "Goalie",
+            "salary": 25,
+            "mc_ev": 30.1,
+            "mc_p90": 48.7,
+            "mc_p10": 8.7
+        },
+        {
+            "firstName": "CJ",
+            "lastName": "Kirst",
+            "team": "ASE",
+            "opponent": "RED",
+            "game_id": "2026-ev-25",
+            "position": "Attack",
+            "salary": 25,
+            "mc_ev": 24.6,
+            "mc_p90": 31.4,
+            "mc_p10": 3.3
+        },
+        {
+            "firstName": "Dylan",
+            "lastName": "Molloy",
+            "team": "ASW",
+            "opponent": "WAT",
+            "game_id": "2026-ev-25",
+            "position": "Attack",
+            "salary": 25,
+            "mc_ev": 24.1,
+            "mc_p90": 49.4,
+            "mc_p10": 3.1
+        },
+        {
+            "firstName": "Bryan",
+            "lastName": "Costabile",
+            "team": "ASE",
+            "opponent": "ARC",
+            "game_id": "2026-ev-27",
+            "position": "Midfield",
+            "salary": 25,
+            "mc_ev": 15.1,
+            "mc_p90": 35.2,
+            "mc_p10": 4.1
+        },
+        {
+            "firstName": "TD",
+            "lastName": "Ierlan",
+            "team": "ASW",
+            "opponent": "WAT",
+            "game_id": "2026-ev-25",
+            "position": "Faceoff",
+            "salary": 25,
+            "mc_ev": 14.2,
+            "mc_p90": 27.9,
+            "mc_p10": 4.5
+        },
+        {
+            "firstName": "Chad",
+            "lastName": "Palumbo",
+            "team": "ASW",
+            "opponent": "WHP",
+            "game_id": "2026-ev-26",
+            "position": "Midfield",
+            "salary": 25,
+            "mc_ev": 13.8,
+            "mc_p90": 32.2,
+            "mc_p10": 0.0
+        },
+        {
+            "firstName": "Brett",
+            "lastName": "Makar",
+            "team": "ASE",
+            "opponent": "ARC",
+            "game_id": "2026-ev-27",
+            "position": "Defense",
+            "salary": 25,
+            "mc_ev": 11.8,
+            "mc_p90": 20.9,
+            "mc_p10": 1.1
+        }
+    ],
+    "MC_Differential": [
+        {
+            "firstName": "Liam",
+            "lastName": "Entenmann",
+            "team": "ASE",
+            "opponent": "ARC",
+            "game_id": "2026-ev-27",
+            "position": "Goalie",
+            "salary": 25,
+            "mc_ev": 30.1,
+            "mc_p90": 48.7,
+            "mc_p10": 8.7
+        },
+        {
+            "firstName": "Michael",
+            "lastName": "Sowers",
+            "team": "ASE",
+            "opponent": "RED",
+            "game_id": "2026-ev-25",
+            "position": "Attack",
+            "salary": 25,
+            "mc_ev": 27.7,
+            "mc_p90": 55.1,
+            "mc_p10": 11.6
+        },
+        {
+            "firstName": "CJ",
+            "lastName": "Kirst",
+            "team": "ASE",
+            "opponent": "RED",
+            "game_id": "2026-ev-25",
+            "position": "Attack",
+            "salary": 25,
+            "mc_ev": 24.6,
+            "mc_p90": 31.4,
+            "mc_p10": 3.3
+        },
+        {
+            "firstName": "Andrew",
+            "lastName": "McAdorey",
+            "team": "ASW",
+            "opponent": "WAT",
+            "game_id": "2026-ev-25",
+            "position": "Midfield",
+            "salary": 25,
+            "mc_ev": 19.3,
+            "mc_p90": 42.4,
+            "mc_p10": 0.0
+        },
+        {
+            "firstName": "Ross",
+            "lastName": "Scott",
+            "team": "ASW",
+            "opponent": "WHP",
+            "game_id": "2026-ev-26",
+            "position": "Midfield",
+            "salary": 25,
+            "mc_ev": 15.7,
+            "mc_p90": 30.7,
+            "mc_p10": 0.0
+        },
+        {
+            "firstName": "Ethan",
+            "lastName": "Rall",
+            "team": "ASE",
+            "opponent": "OUT",
+            "game_id": "2026-ev-28",
+            "position": "Defense",
+            "salary": 25,
+            "mc_ev": 15.1,
+            "mc_p90": 31.1,
+            "mc_p10": 0.0
+        },
+        {
+            "firstName": "TD",
+            "lastName": "Ierlan",
+            "team": "ASW",
+            "opponent": "WAT",
+            "game_id": "2026-ev-25",
+            "position": "Faceoff",
+            "salary": 25,
+            "mc_ev": 14.2,
+            "mc_p90": 27.9,
+            "mc_p10": 4.5
+        }
+    ],
     "Coulda": [
         {
             "firstName": "Logan",
@@ -91,19 +516,120 @@
             "game_id": "2026_all_star_game",
             "position": "G",
             "salary": 25,
-            "mc_ev": 0.0,
-            "mc_p90": 0.0,
-            "mc_p10": 0.0,
+            "mc_ev": 30.1,
+            "mc_p90": 48.7,
+            "mc_p10": 8.7,
             "actualPoints": 56.0
         }
     ],
-    "Core": [],
+    "Core": [
+        "Andrew McAdorey",
+        "Ethan Rall"
+    ],
     "Sleepers": [],
     "RecommendedStrategy": "MC_EV",
     "RecommendedReason": "Tight pricing / short slate (4 games, 0 cheap value players). Optimizing for floor is best.",
     "Narrative": {
-        "RecommendedRoster": [],
-        "Variants": []
+        "RecommendedRoster": [
+            {
+                "firstName": "Brett",
+                "lastName": "Dobson",
+                "position": "Goalie",
+                "salary": 25,
+                "bullets": [
+                    "Hot Form: Averaging 46.0 fantasy pts over last 3 games (vs 33.2 season avg)."
+                ]
+            },
+            {
+                "firstName": "Michael",
+                "lastName": "Sowers",
+                "position": "Attack",
+                "salary": 25,
+                "bullets": [
+                    "Opponent Weakness: RED defense allows 19% extra fantasy points to Attack position."
+                ]
+            },
+            {
+                "firstName": "Brennan",
+                "lastName": "O'Neill",
+                "position": "Attack",
+                "salary": 25,
+                "bullets": [
+                    "Hot Form: Averaging 32.7 fantasy pts over last 3 games (vs 28.0 season avg).",
+                    "Opponent Weakness: CAN defense allows 16% extra fantasy points to Attack position."
+                ]
+            },
+            {
+                "firstName": "Andrew",
+                "lastName": "McAdorey",
+                "position": "Midfield",
+                "salary": 25,
+                "bullets": [
+                    "Consistent Pick: Selected for steady expected floor (19.3 EV) and reliable role."
+                ]
+            },
+            {
+                "firstName": "Zach",
+                "lastName": "Currier",
+                "position": "Midfield",
+                "salary": 25,
+                "bullets": [
+                    "Matchup Specialist: Historically performs well against RED (1.19x average scoring rate).",
+                    "Opponent Weakness: RED defense allows 21% extra fantasy points to Midfield position."
+                ]
+            },
+            {
+                "firstName": "Ethan",
+                "lastName": "Rall",
+                "position": "Defense",
+                "salary": 25,
+                "bullets": [
+                    "Consistent Pick: Selected for steady expected floor (15.1 EV) and reliable role."
+                ]
+            },
+            {
+                "firstName": "TD",
+                "lastName": "Ierlan",
+                "position": "Faceoff",
+                "salary": 25,
+                "bullets": [
+                    "Hot Form: Averaging 35.0 fantasy pts over last 3 games (vs 17.9 season avg).",
+                    "Opponent Weakness: WAT defense allows 57% extra fantasy points to Faceoff position."
+                ]
+            }
+        ],
+        "Variants": [
+            {
+                "strategy": "MC_Win_160",
+                "strategyLabel": "MC Win 160",
+                "in": [
+                    "Rob Pannell"
+                ],
+                "out": [
+                    "Brennan O'Neill"
+                ],
+                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Rob Pannell (Attack, 25c)) to increase the joint probability of the entire lineup hitting the 160 target score."
+            },
+            {
+                "strategy": "MC_Ceil_90",
+                "strategyLabel": "MC Ceil 90",
+                "in": [
+                    "Dylan Molloy",
+                    "Logan Wisnauskas",
+                    "Bryan Costabile",
+                    "Connor Farrell",
+                    "Blaze Riorden"
+                ],
+                "out": [
+                    "Brett Dobson",
+                    "Michael Sowers",
+                    "Brennan O'Neill",
+                    "Zach Currier",
+                    "TD Ierlan"
+                ],
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Dylan Molloy (Attack, 25c), Logan Wisnauskas (Attack, 25c), Bryan Costabile (Midfield, 25c), Connor Farrell (Faceoff, 25c), Blaze Riorden (Goalie, 25c)) to maximize the team's 90th percentile ceiling (projecting up to 55.4 pts)."
+            }
+        ]
     },
     "TacticalAdvice": {
         "FloorLocks": [

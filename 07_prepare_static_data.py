@@ -573,8 +573,9 @@ def main():
                                 p_f2p = p.get("f2p", {})
                                 pts = p_f2p.get("totalPoints") if p_f2p.get("totalPoints") is not None else 0.0
                                 
-                                # Goalie DNP check: saves == 0 and ga == 0 and pts == 0 (only if games have been played/actuals are recorded)
-                                if (pos == "G" or pos == "Goalie") and len(actuals_lookup) > 0:
+                                # Goalie DNP check: saves == 0 and ga == 0 and pts == 0 (only if the game is completed)
+                                is_comp_game = p.get("event", {}).get("eventStatus", 3) in [2, 3]
+                                if (pos == "G" or pos == "Goalie") and is_comp_game:
                                     saves = p_stats.get("saves", 0)
                                     ga = p_stats.get("goalsAgainst", 0)
                                     if saves == 0 and ga == 0 and pts == 0:
