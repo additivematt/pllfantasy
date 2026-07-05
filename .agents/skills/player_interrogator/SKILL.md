@@ -1,14 +1,25 @@
+---
+name: pll-player-interrogator
+description: Documentation for the Player Interrogator UI, including DNP tracking, Chart.js trend charts, position-specific logs, and offline Service Worker caching.
+---
+
 # Player Stats Interrogator (interrogata)
 
+## Purpose
+
+This skill documents the Player Stats Interrogator analytics UI, a league-wide performance analytics dashboard for the PLL Fantasy toolset. Use this when modifying or troubleshooting the Interrogator dashboard.
+
 > [!NOTE]
-> **Design System**: All Interrogator UI development must follow the [styla.md](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/styla.md) guide (Electric Purple aesthetic).
+> **Design System**: All Interrogator UI development must follow the [pll-design-system](../design_system/SKILL.md) guide (Electric Purple aesthetic).
 > **Hosted Address (Local)**: [http://localhost:8000/interrogata/](http://localhost:8000/interrogata/)
 > **Hosted Address (Public)**: [https://additivematt.github.io/pllfantasy/interrogata/](https://additivematt.github.io/pllfantasy/interrogata/) (GitHub Pages secure origin)
 
-A league-wide performance analytics dashboard for the PLL Fantasy toolset, designed to provide deep-dive insights into player trends and historical matchup context across all teams.
+---
 
 ## Core Objective
 To enable data-driven fantasy decisions by visualizing a player's career trajectory and their specific historical effectiveness against upcoming opponents.
+
+---
 
 ## System Architecture
 
@@ -34,6 +45,8 @@ To enable data-driven fantasy decisions by visualizing a player's career traject
 - **`all_players_stats.json`**: **Stale-While-Revalidate** — the cached copy is served immediately for instant load; a background fetch silently updates the cache when online. A green **"DATA UPDATED"** status pill appears in the header when fresh data has been downloaded.
 - **Offline Indicator**: An amber **"⚡ OFFLINE — using cached data"** pill is shown in the header whenever the device has no connection to the host server.
 - **Cache Refresh**: When fresh stats are generated on your PC, running the static build script updates the files inside `interrogata/`. Once uploaded to GitHub, opening the page on your mobile device refreshes its local offline cache automatically.
+
+---
 
 ## Key Features & Logic
 
@@ -67,6 +80,8 @@ To enable data-driven fantasy decisions by visualizing a player's career traject
   - **Other Positions**: Displays standard metrics including Goals (G), Assists (A), Caused Turnovers (CT), Turnovers (TO), Ground Balls (GB), and Touches (T).
 - **F2P Coin Cost**: A dedicated "Cost" column displays the player's F2P coin salary (numerical value only) in the game log, falling back to a dash (`-`) for historical seasons prior to F2P salary availability.
 
+---
+
 ## Data Schema (`all_players_stats.json`)
 ```json
 {
@@ -79,7 +94,7 @@ To enable data-driven fantasy decisions by visualizing a player's career traject
 }
 ```
 
-## Future Expansion
+---
 
 > [!NOTE]
-> All improvement ideas are tracked centrally in [improva.md](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/improva.md). Do not add new improvement ideas to this file.
+> All improvement ideas are tracked centrally in the [pll-improvements-and-baselines](../improvements_and_baselines/SKILL.md) skill. Do not add new improvement ideas to this file.

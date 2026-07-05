@@ -6,7 +6,7 @@ import numpy as np
 import scipy.stats as stats
 import re
 from utils import assign_position_group, assign_sub_position, calc_fantasy
-from config import LAMBDA_RECENCY
+from config import LAMBDA_RECENCY, MC_POOL_BLENDING_ENABLED, MC_POOL_BLENDING_K
 
 # ── Team Mapping ─────────────────────────────────────────────────────────────
 TEAM_NAME_TO_ID = {
@@ -281,6 +281,36 @@ def main():
     cdfs = []
     multipliers = []
     
+    # Pre-compute position-wide normalized pools and recency weights to avoid redundant calculations
+    pos_pool_info = {}
+    if MC_POOL_BLENDING_ENABLED:
+        for pos in ["Attack", "Midfield", "Defense", "Faceoff", "Goalie"]:
+            pos_hist = position_histories.get(pos, [(8.0, args.year, args.week)])
+            sorted_pos_hist = sorted(pos_hist, key=lambda x: x[0])
+            
+            pos_pool = [x[0] for x in sorted_pos_hist]
+            pos_weights = []
+            for pt, yr, w in sorted_pos_hist:
+                if yr is None or w is None:
+                    weeks_ago = 10
+                else:
+                    weeks_ago = (args.year * 22 + args.week) - (yr * 22 + w)
+                    weeks_ago = max(0, weeks_ago)
+                weight = np.exp(-LAMBDA_RECENCY * weeks_ago)
+                pos_weights.append(weight)
+            
+            pos_weights_arr = np.array(pos_weights)
+            pos_weights_sum = np.sum(pos_weights_arr)
+            if pos_weights_sum > 0:
+                pos_weights_normalized = pos_weights_arr / pos_weights_sum
+            else:
+                pos_weights_normalized = np.ones(len(pos_pool)) / len(pos_pool)
+                
+            pos_pool_info[pos] = {
+                "pool": np.array(pos_pool),
+                "weights": pos_weights_normalized
+            }
+            
     for idx, r in df_preds.iterrows():
         first_c = clean_name(r["firstName"])
         last_c = clean_name(r["lastName"])
@@ -288,40 +318,113 @@ def main():
         
         hist = player_histories.get((first_c, last_c), [])
         
-        # Determine base pool and historical average
-        if len(hist) >= 5:
-            raw_hist = hist
-        else:
-            # Fallback to position group
-            raw_hist = position_histories.get(pos, [(8.0, args.year, args.week)])
+        if MC_POOL_BLENDING_ENABLED:
+            n_games = len(hist)
+            alpha = min(1.0, n_games / MC_POOL_BLENDING_K)
             
-        # Sort history by points ascending to support CDF
-        raw_hist = sorted(raw_hist, key=lambda x: x[0])
-        
-        pool = []
-        weights = []
-        for pt, yr, w in raw_hist:
-            if yr is None or w is None:
-                weeks_ago = 10
-            else:
-                # 14 regular weeks + 8 offseason weeks = 22 weeks per year
-                weeks_ago = (args.year * 22 + args.week) - (yr * 22 + w)
-                weeks_ago = max(0, weeks_ago)
+            if alpha == 0:
+                # 100% position pool
+                p_info = pos_pool_info.get(pos, {"pool": np.array([8.0]), "weights": np.array([1.0])})
+                pool = p_info["pool"]
+                weights = p_info["weights"]
+            elif alpha == 1.0:
+                # 100% player pool
+                sorted_hist = sorted(hist, key=lambda x: x[0])
+                pool = np.array([x[0] for x in sorted_hist])
+                player_weights = []
+                for pt, yr, w in sorted_hist:
+                    if yr is None or w is None:
+                        weeks_ago = 10
+                    else:
+                        weeks_ago = (args.year * 22 + args.week) - (yr * 22 + w)
+                        weeks_ago = max(0, weeks_ago)
+                    weight = np.exp(-LAMBDA_RECENCY * weeks_ago)
+                    player_weights.append(weight)
                 
-            weight = np.exp(-LAMBDA_RECENCY * weeks_ago)
-            pool.append(pt)
-            weights.append(weight)
+                weights = np.array(player_weights)
+                weights_sum = np.sum(weights)
+                if weights_sum > 0:
+                    weights = weights / weights_sum
+                else:
+                    weights = np.ones(len(pool)) / len(pool)
+            else:
+                # Blend player pool and position pool
+                # 1. Sort player history and compute normalized recency weights
+                sorted_hist = sorted(hist, key=lambda x: x[0])
+                player_pool = np.array([x[0] for x in sorted_hist])
+                player_weights = []
+                for pt, yr, w in sorted_hist:
+                    if yr is None or w is None:
+                        weeks_ago = 10
+                    else:
+                        weeks_ago = (args.year * 22 + args.week) - (yr * 22 + w)
+                        weeks_ago = max(0, weeks_ago)
+                    weight = np.exp(-LAMBDA_RECENCY * weeks_ago)
+                    player_weights.append(weight)
+                
+                player_weights = np.array(player_weights)
+                player_weights_sum = np.sum(player_weights)
+                if player_weights_sum > 0:
+                    player_weights = player_weights / player_weights_sum
+                else:
+                    player_weights = np.ones(len(player_pool)) / len(player_pool)
+                    
+                # 2. Get precomputed position pool
+                p_info = pos_pool_info.get(pos, {"pool": np.array([8.0]), "weights": np.array([1.0])})
+                pos_pool = p_info["pool"]
+                pos_weights = p_info["weights"]
+                
+                # 3. Scale normalized weights by alpha / (1 - alpha)
+                combined = []
+                for pt, w in zip(player_pool, player_weights):
+                    combined.append((pt, alpha * w))
+                for pt, w in zip(pos_pool, pos_weights):
+                    combined.append((pt, (1.0 - alpha) * w))
+                    
+                # Sort combined list by points ascending to preserve CDF lookup structure
+                combined = sorted(combined, key=lambda x: x[0])
+                
+                pool = np.array([x[0] for x in combined])
+                weights = np.array([x[1] for x in combined])
             
-        weights_array = np.array(weights)
-        weight_sum = np.sum(weights_array)
-        
-        if weight_sum > 0:
-            hist_avg = np.average(pool, weights=weights_array)
-            cdf = np.cumsum(weights_array / weight_sum)
+            # Compute CDF and hist_avg directly from blended/pre-normalized pool
+            hist_avg = np.average(pool, weights=weights)
+            cdf = np.cumsum(weights)
         else:
-            hist_avg = np.mean(pool)
-            cdf = np.linspace(1.0/len(pool), 1.0, len(pool))
+            # Legacy behavior: Determine base pool and historical average
+            if len(hist) >= 5:
+                raw_hist = hist
+            else:
+                # Fallback to position group
+                raw_hist = position_histories.get(pos, [(8.0, args.year, args.week)])
+                
+            # Sort history by points ascending to support CDF
+            raw_hist = sorted(raw_hist, key=lambda x: x[0])
             
+            pool = []
+            weights = []
+            for pt, yr, w in raw_hist:
+                if yr is None or w is None:
+                    weeks_ago = 10
+                else:
+                    # 14 regular weeks + 8 offseason weeks = 22 weeks per year
+                    weeks_ago = (args.year * 22 + args.week) - (yr * 22 + w)
+                    weeks_ago = max(0, weeks_ago)
+                    
+                weight = np.exp(-LAMBDA_RECENCY * weeks_ago)
+                pool.append(pt)
+                weights.append(weight)
+                
+            weights_array = np.array(weights)
+            weight_sum = np.sum(weights_array)
+            
+            if weight_sum > 0:
+                hist_avg = np.average(pool, weights=weights_array)
+                cdf = np.cumsum(weights_array / weight_sum)
+            else:
+                hist_avg = np.mean(pool)
+                cdf = np.linspace(1.0/len(pool), 1.0, len(pool))
+                
         if hist_avg <= 0.1:
             hist_avg = 0.1
             
@@ -423,6 +526,24 @@ def main():
     out_file = os.path.join(output_dir, f"week{args.week}_{args.year}_simulations.csv")
     df_sims.to_csv(out_file, index=False)
     print(f"Successfully saved {args.sims} simulations to {out_file}")
+    
+    # 7. Pre-compute and save simulation stats (Item 11)
+    stats_summary = {}
+    for i, col_name in enumerate(columns):
+        col_data = sim_results[:, i]
+        stats_summary[col_name] = {
+            "mc_ev":  round(float(np.mean(col_data)), 2),
+            "mc_std": round(float(np.std(col_data)), 2),
+            "mc_p10": round(float(np.percentile(col_data, 10)), 2),
+            "mc_p25": round(float(np.percentile(col_data, 25)), 2),
+            "mc_p75": round(float(np.percentile(col_data, 75)), 2),
+            "mc_p90": round(float(np.percentile(col_data, 90)), 2)
+        }
+        
+    stats_file = os.path.join(output_dir, f"week{args.week}_{args.year}_simulation_stats.json")
+    with open(stats_file, 'w', encoding='utf-8') as f:
+        json.dump(stats_summary, f, indent=4)
+    print(f"Successfully saved pre-computed simulation stats to {stats_file}")
     
 if __name__ == "__main__":
     main()

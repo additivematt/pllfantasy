@@ -1,0 +1,104 @@
+---
+name: pll-deployment
+description: Instructions for compiling static payloads, committing files with git, and deploying updates to GitHub Pages for offline mobile cache updates.
+---
+
+# How to Upload PLL Fantasy Updates to GitHub (uploada)
+
+This guide provides simple, step-by-step instructions on how to push your latest lacrosse stats and predictions from your PC to GitHub Pages. 
+
+By updating GitHub, your phone, tablet, and other mobile devices will automatically download and cache the fresh data so they can run fully offline on game day!
+
+---
+
+## ⚡ The Quick Routine
+
+Whenever you fetch new player stats (using `combine_datasets.py`), the system **automatically** runs the static compiler behind the scenes. This updates both your `interrogata` and `predicta` static folders instantly on your local PC.
+
+Consequently, you do not need to run a manual compilation script anymore. You only need to push the files to GitHub:
+
+### Step: Push the Updates to GitHub
+
+Choose **one** of the methods below to push the files online:
+
+#### Option A: Using the GitHub Desktop App (Recommended for General Use)
+If you have the **GitHub Desktop** app installed, updating takes 5 seconds:
+1. Open **GitHub Desktop**. It will automatically detect all modified files.
+2. In the bottom-left box, type a short message (e.g., `Update week 2 predictions & stats`).
+3. Click the blue **"Commit to main"** (or `master`) button.
+4. Click **"Push origin"** at the top.
+5. **Done!** GitHub Pages will build the update in about 30 seconds.
+
+#### Option B: Using the GitHub Web Interface (Direct in Browser)
+If you don't use the Desktop app, you can update files directly on the GitHub website:
+
+1. Open your web browser and go to your GitHub repository:
+   `https://github.com/additivematt/pllfantasy`
+2. **Update Interrogata Stats**:
+   - Click on the `interrogata` folder.
+   - Click **Add file** (top right) -> **Upload files**.
+   - Drag and drop your local `all_players_stats.json` from the `interrogata` folder into the browser.
+   - Scroll down and click the green **Commit changes** button.
+3. **Update Predicta Weekly Predictions**:
+   - Go back to the main repository screen, then click on `predicta` -> `predictions`.
+   - If it is a new week (e.g., Week 2 in 2026):
+     - Click **Add file** -> **Upload files**.
+     - Drag and drop the `available` index file and the newly generated week file (found inside `predicta/predictions/2026/2/`) into the browser. 
+     - *Note: GitHub Web lets you drag folders too, so you can simply drag the new `2026` folder and the `available` file into the upload box!*
+   - Scroll down and click the green **Commit changes** button.
+
+#### Option C: Using the Terminal (Fastest — Laptop Only 💻)
+If you are on your **main laptop**, a portable Git client has been set up directly inside your `scripts/scratch/` directory. You can run all updates directly from the command line in 5 seconds:
+
+1. Open **PowerShell** or your command prompt in your `scripts` folder.
+2. Run the following three commands in sequence:
+   ```powershell
+   # 1. Stage the modified data files
+   scratch\mingit\cmd\git.exe add interrogata/all_players_stats.json predicta/predictions/
+   
+   # 2. Create the commit locally
+   scratch\mingit\cmd\git.exe commit -m "Update predictions & stats"
+   
+   # 3. Push to GitHub
+   scratch\mingit\cmd\git.exe push origin main
+   ```
+
+> [!IMPORTANT]
+> **Laptop Compatibility Constraint:**
+> Option C **only works on this specific laptop** because it relies on the portable Git executable located in `scripts/scratch/mingit/` and your authenticated GitHub credentials stored in this laptop's Windows Credential Manager. 
+> On your main PC (which doesn't have Git configured in this directory), please continue using **Option A** or **Option B**.
+
+---
+
+## 📱 How to Pull the Latest Data onto your Phone or Tablet
+
+Your mobile devices use **Service Workers** to run lightning-fast and offline. To refresh their local caches with the new data:
+
+1. **Connect to the Internet** on your phone/tablet.
+2. Open your public dashboard links:
+   * **Interrogata**: [https://additivematt.github.io/pllfantasy/interrogata/](https://additivematt.github.io/pllfantasy/interrogata/)
+   * **Predicta**: [https://additivematt.github.io/pllfantasy/predicta/](https://additivematt.github.io/pllfantasy/predicta/)
+3. **Wait 2 Seconds**:
+   * **Interrogata** will show a green **`⚡ DATA UPDATED`** status pill in the top-right header once the new stats are cached.
+   * **Predicta** will show a green **`🟢 ONLINE`** pill, and will immediately pre-cache all newly uploaded weeks behind the scenes.
+4. **Go Offline**: You can now turn off Wi-Fi or Cellular! The dashboards are fully primed and ready for offline use on the couch or at the game.
+
+---
+
+## 🛠️ Troubleshooting
+
+> [!WARNING]
+> **Mobile Browser blocks registration ("Not secure")**
+> * Service Workers (which enable offline mode) **strictly require** a secure connection (`https://`). 
+> * Make sure you are accessing the apps via your public `https://additivematt.github.io/pllfantasy/...` links on your mobile device. If you try to open them via a local IP address (like `http://192.168.1.100:8000`), the browser will refuse to let them run offline.
+
+> [!TIP]
+> **Changes aren't showing up on my phone**
+> * Force a hard-refresh on your browser.
+> * On iOS Safari: Go to *Settings -> Safari -> Advanced -> Website Data*, swipe left on your GitHub Pages site, and tap *Delete*. Then reload the page.
+> * On Android Chrome: Tap the three dots -> *Info (i) icon* -> *Site Settings* -> *Clear & Reset*, then reload.
+
+---
+
+> [!NOTE]
+> All improvement ideas are tracked centrally in the [pll-improvements-and-baselines](../improvements_and_baselines/SKILL.md) skill. Do not add new improvement ideas to this file.

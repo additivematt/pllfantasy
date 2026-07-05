@@ -10,6 +10,7 @@
             "salary": 48,
             "mc_ev": 31.0,
             "mc_p90": 40.8,
+            "mc_p10": 19.6,
             "actualPoints": 55.0
         },
         {
@@ -22,6 +23,7 @@
             "salary": 19,
             "mc_ev": 25.9,
             "mc_p90": 63.5,
+            "mc_p10": 0.0,
             "actualPoints": 1.0
         },
         {
@@ -34,6 +36,7 @@
             "salary": 20,
             "mc_ev": 25.1,
             "mc_p90": 53.0,
+            "mc_p10": 0.0,
             "actualPoints": 0.0
         },
         {
@@ -46,6 +49,7 @@
             "salary": 27,
             "mc_ev": 16.6,
             "mc_p90": 43.3,
+            "mc_p10": 0.0,
             "actualPoints": 17.0
         },
         {
@@ -58,6 +62,7 @@
             "salary": 18,
             "mc_ev": 16.5,
             "mc_p90": 48.8,
+            "mc_p10": 0.0,
             "actualPoints": 17.0
         },
         {
@@ -68,8 +73,9 @@
             "game_id": "2026-ev-17",
             "position": "Faceoff",
             "salary": 17,
-            "mc_ev": 13.9,
-            "mc_p90": 22.9,
+            "mc_ev": 14.0,
+            "mc_p90": 25.5,
+            "mc_p10": 2.1,
             "actualPoints": 32.3
         },
         {
@@ -82,6 +88,7 @@
             "salary": 21,
             "mc_ev": 11.3,
             "mc_p90": 24.5,
+            "mc_p10": 0.0,
             "actualPoints": 16.0
         }
     ],
@@ -96,6 +103,7 @@
             "salary": 48,
             "mc_ev": 30.1,
             "mc_p90": 45.3,
+            "mc_p10": 8.1,
             "actualPoints": 44.0
         },
         {
@@ -108,6 +116,7 @@
             "salary": 19,
             "mc_ev": 25.9,
             "mc_p90": 63.5,
+            "mc_p10": 0.0,
             "actualPoints": 1.0
         },
         {
@@ -120,6 +129,7 @@
             "salary": 20,
             "mc_ev": 25.1,
             "mc_p90": 53.0,
+            "mc_p10": 0.0,
             "actualPoints": 0.0
         },
         {
@@ -132,6 +142,7 @@
             "salary": 27,
             "mc_ev": 16.6,
             "mc_p90": 43.3,
+            "mc_p10": 0.0,
             "actualPoints": 17.0
         },
         {
@@ -144,6 +155,7 @@
             "salary": 18,
             "mc_ev": 16.5,
             "mc_p90": 48.8,
+            "mc_p10": 0.0,
             "actualPoints": 17.0
         },
         {
@@ -154,8 +166,9 @@
             "game_id": "2026-ev-17",
             "position": "Faceoff",
             "salary": 17,
-            "mc_ev": 13.9,
-            "mc_p90": 22.9,
+            "mc_ev": 14.0,
+            "mc_p90": 25.5,
+            "mc_p10": 2.1,
             "actualPoints": 32.3
         },
         {
@@ -166,12 +179,26 @@
             "game_id": "2026-ev-18",
             "position": "Defense",
             "salary": 12,
-            "mc_ev": 10.7,
-            "mc_p90": 31.3,
+            "mc_ev": 10.8,
+            "mc_p90": 27.8,
+            "mc_p10": 0.0,
             "actualPoints": 12.0
         }
     ],
     "MC_Ceil_90": [
+        {
+            "firstName": "Liam",
+            "lastName": "Entenmann",
+            "team": "ATL",
+            "opponent": "CAN",
+            "game_id": "2026-ev-17",
+            "position": "Goalie",
+            "salary": 48,
+            "mc_ev": 30.1,
+            "mc_p90": 45.3,
+            "mc_p10": 8.1,
+            "actualPoints": 44.0
+        },
         {
             "firstName": "Matt",
             "lastName": "Rambo",
@@ -182,6 +209,7 @@
             "salary": 19,
             "mc_ev": 25.9,
             "mc_p90": 63.5,
+            "mc_p10": 0.0,
             "actualPoints": 1.0
         },
         {
@@ -194,19 +222,8 @@
             "salary": 20,
             "mc_ev": 25.1,
             "mc_p90": 53.0,
+            "mc_p10": 0.0,
             "actualPoints": 0.0
-        },
-        {
-            "firstName": "Tre",
-            "lastName": "Leclaire",
-            "team": "ARC",
-            "opponent": "RED",
-            "game_id": "2026-ev-18",
-            "position": "Midfield",
-            "salary": 18,
-            "mc_ev": 16.5,
-            "mc_p90": 48.8,
-            "actualPoints": 17.0
         },
         {
             "firstName": "Matt",
@@ -218,19 +235,21 @@
             "salary": 27,
             "mc_ev": 16.6,
             "mc_p90": 43.3,
+            "mc_p10": 0.0,
             "actualPoints": 17.0
         },
         {
-            "firstName": "Cam",
-            "lastName": "Wyers",
+            "firstName": "Tre",
+            "lastName": "Leclaire",
             "team": "ARC",
             "opponent": "RED",
             "game_id": "2026-ev-18",
-            "position": "Defense",
-            "salary": 5,
-            "mc_ev": 10.8,
-            "mc_p90": 28.4,
-            "actualPoints": 0.0
+            "position": "Midfield",
+            "salary": 18,
+            "mc_ev": 16.5,
+            "mc_p90": 48.8,
+            "mc_p10": 0.0,
+            "actualPoints": 17.0
         },
         {
             "firstName": "Andrew",
@@ -240,21 +259,23 @@
             "game_id": "2026-ev-17",
             "position": "Faceoff",
             "salary": 17,
-            "mc_ev": 13.9,
-            "mc_p90": 22.9,
+            "mc_ev": 14.0,
+            "mc_p90": 25.5,
+            "mc_p10": 2.1,
             "actualPoints": 32.3
         },
         {
-            "firstName": "Liam",
-            "lastName": "Entenmann",
-            "team": "ATL",
-            "opponent": "CAN",
-            "game_id": "2026-ev-17",
-            "position": "Goalie",
-            "salary": 48,
-            "mc_ev": 30.1,
-            "mc_p90": 45.3,
-            "actualPoints": 44.0
+            "firstName": "Mitchell",
+            "lastName": "Dunham",
+            "team": "ARC",
+            "opponent": "RED",
+            "game_id": "2026-ev-18",
+            "position": "Defense",
+            "salary": 12,
+            "mc_ev": 10.8,
+            "mc_p90": 27.8,
+            "mc_p10": 0.0,
+            "actualPoints": 12.0
         }
     ],
     "MC_Consensus": [],
@@ -270,6 +291,7 @@
             "salary": 35,
             "mc_ev": 23.5,
             "mc_p90": 38.5,
+            "mc_p10": 8.2,
             "actualPoints": 99.0
         },
         {
@@ -282,6 +304,7 @@
             "salary": 37,
             "mc_ev": 24.7,
             "mc_p90": 48.8,
+            "mc_p10": 7.1,
             "actualPoints": 75.0
         },
         {
@@ -292,8 +315,9 @@
             "game_id": "2026-ev-17",
             "position": "M",
             "salary": 23,
-            "mc_ev": 13.5,
-            "mc_p90": 28.4,
+            "mc_ev": 13.6,
+            "mc_p90": 31.6,
+            "mc_p10": 0.0,
             "actualPoints": 46.0
         },
         {
@@ -305,7 +329,8 @@
             "position": "M",
             "salary": 5,
             "mc_ev": 12.5,
-            "mc_p90": 30.6,
+            "mc_p90": 29.9,
+            "mc_p10": 0.0,
             "actualPoints": 46.0
         },
         {
@@ -318,6 +343,7 @@
             "salary": 26,
             "mc_ev": 9.6,
             "mc_p90": 20.4,
+            "mc_p10": 0.9,
             "actualPoints": 39.0
         },
         {
@@ -330,6 +356,7 @@
             "salary": 14,
             "mc_ev": 10.6,
             "mc_p90": 27.8,
+            "mc_p10": 1.8,
             "actualPoints": 44.0
         },
         {
@@ -342,6 +369,7 @@
             "salary": 48,
             "mc_ev": 31.0,
             "mc_p90": 40.8,
+            "mc_p10": 19.6,
             "actualPoints": 55.0
         }
     ],
@@ -352,9 +380,7 @@
         "Tre Leclaire",
         "Andrew McMeekin"
     ],
-    "Sleepers": [
-        "Cam Wyers"
-    ],
+    "Sleepers": [],
     "RecommendedStrategy": "MC_EV",
     "RecommendedReason": "Tight pricing / short slate (3 games, 20 cheap value players). Optimizing for floor is best.",
     "Narrative": {
@@ -443,14 +469,14 @@
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
-                    "Cam Wyers",
-                    "Liam Entenmann"
+                    "Liam Entenmann",
+                    "Mitchell Dunham"
                 ],
                 "out": [
                     "Brett Dobson",
                     "Ethan Rall"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Cam Wyers (Defense, 5c), Liam Entenmann (Goalie, 48c)) to maximize the team's 90th percentile ceiling (projecting up to 45.3 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Liam Entenmann (Goalie, 48c), Mitchell Dunham (Defense, 12c)) to maximize the team's 90th percentile ceiling (projecting up to 45.3 pts)."
             }
         ]
     },

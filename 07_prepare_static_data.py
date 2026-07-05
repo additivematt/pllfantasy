@@ -372,8 +372,41 @@ def main():
                 else:
                     df['PredictedPoints'] = 0.0
 
+                stats_json_path = os.path.join(predictions_folder, f"week{week}_{year}_simulation_stats.json")
                 sims_filepath = os.path.join(predictions_folder, f"week{week}_{year}_simulations.csv")
-                if os.path.exists(sims_filepath):
+                
+                if os.path.exists(stats_json_path):
+                    with open(stats_json_path, 'r', encoding='utf-8') as f_stats:
+                        sim_stats = json.load(f_stats)
+                    for col_name, stats in sim_stats.items():
+                        m = re.match(r'^(.+?)_(\d{4}-ev-\d+)$', col_name)
+                        if not m:
+                            parts = col_name.split("_")
+                            if len(parts) >= 2 and re.match(r"\d{4}-ev-\d+", parts[-1]):
+                                name_part = "_".join(parts[:-1])
+                                game_id_s = parts[-1]
+                            else:
+                                continue
+                        else:
+                            name_part = m.group(1)
+                            game_id_s = m.group(2)
+                            
+                        name_parts = name_part.split("_")
+                        first_s = name_parts[0]
+                        last_s = "_".join(name_parts[1:]) if len(name_parts) > 1 else ""
+                        
+                        mc_stats_map[(first_s, last_s, game_id_s)] = {
+                            "mc_ev": stats.get("mc_ev", 0.0),
+                            "mc_std": stats.get("mc_std", 0.0),
+                            "mc_p90": stats.get("mc_p90", 0.0),
+                            "mc_p10": stats.get("mc_p10", 0.0),
+                        }
+                    
+                    df["mc_ev"]  = df.apply(lambda r: get_mc_stats(r).get("mc_ev"), axis=1)
+                    df["mc_std"] = df.apply(lambda r: get_mc_stats(r).get("mc_std"), axis=1)
+                    df["mc_p90"] = df.apply(lambda r: get_mc_stats(r).get("mc_p90"), axis=1)
+                    df["mc_p10"] = df.apply(lambda r: get_mc_stats(r).get("mc_p10"), axis=1)
+                elif os.path.exists(sims_filepath):
                     df_sims = pd.read_csv(sims_filepath)
                     for col in df_sims.columns:
                         m = re.match(r'^(.+?)_(\d{4}-ev-\d+)$', col)
@@ -397,11 +430,13 @@ def main():
                             "mc_ev":  round(float(col_data.mean()), 2),
                             "mc_std": round(float(col_data.std()), 2),
                             "mc_p90": round(float(col_data.quantile(0.9)), 2),
+                            "mc_p10": round(float(col_data.quantile(0.1)), 2),
                         }
                     
                     df["mc_ev"]  = df.apply(lambda r: get_mc_stats(r).get("mc_ev"), axis=1)
                     df["mc_std"] = df.apply(lambda r: get_mc_stats(r).get("mc_std"), axis=1)
                     df["mc_p90"] = df.apply(lambda r: get_mc_stats(r).get("mc_p90"), axis=1)
+                    df["mc_p10"] = df.apply(lambda r: get_mc_stats(r).get("mc_p10"), axis=1)
 
                 # Add actual points to df
                 def get_actual_pts(row):
@@ -510,6 +545,7 @@ def main():
                         df_merged['PredictedPoints'] = 0.0
                     df_merged["mc_ev"]  = df_merged.apply(lambda r: get_mc_stats(r).get("mc_ev"), axis=1)
                     df_merged["mc_p90"] = df_merged.apply(lambda r: get_mc_stats(r).get("mc_p90"), axis=1)
+                    df_merged["mc_p10"] = df_merged.apply(lambda r: get_mc_stats(r).get("mc_p10"), axis=1)
                     
                     # Load simulations CSV
                     sims_file = os.path.join(predictions_folder, f"week{week}_{year}_simulations.csv")
@@ -580,6 +616,7 @@ def main():
                         ev_val = float(r["mc_ev"]) if (pd.notna(r["mc_ev"]) and r["mc_ev"] is not None) else float(r["EV"])
                         ceil_val = float(r["mc_p90"]) if (pd.notna(r["mc_p90"]) and r["mc_p90"] is not None) else float(r["PredictedPoints"])
                         
+                        floor_val = float(r["mc_p10"]) if (pd.notna(r["mc_p10"]) and r["mc_p10"] is not None) else 0.0
                         player_pool.append({
                             "firstName": r["firstName"],
                             "lastName": r["lastName"],
@@ -594,7 +631,8 @@ def main():
                             "ceiling": round(float(r["PredictedPoints"]), 1),
                             "boom": round(float(r["BoomProbability"]), 1),
                             "mc_ev": round(ev_val, 1),
-                            "mc_p90": round(ceil_val, 1)
+                            "mc_p90": round(ceil_val, 1),
+                            "mc_p10": round(floor_val, 1)
                         })
                         
                     # 1. Run MC EV Baseline
@@ -726,7 +764,8 @@ def main():
                             "position": p["positionGroup"],
                             "salary": int(p["salary"]),
                             "mc_ev": p["mc_ev"],
-                            "mc_p90": p["mc_p90"]
+                            "mc_p90": p["mc_p90"],
+                            "mc_p10": p.get("mc_p10") if (p.get("mc_p10") is not None and pd.notna(p.get("mc_p10"))) else 0.0
                         }
                         if pts is not None:
                             res["actualPoints"] = round(pts, 1)
@@ -838,7 +877,7 @@ def main():
                                     
                                     ev_val = float(lookup.iloc[0]["mc_ev"]) if (not lookup.empty and pd.notna(lookup.iloc[0]["mc_ev"])) else (float(lookup.iloc[0]["EV"]) if not lookup.empty else 0.0)
                                     ceil_val = float(lookup.iloc[0]["mc_p90"]) if (not lookup.empty and pd.notna(lookup.iloc[0]["mc_p90"])) else (float(lookup.iloc[0]["PredictedPoints"]) if not lookup.empty else 0.0)
-                                    
+                                    floor_val = float(lookup.iloc[0]["mc_p10"]) if (not lookup.empty and "mc_p10" in lookup.columns and pd.notna(lookup.iloc[0]["mc_p10"])) else 0.0
                                     return {
                                         "firstName": fname,
                                         "lastName": lname,
@@ -849,6 +888,7 @@ def main():
                                         "salary": salary,
                                         "mc_ev": round(ev_val, 1),
                                         "mc_p90": round(ceil_val, 1),
+                                        "mc_p10": round(floor_val, 1),
                                         "actualPoints": round(float(p["totalPoints"]), 1)
                                     }
                                 adv_response["Coulda"] = [strip_coulda_player(p) for p in team_coulda]

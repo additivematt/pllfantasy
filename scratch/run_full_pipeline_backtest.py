@@ -125,7 +125,7 @@ def main():
     tasks = []
     for w in [1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 13, 14]:
         tasks.append((2025, w))
-    for w in [1, 2, 3, 4, 5]:
+    for w in [1, 2, 3, 4, 5, 6]:
         tasks.append((2026, w))
         
     # 2. Run full pipeline for all weeks
@@ -188,7 +188,7 @@ def main():
         "prediction_model_evaluation_harness.py",
         "--rosters", "rosters_mc_ev.csv",
         "--year", "2026",
-        "--weeks", "1,2,3,4,5",
+        "--weeks", "1,2,3,4,5,6",
         "--label", label_2026
     ]
     run_step(harness_2026_cmd, root_dir, "Evaluate 2026")

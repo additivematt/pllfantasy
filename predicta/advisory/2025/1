@@ -10,6 +10,7 @@
             "salary": 41,
             "mc_ev": 37.8,
             "mc_p90": 64.2,
+            "mc_p10": 8.2,
             "actualPoints": 19.0
         },
         {
@@ -22,6 +23,7 @@
             "salary": 43,
             "mc_ev": 32.3,
             "mc_p90": 58.9,
+            "mc_p10": 11.6,
             "actualPoints": 66.0
         },
         {
@@ -34,6 +36,7 @@
             "salary": 48,
             "mc_ev": 31.1,
             "mc_p90": 60.2,
+            "mc_p10": 10.9,
             "actualPoints": 9.0
         },
         {
@@ -46,31 +49,34 @@
             "salary": 45,
             "mc_ev": 20.8,
             "mc_p90": 35.4,
+            "mc_p10": 5.1,
             "actualPoints": 22.2
         },
         {
-            "firstName": "Dalton",
-            "lastName": "Young",
-            "team": "OUT",
-            "opponent": "RED",
-            "game_id": "2025-ev-2",
+            "firstName": "Eric",
+            "lastName": "Dobson",
+            "team": "CHA",
+            "opponent": "ATL",
+            "game_id": "2025-ev-1",
             "position": "Midfield",
-            "salary": 17,
-            "mc_ev": 16.9,
-            "mc_p90": 35.3,
-            "actualPoints": 7.0
+            "salary": 8,
+            "mc_ev": 19.1,
+            "mc_p90": 61.8,
+            "mc_p10": 0.0,
+            "actualPoints": -2.0
         },
         {
-            "firstName": "Aidan",
-            "lastName": "Danenza",
-            "team": "RED",
-            "opponent": "OUT",
-            "game_id": "2025-ev-2",
+            "firstName": "Kyle",
+            "lastName": "Jackson",
+            "team": "ATL",
+            "opponent": "CAN",
+            "game_id": "2025-ev-4",
             "position": "Midfield",
-            "salary": 2,
-            "mc_ev": 15.6,
-            "mc_p90": 38.9,
-            "actualPoints": 7.0
+            "salary": 9,
+            "mc_ev": 16.5,
+            "mc_p90": 36.8,
+            "mc_p10": 0.0,
+            "actualPoints": 20.0
         },
         {
             "firstName": "Ben",
@@ -82,6 +88,7 @@
             "salary": 2,
             "mc_ev": 12.9,
             "mc_p90": 30.1,
+            "mc_p10": 0.0,
             "actualPoints": 48.0
         }
     ],
@@ -96,6 +103,7 @@
             "salary": 41,
             "mc_ev": 37.8,
             "mc_p90": 64.2,
+            "mc_p10": 8.2,
             "actualPoints": 19.0
         },
         {
@@ -108,19 +116,21 @@
             "salary": 43,
             "mc_ev": 32.3,
             "mc_p90": 58.9,
+            "mc_p10": 11.6,
             "actualPoints": 66.0
         },
         {
-            "firstName": "Jeff",
-            "lastName": "Teat",
-            "team": "ATL",
-            "opponent": "CHA",
-            "game_id": "2025-ev-1",
+            "firstName": "Rob",
+            "lastName": "Pannell",
+            "team": "WHP",
+            "opponent": "ARC",
+            "game_id": "2025-ev-3",
             "position": "Attack",
-            "salary": 48,
-            "mc_ev": 31.1,
-            "mc_p90": 60.2,
-            "actualPoints": 9.0
+            "salary": 44,
+            "mc_ev": 30.5,
+            "mc_p90": 47.1,
+            "mc_p10": 0.0,
+            "actualPoints": -1.0
         },
         {
             "firstName": "Trevor",
@@ -132,7 +142,21 @@
             "salary": 45,
             "mc_ev": 20.8,
             "mc_p90": 35.4,
+            "mc_p10": 5.1,
             "actualPoints": 22.2
+        },
+        {
+            "firstName": "Eric",
+            "lastName": "Dobson",
+            "team": "CHA",
+            "opponent": "ATL",
+            "game_id": "2025-ev-1",
+            "position": "Midfield",
+            "salary": 8,
+            "mc_ev": 19.1,
+            "mc_p90": 61.8,
+            "mc_p10": 0.0,
+            "actualPoints": -2.0
         },
         {
             "firstName": "Kyle",
@@ -144,19 +168,8 @@
             "salary": 9,
             "mc_ev": 16.5,
             "mc_p90": 36.8,
+            "mc_p10": 0.0,
             "actualPoints": 20.0
-        },
-        {
-            "firstName": "JJ",
-            "lastName": "Sillstrop",
-            "team": "CHA",
-            "opponent": "ATL",
-            "game_id": "2025-ev-1",
-            "position": "Midfield",
-            "salary": 5,
-            "mc_ev": 15.8,
-            "mc_p90": 37.9,
-            "actualPoints": 47.0
         },
         {
             "firstName": "Ben",
@@ -168,6 +181,7 @@
             "salary": 2,
             "mc_ev": 12.9,
             "mc_p90": 30.1,
+            "mc_p10": 0.0,
             "actualPoints": 48.0
         }
     ],
@@ -182,6 +196,7 @@
             "salary": 23,
             "mc_ev": 28.7,
             "mc_p90": 88.7,
+            "mc_p10": 0.0,
             "actualPoints": 40.0
         },
         {
@@ -194,19 +209,8 @@
             "salary": 16,
             "mc_ev": 28.7,
             "mc_p90": 49.3,
+            "mc_p10": 0.0,
             "actualPoints": 17.0
-        },
-        {
-            "firstName": "Eric",
-            "lastName": "Dobson",
-            "team": "CHA",
-            "opponent": "ATL",
-            "game_id": "2025-ev-1",
-            "position": "Midfield",
-            "salary": 8,
-            "mc_ev": 15.3,
-            "mc_p90": 67.5,
-            "actualPoints": -2.0
         },
         {
             "firstName": "Dalton",
@@ -218,7 +222,21 @@
             "salary": 17,
             "mc_ev": 16.9,
             "mc_p90": 35.3,
+            "mc_p10": 0.0,
             "actualPoints": 7.0
+        },
+        {
+            "firstName": "Eric",
+            "lastName": "Dobson",
+            "team": "CHA",
+            "opponent": "ATL",
+            "game_id": "2025-ev-1",
+            "position": "Midfield",
+            "salary": 8,
+            "mc_ev": 19.1,
+            "mc_p90": 61.8,
+            "mc_p10": 0.0,
+            "actualPoints": -2.0
         },
         {
             "firstName": "Piper",
@@ -230,6 +248,7 @@
             "salary": 5,
             "mc_ev": 12.5,
             "mc_p90": 28.2,
+            "mc_p10": 0.0,
             "actualPoints": 9.5
         },
         {
@@ -242,6 +261,7 @@
             "salary": 45,
             "mc_ev": 20.8,
             "mc_p90": 35.4,
+            "mc_p10": 5.1,
             "actualPoints": 22.2
         },
         {
@@ -254,6 +274,7 @@
             "salary": 41,
             "mc_ev": 37.8,
             "mc_p90": 64.2,
+            "mc_p10": 8.2,
             "actualPoints": 19.0
         }
     ],
@@ -270,6 +291,7 @@
             "salary": 43,
             "mc_ev": 32.3,
             "mc_p90": 58.9,
+            "mc_p10": 11.6,
             "actualPoints": 66.0
         },
         {
@@ -282,6 +304,7 @@
             "salary": 8,
             "mc_ev": 26.2,
             "mc_p90": 52.4,
+            "mc_p10": 1.0,
             "actualPoints": 54.0
         },
         {
@@ -294,6 +317,7 @@
             "salary": 5,
             "mc_ev": 15.8,
             "mc_p90": 37.9,
+            "mc_p10": 0.0,
             "actualPoints": 47.0
         },
         {
@@ -306,6 +330,7 @@
             "salary": 22,
             "mc_ev": 15.9,
             "mc_p90": 31.5,
+            "mc_p10": 0.0,
             "actualPoints": 46.0
         },
         {
@@ -318,6 +343,7 @@
             "salary": 2,
             "mc_ev": 12.9,
             "mc_p90": 30.1,
+            "mc_p10": 0.0,
             "actualPoints": 48.0
         },
         {
@@ -330,6 +356,7 @@
             "salary": 37,
             "mc_ev": 11.4,
             "mc_p90": 25.4,
+            "mc_p10": 3.9,
             "actualPoints": 43.6
         },
         {
@@ -342,19 +369,20 @@
             "salary": 49,
             "mc_ev": 32.4,
             "mc_p90": 47.1,
+            "mc_p10": 16.2,
             "actualPoints": 45.0
         }
     ],
     "Core": [
         "Owen McElroy",
-        "Trevor Baptiste"
+        "Trevor Baptiste",
+        "Eric Dobson"
     ],
     "Sleepers": [
-        "Eric Dobson",
         "Piper Bond"
     ],
     "RecommendedStrategy": "MC_Win_160",
-    "RecommendedReason": "Stars & Scrubs slate (4 games, 43 cheap value players). Optimizing for variance with MC Win 160 is best.",
+    "RecommendedReason": "Stars & Scrubs slate (4 games, 44 cheap value players). Optimizing for variance with MC Win 160 is best.",
     "Narrative": {
         "RecommendedRoster": [
             {
@@ -378,12 +406,12 @@
                 ]
             },
             {
-                "firstName": "Jeff",
-                "lastName": "Teat",
+                "firstName": "Rob",
+                "lastName": "Pannell",
                 "position": "Attack",
-                "salary": 48,
+                "salary": 44,
                 "bullets": [
-                    "Hot Form: Averaging 57.3 fantasy pts over last 3 games (vs 38.9 season avg)."
+                    "Hot Form: Averaging 34.0 fantasy pts over last 3 games (vs 22.6 season avg)."
                 ]
             },
             {
@@ -396,6 +424,15 @@
                 ]
             },
             {
+                "firstName": "Eric",
+                "lastName": "Dobson",
+                "position": "Midfield",
+                "salary": 8,
+                "bullets": [
+                    "Salary Cap Enabler: Excellent cost efficiency, projecting 19.1 EV for just 8 coins."
+                ]
+            },
+            {
                 "firstName": "Kyle",
                 "lastName": "Jackson",
                 "position": "Midfield",
@@ -403,15 +440,6 @@
                 "bullets": [
                     "Opponent Weakness: CAN defense allows 17% extra fantasy points to Midfield position.",
                     "Salary Cap Enabler: Excellent cost efficiency, projecting 16.5 EV for just 9 coins."
-                ]
-            },
-            {
-                "firstName": "JJ",
-                "lastName": "Sillstrop",
-                "position": "Midfield",
-                "salary": 5,
-                "bullets": [
-                    "Salary Cap Enabler: Excellent cost efficiency, projecting 15.8 EV for just 5 coins."
                 ]
             },
             {
@@ -429,12 +457,10 @@
                 "strategy": "MC_EV",
                 "strategyLabel": "MC EV",
                 "in": [
-                    "Dalton Young",
-                    "Aidan Danenza"
+                    "Jeff Teat"
                 ],
                 "out": [
-                    "Kyle Jackson",
-                    "JJ Sillstrop"
+                    "Rob Pannell"
                 ],
                 "rationale": "Optimizes strictly for the highest average expected points (mean floor) rather than variance or win probability."
             },
@@ -444,18 +470,16 @@
                 "in": [
                     "Dylan Molloy",
                     "Josh Zawada",
-                    "Eric Dobson",
                     "Dalton Young",
                     "Piper Bond"
                 ],
                 "out": [
                     "Connor Fields",
-                    "Jeff Teat",
+                    "Rob Pannell",
                     "Kyle Jackson",
-                    "JJ Sillstrop",
                     "Ben Ramsey"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Dylan Molloy (Attack, 23c), Josh Zawada (Attack, 16c), Eric Dobson (Midfield, 8c), Dalton Young (Midfield, 17c), Piper Bond (Defense, 5c)) to maximize the team's 90th percentile ceiling (projecting up to 88.7 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Dylan Molloy (Attack, 23c), Josh Zawada (Attack, 16c), Dalton Young (Midfield, 17c), Piper Bond (Defense, 5c)) to maximize the team's 90th percentile ceiling (projecting up to 88.7 pts)."
             }
         ]
     },

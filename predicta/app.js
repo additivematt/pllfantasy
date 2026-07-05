@@ -277,30 +277,38 @@ function renderPlot(targetId, title, data, yRange = null) {
         tooltip.style.left = (data.event.clientX + 20) + 'px';
         tooltip.style.top = (data.event.clientY - 20) + 'px';
         
+        const maxCeiling = Math.max(...sortedData.map(d => d.mc_p90 || 0), 1);
+        const floor = p.mc_p10 != null ? p.mc_p10 : 0.0;
+        const ceiling = p.mc_p90 != null ? p.mc_p90 : 0.0;
+        const ev = p.mc_ev != null ? p.mc_ev : 0.0;
+        const p10Pct = (floor / maxCeiling) * 100;
+        const fillWidthPct = ((ceiling - floor) / maxCeiling) * 100;
+        const evPct = (ev / maxCeiling) * 100;
+
         tooltip.innerHTML = `
-            <div class="tooltip-header">${p.firstName} ${p.lastName}</div>
-            <div class="tooltip-row"><span class="tooltip-label">Opponent</span><span class="tooltip-value">${p.opponent}</span></div>
-            <div class="tooltip-row"><span class="tooltip-label">Salary</span><span class="tooltip-value">${p.salary} Coins</span></div>
-            <div class="tooltip-row"><span class="tooltip-label">Season Avg</span><span class="tooltip-value">${p.fp_season_avg.toFixed(1)}</span></div>
-            <div class="tooltip-row"><span class="tooltip-label">Opp. Rating</span><span class="tooltip-value" style="color: ${p.team_def_rating > 1.1 ? '#00ff88' : p.team_def_rating < 0.9 ? '#ff4444' : '#ffffff'}">${p.team_def_rating.toFixed(2)}</span></div>
-            <div class="tooltip-row" style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.1)">
-                <span class="tooltip-label">MC EV</span>
-                <span class="tooltip-value" style="color: #00ccff">${(p.mc_ev != null ? p.mc_ev : 0).toFixed(1)} pts</span>
+            <div class="tooltip-header">${p.firstName} ${p.lastName} <span style="font-size:0.75rem; color:#8b949e; font-weight:normal; float:right; margin-top:4px;">${p.team} - ${p.position || p.positionGroup}</span></div>
+            <div class="tooltip-grid">
+                <div class="tooltip-row"><span class="tooltip-label">Opponent</span><span class="tooltip-value">${p.opponent}</span></div>
+                <div class="tooltip-row"><span class="tooltip-label">Opp. Rating</span><span class="tooltip-value" style="color: ${p.team_def_rating > 1.1 ? '#00ff88' : p.team_def_rating < 0.9 ? '#ff4444' : '#ffffff'}">${(p.team_def_rating || 1.0).toFixed(2)}</span></div>
+                <div class="tooltip-row"><span class="tooltip-label">Salary</span><span class="tooltip-value">${p.salary} Coins</span></div>
+                <div class="tooltip-row"><span class="tooltip-label">Risk (σ)</span><span class="tooltip-value" style="color: ${p.mc_std > 20 ? '#ff4444' : p.mc_std > 12 ? '#fdae61' : '#6dbe6d'}">${(p.mc_std != null ? p.mc_std : 0).toFixed(1)}</span></div>
+                <div class="tooltip-row"><span class="tooltip-label">Season Avg</span><span class="tooltip-value">${(p.fp_season_avg || 0).toFixed(1)}</span></div>
+                <div class="tooltip-row"><span class="tooltip-label">Boom Prob</span><span class="tooltip-value" style="color: rgba(255,255,255,0.55)">${(p.BoomProbability || 0).toFixed(0)}%</span></div>
             </div>
-            <div class="tooltip-row">
-                <span class="tooltip-label">Risk (σ)</span>
-                <span class="tooltip-value" style="color: ${p.mc_std > 20 ? '#ff4444' : p.mc_std > 12 ? '#fdae61' : '#6dbe6d'}">${(p.mc_std != null ? p.mc_std : 0).toFixed(1)}</span>
-            </div>
-            <div class="tooltip-row">
-                <span class="tooltip-label">Boom Prob</span>
-                <span class="tooltip-value" style="color: rgba(255,255,255,0.55)">${(p.BoomProbability || 0).toFixed(0)}%</span>
-            </div>
-            <div class="tooltip-row">
-                <span class="tooltip-label">MC p90 (Ceil)</span>
-                <span class="tooltip-value" style="color: #9f7aea">${(p.mc_p90 || 0).toFixed(1)} pts</span>
+            <div class="range-bar-section">
+                <div class="range-bar-title">MC Projections Range (EV: <span style="color:#00ffff">${ev.toFixed(1)}</span> pts)</div>
+                <div class="range-bar-container">
+                    <div class="range-bar-track"></div>
+                    <div class="range-bar-fill" style="left: ${p10Pct}%; width: ${fillWidthPct}%;"></div>
+                    <div class="range-bar-dot" style="left: ${evPct}%;"></div>
+                </div>
+                <div class="range-bar-labels">
+                    <span>Floor (p10): <span class="range-bar-val">${floor.toFixed(1)}</span></span>
+                    <span>Ceiling (p90): <span class="range-bar-val">${ceiling.toFixed(1)}</span></span>
+                </div>
             </div>
             ${p.actualPoints !== undefined && p.actualPoints !== null ? `
-            <div class="tooltip-row" style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.1)">
+            <div class="tooltip-row" style="margin-top: 0.6rem; padding-top: 0.6rem; border-top: 1px solid rgba(255, 255, 255, 0.08)">
                 <span class="tooltip-label" style="color: #00f0ff; font-weight: 700;">Actual Score</span>
                 <span class="tooltip-value" style="color: #00f0ff; font-weight: 700;">${p.actualPoints.toFixed(1)} pts</span>
             </div>` : ''}
@@ -972,30 +980,38 @@ function highlightPlayerInPlot(position, firstName, lastName, gameId) {
     tooltip.style.left = (rect.left + 50) + 'px';
     tooltip.style.top = (rect.top + 80) + 'px';
     
+    const maxCeiling = Math.max(...customdata.map(d => d.mc_p90 || 0), 1);
+    const floor = p.mc_p10 != null ? p.mc_p10 : 0.0;
+    const ceiling = p.mc_p90 != null ? p.mc_p90 : 0.0;
+    const ev = p.mc_ev != null ? p.mc_ev : 0.0;
+    const p10Pct = (floor / maxCeiling) * 100;
+    const fillWidthPct = ((ceiling - floor) / maxCeiling) * 100;
+    const evPct = (ev / maxCeiling) * 100;
+
     tooltip.innerHTML = `
-        <div class="tooltip-header">${p.firstName} ${p.lastName} <span style="font-size:0.6rem; color: #ff00ff; border: 1px solid #ff00ff; padding: 2px 4px; border-radius:3px; margin-left:5px; font-weight:700;">ADVISOR SELECT</span></div>
-        <div class="tooltip-row"><span class="tooltip-label">Opponent</span><span class="tooltip-value">${p.opponent}</span></div>
-        <div class="tooltip-row"><span class="tooltip-label">Salary</span><span class="tooltip-value">${p.salary} Coins</span></div>
-        <div class="tooltip-row"><span class="tooltip-label">Season Avg</span><span class="tooltip-value">${p.fp_season_avg.toFixed(1)}</span></div>
-        <div class="tooltip-row"><span class="tooltip-label">Opp. Rating</span><span class="tooltip-value" style="color: ${p.team_def_rating > 1.1 ? '#00ff88' : p.team_def_rating < 0.9 ? '#ff4444' : '#ffffff'}">${p.team_def_rating.toFixed(2)}</span></div>
-        <div class="tooltip-row" style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.1)">
-            <span class="tooltip-label">MC EV</span>
-            <span class="tooltip-value" style="color: #00ccff">${(p.mc_ev != null ? p.mc_ev : 0).toFixed(1)} pts</span>
+        <div class="tooltip-header">${p.firstName} ${p.lastName} <span style="font-size:0.65rem; color: #ff00ff; border: 1px solid #ff00ff; padding: 2px 4px; border-radius:3px; float:right; margin-top:3px; font-weight:700;">ADVISOR SELECT</span></div>
+        <div class="tooltip-grid">
+            <div class="tooltip-row"><span class="tooltip-label">Opponent</span><span class="tooltip-value">${p.opponent}</span></div>
+            <div class="tooltip-row"><span class="tooltip-label">Opp. Rating</span><span class="tooltip-value" style="color: ${p.team_def_rating > 1.1 ? '#00ff88' : p.team_def_rating < 0.9 ? '#ff4444' : '#ffffff'}">${(p.team_def_rating || 1.0).toFixed(2)}</span></div>
+            <div class="tooltip-row"><span class="tooltip-label">Salary</span><span class="tooltip-value">${p.salary} Coins</span></div>
+            <div class="tooltip-row"><span class="tooltip-label">Risk (σ)</span><span class="tooltip-value" style="color: ${p.mc_std > 20 ? '#ff4444' : p.mc_std > 12 ? '#fdae61' : '#6dbe6d'}">${(p.mc_std != null ? p.mc_std : 0).toFixed(1)}</span></div>
+            <div class="tooltip-row"><span class="tooltip-label">Season Avg</span><span class="tooltip-value">${(p.fp_season_avg || 0).toFixed(1)}</span></div>
+            <div class="tooltip-row"><span class="tooltip-label">Boom Prob</span><span class="tooltip-value" style="color: rgba(255,255,255,0.55)">${(p.BoomProbability || 0).toFixed(0)}%</span></div>
         </div>
-        <div class="tooltip-row">
-            <span class="tooltip-label">Risk (σ)</span>
-            <span class="tooltip-value" style="color: ${p.mc_std > 20 ? '#ff4444' : p.mc_std > 12 ? '#fdae61' : '#6dbe6d'}">${(p.mc_std != null ? p.mc_std : 0).toFixed(1)}</span>
-        </div>
-        <div class="tooltip-row">
-            <span class="tooltip-label">Boom Prob</span>
-            <span class="tooltip-value" style="color: rgba(255,255,255,0.55)">${(p.BoomProbability || 0).toFixed(0)}%</span>
-        </div>
-        <div class="tooltip-row">
-            <span class="tooltip-label">MC p90 (Ceil)</span>
-            <span class="tooltip-value" style="color: #9f7aea">${(p.mc_p90 || 0).toFixed(1)} pts</span>
+        <div class="range-bar-section">
+            <div class="range-bar-title">MC Projections Range (EV: <span style="color:#00ffff">${ev.toFixed(1)}</span> pts)</div>
+            <div class="range-bar-container">
+                <div class="range-bar-track"></div>
+                <div class="range-bar-fill" style="left: ${p10Pct}%; width: ${fillWidthPct}%;"></div>
+                <div class="range-bar-dot" style="left: ${evPct}%;"></div>
+            </div>
+            <div class="range-bar-labels">
+                <span>Floor (p10): <span class="range-bar-val">${floor.toFixed(1)}</span></span>
+                <span>Ceiling (p90): <span class="range-bar-val">${ceiling.toFixed(1)}</span></span>
+            </div>
         </div>
         ${p.actualPoints !== undefined && p.actualPoints !== null ? `
-        <div class="tooltip-row" style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.1)">
+        <div class="tooltip-row" style="margin-top: 0.6rem; padding-top: 0.6rem; border-top: 1px solid rgba(255, 255, 255, 0.08)">
             <span class="tooltip-label" style="color: #00f0ff; font-weight: 700;">Actual Score</span>
             <span class="tooltip-value" style="color: #00f0ff; font-weight: 700;">${p.actualPoints.toFixed(1)} pts</span>
         </div>` : ''}

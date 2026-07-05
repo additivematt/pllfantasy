@@ -1,3 +1,8 @@
+---
+name: pll-weekly-workflow
+description: Explains the weekly timeline (pre-game, game-day lock, post-game) and step-by-step update process for PLL Fantasy.
+---
+
 # PLL Fantasy Weekly Workflow Explainer
 
 This document outlines the step-by-step procedure required each week as information becomes available. Following this workflow chronologically ensures that predictions, matchups, and optimizations are mathematically accurate and synchronized across all dashboards.
@@ -6,18 +11,19 @@ This document outlines the step-by-step procedure required each week as informat
 
 ## 🗺️ Master Context Index
 
-If you are a new AI agent onboarded to this project, use this document as your entry point. Refer to the following specialized documentation files for deep-dive context on specific subsystems:
+If you are a new AI agent onboarded to this project, use this document as your entry point. Refer to the following specialized workspace skills for deep-dive context on specific subsystems:
 
-| Document | Purpose & Scope |
+| Skill | Purpose & Scope |
 |---|---|
-| [fetcha.md](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/fetcha.md) | **Data pipeline**: Scrapers, GraphQL stats fetching, historical backfilling, and unified dataset consolidation. |
-| [interrogata.md](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/interrogata.md) | **Player Interrogator UI**: Career trajectory trend charts, historical matchup averages, and DNP tracking. |
-| [matcha.md](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/matcha.md) | **Matchup Tagging UI**: Manual defensive assignment tagger app scope, backend server, and data flows. |
-| [predicta.md](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/predicta.md) | **Prediction Engine**: XGBoost classifiers, quantile regressors, Monte Carlo simulations, and EV baking. |
-| [coulda.md](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/coulda.md) | **Retroactive Optimization**: Calculating historical max-possible scores under F2P salary limits. |
-| [evaluata.md](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/evaluata.md) | **Accuracy Reports**: Ground truth assignment, scoring distribution ties, and accuracy evaluation logic. |
-| [uploada.md](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/uploada.md) | **Deployment**: Git commands, GitHub Pages static assets compilation, and offline Service Worker cache updates. |
-| [styla.md](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/styla.md) | **Design System**: UI aesthetic requirements, Glassmorphism, animations, and Electric Purple color tokens. |
+| [pll-data-fetching](../data_fetching/SKILL.md) | **Data pipeline**: Scrapers, GraphQL stats fetching, historical backfilling, and unified dataset consolidation. |
+| [pll-player-interrogator](../player_interrogator/SKILL.md) | **Player Interrogator UI**: Career trajectory trend charts, historical matchup averages, and DNP tracking. |
+| [pll-matchup-tagger](../matchup_tagger/SKILL.md) | **Matchup Tagging UI**: Manual defensive assignment tagger app scope, backend server, and data flows. |
+| [pll-prediction-engine](../prediction_engine/SKILL.md) | **Prediction Engine**: XGBoost classifiers, quantile regressors, Monte Carlo simulations, and EV baking. |
+| [pll-lineup-optimization](../lineup_optimization/SKILL.md) | **Retroactive Optimization**: Calculating historical max-possible scores under F2P salary limits. |
+| [pll-accuracy-evaluation](../accuracy_evaluation/SKILL.md) | **Accuracy Reports**: Ground truth assignment, scoring distribution ties, and accuracy evaluation logic. |
+| [pll-deployment](../deployment/SKILL.md) | **Deployment**: Git commands, GitHub Pages static assets compilation, and offline Service Worker cache updates. |
+| [pll-design-system](../design_system/SKILL.md) | **Design System**: UI aesthetic requirements, Glassmorphism, animations, and Electric Purple color tokens. |
+| [pll-improvements-and-baselines](../improvements_and_baselines/SKILL.md) | **Backlog & Baseline Tracking**: Feature pipeline, Baseline 2 evaluation metrics, and A/B testing rules. |
 
 ---
 
@@ -41,7 +47,7 @@ The weekly cycle is divided into three distinct phases based on when official da
 *When player salaries and initial weekly projections are updated on the F2P platform.*
 
 #### Step 1: Fetch Latest Weekly F2P Data
-Run the F2P scraping script to get player salaries, projections, and injury statuses for the target week. This updates [f2p_2026_season.json](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/f2p_2026_season.json) and [f2p_weekly_data.json](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/f2p_weekly_data.json).
+Run the F2P scraping script to get player salaries, projections, and injury statuses for the target week. This updates `f2p_2026_season.json` and `f2p_weekly_data.json`.
 ```bash
 python 01_fetch_f2p_costs.py --week <WEEK>
 ```
@@ -52,7 +58,7 @@ If you want to tag matchups in the UI before F2P has released stats for the week
 python scratch/backfill_week<WEEK>_preliminary.py
 ```
 > [!NOTE]
-> This parses team schedules and generates blank placeholder events in [combined_player_stats_2026.json](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/combined_player_stats_2026.json) so the games immediately show up in the Matchup Tagger UI dropdowns.
+> This parses team schedules and generates blank placeholder events in `combined_player_stats_2026.json` so the games immediately show up in the Matchup Tagger UI dropdowns.
 
 #### Step 3: Run Raw predictions
 Execute the prediction models on the raw (unfiltered) rosters. These scripts automatically filter out players on Injured Reserve (`IR`) or marked Out (`O`).
@@ -75,7 +81,7 @@ Official rosters are used to filter out inactive scratches (dressing list limite
 python 03_apply_roster_filter.py --year 2026 --week <WEEK>
 ```
 > [!IMPORTANT]
-> This script reads the raw predictions, filters out scratched players, updates traded players' matchups, writes `predicta/predictions/week<WEEK>_2026_predictions.csv`, and automatically calls [06_optimize_lineups.py](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/06_optimize_lineups.py) to generate the baseline advisory report.
+> This script reads the raw predictions, filters out scratched players, updates traded players' matchups, writes `predicta/predictions/week<WEEK>_2026_predictions.csv`, and automatically calls `06_optimize_lineups.py` to generate the baseline advisory report.
 
 #### Step 4b: Scrape Leaderboard & Competitor Rosters
 Once competitor rosters lock and become visible (or when you want to pull consensus selections), scrape the global top 25 leaders and your local league rivals:
@@ -109,7 +115,7 @@ Generate the extensionless JSON files read by the service worker in the Web UI.
 python 07_prepare_static_data.py
 ```
 > [!TIP]
-> This script scans all prediction and advisory outputs and prepares static files in [predicta/predictions/](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/predicta/predictions/) and [predicta/advisory/](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/predicta/advisory/).
+> This script scans all prediction and advisory outputs and prepares static files in `predicta/predictions/` and `predicta/advisory/`.
 
 #### Step 8: Push to GitHub Pages
 Pushes the compiled static payloads to GitHub. The changes will build and be live on GitHub Pages in about 30 seconds.
@@ -140,7 +146,7 @@ run_or_restart_server.bat
 # 2. Open http://localhost:8000/pllmatcha/ in your web browser
 ```
 > [!NOTE]
-> Saving matchups to [season_matchups_2026.json](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/season_matchups_2026.json) automatically triggers [extract_trial_data.py](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/extract_trial_data.py) to compile the player database.
+> Saving matchups to `season_matchups_2026.json` automatically triggers `extract_trial_data.py` to compile the player database.
 
 #### Step 10: Fetch Final Game Stats & Points
 Retrieve actual box scores and final fantasy points to grow the season training dataset:
@@ -164,7 +170,8 @@ python coulda_optimizer.py --year 2026 --week <WEEK>
 #### Step 12: Evaluate Prediction Accuracy
 Compare the predicted tiers against the actual outcomes and generate the weekly accuracy report:
 ```bash
-python predicta_accuracy_report.py (DELETED) --year 2026 --week <WEEK>
+# Reference the accuracy evaluation framework
+# (Note: predicta_accuracy_report.py was deleted in Tier 1 refactoring, evaluation is integrated in prediction_model_evaluation_harness.py)
 ```
 
 ---
@@ -173,18 +180,17 @@ python predicta_accuracy_report.py (DELETED) --year 2026 --week <WEEK>
 
 | Script / Action | Phase | Input Data | Output Data |
 |---|:---:|---|---|
-| [01_fetch_f2p_costs.py](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/01_fetch_f2p_costs.py) | Prep | F2P API | `f2p_weekly_data.json` |
-| [02_predict_probabilities.py](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/02_predict_probabilities.py) | Prep | Historical stats + F2P costs | `_predictions_raw.csv` |
-| [03_apply_roster_filter.py](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/03_apply_roster_filter.py) | Lock | Raw predictions + Gameday Roster API | `predicta/predictions/weekN_YYYY_predictions.csv` |
-| [04_simulate_monte_carlo.py](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/04_simulate_monte_carlo.py) | Lock | `predicta/predictions/weekN_YYYY_predictions.csv` | `predicta/predictions/weekN_YYYY_simulations.csv` |
-| [05_bake_mc_ev.py](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/05_bake_mc_ev.py) | Lock | Predictions + Simulations | Updated final predictions |
-| [07_prepare_static_data.py](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/07_prepare_static_data.py) | Lock | CSVs + [season_matchups_2026.json](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/season_matchups_2026.json) | Static Web UI JSONs |
-| [08_scrape_challenger_rosters.py](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/08_scrape_challenger_rosters.py) | Lock | F2P API + Refresh Token | `weekN_YYYY_consensus_ownership.json` |
-| Matchup Tagger UI (Matcha) | Post | User manual tagging | [season_matchups_2026.json](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/season_matchups_2026.json) |
-| [fetch_fantasy_points.py](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/fetch_fantasy_points.py) | Post | PLL Stats GraphQL API | Raw stats cache |
-| [combine_datasets.py](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/combine_datasets.py) | Post | Raw stats + F2P costs | `combined_player_stats_2026.json` |
-| [coulda_optimizer.py](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/coulda_optimizer.py) | Post | Finalized `combined_player_stats_2026.json` | Optimal retroactive roster |
-| [predicta_accuracy_report.py (DELETED)](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/predicta_accuracy_report.py (DELETED)) | Post | Finalized stats + predictions | Accuracy metrics / report |
+| `01_fetch_f2p_costs.py` | Prep | F2P API | `f2p_weekly_data.json` |
+| `02_predict_probabilities.py` | Prep | Historical stats + F2P costs | `_predictions_raw.csv` |
+| `03_apply_roster_filter.py` | Lock | Raw predictions + Gameday Roster API | `predicta/predictions/weekN_YYYY_predictions.csv` |
+| `04_simulate_monte_carlo.py` | Lock | `predicta/predictions/weekN_YYYY_predictions.csv` | `predicta/predictions/weekN_YYYY_simulations.csv` |
+| `05_bake_mc_ev.py` | Lock | Predictions + Simulations | Updated final predictions |
+| `07_prepare_static_data.py` | Lock | CSVs + `season_matchups_2026.json` | Static Web UI JSONs |
+| `08_scrape_challenger_rosters.py` | Lock | F2P API + Refresh Token | `weekN_YYYY_consensus_ownership.json` |
+| Matchup Tagger UI (Matcha) | Post | User manual tagging | `season_matchups_2026.json` |
+| `fetch_fantasy_points.py` | Post | PLL Stats GraphQL API | Raw stats cache |
+| `combine_datasets.py` | Post | Raw stats + F2P costs | `combined_player_stats_2026.json` |
+| `coulda_optimizer.py` | Post | Finalized `combined_player_stats_2026.json` | Optimal retroactive roster |
 
 ---
 
@@ -205,4 +211,4 @@ If your account logs in via a passwordless Magic Link, you will need to extract 
 ---
 
 > [!NOTE]
-> All improvement ideas are tracked centrally in [improva.md](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/improva.md). Do not add new improvement ideas to this file.
+> All improvement ideas are tracked centrally in the [pll-improvements-and-baselines](../improvements_and_baselines/SKILL.md) skill. Do not add new improvement ideas to this file.

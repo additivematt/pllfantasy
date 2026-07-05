@@ -53,6 +53,11 @@ SHRINKAGE_K = 5
 # Exponentially-Weighted Moving Average (EWMA) Rolling Features
 EWMA_ENABLED = True
 
+# Smooth MC Historical Pool Blending: blends player history with position pool
+# to eliminate the hard cliff at 5 games.
+MC_POOL_BLENDING_ENABLED = False
+MC_POOL_BLENDING_K = 8
+
 # --- API Tokens (with environment variable fallbacks) ─────────────────────────
 API_TOKEN_STATS = os.environ.get("PLL_STATS_API_TOKEN", "N)eIKy1rZ%/%fm1WhM7tuVcrR*UIsc")
 API_TOKEN_ROSTER = os.environ.get("PLL_ROSTER_API_TOKEN", "2<b}_K/x8JU1mn/")

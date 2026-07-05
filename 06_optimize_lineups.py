@@ -111,7 +111,15 @@ def main():
 
     # Load datasets
     df_class = pd.read_csv(class_file)
-    df_sims = pd.read_csv(sims_file)
+    
+    # Load pre-computed stats (Item 11) if available, otherwise compute dynamically
+    stats_file = os.path.join(predictions_dir, f"week{args.week}_{args.year}_simulation_stats.json")
+    sim_stats = {}
+    if os.path.exists(stats_file):
+        with open(stats_file, 'r', encoding='utf-8') as f:
+            sim_stats = json.load(f)
+            
+    df_sims = None
     
     if args.year == 2026 and args.week == 7:
         df_class['salary'] = 25
@@ -125,15 +133,27 @@ def main():
     
     for idx, r in df_merged.iterrows():
         col_name = f"{r['firstName']}_{r['lastName']}_{r['game_id']}"
-        if col_name in df_sims.columns:
-            sim_evs.append(df_sims[col_name].mean())
-            sim_p90s.append(np.percentile(df_sims[col_name].values, 90))
-            sim_idxs.append(df_sims.columns.get_loc(col_name))
+        if col_name in sim_stats:
+            sim_evs.append(sim_stats[col_name]["mc_ev"])
+            sim_p90s.append(sim_stats[col_name]["mc_p90"])
+            # Load sims CSV lazily if we need column indices
+            if df_sims is None and os.path.exists(sims_file):
+                df_sims = pd.read_csv(sims_file)
+            sim_idxs.append(df_sims.columns.get_loc(col_name) if df_sims is not None else -1)
         else:
-            sim_evs.append(0.0)
-            sim_p90s.append(0.0)
-            sim_idxs.append(-1)
-            
+            # Fallback to computing from raw simulations CSV if JSON is missing
+            if df_sims is None and os.path.exists(sims_file):
+                df_sims = pd.read_csv(sims_file)
+                
+            if df_sims is not None and col_name in df_sims.columns:
+                sim_evs.append(df_sims[col_name].mean())
+                sim_p90s.append(np.percentile(df_sims[col_name].values, 90))
+                sim_idxs.append(df_sims.columns.get_loc(col_name))
+            else:
+                sim_evs.append(0.0)
+                sim_p90s.append(0.0)
+                sim_idxs.append(-1)
+                
     df_merged["sim_ev"] = sim_evs
     df_merged["sim_p90"] = sim_p90s
     df_merged["sim_idx"] = sim_idxs
@@ -170,7 +190,10 @@ def main():
         print("Error: Could not find a valid baseline EV lineup.")
         return
         
-    sim_matrix = df_sims.values
+    if df_sims is None and os.path.exists(sims_file):
+        df_sims = pd.read_csv(sims_file)
+        
+    sim_matrix = df_sims.values if df_sims is not None else None
     
     print("Running local search for MC EV...")
     team_mc_ev = run_local_search(player_pool, sim_matrix, 'MC_EV', ev_baseline, args.budget, restarts=LOCAL_SEARCH_RESTARTS)

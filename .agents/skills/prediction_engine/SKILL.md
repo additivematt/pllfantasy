@@ -1,26 +1,26 @@
-# Agent Context: PLL Fantasy Prediction Engine
+---
+name: pll-prediction-engine
+description: Guides prediction modeling, out-of-fold stacked regressors, Monte Carlo simulations (10,000 trials), and static UI compilation.
+---
 
-> [!NOTE]
-> **Design System**: All Predicta UI development must follow the [styla.md](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/styla.md) guide (Electric Purple aesthetic).
-> **Hosted Address (Local)**: [http://localhost:8000/predicta/](http://localhost:8000/predicta/)
-> **Hosted Address (Public)**: [https://additivematt.github.io/pllfantasy/predicta/](https://additivematt.github.io/pllfantasy/predicta/) (GitHub Pages secure origin)
+# Agent Context: PLL Fantasy Prediction Engine
 
 ## Purpose
 
-This document provides a **new agent with full context** to continue development of the PLL fantasy points prediction engine. Load this file at the start of any session related to predicting player performance or improving the forecasting model.
+This skill outlines the prediction and forecasting pipeline. Use this when developing model features, training the XGBoost classifier, running Monte Carlo simulations, or updating prediction data payloads.
 
 ---
 
 ## Where This Fits in the Project
 
 ```
-1. DATA FETCHING  (see fetcha.md)
+1. DATA FETCHING  (see pll-data-fetching)
        ↓
-2. PREDICTION     ← this module
+2. PREDICTION     ← this module (pll-prediction-engine)
        ↓
-3. VISUALIZATION  (see /predicta/)
+3. VISUALIZATION  (see /predicta/ UI, pll-player-interrogator)
        ↓
-4. LINEUP OPTIMIZATION  (see coulda.md)
+4. LINEUP OPTIMIZATION  (see pll-lineup-optimization)
 ```
 
 | Stage | Key Scripts / Paths | Output |
@@ -28,13 +28,13 @@ This document provides a **new agent with full context** to continue development
 | **Data Fetching** | `01_fetch_f2p_costs.py` | `combined_player_stats_YYYY.json` |
 | **Prediction** | `02_predict_probabilities.py` | `predicta/predictions/weekN_YYYY_predictions.csv` |
 | **Visualization** | `/predicta/index.html` | Interactive Web Dashboard |
-| **Optimization** | `roster_optimizer.py (DELETED)` | Optimal lineup |
+| **Optimization** | `roster_optimizer_mc.py (DELETED)` | Optimal lineup (see lineup optimization skill) |
 
 ---
 
 ## Model Design & Optimization
 
-Predicta supports multiple prediction models and roster optimization strategies. Through extensive historical backtesting, we have transitioned our primary selection method from standard Expected Value (EV) / Boom % models to a **Monte Carlo Expected Value (MC EV)** simulation framework.
+Predicta supports prediction models and roster optimization strategies. Through historical backtests, we have transitioned our primary selection method from standard Expected Value (EV) / Boom % models to a **Monte Carlo Expected Value (MC EV)** simulation framework.
 
 ---
 
@@ -74,24 +74,15 @@ Predicta supports multiple prediction models and roster optimization strategies.
   4. **Why this isn't "Double Counting"**:
      - *No Data Leakage*: The out-of-fold procedure ensures the final classifier is trained on predictions that have not memorized target values.
      - *No Collinearity Issues*: Unlike linear regression, XGBoost (a tree-based model) does not degrade when given correlated inputs. It uses the `PredictedPoints` baseline as a strong anchor and uses individual features (matchups, rest, injuries) to split on residual variance, fine-tuning the final probability calibration.
-- **File Link**: [02_predict_probabilities.py](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/02_predict_probabilities.py)
+- **File Link**: [02_predict_probabilities.py](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/02_predict_probabilities.py)
 
-#### B. Quantile Regression Model (`predict_fantasy_points_regression.py (DELETED)`)
-- **Core Purpose**: Predicts raw fantasy point ceilings directly, rather than predicting point averages or categorical tiers.
-- **Algorithm**: XGBoost Regressor (`XGBRegressor`) with a custom pinball loss objective.
-- **Objective Function**: Since standard regression models suffer from a "regression to the mean" compression effect (which is not useful for picking high-scoring outliers needed to win fantasy weeks), this model uses 90th percentile quantile regression (`alpha = 0.9` pinball loss). Due to environment limits (XGBoost 1.6.2 lacking native `reg:quantileerror` on Windows), this is implemented via a custom objective function with a constant Hessian of `1.0`:
-  $$\text{Loss}(y, \hat{y}) = \max(\alpha(y - \hat{y}), (\alpha - 1)(y - \hat{y}))$$
-- **Target Variable**: Actual total fantasy points.
-- **Features Used**: Identical to the classification features (rolling stats, matchup pairing ratings, and defensive allowance ratios).
-- **File Link**: [predict_fantasy_points_regression.py (DELETED)](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/predict_fantasy_points_regression.py (DELETED))
-
-#### C. Monte Carlo Simulation Model (`04_simulate_monte_carlo.py` - Primary)
+#### B. Monte Carlo Simulation Model (`04_simulate_monte_carlo.py` - Primary)
 - **Core Purpose**: Simulates 10,000 distinct trials of player-game fantasy outcomes by generating empirical probability distributions per player, scaling them by matchup difficulty, and applying teammate/opponent correlations.
 - **Methodology**:
   1. **Historical Bootstrap**: Retrieves the player's historical game-by-game fantasy scoring records prior to the prediction week.
   2. **Matchup Scaling**: Adjusts each historical game sample by the target week's matchup difficulty multiplier (allowance ratio) to account for defensive opposition strength.
   3. **Correlation Structure (Gaussian Copula)**: To model teammate positive correlation (e.g., Attack/Midfield points rise together during high-scoring games) and opponent negative correlation (e.g., Face-off battles are zero-sum, and Attack goals lower opponent Goalie save points), the simulator implements a Gaussian Copula using Pearson correlation coefficients calculated from 2023–2026 data.
-- **File Link**: [04_simulate_monte_carlo.py](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/04_simulate_monte_carlo.py)
+- **File Link**: [04_simulate_monte_carlo.py](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/04_simulate_monte_carlo.py)
 
 ---
 
@@ -99,124 +90,7 @@ Predicta supports multiple prediction models and roster optimization strategies.
 
 All optimizers target the core F2P roster requirements (select exactly 7 players within a 200-coin salary budget: 2 Attack, 2 Midfield, 1 Defense [merged SSDM/LSM/Defensemen], 1 Face-off, and 1 Goalie) and automatically pre-filter double-game weeks to retain only the best projected matchup per player (while mapping alternatives for manual swaps).
 
-#### A. Monte Carlo Expected Value (MC EV) Optimizer (`roster_optimizer_mc.py (DELETED)` - Primary Selection)
-- **Approach**: Maximizes the average simulated lineup score across 10,000 Monte Carlo trials:
-  $$\text{MC EV} = \frac{1}{M} \sum_{m=1}^{M} \sum_{i \in \text{Lineup}} \text{SimulatedPoints}_{i, m}$$
-  where $M = 10,000$ simulation trials.
-- **Optimization Goal**: Maximizes expected points within the 200-coin budget. By simulating outcomes from each player's empirical distribution, this naturally captures individual variance and true salary efficiency.
-- **Best Use Case**: Primary selection algorithm for season-long formats, head-to-head cash matches, and double-ups.
-- **File Link**: [roster_optimizer_mc.py (DELETED)](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/roster_optimizer_mc.py (DELETED))
-
-#### B. Quantile Regression Optimizer (DEPRECATED / REMOVED)
-- **Approach**: Selects players by maximizing the sum of their predicted 90th percentile ceiling points directly.
-- **Optimization Goal**: Maximizes total ceiling points within the 200-coin budget.
-- **Best Use Case**: Identifying high-value sleeper selections with enormous ceilings.
-- **File Link**: [roster_optimizer_regression.py (DELETED)](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/roster_optimizer_regression.py (DELETED))
-
-#### C. Teammate & Opponent Correlation Stacking Optimizer (`roster_optimizer_stack.py (DELETED)` - Tournament)
-- **Approach**: Employs integer linear programming (ILP) using the `PuLP` library to optimize rosters while factoring in teammate positive correlations and matchup/opponent negative correlations.
-- **Correlation Bonuses & Penalties**: Uses historical Pearson correlation coefficients ($\text{Corr}_{ij}$) calculated from 2023–2026 game data to adjust the objective score. Linearization is applied via binary quadratic constraints ($z_{ij} = x_i \cdot x_j$):
-  $$\text{Bonus/Penalty} = \beta \times \text{Corr}_{ij} \times \min(P_i, P_j)$$
-  where $\beta$ is a scaling multiplier (default `1.0`) and $P$ is the player's predicted performance metric (Boom probability or point ceiling).
-  *   **Positive Stacks ($\text{Corr}_{ij} > 0$)**: Encourages pairing correlated players (e.g. Same-Team Attack - Attack = `+0.124`).
-  *   **Negative Penalties ($\text{Corr}_{ij} < 0$)**: Penalizes co-rostering mutually-exclusive players in the same lineup:
-      *   *Same-Team Goalie - Defense/SSDM/LSM*: range `-0.25` to `-0.39` (defensemen stats and goalie save counts are negatively correlated).
-      *   *Cross-Team Faceoff - Faceoff*: `-0.435` (zero-sum possession battles).
-      *   *Cross-Team Attack - Goalie*: `-0.182` (attack goals hurt the opposing goalie's score).
-- **Configured Variants**:
-  *   **Stacked Boom % (Tourney)**: Uses calibrated predictions from the Classification Model to maximize joint Boom probability.
-  *   **Stacked Regression (Tourney)**: Uses predictions from the Quantile Regression Model to maximize joint points ceiling.
-- **Best Use Case**: GPP tournament formats. Stacking captures same-team offensive explosions while negative correlation penalties actively prevent co-rostering players who limit each other's ceiling.
-- **File Link**: [roster_optimizer_stack.py (DELETED)](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/roster_optimizer_stack.py (DELETED))
-
-#### D. Expected Value (EV) Optimizer (`roster_optimizer_ev.py (DELETED)` / `roster_optimizer.py (DELETED)` - Legacy / Deprecated)
-- **Approach**: Calculates each player's Expected Value (EV) using classification probabilities combined with historical tier-level averages:
-  $$\text{EV} = P(\text{Boom}) \times \text{Avg}(\text{Boom Points}) + (1.0 - P(\text{Boom})) \times \text{Avg}(\text{Non-Boom Points})$$
-- **Status**: **Deprecated** due to the compression of individual player variance caused by position-wide average multipliers.
-- **File Links**: [roster_optimizer_ev.py (DELETED)](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/roster_optimizer_ev.py (DELETED)) / [roster_optimizer.py (DELETED)](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/roster_optimizer.py (DELETED))
-
----
-
-### 📈 Backtest Results & Rationale
-
-We performed extensive historical backtests across the 2024, 2025, and early 2026 seasons to compare standard selection methods (Classification Boom %, standard EV Weighted) against regression models and Monte Carlo simulations.
-
-#### A. 2025 Seasonal Backtest Results (Weeks 1–14)
-*   **Total Max Possible points (Coulda Optimizer)**: 4,666.6 pts
-*   **MC EV** won the season-long backtest with **2,177.4 pts** (46.7% of max), outperforming standard EV Weighted by **161.1 pts** (+8% performance boost).
-
-| Week | Class (Boom%) | EV Weighted | Regression | Stacked Boom | Stacked Reg | MC EV | MC Ceil 90 | MC Win 110 | Coulda Opt |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Week 1** | 142.4 | 142.4 | 191.6 | 142.4 | 189.6 | 152.9 | 103.1 | **209.3** | 349.6 |
-| **Week 2** | 114.9 | 114.9 | 99.4 | 114.9 | **186.4** | 162.9 | 105.4 | 139.9 | 385.0 |
-| **Week 3** | 150.9 | 150.9 | 184.2 | 151.9 | **194.9** | 150.9 | 174.9 | 164.2 | 371.0 |
-| **Week 4** | 263.0 | 263.0 | 71.7 | 234.0 | 96.7 | 263.0 | 150.7 | 251.7 | 433.7 |
-| **Week 5** | 181.4 | 181.4 | 181.6 | 182.4 | **188.6** | 181.4 | 175.4 | 163.9 | 385.7 |
-| **Week 7** | 63.8 | 63.8 | 82.6 | **149.8** | 74.6 | 63.8 | 95.8 | 120.8 | 365.1 |
-| **Week 8** | 176.1 | 176.1 | 124.6 | **205.1** | 107.6 | 193.2 | 114.2 | 148.2 | 379.9 |
-| **Week 9** | 83.1 | 83.1 | 116.1 | 122.1 | 125.1 | **144.1** | 101.0 | 98.0 | 339.9 |
-| **Week 10** | 184.7 | 184.7 | 140.1 | 184.7 | 151.9 | **220.7** | 157.1 | 146.7 | 362.0 |
-| **Week 11** | 201.3 | 201.3 | 150.4 | 201.3 | **211.8** | 191.8 | 165.3 | 147.8 | 413.3 |
-| **Week 12** | 181.0 | 181.0 | 126.7 | 182.0 | 133.7 | 179.0 | 157.8 | **235.0** | 336.5 |
-| **Week 13** | 119.0 | 119.0 | **142.0** | 119.0 | 111.0 | 119.0 | 119.0 | 117.0 | 307.8 |
-| **Week 14** | 154.7 | 154.7 | 140.7 | **182.6** | 122.6 | 154.7 | 154.7 | 155.7 | 237.1 |
-| **TOTAL** | **2016.3** | **2016.3** | **1751.7** | **2172.2** | **1894.5** | **2177.4** | **1774.4** | **2098.2** | **4666.6** |
-| **% MAX** | **43.2%** | **43.2%** | **37.5%** | **46.5%** | **40.6%** | **46.7%** | **38.0%** | **45.0%** | **100.0%** |
-
-#### B. 2024 Seasonal Backtest Results (Weeks 1–14)
-*   **Total Max Possible points (Coulda Optimizer)**: 4,560.4 pts
-*   **MC EV** scored **1858.9 pts** (40.8% of max), outscoring standard EV Weighted (**1834.3 pts**). The season was won by Stacked Regression (**2157.4 pts**), and **MC Win 110** was the top-performing MC model at **1973.2 pts** (43.3% of max).
-
-| Week | Class (Boom%) | EV Weighted | Regression | Stacked Boom | Stacked Reg | MC EV | MC Ceil 90 | MC Win 110 | Coulda Opt |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Week 1** | 116.5 | 116.5 | 157.5 | 179.5 | **240.5** | 116.5 | 148.0 | 131.0 | 438.4 |
-| **Week 2** | 111.7 | 111.7 | 142.5 | 125.7 | 181.5 | 132.7 | 131.2 | **199.7** | 385.5 |
-| **Week 3** | 191.4 | 191.4 | 142.4 | **235.6** | 203.2 | 176.6 | 124.6 | 193.8 | 447.9 |
-| **Week 4** | 125.9 | 106.4 | 155.4 | 168.5 | **188.4** | 147.5 | 145.5 | 81.7 | 342.8 |
-| **Week 5** | 285.9 | 285.9 | 154.4 | 251.9 | 137.4 | **285.9** | 173.2 | 213.4 | 370.0 |
-| **Week 7** | 117.1 | 117.1 | 141.1 | 100.1 | **162.6** | 117.1 | 77.6 | 85.9 | 362.1 |
-| **Week 8** | 164.2 | 164.2 | 225.3 | 164.2 | 205.3 | 109.2 | 124.2 | **235.2** | 357.3 |
-| **Week 9** | 153.8 | 153.8 | 121.8 | **156.8** | 124.8 | 144.8 | 153.8 | 113.8 | 333.6 |
-| **Week 10** | 50.7 | 50.7 | 106.8 | 41.6 | 128.3 | 99.7 | 99.7 | **165.1** | 351.1 |
-| **Week 11** | 100.1 | 100.1 | **130.1** | 107.1 | 116.1 | 100.1 | 98.1 | 123.1 | 369.1 |
-| **Week 12** | 140.6 | 140.6 | 122.9 | 140.6 | **157.9** | 144.6 | 132.9 | 112.6 | 269.6 |
-| **Week 13** | 134.3 | 134.3 | 114.3 | 140.3 | **149.8** | 135.6 | 101.6 | 131.3 | 300.8 |
-| **Week 14** | 161.6 | 161.6 | 159.1 | 120.6 | 161.6 | 148.6 | 148.6 | **186.6** | 232.2 |
-| **TOTAL** | **1853.8** | **1834.3** | **1873.6** | **1932.5** | **2157.4** | **1858.9** | **1659.0** | **1973.2** | **4560.4** |
-| **% MAX** | **40.6%** | **40.2%** | **41.1%** | **42.4%** | **47.3%** | **40.8%** | **36.4%** | **43.3%** | **100.0%** |
-
-#### C. 2026 Seasonal Backtest Results (Weeks 1–4)
-*   **Total Max Possible points (Coulda Optimizer)**: 1,437.3 pts
-*   **MC EV** scored **637.7 pts** (44.4% of max), outperforming standard EV Weighted (**568.7 pts**) by **69.0 pts** (+12% gain).
-
-| Week | Class (Boom%) | EV Weighted | Regression | Stacked Boom | Stacked Reg | MC EV | MC Ceil 90 | MC Win 110 | Coulda Opt |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Week 1** | 145.5 | 145.5 | 185.6 | 186.5 | 197.6 | 158.5 | **257.5** | 117.6 | 369.7 |
-| **Week 2** | 139.9 | 139.9 | **176.9** | 139.9 | 167.9 | 139.9 | 119.4 | 119.9 | 357.9 |
-| **Week 3** | 133.8 | 133.8 | 133.8 | 189.8 | 100.8 | 189.8 | 91.8 | **211.8** | 319.8 |
-| **Week 4** | 149.5 | 149.5 | 176.6 | **210.5** | 147.5 | 149.5 | 120.5 | 114.6 | 389.9 |
-| **TOTAL** | **568.7** | **568.7** | **672.9** | **726.7** | **613.8** | **637.7** | **589.2** | **563.9** | **1437.3** |
-| **% MAX** | **39.6%** | **39.6%** | **46.8%** | **50.6%** | **42.7%** | **44.4%** | **41.0%** | **39.2%** | **100.0%** |
-
----
-
-### Rationale for Retiring Boom % & Standard EV
-
-Based on these backtest findings, standard `Boom %` (Classification) and `EV Weighted` have been retired from our core roster selection pipeline:
-
-1. **Compression of Individual Variance in Standard EV**:
-   Standard EV utilizes position-wide averages to multiply the model's classification probabilities:
-   $$\text{EV} = P(\text{Boom}) \times \text{Avg}(\text{Boom Points}) + (1.0 - P(\text{Boom})) \times \text{Avg}(\text{Non-Boom Points})$$
-   Because $\text{Avg}(\text{Boom Points})$ is a flat constant for all players in a position group (e.g. all Attackmen who boom are assumed to score an average of 25 points), this approach compresses player-specific ceilings. An elite Attackman with a massive historical distribution is evaluated using the exact same multiplier as a budget Attackman, leading to severely compressed and inaccurate EV estimates.
-
-2. **arbitrary Thresholding of Boom %**:
-   `Boom %` represents a player's probability of scoring in the top 25% of their position group in a week. Optimizing for the sum of `Boom %` treating all "Booms" identically introduces severe thresholding bias. A player who scores 35 points (a massive boom) and a player who scores 18 points (a marginal boom) are weighted identically. Standard Boom % completely ignores the shape and scale of a player's high-scoring outliers.
-
-3. **Superiority of Monte Carlo Expected Value (MC EV)**:
-   MC EV simulates the full empirical distribution of each player. Rather than using arbitrary tier boundaries or flat position-wide constants, MC EV bootstraps directly from each player's historical game-by-game scores and scales them by matchup. The expected value is the true mathematical mean of 10,000 simulations:
-   - MC EV naturally accounts for individual players with unique ceilings (e.g. high-variance players vs high-floor players).
-   - It captures teammates/opponent correlations dynamically via the Copula matrix.
-   - It consistently outperformed standard EV Weighted across all seasons (+8% in 2025, +12% in early 2026).
+Detailed optimizer logic is mapped out in the [pll-lineup-optimization](../lineup_optimization/SKILL.md) skill.
 
 ---
 
@@ -341,7 +215,7 @@ To update the UI and prevent it from recommending out/injured players, you **MUS
 
 1. **Compile Static JSON Payloads**:
    ```bash
-   python 07_07_prepare_static_data.py
+   python 07_prepare_static_data.py
    ```
    *This reads the CSV predictions and builds the static JSON outputs for the dashboard and sidebar.*
 
@@ -352,17 +226,9 @@ To update the UI and prevent it from recommending out/injured players, you **MUS
    *This computes the Monte Carlo Expected Value (`mc_ev`), standard deviation (`mc_std`), and 90th percentile ceiling (`mc_p90`) from the simulation trials and bakes them directly into the extensionless week prediction file.*
 
 3. **Stage and Push to GitHub**:
-   ```bash
-   git add -u
-   git commit -m "Update static predictions"
-   git push
-   ```
-   *Stage the modified static JSON files and push to GitHub so they are live on the secure GitHub Pages hosting origin.*
+   *See the [pll-deployment](../deployment/SKILL.md) skill for pushing static payload updates online.*
 
 ---
 
-## Next Steps / Open Problems
-
 > [!NOTE]
-> All improvement ideas are tracked centrally in [improva.md](file:///g:/My%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/improva.md). Do not add new improvement ideas to this file.
-
+> All improvement ideas are tracked centrally in the [pll-improvements-and-baselines](../improvements_and_baselines/SKILL.md) skill. Do not add new improvement ideas to this file.
