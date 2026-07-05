@@ -639,16 +639,18 @@ def main():
                     ev_baseline = run_mc_ev_optimizer(player_pool, budget=200)
                     if not ev_baseline:
                         print("  ⚠️ Could not find a valid baseline EV lineup.")
-                        continue
+                        if not (year == 2026 and week == 7):
+                            continue
+                        ev_baseline = []
                         
                     # 2. Run MC EV Optimization via Local Search
-                    team_mc_ev = run_local_search(player_pool, sim_matrix, 'MC_EV', ev_baseline, budget=200)
+                    team_mc_ev = run_local_search(player_pool, sim_matrix, 'MC_EV', ev_baseline, budget=200) if ev_baseline else []
                     
                     # 3. Run MC Win 160 Optimization
-                    team_mc_win_160 = run_local_search(player_pool, sim_matrix, 'MC_Win_Prob', ev_baseline, budget=200, target_win_score=160.0)
+                    team_mc_win_160 = run_local_search(player_pool, sim_matrix, 'MC_Win_Prob', ev_baseline, budget=200, target_win_score=160.0) if ev_baseline else []
                     
                     # 4. Run MC Ceil 90 Optimization
-                    team_mc_ceil_90 = run_local_search(player_pool, sim_matrix, 'MC_Ceiling_90', ev_baseline, budget=200)
+                    team_mc_ceil_90 = run_local_search(player_pool, sim_matrix, 'MC_Ceiling_90', ev_baseline, budget=200) if ev_baseline else []
 
                     # 6. Consensus & Differential Options (Incorporating User Feedback)
                     def clean_name_local(n):
@@ -853,8 +855,9 @@ def main():
                                 pos = p['position']
                                 pts = p['totalPoints']
                                 
-                                if (first, last) not in active_roster_names:
-                                    continue
+                                if not (year == 2026 and week == 7):
+                                    if (first, last) not in active_roster_names:
+                                        continue
                                 if pos == "G" and pts == 0:
                                     continue
                                 
