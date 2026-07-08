@@ -27,17 +27,17 @@
             "actualPoints": 64.0
         },
         {
-            "firstName": "Ryder",
-            "lastName": "Garnsey",
-            "team": "RED",
-            "opponent": "CHA",
-            "game_id": "2025_quarterfinal_2",
+            "firstName": "CJ",
+            "lastName": "Kirst",
+            "team": "WAT",
+            "opponent": "WHP",
+            "game_id": "2025_quarterfinal_1",
             "position": "Attack",
-            "salary": 30,
-            "mc_ev": 27.8,
+            "salary": 6,
+            "mc_ev": 27.2,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
-            "actualPoints": 21.0
+            "actualPoints": 54.0
         },
         {
             "firstName": "Zach",
@@ -120,17 +120,17 @@
             "actualPoints": 64.0
         },
         {
-            "firstName": "CJ",
-            "lastName": "Kirst",
-            "team": "WAT",
-            "opponent": "WHP",
+            "firstName": "Rob",
+            "lastName": "Pannell",
+            "team": "WHP",
+            "opponent": "WAT",
             "game_id": "2025_quarterfinal_1",
             "position": "Attack",
-            "salary": 6,
-            "mc_ev": 27.2,
+            "salary": 28,
+            "mc_ev": 26.4,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
-            "actualPoints": 54.0
+            "actualPoints": 38.0
         },
         {
             "firstName": "Zach",
@@ -187,17 +187,17 @@
     ],
     "MC_Ceil_90": [
         {
-            "firstName": "CJ",
-            "lastName": "Kirst",
+            "firstName": "Matt",
+            "lastName": "DeLuca",
             "team": "WAT",
             "opponent": "WHP",
             "game_id": "2025_quarterfinal_1",
-            "position": "Attack",
-            "salary": 6,
-            "mc_ev": 27.2,
+            "position": "Goalie",
+            "salary": 32,
+            "mc_ev": 27.0,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
-            "actualPoints": 54.0
+            "actualPoints": 14.0
         },
         {
             "firstName": "Kieran",
@@ -211,6 +211,19 @@
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 64.0
+        },
+        {
+            "firstName": "CJ",
+            "lastName": "Kirst",
+            "team": "WAT",
+            "opponent": "WHP",
+            "game_id": "2025_quarterfinal_1",
+            "position": "Attack",
+            "salary": 6,
+            "mc_ev": 27.2,
+            "mc_p90": 0.0,
+            "mc_p10": 0.0,
+            "actualPoints": 54.0
         },
         {
             "firstName": "Sergio",
@@ -239,19 +252,6 @@
             "actualPoints": 12.6
         },
         {
-            "firstName": "Jarrod",
-            "lastName": "Neumann",
-            "team": "CHA",
-            "opponent": "RED",
-            "game_id": "2025_quarterfinal_2",
-            "position": "Defense",
-            "salary": 9,
-            "mc_ev": 9.8,
-            "mc_p90": 0.0,
-            "mc_p10": 0.0,
-            "actualPoints": 1.0
-        },
-        {
             "firstName": "Joseph",
             "lastName": "Nardella",
             "team": "WHP",
@@ -265,17 +265,17 @@
             "actualPoints": 20.0
         },
         {
-            "firstName": "Matt",
-            "lastName": "DeLuca",
-            "team": "WAT",
-            "opponent": "WHP",
-            "game_id": "2025_quarterfinal_1",
-            "position": "Goalie",
-            "salary": 32,
-            "mc_ev": 27.0,
+            "firstName": "Jarrod",
+            "lastName": "Neumann",
+            "team": "CHA",
+            "opponent": "RED",
+            "game_id": "2025_quarterfinal_2",
+            "position": "Defense",
+            "salary": 9,
+            "mc_ev": 9.8,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
-            "actualPoints": 14.0
+            "actualPoints": 1.0
         }
     ],
     "MC_Consensus": [],
@@ -379,7 +379,6 @@
         "Joseph Nardella"
     ],
     "Sleepers": [
-        "CJ Kirst",
         "Jarrod Neumann"
     ],
     "RecommendedStrategy": "MC_EV",
@@ -406,12 +405,13 @@
                 ]
             },
             {
-                "firstName": "Ryder",
-                "lastName": "Garnsey",
+                "firstName": "CJ",
+                "lastName": "Kirst",
                 "position": "Attack",
-                "salary": 30,
+                "salary": 6,
                 "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (27.8 EV) and reliable role."
+                    "Hot Form: Averaging 51.7 fantasy pts over last 3 games (vs 15.0 season avg).",
+                    "Salary Cap Enabler: Excellent cost efficiency, projecting 27.2 EV for just 6 coins."
                 ]
             },
             {
@@ -456,29 +456,27 @@
                 "strategy": "MC_Win_160",
                 "strategyLabel": "MC Win 160",
                 "in": [
-                    "CJ Kirst"
+                    "Rob Pannell"
                 ],
                 "out": [
-                    "Ryder Garnsey"
+                    "CJ Kirst"
                 ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like CJ Kirst (Attack, 6c)) to increase the joint probability of the entire lineup hitting the 160 target score."
+                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Rob Pannell (Attack, 28c)) to increase the joint probability of the entire lineup hitting the 160 target score."
             },
             {
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
-                    "CJ Kirst",
+                    "Matt DeLuca",
                     "Sergio Perkovic",
-                    "Jarrod Neumann",
-                    "Matt DeLuca"
+                    "Jarrod Neumann"
                 ],
                 "out": [
                     "Blaze Riorden",
-                    "Ryder Garnsey",
                     "Andrew McAdorey",
                     "Christian Scarpello"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like CJ Kirst (Attack, 6c), Sergio Perkovic (Midfield, 14c), Jarrod Neumann (Defense, 9c), Matt DeLuca (Goalie, 32c)) to maximize the team's 90th percentile ceiling (projecting up to 0.0 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Matt DeLuca (Goalie, 32c), Sergio Perkovic (Midfield, 14c), Jarrod Neumann (Defense, 9c)) to maximize the team's 90th percentile ceiling (projecting up to 0.0 pts)."
             }
         ]
     },
