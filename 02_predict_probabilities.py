@@ -292,6 +292,9 @@ def main():
             roster_rows = []
             for p in f2d:
                 if p.get("week") == args.week:
+                    event_id = p.get("eventId") or ""
+                    if "allstar" in event_id.replace("-", "").replace("_", "").lower():
+                        continue
                     first = p.get("firstName")
                     last = p.get("lastName")
                     
