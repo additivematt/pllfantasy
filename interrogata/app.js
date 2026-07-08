@@ -88,6 +88,7 @@ async function init() {
         }
         
         setupEventListeners();
+        populateWeeksDropdown();
         populatePlayerList();
         
         // Default to Jeff Teat if available
@@ -111,6 +112,53 @@ async function init() {
     }
 }
 
+function populateWeeksDropdown() {
+    const yearSelect = document.getElementById('yearSelect');
+    const weekSelect = document.getElementById('weekSelect');
+    if (!yearSelect || !weekSelect || !allPlayersStats) return;
+
+    const year = yearSelect.value;
+    const currentWeekVal = weekSelect.value;
+
+    const weekMap = new Map();
+    for (const slug in allPlayersStats) {
+        const stats = allPlayersStats[slug].stats || [];
+        stats.forEach(s => {
+            if (!s.event || !s.event.eventId) return;
+            const sYear = s.event.eventId.split('_')[0];
+            if (sYear === year && s.week !== null && s.week !== undefined) {
+                if (!weekMap.has(s.week)) {
+                    weekMap.set(s.week, s.event.eventId);
+                }
+            }
+        });
+    }
+
+    const sortedWeeks = Array.from(weekMap.keys()).sort((a, b) => a - b);
+
+    weekSelect.innerHTML = '<option value="">Select Week</option>';
+    sortedWeeks.forEach(week => {
+        const eventId = weekMap.get(week);
+        const label = getEventLabel(eventId, week);
+        let displayLabel = `Week ${week}`;
+        if (label === 'QF') displayLabel = `Week ${week} (QF)`;
+        else if (label === 'SF') displayLabel = `Week ${week} (SF)`;
+        else if (label === 'Final') displayLabel = `Week ${week} (Final)`;
+        else if (label === 'ASG') displayLabel = `Week ${week} (ASG)`;
+
+        const opt = document.createElement('option');
+        opt.value = week;
+        opt.textContent = displayLabel;
+        weekSelect.appendChild(opt);
+    });
+
+    if (currentWeekVal && sortedWeeks.includes(parseInt(currentWeekVal))) {
+        weekSelect.value = currentWeekVal;
+    } else if (sortedWeeks.length > 0) {
+        weekSelect.value = sortedWeeks[sortedWeeks.length - 1];
+    }
+}
+
 function setupEventListeners() {
     ['teamFilter', 'posFilter', 'activeOnly'].forEach(id => {
         document.getElementById(id).addEventListener('change', () => {
@@ -121,7 +169,11 @@ function setupEventListeners() {
     
     document.getElementById('playerSearch').addEventListener('change', updateDashboard);
     document.getElementById('playerSearch2').addEventListener('change', updateDashboard);
-    document.getElementById('yearSelect').addEventListener('change', updateDashboard);
+    
+    document.getElementById('yearSelect').addEventListener('change', () => {
+        populateWeeksDropdown();
+        updateDashboard();
+    });
     document.getElementById('weekSelect').addEventListener('change', updateDashboard);
 }
 
@@ -441,7 +493,7 @@ function renderChart(stats, stats2, targetOpponents, targetOpponents2, player1Na
                     chartStats.push(null);
                 }
             }
-            if (s.week === 6 || s.event.eventId.toLowerCase().includes('allstar')) return;
+            if (s.event.eventId.toLowerCase().includes('allstar')) return;
             chartStats.push(s);
         });
 
@@ -579,7 +631,7 @@ function renderChart(stats, stats2, targetOpponents, targetOpponents2, player1Na
         const counts1 = {};
         stats.forEach(s => {
             if (!s) return;
-            if (s.week === 6 || s.event.eventId.toLowerCase().includes('allstar')) return;
+            if (s.event.eventId.toLowerCase().includes('allstar')) return;
             const season = s.event.eventId.split('_')[0];
             const key = `${season}_${s.week}`;
             counts1[key] = (counts1[key] === undefined) ? 0 : counts1[key] + 1;
@@ -590,7 +642,7 @@ function renderChart(stats, stats2, targetOpponents, targetOpponents2, player1Na
         const counts2 = {};
         stats2.forEach(s => {
             if (!s) return;
-            if (s.week === 6 || s.event.eventId.toLowerCase().includes('allstar')) return;
+            if (s.event.eventId.toLowerCase().includes('allstar')) return;
             const season = s.event.eventId.split('_')[0];
             const key = `${season}_${s.week}`;
             counts2[key] = (counts2[key] === undefined) ? 0 : counts2[key] + 1;
@@ -645,10 +697,9 @@ function renderChart(stats, stats2, targetOpponents, targetOpponents2, player1Na
             const s1 = p1Slot ? p1Slot.stat : null;
             const s2 = p2Slot ? p2Slot.stat : null;
 
-            let eventLabel = 'W' + slot.week;
-            if (slot.week === 12) eventLabel = 'QF';
-            if (slot.week === 13) eventLabel = 'SF';
-            if (slot.week === 14) eventLabel = 'Final';
+            const statObj = s1 || s2;
+            let eventLabel = statObj ? getEventLabel(statObj.event.eventId, slot.week) : 'W' + slot.week;
+            
             if (slot.gameIndex > 0) {
                 eventLabel += ` (G${slot.gameIndex + 1})`;
             }

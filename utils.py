@@ -48,6 +48,10 @@ def get_week_for_event(event_id):
     # Standardize first to be safe
     eid = normalize_event_id(event_id)
     
+    if "allstar" in eid.replace("-", "").replace("_", "").lower():
+        return None
+
+    
     # Extract year if present
     year = None
     match_year = re.search(r"^(\d{4})_", eid)

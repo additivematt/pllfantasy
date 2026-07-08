@@ -1,5 +1,5 @@
 ---
-name: pll-lineup-optimization
+name: coulda
 description: Detailed rules for PLL F2P lineup building, per-game double-header roster selection rules, pre-computed pair tables, and retroactive optimizer.
 ---
 
@@ -14,11 +14,11 @@ This skill outlines the lineup optimization logic. Use this when benchmarking pr
 ## Where This Fits in the Project
 
 ```
-1. DATA FETCHING  (see pll-data-fetching)
+1. DATA FETCHING  (see fetcha)
        ↓
-2. PREDICTION     (see pll-prediction-engine)
+2. PREDICTION     (see predicta)
        ↓
-3. LINEUP OPTIMIZATION  ← this module (pll-lineup-optimization)
+3. LINEUP OPTIMIZATION  ← this module (coulda)
 ```
 
 This stage answers: *"Given what actually happened, what was the best team we could have picked?"* This is the ceiling benchmark against which the prediction engine is evaluated.
@@ -94,6 +94,20 @@ This reduces the search space dramatically while still guaranteeing the true opt
 
 ---
 
+## Live Optimizer (`06_optimize_lineups.py`)
+
+The live optimizer is used during **Phase 2 (Game-Day Lock)** to select the best roster for the upcoming week based on models and Monte Carlo simulations. It solves:
+1. **EV Baseline Roster**: Linear programming (LP) using PuLP to maximize the stacked regressor expected points subject to positional constraints and the 200 F2P coin budget.
+2. **Monte Carlo Optimization (MC_EV, MC_Win_160, MC_Ceil_90)**: Since joint distributions and player correlations are non-linear, a randomized local search heuristic runs (using restarts and local searches in `utils.py`) to find optimal rosters that maximize simulated expected value, probability of scoring over 160.0, or 90th-percentile ceiling.
+3. **Consensus & Differential Roster**: If a competitor ownership JSON file is scraped and present (e.g. from top 25 global players), it solves LP to find either the consensus-maximizing roster or a differential roster.
+
+#### Execution:
+```bash
+python 06_optimize_lineups.py --year 2026 --week <WEEK>
+```
+
+---
+
 ## Data Sources
 
 ### Input Files
@@ -101,9 +115,14 @@ This reduces the search space dramatically while still guaranteeing the true opt
 |---|---|
 | `f2p_2026_season.json` | Per-week player salaries and actual fantasy points scored |
 | `combined_player_stats_2026.json` | Detailed game-level stats (for deeper analysis) |
+| `predicta/predictions/weekN_YYYY_predictions.csv` | Stacked classifier & regressor outputs (loaded by `06_optimize_lineups.py`) |
+| `predicta/predictions/weekN_YYYY_simulation_stats.json` | Baked Monte Carlo simulation stats (Item 11) for fast lookup |
+| `predicta/predictions/weekN_YYYY_simulations.csv` | Full simulation trial matrix (loaded fallback for EV and win probabilities) |
+| `predicta/advisory/weekN_YYYY_consensus_ownership.json` | Competitor rosters and ownership rates (scraped via `08_scrape_challenger_rosters.py`) |
 
 ### Output
-The optimizer prints the optimal lineup and its total score to stdout. Results can be redirected to a file or extended to CSV if needed.
+- **`coulda_optimizer.py`**: Prints the retroactive optimal lineup and its total score to stdout.
+- **`06_optimize_lineups.py`**: Outputs multiple optimized roster suggestions (EV Baseline, MC EV, MC Win 160, MC Ceil 90, Consensus, Differential) to stdout and logs reports.
 
 ---
 
@@ -111,9 +130,10 @@ The optimizer prints the optimal lineup and its total score to stdout. Results c
 
 | Script | Purpose |
 |---|---|
-| `coulda_optimizer.py` | General-purpose retroactive optimizer |
+| `coulda_optimizer.py` | General-purpose retroactive optimizer ("Coulda/Shoulda") |
+| `06_optimize_lineups.py` | Live forward-looking roster optimizer using linear programming & local search heuristics |
 
 ---
 
 > [!NOTE]
-> All improvement ideas are tracked centrally in the [pll-improvements-and-baselines](../improvements_and_baselines/SKILL.md) skill. Do not add new improvement ideas to this file.
+> All improvement ideas are tracked centrally in the [improva](../improvements_and_baselines/SKILL.md) skill. Do not add new improvement ideas to this file.

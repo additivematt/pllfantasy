@@ -1,5 +1,5 @@
 ---
-name: pll-matchup-tagger
+name: matcha
 description: Instructions for the matchup tagging web application backend (server.py) and UI, capturing manual defensive assignments from film.
 ---
 
@@ -10,7 +10,7 @@ description: Instructions for the matchup tagging web application backend (serve
 This skill outlines the matchup tagging interface and data pipeline. Use this when updating the tagging UI, modifying the matchup server backend, or integrating defensive matchup features into the prediction engine.
 
 > [!NOTE]
-> **Design System**: All Matcha UI development must follow the [pll-design-system](../design_system/SKILL.md) guide (Electric Purple aesthetic).
+> **Design System**: All Matcha UI development must follow the [styla](../design_system/SKILL.md) guide (Electric Purple aesthetic).
 > **Hosted Address**: [http://localhost:8000/pllmatcha/](http://localhost:8000/pllmatcha/)
 
 ---
@@ -18,14 +18,14 @@ This skill outlines the matchup tagging interface and data pipeline. Use this wh
 ## Where This Fits in the Project
 
 ```
-1. DATA FETCHING  (see pll-data-fetching)
+1. DATA FETCHING  (see fetcha)
        |
 2a. MATCHUP TAGGING  ← this module (parallel enrichment layer)
        |
        ↓ (feeds into)
-2b. PREDICTION    (see pll-prediction-engine)
+2b. PREDICTION    (see predicta)
        ↓
-3. LINEUP OPTIMIZATION  (see pll-lineup-optimization)
+3. LINEUP OPTIMIZATION  (see coulda)
 ```
 
 The matchup tagger is an **enrichment layer** that captures human-observable defensive assignment data from game film. This data is not available via any API and must be manually tagged by watching recordings. The tagged output (`season_matchups_2026.json`) is consumed by the prediction engine as a feature.
@@ -62,10 +62,18 @@ A locally-served web application. Run the Python backend to serve the UI in a br
 - **No external dependencies** beyond Python stdlib
 
 ### To Run
+
+You can start or manage the local Python server in one of two ways:
+
+#### 1. Using CLI:
 ```bash
 python scripts/matchup_tagger/server.py
-# Then open http://localhost:8000/pllmatcha/ in a browser
 ```
+Then open [http://localhost:8000/pllmatcha/](http://localhost:8000/pllmatcha/) in a browser.
+
+#### 2. Using Windows Helper Batch Scripts:
+- **[run_or_restart_server.bat](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/run_or_restart_server.bat)**: Runs the server locally on port 8000 and automatically restarts it if it is already running.
+- **[stop_server.bat](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/stop_server.bat)**: Safely kills the local Python server process.
 
 ---
 
@@ -94,6 +102,8 @@ The `server.py` is configured to automatically trigger `extract_trial_data.py` e
 
 ## Output Schema: `season_matchups_2026.json`
 
+The JSON structure maps matchups keyed by Game ID (`eventId`):
+
 ```json
 {
   "2026_game_N": {
@@ -108,12 +118,18 @@ The `server.py` is configured to automatically trigger `extract_trial_data.py` e
       },
       ...
     ],
-    "timestamp": "..."
+    "timestamp": "2026-05-12T23:55:58.306Z"
   }
 }
 ```
 
-Each entry is an offensive player → defensive player assignment observed during the game.
+### Field Definitions:
+- **`year`**: The season year as a string.
+- **`game_id`**: The canonical normalized `eventId` for the game.
+- **`team_a` / `team_b`**: The 3-character team abbreviations (e.g. `ARC`, `OUT`, `RED`).
+- **`matchups`**: A list of tag pairings representing individual assignments.
+  - **`playerA` / `playerB`**: The full names of the matched-up players (one is typically an offensive shooter and the other is their primary covering defender). This mapping is symmetric; prediction feature extractors check both sides to match the player.
+- **`timestamp`**: The ISO-8601 UTC timestamp of the last save.
 
 ### ⚠️ Per-Game Keying and Double-Game Weeks
 
@@ -125,4 +141,4 @@ Matchups are stored by **Game ID** (`eventId`), not by week. This is the correct
 ---
 
 > [!NOTE]
-> All improvement ideas are tracked centrally in the [pll-improvements-and-baselines](../improvements_and_baselines/SKILL.md) skill. Do not add new improvement ideas to this file.
+> All improvement ideas are tracked centrally in the [improva](../improvements_and_baselines/SKILL.md) skill. Do not add new improvement ideas to this file.

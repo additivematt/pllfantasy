@@ -1,5 +1,5 @@
 ---
-name: pll-player-interrogator
+name: interrogata
 description: Documentation for the Player Interrogator UI, including DNP tracking, Chart.js trend charts, position-specific logs, and offline Service Worker caching.
 ---
 
@@ -10,7 +10,7 @@ description: Documentation for the Player Interrogator UI, including DNP trackin
 This skill documents the Player Stats Interrogator analytics UI, a league-wide performance analytics dashboard for the PLL Fantasy toolset. Use this when modifying or troubleshooting the Interrogator dashboard.
 
 > [!NOTE]
-> **Design System**: All Interrogator UI development must follow the [pll-design-system](../design_system/SKILL.md) guide (Electric Purple aesthetic).
+> **Design System**: All Interrogator UI development must follow the [styla](../design_system/SKILL.md) guide (Electric Purple aesthetic).
 > **Hosted Address (Local)**: [http://localhost:8000/interrogata/](http://localhost:8000/interrogata/)
 > **Hosted Address (Public)**: [https://additivematt.github.io/pllfantasy/interrogata/](https://additivematt.github.io/pllfantasy/interrogata/) (GitHub Pages secure origin)
 
@@ -23,7 +23,7 @@ To enable data-driven fantasy decisions by visualizing a player's career traject
 
 ## System Architecture
 
-### 1. Data Pipeline (`extract_trial_data.py`)
+### 1. Data Pipeline ([extract_trial_data.py](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/extract_trial_data.py))
 - **Source**: Unified JSON datasets (`combined_player_stats_[YEAR].json`) and tagger output (`season_matchups_[YEAR].json`).
 - **Processing**: Extracts **all players** across the entire league. It tags each player with an `isActive` status if they have recorded stats in the 2025 or 2026 seasons.
 - **DNP (Did Not Play) Detection**: Maps all games played by each franchise in a season. If a player was active on a team in a given year, but did not register any stats for a week where their franchise played a game, the pipeline automatically generates a placeholder stat entry with `isDNP: true` to capture games missed due to injury, scratches, or reserve assignments.
@@ -32,7 +32,7 @@ To enable data-driven fantasy decisions by visualizing a player's career traject
 
 ### 2. Frontend Interface (`/interrogata/`)
 - **Technology**: Vanilla HTML5, CSS3, and JavaScript (ES6+), powered by **Chart.js**.
-- **Offline Support**: A Service Worker (`sw.js`) caches the entire app shell and `all_players_stats.json` relatively on first load, enabling full offline use on mobile, tablet, or PC without needing any active server.
+- **Offline Support**: A Service Worker (`sw.js`) caches the entire app shell and `all_players_stats.json` using relative paths on first load, enabling full offline use on mobile, tablet, or PC without needing any active server.
 - **Layout**: Full-width performance trend chart, historical matchup context cards, and a detailed game log.
 - **Filtering**: Supports filtering by **Team**, **Position**, and **Active Status** (2025/26).
 
@@ -97,4 +97,4 @@ To enable data-driven fantasy decisions by visualizing a player's career traject
 ---
 
 > [!NOTE]
-> All improvement ideas are tracked centrally in the [pll-improvements-and-baselines](../improvements_and_baselines/SKILL.md) skill. Do not add new improvement ideas to this file.
+> All improvement ideas are tracked centrally in the [improva](../improvements_and_baselines/SKILL.md) skill. Do not add new improvement ideas to this file.

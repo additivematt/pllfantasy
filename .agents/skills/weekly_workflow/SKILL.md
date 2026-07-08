@@ -1,5 +1,5 @@
 ---
-name: pll-weekly-workflow
+name: weekflow
 description: Explains the weekly timeline (pre-game, game-day lock, post-game) and step-by-step update process for PLL Fantasy.
 ---
 
@@ -15,15 +15,15 @@ If you are a new AI agent onboarded to this project, use this document as your e
 
 | Skill | Purpose & Scope |
 |---|---|
-| [pll-data-fetching](../data_fetching/SKILL.md) | **Data pipeline**: Scrapers, GraphQL stats fetching, historical backfilling, and unified dataset consolidation. |
-| [pll-player-interrogator](../player_interrogator/SKILL.md) | **Player Interrogator UI**: Career trajectory trend charts, historical matchup averages, and DNP tracking. |
-| [pll-matchup-tagger](../matchup_tagger/SKILL.md) | **Matchup Tagging UI**: Manual defensive assignment tagger app scope, backend server, and data flows. |
-| [pll-prediction-engine](../prediction_engine/SKILL.md) | **Prediction Engine**: XGBoost classifiers, quantile regressors, Monte Carlo simulations, and EV baking. |
-| [pll-lineup-optimization](../lineup_optimization/SKILL.md) | **Retroactive Optimization**: Calculating historical max-possible scores under F2P salary limits. |
-| [pll-accuracy-evaluation](../accuracy_evaluation/SKILL.md) | **Accuracy Reports**: Ground truth assignment, scoring distribution ties, and accuracy evaluation logic. |
-| [pll-deployment](../deployment/SKILL.md) | **Deployment**: Git commands, GitHub Pages static assets compilation, and offline Service Worker cache updates. |
-| [pll-design-system](../design_system/SKILL.md) | **Design System**: UI aesthetic requirements, Glassmorphism, animations, and Electric Purple color tokens. |
-| [pll-improvements-and-baselines](../improvements_and_baselines/SKILL.md) | **Backlog & Baseline Tracking**: Feature pipeline, Baseline 2 evaluation metrics, and A/B testing rules. |
+| [fetcha](../data_fetching/SKILL.md) | **Data pipeline**: Scrapers, GraphQL stats fetching, historical backfilling, and unified dataset consolidation. |
+| [interrogata](../player_interrogator/SKILL.md) | **Player Interrogator UI**: Career trajectory trend charts, historical matchup averages, and DNP tracking. |
+| [matcha](../matchup_tagger/SKILL.md) | **Matchup Tagging UI**: Manual defensive assignment tagger app scope, backend server, and data flows. |
+| [predicta](../prediction_engine/SKILL.md) | **Prediction Engine**: XGBoost classifiers, quantile regressors, Monte Carlo simulations, and EV baking. |
+| [coulda](../lineup_optimization/SKILL.md) | **Retroactive Optimization**: Calculating historical max-possible scores under F2P salary limits. |
+| [evaluata](../accuracy_evaluation/SKILL.md) | **Accuracy Reports**: Ground truth assignment, scoring distribution ties, and accuracy evaluation logic. |
+| [uploada](../deployment/SKILL.md) | **Deployment**: Git commands, GitHub Pages static assets compilation, and offline Service Worker cache updates. |
+| [styla](../design_system/SKILL.md) | **Design System**: UI aesthetic requirements, Glassmorphism, animations, and Electric Purple color tokens. |
+| [improva](../improvements_and_baselines/SKILL.md) | **Backlog & Baseline Tracking**: Feature pipeline, Baseline 2 evaluation metrics, and A/B testing rules. |
 
 ---
 
@@ -114,8 +114,8 @@ Generate the extensionless JSON files read by the service worker in the Web UI.
 ```bash
 python 07_prepare_static_data.py
 ```
-> [!TIP]
-> This script scans all prediction and advisory outputs and prepares static files in `predicta/predictions/` and `predicta/advisory/`.
+> [!NOTE]
+> While Phase 3's `combine_datasets.py` automatically runs the static compiler behind the scenes during post-game updates, you must run this step manually during Phase 2 to compile the new predictions and simulations.
 
 #### Step 8: Push to GitHub Pages
 Pushes the compiled static payloads to GitHub. The changes will build and be live on GitHub Pages in about 30 seconds.
@@ -168,10 +168,9 @@ python coulda_optimizer.py --year 2026 --week <WEEK>
 ```
 
 #### Step 12: Evaluate Prediction Accuracy
-Compare the predicted tiers against the actual outcomes and generate the weekly accuracy report:
+Compare the predicted tiers against the actual outcomes using the evaluation harness:
 ```bash
-# Reference the accuracy evaluation framework
-# (Note: predicta_accuracy_report.py was deleted in Tier 1 refactoring, evaluation is integrated in prediction_model_evaluation_harness.py)
+python prediction_model_evaluation_harness.py
 ```
 
 ---
@@ -211,4 +210,4 @@ If your account logs in via a passwordless Magic Link, you will need to extract 
 ---
 
 > [!NOTE]
-> All improvement ideas are tracked centrally in the [pll-improvements-and-baselines](../improvements_and_baselines/SKILL.md) skill. Do not add new improvement ideas to this file.
+> All improvement ideas are tracked centrally in the [improva](../improvements_and_baselines/SKILL.md) skill. Do not add new improvement ideas to this file.

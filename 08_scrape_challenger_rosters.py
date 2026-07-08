@@ -146,11 +146,18 @@ def main():
             res = requests.get(url_roster, headers=headers, timeout=5)
             if res.status_code == 200:
                 player_ids = res.json().get("response", {}).get("fantasyPlayerIds", [])
+                unresolved_pids = []
                 for pid in player_ids:
                     pinfo = player_map.get(int(pid))
                     if pinfo:
                         global_selections.append(pinfo["name"])
-                print(f"  [{idx+1}/25] Scraped roster for '{team_name}'")
+                    else:
+                        unresolved_pids.append(pid)
+                
+                if unresolved_pids:
+                    print(f"  [{idx+1}/25] Scraped roster for '{team_name}' (⚠️ {len(unresolved_pids)} unresolved IDs: {unresolved_pids})")
+                else:
+                    print(f"  [{idx+1}/25] Scraped roster for '{team_name}'")
             else:
                 print(f"  [{idx+1}/25] Failed to scrape '{team_name}': Status {res.status_code}")
         except Exception as e:
@@ -202,12 +209,14 @@ def main():
             if res.status_code == 200:
                 player_ids = res.json().get("response", {}).get("fantasyPlayerIds", [])
                 resolved_names = []
+                unresolved_pids = []
                 for pid in player_ids:
                     pinfo = player_map.get(int(pid))
                     if pinfo:
                         local_selections.append(pinfo["name"])
                         resolved_names.append(pinfo["name"])
                     else:
+                        unresolved_pids.append(pid)
                         resolved_names.append(f"Unknown ID {pid}")
                 
                 if is_targeted_rival:
@@ -216,7 +225,11 @@ def main():
                         "points": points,
                         "players": resolved_names
                     }
-                print(f"  [Local Roster] Scraped roster for '{team_name}'")
+                
+                if unresolved_pids:
+                    print(f"  [Local Roster] Scraped roster for '{team_name}' (⚠️ {len(unresolved_pids)} unresolved IDs: {unresolved_pids})")
+                else:
+                    print(f"  [Local Roster] Scraped roster for '{team_name}'")
             else:
                 print(f"  [Local Roster] Failed to scrape '{team_name}': Status {res.status_code}")
         except Exception as e:
@@ -263,6 +276,9 @@ def main():
         json.dump(output_payload, f, indent=2)
 
     print(f"\nSuccess! Scraped data saved to {out_file}")
+    print("💡 Tip: If you saw warning logs with unresolved IDs, make sure to run:")
+    print(f"   python 01_fetch_f2p_costs.py --week {args.week} --year {args.year}")
+    print("   first to retrieve the latest players and their IDs from the server.")
 
 if __name__ == "__main__":
     main()

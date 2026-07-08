@@ -1,5 +1,5 @@
 ---
-name: pll-prediction-engine
+name: predicta
 description: Guides prediction modeling, out-of-fold stacked regressors, Monte Carlo simulations (10,000 trials), and static UI compilation.
 ---
 
@@ -14,13 +14,13 @@ This skill outlines the prediction and forecasting pipeline. Use this when devel
 ## Where This Fits in the Project
 
 ```
-1. DATA FETCHING  (see pll-data-fetching)
+1. DATA FETCHING  (see fetcha)
        ↓
-2. PREDICTION     ← this module (pll-prediction-engine)
+2. PREDICTION     ← this module (predicta)
        ↓
-3. VISUALIZATION  (see /predicta/ UI, pll-player-interrogator)
+3. VISUALIZATION  (see /predicta/ UI, interrogata)
        ↓
-4. LINEUP OPTIMIZATION  (see pll-lineup-optimization)
+4. LINEUP OPTIMIZATION  (see coulda)
 ```
 
 | Stage | Key Scripts / Paths | Output |
@@ -28,13 +28,16 @@ This skill outlines the prediction and forecasting pipeline. Use this when devel
 | **Data Fetching** | `01_fetch_f2p_costs.py` | `combined_player_stats_YYYY.json` |
 | **Prediction** | `02_predict_probabilities.py` | `predicta/predictions/weekN_YYYY_predictions.csv` |
 | **Visualization** | `/predicta/index.html` | Interactive Web Dashboard |
-| **Optimization** | `roster_optimizer_mc.py (DELETED)` | Optimal lineup (see lineup optimization skill) |
+| **Optimization** | `06_optimize_lineups.py` | Optimal lineup (see [coulda](../lineup_optimization/SKILL.md)) |
 
 ---
 
 ## Model Design & Optimization
 
 Predicta supports prediction models and roster optimization strategies. Through historical backtests, we have transitioned our primary selection method from standard Expected Value (EV) / Boom % models to a **Monte Carlo Expected Value (MC EV)** simulation framework.
+
+> [!NOTE]
+> For the mathematical rationale of retiring legacy EV/Boom% models, deprecated stacked correlation stacking optimization formulas, and pre-leakage baseline backtest tables, see [Predicta Historical Design Decisions & Archived Models](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.agents/skills/prediction_engine/references/design_history.md).
 
 ---
 
@@ -90,7 +93,7 @@ Predicta supports prediction models and roster optimization strategies. Through 
 
 All optimizers target the core F2P roster requirements (select exactly 7 players within a 200-coin salary budget: 2 Attack, 2 Midfield, 1 Defense [merged SSDM/LSM/Defensemen], 1 Face-off, and 1 Goalie) and automatically pre-filter double-game weeks to retain only the best projected matchup per player (while mapping alternatives for manual swaps).
 
-Detailed optimizer logic is mapped out in the [pll-lineup-optimization](../lineup_optimization/SKILL.md) skill.
+Detailed optimizer logic is mapped out in the [coulda](../lineup_optimization/SKILL.md) skill.
 
 ---
 
@@ -200,12 +203,7 @@ python 04_simulate_monte_carlo.py --year 2026 --week 2 --sims 10000
 - `--sims`: Number of trials to run (default `10000`).
 
 ### Solve Monte Carlo Roster Optimization
-```bash
-python roster_optimizer_mc.py (DELETED) --year 2026 --week 2 --objective MC_EV
-```
-- `--year`: Roster year.
-- `--week`: Roster week.
-- `--objective`: Optimization objective (`MC_EV`, `MC_Ceiling_90`, `MC_Win_Prob`).
+See the [coulda](../lineup_optimization/SKILL.md) skill for roster optimization commands and strategies.
 
 ### ⚠️ CRITICAL: Web UI Static Data Update Workflow
 
@@ -226,9 +224,9 @@ To update the UI and prevent it from recommending out/injured players, you **MUS
    *This computes the Monte Carlo Expected Value (`mc_ev`), standard deviation (`mc_std`), and 90th percentile ceiling (`mc_p90`) from the simulation trials and bakes them directly into the extensionless week prediction file.*
 
 3. **Stage and Push to GitHub**:
-   *See the [pll-deployment](../deployment/SKILL.md) skill for pushing static payload updates online.*
+   *See the [uploada](../deployment/SKILL.md) skill for pushing static payload updates online.*
 
 ---
 
 > [!NOTE]
-> All improvement ideas are tracked centrally in the [pll-improvements-and-baselines](../improvements_and_baselines/SKILL.md) skill. Do not add new improvement ideas to this file.
+> All improvement ideas are tracked centrally in the [improva](../improvements_and_baselines/SKILL.md) skill. Do not add new improvement ideas to this file.

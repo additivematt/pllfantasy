@@ -1,19 +1,6 @@
 {
     "MC_EV": [
         {
-            "firstName": "Logan",
-            "lastName": "McNaney",
-            "team": "OUT",
-            "opponent": "RED",
-            "game_id": "2026-ev-7",
-            "position": "Goalie",
-            "salary": 38,
-            "mc_ev": 31.4,
-            "mc_p90": 44.5,
-            "mc_p10": 20.2,
-            "actualPoints": 51.0
-        },
-        {
             "firstName": "Brendan",
             "lastName": "Nichtern",
             "team": "CHA",
@@ -40,6 +27,19 @@
             "actualPoints": 10.0
         },
         {
+            "firstName": "Mic",
+            "lastName": "Kelly",
+            "team": "CAN",
+            "opponent": "CHA",
+            "game_id": "2026-ev-5",
+            "position": "Midfield",
+            "salary": 9,
+            "mc_ev": 16.6,
+            "mc_p90": 37.0,
+            "mc_p10": 0.0,
+            "actualPoints": 22.0
+        },
+        {
             "firstName": "Evan",
             "lastName": "Plunkett",
             "team": "OUT",
@@ -53,17 +53,17 @@
             "actualPoints": 7.0
         },
         {
-            "firstName": "Mic",
-            "lastName": "Kelly",
-            "team": "CAN",
-            "opponent": "CHA",
-            "game_id": "2026-ev-5",
-            "position": "Midfield",
-            "salary": 9,
-            "mc_ev": 16.6,
-            "mc_p90": 37.0,
-            "mc_p10": 0.0,
-            "actualPoints": 22.0
+            "firstName": "Ben",
+            "lastName": "Randall",
+            "team": "OUT",
+            "opponent": "RED",
+            "game_id": "2026-ev-7",
+            "position": "Defense",
+            "salary": 14,
+            "mc_ev": 11.1,
+            "mc_p90": 21.5,
+            "mc_p10": 0.7,
+            "actualPoints": 1.0
         },
         {
             "firstName": "Justin",
@@ -79,17 +79,17 @@
             "actualPoints": 13.9
         },
         {
-            "firstName": "Ben",
-            "lastName": "Randall",
+            "firstName": "Logan",
+            "lastName": "McNaney",
             "team": "OUT",
             "opponent": "RED",
             "game_id": "2026-ev-7",
-            "position": "Defense",
-            "salary": 14,
-            "mc_ev": 11.1,
-            "mc_p90": 21.5,
-            "mc_p10": 0.7,
-            "actualPoints": 1.0
+            "position": "Goalie",
+            "salary": 38,
+            "mc_ev": 31.4,
+            "mc_p90": 44.5,
+            "mc_p10": 20.2,
+            "actualPoints": 51.0
         }
     ],
     "MC_Win_160": [

@@ -1,5 +1,5 @@
 ---
-name: pll-design-system
+name: styla
 description: Design system guide defining color tokens, glassmorphism CSS, Plotly layouts, and tooltip patterns for all PLL Fantasy UIs.
 ---
 
@@ -54,6 +54,12 @@ Never use default browser or library tooltips.
 *   **Gridlines**: Muted (`#30363d`).
 *   **Axes**: White or light grey labels; remove zerolines where possible for a cleaner look.
 
+### Interactive Charts (Chart.js)
+Chart.js is used for continuous career trend visualizations (e.g. in Interrogata). Style components as follows:
+*   **Fonts**: Global default font family set to `'Inter', sans-serif`, color to `--text-secondary` (`#8b949e`), size `11px`.
+*   **Grids**: Gridlines colored with `--border` (`#30363d`). Set zero-lines to transparent or same color.
+*   **Legends/Tooltips**: Render legends/labels with secondary slate color. Custom tooltips must use Card BG (`#161b22`), rounded borders (`6px`), and Electric Purple (`#9f7aea`) accents.
+
 ---
 
 ## 4. Typography & Branding
@@ -74,18 +80,55 @@ Never use default browser or library tooltips.
 
 ---
 
-## 5. Implementation Example (CSS Variables)
+## 5. Responsive Layouts & Breakpoints
+
+To ensure premium looks on both mobile/tablet couch-viewing and desktop analysis:
+*   **Breakpoints**:
+    *   **Desktop**: Viewports `>= 1024px`. Multi-column layouts (e.g. `2fr 1fr` grids).
+    *   **Mobile / Portrait Tablet**: Viewports `< 768px`. Collapse all grids to `1fr` single-column layout.
+*   **Touch Friendly Targets**: Buttons, dropdown selections, and interactive nodes must have a minimum tap target of `44px x 44px`.
+*   **Spacing Adaptability**: Responsive padding variables:
+    ```css
+    :root {
+        --padding-desktop: 1.5rem;
+        --padding-mobile: 1rem;
+    }
+    ```
+
+---
+
+## 6. Micro-Animations & CSS Timings
+
+*   **Transitions**: Smooth out hover scales, border colors, and background shifts using a unified timing:
+    `transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);`
+*   **Flash Highlights**: When selecting a player card that focuses a chart node (or vice versa), apply a temporary pulsing border:
+    ```css
+    @keyframes node-flash {
+        0% { border-color: var(--border); box-shadow: 0 0 0 rgba(159, 122, 234, 0); }
+        50% { border-color: #ff007f; box-shadow: 0 0 15px rgba(255, 0, 127, 0.6); }
+        100% { border-color: var(--accent); box-shadow: 0 0 0 rgba(159, 122, 234, 0); }
+    }
+    ```
+
+---
+
+## 7. Implementation Example (CSS Variables)
 ```css
 :root {
     --bg-color: #0b0e14;
     --card-bg: #161b22;
     --text-primary: #f0f6fc;
+    --text-secondary: #8b949e;
     --accent: #9f7aea;
+    --accent-secondary: #ecc94b;
     --border: #30363d;
+    --success: #1a9850;
+    --danger: #d73027;
+    --transition-standard: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 ```
 
 ---
 
 > [!NOTE]
-> All improvement ideas are tracked centrally in the [pll-improvements-and-baselines](../improvements_and_baselines/SKILL.md) skill. Do not add new improvement ideas to this file.
+> All improvement ideas are tracked centrally in the [improva](../improvements_and_baselines/SKILL.md) skill. Do not add new improvement ideas to this file.

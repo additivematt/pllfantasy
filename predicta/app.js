@@ -1056,13 +1056,26 @@ async function initDashboard() {
             yearSelect.appendChild(option);
         });
 
+        const PLAYOFF_WEEKS = {
+            2024: { 12: 'QF', 13: 'SF', 14: 'Final' },
+            2025: { 12: 'QF', 13: 'SF', 14: 'Final' },
+            2026: { 13: 'QF', 14: 'SF', 15: 'Final' }
+        };
+
         function populateWeeks(year) {
             weekSelect.innerHTML = '';
             const weeks = periodsByYear[year].sort((a, b) => b - a);
             weeks.forEach(week => {
                 const option = document.createElement('option');
                 option.value = week;
-                option.textContent = `Week ${week}`;
+                
+                const playoffLabel = PLAYOFF_WEEKS[year]?.[week];
+                let displayLabel = `Week ${week}`;
+                if (playoffLabel) {
+                    displayLabel = `Week ${week} (${playoffLabel})`;
+                }
+                
+                option.textContent = displayLabel;
                 weekSelect.appendChild(option);
             });
         }

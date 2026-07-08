@@ -1,5 +1,5 @@
 ---
-name: pll-accuracy-evaluation
+name: evaluata
 description: Instructions for assigning ground truth performance tiers (Boom, Average, Bust), evaluating classifier accuracy, and precision/recall reporting.
 ---
 
@@ -42,13 +42,22 @@ The evaluation harness outputs several key metrics to measure model performance:
 
 ## Execution and Harness
 
-Evaluation metrics are computed out-of-sample using the decoupled evaluation harness script:
+Evaluation metrics are computed out-of-sample using the decoupled evaluation harness script [prediction_model_evaluation_harness.py](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/prediction_model_evaluation_harness.py):
 ```bash
 python prediction_model_evaluation_harness.py
 ```
 This script acts as the single source of truth for backtest accuracy verification.
 
+### Example Output Snippet
+```text
+ATTACK     | Acc: 47.1% (24/51) | Boom Prec: 60.0% | Rec: 23.1% | Bust <= 0.0 | Boom > 25.0
+MIDFIELD   | Acc: 40.3% (25/62) | Boom Prec: 42.9% | Rec: 21.4% | Bust <= 0.0 | Boom > 17.0
+DEFENSE    | Acc: 41.8% (38/91) | Boom Prec: 41.2% | Rec: 28.0% | Bust <= 0.0 | Boom > 10.4
+FACEOFF    | Acc: 21.4% ( 3/14) | Boom Prec:  0.0% | Rec:  0.0% | Bust <= 0.0 | Boom > 11.6
+GOALIE     | Acc: 26.1% ( 6/23) | Boom Prec: 66.7% | Rec: 33.3% | Bust <= 0.0 | Boom > 23.2
+```
+
 ---
 
 > [!NOTE]
-> All improvement ideas are tracked centrally in the [pll-improvements-and-baselines](../improvements_and_baselines/SKILL.md) skill. Do not add new improvement ideas to this file.
+> All improvement ideas are tracked centrally in the [improva](../improvements_and_baselines/SKILL.md) skill. Do not add new improvement ideas to this file.

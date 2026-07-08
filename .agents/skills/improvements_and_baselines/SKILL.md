@@ -1,5 +1,5 @@
 ---
-name: pll-improvements-and-baselines
+name: improva
 description: Central tracking for feature improvements, model baseline audits (Baseline 2), and A/B backtest evaluation rules.
 ---
 
@@ -139,25 +139,11 @@ To track historical performance changes and maintain auditability across key mil
 - **Suggested Fix**: Dynamically compute position-pair Pearson correlations from the season dataset at simulation runtime, caching it per season.
 - **Success Criteria**: Elimination of hardcoded correlations from `04_simulate_monte_carlo.py`.
 
-#### Item 13: Bayesian Shrinkage for Low-Sample Players
-- **Problem**: Players with fewer than 5 games fall back to the generic position average, while players with exactly 5 games use only their own thin history.
-- **Why it matters**: The transition is a hard cliff and leads to high-variance, unreliable predictions for rookies and transfers.
-- **Suggested Fix**: Apply Bayesian shrinkage to blend player history with the position-wide pool:
-  $$\text{BlendedPool} = \alpha \cdot \text{PlayerPool} + (1-\alpha) \cdot \text{PositionPool}$$
-  where $\alpha = \min(1.0, \frac{n_{\text{games}}}{k})$ and $k$ is a tunable parameter (e.g., $k=15$). Apply this shrinkage directly to the highly-influential matchup rating features (`pairing_rating`, `player_vs_team_rating`) to prevent over-fitting on low-sample size players.
-- **Success Criteria**: Smoother, more realistic distributions for low-sample players.
-
 #### Item 14: Review MC Ceiling Clamp
 - **Problem**: The simulator clamps simulated scores to `[0, max_historical * 1.15]`.
 - **Why it matters**: An arbitrary 1.15 multiplier limits the simulated ceiling of breakout players, which hurts ceiling-based tournament optimizations.
 - **Suggested Fix**: Re-evaluate the clamp against historic breakout frequencies and scale the clamp dynamically (e.g. based on position group volatility).
 - **Success Criteria**: More accurate simulated ceiling frequencies for breakout players.
-
-#### Item 31: Smooth MC Historical Pool Blending
-- **Problem**: Players with <5 games fall back to the entire position group's historical game pool, while players with >=5 games use only their own history.
-- **Why it matters**: Creating a hard cliff at 5 games causes massive simulation variance swings for rookies and transfers.
-- **Suggested Fix**: Implement smooth pool blending by drawing a fraction of outcomes from the player's pool and the rest from the position pool based on game count (e.g. $\text{fraction} = \min(1.0, n_{\text{games}}/15)$).
-- **Success Criteria**: Discontinuity at the 5-game threshold removed from MC simulation.
 
 ---
 
@@ -243,6 +229,9 @@ To mark an item as **Done**, it must meet the following:
 
 ### Completed Items
 
+> [!NOTE]
+> For full audit trail detail (including specific baseline regression outputs, feature test details, and p-values), see the [original improva.md (archived)](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/scratch/doc_backup/improva.md).
+
 #### Item 27: Complete Data Leakage Elimination 🔴
 
 A full codebase audit on **1 July 2026** identified 6 distinct leakage sources. All must be fixed before further A/B testing or baseline establishment.
@@ -294,6 +283,10 @@ A full codebase audit on **1 July 2026** identified 6 distinct leakage sources. 
 - **Item 34: Challenger Roster Scraping & Consensus Advice** (Done)
 - **Item 35: Local League Roster Scraping & Differential Optimization** (Done)
 - **Item 29: EWMA Rolling Features** (Tested & Kept / Closed)
+- **Item 13: Bayesian Shrinkage for Low-Sample Players** (Tested & Kept / Closed)
+  - *Details*: Matchup ratings shrinkage `SHRINKAGE_K = 5` is verified as highly critical for model stability. Testing it disabled resulted in severe 2026 performance degradation (-222.9 pts). Keep enabled at `SHRINKAGE_K = 5`.
+- **Item 31: Smooth MC Historical Pool Blending** (Tested & Rejected / Closed)
+  - *Details*: Tested pool blending across various blending levels ($K \in [5, 8, 10, 12, 15]$). While blending with $K=15$ provides a major performance boost specifically for the `MC_Ceil_90` strategy (+287.3 pts combined), it causes a net drag on the primary `MC_EV` and `MC_Win_160` strategies due to variance regularization. Because we want to prioritize EV-based cash game stability and the `MC_Ceil_90` strategy is poorly performing overall, we have rejected the feature and disabled it in production (`MC_POOL_BLENDING_ENABLED = False`).
 
 #### Item 11: Extract Distributional Statistics from MC Simulations & Consolidated Tooltip ✅ DONE
 - **Problem**: Downstream scripts loaded the massive 23MB simulations CSV just to extract mean and quantile values, creating severe CPU/disk bottlenecks. The web UI lacked visual outcomes representation.

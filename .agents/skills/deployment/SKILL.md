@@ -1,5 +1,5 @@
 ---
-name: pll-deployment
+name: uploada
 description: Instructions for compiling static payloads, committing files with git, and deploying updates to GitHub Pages for offline mobile cache updates.
 ---
 
@@ -11,11 +11,16 @@ By updating GitHub, your phone, tablet, and other mobile devices will automatica
 
 ---
 
-## ⚡ The Quick Routine
+## ⚡ Static Compilation and Pushing Updates
 
-Whenever you fetch new player stats (using `combine_datasets.py`), the system **automatically** runs the static compiler behind the scenes. This updates both your `interrogata` and `predicta` static folders instantly on your local PC.
+### When is compilation automatic?
+- **Phase 3 (Post-Game stats update)**: When you run `combine_datasets.py`, it automatically calls `extract_trial_data.py` which triggers `07_prepare_static_data.py` behind the scenes. Your local files for both `interrogata` and `predicta` are updated instantly.
 
-Consequently, you do not need to run a manual compilation script anymore. You only need to push the files to GitHub:
+### When is manual compilation required?
+- **Phase 2 (Game-Day Lock predictions update)**: When running prediction and simulation generation (`02_predict_probabilities.py`, `04_simulate_monte_carlo.py`, `05_bake_mc_ev.py`), the automatic fetch sequence is not triggered. You **must manually run** the compiler to update the UI data:
+  ```bash
+  python 07_prepare_static_data.py
+  ```
 
 ### Step: Push the Updates to GitHub
 
@@ -101,4 +106,4 @@ Your mobile devices use **Service Workers** to run lightning-fast and offline. T
 ---
 
 > [!NOTE]
-> All improvement ideas are tracked centrally in the [pll-improvements-and-baselines](../improvements_and_baselines/SKILL.md) skill. Do not add new improvement ideas to this file.
+> All improvement ideas are tracked centrally in the [improva](../improvements_and_baselines/SKILL.md) skill. Do not add new improvement ideas to this file.

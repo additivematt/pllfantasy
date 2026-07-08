@@ -1,5 +1,5 @@
 ---
-name: pll-data-fetching
+name: fetcha
 description: Scrapes F2P player costs/salaries, queries GraphQL box scores, backfills history, and merges into the unified player dataset.
 ---
 
@@ -18,11 +18,11 @@ This skill outlines the PLL data fetching, ingestion, and integration pipeline. 
 ## Where This Fits in the Project
 
 ```
-1. DATA FETCHING  ← this module (pll-data-fetching)
+1. DATA FETCHING  ← this module (fetcha)
        ↓
-2. PREDICTION     (see pll-prediction-engine)
+2. PREDICTION     (see predicta)
        ↓
-3. LINEUP OPTIMIZATION  (see pll-lineup-optimization)
+3. LINEUP OPTIMIZATION  (see coulda)
 ```
 
 Everything downstream depends on the data produced here. **Run this pipeline first** after each game week before running predictions or optimization.
@@ -104,17 +104,18 @@ After running the pipeline, it is a highly recommended practice to programmatica
 
 | File | Description | Status |
 |---|---|---|
-| `01_fetch_f2p_costs.py` | Fetches weekly F2P salary/projection data; `--week N` arg | ✅ Production |
-| `fetch_fantasy_points.py` | Fetches 2026 live GraphQL game stats | ✅ Production |
-| `generate_historical_data.py` | Backfills 2023–2025 historical stats | ✅ Production |
-| `combine_datasets.py` | Merges F2P + GraphQL into unified JSON | ✅ Production |
-| `graphql_query.py` | Houses all GraphQL query strings | ✅ Production |
-| `f2p_2026_season.json` | Persistent F2P record for all 2026 weeks | ✅ Growing |
-| `f2p_weekly_data.json` | Latest week's raw F2P snapshot | ✅ Updated weekly |
-| `combined_player_stats_2023.json` | Full 2023 historical dataset (~3 MB) | ✅ Complete |
-| `combined_player_stats_2024.json` | Full 2024 historical dataset (~3 MB) | ✅ Complete |
-| `combined_player_stats_2025.json` | Full 2025 historical dataset (~3 MB) | ✅ Complete |
-| `combined_player_stats_2026.json` | Growing 2026 live dataset (includes placeholders) | ✅ Growing |
+| [01_fetch_f2p_costs.py](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/01_fetch_f2p_costs.py) | Fetches weekly F2P salary/projection data; `--week N` arg | ✅ Production |
+| [fetch_fantasy_points.py](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/fetch_fantasy_points.py) | Fetches 2026 live GraphQL game stats | ✅ Production |
+| [generate_historical_data.py](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/generate_historical_data.py) | Backfills 2023–2025 historical stats | ✅ Production |
+| [combine_datasets.py](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/combine_datasets.py) | Merges F2P + GraphQL into unified JSON | ✅ Production |
+| [graphql_query.py](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/graphql_query.py) | Houses all GraphQL query strings | ✅ Production |
+| [extract_trial_data.py](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/extract_trial_data.py) | Compiles the unified stats into player-level JSON for Interrogata/Matcha | ✅ Production |
+| [f2p_2026_season.json](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/f2p_2026_season.json) | Persistent F2P record for all 2026 weeks | ✅ Growing |
+| [f2p_weekly_data.json](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/f2p_weekly_data.json) | Latest week's raw F2P snapshot | ✅ Updated weekly |
+| [combined_player_stats_2023.json](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/combined_player_stats_2023.json) | Full 2023 historical dataset (~3 MB) | ✅ Complete |
+| [combined_player_stats_2024.json](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/combined_player_stats_2024.json) | Full 2024 historical dataset (~3 MB) | ✅ Complete |
+| [combined_player_stats_2025.json](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/combined_player_stats_2025.json) | Full 2025 historical dataset (~3 MB) | ✅ Complete |
+| [combined_player_stats_2026.json](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/combined_player_stats_2026.json) | Growing 2026 live dataset (includes placeholders) | ✅ Growing |
 
 ---
 
@@ -139,17 +140,17 @@ python fetch_fantasy_points.py
 python combine_datasets.py  # Automatically refreshes all_players_stats.json
 
 # Step 4: (Optional) Verify combined file reflects the new week's data
-# Step 5: Push the compiled files to GitHub to update the online UIs (see pll-deployment)
+# Step 5: Push the compiled files to GitHub to update the online UIs (see uploada)
 ```
 
-### Preemptive Future Week Matchup Tagging (e.g. Week 4)
+### Preemptive Future Week Matchup Tagging
 If the F2P website has not yet released data for a future week but you want to preemptively pick expected matchups in the Matchup Tagger UI:
-1. Run `python scratch/backfill_week4_preliminary.py` (which parses rosters from previous weeks and maps them to scheduled Week 4 games).
+1. Run `python scratch/backfill_weekN_preliminary.py` (replacing `N` with the target week — which parses rosters from previous weeks and maps them to scheduled games).
 2. The script updates `combined_player_stats_2026.json` with preliminary placeholder entries and automatically updates `all_players_stats.json` via `extract_trial_data.py`.
-3. Open the Matchup Tagger UI and you will immediately see the Week 4 options and team rosters!
-4. Once the real Week 4 data is released and games are played, running the standard `combine_datasets.py` workflow will automatically overwrite these temporary placeholders with official F2P/GraphQL stats.
+3. Open the Matchup Tagger UI and you will immediately see the target week's options and team rosters!
+4. Once the real data is released and games are played, running the standard `combine_datasets.py` workflow will automatically overwrite these temporary placeholders with official F2P/GraphQL stats.
 
 ---
 
 > [!NOTE]
-> All improvement ideas are tracked centrally in the [pll-improvements-and-baselines](../improvements_and_baselines/SKILL.md) skill. Do not add new improvement ideas to this file.
+> All improvement ideas are tracked centrally in the [improva](../improvements_and_baselines/SKILL.md) skill. Do not add new improvement ideas to this file.
