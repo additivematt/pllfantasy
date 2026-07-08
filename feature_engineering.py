@@ -266,26 +266,49 @@ def add_rolling_features(df):
     else:
         df["days_since_last_game"] = 7.0
 
+    # Separate active subset to prevent DNP rows (zeros/nans) from polluting rolling stats
+    active_mask = (df["isDNP"] != True) if "isDNP" in df.columns else pd.Series(True, index=df.index)
+    df_active = df[active_mask].copy()
+
     cols = ["shots", "groundBalls", "saves", "faceoffsWon", "assists", "causedTurnovers", "touches", "shotPct"]
     for c in cols:
-        if c not in df.columns: df[c] = np.nan
-        df[f"{c}_season_avg"] = df.groupby(["firstName", "lastName"])[c].transform(lambda x: x.expanding().mean().shift(1))
-        df[f"{c}_last3_avg"] = df.groupby(["firstName", "lastName"])[c].transform(lambda x: x.rolling(3, min_periods=1).mean().shift(1))
+        if c not in df_active.columns: df_active[c] = np.nan
+        df_active[f"{c}_season_avg"] = df_active.groupby(["firstName", "lastName"])[c].transform(lambda x: x.expanding().mean().shift(1))
+        df_active[f"{c}_last3_avg"] = df_active.groupby(["firstName", "lastName"])[c].transform(lambda x: x.rolling(3, min_periods=1).mean().shift(1))
     
-    df["fp_season_avg"] = df.groupby(["firstName", "lastName"])["TotalFantasyPoints"].transform(lambda x: x.expanding().mean().shift(1))
-    df["fp_last3_avg"] = df.groupby(["firstName", "lastName"])["TotalFantasyPoints"].transform(lambda x: x.rolling(3, min_periods=1).mean().shift(1))
-    df["fp_lag1"] = df.groupby(["firstName", "lastName"])["TotalFantasyPoints"].shift(1)
+    df_active["fp_season_avg"] = df_active.groupby(["firstName", "lastName"])["TotalFantasyPoints"].transform(lambda x: x.expanding().mean().shift(1))
+    df_active["fp_last3_avg"] = df_active.groupby(["firstName", "lastName"])["TotalFantasyPoints"].transform(lambda x: x.rolling(3, min_periods=1).mean().shift(1))
+    df_active["fp_lag1"] = df_active.groupby(["firstName", "lastName"])["TotalFantasyPoints"].shift(1)
     
     if getattr(config, "EWMA_ENABLED", False):
-        df["fp_ewma_4"] = df.groupby(["firstName", "lastName"])["TotalFantasyPoints"].transform(lambda x: x.ewm(halflife=4, min_periods=1).mean().shift(1))
-    
+        df_active["fp_ewma_4"] = df_active.groupby(["firstName", "lastName"])["TotalFantasyPoints"].transform(lambda x: x.ewm(halflife=4, min_periods=1).mean().shift(1))
+
+    # Re-integrate calculated stats back into main dataframe and forward-fill DNP gaps
+    new_cols = []
+    for c in cols:
+        new_cols.extend([f"{c}_season_avg", f"{c}_last3_avg"])
+    new_cols.extend(["fp_season_avg", "fp_last3_avg", "fp_lag1"])
+    if getattr(config, "EWMA_ENABLED", False):
+        new_cols.append("fp_ewma_4")
+
+    for c in new_cols:
+        df[c] = np.nan
+        df.loc[active_mask, c] = df_active[c]
+        df[c] = df.groupby(["firstName", "lastName"])[c].ffill()
+
     df["shotPct_anomaly"] = df["shotPct_last3_avg"] - df["shotPct_season_avg"]
     
     if "faceoffs" in df.columns and "faceoffsWon" in df.columns:
-        df["faceoffPct"] = df["faceoffsWon"] / df["faceoffs"].replace(0, np.nan)
-        df["faceoffPct_season_avg"] = df.groupby(["firstName", "lastName"])["faceoffPct"].transform(lambda x: x.expanding().mean().shift(1))
-        df["faceoffPct_last3_avg"] = df.groupby(["firstName", "lastName"])["faceoffPct"].transform(lambda x: x.rolling(3, min_periods=1).mean().shift(1))
+        df_active["faceoffPct"] = df_active["faceoffsWon"] / df_active["faceoffs"].replace(0, np.nan)
+        df_active["faceoffPct_season_avg"] = df_active.groupby(["firstName", "lastName"])["faceoffPct"].transform(lambda x: x.expanding().mean().shift(1))
+        df_active["faceoffPct_last3_avg"] = df_active.groupby(["firstName", "lastName"])["faceoffPct"].transform(lambda x: x.rolling(3, min_periods=1).mean().shift(1))
         
+        fo_cols = ["faceoffPct", "faceoffPct_season_avg", "faceoffPct_last3_avg"]
+        for c in fo_cols:
+            df[c] = np.nan
+            df.loc[active_mask, c] = df_active[c]
+            df[c] = df.groupby(["firstName", "lastName"])[c].ffill()
+            
         fo_df = df[df["isDNP"] != True].copy() if "isDNP" in df.columns else df.copy()
         team_fo = fo_df.groupby(["eventId", "team", "startTime"], as_index=False)[["faceoffsWon", "faceoffs"]].sum()
         team_fo = team_fo.sort_values(["team", "startTime"])
