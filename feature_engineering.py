@@ -5,7 +5,7 @@ import numpy as np
 import re
 from datetime import datetime, timezone
 import config
-from utils import assign_position_group, assign_sub_position, calc_fantasy, clean_name
+from utils import assign_position_group, assign_sub_position, calc_fantasy, clean_name, get_week_for_event
 
 TEAM_NAME_TO_ID = {
     "California Redwoods": "RED",
@@ -92,7 +92,8 @@ def load_all_players_stats(path, target_year, target_week):
 def parse_schedule(ics_path, year, week_number):
     with open(ics_path, encoding="utf-8") as f: text = f.read()
     blocks = re.findall(r"BEGIN:VEVENT(.*?)END:VEVENT", text, re.DOTALL)
-    games = []
+    matchups = []
+    u_weeks = set()
     for b in blocks:
         def field(n):
             m = re.search(rf"^{n}:(.+)$", b, re.MULTILINE)
@@ -101,18 +102,28 @@ def parse_schedule(ics_path, year, week_number):
         if f"{year}-ev-" not in url: continue
         try: dt = datetime.strptime(dts, "%Y%m%dT%H%M%SZ").replace(tzinfo=timezone.utc)
         except: continue
-        games.append({"summary": field("SUMMARY"), "url": url, "dt": dt, "iso_week": dt.isocalendar()[1]})
-    if not games: return [], []
-    u_weeks = sorted(set(g["iso_week"] for g in games))
-    w_map = {w: i+1 for i, w in enumerate(u_weeks)}
-    w_games = [g for g in games if w_map[g["iso_week"]] == week_number]
-    matchups = []
-    for g in w_games:
-        m = re.search(r"^(.+?) vs (.+)$", g["summary"])
-        if not m: continue
-        tA, tB = m.group(1).strip(), m.group(2).strip()
-        matchups.append({"game_id": re.search(r"(\d{4}-ev-\d+)$", g["url"]).group(1), "team_a": TEAM_NAME_TO_ID.get(tA, tA), "team_b": TEAM_NAME_TO_ID.get(tB, tB), "team_a_name": tA, "team_b_name": tB, "startTime": g["dt"].timestamp()})
-    return matchups, u_weeks
+        
+        game_id_raw = re.search(r"(\d{4}-ev-\d+)$", url).group(1)
+        # Normalize to YYYY_game_X
+        game_id_norm = game_id_raw.replace("-ev-", "_game_").replace("-", "_")
+        g_week = get_week_for_event(game_id_norm)
+        
+        if g_week is not None:
+            u_weeks.add(g_week)
+            if g_week == week_number:
+                summary = field("SUMMARY")
+                m = re.search(r"^(.+?) vs (.+)$", summary)
+                if m:
+                    tA, tB = m.group(1).strip(), m.group(2).strip()
+                    matchups.append({
+                        "game_id": game_id_raw,
+                        "team_a": TEAM_NAME_TO_ID.get(tA, tA),
+                        "team_b": TEAM_NAME_TO_ID.get(tB, tB),
+                        "team_a_name": tA,
+                        "team_b_name": tB,
+                        "startTime": dt.timestamp()
+                    })
+    return matchups, sorted(list(u_weeks))
 
 def compute_game_pace_features(df_all, target_matchups, target_year, target_week):
     """Computes expected pace and goals using rolling team histories prior to target week/year."""

@@ -173,10 +173,14 @@ def main():
     is_placeholder = False
 
     combP = os.path.join(sDir, f"combined_player_stats_{args.year}.json")
+    has_combined_week_data = False
     if os.path.exists(combP):
         with open(combP, encoding="utf-8") as f: comb_d = json.load(f)
         fallback_data = [p for p in comb_d if p.get("week") == args.week]
-        
+        if len(fallback_data) > 0:
+            has_combined_week_data = True
+            
+    if has_combined_week_data:
         salary_history = {}
         for p in comb_d:
             w = p.get("week", 1)

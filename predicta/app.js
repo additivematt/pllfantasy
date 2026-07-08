@@ -1059,7 +1059,7 @@ async function initDashboard() {
         const PLAYOFF_WEEKS = {
             2024: { 12: 'QF', 13: 'SF', 14: 'Final' },
             2025: { 12: 'QF', 13: 'SF', 14: 'Final' },
-            2026: { 13: 'QF', 14: 'SF', 15: 'Final' }
+            2026: { 14: 'QF', 15: 'SF', 16: 'Final' }
         };
 
         function populateWeeks(year) {

@@ -6,7 +6,7 @@ import os
 SEASON_FILE = "f2p_2026_season.json"
 
 def fetch_costs(week):
-    url = f"https://f2p.premierlacrosseleague.com/api/players/weeklyData/?week={week}"
+    url = f"https://f2p.premierlacrosseleague.com/api/pll/v4/fantasy/players/week/{week}"
     headers = {
         'accept': '*/*',
         'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
@@ -20,7 +20,8 @@ def fetch_costs(week):
     try:
         r = requests.get(url, headers=headers, timeout=10)
         r.raise_for_status()
-        new_data = r.json()
+        res_json = r.json()
+        new_data = res_json.get("data", {}).get("items", [])
     except Exception as e:
         print(f"Error fetching data: {e}")
         return

@@ -60,11 +60,11 @@ def get_week_for_event(event_id):
     
     # Playoffs
     if "quarterfinal" in eid: 
-        return 13 if year == 2026 else 12
+        return 14 if year == 2026 else 12
     if "semifinal" in eid: 
-        return 14 if year == 2026 else 13
+        return 15 if year == 2026 else 13
     if "championship" in eid: 
-        return 15 if year == 2026 else 14
+        return 16 if year == 2026 else 14
     
     # Regular Season
     match = re.search(r"(\d{4})_game_(\d+)", eid)
@@ -79,12 +79,12 @@ def get_week_for_event(event_id):
             elif game_num <= 16: return 4
             elif game_num <= 19: return 5
             elif game_num in (21, 22, 23, 24): return 6
-            elif game_num in (25, 26, 27, 28): return 7
-            elif game_num in (29, 30, 31, 32): return 8
-            elif game_num in (20, 33, 34, 35, 36): return 9
-            elif game_num in (37, 38, 39, 40, 41): return 10
-            elif game_num in (42, 43, 44, 45): return 11
-            elif game_num in (46, 47, 48): return 12
+            elif game_num in (25, 26, 27, 28): return 8
+            elif game_num in (29, 30, 31, 32): return 9
+            elif game_num in (20, 33, 34, 35, 36): return 10
+            elif game_num in (37, 38, 39, 40, 41): return 11
+            elif game_num in (42, 43, 44, 45): return 12
+            elif game_num in (46, 47, 48): return 13
             
         if game_num <= 20:
             return math.ceil(game_num / 4)
