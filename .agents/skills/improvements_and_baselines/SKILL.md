@@ -5,7 +5,7 @@ description: Central tracking for feature improvements, model baseline audits (B
 
 # PLL Fantasy Prediction Engine — Improvement Ideas
 
-> **Date**: June 2026  
+> **Date**: June 2026 (updated July 2026)  
 > **Scope**: A deep-dive review of all documentation (`.md` files) and source code to identify accuracy, architecture, and reliability improvement opportunities.
 
 ---
@@ -17,30 +17,31 @@ All improvement ideas, including feature proposals, architectural refactors, sim
 
 ## Target Success Criteria & Evaluation Baseline
 To ensure that changes are mathematically sound and do not degrade model performance:
-- **Baseline Metric**: The table below defines the official baseline backtest metrics established on **3 July 2026** (Baseline 2, Leak-Free + EWMA) by running predictions and simulations freshly and evaluating them with the harness.
+- **Baseline Metric**: The table below defines the official baseline backtest metrics established on **8 July 2026** (Baseline 3, DNP-Clean Rolling Features) by running predictions and simulations freshly and evaluating them with the harness.
 
-### Baseline 2 (Leak-Free + EWMA) Evaluation Results (3 July 2026)
+### Baseline 3 (DNP-Clean Rolling Features) Evaluation Results (8 July 2026)
 
-Established under the optimal configuration (Game Pace Scaling enabled, Correlation Copula enabled, 0.05 Recency decay, Bayesian Shrinkage enabled, and 4-game half-life EWMA enabled) using fresh predictions and 10,000 Monte Carlo trials on the corrected doubleheader database, with ALL data leakage sources completely eliminated.
+Established under the optimal configuration (Game Pace Scaling enabled, Correlation Copula enabled, 0.05 Recency decay, Bayesian Shrinkage enabled, and 4-game half-life EWMA enabled) using fresh predictions and 10,000 Monte Carlo trials. This baseline is the first trained on DNP-clean rolling features — i.e., `_last3_avg` and `_season_avg` are now computed only over games the player actually participated in, with DNP rows forward-filled from the last known value.
 
 | Season | Strategy | Total Score | Coulda Max | Ceiling % |
 |---|---|---|---|---|
-| 2025 | MC_EV | 2305.3 | 4679.1 | 49.3% |
-| 2025 | MC_Ceil_90 | 1999.5 | 4679.1 | 42.7% |
-| 2025 | MC_Win_160 | 2317.3 | 4679.1 | 49.5% |
-| 2025 | MC_Win_180 | 2127.8 | 4679.1 | 45.5% |
-| 2026 | MC_EV | 835.4 | 2194.1 | 38.1% |
-| 2026 | MC_Ceil_90 | 615.0 | 2194.1 | 28.0% |
-| 2026 | MC_Win_160 | 838.6 | 2194.1 | 38.2% |
-| 2026 | MC_Win_180 | 775.8 | 2194.1 | 35.4% |
+| 2025 | MC_EV | 2136.2 | 4450.2 | 48.0% |
+| 2025 | MC_Ceil_90 | 1841.4 | 4450.2 | 41.4% |
+| 2025 | MC_Win_160 | 2063.4 | 4450.2 | 46.4% |
+| 2025 | MC_Win_180 | N/A | 4450.2 | N/A |
+| 2026 | MC_EV | 888.0 | 2194.1 | 40.5% |
+| 2026 | MC_Ceil_90 | 740.9 | 2194.1 | 33.8% |
+| 2026 | MC_Win_160 | 899.4 | 2194.1 | 41.0% |
+| 2026 | MC_Win_180 | N/A | 2194.1 | N/A |
 
 - **Target Threshold**: A proposed feature or logic change will be accepted if it demonstrates a statistically significant improvement over these baselines (paired t-test p-value < 0.05) without increasing runtimes by more than 20%, or if it fixes a critical code health issue without degrading performance.
 - **RNG Reproducibility**: All backtests must run under a fixed random seed to ensure comparison consistency.
 
 > [!IMPORTANT]
 > **Instructions for AI Agents / Backtesting Rules:**
-> 1. **Do NOT Re-Backtest the Baseline**: When A/B testing a new feature, do not waste compute resources re-running backtests for baseline configurations. All baseline scores are frozen and archived directly in `baselines/rosters_<strategy>_baseline_2.csv` (which includes the `actualPoints` column). Use those existing scores for comparison.
-> 2. **Do NOT Create New Baselines**: Do not establish a new baseline (e.g. Baseline 3) or overwrite Baseline 2 data unless the user explicitly instructs you to do so.
+> 1. **Do NOT Re-Backtest the Baseline**: When A/B testing a new feature, do not waste compute resources re-running backtests for baseline configurations. All baseline scores are frozen and archived directly in `baselines/rosters_<strategy>_baseline_3.csv` (which includes the `actualPoints` column). Use those existing scores for comparison.
+> 2. **Do NOT Create New Baselines**: Do not establish a new baseline (e.g. Baseline 4) or overwrite Baseline 3 data unless the user explicitly instructs you to do so.
+> 3. **Baseline 2 is superseded**: Baseline 2 scores (Baseline 2, 3 July 2026) are now an invalid comparison point for any A/B test run after the DNP-clean fix (Item 36). Do not use Baseline 2 scores for future comparisons.
 
 ---
 
@@ -78,6 +79,7 @@ To track historical performance changes and maintain auditability across key mil
 ### Baseline 2 (Leak-Free + EWMA — 3 July 2026)
 - **Changes / Description**: Built on top of Baseline 1 by enabling exponentially-weighted moving average rolling features (`fp_ewma_4` with half-life of 4 games). Bayesian shrinkage remains enabled.
 - **Roster Files**: All Baseline 2 rosters are archived in the `baselines/` directory as `rosters_<strategy>_baseline_2.csv` (e.g. `rosters_mc_ev_baseline_2.csv`).
+- **Status**: ⚠️ **Superseded by Baseline 3.** Baseline 2 was compromised by two compounding bugs: (1) rolling features were polluted by DNP rows (see Item 36), and (2) the All-Star game week data was included in the training set — this was subsequently identified as a bug (All-Star scoring and player usage patterns are non-representative of regular-season play) and the data was cleaned from `combined_player_stats_2025.json`. Baseline 2's training distribution therefore no longer matches the corrected dataset. Its scores are preserved for audit purposes only — do NOT use for A/B comparison.
 - **Performance Summary**:
 
   | Season | Strategy | Total Score | Coulda Max | Ceiling % |
@@ -91,11 +93,27 @@ To track historical performance changes and maintain auditability across key mil
   | 2026 | MC_Win_160 | 838.6 | 2194.1 | 38.2% |
   | 2026 | MC_Win_180 | 775.8 | 2194.1 | 35.4% |
 
-- **Interpretation**: Baseline 2 is the new reference standard for all subsequent A/B tests. EWMA provides a net benefit of +137.2 points (+10.55 points/week) in 2025 but has a mild net drag of -66.7 points (-11.12 points/week) in 2026, leading to a combined net improvement of +70.5 points (+3.92 points/week) across 19 weeks.
+### Baseline 3 (DNP-Clean Rolling Features — 8 July 2026)
+- **Changes / Description**: Built on top of Baseline 2 by fixing the DNP rolling feature pollution bug (Item 36). The `add_rolling_features()` helper now excludes DNP rows when computing `_last3_avg`, `_season_avg`, `fp_lag1`, `fp_ewma_4`, and all sub-stat averages. DNP rows receive their features via forward-fill of the last known active-game value, so returning players carry a realistic form estimate rather than being artificially dragged toward zero. All other settings remain at Baseline 2 optimal configuration.
+- **Roster Files**: All Baseline 3 rosters are archived in the `baselines/` directory as `rosters_<strategy>_baseline_3.csv` (e.g. `rosters_mc_ev_baseline_3.csv`).
+- **Performance Summary**:
+
+  | Season | Strategy | Total Score | Coulda Max | Ceiling % |
+  |---|---|---|---|---|
+  | 2025 | MC_EV | 2136.2 | 4450.2 | 48.0% |
+  | 2025 | MC_Ceil_90 | 1841.4 | 4450.2 | 41.4% |
+  | 2025 | MC_Win_160 | 2063.4 | 4450.2 | 46.4% |
+  | 2026 | MC_EV | 888.0 | 2194.1 | 40.5% |
+  | 2026 | MC_Ceil_90 | 740.9 | 2194.1 | 33.8% |
+  | 2026 | MC_Win_160 | 899.4 | 2194.1 | 41.0% |
+
+- **Coulda Max Note**: The 2025 Coulda Max is **4450.2** (12 weeks evaluated), down from 4679.1 in Baseline 2 (13 weeks). The difference reflects the removal of the All-Star Week 6 game data from `combined_player_stats_2025.json`, which was cleaned in a prior update. Direct per-week comparisons to Baseline 2 should exclude Week 6.
+- **MC_Win_180 Note**: The `MC_Win_180` strategy is no longer output by `06_optimize_lineups.py` in the current pipeline. Its Baseline 2 roster files are preserved for audit only; no Baseline 3 equivalent was generated. If this strategy is re-introduced, establish its baseline at that time.
+- **Interpretation**: Compared to Baseline 2 (on the same 12 evaluated 2025 weeks), MC_EV delivers **2136.2 pts (48.0% ceiling)** and MC_Win_160 **2063.4 pts (46.4%)**. In 2026, MC_Win_160 narrowly leads MC_EV (**899.4 vs 888.0 pts**), with MC_EV at 40.5% and MC_Win_160 at 41.0% of ceiling. MC_Ceil_90 continues to underperform across both seasons.
 
 > [!WARNING]
 > **Question Mark Over MC Ceil 90 Strategy:**
-> Backtest analysis demonstrates that the `MC_Ceil_90` strategy consistently underperforms compared to `MC_EV` and `MC_Win_160`. Across 19 weeks in Baseline 2, it was the top-performing strategy in only 3 weeks (2025 Weeks 2, 3, and 9) and was beaten by the other strategies in the remaining 16 weeks. Consider deprecating or replacing `MC_Ceil_90` in future optimization iterations.
+> Backtest analysis (Baseline 2) demonstrates that the `MC_Ceil_90` strategy consistently underperforms compared to `MC_EV` and `MC_Win_160`. Across 19 weeks in Baseline 2, it was the top-performing strategy in only 3 weeks (2025 Weeks 2, 3, and 9) and was beaten by the other strategies in the remaining 16 weeks. Consider deprecating or replacing `MC_Ceil_90` in future optimization iterations.
 
 ---
 
@@ -287,6 +305,16 @@ A full codebase audit on **1 July 2026** identified 6 distinct leakage sources. 
   - *Details*: Matchup ratings shrinkage `SHRINKAGE_K = 5` is verified as highly critical for model stability. Testing it disabled resulted in severe 2026 performance degradation (-222.9 pts). Keep enabled at `SHRINKAGE_K = 5`.
 - **Item 31: Smooth MC Historical Pool Blending** (Tested & Rejected / Closed)
   - *Details*: Tested pool blending across various blending levels ($K \in [5, 8, 10, 12, 15]$). While blending with $K=15$ provides a major performance boost specifically for the `MC_Ceil_90` strategy (+287.3 pts combined), it causes a net drag on the primary `MC_EV` and `MC_Win_160` strategies due to variance regularization. Because we want to prioritize EV-based cash game stability and the `MC_Ceil_90` strategy is poorly performing overall, we have rejected the feature and disabled it in production (`MC_POOL_BLENDING_ENABLED = False`).
+
+#### Item 36: DNP Rolling Feature Pollution Bug Fix ✅ DONE
+- **Problem**: `add_rolling_features()` in `feature_engineering.py` — the shared helper used for both historical training and live-week predictions — included DNP (Did Not Play) rows when computing rolling form features (`_last3_avg`, `_season_avg`, `fp_lag1`, `fp_ewma_4`, and all sub-stat averages). A player who missed games due to injury, trades, or being scratched had their rolling stats artificially dragged toward zero. The XGBoost model could not distinguish between a player performing poorly on the field and a player who simply didn't play, leading to biased predictions for returning players.
+- **Fix**: `add_rolling_features()` now:
+  1. Separates an `active_mask = (df["isDNP"] != True)` subset before any rolling calculation.
+  2. Computes all rolling/EWMA stats exclusively on `df_active`.
+  3. Re-integrates the calculated stats back into the full dataframe and forward-fills (`ffill`) DNP gaps per player, so a returning player carries their last known on-field form value.
+- **Impact**: All rolling form features now represent true on-field performance (points per game *played*, touches per game *played*). This removes a major noise source from both the training set (2023–2025 history) and live predictions, improving accuracy for any player returning from a multi-week absence.
+- **File**: `feature_engineering.py` (lines 269–297)
+- **Status**: ✅ Done. Triggered Baseline 3 re-establishment.
 
 #### Item 11: Extract Distributional Statistics from MC Simulations & Consolidated Tooltip ✅ DONE
 - **Problem**: Downstream scripts loaded the massive 23MB simulations CSV just to extract mean and quantile values, creating severe CPU/disk bottlenecks. The web UI lacked visual outcomes representation.
