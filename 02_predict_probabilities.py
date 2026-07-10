@@ -21,7 +21,7 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.calibration import CalibratedClassifierCV
 from sklearn.model_selection import KFold, TimeSeriesSplit
 from utils import assign_position_group, assign_sub_position, calc_fantasy, clean_name
-from config import GAME_PACE_ENABLED, DATA_LEAKAGE_FIX_ENABLED, EWMA_ENABLED
+from config import GAME_PACE_ENABLED, DATA_LEAKAGE_FIX_ENABLED, EWMA_ENABLED, SALARY_AS_FEATURE, SALARY_AS_FEATURE_POSITIONS, USAGE_HEALTH_FEATURES_ENABLED
 from feature_engineering import (
     TEAM_NAME_TO_ID,
     FEATURE_LISTS,
@@ -235,10 +235,10 @@ def main():
             last = ident.get("lastName")
             off_id = ident.get("officialId")
             
-            # Filter out injured reserve (IR) and out (O) players
-            if off_id in injured_keys or (clean_name_local(first), clean_name_local(last)) in injured_keys:
-                print(f"  Skipping injured/out player (fallback_data): {first} {last}")
-                continue
+            # Filter out injured reserve (IR) and out (O) players (disabled to allow gameday roster filtering)
+            # if off_id in injured_keys or (clean_name_local(first), clean_name_local(last)) in injured_keys:
+            #     print(f"  Skipping injured/out player (fallback_data): {first} {last}")
+            #     continue
                 
             salary = f2p.get("salary", 0)
             
@@ -302,11 +302,11 @@ def main():
                     first = p.get("firstName")
                     last = p.get("lastName")
                     
-                    # Filter out injured reserve (IR) and out (O) players
-                    injury_status = p.get("injuryStatus")
-                    if injury_status in ("IR", "O"):
-                        print(f"  Skipping injured/out player (f2d): {first} {last} (Status: {injury_status})")
-                        continue
+                    # Filter out injured reserve (IR) and out (O) players (disabled to allow gameday roster filtering)
+                    # injury_status = p.get("injuryStatus")
+                    # if injury_status in ("IR", "O"):
+                    #     print(f"  Skipping injured/out player (f2d): {first} {last} (Status: {injury_status})")
+                    #     continue
                         
                     salary = p.get("salary", 0)
                     if not salary or salary == 0 or is_placeholder:
@@ -428,25 +428,64 @@ def main():
         opp_players = api_roster_by_team.get(opp_id, [])
         active_ssdm, active_def = 0.0, 0.0
         opp_goalie_players = []
-        if opp_players:
-            for gp in opp_players:
-                rs = gp.get("rosterStatus", "active")
-                is_inj = gp.get("injuryStatus") in ("O", "IR")
-                is_active = rs in ("active", "starter") and not is_inj
-                pos = str(gp.get("position", "")).upper()
-                if pos in ("SSDM", "LSM") and is_active: active_ssdm += 1
-                if pos == "D" and is_active: active_def += 1
-                if pos == "G":
-                    fn = clean_name(gp.get("firstName", ""))
-                    ln = clean_name(gp.get("lastName", ""))
-                    matched = p_avgs[(p_avgs["firstName"].apply(clean_name) == fn) & (p_avgs["lastName"].apply(clean_name) == ln)]
-                    fp_avg = float(matched.iloc[0].get("fp_season_avg", 0) or 0) if not matched.empty else 0.0
-                    opp_goalie_players.append({"fp_avg": fp_avg, "is_active": is_active})
-
-        # Compare against historical seasonal averages for opponent
         hist_opp = df_all[df_all["team"] == opp_id]
-        hist_ssdm_avg = hist_opp[hist_opp["subPosition"] == "SSDM"].groupby("eventId").size().mean() if not hist_opp.empty else None
-        hist_def_avg = hist_opp[hist_opp["subPosition"] == "Defensemen"].groupby("eventId").size().mean() if not hist_opp.empty else None
+
+        if USAGE_HEALTH_FEATURES_ENABLED:
+            if opp_players:
+                for gp in opp_players:
+                    rs = gp.get("rosterStatus", "active")
+                    is_inj = gp.get("injuryStatus") in ("O", "IR")
+                    is_active = rs in ("active", "starter") and not is_inj
+                    pos = str(gp.get("position", "")).upper()
+                    if pos in ("SSDM", "LSM"):
+                        fn = clean_name(gp.get("firstName", ""))
+                        ln = clean_name(gp.get("lastName", ""))
+                        matched = p_avgs[(p_avgs["firstName"].apply(clean_name) == fn) & (p_avgs["lastName"].apply(clean_name) == ln)]
+                        fp_avg = float(matched.iloc[0].get("fp_season_avg", 0) or 0) if not matched.empty else 0.0
+                        weight = fp_avg + 1.0
+                        if is_active: active_ssdm += weight
+                    elif pos == "D":
+                        fn = clean_name(gp.get("firstName", ""))
+                        ln = clean_name(gp.get("lastName", ""))
+                        matched = p_avgs[(p_avgs["firstName"].apply(clean_name) == fn) & (p_avgs["lastName"].apply(clean_name) == ln)]
+                        fp_avg = float(matched.iloc[0].get("fp_season_avg", 0) or 0) if not matched.empty else 0.0
+                        weight = fp_avg + 1.0
+                        if is_active: active_def += weight
+                    elif pos == "G":
+                        fn = clean_name(gp.get("firstName", ""))
+                        ln = clean_name(gp.get("lastName", ""))
+                        matched = p_avgs[(p_avgs["firstName"].apply(clean_name) == fn) & (p_avgs["lastName"].apply(clean_name) == ln)]
+                        fp_avg = float(matched.iloc[0].get("fp_season_avg", 0) or 0) if not matched.empty else 0.0
+                        opp_goalie_players.append({"fp_avg": fp_avg, "is_active": is_active})
+
+            if not hist_opp.empty:
+                hist_active_ssdm = hist_opp[(hist_opp["subPosition"] == "SSDM") & (hist_opp["isDNP"] != True)].copy()
+                hist_active_ssdm["weight"] = hist_active_ssdm["fp_season_avg"].fillna(0.0) + 1.0
+                hist_ssdm_avg = hist_active_ssdm.groupby("eventId")["weight"].sum().mean()
+
+                hist_active_def = hist_opp[(hist_opp["subPosition"] == "Defensemen") & (hist_opp["isDNP"] != True)].copy()
+                hist_active_def["weight"] = hist_active_def["fp_season_avg"].fillna(0.0) + 1.0
+                hist_def_avg = hist_active_def.groupby("eventId")["weight"].sum().mean()
+            else:
+                hist_ssdm_avg, hist_def_avg = None, None
+        else:
+            if opp_players:
+                for gp in opp_players:
+                    rs = gp.get("rosterStatus", "active")
+                    is_inj = gp.get("injuryStatus") in ("O", "IR")
+                    is_active = rs in ("active", "starter") and not is_inj
+                    pos = str(gp.get("position", "")).upper()
+                    if pos in ("SSDM", "LSM") and is_active: active_ssdm += 1
+                    if pos == "D" and is_active: active_def += 1
+                    if pos == "G":
+                        fn = clean_name(gp.get("firstName", ""))
+                        ln = clean_name(gp.get("lastName", ""))
+                        matched = p_avgs[(p_avgs["firstName"].apply(clean_name) == fn) & (p_avgs["lastName"].apply(clean_name) == ln)]
+                        fp_avg = float(matched.iloc[0].get("fp_season_avg", 0) or 0) if not matched.empty else 0.0
+                        opp_goalie_players.append({"fp_avg": fp_avg, "is_active": is_active})
+
+            hist_ssdm_avg = hist_opp[hist_opp["subPosition"] == "SSDM"].groupby("eventId").size().mean() if not hist_opp.empty else None
+            hist_def_avg = hist_opp[hist_opp["subPosition"] == "Defensemen"].groupby("eventId").size().mean() if not hist_opp.empty else None
 
         opp_ssdm_h = min(1.0, active_ssdm / hist_ssdm_avg) if (hist_ssdm_avg and hist_ssdm_avg > 0 and opp_players) else 1.0
         opp_def_h = min(1.0, active_def / hist_def_avg) if (hist_def_avg and hist_def_avg > 0 and opp_players) else 1.0
@@ -502,6 +541,39 @@ def main():
     if args.use_pace_scale:
         for col in ["pairing_rating", "opponent_rating", "player_vs_team_rating", "team_def_rating"]:
             df_test[col] = df_test[col] * df_test["game_pace"]
+
+    # Dynamic salary features injection
+    if SALARY_AS_FEATURE:
+        print("[INFO] Salary as a feature is ENABLED.")
+        for pg, feats in FEATURE_LISTS.items():
+            if SALARY_AS_FEATURE_POSITIONS.get(pg, True):
+                if "salary_normalized" not in feats:
+                    feats.append("salary_normalized")
+                if "salary_percentile" not in feats:
+                    feats.append("salary_percentile")
+                print(f"  Position: {pg} -> features: {feats}")
+
+        # Compute salary features on df_all (training pool)
+        df_all["salary"] = pd.to_numeric(df_all["salary"], errors="coerce").fillna(10.0)
+        df_all["salary_normalized"] = df_all["salary"] / 50.0
+        # Percentile rank within (year, week, positionGroup)
+        df_all["salary_percentile"] = df_all.groupby(["year", "week", "positionGroup"])["salary"].rank(pct=True).fillna(0.5)
+
+        # Compute salary features on df_test (test pool)
+        df_test["salary"] = pd.to_numeric(df_test["salary"], errors="coerce").fillna(10.0)
+        df_test["salary_normalized"] = df_test["salary"] / 50.0
+        # Percentile rank within positionGroup for the current week
+        df_test["salary_percentile"] = df_test.groupby("positionGroup")["salary"].rank(pct=True).fillna(0.5)
+
+    # Dynamic usage and health features injection
+    if USAGE_HEALTH_FEATURES_ENABLED:
+        print("[INFO] Usage & Health Features (Item 10) are ENABLED.")
+        for pg in ["Attack", "Midfield"]:
+            if "touches_anomaly" not in FEATURE_LISTS[pg]:
+                FEATURE_LISTS[pg].append("touches_anomaly")
+                print(f"  Position: {pg} -> injected features: {FEATURE_LISTS[pg]}")
+        # Compute touches_anomaly on df_test
+        df_test["touches_anomaly"] = (df_test["touches_last3_avg"] - df_test["touches_season_avg"]).fillna(0.0)
 
     df_train = df_all.dropna(subset=["TotalFantasyPoints"]).copy()
     df_train = filter_played_only(df_train)
