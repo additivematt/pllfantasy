@@ -1277,7 +1277,7 @@ async function initDashboard() {
 
     // Load all_players_stats for sparkline history (shared file one level up)
     try {
-        const statsRes = await fetch(`../all_players_stats.json?t=${Date.now()}`);
+        const statsRes = await fetch(`../interrogata/all_players_stats.json?t=${Date.now()}`);
         if (statsRes.ok) {
             window.allPlayersStats = await statsRes.json();
             // Build name → playerHistory lookup
