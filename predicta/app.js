@@ -1,6 +1,313 @@
 const positions = ["Attack", "Midfield", "SSDM", "Defensemen", "Faceoff", "Goalie"];
 let activeRosterTab = "MC_EV";
 
+// ─── Interrogata-compatible helpers for sparkline ───────────────────────────
+
+// Legacy team code normalisation (same mapping used in interrogata)
+function normalizeTeamCode(code) {
+    if (!code) return code;
+    const mapping = {
+        'BOS': 'CAN', 'MDW': 'WHP', 'UTA': 'ARC',
+        'NYA': 'ATL', 'CAR': 'CHA', 'DEN': 'OUT',
+        'CAL': 'RED', 'PHI': 'WAT'
+    };
+    return mapping[code.toUpperCase()] || code.toUpperCase();
+}
+
+// Derive opponent team code from a stat entry (mirrors interrogata logic)
+function getOpponentCodeFromStat(s, team) {
+    if (!s || !s.event) return null;
+    if (s.event.homeTeam && s.event.awayTeam) {
+        const raw = s.event.homeTeam === team ? s.event.awayTeam : s.event.homeTeam;
+        return normalizeTeamCode(raw);
+    }
+    if (s.f2p && s.f2p.displayString && s.f2p.displayString.includes('vs')) {
+        const parts = s.f2p.displayString.split('vs');
+        const rawOpp = parts[parts.length - 1].trim().split(' ')[0];
+        return normalizeTeamCode(rawOpp);
+    }
+    return null;
+}
+
+function sparkFormatPoints(val) {
+    if (val === null || val === undefined) return '-';
+    const rounded = Math.round(val * 10) / 10;
+    return Number.isInteger(rounded) ? rounded.toString() : rounded.toFixed(1);
+}
+
+/**
+ * Build the shared stats+range-bar HTML for both tooltip paths.
+ * The sparkline canvas placeholder is appended after this block.
+ */
+function buildTooltipBodyHtml(p, maxCeiling, advisorBadge = false) {
+    const floor   = p.mc_p10 != null ? p.mc_p10 : 0.0;
+    const ceiling = p.mc_p90 != null ? p.mc_p90 : 0.0;
+    const ev      = p.mc_ev  != null ? p.mc_ev  : 0.0;
+    const p10Pct      = (floor   / maxCeiling) * 100;
+    const fillWidthPct = ((ceiling - floor) / maxCeiling) * 100;
+    const evPct       = (ev     / maxCeiling) * 100;
+
+    const advisorTag = advisorBadge
+        ? `<span style="font-size:0.65rem; color:#ff00ff; border:1px solid #ff00ff; padding:2px 4px; border-radius:3px; float:right; margin-top:3px; font-weight:700;">ADVISOR SELECT</span>`
+        : `<span style="font-size:0.75rem; color:#8b949e; font-weight:normal; float:right; margin-top:4px;">${p.team} - ${p.position || p.positionGroup}</span>`;
+
+    return `
+        <div class="tooltip-header">${p.firstName} ${p.lastName} ${advisorTag}</div>
+        <div class="tooltip-grid">
+            <div class="tooltip-row"><span class="tooltip-label">Opponent</span><span class="tooltip-value">${p.opponent}</span></div>
+            <div class="tooltip-row"><span class="tooltip-label">Opp. Rating</span><span class="tooltip-value" style="color: ${p.team_def_rating > 1.1 ? '#00ff88' : p.team_def_rating < 0.9 ? '#ff4444' : '#ffffff'}">${(p.team_def_rating || 1.0).toFixed(2)}</span></div>
+            <div class="tooltip-row"><span class="tooltip-label">Salary</span><span class="tooltip-value">${p.salary} Coins</span></div>
+            <div class="tooltip-row"><span class="tooltip-label">Risk (\u03c3)</span><span class="tooltip-value" style="color: ${p.mc_std > 20 ? '#ff4444' : p.mc_std > 12 ? '#fdae61' : '#6dbe6d'}">${(p.mc_std != null ? p.mc_std : 0).toFixed(1)}</span></div>
+            <div class="tooltip-row"><span class="tooltip-label">Season Avg</span><span class="tooltip-value">${(p.fp_season_avg || 0).toFixed(1)}</span></div>
+            <div class="tooltip-row"><span class="tooltip-label">Boom Prob</span><span class="tooltip-value" style="color: rgba(255,255,255,0.55)">${(p.BoomProbability || 0).toFixed(0)}%</span></div>
+        </div>
+        <div class="range-bar-section">
+            <div class="range-bar-title">MC Projections Range (EV: <span style="color:#00ffff">${ev.toFixed(1)}</span> pts)</div>
+            <div class="range-bar-container">
+                <div class="range-bar-track"></div>
+                <div class="range-bar-fill" style="left: ${p10Pct}%; width: ${fillWidthPct}%;"></div>
+                <div class="range-bar-dot" style="left: ${evPct}%;"></div>
+            </div>
+            <div class="range-bar-labels">
+                <span>Floor (p10): <span class="range-bar-val">${floor.toFixed(1)}</span></span>
+                <span>Ceiling (p90): <span class="range-bar-val">${ceiling.toFixed(1)}</span></span>
+            </div>
+        </div>
+        ${p.actualPoints !== undefined && p.actualPoints !== null ? `
+        <div class="tooltip-row" style="margin-top: 0.6rem; padding-top: 0.6rem; border-top: 1px solid rgba(255, 255, 255, 0.08)">
+            <span class="tooltip-label" style="color: #00f0ff; font-weight: 700;">Actual Score</span>
+            <span class="tooltip-value" style="color: #00f0ff; font-weight: 700;">${p.actualPoints.toFixed(1)} pts</span>
+        </div>` : ''}
+        <div class="sparkline-section">
+            <div class="sparkline-title"><span class="sparkline-title-dot"></span>Last 10 Games</div>
+            <div class="sparkline-canvas-wrapper"><canvas id="tooltip-sparkline-canvas"></canvas></div>
+            <div class="sparkline-opp-note" id="sparkline-opp-note"></div>
+        </div>
+    `;
+}
+
+/**
+ * Render a mini Chart.js sparkline into #tooltip-sparkline-canvas.
+ * Mirrors interrogata renderChart() segment logic for gaps/year-breaks.
+ * @param {string} firstName
+ * @param {string} lastName
+ * @param {string} opponent  - normalised 3-letter team code, e.g. "WAT"
+ */
+function renderTooltipSparkline(firstName, lastName, opponent) {
+    // Destroy previous instance
+    if (window._tooltipSparkChart) {
+        window._tooltipSparkChart.destroy();
+        window._tooltipSparkChart = null;
+    }
+
+    const canvas = document.getElementById('tooltip-sparkline-canvas');
+    const noteEl = document.getElementById('sparkline-opp-note');
+    if (!canvas) return;
+
+    // Look up player in allPlayersStats
+    if (!window._playerStatsByName) {
+        if (noteEl) noteEl.innerHTML = '';
+        return;
+    }
+    const key = `${firstName} ${lastName}`.toLowerCase().trim();
+    const playerHistory = window._playerStatsByName[key];
+    if (!playerHistory || !playerHistory.stats || playerHistory.stats.length === 0) {
+        if (noteEl) noteEl.innerHTML = '<span style="color:#8b949e; font-style:italic;">No history available</span>';
+        return;
+    }
+
+    const normOpp = opponent ? normalizeTeamCode(opponent) : null;
+    const playerTeam = playerHistory.player.team;
+
+    // Build chart slots (same logic as interrogata: insert null at year breaks, skip allstar)
+    // Exclude unplayed games: filter to entries with a startTime in the past
+    const nowEpoch = Date.now() / 1000;
+    const rawStats = [...playerHistory.stats]
+        .sort((a, b) => parseInt(a.event?.startTime || 0) - parseInt(b.event?.startTime || 0))
+        .filter(s => parseInt(s.event?.startTime || 0) < nowEpoch);
+
+    const allSlots = [];
+    rawStats.forEach((s, idx) => {
+        if (s.event.eventId.toLowerCase().includes('allstar')) return;
+        if (idx > 0) {
+            const prev = rawStats[idx - 1];
+            const currYear = s.event.eventId.split('_')[0];
+            const prevYear = prev.event.eventId.split('_')[0];
+            if (currYear !== prevYear) allSlots.push(null); // year-break sentinel
+        }
+        allSlots.push(s);
+    });
+
+    // Take the last ~14 slots so we always get 10 real data points
+    const windowSlots = allSlots.slice(-14);
+
+    const labels = windowSlots.map(s => {
+        if (!s) return '';
+        const opp = getOpponentCodeFromStat(s, playerTeam);
+        const season = s.event.eventId.split('_')[0];
+        return `${season} W${s.week ?? '?'}${opp ? ' vs ' + opp : ''}`;
+    });
+
+    const chartData = windowSlots.map(s => (s && !s.isDNP) ? (s.f2p.totalPoints || 0) : null);
+
+
+    // Point colours: gold for games vs current opponent, purple otherwise, transparent for null/DNP
+    const pointBg = windowSlots.map(s => {
+        if (!s || s.isDNP) return 'transparent';
+        if (normOpp) {
+            const opp = getOpponentCodeFromStat(s, playerTeam);
+            if (opp === normOpp) return 'rgba(236, 201, 75, 0.95)'; // Gold
+        }
+        return 'rgba(159, 122, 234, 0.8)'; // Purple
+    });
+    const pointRadius = windowSlots.map(s => {
+        if (!s || s.isDNP) return 0;
+        if (normOpp) {
+            const opp = getOpponentCodeFromStat(s, playerTeam);
+            if (opp === normOpp) return 6;
+        }
+        return 3;
+    });
+    const pointBorder = windowSlots.map(s => {
+        if (!s || s.isDNP) return 'transparent';
+        if (normOpp) {
+            const opp = getOpponentCodeFromStat(s, playerTeam);
+            if (opp === normOpp) return '#ecc94b';
+        }
+        return '#9f7aea';
+    });
+
+    // Segment helpers: cross-year → transparent, bye-week gap → dashed
+    const segmentBorderColor = ctx => {
+        let leftIdx = -1, rightIdx = -1;
+        for (let i = ctx.p0DataIndex; i >= 0; i--) {
+            if (chartData[i] !== null && chartData[i] !== undefined) { leftIdx = i; break; }
+        }
+        for (let i = ctx.p1DataIndex; i < chartData.length; i++) {
+            if (chartData[i] !== null && chartData[i] !== undefined) { rightIdx = i; break; }
+        }
+        if (leftIdx !== -1 && rightIdx !== -1) {
+            const ls = windowSlots[leftIdx], rs = windowSlots[rightIdx];
+            if (ls && rs) {
+                const ly = ls.event.eventId.split('_')[0];
+                const ry = rs.event.eventId.split('_')[0];
+                if (ly !== ry) return 'transparent';
+            }
+        }
+        return undefined;
+    };
+
+    const segmentBorderDash = ctx => {
+        const p0 = windowSlots[ctx.p0DataIndex];
+        const p1 = windowSlots[ctx.p1DataIndex];
+        if (p0 && p1) {
+            if (p0.event.eventId.split('_')[0] !== p1.event.eventId.split('_')[0]) return undefined;
+            const weekDiff = (p1.week ?? 0) - (p0.week ?? 0);
+            if (weekDiff > 1) return [4, 4];
+        }
+        return undefined;
+    };
+
+    const ctx = canvas.getContext('2d');
+    window._tooltipSparkChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels,
+            datasets: [{
+                data: chartData,
+                borderColor: '#9f7aea',
+                backgroundColor: 'rgba(159, 122, 234, 0.08)',
+                fill: true,
+                tension: 0.35,
+                pointBackgroundColor: pointBg,
+                pointBorderColor: pointBorder,
+                pointBorderWidth: 1.5,
+                pointRadius,
+                pointHoverRadius: pointRadius.map(r => r + 2),
+                spanGaps: true,
+                segment: { borderColor: segmentBorderColor, borderDash: segmentBorderDash }
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: context => {
+                            const s = windowSlots[context.dataIndex];
+                            if (!s) return '';
+                            return `${sparkFormatPoints(s.f2p.totalPoints)} FP`;
+                        }
+                    },
+                    backgroundColor: 'rgba(22,27,34,0.95)',
+                    titleColor: '#9f7aea',
+                    bodyColor: '#f0f6fc',
+                    borderColor: '#30363d',
+                    borderWidth: 1
+                }
+            },
+            scales: {
+                x: {
+                    display: false
+                },
+                y: {
+                    beginAtZero: false,
+                    min: (() => {
+                        const valid = chartData.filter(v => v !== null && v !== undefined);
+                        if (valid.length === 0) return 0;
+                        return Math.floor(Math.min(...valid) / 10) * 10;
+                    })(),
+                    max: (() => {
+                        const valid = chartData.filter(v => v !== null && v !== undefined);
+                        if (valid.length === 0) return 50;
+                        return Math.ceil(Math.max(...valid) / 10) * 10;
+                    })(),
+                    grid: { color: 'rgba(255,255,255,0.07)' },
+                    ticks: {
+                        color: '#8b949e',
+                        font: { size: 9 },
+                        stepSize: 10
+                    },
+                    border: { display: false }
+                }
+            }
+        }
+    });
+
+    // Build opponent note below chart
+    if (noteEl && normOpp) {
+        // Find the most recent game vs this opponent within the window
+        const lastOppGame = [...windowSlots].reverse().find(s =>
+            s && !s.isDNP && getOpponentCodeFromStat(s, playerTeam) === normOpp
+        );
+        if (lastOppGame) {
+            const pts = sparkFormatPoints(lastOppGame.f2p.totalPoints);
+            const season = lastOppGame.event.eventId.split('_')[0];
+            const weekLabel = lastOppGame.week != null ? `W${lastOppGame.week}` : '';
+            noteEl.innerHTML = `Last vs <span class="opp-badge">${normOpp}</span> in window: <span class="opp-score">${pts} FP</span> <span style="color:#8b949e">(${season} ${weekLabel})</span>`;
+        } else {
+            // Look in full history for any prior matchup outside the window
+            const anyPrior = [...rawStats].reverse().find(s =>
+                !s.isDNP && getOpponentCodeFromStat(s, playerTeam) === normOpp
+            );
+            if (anyPrior) {
+                const pts = sparkFormatPoints(anyPrior.f2p.totalPoints);
+                const season = anyPrior.event.eventId.split('_')[0];
+                const weekLabel = anyPrior.week != null ? `W${anyPrior.week}` : '';
+                noteEl.innerHTML = `Last vs <span class="opp-badge">${normOpp}</span>: <span class="opp-score">${pts} FP</span> <span style="color:#8b949e">(${season} ${weekLabel}, not in chart)</span>`;
+            } else {
+                noteEl.innerHTML = `<span style="color:#8b949e; font-style:italic;">No prior matchups vs ${normOpp}</span>`;
+            }
+        }
+    } else if (noteEl) {
+        noteEl.innerHTML = '';
+    }
+}
+
+
 const rosterDescriptions = {
     "MC_EV": "Optimizes the roster to get the highest average points. Best for consistent, safe performance.",
     "MC_Win_160": "Optimizes the roster to maximize the chance of scoring 160 or more points. Balances safety with some high-scoring potential.",
@@ -274,45 +581,14 @@ function renderPlot(targetId, title, data, yRange = null) {
         const p = point.customdata;
         
         tooltip.style.display = 'block';
-        tooltip.style.left = (data.event.clientX + 20) + 'px';
-        tooltip.style.top = (data.event.clientY - 20) + 'px';
+        tooltip.style.left = (window.innerWidth / 2 - 190) + 'px';
+        tooltip.style.top = (window.innerHeight / 2) + 'px';
+        tooltip.style.transform = 'translateY(-50%)';
         
-        const maxCeiling = Math.max(...sortedData.map(d => d.mc_p90 || 0), 1);
-        const floor = p.mc_p10 != null ? p.mc_p10 : 0.0;
-        const ceiling = p.mc_p90 != null ? p.mc_p90 : 0.0;
-        const ev = p.mc_ev != null ? p.mc_ev : 0.0;
-        const p10Pct = (floor / maxCeiling) * 100;
-        const fillWidthPct = ((ceiling - floor) / maxCeiling) * 100;
-        const evPct = (ev / maxCeiling) * 100;
 
-        tooltip.innerHTML = `
-            <div class="tooltip-header">${p.firstName} ${p.lastName} <span style="font-size:0.75rem; color:#8b949e; font-weight:normal; float:right; margin-top:4px;">${p.team} - ${p.position || p.positionGroup}</span></div>
-            <div class="tooltip-grid">
-                <div class="tooltip-row"><span class="tooltip-label">Opponent</span><span class="tooltip-value">${p.opponent}</span></div>
-                <div class="tooltip-row"><span class="tooltip-label">Opp. Rating</span><span class="tooltip-value" style="color: ${p.team_def_rating > 1.1 ? '#00ff88' : p.team_def_rating < 0.9 ? '#ff4444' : '#ffffff'}">${(p.team_def_rating || 1.0).toFixed(2)}</span></div>
-                <div class="tooltip-row"><span class="tooltip-label">Salary</span><span class="tooltip-value">${p.salary} Coins</span></div>
-                <div class="tooltip-row"><span class="tooltip-label">Risk (σ)</span><span class="tooltip-value" style="color: ${p.mc_std > 20 ? '#ff4444' : p.mc_std > 12 ? '#fdae61' : '#6dbe6d'}">${(p.mc_std != null ? p.mc_std : 0).toFixed(1)}</span></div>
-                <div class="tooltip-row"><span class="tooltip-label">Season Avg</span><span class="tooltip-value">${(p.fp_season_avg || 0).toFixed(1)}</span></div>
-                <div class="tooltip-row"><span class="tooltip-label">Boom Prob</span><span class="tooltip-value" style="color: rgba(255,255,255,0.55)">${(p.BoomProbability || 0).toFixed(0)}%</span></div>
-            </div>
-            <div class="range-bar-section">
-                <div class="range-bar-title">MC Projections Range (EV: <span style="color:#00ffff">${ev.toFixed(1)}</span> pts)</div>
-                <div class="range-bar-container">
-                    <div class="range-bar-track"></div>
-                    <div class="range-bar-fill" style="left: ${p10Pct}%; width: ${fillWidthPct}%;"></div>
-                    <div class="range-bar-dot" style="left: ${evPct}%;"></div>
-                </div>
-                <div class="range-bar-labels">
-                    <span>Floor (p10): <span class="range-bar-val">${floor.toFixed(1)}</span></span>
-                    <span>Ceiling (p90): <span class="range-bar-val">${ceiling.toFixed(1)}</span></span>
-                </div>
-            </div>
-            ${p.actualPoints !== undefined && p.actualPoints !== null ? `
-            <div class="tooltip-row" style="margin-top: 0.6rem; padding-top: 0.6rem; border-top: 1px solid rgba(255, 255, 255, 0.08)">
-                <span class="tooltip-label" style="color: #00f0ff; font-weight: 700;">Actual Score</span>
-                <span class="tooltip-value" style="color: #00f0ff; font-weight: 700;">${p.actualPoints.toFixed(1)} pts</span>
-            </div>` : ''}
-        `;
+        tooltip.innerHTML = buildTooltipBodyHtml(p, Math.max(...sortedData.map(d => d.mc_p90 || 0), 1), false);
+        renderTooltipSparkline(p.firstName, p.lastName, p.opponent);
+
     });
 }
 
@@ -977,45 +1253,14 @@ function highlightPlayerInPlot(position, firstName, lastName, gameId) {
     const rect = plotEl.getBoundingClientRect();
     
     tooltip.style.display = 'block';
-    tooltip.style.left = (rect.left + 50) + 'px';
-    tooltip.style.top = (rect.top + 80) + 'px';
+    tooltip.style.left = (window.innerWidth / 2 - 190) + 'px';
+    tooltip.style.top = (window.innerHeight / 2) + 'px';
+    tooltip.style.transform = 'translateY(-50%)';
     
-    const maxCeiling = Math.max(...customdata.map(d => d.mc_p90 || 0), 1);
-    const floor = p.mc_p10 != null ? p.mc_p10 : 0.0;
-    const ceiling = p.mc_p90 != null ? p.mc_p90 : 0.0;
-    const ev = p.mc_ev != null ? p.mc_ev : 0.0;
-    const p10Pct = (floor / maxCeiling) * 100;
-    const fillWidthPct = ((ceiling - floor) / maxCeiling) * 100;
-    const evPct = (ev / maxCeiling) * 100;
 
-    tooltip.innerHTML = `
-        <div class="tooltip-header">${p.firstName} ${p.lastName} <span style="font-size:0.65rem; color: #ff00ff; border: 1px solid #ff00ff; padding: 2px 4px; border-radius:3px; float:right; margin-top:3px; font-weight:700;">ADVISOR SELECT</span></div>
-        <div class="tooltip-grid">
-            <div class="tooltip-row"><span class="tooltip-label">Opponent</span><span class="tooltip-value">${p.opponent}</span></div>
-            <div class="tooltip-row"><span class="tooltip-label">Opp. Rating</span><span class="tooltip-value" style="color: ${p.team_def_rating > 1.1 ? '#00ff88' : p.team_def_rating < 0.9 ? '#ff4444' : '#ffffff'}">${(p.team_def_rating || 1.0).toFixed(2)}</span></div>
-            <div class="tooltip-row"><span class="tooltip-label">Salary</span><span class="tooltip-value">${p.salary} Coins</span></div>
-            <div class="tooltip-row"><span class="tooltip-label">Risk (σ)</span><span class="tooltip-value" style="color: ${p.mc_std > 20 ? '#ff4444' : p.mc_std > 12 ? '#fdae61' : '#6dbe6d'}">${(p.mc_std != null ? p.mc_std : 0).toFixed(1)}</span></div>
-            <div class="tooltip-row"><span class="tooltip-label">Season Avg</span><span class="tooltip-value">${(p.fp_season_avg || 0).toFixed(1)}</span></div>
-            <div class="tooltip-row"><span class="tooltip-label">Boom Prob</span><span class="tooltip-value" style="color: rgba(255,255,255,0.55)">${(p.BoomProbability || 0).toFixed(0)}%</span></div>
-        </div>
-        <div class="range-bar-section">
-            <div class="range-bar-title">MC Projections Range (EV: <span style="color:#00ffff">${ev.toFixed(1)}</span> pts)</div>
-            <div class="range-bar-container">
-                <div class="range-bar-track"></div>
-                <div class="range-bar-fill" style="left: ${p10Pct}%; width: ${fillWidthPct}%;"></div>
-                <div class="range-bar-dot" style="left: ${evPct}%;"></div>
-            </div>
-            <div class="range-bar-labels">
-                <span>Floor (p10): <span class="range-bar-val">${floor.toFixed(1)}</span></span>
-                <span>Ceiling (p90): <span class="range-bar-val">${ceiling.toFixed(1)}</span></span>
-            </div>
-        </div>
-        ${p.actualPoints !== undefined && p.actualPoints !== null ? `
-        <div class="tooltip-row" style="margin-top: 0.6rem; padding-top: 0.6rem; border-top: 1px solid rgba(255, 255, 255, 0.08)">
-            <span class="tooltip-label" style="color: #00f0ff; font-weight: 700;">Actual Score</span>
-            <span class="tooltip-value" style="color: #00f0ff; font-weight: 700;">${p.actualPoints.toFixed(1)} pts</span>
-        </div>` : ''}
-    `;
+    tooltip.innerHTML = buildTooltipBodyHtml(p, Math.max(...customdata.map(d => d.mc_p90 || 0), 1), true);
+    renderTooltipSparkline(p.firstName, p.lastName, p.opponent);
+
     
     setTimeout(() => {
         Plotly.restyle(gd, {
@@ -1029,6 +1274,35 @@ function highlightPlayerInPlot(position, firstName, lastName, gameId) {
 async function initDashboard() {
     const yearSelect = document.getElementById('year-select');
     const weekSelect = document.getElementById('week-select');
+
+    // Load all_players_stats for sparkline history (shared file one level up)
+    try {
+        const statsRes = await fetch(`../all_players_stats.json?t=${Date.now()}`);
+        if (statsRes.ok) {
+            window.allPlayersStats = await statsRes.json();
+            // Build name → playerHistory lookup
+            window._playerStatsByName = {};
+            for (const slug in window.allPlayersStats) {
+                const entry = window.allPlayersStats[slug];
+                if (entry && entry.player && entry.player.name) {
+                    const key = entry.player.name.toLowerCase().trim();
+                    window._playerStatsByName[key] = entry;
+                    // Sort stats chronologically once
+                    if (entry.stats) {
+                        entry.stats.sort((a, b) =>
+                            parseInt(a.event?.startTime || 0) - parseInt(b.event?.startTime || 0)
+                        );
+                    }
+                }
+            }
+            console.log('[Predicta] Loaded all_players_stats for sparklines.');
+        } else {
+            console.warn('[Predicta] all_players_stats.json not available — sparklines disabled.');
+        }
+    } catch (e) {
+        console.warn('[Predicta] Could not load all_players_stats:', e.message);
+    }
+
     try {
         const response = await fetch(`predictions/available?t=${Date.now()}`);
         if (!response.ok) throw new Error("Failed to load available prediction periods.");

@@ -204,8 +204,10 @@ summary:hover {
     z-index: 1000;
     display: none;
     box-shadow: 0 10px 30px rgba(159, 122, 234, 0.3);
-    width: 320px;
-    min-width: 320px;
+    width: 380px;
+    min-width: 380px;
+    max-height: 85vh;
+    overflow-y: auto;
 }
 
 .tooltip-header {
@@ -302,6 +304,67 @@ summary:hover {
 }
 
 .range-bar-val {
+    font-weight: 700;
+    color: #f0f6fc;
+}
+
+/* Sparkline Section */
+.sparkline-section {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sparkline-title {
+    font-weight: 700;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    color: #8b949e;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.sparkline-title-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #9f7aea;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.sparkline-canvas-wrapper {
+    position: relative;
+    height: 100px;
+    width: 100%;
+}
+
+.sparkline-opp-note {
+    margin-top: 0.35rem;
+    font-size: 0.7rem;
+    color: #8b949e;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    min-height: 1em;
+}
+
+.sparkline-opp-note .opp-badge {
+    display: inline-block;
+    background: rgba(236, 201, 75, 0.15);
+    border: 1px solid rgba(236, 201, 75, 0.4);
+    color: #ecc94b;
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-weight: 700;
+    font-size: 0.68rem;
+    white-space: nowrap;
+}
+
+.sparkline-opp-note .opp-score {
     font-weight: 700;
     color: #f0f6fc;
 }
