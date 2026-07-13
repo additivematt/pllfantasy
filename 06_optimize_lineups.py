@@ -103,6 +103,18 @@ def main():
     if args.force_regen or not os.path.exists(class_file):
         print("Predictions file not found or refresh requested. Generating fresh predictions...")
         subprocess.run(["python", "02_predict_probabilities.py", "--year", str(args.year), "--week", str(args.week)], cwd=script_dir, check=True)
+        print("Applying official gameday roster filter...")
+        subprocess.run(["python", "03_apply_roster_filter.py", "--year", str(args.year), "--week", str(args.week), "--no-opt"], cwd=script_dir, check=True)
+
+    # Sanity check for stale predictions
+    raw_class_file = os.path.join(predictions_dir, f"week{args.week}_{args.year}_predictions_raw.csv")
+    if os.path.exists(raw_class_file) and os.path.exists(class_file):
+        if os.path.getmtime(raw_class_file) > os.path.getmtime(class_file):
+            print("\n" + "!"*80)
+            print(f"WARNING: The raw predictions file '{raw_class_file}' is newer than the filtered predictions file '{class_file}'.")
+            print("This suggests that '03_apply_roster_filter.py' has not been run after the last prediction run.")
+            print("You may be using stale predictions! Please run '03_apply_roster_filter.py' first.")
+            print("!"*80 + "\n")
         
     # Generate simulations if they don't exist or if forced
     if args.force_regen or not os.path.exists(sims_file):

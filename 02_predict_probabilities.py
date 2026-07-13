@@ -54,6 +54,7 @@ def main():
     pace_group = p.add_mutually_exclusive_group()
     pace_group.add_argument("--pace-scale", action="store_true", default=None, help="Enable game pace scaling of GBDT features")
     pace_group.add_argument("--no-pace-scale", action="store_true", default=None, help="Disable game pace scaling of GBDT features")
+    p.add_argument("--boom-weight", type=float, default=2.0, help="Asymmetric sample weight for 'Boom' class in classifier training")
     args = p.parse_args()
     # Resolve pace scaling: CLI overrides config toggle
     if args.pace_scale:
@@ -645,7 +646,13 @@ def main():
             mod = CalibratedClassifierCV(estimator=base_clf, method='isotonic', cv=3)
         except TypeError:
             mod = CalibratedClassifierCV(base_estimator=base_clf, method='isotonic', cv=3)
-        mod.fit(X_tr_clf, ye)
+            
+        if args.boom_weight != 1.0:
+            print(f"  [INFO] Applying asymmetric class weighting: Boom weight = {args.boom_weight}")
+            sample_weights = np.where(clf_train["PerformanceTier"] == 'Boom', args.boom_weight, 1.0)
+            mod.fit(X_tr_clf, ye, sample_weight=sample_weights)
+        else:
+            mod.fit(X_tr_clf, ye)
         
         # 5b. Extract and log classifier feature importances and SHAP values
         try:

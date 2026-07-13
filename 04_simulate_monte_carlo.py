@@ -6,7 +6,7 @@ import numpy as np
 import scipy.stats as stats
 import re
 from utils import assign_position_group, assign_sub_position, calc_fantasy
-from config import LAMBDA_RECENCY, MC_POOL_BLENDING_ENABLED, MC_POOL_BLENDING_K
+from config import LAMBDA_RECENCY, MC_POOL_BLENDING_ENABLED, MC_POOL_BLENDING_K, PACE_ADJUSTED_RATES_ENABLED
 
 # ── Team Mapping ─────────────────────────────────────────────────────────────
 TEAM_NAME_TO_ID = {
@@ -253,6 +253,16 @@ def main():
     if not os.path.exists(preds_file):
         print(f"Error: Predictions file not found for {args.year} Week {args.week}. Please run predictions first.")
         return
+
+    # Sanity check for stale predictions
+    raw_preds_file = os.path.join(predictions_dir, f"week{args.week}_{args.year}_predictions_raw.csv")
+    if os.path.exists(raw_preds_file) and os.path.exists(preds_file):
+        if os.path.getmtime(raw_preds_file) > os.path.getmtime(preds_file):
+            print("\n" + "!"*80)
+            print(f"WARNING: The raw predictions file '{raw_preds_file}' is newer than the filtered predictions file '{preds_file}'.")
+            print("This suggests that '03_apply_roster_filter.py' has not been run after the last prediction run.")
+            print("You may be using stale predictions! Please run '03_apply_roster_filter.py' first.")
+            print("!"*80 + "\n")
         
     df_preds = pd.read_csv(preds_file)
     print(f"Loaded {len(df_preds)} player-game prediction rows.")
@@ -430,6 +440,10 @@ def main():
             
         # Matchup scaling multiplier
         mult = r["EV"] / hist_avg
+        
+        if PACE_ADJUSTED_RATES_ENABLED and "game_pace" in r:
+            mult = mult * r["game_pace"]
+            
         # Clip multiplier to prevent extreme scaling
         mult = np.clip(mult, 0.2, 2.5)
         
