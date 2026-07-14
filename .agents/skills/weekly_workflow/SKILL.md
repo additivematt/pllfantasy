@@ -92,8 +92,8 @@ python 08_scrape_challenger_rosters.py --year 2026 --week <WEEK> --my-team "<YOU
 
 > [!TIP]
 > **Automated Login**:
-> 1. **Refresh Token (Recommended for Magic Links)**: Extract your Firebase refresh token from your browser's Local Storage once and set it as the `F2P_REFRESH_TOKEN` environment variable. The script will exchange it for a fresh ID token automatically.
-> 2. **Password Login**: If your account has a password, set `F2P_EMAIL` and `F2P_PASSWORD` environment variables.
+> 1. **Refresh Token (.env file / Env Var)**: Save your long-lived Firebase refresh token as `F2P_REFRESH_TOKEN` in a local `.env` file or environment variable. The script will exchange it for a fresh ID token automatically.
+> 2. **Password Login (.env file / Env Var)**: If your account has a password, set `F2P_EMAIL` and `F2P_PASSWORD` in your `.env` file.
 > 3. **Manual**: If neither is set, pass a fresh token via `--token <JWT_TOKEN>`.
 
 #### Step 5: Run Monte Carlo Simulations
@@ -121,16 +121,14 @@ python 07_prepare_static_data.py
 Pushes the compiled static payloads to GitHub. The changes will build and be live on GitHub Pages in about 30 seconds.
 ```powershell
 # Stage the modified data files
-scratch\mingit\cmd\git.exe add interrogata/all_players_stats.json predicta/predictions/ predicta/advisory/
+git add interrogata/all_players_stats.json predicta/predictions/ predicta/advisory/
 
 # Create the commit
-scratch\mingit\cmd\git.exe commit -m "Update week <WEEK> predictions & simulations"
+git commit -m "Update week <WEEK> predictions & simulations"
 
 # Push to GitHub
-scratch\mingit\cmd\git.exe push origin main
+git push origin main
 ```
-> [!WARNING]
-> This terminal command uses a portable Git client configured specifically for your **main laptop** credentials. If running on another PC, please commit and push via **GitHub Desktop** or the **GitHub Web Interface**.
 
 ---
 
@@ -195,17 +193,40 @@ python prediction_model_evaluation_harness.py
 
 ## 🔑 One-Time Setup for F2P Refresh Token Automation
 
-If your account logs in via a passwordless Magic Link, you will need to extract your long-lived Firebase **Refresh Token** once and set it as an environment variable so the weekly scraper runs automatically without manual intervention.
+To run the weekly scraper automatically without manual token copy-paste or HAR file exports, you can set up a local `.env` file with your credentials or refresh token.
 
-### Extraction Steps:
-1. Open your browser and go to the [F2P platform](https://f2p.premierlacrosseleague.com).
-2. Open **Developer Tools** (`F12`), navigate to the **Application** (or **Storage**) tab, and select **IndexedDB** -> **`firebaseLocalStorageDb`** -> **`firebaseLocalStorage`**.
-3. Locate the row where the key starts with `firebase:authUser:...`.
-4. Inside the JSON value of that row, expand the `value` object, then expand `stsTokenManager`, and copy the value of **`refreshToken`**.
-5. Save the token as a User environment variable on your machine:
-   ```powershell
-   [System.Environment]::SetEnvironmentVariable('F2P_REFRESH_TOKEN', 'YOUR_REFRESH_TOKEN', 'User')
+### Setup Steps:
+1. Copy the template [.env.example](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.env.example) to a new file named `.env` in the scripts directory.
+2. Fill in **one** of the authentication methods:
+   * **Method A (Email & Password)**: If your account uses a password, enter your email and password in the `.env` file.
+   * **Method B (Refresh Token)**: If you log in via Magic Link, extract your long-lived Firebase **Refresh Token** from your browser's IndexedDB and enter it as `F2P_REFRESH_TOKEN` in the `.env` file.
+
+### Easy IndexedDB Token Extraction:
+1. Open your browser to the logged-in [F2P leagues page](https://f2p.premierlacrosseleague.com/fantasy/leagues).
+2. Open **Developer Tools** (`F12`), go to the **Console** tab.
+3. Paste the following JavaScript and press **Enter**:
+   ```javascript
+   (async function() {
+     const db = await new Promise((res, rej) => {
+       const req = indexedDB.open("firebaseLocalStorageDb");
+       req.onsuccess = () => res(req.result);
+       req.onerror = rej;
+     });
+     const tx = db.transaction("firebaseLocalStorage", "readonly");
+     const store = tx.objectStore("firebaseLocalStorage");
+     const records = await new Promise((res) => {
+       const req = store.getAll();
+       req.onsuccess = () => res(req.result);
+     });
+     if (records && records.length > 0) {
+       const token = records[0].value.stsTokenManager?.refreshToken || records[0].value.refreshToken;
+       console.log("Your F2P_REFRESH_TOKEN is:\n\n" + token);
+     } else {
+       console.error("No active session found in IndexedDB.");
+     }
+   })();
    ```
+4. Copy the printed token and save it in your `.env` file.
 
 ---
 

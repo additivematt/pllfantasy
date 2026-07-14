@@ -7,6 +7,9 @@ Rather than loading all documentation into your context at once, this workspace 
 > [!NOTE]
 > **Script Path Convention**: All script and command references throughout the documentation (e.g., `01_fetch_f2p_costs.py`, `fetch_fantasy_points.py`, `06_optimize_lineups.py`) are relative to the workspace root directory (`f:/Google Drive/Documents/Hobbies/Lacrosse/PLL fantasy/scripts/`).
 
+> [!IMPORTANT]
+> **Git Command Convention**: When executing Git commands (e.g., staging files, committing, and pushing updates to GitHub), always invoke the standard system `git` command directly. Do **not** use the portable `scratch\mingit\cmd\git.exe` executable.
+
 ---
 
 ## 🗺️ Master Skills Directory

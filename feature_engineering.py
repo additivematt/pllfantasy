@@ -46,7 +46,7 @@ def load_stats_json(path):
         team = ident.get("team")
         home, away = evt.get("homeTeam"), evt.get("awayTeam")
         opponent = home if team == away else away
-        row = {"firstName": ident.get("firstName"), "lastName": ident.get("lastName"), "position": ident.get("position"), "team": team, "opponent": opponent, "eventId": evt.get("eventId"), "TotalFantasyPoints": fp, "week": p.get("week"), "year": yr, "startTime": evt.get("startTime", 0), "isDNP": is_dnp}
+        row = {"firstName": ident.get("firstName"), "lastName": ident.get("lastName"), "position": ident.get("position"), "team": team, "opponent": opponent, "eventId": evt.get("eventId"), "TotalFantasyPoints": fp, "week": p.get("week"), "year": yr, "startTime": evt.get("startTime", 0), "isDNP": is_dnp, "salary": f2p.get("salary")}
         if not is_dnp:
             for k, v in stats.items(): row[k] = v
         rows.append(row)
@@ -80,7 +80,7 @@ def load_all_players_stats(path, target_year, target_week):
             team = ident.get("team")
             home, away = evt.get("homeTeam"), evt.get("awayTeam")
             opponent = home if team == away else away
-            row = {"firstName": ident.get("firstName"), "lastName": ident.get("lastName"), "position": ident.get("position"), "team": team, "opponent": opponent, "eventId": e_id, "TotalFantasyPoints": fp, "week": w, "year": yr, "startTime": float(evt.get("startTime", 0)), "isDNP": is_dnp}
+            row = {"firstName": ident.get("firstName"), "lastName": ident.get("lastName"), "position": ident.get("position"), "team": team, "opponent": opponent, "eventId": e_id, "TotalFantasyPoints": fp, "week": w, "year": yr, "startTime": float(evt.get("startTime", 0)), "isDNP": is_dnp, "salary": f2p.get("salary")}
             if not is_dnp:
                 for k, v in stats.items(): row[k] = v
             rows.append(row)
@@ -137,9 +137,13 @@ def compute_game_pace_features(df_all, target_matchups, target_year, target_week
             continue
         t1, t2 = teams[0], teams[1]
         
-        # Sum goals scored by players on each team in this event
-        g1 = active[active["team"] == t1][["onePointGoals", "twoPointGoals"]].fillna(0).sum(axis=1).sum()
-        g2 = active[active["team"] == t2][["onePointGoals", "twoPointGoals"]].fillna(0).sum(axis=1).sum()
+        if getattr(config, "PACE_ADJUSTED_RATES_ENABLED", False):
+            g1 = active[active["team"] == t1][["shots", "turnovers"]].fillna(0).sum(axis=1).sum()
+            g2 = active[active["team"] == t2][["shots", "turnovers"]].fillna(0).sum(axis=1).sum()
+        else:
+            # Sum goals scored by players on each team in this event
+            g1 = active[active["team"] == t1][["onePointGoals", "twoPointGoals"]].fillna(0).sum(axis=1).sum()
+            g2 = active[active["team"] == t2][["onePointGoals", "twoPointGoals"]].fillna(0).sum(axis=1).sum()
         
         game_stats[eventId] = {
             "eventId": eventId,
@@ -270,6 +274,17 @@ def add_rolling_features(df):
     active_mask = (df["isDNP"] != True) if "isDNP" in df.columns else pd.Series(True, index=df.index)
     df_active = df[active_mask].copy()
 
+    if getattr(config, "PACE_ADJUSTED_RATES_ENABLED", False):
+        poss_df = df_active[["eventId", "team", "shots", "turnovers"]].fillna(0)
+        poss_df["poss"] = poss_df["shots"] + poss_df["turnovers"]
+        team_poss_series = poss_df.groupby(["eventId", "team"])["poss"].transform("sum")
+        team_poss_series = team_poss_series.replace(0, np.nan)
+        
+        cols_to_normalize = ["shots", "groundBalls", "saves", "faceoffsWon", "assists", "causedTurnovers", "touches"]
+        for c in cols_to_normalize:
+            if c in df_active.columns:
+                df_active[c] = (df_active[c] / team_poss_series) * 10.0
+
     cols = ["shots", "groundBalls", "saves", "faceoffsWon", "assists", "causedTurnovers", "touches", "shotPct"]
     for c in cols:
         if c not in df_active.columns: df_active[c] = np.nan
@@ -346,8 +361,12 @@ def add_rolling_features(df):
     df["team_vacated_touch_share"] = df["team_vacated_touch_share"].fillna(0.0)
     df["team_inactive_fp_avg"] = df["team_inactive_fp_avg"].fillna(0.0)
 
-    df["is_active_ssdm"] = np.where((df.get("subPosition", "") == "SSDM") & (df["is_dnp"] == 0.0), 1.0, 0.0) if "subPosition" in df.columns else 0.0
-    df["is_active_def"] = np.where((df.get("subPosition", "") == "Defensemen") & (df["is_dnp"] == 0.0), 1.0, 0.0) if "subPosition" in df.columns else 0.0
+    if getattr(config, "USAGE_HEALTH_FEATURES_ENABLED", False):
+        df["is_active_ssdm"] = np.where((df.get("subPosition", "") == "SSDM") & (df["is_dnp"] == 0.0), df["fp_season_avg"].fillna(0.0) + 1.0, 0.0) if "subPosition" in df.columns else 0.0
+        df["is_active_def"] = np.where((df.get("subPosition", "") == "Defensemen") & (df["is_dnp"] == 0.0), df["fp_season_avg"].fillna(0.0) + 1.0, 0.0) if "subPosition" in df.columns else 0.0
+    else:
+        df["is_active_ssdm"] = np.where((df.get("subPosition", "") == "SSDM") & (df["is_dnp"] == 0.0), 1.0, 0.0) if "subPosition" in df.columns else 0.0
+        df["is_active_def"] = np.where((df.get("subPosition", "") == "Defensemen") & (df["is_dnp"] == 0.0), 1.0, 0.0) if "subPosition" in df.columns else 0.0
 
     game_def = df.groupby(["eventId", "team", "startTime"], as_index=False).agg(
         active_ssdm=("is_active_ssdm", "sum"),
@@ -387,6 +406,8 @@ def add_rolling_features(df):
     else:
         df["opp_goalie_health"] = 1.0
     df["opp_goalie_health"] = df["opp_goalie_health"].fillna(1.0)
+
+    df["touches_anomaly"] = (df["touches_last3_avg"] - df["touches_season_avg"]).fillna(0.0)
 
     df = df.drop(columns=["player_exp_touches", "is_dnp", "dnp_touches_contrib", "dnp_fp_contrib", "dnp_fp_count", "is_active_ssdm", "is_active_def"], errors="ignore")
     return df

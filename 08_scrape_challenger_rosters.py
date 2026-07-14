@@ -19,7 +19,7 @@ def fetch_token_from_refresh_token():
         return None
         
     print("Attempting to exchange long-lived Refresh Token for a fresh ID token...")
-    api_key = "AIzaSyAoBvC9YubDb3M4k9pb4KKjhJPu4Y-OPtg"
+    api_key = "AIzaSyC_KdS1W8vxdykpNGdFOJUDkEh92Gjk2Wk"
     url = f"https://securetoken.googleapis.com/v1/token?key={api_key}"
     headers = {"Content-Type": "application/x-www-form-urlencoded"}
     payload = {
@@ -43,7 +43,7 @@ def fetch_token_from_credentials():
         return None
         
     print(f"Attempting automated login for {email} to get Firebase ID token...")
-    api_key = "AIzaSyAoBvC9YubDb3M4k9pb4KKjhJPu4Y-OPtg"
+    api_key = "AIzaSyC_KdS1W8vxdykpNGdFOJUDkEh92Gjk2Wk"
     url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={api_key}"
     payload = {
         "email": email,
@@ -276,7 +276,7 @@ def main():
         json.dump(output_payload, f, indent=2)
 
     print(f"\nSuccess! Scraped data saved to {out_file}")
-    print("💡 Tip: If you saw warning logs with unresolved IDs, make sure to run:")
+    print("Tip: If you saw warning logs with unresolved IDs, make sure to run:")
     print(f"   python 01_fetch_f2p_costs.py --week {args.week} --year {args.year}")
     print("   first to retrieve the latest players and their IDs from the server.")
 

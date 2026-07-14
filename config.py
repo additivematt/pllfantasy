@@ -1,4 +1,6 @@
 import os
+from dotenv import load_dotenv
+load_dotenv()
 
 # ── Centralized Constants and Settings ────────────────────────────────────────
 
@@ -23,6 +25,10 @@ POSITION_REQUIREMENTS = {'A': 2, 'M': 2, 'D': 1, 'FO': 1, 'G': 1}
 # pace factor derived from team expected goals. Enabled by default.
 GAME_PACE_ENABLED = True
 
+# Pace Adjusted Rates (Item 46): Normalize player counting stats to per-10-possessions
+# and compute game_pace based on estimated possessions instead of goals.
+PACE_ADJUSTED_RATES_ENABLED = os.environ.get("PACE_ADJUSTED_RATES_ENABLED", "False") == "True"
+
 # Opponent-Stratified Bootstrap: Weights MC bootstrap draws by opponent
 # defensive similarity using a Gaussian kernel. Rolled back after Baseline 3
 # showed degradation on 2026 and scale conflicts with game pace features.
@@ -34,12 +40,23 @@ OPPONENT_BOOTSTRAP_SIGMA = 0.15
 CEILING_CLAMP_MULTIPLIER = None  # Was 1.15; currently no clamp in production code
 
 # Salary as Feature: Feed normalized salary percentile into the GBDT model
-# as a market consensus signal. Not yet implemented.
+# as a market consensus signal.
 SALARY_AS_FEATURE = False
+SALARY_AS_FEATURE_POSITIONS = {
+    "Attack": True,
+    "Midfield": True,
+    "Defense": True,
+    "Faceoff": True,
+    "Goalie": True
+}
 
 # Correlation Copula: Use the Gaussian copula correlation matrix in MC sims.
 # Enabled by default; can be disabled for independent simulation comparison.
 CORRELATION_COPULA_ENABLED = True
+
+# Usage & Health Features: Weight defensive health by player quality,
+# and introduce touches_anomaly delta features.
+USAGE_HEALTH_FEATURES_ENABLED = False
 
 # GBDT Matchup Leakage Fix: Compute expanding/cumulative ratings chronologically
 # to prevent future lookup data leakage during model training. Enabled by default.

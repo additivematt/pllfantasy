@@ -353,6 +353,20 @@ class PredictionEvaluator:
                 metrics["Boom_Precision"] = boom_precision
                 metrics["Boom_Recall"] = boom_recall
 
+                # Position-specific Boom metrics
+                for pos in ["A", "M", "D", "FO", "G"]:
+                    df_pos = df_eval[df_eval["positionGroup"] == pos]
+                    if df_pos.empty:
+                        continue
+                    pred_boom_pos = df_pos["PredictedTier"].astype(str).str.lower() == "boom"
+                    act_boom_pos = df_pos["ActualTier"].astype(str).str.lower() == "boom"
+                    
+                    pos_prec = np.sum(pred_boom_pos & act_boom_pos) / np.sum(pred_boom_pos) if np.sum(pred_boom_pos) > 0 else 0.0
+                    pos_rec = np.sum(pred_boom_pos & act_boom_pos) / np.sum(act_boom_pos) if np.sum(act_boom_pos) > 0 else 0.0
+                    
+                    metrics[f"{pos}_Boom_Precision"] = pos_prec
+                    metrics[f"{pos}_Boom_Recall"] = pos_rec
+
             if "BoomProbability" in df_eval.columns:
                 # Brier score (mean squared error of predicted boom probability vs binary boom indicator)
                 act_boom_binary = (df_eval["ActualTier"].astype(str).str.lower() == "boom").astype(float)

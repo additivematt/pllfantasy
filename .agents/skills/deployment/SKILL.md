@@ -52,26 +52,21 @@ If you don't use the Desktop app, you can update files directly on the GitHub we
      - *Note: GitHub Web lets you drag folders too, so you can simply drag the new `2026` folder and the `available` file into the upload box!*
    - Scroll down and click the green **Commit changes** button.
 
-#### Option C: Using the Terminal (Fastest — Laptop Only 💻)
-If you are on your **main laptop**, a portable Git client has been set up directly inside your `scripts/scratch/` directory. You can run all updates directly from the command line in 5 seconds:
+#### Option C: Using the Terminal (Fastest 💻)
+If you have Git configured globally on your system, you can run all updates directly from the command line in 5 seconds:
 
 1. Open **PowerShell** or your command prompt in your `scripts` folder.
 2. Run the following three commands in sequence:
    ```powershell
    # 1. Stage the modified data files
-   scratch\mingit\cmd\git.exe add interrogata/all_players_stats.json predicta/predictions/
+   git add interrogata/all_players_stats.json predicta/predictions/
    
    # 2. Create the commit locally
-   scratch\mingit\cmd\git.exe commit -m "Update predictions & stats"
+   git commit -m "Update predictions & stats"
    
    # 3. Push to GitHub
-   scratch\mingit\cmd\git.exe push origin main
+   git push origin main
    ```
-
-> [!IMPORTANT]
-> **Laptop Compatibility Constraint:**
-> Option C **only works on this specific laptop** because it relies on the portable Git executable located in `scripts/scratch/mingit/` and your authenticated GitHub credentials stored in this laptop's Windows Credential Manager. 
-> On your main PC (which doesn't have Git configured in this directory), please continue using **Option A** or **Option B**.
 
 ---
 
