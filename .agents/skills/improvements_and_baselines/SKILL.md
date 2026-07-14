@@ -222,6 +222,24 @@ To track historical performance changes and maintain auditability across key mil
 
 *(Item 33 has been elevated to Tier 1 — see Recommended Priority Order above.)*
 
+#### Item 29: EWMA Rolling Features
+- **Problem**: Rolling averages use simple means, weighting recent games the same as older games within the window.
+- **Suggested Fix**: Use exponentially weighted moving average features (`fp_ewma_4` with half-life of 4).
+- **A/B Test Plan**: Compare Ceiling % with `EWMA_ENABLED = True` vs `False` against Baseline 5.
+- **Status**: ⏳ Pending re-test against Baseline 5.
+
+#### Item 13: Bayesian Shrinkage for Low-Sample Players
+- **Problem**: Matchup pairings with very low sample sizes (e.g. 1 game) create extreme feature noise.
+- **Suggested Fix**: Apply shrinkage formula to ratings with `SHRINKAGE_K = 5`.
+- **A/B Test Plan**: Compare Ceiling % with `SHRINKAGE_ENABLED = True` vs `False` against Baseline 5.
+- **Status**: ⏳ Pending re-test against Baseline 5.
+
+#### Item 28: Bayesian Shrinkage on Matchup Rating Features
+- **Problem**: Individual matchup ratings suffer from small sample sizes.
+- **Suggested Fix**: Apply shrinkage to the specific pairing features.
+- **A/B Test Plan**: Compare Ceiling % with the shrinkage enabled vs disabled against Baseline 5.
+- **Status**: ⏳ Pending re-test against Baseline 5.
+
 ---
 
 ### Tier 3: Simulation & Optimization Enhancements
@@ -284,6 +302,30 @@ To track historical performance changes and maintain auditability across key mil
 - **Why it matters**: In high-pace games, even role players have elevated ceilings. The current model underestimates this because game pace only scales the team-level metric, not the individual player distributions.
 - **Suggested Fix**: Compute a multiplicative "scoring environment" factor based on both teams' recent combined scoring rates. Apply this as a distribution-wide inflation factor in the MC simulator, separate from the individual matchup multiplier.
 - **Success Criteria**: Better calibration of simulated scores in high-pace game weeks.
+
+#### Item 26: Stacked Regressor PredictedPoints to MC EV
+- **Problem**: Expected values in simulation bootstrap pools are derived from class probabilities.
+- **Suggested Fix**: Map stacked regressor predictions directly to the mean of MC simulation bootstrap draws.
+- **A/B Test Plan**: Run full backtest and evaluate Ceiling % against Baseline 5.
+- **Status**: ⏳ Pending re-test against Baseline 5.
+
+#### Item 30: Dual Regressors or Multi-Quantile Forecasts
+- **Problem**: GBDT models only predict the mean expectation, ignoring player variance differences.
+- **Suggested Fix**: Train separate regressors for floor/ceiling quantiles or predict variance directly.
+- **A/B Test Plan**: Evaluate multi-quantile forecast features vs Baseline 5.
+- **Status**: ⏳ Pending re-test against Baseline 5.
+
+#### Item 31: Smooth MC Historical Pool Blending
+- **Problem**: Players with under 5 games are excluded from historical bootstrap pool draws, creating a cliff.
+- **Suggested Fix**: Blend player's history with their position group pool dynamically.
+- **A/B Test Plan**: Evaluate pool blending with $K=8$ and $K=15$ vs Baseline 5.
+- **Status**: ⏳ Pending re-test against Baseline 5.
+
+#### Opponent-Stratified Bootstrap
+- **Problem**: MC bootstrap draws are completely random, ignoring opponent defensive profiles.
+- **Suggested Fix**: Weight bootstrap draws based on opponent defensive similarity using a Gaussian kernel.
+- **A/B Test Plan**: Compare Ceiling % with stratified bootstrap enabled against Baseline 5.
+- **Status**: ⏳ Pending re-test against Baseline 5.
 
 ---
 
@@ -417,17 +459,8 @@ A full codebase audit on **1 July 2026** identified 6 distinct leakage sources. 
 - **Meta-Selector Strategy Heuristics** (Done)
 - **Feature Importance and SHAP Logging** (Done)
 - **Tier 1 Refactoring & De-risking** (Done)
-- **Opponent-Stratified Bootstrap** (Rolled Back / Disabled)
-- **Item 26: Stacked Regressor PredictedPoints to MC EV** (Tested & Rejected / Closed)
-- **Item 30: Dual Regressors or Multi-Quantile Forecasts** (Tested & Rejected / Closed)
-- **Item 28: Bayesian Shrinkage on Matchup Rating Features** (Tested & Kept / Closed)
 - **Item 34: Challenger Roster Scraping & Consensus Advice** (Done)
 - **Item 35: Local League Roster Scraping & Differential Optimization** (Done)
-- **Item 29: EWMA Rolling Features** (Tested & Kept / Closed)
-- **Item 13: Bayesian Shrinkage for Low-Sample Players** (Tested & Kept / Closed)
-  - *Details*: Matchup ratings shrinkage `SHRINKAGE_K = 5` is verified as highly critical for model stability. Testing it disabled resulted in severe 2026 performance degradation (-222.9 pts). Keep enabled at `SHRINKAGE_K = 5`.
-- **Item 31: Smooth MC Historical Pool Blending** (Tested & Rejected / Closed)
-  - *Details*: Tested pool blending across various blending levels ($K \in [5, 8, 10, 12, 15]$). While blending with $K=15$ provides a major performance boost specifically for the `MC_Ceil_90` strategy (+287.3 pts combined), it causes a net drag on the primary `MC_EV` and `MC_Win_160` strategies due to variance regularization. Because we want to prioritize EV-based cash game stability and the `MC_Ceil_90` strategy is poorly performing overall, we have rejected the feature and disabled it in production (`MC_POOL_BLENDING_ENABLED = False`).
 
 
 #### Item 36: DNP Rolling Feature Pollution Bug Fix ✅ DONE
