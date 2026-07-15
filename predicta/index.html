@@ -74,6 +74,18 @@
                 </ul>
             </div>
         </details>
+        <details>
+            <summary>How Data is Calculated</summary>
+            <div class="explainer-content">
+                <ul>
+                    <li><strong>XGBoost Classifier</strong>: Predicts the probability of a player hitting relative performance tiers: <em>Boom</em> (top 25% of position scorers in a week), <em>Average</em> (middle 50%), and <em>Bust</em> (bottom 25%). Features include matchups, rest advantage, rolling exponentially-weighted moving averages (EWMA), and an out-of-fold ceiling regressor meta-feature.</li>
+                    <li><strong>Bayesian Shrinkage</strong>: Matchup ratings are regularized to prevent overfitting on small sample sizes. Raw ratings are blended with a neutral prior of 1.0 using the formula: <code>Rating<sub>shrunk</sub> = &alpha; &times; Rating<sub>raw</sub> + (1 - &alpha;) &times; 1.0</code>, where <code>&alpha; = min(1.0, n<sub>games</sub> / 5)</code>.</li>
+                    <li><strong>Monte Carlo Simulations</strong>: Simulates 10,000 game-day trials per player by bootstrap-sampling historical scores, scaling by the opponent's defensive matchup multiplier (allowance ratio).</li>
+                    <li><strong>Gaussian Copula Correlation</strong>: Models interdependencies using Pearson correlation matrices (e.g., teammate positive correlations; zero-sum opponent faceoff/goalie negative correlations) to ensure roster variance mirrors reality.</li>
+                    <li><strong>Smooth Pool Blending (Pooling)</strong>: Blends low-sample players' history with the position-wide pool. Draws are blended using <code>&alpha; = min(1.0, n<sub>games</sub> / 15)</code> (where <code>&alpha;</code> is the chance of drawing from the player's history, and <code>1 - &alpha;</code> is the chance of drawing from the position-wide pool) to stabilize projections.</li>
+                </ul>
+            </div>
+        </details>
     </div>
 
     <div class="main-layout">

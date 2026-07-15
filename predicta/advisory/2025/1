@@ -86,26 +86,13 @@
             "game_id": "2025-ev-4",
             "position": "Defense",
             "salary": 4,
-            "mc_ev": 15.7,
-            "mc_p90": 32.8,
+            "mc_ev": 15.8,
+            "mc_p90": 34.3,
             "mc_p10": 0.0,
             "actualPoints": 11.0
         }
     ],
     "MC_Win_160": [
-        {
-            "firstName": "Brett",
-            "lastName": "Dobson",
-            "team": "ARC",
-            "opponent": "WHP",
-            "game_id": "2025-ev-3",
-            "position": "Goalie",
-            "salary": 49,
-            "mc_ev": 38.5,
-            "mc_p90": 55.4,
-            "mc_p10": 19.1,
-            "actualPoints": 45.0
-        },
         {
             "firstName": "Jeff",
             "lastName": "Teat",
@@ -120,43 +107,17 @@
             "actualPoints": 9.0
         },
         {
-            "firstName": "Graydon",
-            "lastName": "Hogg",
-            "team": "CAN",
-            "opponent": "ATL",
-            "game_id": "2025-ev-4",
+            "firstName": "Rob",
+            "lastName": "Pannell",
+            "team": "WHP",
+            "opponent": "ARC",
+            "game_id": "2025-ev-3",
             "position": "Attack",
-            "salary": 4,
-            "mc_ev": 31.7,
-            "mc_p90": 64.5,
-            "mc_p10": 1.2,
-            "actualPoints": 28.0
-        },
-        {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
-            "team": "ATL",
-            "opponent": "CAN",
-            "game_id": "2025-ev-4",
-            "position": "Faceoff",
-            "salary": 45,
-            "mc_ev": 29.5,
-            "mc_p90": 49.7,
-            "mc_p10": 7.2,
-            "actualPoints": 22.2
-        },
-        {
-            "firstName": "Jake",
-            "lastName": "Stevens",
-            "team": "ATL",
-            "opponent": "CAN",
-            "game_id": "2025-ev-4",
-            "position": "Midfield",
-            "salary": 14,
-            "mc_ev": 20.9,
-            "mc_p90": 37.4,
+            "salary": 44,
+            "mc_ev": 33.6,
+            "mc_p90": 52.4,
             "mc_p10": 0.0,
-            "actualPoints": 15.0
+            "actualPoints": -1.0
         },
         {
             "firstName": "Bryan",
@@ -172,6 +133,19 @@
             "actualPoints": 30.0
         },
         {
+            "firstName": "Kyle",
+            "lastName": "Jackson",
+            "team": "ATL",
+            "opponent": "CHA",
+            "game_id": "2025-ev-1",
+            "position": "Midfield",
+            "salary": 9,
+            "mc_ev": 23.2,
+            "mc_p90": 52.5,
+            "mc_p10": 0.0,
+            "actualPoints": -3.0
+        },
+        {
             "firstName": "Jack",
             "lastName": "Kielty",
             "team": "CAN",
@@ -179,38 +153,64 @@
             "game_id": "2025-ev-4",
             "position": "Defense",
             "salary": 4,
-            "mc_ev": 15.7,
-            "mc_p90": 32.8,
+            "mc_ev": 15.8,
+            "mc_p90": 34.3,
             "mc_p10": 0.0,
             "actualPoints": 11.0
+        },
+        {
+            "firstName": "Trevor",
+            "lastName": "Baptiste",
+            "team": "ATL",
+            "opponent": "CAN",
+            "game_id": "2025-ev-4",
+            "position": "Faceoff",
+            "salary": 45,
+            "mc_ev": 29.5,
+            "mc_p90": 49.7,
+            "mc_p10": 7.2,
+            "actualPoints": 22.2
+        },
+        {
+            "firstName": "Colin",
+            "lastName": "Kirst",
+            "team": "CAN",
+            "opponent": "ATL",
+            "game_id": "2025-ev-4",
+            "position": "Goalie",
+            "salary": 17,
+            "mc_ev": 33.2,
+            "mc_p90": 43.7,
+            "mc_p10": 21.3,
+            "actualPoints": 33.0
         }
     ],
     "MC_Ceil_90": [
         {
-            "firstName": "Brennan",
-            "lastName": "O'Neill",
-            "team": "OUT",
-            "opponent": "RED",
-            "game_id": "2025-ev-2",
+            "firstName": "Matt",
+            "lastName": "Moore",
+            "team": "ARC",
+            "opponent": "WHP",
+            "game_id": "2025-ev-3",
             "position": "Attack",
-            "salary": 43,
-            "mc_ev": 30.8,
-            "mc_p90": 61.6,
+            "salary": 15,
+            "mc_ev": 31.2,
+            "mc_p90": 80.2,
             "mc_p10": 0.0,
-            "actualPoints": 39.0
+            "actualPoints": 17.0
         },
         {
-            "firstName": "Dylan",
-            "lastName": "Molloy",
-            "team": "RED",
-            "opponent": "OUT",
-            "game_id": "2025-ev-2",
+            "firstName": "Sam",
+            "lastName": "King",
+            "team": "ARC",
+            "opponent": "WHP",
+            "game_id": "2025-ev-3",
             "position": "Attack",
-            "salary": 23,
-            "mc_ev": 31.2,
-            "mc_p90": 97.5,
-            "mc_p10": 0.0,
-            "actualPoints": 40.0
+            "salary": 5,
+            "mc_ev": 30.2,
+            "mc_p90": 60.3,
+            "mc_p10": 1.2,
+            "actualPoints": 30.0
         },
         {
             "firstName": "Kyle",
@@ -239,17 +239,17 @@
             "actualPoints": 46.0
         },
         {
-            "firstName": "Jack",
-            "lastName": "Kielty",
-            "team": "CAN",
-            "opponent": "ATL",
-            "game_id": "2025-ev-4",
+            "firstName": "Chris",
+            "lastName": "Fake",
+            "team": "RED",
+            "opponent": "OUT",
+            "game_id": "2025-ev-2",
             "position": "Defense",
             "salary": 4,
-            "mc_ev": 15.7,
-            "mc_p90": 32.8,
+            "mc_ev": 14.6,
+            "mc_p90": 47.3,
             "mc_p10": 0.0,
-            "actualPoints": 11.0
+            "actualPoints": 10.0
         },
         {
             "firstName": "Trevor",
@@ -265,17 +265,17 @@
             "actualPoints": 22.2
         },
         {
-            "firstName": "Owen",
-            "lastName": "McElroy",
-            "team": "OUT",
-            "opponent": "RED",
-            "game_id": "2025-ev-2",
+            "firstName": "Brett",
+            "lastName": "Dobson",
+            "team": "ARC",
+            "opponent": "WHP",
+            "game_id": "2025-ev-3",
             "position": "Goalie",
-            "salary": 41,
-            "mc_ev": 35.9,
-            "mc_p90": 63.3,
-            "mc_p10": 7.8,
-            "actualPoints": 19.0
+            "salary": 49,
+            "mc_ev": 38.5,
+            "mc_p90": 55.4,
+            "mc_p10": 19.1,
+            "actualPoints": 45.0
         }
     ],
     "MC_Consensus": [],
@@ -375,22 +375,16 @@
     ],
     "Core": [
         "Trevor Baptiste",
-        "Jack Kielty"
+        "Kyle Jackson"
     ],
-    "Sleepers": [],
+    "Sleepers": [
+        "Sam King",
+        "Chris Fake"
+    ],
     "RecommendedStrategy": "MC_Win_160",
-    "RecommendedReason": "Stars & Scrubs slate (4 games, 51 cheap value players). Optimizing for variance with MC Win 160 is best.",
+    "RecommendedReason": "Stars & Scrubs slate (4 games, 52 cheap value players). Optimizing for variance with MC Win 160 is best.",
     "Narrative": {
         "RecommendedRoster": [
-            {
-                "firstName": "Brett",
-                "lastName": "Dobson",
-                "position": "Goalie",
-                "salary": 49,
-                "bullets": [
-                    "Hot Form: Averaging 62.7 fantasy pts over last 3 games (vs 35.0 season avg)."
-                ]
-            },
             {
                 "firstName": "Jeff",
                 "lastName": "Teat",
@@ -401,32 +395,12 @@
                 ]
             },
             {
-                "firstName": "Graydon",
-                "lastName": "Hogg",
+                "firstName": "Rob",
+                "lastName": "Pannell",
                 "position": "Attack",
-                "salary": 4,
+                "salary": 44,
                 "bullets": [
-                    "Opponent Weakness: ATL defense allows 20% extra fantasy points to Attack position.",
-                    "Salary Cap Enabler: Excellent cost efficiency, projecting 31.7 EV for just 4 coins."
-                ]
-            },
-            {
-                "firstName": "Trevor",
-                "lastName": "Baptiste",
-                "position": "Faceoff",
-                "salary": 45,
-                "bullets": [
-                    "Opponent Weakness: CAN defense allows 10% extra fantasy points to Faceoff position."
-                ]
-            },
-            {
-                "firstName": "Jake",
-                "lastName": "Stevens",
-                "position": "Midfield",
-                "salary": 14,
-                "bullets": [
-                    "Hot Form: Averaging 11.0 fantasy pts over last 3 games (vs 7.7 season avg).",
-                    "Opponent Weakness: CAN defense allows 17% extra fantasy points to Midfield position."
+                    "Hot Form: Averaging 34.0 fantasy pts over last 3 games (vs 22.6 season avg)."
                 ]
             },
             {
@@ -440,6 +414,16 @@
                 ]
             },
             {
+                "firstName": "Kyle",
+                "lastName": "Jackson",
+                "position": "Midfield",
+                "salary": 9,
+                "bullets": [
+                    "Opponent Weakness: CHA defense allows 17% extra fantasy points to Midfield position.",
+                    "Salary Cap Enabler: Excellent cost efficiency, projecting 23.2 EV for just 9 coins."
+                ]
+            },
+            {
                 "firstName": "Jack",
                 "lastName": "Kielty",
                 "position": "Defense",
@@ -447,7 +431,26 @@
                 "bullets": [
                     "Hot Form: Averaging 17.7 fantasy pts over last 3 games (vs 9.8 season avg).",
                     "Matchup Specialist: Historically performs well against ATL (1.30x average scoring rate).",
-                    "Salary Cap Enabler: Excellent cost efficiency, projecting 15.7 EV for just 4 coins."
+                    "Salary Cap Enabler: Excellent cost efficiency, projecting 15.8 EV for just 4 coins."
+                ]
+            },
+            {
+                "firstName": "Trevor",
+                "lastName": "Baptiste",
+                "position": "Faceoff",
+                "salary": 45,
+                "bullets": [
+                    "Opponent Weakness: CAN defense allows 10% extra fantasy points to Faceoff position."
+                ]
+            },
+            {
+                "firstName": "Colin",
+                "lastName": "Kirst",
+                "position": "Goalie",
+                "salary": 17,
+                "bullets": [
+                    "Hot Form: Averaging 32.7 fantasy pts over last 3 games (vs 25.7 season avg).",
+                    "Opponent Weakness: ATL defense allows 14% extra fantasy points to Goalie position."
                 ]
             }
         ],
@@ -456,10 +459,12 @@
                 "strategy": "MC_EV",
                 "strategyLabel": "MC EV",
                 "in": [
-                    "Kyle Jackson"
+                    "Brett Dobson",
+                    "Graydon Hogg"
                 ],
                 "out": [
-                    "Jake Stevens"
+                    "Rob Pannell",
+                    "Colin Kirst"
                 ],
                 "rationale": "Optimizes strictly for the highest average expected points (mean floor) rather than variance or win probability."
             },
@@ -467,20 +472,20 @@
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
-                    "Brennan O'Neill",
-                    "Dylan Molloy",
-                    "Kyle Jackson",
+                    "Matt Moore",
+                    "Sam King",
                     "Ryan Drenner",
-                    "Owen McElroy"
+                    "Chris Fake",
+                    "Brett Dobson"
                 ],
                 "out": [
-                    "Brett Dobson",
                     "Jeff Teat",
-                    "Graydon Hogg",
-                    "Jake Stevens",
-                    "Bryan Costabile"
+                    "Rob Pannell",
+                    "Bryan Costabile",
+                    "Jack Kielty",
+                    "Colin Kirst"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Brennan O'Neill (Attack, 43c), Dylan Molloy (Attack, 23c), Kyle Jackson (Midfield, 9c), Ryan Drenner (Midfield, 22c), Owen McElroy (Goalie, 41c)) to maximize the team's 90th percentile ceiling (projecting up to 97.5 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Matt Moore (Attack, 15c), Sam King (Attack, 5c), Ryan Drenner (Midfield, 22c), Chris Fake (Defense, 4c), Brett Dobson (Goalie, 49c)) to maximize the team's 90th percentile ceiling (projecting up to 80.2 pts)."
             }
         ]
     },

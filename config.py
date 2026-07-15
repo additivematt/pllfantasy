@@ -29,11 +29,6 @@ GAME_PACE_ENABLED = True
 # and compute game_pace based on estimated possessions instead of goals.
 PACE_ADJUSTED_RATES_ENABLED = os.environ.get("PACE_ADJUSTED_RATES_ENABLED", "False") == "True"
 
-# Opponent-Stratified Bootstrap: Weights MC bootstrap draws by opponent
-# defensive similarity using a Gaussian kernel. Rolled back after Baseline 3
-# showed degradation on 2026 and scale conflicts with game pace features.
-OPPONENT_STRATIFIED_BOOTSTRAP = False
-OPPONENT_BOOTSTRAP_SIGMA = 0.15
 
 # MC Ceiling Clamp Multiplier: Caps simulated player scores at
 # max_historical * this value. Set to None to disable clamping entirely.
@@ -72,8 +67,8 @@ EWMA_ENABLED = True
 
 # Smooth MC Historical Pool Blending: blends player history with position pool
 # to eliminate the hard cliff at 5 games.
-MC_POOL_BLENDING_ENABLED = False
-MC_POOL_BLENDING_K = 8
+MC_POOL_BLENDING_ENABLED = True
+MC_POOL_BLENDING_K = 15
 
 # --- API Tokens (with environment variable fallbacks) ─────────────────────────
 API_TOKEN_STATS = os.environ.get("PLL_STATS_API_TOKEN", "N)eIKy1rZ%/%fm1WhM7tuVcrR*UIsc")

@@ -107,30 +107,30 @@
             "actualPoints": 15.0
         },
         {
-            "firstName": "Owen",
-            "lastName": "Hiltz",
-            "team": "CHA",
-            "opponent": "RED",
-            "game_id": "2025_quarterfinal_2",
+            "firstName": "Michael",
+            "lastName": "Sowers",
+            "team": "WAT",
+            "opponent": "WHP",
+            "game_id": "2025_quarterfinal_1",
             "position": "Attack",
-            "salary": 32,
-            "mc_ev": 32.5,
+            "salary": 48,
+            "mc_ev": 34.2,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
-            "actualPoints": 39.0
+            "actualPoints": 87.0
         },
         {
-            "firstName": "Chris",
-            "lastName": "Kavanagh",
-            "team": "RED",
-            "opponent": "CHA",
-            "game_id": "2025_quarterfinal_2",
+            "firstName": "Aidan",
+            "lastName": "Carroll",
+            "team": "WHP",
+            "opponent": "WAT",
+            "game_id": "2025_quarterfinal_1",
             "position": "Attack",
-            "salary": 36,
-            "mc_ev": 31.8,
+            "salary": 27,
+            "mc_ev": 32.2,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
-            "actualPoints": 45.0
+            "actualPoints": 72.0
         },
         {
             "firstName": "Charlie",
@@ -146,17 +146,17 @@
             "actualPoints": 21.0
         },
         {
-            "firstName": "Andrew",
-            "lastName": "McAdorey",
-            "team": "RED",
-            "opponent": "CHA",
-            "game_id": "2025_quarterfinal_2",
+            "firstName": "Zach",
+            "lastName": "Currier",
+            "team": "WAT",
+            "opponent": "WHP",
+            "game_id": "2025_quarterfinal_1",
             "position": "Midfield",
-            "salary": 32,
-            "mc_ev": 21.0,
+            "salary": 22,
+            "mc_ev": 22.0,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
-            "actualPoints": 32.5
+            "actualPoints": 12.6
         },
         {
             "firstName": "Joseph",
@@ -187,17 +187,30 @@
     ],
     "MC_Ceil_90": [
         {
-            "firstName": "Michael",
-            "lastName": "Sowers",
+            "firstName": "Matt",
+            "lastName": "DeLuca",
+            "team": "WAT",
+            "opponent": "WHP",
+            "game_id": "2025_quarterfinal_1",
+            "position": "Goalie",
+            "salary": 32,
+            "mc_ev": 32.5,
+            "mc_p90": 0.0,
+            "mc_p10": 0.0,
+            "actualPoints": 14.0
+        },
+        {
+            "firstName": "Kieran",
+            "lastName": "McArdle",
             "team": "WAT",
             "opponent": "WHP",
             "game_id": "2025_quarterfinal_1",
             "position": "Attack",
-            "salary": 48,
-            "mc_ev": 34.2,
+            "salary": 38,
+            "mc_ev": 32.9,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
-            "actualPoints": 87.0
+            "actualPoints": 64.0
         },
         {
             "firstName": "CJ",
@@ -226,17 +239,30 @@
             "actualPoints": 21.0
         },
         {
-            "firstName": "Levi",
-            "lastName": "Anderson",
+            "firstName": "Charlie",
+            "lastName": "Bertrand",
+            "team": "RED",
+            "opponent": "CHA",
+            "game_id": "2025_quarterfinal_2",
+            "position": "Midfield",
+            "salary": 15,
+            "mc_ev": 20.1,
+            "mc_p90": 0.0,
+            "mc_p10": 0.0,
+            "actualPoints": 21.0
+        },
+        {
+            "firstName": "Joseph",
+            "lastName": "Nardella",
             "team": "WHP",
             "opponent": "WAT",
             "game_id": "2025_quarterfinal_1",
-            "position": "Midfield",
-            "salary": 21,
-            "mc_ev": 19.9,
+            "position": "Faceoff",
+            "salary": 26,
+            "mc_ev": 19.0,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
-            "actualPoints": 4.0
+            "actualPoints": 20.0
         },
         {
             "firstName": "Jarrod",
@@ -250,32 +276,6 @@
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 1.0
-        },
-        {
-            "firstName": "Alec",
-            "lastName": "Stathakis",
-            "team": "WAT",
-            "opponent": "WHP",
-            "game_id": "2025_quarterfinal_1",
-            "position": "Faceoff",
-            "salary": 14,
-            "mc_ev": 15.7,
-            "mc_p90": 0.0,
-            "mc_p10": 0.0,
-            "actualPoints": 7.8
-        },
-        {
-            "firstName": "Blaze",
-            "lastName": "Riorden",
-            "team": "CHA",
-            "opponent": "RED",
-            "game_id": "2025_quarterfinal_2",
-            "position": "Goalie",
-            "salary": 46,
-            "mc_ev": 38.1,
-            "mc_p90": 0.0,
-            "mc_p10": 0.0,
-            "actualPoints": 15.0
         }
     ],
     "MC_Consensus": [],
@@ -374,7 +374,8 @@
         }
     ],
     "Core": [
-        "Blaze Riorden"
+        "Charlie Bertrand",
+        "Joseph Nardella"
     ],
     "Sleepers": [
         "Jarrod Neumann"
@@ -454,33 +455,29 @@
                 "strategy": "MC_Win_160",
                 "strategyLabel": "MC Win 160",
                 "in": [
-                    "Owen Hiltz",
-                    "Chris Kavanagh",
-                    "Andrew McAdorey"
+                    "Aidan Carroll"
                 ],
                 "out": [
-                    "Michael Sowers",
-                    "CJ Kirst",
-                    "Zach Currier"
+                    "CJ Kirst"
                 ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Owen Hiltz (Attack, 32c), Chris Kavanagh (Attack, 36c), Andrew McAdorey (Midfield, 32c)) to increase the joint probability of the entire lineup hitting the 160 target score."
+                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Aidan Carroll (Attack, 27c)) to increase the joint probability of the entire lineup hitting the 160 target score."
             },
             {
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
+                    "Matt DeLuca",
+                    "Kieran McArdle",
                     "Sergio Perkovic",
-                    "Levi Anderson",
-                    "Jarrod Neumann",
-                    "Alec Stathakis"
+                    "Jarrod Neumann"
                 ],
                 "out": [
-                    "Charlie Bertrand",
+                    "Blaze Riorden",
+                    "Michael Sowers",
                     "Zach Currier",
-                    "Joseph Nardella",
                     "Jared Conners"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Sergio Perkovic (Midfield, 14c), Levi Anderson (Midfield, 21c), Jarrod Neumann (Defense, 9c), Alec Stathakis (Faceoff, 14c)) to maximize the team's 90th percentile ceiling (projecting up to 0.0 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Matt DeLuca (Goalie, 32c), Kieran McArdle (Attack, 38c), Sergio Perkovic (Midfield, 14c), Jarrod Neumann (Defense, 9c)) to maximize the team's 90th percentile ceiling (projecting up to 0.0 pts)."
             }
         ]
     },

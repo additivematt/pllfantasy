@@ -94,19 +94,6 @@
     ],
     "MC_Win_160": [
         {
-            "firstName": "Brennan",
-            "lastName": "O'Neill",
-            "team": "OUT",
-            "opponent": "ATL",
-            "game_id": "2025_championship_game",
-            "position": "Attack",
-            "salary": 40,
-            "mc_ev": 34.6,
-            "mc_p90": 0.0,
-            "mc_p10": 0.0,
-            "actualPoints": 25.0
-        },
-        {
             "firstName": "Connor",
             "lastName": "Shellenberger",
             "team": "ATL",
@@ -120,17 +107,17 @@
             "actualPoints": 35.0
         },
         {
-            "firstName": "Hugh",
-            "lastName": "Kelleher",
-            "team": "ATL",
-            "opponent": "OUT",
+            "firstName": "Brennan",
+            "lastName": "O'Neill",
+            "team": "OUT",
+            "opponent": "ATL",
             "game_id": "2025_championship_game",
-            "position": "Midfield",
-            "salary": 8,
-            "mc_ev": 19.6,
+            "position": "Attack",
+            "salary": 40,
+            "mc_ev": 34.6,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
-            "actualPoints": 10.0
+            "actualPoints": 25.0
         },
         {
             "firstName": "Matt",
@@ -146,6 +133,19 @@
             "actualPoints": 33.0
         },
         {
+            "firstName": "Graham",
+            "lastName": "Bundy",
+            "team": "OUT",
+            "opponent": "ATL",
+            "game_id": "2025_championship_game",
+            "position": "Midfield",
+            "salary": 18,
+            "mc_ev": 23.0,
+            "mc_p90": 0.0,
+            "mc_p10": 0.0,
+            "actualPoints": 8.0
+        },
+        {
             "firstName": "Max",
             "lastName": "Krevsky",
             "team": "ATL",
@@ -159,17 +159,17 @@
             "actualPoints": 2.0
         },
         {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
-            "team": "ATL",
-            "opponent": "OUT",
+            "firstName": "Luke",
+            "lastName": "Wierman",
+            "team": "OUT",
+            "opponent": "ATL",
             "game_id": "2025_championship_game",
             "position": "Faceoff",
-            "salary": 33,
-            "mc_ev": 18.4,
+            "salary": 18,
+            "mc_ev": 15.3,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
-            "actualPoints": 23.6
+            "actualPoints": -4.3
         },
         {
             "firstName": "Liam",
@@ -187,17 +187,17 @@
     ],
     "MC_Ceil_90": [
         {
-            "firstName": "Logan",
-            "lastName": "Wisnauskas",
-            "team": "OUT",
-            "opponent": "ATL",
+            "firstName": "Liam",
+            "lastName": "Entenmann",
+            "team": "ATL",
+            "opponent": "OUT",
             "game_id": "2025_championship_game",
-            "position": "Attack",
-            "salary": 24,
-            "mc_ev": 31.4,
+            "position": "Goalie",
+            "salary": 43,
+            "mc_ev": 36.0,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
-            "actualPoints": 19.0
+            "actualPoints": 39.0
         },
         {
             "firstName": "Brennan",
@@ -211,6 +211,19 @@
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 25.0
+        },
+        {
+            "firstName": "Logan",
+            "lastName": "Wisnauskas",
+            "team": "OUT",
+            "opponent": "ATL",
+            "game_id": "2025_championship_game",
+            "position": "Attack",
+            "salary": 24,
+            "mc_ev": 31.4,
+            "mc_p90": 0.0,
+            "mc_p10": 0.0,
+            "actualPoints": 19.0
         },
         {
             "firstName": "Jonathan",
@@ -239,19 +252,6 @@
             "actualPoints": 8.0
         },
         {
-            "firstName": "Michael",
-            "lastName": "Manley",
-            "team": "OUT",
-            "opponent": "ATL",
-            "game_id": "2025_championship_game",
-            "position": "Defense",
-            "salary": 17,
-            "mc_ev": 15.1,
-            "mc_p90": 0.0,
-            "mc_p10": 0.0,
-            "actualPoints": 10.0
-        },
-        {
             "firstName": "Trevor",
             "lastName": "Baptiste",
             "team": "ATL",
@@ -265,17 +265,17 @@
             "actualPoints": 23.6
         },
         {
-            "firstName": "Liam",
-            "lastName": "Entenmann",
-            "team": "ATL",
-            "opponent": "OUT",
+            "firstName": "Michael",
+            "lastName": "Manley",
+            "team": "OUT",
+            "opponent": "ATL",
             "game_id": "2025_championship_game",
-            "position": "Goalie",
-            "salary": 43,
-            "mc_ev": 36.0,
+            "position": "Defense",
+            "salary": 17,
+            "mc_ev": 15.1,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
-            "actualPoints": 39.0
+            "actualPoints": 10.0
         }
     ],
     "MC_Consensus": [],
@@ -376,7 +376,7 @@
     "Core": [
         "Liam Entenmann",
         "Brennan O'Neill",
-        "Trevor Baptiste"
+        "Graham Bundy"
     ],
     "Sleepers": [
         "Jonathan Donville"
@@ -460,15 +460,15 @@
                 "strategyLabel": "MC Win 160",
                 "in": [
                     "Connor Shellenberger",
-                    "Hugh Kelleher",
-                    "Max Krevsky"
+                    "Max Krevsky",
+                    "Luke Wierman"
                 ],
                 "out": [
                     "Logan Wisnauskas",
-                    "Graham Bundy",
+                    "Trevor Baptiste",
                     "Michael Manley"
                 ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Connor Shellenberger (Attack, 47c), Hugh Kelleher (Midfield, 8c), Max Krevsky (Defense, 3c)) to increase the joint probability of the entire lineup hitting the 160 target score."
+                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Connor Shellenberger (Attack, 47c), Max Krevsky (Defense, 3c), Luke Wierman (Faceoff, 18c)) to increase the joint probability of the entire lineup hitting the 160 target score."
             },
             {
                 "strategy": "MC_Ceil_90",

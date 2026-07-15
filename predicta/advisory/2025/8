@@ -74,8 +74,8 @@
             "position": "Faceoff",
             "salary": 22,
             "mc_ev": 17.4,
-            "mc_p90": 63.4,
-            "mc_p10": 3.6,
+            "mc_p90": 61.9,
+            "mc_p10": 2.6,
             "actualPoints": 4.4
         },
         {
@@ -187,43 +187,43 @@
     ],
     "MC_Ceil_90": [
         {
-            "firstName": "Blaze",
-            "lastName": "Riorden",
-            "team": "CHA",
-            "opponent": "ARC",
-            "game_id": "2025-ev-28",
+            "firstName": "Logan",
+            "lastName": "McNaney",
+            "team": "OUT",
+            "opponent": "CAN",
+            "game_id": "2025-ev-29",
             "position": "Goalie",
-            "salary": 44,
-            "mc_ev": 34.7,
-            "mc_p90": 50.6,
-            "mc_p10": 15.1,
-            "actualPoints": 38.0
+            "salary": 46,
+            "mc_ev": 34.2,
+            "mc_p90": 56.5,
+            "mc_p10": 13.1,
+            "actualPoints": 35.0
         },
         {
-            "firstName": "Adam",
-            "lastName": "Charalambides",
-            "team": "CHA",
-            "opponent": "ARC",
-            "game_id": "2025-ev-28",
+            "firstName": "Jeff",
+            "lastName": "Teat",
+            "team": "ATL",
+            "opponent": "RED",
+            "game_id": "2025-ev-27",
             "position": "Attack",
-            "salary": 20,
-            "mc_ev": 29.2,
-            "mc_p90": 90.5,
-            "mc_p10": 6.5,
-            "actualPoints": 6.0
+            "salary": 42,
+            "mc_ev": 34.3,
+            "mc_p90": 70.4,
+            "mc_p10": 6.8,
+            "actualPoints": 56.0
         },
         {
-            "firstName": "Jackson",
-            "lastName": "Eicher",
-            "team": "CHA",
-            "opponent": "ARC",
-            "game_id": "2025-ev-28",
+            "firstName": "Brennan",
+            "lastName": "O'Neill",
+            "team": "OUT",
+            "opponent": "CAN",
+            "game_id": "2025-ev-29",
             "position": "Attack",
-            "salary": 23,
-            "mc_ev": 27.9,
-            "mc_p90": 94.2,
-            "mc_p10": 1.8,
-            "actualPoints": 10.0
+            "salary": 38,
+            "mc_ev": 33.2,
+            "mc_p90": 67.8,
+            "mc_p10": 7.7,
+            "actualPoints": 46.0
         },
         {
             "firstName": "Sergio",
@@ -260,8 +260,8 @@
             "position": "Faceoff",
             "salary": 22,
             "mc_ev": 17.4,
-            "mc_p90": 63.4,
-            "mc_p10": 3.6,
+            "mc_p90": 61.9,
+            "mc_p10": 2.6,
             "actualPoints": 4.4
         },
         {
@@ -290,8 +290,8 @@
             "position": "A",
             "salary": 35,
             "mc_ev": 28.5,
-            "mc_p90": 59.9,
-            "mc_p10": 1.1,
+            "mc_p90": 53.1,
+            "mc_p10": 3.2,
             "actualPoints": 71.0
         },
         {
@@ -328,8 +328,8 @@
             "game_id": "2025-ev-30",
             "position": "M",
             "salary": 29,
-            "mc_ev": 18.3,
-            "mc_p90": 57.1,
+            "mc_ev": 18.4,
+            "mc_p90": 60.4,
             "mc_p10": 0.0,
             "actualPoints": 53.0
         },
@@ -373,14 +373,12 @@
             "actualPoints": 45.0
         }
     ],
-    "Core": [
-        "Blaze Riorden"
-    ],
+    "Core": [],
     "Sleepers": [
         "Matt Whitcher"
     ],
     "RecommendedStrategy": "MC_Win_160",
-    "RecommendedReason": "Stars & Scrubs slate (4 games, 46 cheap value players). Optimizing for variance with MC Win 160 is best.",
+    "RecommendedReason": "Stars & Scrubs slate (4 games, 49 cheap value players). Optimizing for variance with MC Win 160 is best.",
     "Narrative": {
         "RecommendedRoster": [
             {
@@ -470,8 +468,9 @@
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
-                    "Adam Charalambides",
-                    "Jackson Eicher",
+                    "Logan McNaney",
+                    "Jeff Teat",
+                    "Brennan O'Neill",
                     "Sergio Perkovic",
                     "Connor Kelly",
                     "Alec Stathakis",
@@ -483,9 +482,10 @@
                     "Jonathan Donville",
                     "Grant Ament",
                     "Ben Randall",
-                    "Joseph Nardella"
+                    "Joseph Nardella",
+                    "Blaze Riorden"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Adam Charalambides (Attack, 20c), Jackson Eicher (Attack, 23c), Sergio Perkovic (Midfield, 20c), Connor Kelly (Midfield, 20c), Alec Stathakis (Faceoff, 22c), Matt Whitcher (Defense, 7c)) to maximize the team's 90th percentile ceiling (projecting up to 98.2 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Logan McNaney (Goalie, 46c), Jeff Teat (Attack, 42c), Brennan O'Neill (Attack, 38c), Sergio Perkovic (Midfield, 20c), Connor Kelly (Midfield, 20c), Alec Stathakis (Faceoff, 22c), Matt Whitcher (Defense, 7c)) to maximize the team's 90th percentile ceiling (projecting up to 98.2 pts)."
             }
         ]
     },

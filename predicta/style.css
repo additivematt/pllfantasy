@@ -153,14 +153,25 @@ header {
 
 .explainer-container {
     padding: 1rem 2rem 0 2rem;
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
 }
 
 details {
+    flex: 1;
+    min-width: 320px;
     background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 12px;
-    padding: 0.5rem 1rem;
+    padding: 0.8rem 1.2rem;
     cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+details:hover {
+    border-color: rgba(159, 122, 234, 0.4);
+    box-shadow: 0 8px 32px 0 rgba(159, 122, 234, 0.05);
 }
 
 summary {
@@ -168,6 +179,7 @@ summary {
     color: var(--accent);
     outline: none;
     user-select: none;
+    transition: color 0.2s ease;
 }
 
 summary:hover {

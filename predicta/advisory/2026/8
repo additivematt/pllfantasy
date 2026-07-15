@@ -213,19 +213,6 @@
             "actualPoints": -2.0
         },
         {
-            "firstName": "Matt",
-            "lastName": "Brandau",
-            "team": "WHP",
-            "opponent": "CHA",
-            "game_id": "2026-ev-26",
-            "position": "Midfield",
-            "salary": 22,
-            "mc_ev": 18.3,
-            "mc_p90": 54.1,
-            "mc_p10": 0.0,
-            "actualPoints": 4.0
-        },
-        {
             "firstName": "Connor",
             "lastName": "Kirst",
             "team": "CAN",
@@ -237,6 +224,19 @@
             "mc_p90": 53.0,
             "mc_p10": 0.0,
             "actualPoints": -2.7
+        },
+        {
+            "firstName": "Matt",
+            "lastName": "Brandau",
+            "team": "WHP",
+            "opponent": "CHA",
+            "game_id": "2026-ev-26",
+            "position": "Midfield",
+            "salary": 22,
+            "mc_ev": 18.3,
+            "mc_p90": 54.1,
+            "mc_p10": 0.0,
+            "actualPoints": 4.0
         },
         {
             "firstName": "Matt",
@@ -300,9 +300,9 @@
             "game_id": "2026-ev-26",
             "position": "Attack",
             "salary": 32,
-            "mc_ev": 29.2,
-            "mc_p90": 62.9,
-            "mc_p10": 1.1,
+            "mc_ev": 29.1,
+            "mc_p90": 61.0,
+            "mc_p10": 4.2,
             "actualPoints": 42.0
         },
         {
@@ -313,9 +313,9 @@
             "game_id": "2026-ev-25",
             "position": "Attack",
             "salary": 50,
-            "mc_ev": 26.7,
-            "mc_p90": 34.1,
-            "mc_p10": 3.6,
+            "mc_ev": 26.8,
+            "mc_p90": 43.1,
+            "mc_p10": 2.6,
             "actualPoints": 58.0
         },
         {
@@ -373,17 +373,17 @@
     ],
     "MC_Differential": [
         {
-            "firstName": "Liam",
-            "lastName": "Entenmann",
-            "team": "ATL",
-            "opponent": "ARC",
-            "game_id": "2026-ev-27",
+            "firstName": "Blaze",
+            "lastName": "Riorden",
+            "team": "CHA",
+            "opponent": "WHP",
+            "game_id": "2026-ev-26",
             "position": "Goalie",
-            "salary": 38,
-            "mc_ev": 34.0,
-            "mc_p90": 55.5,
-            "mc_p10": 9.9,
-            "actualPoints": 13.0
+            "salary": 46,
+            "mc_ev": 36.2,
+            "mc_p90": 62.3,
+            "mc_p10": 16.5,
+            "actualPoints": 10.0
         },
         {
             "firstName": "Brennan",
@@ -406,9 +406,9 @@
             "game_id": "2026-ev-26",
             "position": "Attack",
             "salary": 32,
-            "mc_ev": 29.2,
-            "mc_p90": 62.9,
-            "mc_p10": 1.1,
+            "mc_ev": 29.1,
+            "mc_p90": 61.0,
+            "mc_p10": 4.2,
             "actualPoints": 42.0
         },
         {
@@ -486,8 +486,8 @@
             "game_id": "2026-ev-28",
             "position": "A",
             "salary": 40,
-            "mc_ev": 29.9,
-            "mc_p90": 57.2,
+            "mc_ev": 30.0,
+            "mc_p90": 58.1,
             "mc_p10": 0.9,
             "actualPoints": 56.0
         },
@@ -538,9 +538,9 @@
             "game_id": "2026-ev-28",
             "position": "FO",
             "salary": 25,
-            "mc_ev": 14.8,
-            "mc_p90": 31.4,
-            "mc_p10": 1.6,
+            "mc_ev": 14.7,
+            "mc_p90": 26.9,
+            "mc_p10": 2.0,
             "actualPoints": 37.4
         },
         {
@@ -551,9 +551,9 @@
             "game_id": "2026-ev-26",
             "position": "G",
             "salary": 36,
-            "mc_ev": 35.7,
-            "mc_p90": 63.3,
-            "mc_p10": 21.9,
+            "mc_ev": 35.6,
+            "mc_p90": 63.1,
+            "mc_p10": 14.9,
             "actualPoints": 29.0
         }
     ],
@@ -564,7 +564,7 @@
         "Matt Whitcher"
     ],
     "RecommendedStrategy": "MC_EV",
-    "RecommendedReason": "Tight pricing / short slate (4 games, 30 cheap value players). Optimizing for floor is best.",
+    "RecommendedReason": "Tight pricing / short slate (4 games, 31 cheap value players). Optimizing for floor is best.",
     "Narrative": {
         "RecommendedRoster": [
             {
@@ -651,8 +651,8 @@
                 "strategyLabel": "MC Ceil 90",
                 "in": [
                     "Matt Rambo",
-                    "Matt Brandau",
                     "Connor Kirst",
+                    "Matt Brandau",
                     "Matt Whitcher",
                     "Colin Kirst"
                 ],
@@ -663,7 +663,7 @@
                     "Matt Traynor",
                     "Ethan Rall"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Matt Rambo (Attack, 23c), Matt Brandau (Midfield, 22c), Connor Kirst (Midfield, 16c), Matt Whitcher (Defense, 10c), Colin Kirst (Goalie, 33c)) to maximize the team's 90th percentile ceiling (projecting up to 73.0 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Matt Rambo (Attack, 23c), Connor Kirst (Midfield, 16c), Matt Brandau (Midfield, 22c), Matt Whitcher (Defense, 10c), Colin Kirst (Goalie, 33c)) to maximize the team's 90th percentile ceiling (projecting up to 73.0 pts)."
             }
         ]
     },

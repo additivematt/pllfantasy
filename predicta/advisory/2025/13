@@ -94,6 +94,19 @@
     ],
     "MC_Win_160": [
         {
+            "firstName": "Liam",
+            "lastName": "Entenmann",
+            "team": "ATL",
+            "opponent": "WAT",
+            "game_id": "2025_semifinal_2",
+            "position": "Goalie",
+            "salary": 43,
+            "mc_ev": 37.4,
+            "mc_p90": 0.0,
+            "mc_p10": 0.0,
+            "actualPoints": 56.0
+        },
+        {
             "firstName": "Chris",
             "lastName": "Kavanagh",
             "team": "RED",
@@ -120,43 +133,17 @@
             "actualPoints": 18.0
         },
         {
-            "firstName": "Matt",
-            "lastName": "Traynor",
+            "firstName": "Jake",
+            "lastName": "Stevens",
             "team": "ATL",
             "opponent": "WAT",
             "game_id": "2025_semifinal_2",
             "position": "Midfield",
-            "salary": 22,
+            "salary": 10,
             "mc_ev": 20.2,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
-            "actualPoints": 46.0
-        },
-        {
-            "firstName": "Jared",
-            "lastName": "Bernhardt",
-            "team": "OUT",
-            "opponent": "RED",
-            "game_id": "2025_semifinal_1",
-            "position": "Midfield",
-            "salary": 16,
-            "mc_ev": 19.1,
-            "mc_p90": 0.0,
-            "mc_p10": 0.0,
-            "actualPoints": 15.0
-        },
-        {
-            "firstName": "Ben",
-            "lastName": "Wayer",
-            "team": "WAT",
-            "opponent": "ATL",
-            "game_id": "2025_semifinal_2",
-            "position": "Defense",
-            "salary": 10,
-            "mc_ev": 13.8,
-            "mc_p90": 0.0,
-            "mc_p10": 0.0,
-            "actualPoints": 41.0
+            "actualPoints": 4.0
         },
         {
             "firstName": "Trevor",
@@ -167,60 +154,6 @@
             "position": "Faceoff",
             "salary": 33,
             "mc_ev": 21.7,
-            "mc_p90": 0.0,
-            "mc_p10": 0.0,
-            "actualPoints": 8.0
-        },
-        {
-            "firstName": "Liam",
-            "lastName": "Entenmann",
-            "team": "ATL",
-            "opponent": "WAT",
-            "game_id": "2025_semifinal_2",
-            "position": "Goalie",
-            "salary": 43,
-            "mc_ev": 37.4,
-            "mc_p90": 0.0,
-            "mc_p10": 0.0,
-            "actualPoints": 56.0
-        }
-    ],
-    "MC_Ceil_90": [
-        {
-            "firstName": "Logan",
-            "lastName": "Wisnauskas",
-            "team": "OUT",
-            "opponent": "RED",
-            "game_id": "2025_semifinal_1",
-            "position": "Attack",
-            "salary": 24,
-            "mc_ev": 34.3,
-            "mc_p90": 0.0,
-            "mc_p10": 0.0,
-            "actualPoints": 0.0
-        },
-        {
-            "firstName": "Pat",
-            "lastName": "Kavanagh",
-            "team": "OUT",
-            "opponent": "RED",
-            "game_id": "2025_semifinal_1",
-            "position": "Attack",
-            "salary": 39,
-            "mc_ev": 32.3,
-            "mc_p90": 0.0,
-            "mc_p10": 0.0,
-            "actualPoints": 31.0
-        },
-        {
-            "firstName": "Jonathan",
-            "lastName": "Donville",
-            "team": "OUT",
-            "opponent": "RED",
-            "game_id": "2025_semifinal_1",
-            "position": "Midfield",
-            "salary": 10,
-            "mc_ev": 18.8,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 8.0
@@ -239,31 +172,20 @@
             "actualPoints": 15.0
         },
         {
-            "firstName": "Matt",
-            "lastName": "Whitcher",
-            "team": "WAT",
-            "opponent": "ATL",
-            "game_id": "2025_semifinal_2",
-            "position": "Defense",
-            "salary": 6,
-            "mc_ev": 12.8,
-            "mc_p90": 0.0,
-            "mc_p10": 0.0,
-            "actualPoints": 13.0
-        },
-        {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
+            "firstName": "Brett",
+            "lastName": "Makar",
             "team": "ATL",
             "opponent": "WAT",
             "game_id": "2025_semifinal_2",
-            "position": "Faceoff",
-            "salary": 33,
-            "mc_ev": 21.7,
+            "position": "Defense",
+            "salary": 16,
+            "mc_ev": 14.6,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
-            "actualPoints": 8.0
-        },
+            "actualPoints": 2.0
+        }
+    ],
+    "MC_Ceil_90": [
         {
             "firstName": "Liam",
             "lastName": "Entenmann",
@@ -276,6 +198,84 @@
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 56.0
+        },
+        {
+            "firstName": "Pat",
+            "lastName": "Kavanagh",
+            "team": "OUT",
+            "opponent": "RED",
+            "game_id": "2025_semifinal_1",
+            "position": "Attack",
+            "salary": 39,
+            "mc_ev": 32.3,
+            "mc_p90": 0.0,
+            "mc_p10": 0.0,
+            "actualPoints": 31.0
+        },
+        {
+            "firstName": "Logan",
+            "lastName": "Wisnauskas",
+            "team": "OUT",
+            "opponent": "RED",
+            "game_id": "2025_semifinal_1",
+            "position": "Attack",
+            "salary": 24,
+            "mc_ev": 34.3,
+            "mc_p90": 0.0,
+            "mc_p10": 0.0,
+            "actualPoints": 0.0
+        },
+        {
+            "firstName": "Jonathan",
+            "lastName": "Donville",
+            "team": "OUT",
+            "opponent": "RED",
+            "game_id": "2025_semifinal_1",
+            "position": "Midfield",
+            "salary": 10,
+            "mc_ev": 18.8,
+            "mc_p90": 0.0,
+            "mc_p10": 0.0,
+            "actualPoints": 8.0
+        },
+        {
+            "firstName": "Alec",
+            "lastName": "Stathakis",
+            "team": "WAT",
+            "opponent": "ATL",
+            "game_id": "2025_semifinal_2",
+            "position": "Faceoff",
+            "salary": 14,
+            "mc_ev": 19.0,
+            "mc_p90": 0.0,
+            "mc_p10": 0.0,
+            "actualPoints": 0.5
+        },
+        {
+            "firstName": "Mikie",
+            "lastName": "Schlosser",
+            "team": "WAT",
+            "opponent": "ATL",
+            "game_id": "2025_semifinal_2",
+            "position": "Midfield",
+            "salary": 4,
+            "mc_ev": 18.8,
+            "mc_p90": 0.0,
+            "mc_p10": 0.0,
+            "actualPoints": 0.0
+        },
+        {
+            "firstName": "Brett",
+            "lastName": "Makar",
+            "team": "ATL",
+            "opponent": "WAT",
+            "game_id": "2025_semifinal_2",
+            "position": "Defense",
+            "salary": 16,
+            "mc_ev": 14.6,
+            "mc_p90": 0.0,
+            "mc_p10": 0.0,
+            "actualPoints": 2.0
         }
     ],
     "MC_Consensus": [],
@@ -375,10 +375,10 @@
     ],
     "Core": [
         "Liam Entenmann",
-        "Trevor Baptiste"
+        "Brett Makar"
     ],
     "Sleepers": [
-        "Matt Whitcher"
+        "Mikie Schlosser"
     ],
     "RecommendedStrategy": "MC_EV",
     "RecommendedReason": "Tight pricing / short slate (2 games, 27 cheap value players). Optimizing for floor is best.",
@@ -460,30 +460,28 @@
                 "strategyLabel": "MC Win 160",
                 "in": [
                     "Kieran McArdle",
-                    "Matt Traynor",
-                    "Jared Bernhardt",
-                    "Ben Wayer"
+                    "Jake Stevens"
                 ],
                 "out": [
                     "Logan Wisnauskas",
-                    "Jonathan Donville",
-                    "Zach Currier",
-                    "Brett Makar"
+                    "Jonathan Donville"
                 ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Kieran McArdle (Attack, 38c), Matt Traynor (Midfield, 22c), Jared Bernhardt (Midfield, 16c), Ben Wayer (Defense, 10c)) to increase the joint probability of the entire lineup hitting the 160 target score."
+                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Kieran McArdle (Attack, 38c), Jake Stevens (Midfield, 10c)) to increase the joint probability of the entire lineup hitting the 160 target score."
             },
             {
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
                     "Pat Kavanagh",
-                    "Matt Whitcher"
+                    "Alec Stathakis",
+                    "Mikie Schlosser"
                 ],
                 "out": [
                     "Chris Kavanagh",
-                    "Brett Makar"
+                    "Trevor Baptiste",
+                    "Zach Currier"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Pat Kavanagh (Attack, 39c), Matt Whitcher (Defense, 6c)) to maximize the team's 90th percentile ceiling (projecting up to 0.0 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Pat Kavanagh (Attack, 39c), Alec Stathakis (Faceoff, 14c), Mikie Schlosser (Midfield, 4c)) to maximize the team's 90th percentile ceiling (projecting up to 0.0 pts)."
             }
         ]
     },
