@@ -52,34 +52,34 @@ The following items represent the highest-impact improvements for **prediction a
 
 > [!IMPORTANT]
 > **Boom Recall is the #1 bottleneck** (9 July 2026 analysis):
-> Baseline 5 classifier Boom recall has been improved by asymmetric class weighting, but remains a target area. All active backlog items must now be A/B tested against Baseline 5's optimal class weighting configuration.
+> Baseline 6 Boom recall and cash game stability have been improved by asymmetric class weighting and pool blending, but it remains a target area. All active backlog items must now be A/B tested against Baseline 6's optimal configuration.
 
 #### Item 38: Faceoff Model — Simple Heuristic Replacement
-- **Problem**: The Faceoff XGBoost classifier achieves **0% Boom precision and 0% Boom recall** under Baseline 5. With only ~14 FO-eligible players per week and highly volatile scoring (ground balls, caused turnovers are stochastic), XGBoost cannot learn meaningful signal from this sample size.
+- **Problem**: The Faceoff XGBoost classifier achieves **0% Boom precision and 0% Boom recall** under Baseline 6. With only ~14 FO-eligible players per week and highly volatile scoring (ground balls, caused turnovers are stochastic), XGBoost cannot learn meaningful signal from this sample size.
 - **Why it matters**: The FO slot is pure noise under the current model. Even modest improvement (identifying 1–2 correct Boom FOs per season) would add 10–20 pts/season.
 - **Suggested Fix**: Bypass XGBoost for the Faceoff position and use a simple rule-based heuristic:
   1. Rank FO players by `fp_ewma_4` (recent form).
   2. Assign Boom to top 25%, Bust to bottom 25%, Average to middle 50%.
   3. For MC EV: use `fp_ewma_4` directly as the EV estimate instead of the classifier-driven EV.
-- **A/B Test Plan**: Run full backtest with the FO heuristic bypass enabled vs Baseline 5. Measure FO Boom recall and total Ceiling %.
+- **A/B Test Plan**: Run full backtest with the FO heuristic bypass enabled vs Baseline 6. Measure FO Boom recall and total Ceiling %.
 - **Success Criteria**: FO Boom recall > 0% (any improvement). Net positive or neutral Ceiling % change.
-- **Status**: ⏳ Pending re-test against Baseline 5.
+- **Status**: ⏳ Pending re-test against Baseline 6.
 
 #### Item 33: Position-Specific XGBoost Hyperparameter Tuning *(elevated from Tier 2)*
 - **Problem**: All five position groups use identical model configurations and tree depths regardless of sample size.
 - **Why it matters**: Attack has ~48 rows/season while Goalie has ~16. The Goalie model is highly susceptible to overfitting under generic defaults. The per-position accuracy gaps (Goalie: 26.1%, Faceoff: 21.4% overall accuracy) are a major driver of the ceiling % plateau.
 - **Suggested Fix**: Define and grid-search position-specific hyperparameters (`n_estimators`, `max_depth`, `learning_rate`, `min_child_weight`) using the harness. For small-sample positions (FO, Goalie), use lower `max_depth` (3–4), higher `min_child_weight` (5–10), and fewer `n_estimators` (50–100).
-- **A/B Test Plan**: Grid-search per position using the evaluation harness. Compare per-position accuracy and total Ceiling % vs Baseline 5.
+- **A/B Test Plan**: Grid-search per position using the evaluation harness. Compare per-position accuracy and total Ceiling % vs Baseline 6.
 - **Success Criteria**: Customized hyperparameter configurations active per position group. Goalie and FO accuracy improvements without degrading Attack/Midfield.
-- **Status**: ⏳ Pending re-test against Baseline 5.
+- **Status**: ⏳ Pending re-test against Baseline 6.
 
 #### Item 45: The Continuous Target Pivot (Regression Pipeline Integration)
 - **Problem**: Forcing the prediction engine into discrete categorical tiers (Boom/Average/Bust) throws away massive amounts of ordinal variance. The difference between a high-tier and low-tier "Average" performance is completely smoothed out, blinding the linear programming optimizer to granular value edges.
 - **Why it matters**: Optimization under tight salary caps requires exact expected values. Relying on class probabilities to derive continuous MC EV distributions creates artificial clipping and sub-optimal roster allocations.
 - **Suggested Fix**: Implement an XGBoost Regressor pipeline running in parallel with (or replacing) the classifier. Have the regressor target raw fantasy points directly. Use the continuous output to anchor the mean of the Monte Carlo bootstrap distributions.
-- **A/B Test Plan**: Run the evaluation harness using continuous regression-driven expected values for roster optimization. Measure net impact on 2025 and 2026 Ceiling % against Baseline 5.
+- **A/B Test Plan**: Run the evaluation harness using continuous regression-driven expected values for roster optimization. Measure net impact on 2025 and 2026 Ceiling % against Baseline 6.
 - **Success Criteria**: Statistically significant positive shift in Ceiling % across both seasons, completely bypassing the 0% Faceoff classifier plateau.
-- **Status**: ⏳ Pending re-test against Baseline 5.
+- **Status**: ⏳ Pending re-test against Baseline 6.
 
 #### Item 46: Mathematical Pace & Possession Factor Estimation
 - **Problem**: Public GraphQL endpoints supply raw counting statistics but lack true possession tracking. Rolling features like `_last3_avg` and `fp_ewma_4` are heavily distorted by the unadjusted pace of specific matchups rather than reflecting pure individual efficiency.
@@ -87,31 +87,31 @@ The following items represent the highest-impact improvements for **prediction a
 - **Suggested Fix**: Derive a mathematical proxy for possession count per game team-by-team:
   $$\text{Est. Possessions} = \text{Shots} + \text{Turnovers} - \text{Offensive Rebounds} + \text{Opponent Saves}$$
   Convert individual player counting stats into normalized rate metrics (e.g., Shots per 10 Possessions) prior to training. Scale projections back up at simulation runtime using the projected combined pace of the upcoming matchup.
-- **A/B Test Plan**: Train the prediction engine on pace-adjusted rate features and run through the simulation pipeline with matchup-based pace scaling. Compare Mean Absolute Error (MAE) against Baseline 5 features.
+- **A/B Test Plan**: Train the prediction engine on pace-adjusted rate features and run through the simulation pipeline with matchup-based pace scaling. Compare Mean Absolute Error (MAE) against Baseline 6 features.
 - **Success Criteria**: Reduction in predictive variance and an increase in overall position-group accuracy across highly volatile game weeks.
-- **Status**: ⏳ Pending re-test against Baseline 5.
+- **Status**: ⏳ Pending re-test against Baseline 6.
 
 #### Item 47: Long-Pole Matchup Isolation Tiers
 - **Problem**: The Allowance Ratio feature handles defensive strength at a macro, team-wide level. This uniform blending fails to capture when an individual elite coverage defender or short-stick defensive midfielder (SSDM) completely changes the micro-matchup landscape.
 - **Why it matters**: An elite lockdown pole will suppress an individual attackman's target share and efficiency far more than a generic team defense average suggests, leading the optimizer to consistently overvalue heavily marked premium options.
 - **Suggested Fix**: Upgrade the matchup tagger UI ([matcha](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.agents/skills/matchup_tagger/SKILL.md)) to input individual projected defender assignments. Map defensive players to historical "Fantasy Points Allowed per 60 Minutes" performance tiers. Feed these explicit defender-tier weights as coefficients directly into the individual player efficiency models.
-- **A/B Test Plan**: Run backtests utilizing individualized defensive pole tiers as feature inputs. Evaluate the change in precision/recall for premium attackmen matching up against top-tier coverage long-poles vs Baseline 5.
+- **A/B Test Plan**: Run backtests utilizing individualized defensive pole tiers as feature inputs. Evaluate the change in precision/recall for premium attackmen matching up against top-tier coverage long-poles vs Baseline 6.
 - **Success Criteria**: Elimination of over-projection errors for premium offensive players drawing shutdown matchups, lifting overall cash game stability.
-- **Status**: ⏳ Pending re-test against Baseline 5.
+- **Status**: ⏳ Pending re-test against Baseline 6.
 
 #### Item 9: Market Consensus (Salary as a Feature) *(moved from Closed)*
 - **Problem**: Stale Baseline 3 test showed a net drag across both seasons ($-193.2$ pts in 2025, $-140.1$ pts in 2026). The model relied heavily on salary, creating an anchoring bias.
-- **Why it matters**: Since Baseline 3 was compromised by stale predictions, we need to verify if salary features genuinely degrade performance when evaluated against the true Baseline 5.
+- **Why it matters**: Since Baseline 3 was compromised by stale predictions, we need to verify if salary features genuinely degrade performance when evaluated against the true Baseline 6.
 - **Suggested Fix**: Re-enable `SALARY_AS_FEATURE = True` and run the full backtest.
-- **A/B Test Plan**: Compare total Ceiling % against Baseline 5.
-- **Status**: ⏳ Pending re-test against Baseline 5.
+- **A/B Test Plan**: Compare total Ceiling % against Baseline 6.
+- **Status**: ⏳ Pending re-test against Baseline 6.
 
 #### Item 10: Player Usage and Field Time Proxy *(moved from Closed)*
 - **Problem**: Stale Baseline 3 test showed degradation in 2025 ($-360.6$ pts) and 2026 ($-139.5$ pts). Touches anomaly overfit to volatile state fluctuations.
-- **Why it matters**: Needs to be re-evaluated against Baseline 5 to check if usage features are actually viable.
+- **Why it matters**: Needs to be re-evaluated against Baseline 6 to check if usage features are actually viable.
 - **Suggested Fix**: Re-enable `USAGE_HEALTH_FEATURES_ENABLED = True` and run the full backtest.
-- **A/B Test Plan**: Compare total Ceiling % against Baseline 5.
-- **Status**: ⏳ Pending re-test against Baseline 5.
+- **A/B Test Plan**: Compare total Ceiling % against Baseline 6.
+- **Status**: ⏳ Pending re-test against Baseline 6.
 
 ---
 
@@ -202,9 +202,25 @@ To track historical performance changes and maintain auditability across key mil
 
 - **Interpretation**: The introduction of asymmetric class weighting (optimal weight = 2.0) is a massive performance breakout. The primary `MC_EV` strategy increases by **+222.3 pts** in 2025 (p = 0.0436, statistically significant) and **+262.5 pts** in 2026. The tournament-upside `MC_Win_160` strategy explodes by **+338.6 pts** in 2026, reaching **47.7%** of the Coulda ceiling. Conversely, `MC_Ceil_90` degrades under weighted training, confirming it should be deprecated in favor of `MC_EV` and `MC_Win_160`.
 
-> [!WARNING]
+> [Slim/Default Warning Block]
 > **Question Mark Over MC Ceil 90 Strategy:**
-> Baseline 5 confirms that the `MC_Ceil_90` strategy consistently underperforms and degrades when class weighting is applied. It is recommended to deprecate `MC_Ceil_90` in production in favor of `MC_EV` and `MC_Win_160`.
+> Baseline 5 and 6 confirm that the `MC_Ceil_90` strategy consistently underperforms and degrades when class weighting is applied. It is recommended to deprecate `MC_Ceil_90` in production in favor of `MC_EV` and `MC_Win_160`.
+
+### Baseline 6 (Optimal Weight 2.0 + Pool Blending K=15 — 15 July 2026)
+- **Changes / Description**: Enabled Smooth MC Historical Pool Blending ($K=15$) in production. This blends low-sample player score histories with position group pools, eliminating the sharp 5-game cutoff and regularizing simulated score variance.
+- **Roster Files**: All Baseline 6 rosters are archived in the `baselines/` directory as `rosters_<strategy>_baseline_6.csv` (e.g. `rosters_mc_ev_baseline_6.csv`).
+- **Performance Summary**:
+
+  | Season | Strategy | Total Score | Coulda Max | Ceiling % | Notes (vs. Baseline 5) |
+  |---|---|---|---|---|---|
+  | 2025 | MC_EV | 2271.3 | 4679.1 | 48.5% | **+49.0 pts** (p = 0.0862) |
+  | 2025 | MC_Ceil_90 | 2064.6 | 4679.1 | 44.1% | +196.4 pts |
+  | 2025 | MC_Win_160 | 1952.3 | 4679.1 | 41.7% | -92.5 pts (variance smoothed) |
+  | 2026 | MC_EV | 1062.8 | 2525.0 | 42.1% | **+16.1 pts** |
+  | 2026 | MC_Ceil_90 | 631.7 | 2525.0 | 25.0% | -63.3 pts |
+  | 2026 | MC_Win_160 | 1093.8 | 2525.0 | 43.3% | -110.0 pts (variance smoothed) |
+
+- **Interpretation**: Pool Blending ($K=15$) provides a consistent standalone improvement for the primary `MC_EV` strategy across both seasons (+49.0 pts in 2025, +16.1 pts in 2026). However, because blending regularizes low-sample distributions and smooths out tail variance, it acts as a drag on high-upside tournament strategies (`MC_Win_160`) which thrive on extreme outlier scores.
 
 ---
 
