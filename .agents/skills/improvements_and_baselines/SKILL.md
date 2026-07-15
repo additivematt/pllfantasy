@@ -17,31 +17,29 @@ All improvement ideas, including feature proposals, architectural refactors, sim
 
 ## Target Success Criteria & Evaluation Baseline
 To ensure that changes are mathematically sound and do not degrade model performance:
-- **Baseline Metric**: The table below defines the official baseline backtest metrics established on **14 July 2026** (Baseline 5, DNP-Clean + Asymmetric Class Weighting) by running predictions with optimal boom-weights (2.0), applying the roster filter, and running simulations cleanly.
+- **Baseline Metric**: The table below defines the official baseline backtest metrics established on **15 July 2026** (Baseline 6, optimal asymmetric class weighting + MC historical pool blending K=15) by running predictions with optimal boom-weights (2.0) and pool blending enabled.
 
-### Baseline 5 (Asymmetric Class Weighting — Optimal Boom Weight 2.0) Evaluation Results (14 July 2026)
+### Baseline 6 (Optimal Weight 2.0 + Pool Blending K=15) Evaluation Results (15 July 2026)
 
-Established under the optimal configuration (Asymmetric Class Weighting enabled with default weight 2.0, Game Pace Scaling enabled, Correlation Copula enabled, 0.05 Recency decay, Bayesian Shrinkage enabled, and 4-game EWMA enabled) using fresh predictions, the gameday roster filter, and 10,000 Monte Carlo trials.
+Established under the optimal production configuration (Asymmetric Class Weighting enabled with default weight 2.0, Game Pace Scaling enabled, Correlation Copula enabled, 0.05 Recency decay, Bayesian Shrinkage enabled, 4-game EWMA enabled, and Smooth MC Pool Blending K=15 enabled) using fresh predictions, the gameday roster filter, and 10,000 Monte Carlo trials.
 
-| Season | Strategy | Total Score | Coulda Max | Ceiling % |
-|---|---|---|---|---|
-| 2025 | MC_EV | 2222.3 | 4679.1 | 47.5% |
-| 2025 | MC_Ceil_90 | 1868.2 | 4679.1 | 39.9% |
-| 2025 | MC_Win_160 | 2044.8 | 4679.1 | 43.7% |
-| 2025 | MC_Win_180 | N/A | 4679.1 | N/A |
-| 2026 | MC_EV | 1046.7 | 2525.0 | 41.5% |
-| 2026 | MC_Ceil_90 | 695.0 | 2525.0 | 27.5% |
-| 2026 | MC_Win_160 | 1203.8 | 2525.0 | 47.7% |
-| 2026 | MC_Win_180 | N/A | 2525.0 | N/A |
+| Season | Strategy | Total Score | Coulda Max | Ceiling % | Notes (vs. Baseline 5) |
+|---|---|---|---|---|---|
+| 2025 | MC_EV | 2271.3 | 4679.1 | 48.5% | **+49.0 pts** (p = 0.0862) |
+| 2025 | MC_Ceil_90 | 2064.6 | 4679.1 | 44.1% | +196.4 pts |
+| 2025 | MC_Win_160 | 1952.3 | 4679.1 | 41.7% | -92.5 pts (tail regularized) |
+| 2026 | MC_EV | 1062.8 | 2525.0 | 42.1% | **+16.1 pts** |
+| 2026 | MC_Ceil_90 | 631.7 | 2525.0 | 25.0% | -63.3 pts |
+| 2026 | MC_Win_160 | 1093.8 | 2525.0 | 43.3% | -110.0 pts (tail regularized) |
 
 - **Target Threshold**: A proposed feature or logic change will be accepted if it demonstrates a statistically significant improvement over these baselines (paired t-test p-value < 0.05) without increasing runtimes by more than 20%, or if it fixes a critical code health issue without degrading performance.
 - **RNG Reproducibility**: All backtests must run under a fixed random seed to ensure comparison consistency.
 
 > [Safe/Default Mode]
 > **Instructions for AI Agents / Backtesting Rules:**
-> 1. **Do NOT Re-Backtest the Baseline**: When A/B testing a new feature, do not waste compute resources re-running backtests for baseline configurations. All baseline scores are frozen and archived directly in `baselines/rosters_<strategy>_baseline_5.csv` (which includes the `actualPoints` column). Use those existing scores for comparison.
-> 2. **Do NOT Create New Baselines**: Do not establish a new baseline (e.g. Baseline 6) or overwrite Baseline 5 data unless the user explicitly instructs you to do so.
-> 3. **Baseline 3 & 4 are superseded**: Baseline 3 and Baseline 4 scores are now invalid comparison points due to being superseded. Do not use them for future comparisons.
+> 1. **Do NOT Re-Backtest the Baseline**: When A/B testing a new feature, do not waste compute resources re-running backtests for baseline configurations. All baseline scores are frozen and archived directly in `baselines/rosters_<strategy>_baseline_6.csv` (which includes the `actualPoints` column). Use those existing scores for comparison.
+> 2. **Do NOT Create New Baselines**: Do not establish a new baseline (e.g. Baseline 7) or overwrite Baseline 6 data unless the user explicitly instructs you to do so.
+> 3. **Prior Baselines are superseded**: Baseline 3, 4, and 5 scores are now invalid comparison points due to being superseded. Do not use them for future comparisons.
 
 > [!NOTE]
 > **Baseline 3 Discrepancy Resolved (13 July 2026):**
