@@ -60,9 +60,9 @@ def main():
                        help="Evaluation label suffix (auto-generated if not provided)")
     parser.add_argument("--sims", type=int, default=10000,
                        help="Number of Monte Carlo simulation trials")
-    parser.add_argument("--compare-2025", type=str, default="2025_MC_EV",
+    parser.add_argument("--compare-2025", type=str, default="baseline6_mc_ev_2025",
                        help="Baseline label to compare 2025 against")
-    parser.add_argument("--compare-2026", type=str, default="mc_ev_2026_baseline_fresh",
+    parser.add_argument("--compare-2026", type=str, default="baseline6_mc_ev_2026",
                        help="Baseline label to compare 2026 against")
     
     args = parser.parse_args()
@@ -125,7 +125,7 @@ def main():
     tasks = []
     for w in [1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 13, 14]:
         tasks.append((2025, w))
-    for w in [1, 2, 3, 4, 5, 6]:
+    for w in [1, 2, 3, 4, 5, 6, 8]:
         tasks.append((2026, w))
         
     # 2. Run full pipeline for all weeks
@@ -188,7 +188,7 @@ def main():
         "prediction_model_evaluation_harness.py",
         "--rosters", "rosters_mc_ev.csv",
         "--year", "2026",
-        "--weeks", "1,2,3,4,5,6",
+        "--weeks", "1,2,3,4,5,6,8",
         "--label", label_2026
     ]
     run_step(harness_2026_cmd, root_dir, "Evaluate 2026")

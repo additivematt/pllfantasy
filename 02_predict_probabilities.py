@@ -122,36 +122,41 @@ def main():
         df_all["pairing_rating"], df_all["opponent_rating"], df_all["player_vs_team_rating"], df_all["team_def_rating"] = 1.0, 1.0, 1.0, 1.0
 
     def calc_player_avgs(grp):
+        grp_active = grp[grp["isDNP"] != True]
+        use_grp = grp_active if not grp_active.empty else grp
         res = {
-            "fp_season_avg": grp["TotalFantasyPoints"].mean(),
-            "fp_last3_avg": grp["TotalFantasyPoints"].tail(3).mean(),
-            "fp_lag1": grp["TotalFantasyPoints"].iloc[-1] if not grp.empty else 0,
+            "fp_season_avg": use_grp["TotalFantasyPoints"].mean(),
+            "fp_last3_avg": use_grp["TotalFantasyPoints"].tail(3).mean(),
+            "fp_lag1": use_grp["TotalFantasyPoints"].iloc[-1] if not use_grp.empty else 0,
         }
         if EWMA_ENABLED:
-            res["fp_ewma_4"] = grp["TotalFantasyPoints"].ewm(halflife=4, min_periods=1).mean().iloc[-1] if not grp.empty else 0.0
+            res["fp_ewma_4"] = use_grp["TotalFantasyPoints"].ewm(halflife=4, min_periods=1).mean().iloc[-1] if not use_grp.empty else 0.0
         cols_to_avg = ["shots", "groundBalls", "saves", "faceoffsWon", "assists", "causedTurnovers", "faceoffPct", "touches", "shotPct"]
         for c in cols_to_avg:
-            if c in grp.columns:
-                res[f"{c}_season_avg"] = grp[c].mean()
-                res[f"{c}_last3_avg"] = grp[c].tail(3).mean()
+            if c in use_grp.columns:
+                res[f"{c}_season_avg"] = use_grp[c].mean()
+                res[f"{c}_last3_avg"] = use_grp[c].tail(3).mean()
             else:
-                res[f"{c}_season_avg"] = grp["TotalFantasyPoints"].mean()
-                res[f"{c}_last3_avg"] = grp["TotalFantasyPoints"].tail(3).mean()
-        res["last_startTime"] = grp["startTime"].iloc[-1] if "startTime" in grp.columns and not grp.empty else 0
+                res[f"{c}_season_avg"] = use_grp["TotalFantasyPoints"].mean()
+                res[f"{c}_last3_avg"] = use_grp["TotalFantasyPoints"].tail(3).mean()
+        res["last_startTime"] = use_grp["startTime"].iloc[-1] if "startTime" in use_grp.columns and not use_grp.empty else 0
         return pd.Series(res)
 
     p_avgs = df_all.groupby(["firstName", "lastName", "positionGroup"]).apply(calc_player_avgs).reset_index()
     p_avgs["shotPct_anomaly"] = p_avgs["shotPct_last3_avg"] - p_avgs["shotPct_season_avg"]
 
+    # Filter to active games only for fallbacks
+    df_active_only = df_all[df_all["isDNP"] != True]
+
     # Calculate season-to-date average for each player in the target season
-    std_df = df_all[df_all["year"] == args.year]
+    std_df = df_active_only[df_active_only["year"] == args.year]
     if not std_df.empty:
         std_avgs = std_df.groupby(["firstName", "lastName"])["TotalFantasyPoints"].mean().to_dict()
     else:
         std_avgs = {}
         
     # Calculate overall historical average as secondary fallback
-    overall_avgs = df_all.groupby(["firstName", "lastName"])["TotalFantasyPoints"].mean().to_dict()
+    overall_avgs = df_active_only.groupby(["firstName", "lastName"])["TotalFantasyPoints"].mean().to_dict()
 
     def get_historical_average_salary(first, last, current_year, s_dir):
         sals = []
