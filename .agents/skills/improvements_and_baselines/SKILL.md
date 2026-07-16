@@ -87,9 +87,12 @@ The following items represent the highest-impact improvements for **prediction a
 - **Suggested Fix**: Derive a mathematical proxy for possession count per game team-by-team:
   $$\text{Est. Possessions} = \text{Shots} + \text{Turnovers} - \text{Offensive Rebounds} + \text{Opponent Saves}$$
   Convert individual player counting stats into normalized rate metrics (e.g., Shots per 10 Possessions) prior to training. Scale projections back up at simulation runtime using the projected combined pace of the upcoming matchup.
-- **A/B Test Plan**: Train the prediction engine on pace-adjusted rate features and run through the simulation pipeline with matchup-based pace scaling. Compare Mean Absolute Error (MAE) against Baseline 6 features.
-- **Success Criteria**: Reduction in predictive variance and an increase in overall position-group accuracy across highly volatile game weeks.
-- **Status**: ⏳ Pending re-test against Baseline 6.
+- **A/B Test Plan**: Compare total Ceiling % against Baseline 8.
+- **Results (vs Baseline 8)**:
+  - `MC_EV`: **-219.8** in 2025 (1893.0), **-20.0** in 2026 (969.3).
+  - `MC_Win_160`: **-486.7** in 2025 (1827.6), **-8.9** in 2026 (1042.2).
+  - `MC_Ceil_90`: **-268.6** in 2025 (1874.2), **-108.3** in 2026 (780.9).
+- **Status**: ❌ **Rejected**. Massive degradation across the board. Normalizing the stats into rates before training seems to destroy critical variance and absolute volume signals that the model relies on. Keep `PACE_ADJUSTED_RATES_ENABLED` disabled.
 
 #### Item 47: Long-Pole Matchup Isolation Tiers
 - **Problem**: The Allowance Ratio feature handles defensive strength at a macro, team-wide level. This uniform blending fails to capture when an individual elite coverage defender or short-stick defensive midfielder (SSDM) completely changes the micro-matchup landscape.
