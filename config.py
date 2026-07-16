@@ -36,7 +36,7 @@ CEILING_CLAMP_MULTIPLIER = None  # Was 1.15; currently no clamp in production co
 
 # Salary as Feature: Feed normalized salary percentile into the GBDT model
 # as a market consensus signal.
-SALARY_AS_FEATURE = False
+SALARY_AS_FEATURE = True
 SALARY_AS_FEATURE_POSITIONS = {
     "Attack": True,
     "Midfield": True,

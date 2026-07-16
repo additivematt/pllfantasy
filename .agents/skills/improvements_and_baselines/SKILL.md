@@ -101,17 +101,25 @@ The following items represent the highest-impact improvements for **prediction a
 
 #### Item 9: Market Consensus (Salary as a Feature) *(moved from Closed)*
 - **Problem**: Stale Baseline 3 test showed a net drag across both seasons ($-193.2$ pts in 2025, $-140.1$ pts in 2026). The model relied heavily on salary, creating an anchoring bias.
-- **Why it matters**: Since Baseline 3 was compromised by stale predictions, we need to verify if salary features genuinely degrade performance when evaluated against the true Baseline 6.
+- **Why it matters**: Since Baseline 3 was compromised by stale predictions, we need to verify if salary features genuinely degrade performance when evaluated against the true Baseline 6 (or Baseline 8).
 - **Suggested Fix**: Re-enable `SALARY_AS_FEATURE = True` and run the full backtest.
-- **A/B Test Plan**: Compare total Ceiling % against Baseline 6.
-- **Status**: ⏳ Pending re-test against Baseline 6.
+- **A/B Test Plan**: Compare total Ceiling % against Baseline 8.
+- **Results (vs Baseline 8)**: 
+  - `MC_EV`: **+50.8** in 2025 (2163.6), **+176.1** in 2026 (1165.4).
+  - `MC_Win_160`: **-96.2** in 2025 (2218.1), **+107.1** in 2026 (1158.2).
+  - `MC_Ceil_90`: **+144.5** in 2025 (2287.3), **+43.2** in 2026 (932.4).
+- **Status**: ✅ **Accepted**. The previous negative results were purely an artifact of data leakage in Baseline 3. On the clean Baseline 8, Salary provides a massive net positive signal across almost all strategies and seasons. This should be enabled in production.
 
 #### Item 10: Player Usage and Field Time Proxy *(moved from Closed)*
 - **Problem**: Stale Baseline 3 test showed degradation in 2025 ($-360.6$ pts) and 2026 ($-139.5$ pts). Touches anomaly overfit to volatile state fluctuations.
-- **Why it matters**: Needs to be re-evaluated against Baseline 6 to check if usage features are actually viable.
+- **Why it matters**: Needs to be re-evaluated against Baseline 8 to check if usage features are actually viable.
 - **Suggested Fix**: Re-enable `USAGE_HEALTH_FEATURES_ENABLED = True` and run the full backtest.
-- **A/B Test Plan**: Compare total Ceiling % against Baseline 6.
-- **Status**: ⏳ Pending re-test against Baseline 6.
+- **A/B Test Plan**: Compare total Ceiling % against Baseline 8.
+- **Results (vs Baseline 8)**:
+  - `MC_EV`: **+45.2** in 2025 (2158.0), **+116.3** in 2026 (1105.6).
+  - `MC_Win_160`: **-240.0** in 2025 (2074.3), **+5.6** in 2026 (1056.7).
+  - `MC_Ceil_90`: **-15.1** in 2025 (2127.7), **-74.6** in 2026 (814.6).
+- **Status**: ❌ **Rejected**. While it provides a modest boost to the mean expectation (`MC_EV`), it heavily penalizes tournament upside strategies (`MC_Win_160` and `MC_Ceil_90`), likely by over-regularizing the variance for players returning from injury or with fluctuating usage. Item 9 is strictly better. Keep disabled.
 
 ---
 
