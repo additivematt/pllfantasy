@@ -100,130 +100,28 @@ To track historical performance changes and maintain auditability across key mil
 > All previous baselines (formerly Baselines 1 through 8) have been removed from this document. They were fundamentally compromised by a combination of pipeline bugs (stale file retention), database corrections (doubleheaders), and several sources of data leakage (including future-leaking matchup ratings, non-chronological cross-validation, and full-season tier thresholds). The baseline below represents the first truly clean, leak-free reference point (established 1 July 2026). All future A/B testing must compare against this standard.
 
 ### Baseline 1 (Leak-Free — 1 July 2026)
-- **Changes / Description**: The first completely clean baseline after resolving all 6 data leakage sources (Item 27a-27f). All future-leaking components have been replaced with chronologically expanding windows or strict target-year guards. Game pace scaling, correlation copula, and recency decay remain enabled as per the optimal configuration. (Note: Bayesian shrinkage was also enabled in this baseline, but EWMA was not.)
-- **Performance Summary**:
-
-  | Season | Strategy | Total Score | Coulda Max | Ceiling % |
-  |---|---|---|---|---|
-  | 2025 | MC_EV | 2168.1 | 4679.1 | 46.3% |
-  | 2026 | MC_EV | 902.1 | 2194.1 | 41.1% |
+- **Status**: ⚠️ **Superseded**. The first clean baseline after resolving 6 data leakage sources. Baseline established a floor of 46.3% Ceiling % for MC_EV in 2025.
 
 ### Baseline 2 (Leak-Free + EWMA — 3 July 2026)
-- **Changes / Description**: Built on top of Baseline 1 by enabling exponentially-weighted moving average rolling features (`fp_ewma_4` with half-life of 4 games). Bayesian shrinkage remains enabled.
-- **Roster Files**: All Baseline 2 rosters are archived in the `baselines/` directory as `rosters_<strategy>_baseline_2.csv` (e.g. `rosters_mc_ev_baseline_2.csv`).
-- **Status**: ⚠️ **Superseded by Baseline 3.** Baseline 2 was compromised by two compounding bugs: (1) rolling features were polluted by DNP rows (see Item 36), and (2) the All-Star game week data was included in the training set — this was subsequently identified as a bug (All-Star scoring and player usage patterns are non-representative of regular-season play) and the data was cleaned from `combined_player_stats_2025.json`. Baseline 2's training distribution therefore no longer matches the corrected dataset. Its scores are preserved for audit purposes only — do NOT use for A/B comparison.
-- **Performance Summary**:
-
-  | Season | Strategy | Total Score | Coulda Max | Ceiling % |
-  |---|---|---|---|---|
-  | 2025 | MC_EV | 2305.3 | 4679.1 | 49.3% |
-  | 2025 | MC_Ceil_90 | 1999.5 | 4679.1 | 42.7% |
-  | 2025 | MC_Win_160 | 2317.3 | 4679.1 | 49.5% |
-  | 2025 | MC_Win_180 | 2127.8 | 4679.1 | 45.5% |
-  | 2026 | MC_EV | 835.4 | 2194.1 | 38.1% |
-  | 2026 | MC_Ceil_90 | 615.0 | 2194.1 | 28.0% |
-  | 2026 | MC_Win_160 | 838.6 | 2194.1 | 38.2% |
-  | 2026 | MC_Win_180 | 775.8 | 2194.1 | 35.4% |
+- **Status**: ⚠️ **Superseded**. Enabled EWMA features. Later found to be compromised by DNP pollution in rolling averages and included invalid All-Star game data.
 
 ### Baseline 3 (DNP-Clean Rolling Features — 8 July 2026)
-- **Status**: ⚠️ **Superseded by Baseline 4.** Baseline 3 was compromised by a pipeline execution bug where `scratch/run_baseline3_backtest.py` omitted running `03_apply_roster_filter.py`. As a result, its rosters were optimized and simulated using stale prediction files containing data leakage and DNP-polluted features, yielding inflated scores.
-- **Roster Files**: All Baseline 3 rosters are archived in the `baselines/` directory as `rosters_<strategy>_baseline_3.csv` (e.g. `rosters_mc_ev_baseline_3.csv`).
-- **Performance Summary**:
-
-  | Season | Strategy | Total Score | Coulda Max | Ceiling % |
-  |---|---|---|---|---|
-  | 2025 | MC_EV | 2136.2 | 4450.2 | 48.0% |
-  | 2025 | MC_Ceil_90 | 1841.4 | 4450.2 | 41.4% |
-  | 2025 | MC_Win_160 | 2063.4 | 4450.2 | 46.4% |
-  | 2026 | MC_EV | 888.0 | 2194.1 | 40.5% |
-  | 2026 | MC_Ceil_90 | 740.9 | 2194.1 | 33.8% |
-  | 2026 | MC_Win_160 | 899.4 | 2194.1 | 41.0% |
+- **Status**: ⚠️ **Superseded**. Compromised by a pipeline execution bug where `03_apply_roster_filter.py` was skipped during backtest, leading to artificially inflated scores.
 
 ### Baseline 4 (DNP-Clean Rolling Features — Corrected Pipeline — 13 July 2026)
-- **Changes / Description**: Resolves the pipeline execution bug in Baseline 3 by correctly invoking `03_apply_roster_filter.py` between the prediction and simulation steps. Predictions, simulations, and optimizations are all executed cleanly from a wiped `predicta/predictions/` folder.
-- **Roster Files**: All Baseline 4 rosters are archived in the `baselines/` directory as `rosters_<strategy>_baseline_4.csv` (e.g. `rosters_mc_ev_baseline_4.csv`).
-- **Performance Summary**:
-
-  | Season | Strategy | Total Score | Coulda Max | Ceiling % |
-  |---|---|---|---|---|
-  | 2025 | MC_EV | 2000.0 | 4679.1 | 42.7% |
-  | 2025 | MC_Ceil_90 | 2023.3 | 4679.1 | 43.2% |
-  | 2025 | MC_Win_160 | 2069.0 | 4679.1 | 44.2% |
-  | 2026 | MC_EV | 784.2 | 2525.0 | 31.1% |
-  | 2026 | MC_Ceil_90 | 785.2 | 2525.0 | 31.1% |
-  | 2026 | MC_Win_160 | 865.2 | 2525.0 | 34.3% |
-
-- **Coulda Max Note**: The 2025 Coulda Max is **4679.1** (13 weeks evaluated) and the 2026 Coulda Max is **2525.0** (7 weeks evaluated).
-- **Interpretation**: Under the true corrected pipeline, the scores are lower across the board than Baseline 3's inflated scores, demonstrating that the old stale predictions had leakage/pollution that artificially inflated Baseline 3. The `mc_win_160` strategy continues to outperform `mc_ev` in both 2026 (**865.2 vs 784.2 pts**) and 2025 (**2069.0 vs 2000.0 pts**). The `mc_ceil_90` strategy performs close to `mc_ev` but is still outperformed by `mc_win_160`.
+- **Status**: ⚠️ **Superseded**. The true leak-free baseline for DNP-cleaned features. Established a true score of 2000.0 pts for MC_EV in 2025 (42.7% Ceiling).
 
 ### Baseline 5 (Asymmetric Class Weighting — Optimal Boom Weight 2.0 — 14 July 2026)
-- **Changes / Description**: Merged the optimal asymmetric class weighting logic (Boom weight = 2.0) into the main GBDT classifier (`02_predict_probabilities.py`). This penalizes missed Booms during classifier training, directly addressing the low Boom recall bottleneck.
-- **Roster Files**: All Baseline 5 rosters are archived in the `baselines/` directory as `rosters_<strategy>_baseline_5.csv` (e.g. `rosters_mc_ev_baseline_5.csv`).
-- **Performance Summary**:
-
-  | Season | Strategy | Total Score | Coulda Max | Ceiling % |
-  |---|---|---|---|---|
-  | 2025 | MC_EV | 2222.3 | 4679.1 | 47.5% |
-  | 2025 | MC_Ceil_90 | 1868.2 | 4679.1 | 39.9% |
-  | 2025 | MC_Win_160 | 2044.8 | 4679.1 | 43.7% |
-  | 2026 | MC_EV | 1046.7 | 2525.0 | 41.5% |
-  | 2026 | MC_Ceil_90 | 695.0 | 2525.0 | 27.5% |
-  | 2026 | MC_Win_160 | 1203.8 | 2525.0 | 47.7% |
-
-- **Interpretation**: The introduction of asymmetric class weighting (optimal weight = 2.0) is a massive performance breakout. The primary `MC_EV` strategy increases by **+222.3 pts** in 2025 (p = 0.0436, statistically significant) and **+262.5 pts** in 2026. The tournament-upside `MC_Win_160` strategy explodes by **+338.6 pts** in 2026, reaching **47.7%** of the Coulda ceiling. Conversely, `MC_Ceil_90` degrades under weighted training, confirming it should be deprecated in favor of `MC_EV` and `MC_Win_160`.
-
-> [Slim/Default Warning Block]
-> **Question Mark Over MC Ceil 90 Strategy:**
-> Baseline 5 and 6 confirm that the `MC_Ceil_90` strategy consistently underperforms and degrades when class weighting is applied. It is recommended to deprecate `MC_Ceil_90` in production in favor of `MC_EV` and `MC_Win_160`.
+- **Status**: ⚠️ **Superseded**. Applied an optimal class weight of 2.0 to penalize missed Booms, which resulted in a massive breakout for tournament strategies and overall EV.
 
 ### Baseline 6 (Optimal Weight 2.0 + Pool Blending K=15 — 15 July 2026)
-- **Changes / Description**: Enabled Smooth MC Historical Pool Blending ($K=15$) in production. This blends low-sample player score histories with position group pools, eliminating the sharp 5-game cutoff and regularizing simulated score variance.
-- **Roster Files**: All Baseline 6 rosters are archived in the `baselines/` directory as `rosters_<strategy>_baseline_6.csv` (e.g. `rosters_mc_ev_baseline_6.csv`).
-- **Performance Summary**:
-
-  | Season | Strategy | Total Score | Coulda Max | Ceiling % | Notes (vs. Baseline 5) |
-  |---|---|---|---|---|---|
-  | 2025 | MC_EV | 2271.3 | 4679.1 | 48.5% | **+49.0 pts** (p = 0.0862) |
-  | 2025 | MC_Ceil_90 | 2064.6 | 4679.1 | 44.1% | +196.4 pts |
-  | 2025 | MC_Win_160 | 1952.3 | 4679.1 | 41.7% | -92.5 pts (variance smoothed) |
-  | 2026 | MC_EV | 1062.8 | 2525.0 | 42.1% | **+16.1 pts** |
-  | 2026 | MC_Ceil_90 | 631.7 | 2525.0 | 25.0% | -63.3 pts |
-  | 2026 | MC_Win_160 | 1093.8 | 2525.0 | 43.3% | -110.0 pts (variance smoothed) |
-
-- **Interpretation**: Pool Blending ($K=15$) provides a consistent standalone improvement for the primary `MC_EV` strategy across both seasons (+49.0 pts in 2025, +16.1 pts in 2026). However, because blending regularizes low-sample distributions and smooths out tail variance, it acts as a drag on high-upside tournament strategies (`MC_Win_160`) which thrive on extreme outlier scores.
+- **Status**: ⚠️ **Superseded**. Enabled Smooth MC Historical Pool Blending ($K=15$), providing consistent standalone improvement for the primary `MC_EV` strategy across both seasons.
 
 ### Baseline 7 (DNP Feature Pollution Fix — 15 July 2026)
-- **Changes / Description**: Resolved the DNP feature pollution bug in the prediction averages calculation (`02_predict_probabilities.py`), ensuring that `isDNP` rows are excluded before calculating rolling player averages (`p_avgs`), season-to-date averages (`std_avgs`), and historical overall averages (`overall_avgs`).
-- **Roster Files**: All Baseline 7 rosters are archived in the `baselines/` directory as `rosters_<strategy>_baseline_7.csv` (e.g. `rosters_mc_ev_baseline_7.csv`).
-- **Performance Summary**:
-
-  | Season | Strategy | Total Score | Coulda Max | Ceiling % | Notes (vs. Baseline 6) |
-  |---|---|---|---|---|---|
-  | 2025 | MC_EV | 2217.9 | 4679.1 | 47.4% | -53.4 pts (p = 0.7143, noise) |
-  | 2025 | MC_Ceil_90 | 1874.1 | 4679.1 | 40.1% | -190.5 pts |
-  | 2025 | MC_Win_160 | 2230.2 | 4679.1 | 47.7% | **+277.9 pts** (major tail breakout!) |
-  | 2026 | MC_EV | 1008.0 | 2525.0 | 39.9% | -54.8 pts (p = 0.5591, noise) |
-  | 2026 | MC_Ceil_90 | 794.3 | 2525.0 | 31.5% | +162.6 pts |
-  | 2026 | MC_Win_160 | 1244.1 | 2525.0 | 49.3% | **+150.3 pts** (major tail breakout!) |
-
-- **Interpretation**: While the primary `MC_EV` strategy showed small, statistically insignificant score drops (which are pure noise, p = 0.71 for 2025 and 0.56 for 2026), the underlying prediction accuracy metrics improved across the board (Pearson Correlation increased by **+0.042** in 2025 and **+0.055** in 2026; MAE/RMSE dropped).
-  Most importantly, the tournament-upside `MC_Win_160` strategy saw an absolute explosion, gaining **+277.9 pts** in 2025 and **+150.3 pts** in 2026 (reaching **49.3%** of the ceiling). Under polluted features, elite players returning from injury had suppressed averages, causing the simulator to underestimate their chance of hitting high scores. Restoring their proper averages allowed the simulator to correctly model their high-scoring tail probabilities, enabling the `MC_Win_160` optimizer to build highly optimized tournament rosters.
+- **Status**: ⚠️ **Superseded**. Fixed a DNP feature pollution bug in prediction averages. This correctly modeled tail probabilities, causing tournament strategies (`MC_Win_160`) to explode in scoring.
 
 ### Baseline 8 (Codebase Audit & Fallback Fixes — 15 July 2026)
-- **Changes / Description**: Implemented fixes for multiple medium and low priority bugs found in a deep codebase audit. Key changes: Replaced the `TotalFantasyPoints.mean()` fallback with `0.0` for missing stats, standardized missing salary fallbacks to $15, fixed `df_test.fillna(1.0)` to only target matchup columns (preventing rookie stats from being hardcoded to 1.0), and fixed string parsing bugs in the Monte Carlo bake phase.
-- **Roster Files**: All Baseline 8 rosters are archived in the `baselines/` directory as `rosters_<strategy>_baseline_8.csv`.
-- **Performance Summary**:
-
-  | Season | Strategy | Total Score | Coulda Max | Ceiling % | Notes (vs. Baseline 7) |
-  |---|---|---|---|---|---|
-  | 2025 | MC_EV | 2112.8 | 4679.1 | 45.2% | -105.1 pts (corrections removed artificial leverage) |
-  | 2025 | MC_Ceil_90 | 2142.8 | 4679.1 | 45.8% | **+268.7 pts** |
-  | 2025 | MC_Win_160 | 2314.3 | 4679.1 | 49.5% | **+84.1 pts** |
-  | 2026 | MC_EV | 989.3 | 2525.0 | 39.2% | -18.7 pts (noise) |
-  | 2026 | MC_Ceil_90 | 889.2 | 2525.0 | 35.2% | +94.9 pts |
-  | 2026 | MC_Win_160 | 1051.1 | 2525.0 | 41.6% | -193.0 pts |
-
-- **Interpretation**: The codebase fixes significantly smoothed and corrected the baseline. `MC_EV` dropped slightly, showing that the previous inflated score was partly due to the buggy fill-values acting as artificial leverage for certain subsets of players (like rookies getting 1.0 for all stats). `MC_Win_160` went up by 84.1 in 2025 and down by 193.0 in 2026, continuing to beat `MC_EV` overall. `MC_Ceil_90` gained tremendously (+268.7 in 2025 and +94.9 in 2026). This establishes a robust, mathematically sound baseline free of known statistical leakage.
+- **Status**: ⚠️ **Superseded by Baseline 9**. Implemented fixes for multiple medium and low priority bugs (missing stat fallbacks, string parsing bugs). Smoothed and corrected the baseline to be fully leak-free and bug-free prior to Salary feature integration.
 
 ### Baseline 9 (Market Consensus: Salary As Feature — 16 July 2026)
 - **Changes / Description**: Set `SALARY_AS_FEATURE = True` in production config. This incorporates normalized salary percentile into the model to provide a strong consensus signal (resolving Item 9).
