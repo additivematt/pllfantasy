@@ -89,7 +89,10 @@ def main():
         # Fallback to per-year files if all_players_stats.json missing
         df_all = pd.concat([load_stats_json(os.path.join(sDir, f"combined_player_stats_{yr}.json")) for yr in range(2023, args.year + 1) if os.path.exists(os.path.join(sDir, f"combined_player_stats_{yr}.json"))], ignore_index=True)
         df_all = df_all[~((df_all["year"] == args.year) & (df_all["week"] >= args.week))]
-    df_all = df_all.fillna(0)
+    stat_cols = ["shots", "groundBalls", "saves", "faceoffsWon", "assists", "causedTurnovers", "touches", "goalsAgainst"]
+    for c in stat_cols:
+        if c in df_all.columns:
+            df_all[c] = df_all[c].fillna(0)
 
     # Compute rolling game pace features
     df_all, test_pace_map, test_expected_goals, league_avg_pace, global_avg_goals = compute_game_pace_features(
@@ -122,7 +125,12 @@ def main():
         df_all["pairing_rating"], df_all["opponent_rating"], df_all["player_vs_team_rating"], df_all["team_def_rating"] = 1.0, 1.0, 1.0, 1.0
 
     def calc_player_avgs(grp):
-        grp_active = grp[grp["isDNP"] != True]
+        is_goalie = (grp["positionGroup"] == "Goalie")
+        saves = grp["saves"] if "saves" in grp.columns else 0
+        ga = grp["goalsAgainst"] if "goalsAgainst" in grp.columns else 0
+        fp = grp["TotalFantasyPoints"] if "TotalFantasyPoints" in grp.columns else 0
+        goalie_played = (saves > 0) | (ga > 0) | (fp > 0)
+        grp_active = grp[(grp["isDNP"] != True) & (~is_goalie | goalie_played)]
         use_grp = grp_active if not grp_active.empty else grp
         res = {
             "fp_season_avg": use_grp["TotalFantasyPoints"].mean(),
@@ -137,8 +145,8 @@ def main():
                 res[f"{c}_season_avg"] = use_grp[c].mean()
                 res[f"{c}_last3_avg"] = use_grp[c].tail(3).mean()
             else:
-                res[f"{c}_season_avg"] = use_grp["TotalFantasyPoints"].mean()
-                res[f"{c}_last3_avg"] = use_grp["TotalFantasyPoints"].tail(3).mean()
+                res[f"{c}_season_avg"] = 0.0
+                res[f"{c}_last3_avg"] = 0.0
         res["last_startTime"] = use_grp["startTime"].iloc[-1] if "startTime" in use_grp.columns and not use_grp.empty else 0
         return pd.Series(res)
 
@@ -257,12 +265,7 @@ def main():
                     if hist_avg_sal:
                         salary = int(round(hist_avg_sal))
                     else:
-                        std_avg = std_avgs.get((first, last), 0)
-                        if std_avg > 0:
-                            salary = int(round(std_avg))
-                        else:
-                            overall_avg = overall_avgs.get((first, last), 0)
-                            salary = int(round(overall_avg)) if overall_avg > 0 else 10
+                        salary = 15
                     
             roster_rows.append({
                 "firstName": first,
@@ -490,8 +493,9 @@ def main():
                         fp_avg = float(matched.iloc[0].get("fp_season_avg", 0) or 0) if not matched.empty else 0.0
                         opp_goalie_players.append({"fp_avg": fp_avg, "is_active": is_active})
 
-            hist_ssdm_avg = hist_opp[hist_opp["subPosition"] == "SSDM"].groupby("eventId").size().mean() if not hist_opp.empty else None
-            hist_def_avg = hist_opp[hist_opp["subPosition"] == "Defensemen"].groupby("eventId").size().mean() if not hist_opp.empty else None
+            hist_opp_active = hist_opp[hist_opp["isDNP"] != True] if not hist_opp.empty else pd.DataFrame()
+            hist_ssdm_avg = hist_opp_active[hist_opp_active["subPosition"] == "SSDM"].groupby("eventId").size().mean() if not hist_opp_active.empty else None
+            hist_def_avg = hist_opp_active[hist_opp_active["subPosition"] == "Defensemen"].groupby("eventId").size().mean() if not hist_opp_active.empty else None
 
         opp_ssdm_h = min(1.0, active_ssdm / hist_ssdm_avg) if (hist_ssdm_avg and hist_ssdm_avg > 0 and opp_players) else 1.0
         opp_def_h = min(1.0, active_def / hist_def_avg) if (hist_def_avg and hist_def_avg > 0 and opp_players) else 1.0
@@ -539,9 +543,19 @@ def main():
             tm = t_df.apply(lambda r: get_feats(r, m_by_g.get(m["game_id"], {}).get("matchups", [])), axis=1, result_type='expand')
             t_df["pairing_rating"], t_df["opponent_rating"], t_df["player_vs_team_rating"], t_df["team_def_rating"] = tm[0], tm[1], tm[2], tm[3]
             test_rows.append(t_df)
-    df_test = pd.concat(test_rows, ignore_index=True).fillna(1.0)
-
-    # Scale matchup ratings by game pace (Option C) — gated by config.GAME_PACE_ENABLED
+    
+    if not test_rows:
+        print("[ERROR] No test rows generated.")
+        return df_all, pd.DataFrame()
+        
+    df_test = pd.concat(test_rows, ignore_index=True)
+    matchup_cols = ["pairing_rating", "opponent_rating", "player_vs_team_rating", "team_def_rating", "team_faceoff_advantage"]
+    for mc in matchup_cols:
+        if mc in df_test.columns:
+            df_test[mc] = df_test[mc].fillna(1.0)
+    df_test = df_test.fillna(0.0)
+    
+    # Feature Engineering Injectiongs by game pace (Option C) — gated by config.GAME_PACE_ENABLED
     df_test["expected_pace"] = df_test["game_id"].map(test_pace_map).fillna(24.0)
     df_test["game_pace"] = df_test["expected_pace"] / league_avg_pace
     if args.use_pace_scale:
@@ -648,9 +662,9 @@ def main():
         
         base_clf = XGBClassifier(n_estimators=100, random_state=42)
         try:
-            mod = CalibratedClassifierCV(estimator=base_clf, method='isotonic', cv=3)
+            mod = CalibratedClassifierCV(estimator=base_clf, method='isotonic', cv=TimeSeriesSplit(n_splits=3))
         except TypeError:
-            mod = CalibratedClassifierCV(base_estimator=base_clf, method='isotonic', cv=3)
+            mod = CalibratedClassifierCV(base_estimator=base_clf, method='isotonic', cv=TimeSeriesSplit(n_splits=3))
             
         if args.boom_weight != 1.0:
             print(f"  [INFO] Applying asymmetric class weighting: Boom weight = {args.boom_weight}")
@@ -745,7 +759,6 @@ def main():
         try:
             fig, axes = plt.subplots(3, 2, figsize=(18, 24))
             axes_flat = axes.flatten()
-            
             for idx, pg in enumerate(position_groups):
                 ax = axes_flat[idx]
                 plt.sca(ax)

@@ -81,48 +81,7 @@ The following items represent the highest-impact improvements for **prediction a
 - **Success Criteria**: Statistically significant positive shift in Ceiling % across both seasons, completely bypassing the 0% Faceoff classifier plateau.
 - **Status**: ⏳ Pending re-test against Baseline 6.
 
-#### Item 46: Mathematical Pace & Possession Factor Estimation
-- **Problem**: Public GraphQL endpoints supply raw counting statistics but lack true possession tracking. Rolling features like `_last3_avg` and `fp_ewma_4` are heavily distorted by the unadjusted pace of specific matchups rather than reflecting pure individual efficiency.
-- **Why it matters**: A player in a frantic, high-transition game will see inflated volume features, while a player in a slow, settled-six defensive battle will see depressed numbers. Without pace normalization, the model continuously chases historical noise.
-- **Suggested Fix**: Derive a mathematical proxy for possession count per game team-by-team:
-  $$\text{Est. Possessions} = \text{Shots} + \text{Turnovers} - \text{Offensive Rebounds} + \text{Opponent Saves}$$
-  Convert individual player counting stats into normalized rate metrics (e.g., Shots per 10 Possessions) prior to training. Scale projections back up at simulation runtime using the projected combined pace of the upcoming matchup.
-- **A/B Test Plan**: Compare total Ceiling % against Baseline 8.
-- **Results (vs Baseline 8)**:
-  - `MC_EV`: **-219.8** in 2025 (1893.0), **-20.0** in 2026 (969.3).
-  - `MC_Win_160`: **-486.7** in 2025 (1827.6), **-8.9** in 2026 (1042.2).
-  - `MC_Ceil_90`: **-268.6** in 2025 (1874.2), **-108.3** in 2026 (780.9).
-- **Status**: ❌ **Rejected**. Massive degradation across the board. Normalizing the stats into rates before training seems to destroy critical variance and absolute volume signals that the model relies on. Keep `PACE_ADJUSTED_RATES_ENABLED` disabled.
 
-#### Item 47: Long-Pole Matchup Isolation Tiers
-- **Problem**: The Allowance Ratio feature handles defensive strength at a macro, team-wide level. This uniform blending fails to capture when an individual elite coverage defender or short-stick defensive midfielder (SSDM) completely changes the micro-matchup landscape.
-- **Why it matters**: An elite lockdown pole will suppress an individual attackman's target share and efficiency far more than a generic team defense average suggests, leading the optimizer to consistently overvalue heavily marked premium options.
-- **Suggested Fix**: Upgrade the matchup tagger UI ([matcha](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.agents/skills/matchup_tagger/SKILL.md)) to input individual projected defender assignments. Map defensive players to historical "Fantasy Points Allowed per 60 Minutes" performance tiers. Feed these explicit defender-tier weights as coefficients directly into the individual player efficiency models.
-- **A/B Test Plan**: Run backtests utilizing individualized defensive pole tiers as feature inputs. Evaluate the change in precision/recall for premium attackmen matching up against top-tier coverage long-poles vs Baseline 6.
-- **Success Criteria**: Elimination of over-projection errors for premium offensive players drawing shutdown matchups, lifting overall cash game stability.
-- **Status**: ⏳ Pending re-test against Baseline 6.
-
-#### Item 9: Market Consensus (Salary as a Feature) *(moved from Closed)*
-- **Problem**: Stale Baseline 3 test showed a net drag across both seasons ($-193.2$ pts in 2025, $-140.1$ pts in 2026). The model relied heavily on salary, creating an anchoring bias.
-- **Why it matters**: Since Baseline 3 was compromised by stale predictions, we need to verify if salary features genuinely degrade performance when evaluated against the true Baseline 6 (or Baseline 8).
-- **Suggested Fix**: Re-enable `SALARY_AS_FEATURE = True` and run the full backtest.
-- **A/B Test Plan**: Compare total Ceiling % against Baseline 8.
-- **Results (vs Baseline 8)**: 
-  - `MC_EV`: **+50.8** in 2025 (2163.6), **+176.1** in 2026 (1165.4).
-  - `MC_Win_160`: **-96.2** in 2025 (2218.1), **+107.1** in 2026 (1158.2).
-  - `MC_Ceil_90`: **+144.5** in 2025 (2287.3), **+43.2** in 2026 (932.4).
-- **Status**: ✅ **Accepted**. The previous negative results were purely an artifact of data leakage in Baseline 3. On the clean Baseline 8, Salary provides a massive net positive signal across almost all strategies and seasons. This should be enabled in production.
-
-#### Item 10: Player Usage and Field Time Proxy *(moved from Closed)*
-- **Problem**: Stale Baseline 3 test showed degradation in 2025 ($-360.6$ pts) and 2026 ($-139.5$ pts). Touches anomaly overfit to volatile state fluctuations.
-- **Why it matters**: Needs to be re-evaluated against Baseline 8 to check if usage features are actually viable.
-- **Suggested Fix**: Re-enable `USAGE_HEALTH_FEATURES_ENABLED = True` and run the full backtest.
-- **A/B Test Plan**: Compare total Ceiling % against Baseline 8.
-- **Results (vs Baseline 8)**:
-  - `MC_EV`: **+45.2** in 2025 (2158.0), **+116.3** in 2026 (1105.6).
-  - `MC_Win_160`: **-240.0** in 2025 (2074.3), **+5.6** in 2026 (1056.7).
-  - `MC_Ceil_90`: **-15.1** in 2025 (2127.7), **-74.6** in 2026 (814.6).
-- **Status**: ❌ **Rejected**. While it provides a modest boost to the mean expectation (`MC_EV`), it heavily penalizes tournament upside strategies (`MC_Win_160` and `MC_Ceil_90`), likely by over-regularizing the variance for players returning from injury or with fluctuating usage. Item 9 is strictly better. Keep disabled.
 
 ---
 
@@ -265,6 +224,22 @@ To track historical performance changes and maintain auditability across key mil
   | 2026 | MC_Win_160 | 1051.1 | 2525.0 | 41.6% | -193.0 pts |
 
 - **Interpretation**: The codebase fixes significantly smoothed and corrected the baseline. `MC_EV` dropped slightly, showing that the previous inflated score was partly due to the buggy fill-values acting as artificial leverage for certain subsets of players (like rookies getting 1.0 for all stats). `MC_Win_160` went up by 84.1 in 2025 and down by 193.0 in 2026, continuing to beat `MC_EV` overall. `MC_Ceil_90` gained tremendously (+268.7 in 2025 and +94.9 in 2026). This establishes a robust, mathematically sound baseline free of known statistical leakage.
+
+### Baseline 9 (Market Consensus: Salary As Feature — 16 July 2026)
+- **Changes / Description**: Set `SALARY_AS_FEATURE = True` in production config. This incorporates normalized salary percentile into the model to provide a strong consensus signal (resolving Item 9).
+- **Roster Files**: All Baseline 9 rosters are archived in the `baselines/` directory as `rosters_<strategy>_baseline_9.csv`.
+- **Performance Summary**:
+
+  | Season | Strategy | Total Score | Coulda Max | Ceiling % | Notes (vs. Baseline 8) |
+  |---|---|---|---|---|---|
+  | 2025 | MC_EV | 2163.6 | 4679.1 | 46.2% | **+50.8 pts** |
+  | 2025 | MC_Ceil_90 | 2287.3 | 4679.1 | 48.9% | **+144.5 pts** |
+  | 2025 | MC_Win_160 | 2218.1 | 4679.1 | 47.4% | -96.2 pts |
+  | 2026 | MC_EV | 1165.4 | 2525.0 | 46.2% | **+176.1 pts** |
+  | 2026 | MC_Ceil_90 | 932.4 | 2525.0 | 36.9% | **+43.2 pts** |
+  | 2026 | MC_Win_160 | 1158.2 | 2525.0 | 45.9% | **+107.1 pts** |
+
+- **Interpretation**: Re-evaluating the Salary feature against the clean Baseline 8 (instead of the corrupted Baseline 3) reveals it to be a massive net positive. Overall scoring and cash game safety (`MC_EV`) increases enormously. While 2025 `MC_Win_160` degraded, it exploded in 2026, and `MC_Ceil_90` saw massive gains across the board. This is now the official production configuration.
 
 ---
 
@@ -412,6 +387,30 @@ To track historical performance changes and maintain auditability across key mil
 
 ## Graveyard / Rejected Ideas
 
+#### Item 10: Player Usage and Field Time Proxy
+- **Problem**: Stale Baseline 3 test showed degradation in 2025 ($-360.6$ pts) and 2026 ($-139.5$ pts). Touches anomaly overfit to volatile state fluctuations.
+- **Why it matters**: Needs to be re-evaluated against Baseline 8 to check if usage features are actually viable.
+- **Suggested Fix**: Re-enable `USAGE_HEALTH_FEATURES_ENABLED = True` and run the full backtest.
+- **A/B Test Plan**: Compare total Ceiling % against Baseline 8.
+- **Results (vs Baseline 8)**:
+  - `MC_EV`: **+45.2** in 2025 (2158.0), **+116.3** in 2026 (1105.6).
+  - `MC_Win_160`: **-240.0** in 2025 (2074.3), **+5.6** in 2026 (1056.7).
+  - `MC_Ceil_90`: **-15.1** in 2025 (2127.7), **-74.6** in 2026 (814.6).
+- **Status**: ❌ **Rejected**. While it provides a modest boost to the mean expectation (`MC_EV`), it heavily penalizes tournament upside strategies (`MC_Win_160` and `MC_Ceil_90`), likely by over-regularizing the variance for players returning from injury or with fluctuating usage. Item 9 is strictly better. Keep disabled.
+
+#### Item 46: Mathematical Pace & Possession Factor Estimation
+- **Problem**: Public GraphQL endpoints supply raw counting statistics but lack true possession tracking. Rolling features like `_last3_avg` and `fp_ewma_4` are heavily distorted by the unadjusted pace of specific matchups rather than reflecting pure individual efficiency.
+- **Why it matters**: A player in a frantic, high-transition game will see inflated volume features, while a player in a slow, settled-six defensive battle will see depressed numbers. Without pace normalization, the model continuously chases historical noise.
+- **Suggested Fix**: Derive a mathematical proxy for possession count per game team-by-team:
+  $$\text{Est. Possessions} = \text{Shots} + \text{Turnovers} - \text{Offensive Rebounds} + \text{Opponent Saves}$$
+  Convert individual player counting stats into normalized rate metrics (e.g., Shots per 10 Possessions) prior to training. Scale projections back up at simulation runtime using the projected combined pace of the upcoming matchup.
+- **A/B Test Plan**: Compare total Ceiling % against Baseline 8.
+- **Results (vs Baseline 8)**:
+  - `MC_EV`: **-219.8** in 2025 (1893.0), **-20.0** in 2026 (969.3).
+  - `MC_Win_160`: **-486.7** in 2025 (1827.6), **-8.9** in 2026 (1042.2).
+  - `MC_Ceil_90`: **-268.6** in 2025 (1874.2), **-108.3** in 2026 (780.9).
+- **Status**: ❌ **Rejected**. Massive degradation across the board. Normalizing the stats into rates before training seems to destroy critical variance and absolute volume signals that the model relies on. Keep `PACE_ADJUSTED_RATES_ENABLED` disabled.
+
 ### Venue Context (Home/Away Feature)
 - **Status**: ❌ **Rejected**.
 - **Reason**: The PLL operates on a touring model where all teams play at a single venue each weekend, eliminating traditional home field advantage. Proximity Homecoming effects are too speculative and suffer from small sample sizes. Double-game-week rest is already handled by other features.
@@ -501,6 +500,15 @@ A full codebase audit on **1 July 2026** identified 6 distinct leakage sources. 
 - **Impact**: Weight = 2.0 achieved a **statistically significant improvement** over Baseline 4 in 2025 (**+222.3 pts**, +4.8% ceiling, p = **0.0436**) and a major lift in 2026 (**+262.5 pts**, +10.4% ceiling, p = **0.0712**).
 - **Status**: ✅ Done & Kept.
 
+#### Item 9: Market Consensus (Salary as a Feature) ✅ DONE
+- **Problem**: Stale Baseline 3 test showed a net drag across both seasons. The model relied heavily on salary, creating an anchoring bias.
+- **Why it matters**: Since Baseline 3 was compromised by stale predictions, we needed to verify if salary features genuinely degrade performance when evaluated against the true Baseline 8.
+- **Fix**: Re-enabled `SALARY_AS_FEATURE = True` and ran the full backtest.
+- **Results (vs Baseline 8)**: 
+  - `MC_EV`: **+50.8** in 2025, **+176.1** in 2026.
+  - `MC_Win_160`: **-96.2** in 2025, **+107.1** in 2026.
+  - `MC_Ceil_90`: **+144.5** in 2025, **+43.2** in 2026.
+- **Status**: ✅ **Accepted**. The previous negative results were purely an artifact of data leakage in Baseline 3. On the clean Baseline 8, Salary provides a massive net positive signal across almost all strategies and seasons. Implemented as Baseline 9.
 
 #### Baseline 5 Overnight Sweep Verification ✅ DONE
 - **Background**: Swept 15 combination and ablation test configurations overnight in July 2026 to verify all previously tested features against the leak-free, clean Baseline 5 control.

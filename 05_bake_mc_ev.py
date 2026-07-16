@@ -56,10 +56,9 @@ def parse_sim_columns(df):
             name_part = match.group(1)
             game_id = match.group(2)
 
-        name_parts = name_part.split("_")
+        name_parts = name_part.split("_", 1)
         firstName = name_parts[0]
-        lastName = "_".join(name_parts[1:]) if len(name_parts) > 1 else ""
-
+        lastName = name_parts[1] if len(name_parts) > 1 else ""
         col_data = df[col]
         stats_map[(firstName, lastName, game_id)] = {
             "ev":  round(float(col_data.mean()), 2),

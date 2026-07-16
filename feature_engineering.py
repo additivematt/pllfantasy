@@ -67,7 +67,7 @@ def load_all_players_stats(path, target_year, target_week):
             f2p = entry.get("f2p", {})
             evt = entry.get("event", {})
             e_id = evt.get("eventId", "")
-            yr_match = re.search(r'^(\d{4})_', e_id)
+            yr_match = re.search(r'(?:^|-|_)(\d{4})(?:-|_|$)', e_id)
             yr = int(yr_match.group(1)) if yr_match else None
             w = entry.get("week")
             if yr is not None and (yr > target_year or (yr == target_year and w is not None and w >= target_week)):
@@ -560,8 +560,8 @@ def add_matchup_ratings(df_all, matchups_by_game, leakage_fix_enabled):
         return df_all, def_r_final, team_def_final, pair_r_final, pvst_r_final
 
 def assign_tiers_expanding(grp):
-    q25 = grp.expanding(min_periods=10).quantile(0.25).bfill().fillna(8.0)
-    q75 = grp.expanding(min_periods=10).quantile(0.75).bfill().fillna(25.0)
+    q25 = grp.expanding(min_periods=10).quantile(0.25).shift(1).bfill().fillna(8.0)
+    q75 = grp.expanding(min_periods=10).quantile(0.75).shift(1).bfill().fillna(25.0)
     
     conditions = [
         grp < q25,

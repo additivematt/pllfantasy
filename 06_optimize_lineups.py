@@ -41,7 +41,8 @@ def load_historical_data(year, week, script_dir):
         with open(path, encoding="utf-8") as f:
             data = json.load(f)
         for p in data:
-            if yr == year and p.get("week", 1) >= week:
+            is_dnp = p.get("isDNP", False)
+            if (yr == year and p.get("week", 1) >= week) or is_dnp:
                 continue
             ident = p.get("identity", {})
             stats = p.get("stats", {})
@@ -133,6 +134,7 @@ def main():
             
     df_sims = None
     
+    # Override salaries for All-Star week where everyone costs $25
     if args.year == 2026 and args.week == 7:
         df_class['salary'] = 25
         

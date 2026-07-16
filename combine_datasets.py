@@ -90,15 +90,22 @@ def main():
                 
         # Fallback if exact match not found
         if not matched_event_stats and filtered_events:
-            # Extract numbers
-            match1 = re.search(r'(\d+)$', str(event_id))
-            num_to_match = match1.group(1) if match1 else None
-            
+            def get_event_type_and_num(eid):
+                eid = str(eid).lower()
+                m_num = re.search(r'(?:game|quarterfinal|semifinal|championship)[\s_-]*(\d+)', eid)
+                num = m_num.group(1) if m_num else None
+                if 'champ' in eid: return 'champ', num
+                if 'semi' in eid: return 'semi', num
+                if 'quarter' in eid: return 'quarter', num
+                if 'game' in eid: return 'game', num
+                return None, num
+                
+            type1, num1 = get_event_type_and_num(event_id)
             for ev in filtered_events:
                 s_name = ev.get("slugname", "")
-                if num_to_match and s_name:
-                    match2 = re.search(r'(\d+)$', str(s_name))
-                    if match2 and match2.group(1) == num_to_match:
+                if type1 and s_name:
+                    type2, num2 = get_event_type_and_num(s_name)
+                    if type1 == type2 and num1 == num2:
                         matched_event = ev
                         matched_event_stats = ev.get("playerEventStats", {})
                         break
