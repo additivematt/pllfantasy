@@ -18,10 +18,11 @@ except Exception as e:
 
 from xgboost import XGBClassifier, XGBRegressor
 from sklearn.preprocessing import StandardScaler, LabelEncoder
+from sklearn.linear_model import LogisticRegression
 from sklearn.calibration import CalibratedClassifierCV
 from sklearn.model_selection import KFold, TimeSeriesSplit
 from utils import assign_position_group, assign_sub_position, calc_fantasy, clean_name
-from config import GAME_PACE_ENABLED, DATA_LEAKAGE_FIX_ENABLED, EWMA_ENABLED, SALARY_AS_FEATURE, SALARY_AS_FEATURE_POSITIONS, USAGE_HEALTH_FEATURES_ENABLED
+from config import GAME_PACE_ENABLED, DATA_LEAKAGE_FIX_ENABLED, EWMA_ENABLED, SALARY_AS_FEATURE, SALARY_AS_FEATURE_POSITIONS, USAGE_HEALTH_FEATURES_ENABLED, FACEOFF_HEURISTIC_ENABLED
 from feature_engineering import (
     TEAM_NAME_TO_ID,
     FEATURE_LISTS,
@@ -609,6 +610,168 @@ def main():
         tp = df_test[df_test["positionGroup"] == pg].copy()
         if len(df_pg) < 15 or tp.empty: continue
         
+        if pg == "Faceoff" and FACEOFF_HEURISTIC_ENABLED:
+            print("  [INFO] Running Faceoff Bradley-Terry & Generative Heuristic instead of GBDT...")
+            
+            # A. Fit Bradley-Terry Model on df_train
+            df_train_fo = df_train[(df_train["positionGroup"] == "Faceoff") & (df_train["faceoffs"] > 0)].copy()
+            
+            matchup_dataset = []
+            for g_id, g_df in df_train_fo.groupby("eventId"):
+                teams = g_df["team"].dropna().unique()
+                if len(teams) >= 2:
+                    t1, t2 = teams[0], teams[1]
+                    p1_rows = g_df[g_df["team"] == t1].sort_values(by="faceoffs", ascending=False)
+                    p2_rows = g_df[g_df["team"] == t2].sort_values(by="faceoffs", ascending=False)
+                    if not p1_rows.empty and not p2_rows.empty:
+                        p1 = p1_rows.iloc[0]
+                        p2 = p2_rows.iloc[0]
+                        matchup_dataset.append({
+                            "player_a": f"{p1['firstName']} {p1['lastName']}",
+                            "player_b": f"{p2['firstName']} {p2['lastName']}",
+                            "fow_a": p1["faceoffsWon"],
+                            "fow_b": p2["faceoffsWon"]
+                        })
+            
+            fo_players = sorted(list(df_train_fo.apply(lambda r: f"{r['firstName']} {r['lastName']}", axis=1).unique()))
+            
+            player_ratings = {}
+            if fo_players and matchup_dataset:
+                player_to_idx = {p: i for i, p in enumerate(fo_players)}
+                X_bt = []
+                y_bt = []
+                w_bt = []
+                for m in matchup_dataset:
+                    pa = m["player_a"]
+                    pb = m["player_b"]
+                    wa = m["fow_a"]
+                    wb = m["fow_b"]
+                    tot = wa + wb
+                    if tot == 0: continue
+                    
+                    x_vec = np.zeros(len(fo_players))
+                    x_vec[player_to_idx[pa]] = 1.0
+                    x_vec[player_to_idx[pb]] = -1.0
+                    
+                    X_bt.append(x_vec)
+                    y_bt.append(1.0)
+                    w_bt.append(wa)
+                    
+                    X_bt.append(x_vec)
+                    y_bt.append(0.0)
+                    w_bt.append(wb)
+                
+                if X_bt:
+                    X_bt = np.array(X_bt)
+                    y_bt = np.array(y_bt)
+                    w_bt = np.array(w_bt)
+                    bt_model = LogisticRegression(fit_intercept=False, C=1.0)
+                    bt_model.fit(X_bt, y_bt, sample_weight=w_bt)
+                    ratings = bt_model.coef_[0]
+                    player_ratings = {fo_players[i]: ratings[i] for i in range(len(fo_players))}
+            
+            # B. Compute player-specific shrunk stats
+            df_train_fo_active = df_train_fo[df_train_fo["faceoffs"] > 0]
+            
+            global_gb_rate = df_train_fo_active["groundBalls"].sum() / max(1, df_train_fo_active["faceoffsWon"].sum())
+            global_ct_rate = df_train_fo_active["causedTurnovers"].mean()
+            global_a_rate = df_train_fo_active["assists"].mean()
+            global_g_rate = df_train_fo_active["goals"].mean()
+            
+            if pd.isna(global_gb_rate) or global_gb_rate == 0: global_gb_rate = 0.49
+            if pd.isna(global_ct_rate) or global_ct_rate == 0: global_ct_rate = 0.26
+            if pd.isna(global_a_rate) or global_a_rate == 0: global_a_rate = 0.16
+            if pd.isna(global_g_rate) or global_g_rate == 0: global_g_rate = 0.35
+            
+            player_sums = {}
+            for (f_name, l_name), grp in df_train_fo_active.groupby(["firstName", "lastName"]):
+                player_sums[(f_name, l_name)] = {
+                    "games": len(grp),
+                    "faceoffsWon": grp["faceoffsWon"].sum(),
+                    "groundBalls": grp["groundBalls"].sum(),
+                    "causedTurnovers": grp["causedTurnovers"].sum(),
+                    "assists": grp["assists"].sum(),
+                    "goals": grp["goals"].sum()
+                }
+            
+            # C. Predict on test week
+            test_fo_by_team = {}
+            for _, r in tp.iterrows():
+                test_fo_by_team.setdefault(r["team"], []).append(f"{r['firstName']} {r['lastName']}")
+                
+            for _, r in tp.iterrows():
+                pN = f"{r['firstName']} {r['lastName']}"
+                opp_team = r["opponent"]
+                opp_fos = test_fo_by_team.get(opp_team, [])
+                opp_pN = opp_fos[0] if opp_fos else None
+                
+                r_a = player_ratings.get(pN, 0.0)
+                r_b = player_ratings.get(opp_pN, 0.0) if opp_pN else 0.0
+                
+                p_win = 1.0 / (1.0 + np.exp(-(r_a - r_b)))
+                
+                exp_goals = test_pace_map.get(r["game_id"], 24.0)
+                N = 4.0 + exp_goals
+                
+                fow = N * p_win
+                
+                p_key = (r["firstName"], r["lastName"])
+                p_data = player_sums.get(p_key, {"games": 0, "faceoffsWon": 0, "groundBalls": 0, "causedTurnovers": 0, "assists": 0, "goals": 0})
+                
+                games = p_data["games"]
+                fow_sum = p_data["faceoffsWon"]
+                gb_sum = p_data["groundBalls"]
+                ct_sum = p_data["causedTurnovers"]
+                a_sum = p_data["assists"]
+                g_sum = p_data["goals"]
+                
+                # Shrink ground balls per FOW (K=20 faceoffs won prior)
+                if fow_sum > 0:
+                    gb_per_fow = gb_sum / fow_sum
+                    gb_rate_shrunk = (fow_sum / (fow_sum + 20.0)) * gb_per_fow + (20.0 / (fow_sum + 20.0)) * global_gb_rate
+                else:
+                    gb_rate_shrunk = global_gb_rate
+                    
+                # Shrink other stats per game (K=3.0 games prior)
+                ct_rate_shrunk = (games / (games + 3.0)) * (ct_sum / max(1, games)) + (3.0 / (games + 3.0)) * global_ct_rate
+                a_rate_shrunk = (games / (games + 3.0)) * (a_sum / max(1, games)) + (3.0 / (games + 3.0)) * global_a_rate
+                g_rate_shrunk = (games / (games + 3.0)) * (g_sum / max(1, games)) + (3.0 / (games + 3.0)) * global_g_rate
+                
+                opp_def_scale = r.get("team_def_rating", 1.0)
+                a_rate_shrunk = a_rate_shrunk * opp_def_scale
+                g_rate_shrunk = g_rate_shrunk * opp_def_scale
+                
+                ev = 0.8 * fow - 0.5 * (N - fow) + gb_rate_shrunk * fow + 10.0 * ct_rate_shrunk + 7.0 * a_rate_shrunk + 10.0 * g_rate_shrunk
+                
+                # D. Convert to pseudo-BoomProbability and pseudo-PredictedTier
+                fo_train_tiers = df_train[(df_train["positionGroup"] == "Faceoff") & (df_train["PerformanceTier"].notna())]
+                boom_avg = fo_train_tiers[fo_train_tiers["PerformanceTier"] == "Boom"]["TotalFantasyPoints"].mean()
+                nonboom_avg = fo_train_tiers[fo_train_tiers["PerformanceTier"] != "Boom"]["TotalFantasyPoints"].mean()
+                
+                if pd.isna(boom_avg) or boom_avg == 0: boom_avg = 25.0
+                if pd.isna(nonboom_avg) or nonboom_avg == 0: nonboom_avg = 8.0
+                
+                pseudo_p = (ev - nonboom_avg) / (boom_avg - nonboom_avg)
+                pseudo_prob = np.clip(pseudo_p * 100.0, 0.0, 100.0)
+                
+                if pseudo_prob > 50.0:
+                    tier = "Boom"
+                elif pseudo_prob < 20.0:
+                    tier = "Bust"
+                else:
+                    tier = "Average"
+                    
+                preds_out.append({
+                    **r.to_dict(),
+                    "PredictedPoints": round(float(ev), 2),
+                    "PredictedTier": tier,
+                    "BoomProbability": round(float(pseudo_prob), 1),
+                    "fo_win_prob": round(float(p_win) * 100, 1),
+                    "expected_fow": round(float(fow), 2),
+                    "expected_fot": round(float(N), 2)
+                })
+            continue
+        
         # 1. Stacking: Out-of-fold point predictions on training data (5-Fold CV using TimeSeriesSplit)
         df_pg["PredictedPoints"] = 0.0
         tscv = TimeSeriesSplit(n_splits=5)
@@ -717,7 +880,14 @@ def main():
         
         bI = list(le.classes_).index("Boom") if "Boom" in le.classes_ else -1
         for i, (_, r) in enumerate(tp.iterrows()):
-            preds_out.append({**r.to_dict(), "PredictedTier": pL[i], "BoomProbability": round(pP[i][bI]*100, 1) if bI >= 0 else 0})
+            preds_out.append({
+                **r.to_dict(),
+                "PredictedTier": pL[i],
+                "BoomProbability": round(pP[i][bI]*100, 1) if bI >= 0 else 0,
+                "fo_win_prob": 0.0,
+                "expected_fow": 0.0,
+                "expected_fot": 0.0
+            })
 
     # 6. Generate consolidated Feature Importance and SHAP plots
     fi_dir = os.path.join(sDir, "predicta", "predictions", "feature_importance", f"week{args.week}_{args.year}")

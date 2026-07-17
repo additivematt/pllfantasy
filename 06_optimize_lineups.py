@@ -15,7 +15,7 @@ from utils import (
     evaluate_lineup_mc,
     run_local_search
 )
-from config import DEFAULT_WIN_SCORE_THRESHOLD, LOCAL_SEARCH_RESTARTS, DEFAULT_BUDGET
+from config import DEFAULT_WIN_SCORE_THRESHOLD, LOCAL_SEARCH_RESTARTS, DEFAULT_BUDGET, FACEOFF_HEURISTIC_ENABLED
 
 def get_granular_pos(p):
     pos = p.get('subPosition') or p.get('positionGroup') or p.get('position')
@@ -124,6 +124,84 @@ def main():
 
     # Load datasets
     df_class = pd.read_csv(class_file)
+    
+    print("\n" + "=" * 60)
+    print("           WEEKLY FACEOFF MATCHUP ADVISORY REPORT")
+    print("=" * 60)
+    
+    if FACEOFF_HEURISTIC_ENABLED and "fo_win_prob" in df_class.columns:
+        df_fo = df_class[df_class["positionGroup"] == "Faceoff"]
+        game_groups = df_fo.groupby("game_id")
+        
+        matchups_data = []
+        for g_id, g_df in game_groups:
+            if len(g_df) >= 2:
+                p1 = g_df.iloc[0]
+                p2 = g_df.iloc[1]
+                
+                if p1["PredictedPoints"] >= p2["PredictedPoints"]:
+                    winner = f"{p1['firstName']} {p1['lastName']}"
+                    loser = f"{p2['firstName']} {p2['lastName']}"
+                    diff = p1["PredictedPoints"] - p2["PredictedPoints"]
+                else:
+                    winner = f"{p2['firstName']} {p2['lastName']}"
+                    loser = f"{p1['firstName']} {p1['lastName']}"
+                    diff = p2["PredictedPoints"] - p1["PredictedPoints"]
+                    
+                matchups_data.append({
+                    "game": f"{p1['team']} vs {p2['team']}",
+                    "p1_name": f"{p1['firstName']} {p1['lastName']}",
+                    "p1_team": p1["team"],
+                    "p1_prob": p1["fo_win_prob"],
+                    "p1_ev": p1["PredictedPoints"],
+                    "p1_fow": p1["expected_fow"],
+                    
+                    "p2_name": f"{p2['firstName']} {p2['lastName']}",
+                    "p2_team": p2["team"],
+                    "p2_prob": p2["fo_win_prob"],
+                    "p2_ev": p2["PredictedPoints"],
+                    "p2_fow": p2["expected_fow"],
+                    
+                    "fot": p1["expected_fot"],
+                    "winner": winner,
+                    "diff": diff,
+                    "max_ev": max(p1["PredictedPoints"], p2["PredictedPoints"])
+                })
+            elif len(g_df) == 1:
+                p = g_df.iloc[0]
+                matchups_data.append({
+                    "game": f"{p['team']} vs {p['opponent']}",
+                    "p1_name": f"{p['firstName']} {p['lastName']}",
+                    "p1_team": p["team"],
+                    "p1_prob": p["fo_win_prob"],
+                    "p1_ev": p["PredictedPoints"],
+                    "p1_fow": p["expected_fow"],
+                    
+                    "p2_name": "Unknown Opponent",
+                    "p2_team": p["opponent"],
+                    "p2_prob": 100.0 - p["fo_win_prob"],
+                    "p2_ev": 0.0,
+                    "p2_fow": p["expected_fot"] - p["expected_fow"],
+                    
+                    "fot": p["expected_fot"],
+                    "winner": f"{p['firstName']} {p['lastName']}",
+                    "diff": p["PredictedPoints"],
+                    "max_ev": p["PredictedPoints"]
+                })
+                
+        matchups_data = sorted(matchups_data, key=lambda x: x["max_ev"], reverse=True)
+        
+        for idx, m in enumerate(matchups_data, 1):
+            print(f"\n{idx}. Game: {m['game']} (Projected Volume: {m['fot']:.1f} faceoffs)")
+            print(f"  - {m['p1_name']} ({m['p1_team']}): Win Prob {m['p1_prob']:.1f}% | Exp FOW: {m['p1_fow']:.1f} | Expected Points: {m['p1_ev']:.2f}")
+            print(f"  - {m['p2_name']} ({m['p2_team']}): Win Prob {m['p2_prob']:.1f}% | Exp FOW: {m['p2_fow']:.1f} | Expected Points: {m['p2_ev']:.2f}")
+            print(f"  * Matchup Winner: {m['winner']} (by +{m['diff']:.2f} pts expected edge)")
+            
+        if matchups_data:
+            print(f"\n* Best FO Game to Target: {matchups_data[0]['game']} ({matchups_data[0]['winner']} projected for {matchups_data[0]['max_ev']:.2f} points)")
+    else:
+        print("  [WARN] No custom faceoff columns found in predictions CSV.")
+    print("=" * 60 + "\n")
     
     # Load pre-computed stats (Item 11) if available, otherwise compute dynamically
     stats_file = os.path.join(predictions_dir, f"week{args.week}_{args.year}_simulation_stats.json")

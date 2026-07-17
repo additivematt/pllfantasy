@@ -51,6 +51,14 @@ function buildTooltipBodyHtml(p, maxCeiling, advisorBadge = false) {
         ? `<span style="font-size:0.65rem; color:#ff00ff; border:1px solid #ff00ff; padding:2px 4px; border-radius:3px; float:right; margin-top:3px; font-weight:700;">ADVISOR SELECT</span>`
         : `<span style="font-size:0.75rem; color:#8b949e; font-weight:normal; float:right; margin-top:4px;">${p.team} - ${p.position || p.positionGroup}</span>`;
 
+    let foGridHtml = '';
+    if (p.fo_win_prob !== undefined && p.fo_win_prob !== null && p.fo_win_prob > 0) {
+        foGridHtml = `
+            <div class="tooltip-row"><span class="tooltip-label">FO Win Prob</span><span class="tooltip-value" style="color: ${p.fo_win_prob > 50 ? '#00ff88' : p.fo_win_prob < 50 ? '#ff4444' : '#ffffff'}">${p.fo_win_prob.toFixed(1)}%</span></div>
+            <div class="tooltip-row"><span class="tooltip-label">Exp FOW/FOT</span><span class="tooltip-value">${p.expected_fow.toFixed(1)} / ${p.expected_fot.toFixed(1)}</span></div>
+        `;
+    }
+
     return `
         <div class="tooltip-header">${p.firstName} ${p.lastName} ${advisorTag}</div>
         <div class="tooltip-grid">
@@ -60,6 +68,7 @@ function buildTooltipBodyHtml(p, maxCeiling, advisorBadge = false) {
             <div class="tooltip-row"><span class="tooltip-label">Risk (\u03c3)</span><span class="tooltip-value" style="color: ${p.mc_std > 20 ? '#ff4444' : p.mc_std > 12 ? '#fdae61' : '#6dbe6d'}">${(p.mc_std != null ? p.mc_std : 0).toFixed(1)}</span></div>
             <div class="tooltip-row"><span class="tooltip-label">Season Avg</span><span class="tooltip-value">${(p.fp_season_avg || 0).toFixed(1)}</span></div>
             <div class="tooltip-row"><span class="tooltip-label">Boom Prob</span><span class="tooltip-value" style="color: rgba(255,255,255,0.55)">${(p.BoomProbability || 0).toFixed(0)}%</span></div>
+            ${foGridHtml}
         </div>
         <div class="range-bar-section">
             <div class="range-bar-title">MC Projections Range (EV: <span style="color:#00ffff">${ev.toFixed(1)}</span> pts)</div>
