@@ -3,12 +3,20 @@ import json
 import os
 import re
 import requests
+import sys
 from collections import Counter
 from config import (
     F2P_LEADERBOARD_GROUP_ID,
     F2P_LOCAL_LEAGUE_GROUP_ID,
     F2P_FIREBASE_ID_TOKEN
 )
+
+# Force UTF-8 encoding for standard output and error to avoid Windows cp1252 encoding crashes
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+if hasattr(sys.stderr, "reconfigure"):
+    sys.stderr.reconfigure(encoding="utf-8")
+
 
 def clean_name(n):
     return (n or "").replace("'", "").replace("-", "").replace(".", "").replace(" ", "").lower()
