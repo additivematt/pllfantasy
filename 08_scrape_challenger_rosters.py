@@ -276,6 +276,34 @@ def main():
         json.dump(output_payload, f, indent=2)
 
     print(f"\nSuccess! Scraped data saved to {out_file}")
+
+    # 9. Update unified challenger rosters history file
+    history_file = os.path.join(advisory_dir, "challenger_rosters_history.json")
+    history = {}
+    if os.path.exists(history_file):
+        try:
+            with open(history_file, "r", encoding="utf-8") as f_h:
+                history = json.load(f_h)
+        except Exception as e_h:
+            print(f"Warning: Failed to load existing history file: {e_h}")
+            
+    year_str = str(args.year)
+    week_str = str(args.week)
+    if year_str not in history:
+        history[year_str] = {}
+        
+    history[year_str][week_str] = {
+        "global_top_25_ownership": {item["name"]: item["count"] for item in global_consensus},
+        "local_league_ownership": {item["name"]: item["count"] for item in local_consensus},
+        "local_rivals_rosters": local_rival_rosters
+    }
+    try:
+        with open(history_file, "w", encoding="utf-8") as f_h:
+            json.dump(history, f_h, indent=2)
+        print(f"Successfully updated unified challenger rosters history in {history_file}")
+    except Exception as e_h:
+        print(f"Error: Failed to save updated history file: {e_h}")
+
     print("Tip: If you saw warning logs with unresolved IDs, make sure to run:")
     print(f"   python 01_fetch_f2p_costs.py --week {args.week} --year {args.year}")
     print("   first to retrieve the latest players and their IDs from the server.")
