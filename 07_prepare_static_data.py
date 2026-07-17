@@ -298,7 +298,8 @@ def main():
                 filepath,
                 os.path.join(predictions_folder, f"week{week}_{year}_simulations.csv"),
                 os.path.join(SCRIPTS_DIR, f"season_matchups_{year}.json"),
-                os.path.join(SCRIPTS_DIR, f"f2p_{year}_season.json")
+                os.path.join(SCRIPTS_DIR, f"f2p_{year}_season.json"),
+                os.path.join(SCRIPTS_DIR, "predicta", "advisory", f"week{week}_{year}_consensus_ownership.json")
             ]
             
             if os.path.exists(pred_out) and os.path.exists(adv_out):
