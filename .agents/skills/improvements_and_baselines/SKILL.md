@@ -17,29 +17,29 @@ All improvement ideas, including feature proposals, architectural refactors, sim
 
 ## Target Success Criteria & Evaluation Baseline
 To ensure that changes are mathematically sound and do not degrade model performance:
-- **Baseline Metric**: The table below defines the official baseline backtest metrics established on **15 July 2026** (Baseline 7, optimal asymmetric class weighting + MC historical pool blending K=15 + Predict Probabilities DNP Averages Fix) by running predictions with optimal boom-weights (2.0), pool blending enabled, and DNP-filtered averages calculation.
+- **Baseline Metric**: The table below defines the official baseline backtest metrics established on **17 July 2026** (Baseline 10, Generative Faceoff Heuristic + Salary as a Feature + Asymmetric Class Weighting + Pool Blending).
 
-### Baseline 8 (Codebase Audit & Fallback Fixes — 15 July 2026)
+### Baseline 10 (Bradley-Terry & Generative Heuristic — 17 July 2026)
 
-Established after a comprehensive codebase audit that fixed several critical bugs: replaced the `TotalFantasyPoints.mean()` fallback with `0.0` for missing stats, standardized missing salary fallbacks to $15, fixed `df_test.fillna(1.0)` to only target matchup columns (preventing rookie masking), and fixed various string parsing bugs in the Monte Carlo bake phase.
+Established after integrating the Bradley-Terry matchup win probability model and propensity-shrunk statistics for the Faceoff position, while maintaining the Salary as a Feature GBDT model for other position groups.
 
-| Season | Strategy | Total Score | Coulda Max | Ceiling % | Notes (vs. Baseline 7) |
+| Season | Strategy | Total Score | Coulda Max | Ceiling % | Notes (vs. Baseline 9) |
 |---|---|---|---|---|---|
-| 2025 | MC_EV | 2112.8 | 4679.1 | 45.2% | -105.1 pts (corrections removed artificial leverage) |
-| 2025 | MC_Ceil_90 | 2142.8 | 4679.1 | 45.8% | **+268.7 pts** |
-| 2025 | MC_Win_160 | 2314.3 | 4679.1 | 49.5% | **+84.1 pts** |
-| 2026 | MC_EV | 989.3 | 2525.0 | 39.2% | -18.7 pts (noise) |
-| 2026 | MC_Ceil_90 | 889.2 | 2525.0 | 35.2% | +94.9 pts |
-| 2026 | MC_Win_160 | 1051.1 | 2525.0 | 41.6% | -193.0 pts |
+| 2025 | MC_EV | 2219.3 | 4679.1 | 47.4% | **+134.3 pts** (on identical weeks) |
+| 2025 | MC_Ceil_90 | 2322.8 | 4679.1 | 49.6% | **+35.5 pts** |
+| 2025 | MC_Win_160 | 2290.9 | 4679.1 | 49.0% | **+72.8 pts** |
+| 2026 | MC_EV | 1154.3 | 2525.0 | 45.7% | **-11.1 pts** (noise) |
+| 2026 | MC_Ceil_90 | 934.2 | 2525.0 | 37.0% | **+1.8 pts** |
+| 2026 | MC_Win_160 | 1167.5 | 2525.0 | 46.2% | **+9.3 pts** |
 
 - **Target Threshold**: A proposed feature or logic change will be accepted if it demonstrates a statistically significant improvement over these baselines (paired t-test p-value < 0.05) without increasing runtimes by more than 20%, or if it fixes a critical code health issue without degrading performance.
 - **RNG Reproducibility**: All backtests must run under a fixed random seed to ensure comparison consistency.
 
 > [Safe/Default Mode]
 > **Instructions for AI Agents / Backtesting Rules:**
-> 1. **Do NOT Re-Backtest the Baseline**: When A/B testing a new feature, do not waste compute resources re-running backtests for baseline configurations. All baseline scores are frozen and archived directly in `baselines/rosters_<strategy>_baseline_8.csv` (which includes the `actualPoints` column). Use those existing scores for comparison.
-> 2. **Do NOT Create New Baselines**: Do not establish a new baseline (e.g. Baseline 9) or overwrite Baseline 8 data unless the user explicitly instructs you to do so.
-> 3. **Prior Baselines are superseded**: Baseline 3 through 7 scores are now invalid comparison points due to being superseded. Do not use them for future comparisons.
+> 1. **Do NOT Re-Backtest the Baseline**: When A/B testing a new feature, do not waste compute resources re-running backtests for baseline configurations. All baseline scores are frozen and archived directly in `baselines/rosters_<strategy>_baseline_10.csv` (which includes the `actualPoints` column). Use those existing scores for comparison.
+> 2. **Do NOT Create New Baselines**: Do not establish a new baseline or overwrite Baseline 10 data unless the user explicitly instructs you to do so.
+> 3. **Prior Baselines are superseded**: Baseline 3 through 9 scores are now invalid comparison points due to being superseded. Do not use them for future comparisons.
 
 > [!NOTE]
 > **Baseline 3 Discrepancy Resolved (13 July 2026):**
