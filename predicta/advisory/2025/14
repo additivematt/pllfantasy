@@ -1,17 +1,17 @@
 {
     "MC_EV": [
         {
-            "firstName": "Pat",
-            "lastName": "Kavanagh",
-            "team": "OUT",
-            "opponent": "ATL",
+            "firstName": "Jeff",
+            "lastName": "Teat",
+            "team": "ATL",
+            "opponent": "OUT",
             "game_id": "2025_championship_game",
             "position": "Attack",
-            "salary": 39,
-            "mc_ev": 34.2,
+            "salary": 46,
+            "mc_ev": 35.3,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
-            "actualPoints": 38.0
+            "actualPoints": 71.0
         },
         {
             "firstName": "Brennan",
@@ -21,7 +21,7 @@
             "game_id": "2025_championship_game",
             "position": "Attack",
             "salary": 40,
-            "mc_ev": 34.0,
+            "mc_ev": 34.8,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 25.0
@@ -60,23 +60,23 @@
             "game_id": "2025_championship_game",
             "position": "Midfield",
             "salary": 15,
-            "mc_ev": 21.2,
+            "mc_ev": 21.3,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 22.0
         },
         {
-            "firstName": "Bryan",
-            "lastName": "Costabile",
-            "team": "ATL",
-            "opponent": "OUT",
+            "firstName": "Graham",
+            "lastName": "Bundy",
+            "team": "OUT",
+            "opponent": "ATL",
             "game_id": "2025_championship_game",
             "position": "Midfield",
-            "salary": 28,
-            "mc_ev": 20.5,
+            "salary": 18,
+            "mc_ev": 19.7,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
-            "actualPoints": 14.0
+            "actualPoints": 8.0
         },
         {
             "firstName": "Max",
@@ -101,23 +101,49 @@
             "game_id": "2025_championship_game",
             "position": "Attack",
             "salary": 46,
-            "mc_ev": 34.4,
+            "mc_ev": 35.3,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 71.0
         },
         {
-            "firstName": "Connor",
-            "lastName": "Shellenberger",
+            "firstName": "Brennan",
+            "lastName": "O'Neill",
+            "team": "OUT",
+            "opponent": "ATL",
+            "game_id": "2025_championship_game",
+            "position": "Attack",
+            "salary": 40,
+            "mc_ev": 34.8,
+            "mc_p90": 0.0,
+            "mc_p10": 0.0,
+            "actualPoints": 25.0
+        },
+        {
+            "firstName": "Logan",
+            "lastName": "McNaney",
+            "team": "OUT",
+            "opponent": "ATL",
+            "game_id": "2025_championship_game",
+            "position": "Goalie",
+            "salary": 39,
+            "mc_ev": 31.6,
+            "mc_p90": 0.0,
+            "mc_p10": 0.0,
+            "actualPoints": 24.0
+        },
+        {
+            "firstName": "Trevor",
+            "lastName": "Baptiste",
             "team": "ATL",
             "opponent": "OUT",
             "game_id": "2025_championship_game",
-            "position": "Attack",
-            "salary": 47,
-            "mc_ev": 33.5,
+            "position": "Faceoff",
+            "salary": 33,
+            "mc_ev": 25.8,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
-            "actualPoints": 35.0
+            "actualPoints": 23.6
         },
         {
             "firstName": "Jared",
@@ -127,7 +153,7 @@
             "game_id": "2025_championship_game",
             "position": "Midfield",
             "salary": 15,
-            "mc_ev": 21.2,
+            "mc_ev": 21.3,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 22.0
@@ -140,7 +166,7 @@
             "game_id": "2025_championship_game",
             "position": "Midfield",
             "salary": 17,
-            "mc_ev": 19.0,
+            "mc_ev": 18.5,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 22.0
@@ -157,32 +183,6 @@
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 2.0
-        },
-        {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2025_championship_game",
-            "position": "Faceoff",
-            "salary": 33,
-            "mc_ev": 25.8,
-            "mc_p90": 0.0,
-            "mc_p10": 0.0,
-            "actualPoints": 23.6
-        },
-        {
-            "firstName": "Logan",
-            "lastName": "McNaney",
-            "team": "OUT",
-            "opponent": "ATL",
-            "game_id": "2025_championship_game",
-            "position": "Goalie",
-            "salary": 39,
-            "mc_ev": 31.6,
-            "mc_p90": 0.0,
-            "mc_p10": 0.0,
-            "actualPoints": 24.0
         }
     ],
     "MC_Ceil_90": [
@@ -194,7 +194,7 @@
             "game_id": "2025_championship_game",
             "position": "Attack",
             "salary": 24,
-            "mc_ev": 32.1,
+            "mc_ev": 33.0,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 19.0
@@ -207,36 +207,10 @@
             "game_id": "2025_championship_game",
             "position": "Attack",
             "salary": 39,
-            "mc_ev": 34.2,
+            "mc_ev": 33.8,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 38.0
-        },
-        {
-            "firstName": "Logan",
-            "lastName": "McNaney",
-            "team": "OUT",
-            "opponent": "ATL",
-            "game_id": "2025_championship_game",
-            "position": "Goalie",
-            "salary": 39,
-            "mc_ev": 31.6,
-            "mc_p90": 0.0,
-            "mc_p10": 0.0,
-            "actualPoints": 24.0
-        },
-        {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2025_championship_game",
-            "position": "Faceoff",
-            "salary": 33,
-            "mc_ev": 25.8,
-            "mc_p90": 0.0,
-            "mc_p10": 0.0,
-            "actualPoints": 23.6
         },
         {
             "firstName": "Jared",
@@ -246,7 +220,7 @@
             "game_id": "2025_championship_game",
             "position": "Midfield",
             "salary": 15,
-            "mc_ev": 21.2,
+            "mc_ev": 21.3,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 22.0
@@ -259,7 +233,7 @@
             "game_id": "2025_championship_game",
             "position": "Midfield",
             "salary": 28,
-            "mc_ev": 20.5,
+            "mc_ev": 20.3,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 14.0
@@ -276,6 +250,32 @@
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": -1.0
+        },
+        {
+            "firstName": "Trevor",
+            "lastName": "Baptiste",
+            "team": "ATL",
+            "opponent": "OUT",
+            "game_id": "2025_championship_game",
+            "position": "Faceoff",
+            "salary": 33,
+            "mc_ev": 25.8,
+            "mc_p90": 0.0,
+            "mc_p10": 0.0,
+            "actualPoints": 23.6
+        },
+        {
+            "firstName": "Logan",
+            "lastName": "McNaney",
+            "team": "OUT",
+            "opponent": "ATL",
+            "game_id": "2025_championship_game",
+            "position": "Goalie",
+            "salary": 39,
+            "mc_ev": 31.6,
+            "mc_p90": 0.0,
+            "mc_p10": 0.0,
+            "actualPoints": 24.0
         }
     ],
     "MC_Consensus": [],
@@ -289,7 +289,7 @@
             "game_id": "2025_championship_game",
             "position": "A",
             "salary": 10,
-            "mc_ev": 34.4,
+            "mc_ev": 35.3,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 71.0
@@ -302,7 +302,7 @@
             "game_id": "2025_championship_game",
             "position": "A",
             "salary": 10,
-            "mc_ev": 34.2,
+            "mc_ev": 33.8,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 38.0
@@ -315,7 +315,7 @@
             "game_id": "2025_championship_game",
             "position": "M",
             "salary": 10,
-            "mc_ev": 16.8,
+            "mc_ev": 16.4,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 33.0
@@ -328,7 +328,7 @@
             "game_id": "2025_championship_game",
             "position": "M",
             "salary": 10,
-            "mc_ev": 21.2,
+            "mc_ev": 21.3,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 22.0
@@ -386,12 +386,12 @@
     "Narrative": {
         "RecommendedRoster": [
             {
-                "firstName": "Pat",
-                "lastName": "Kavanagh",
+                "firstName": "Jeff",
+                "lastName": "Teat",
                 "position": "Attack",
-                "salary": 39,
+                "salary": 46,
                 "bullets": [
-                    "Opponent Weakness: ATL defense allows 25% extra fantasy points to Attack position."
+                    "Matchup Specialist: Historically performs well against OUT (1.26x average scoring rate)."
                 ]
             },
             {
@@ -433,13 +433,12 @@
                 ]
             },
             {
-                "firstName": "Bryan",
-                "lastName": "Costabile",
+                "firstName": "Graham",
+                "lastName": "Bundy",
                 "position": "Midfield",
-                "salary": 28,
+                "salary": 18,
                 "bullets": [
-                    "Matchup Specialist: Historically performs well against OUT (1.30x average scoring rate).",
-                    "Opponent Weakness: OUT defense allows 15% extra fantasy points to Midfield position."
+                    "Opponent Weakness: ATL defense allows 13% extra fantasy points to Midfield position."
                 ]
             },
             {
@@ -458,29 +457,29 @@
                 "strategy": "MC_Win_160",
                 "strategyLabel": "MC Win 160",
                 "in": [
-                    "Jeff Teat",
-                    "Connor Shellenberger",
                     "Reid Bowering"
                 ],
                 "out": [
-                    "Pat Kavanagh",
-                    "Brennan O'Neill",
-                    "Bryan Costabile"
+                    "Graham Bundy"
                 ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Jeff Teat (Attack, 46c), Connor Shellenberger (Attack, 47c), Reid Bowering (Midfield, 17c)) to increase the joint probability of the entire lineup hitting the 160 target score."
+                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Reid Bowering (Midfield, 17c)) to increase the joint probability of the entire lineup hitting the 160 target score."
             },
             {
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
                     "Logan Wisnauskas",
+                    "Pat Kavanagh",
+                    "Bryan Costabile",
                     "JT Giles-Harris"
                 ],
                 "out": [
+                    "Jeff Teat",
                     "Brennan O'Neill",
+                    "Graham Bundy",
                     "Max Krevsky"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Logan Wisnauskas (Attack, 24c), JT Giles-Harris (Defense, 8c)) to maximize the team's 90th percentile ceiling (projecting up to 0.0 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Logan Wisnauskas (Attack, 24c), Pat Kavanagh (Attack, 39c), Bryan Costabile (Midfield, 28c), JT Giles-Harris (Defense, 8c)) to maximize the team's 90th percentile ceiling (projecting up to 0.0 pts)."
             }
         ]
     },

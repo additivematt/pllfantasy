@@ -8,9 +8,9 @@
             "game_id": "2026-ev-2",
             "position": "Attack",
             "salary": 26,
-            "mc_ev": 36.7,
-            "mc_p90": 78.1,
-            "mc_p10": 4.3,
+            "mc_ev": 38.2,
+            "mc_p90": 80.5,
+            "mc_p10": 4.5,
             "actualPoints": 27.0
         },
         {
@@ -21,9 +21,9 @@
             "game_id": "2026-ev-4",
             "position": "Attack",
             "salary": 28,
-            "mc_ev": 36.1,
-            "mc_p90": 61.8,
-            "mc_p10": 7.6,
+            "mc_ev": 35.7,
+            "mc_p90": 61.2,
+            "mc_p10": 7.5,
             "actualPoints": 41.0
         },
         {
@@ -34,23 +34,10 @@
             "game_id": "2026-ev-3",
             "position": "Goalie",
             "salary": 14,
-            "mc_ev": 35.0,
-            "mc_p90": 68.5,
+            "mc_ev": 34.6,
+            "mc_p90": 69.9,
             "mc_p10": 0.0,
             "actualPoints": 36.0
-        },
-        {
-            "firstName": "Jared",
-            "lastName": "Bernhardt",
-            "team": "OUT",
-            "opponent": "ARC",
-            "game_id": "2026-ev-3",
-            "position": "Midfield",
-            "salary": 18,
-            "mc_ev": 22.8,
-            "mc_p90": 43.4,
-            "mc_p10": 0.0,
-            "actualPoints": 19.0
         },
         {
             "firstName": "Matt",
@@ -60,23 +47,36 @@
             "game_id": "2026-ev-4",
             "position": "Midfield",
             "salary": 27,
-            "mc_ev": 22.5,
-            "mc_p90": 50.1,
+            "mc_ev": 24.2,
+            "mc_p90": 54.0,
             "mc_p10": 0.0,
             "actualPoints": 56.0
         },
         {
-            "firstName": "Luke",
-            "lastName": "Wierman",
+            "firstName": "Jared",
+            "lastName": "Bernhardt",
             "team": "OUT",
             "opponent": "ARC",
             "game_id": "2026-ev-3",
-            "position": "Faceoff",
-            "salary": 20,
-            "mc_ev": 20.3,
-            "mc_p90": 38.4,
+            "position": "Midfield",
+            "salary": 18,
+            "mc_ev": 23.1,
+            "mc_p90": 43.5,
             "mc_p10": 0.0,
-            "actualPoints": 17.7
+            "actualPoints": 19.0
+        },
+        {
+            "firstName": "TD",
+            "lastName": "Ierlan",
+            "team": "RED",
+            "opponent": "ARC",
+            "game_id": "2026-ev-1",
+            "position": "Faceoff",
+            "salary": 23,
+            "mc_ev": 20.3,
+            "mc_p90": 32.9,
+            "mc_p10": 7.2,
+            "actualPoints": 12.5
         },
         {
             "firstName": "Jake",
@@ -94,6 +94,19 @@
     ],
     "MC_Win_160": [
         {
+            "firstName": "Jackson",
+            "lastName": "Eicher",
+            "team": "CHA",
+            "opponent": "ATL",
+            "game_id": "2026-ev-2",
+            "position": "Attack",
+            "salary": 26,
+            "mc_ev": 38.2,
+            "mc_p90": 80.5,
+            "mc_p10": 4.5,
+            "actualPoints": 27.0
+        },
+        {
             "firstName": "Rob",
             "lastName": "Pannell",
             "team": "WHP",
@@ -101,36 +114,10 @@
             "game_id": "2026-ev-4",
             "position": "Attack",
             "salary": 28,
-            "mc_ev": 36.1,
-            "mc_p90": 61.8,
-            "mc_p10": 7.6,
+            "mc_ev": 35.7,
+            "mc_p90": 61.2,
+            "mc_p10": 7.5,
             "actualPoints": 41.0
-        },
-        {
-            "firstName": "Michael",
-            "lastName": "Sowers",
-            "team": "WAT",
-            "opponent": "WHP",
-            "game_id": "2026-ev-4",
-            "position": "Attack",
-            "salary": 50,
-            "mc_ev": 34.3,
-            "mc_p90": 53.8,
-            "mc_p10": 14.4,
-            "actualPoints": 51.0
-        },
-        {
-            "firstName": "Jared",
-            "lastName": "Bernhardt",
-            "team": "OUT",
-            "opponent": "ARC",
-            "game_id": "2026-ev-3",
-            "position": "Midfield",
-            "salary": 18,
-            "mc_ev": 22.8,
-            "mc_p90": 43.4,
-            "mc_p10": 0.0,
-            "actualPoints": 19.0
         },
         {
             "firstName": "Matt",
@@ -140,36 +127,49 @@
             "game_id": "2026-ev-4",
             "position": "Midfield",
             "salary": 27,
-            "mc_ev": 22.5,
-            "mc_p90": 50.1,
+            "mc_ev": 24.2,
+            "mc_p90": 54.0,
             "mc_p10": 0.0,
             "actualPoints": 56.0
         },
         {
-            "firstName": "Piper",
-            "lastName": "Bond",
-            "team": "ARC",
-            "opponent": "OUT",
-            "game_id": "2026-ev-3",
-            "position": "Defense",
-            "salary": 8,
-            "mc_ev": 14.5,
-            "mc_p90": 35.3,
-            "mc_p10": 0.0,
-            "actualPoints": -1.0
-        },
-        {
-            "firstName": "Luke",
-            "lastName": "Wierman",
+            "firstName": "Jared",
+            "lastName": "Bernhardt",
             "team": "OUT",
             "opponent": "ARC",
             "game_id": "2026-ev-3",
-            "position": "Faceoff",
-            "salary": 20,
-            "mc_ev": 20.3,
-            "mc_p90": 38.4,
+            "position": "Midfield",
+            "salary": 18,
+            "mc_ev": 23.1,
+            "mc_p90": 43.5,
             "mc_p10": 0.0,
-            "actualPoints": 17.7
+            "actualPoints": 19.0
+        },
+        {
+            "firstName": "Tyler",
+            "lastName": "Carpenter",
+            "team": "ATL",
+            "opponent": "CHA",
+            "game_id": "2026-ev-2",
+            "position": "Defense",
+            "salary": 10,
+            "mc_ev": 14.3,
+            "mc_p90": 39.6,
+            "mc_p10": 1.4,
+            "actualPoints": 2.0
+        },
+        {
+            "firstName": "TD",
+            "lastName": "Ierlan",
+            "team": "RED",
+            "opponent": "ARC",
+            "game_id": "2026-ev-1",
+            "position": "Faceoff",
+            "salary": 23,
+            "mc_ev": 20.3,
+            "mc_p90": 32.9,
+            "mc_p10": 7.2,
+            "actualPoints": 12.5
         },
         {
             "firstName": "Liam",
@@ -179,7 +179,7 @@
             "game_id": "2026-ev-2",
             "position": "Goalie",
             "salary": 47,
-            "mc_ev": 33.9,
+            "mc_ev": 33.8,
             "mc_p90": 53.0,
             "mc_p10": 13.5,
             "actualPoints": 47.0
@@ -194,9 +194,9 @@
             "game_id": "2026-ev-2",
             "position": "Attack",
             "salary": 26,
-            "mc_ev": 36.7,
-            "mc_p90": 78.1,
-            "mc_p10": 4.3,
+            "mc_ev": 38.2,
+            "mc_p90": 80.5,
+            "mc_p10": 4.5,
             "actualPoints": 27.0
         },
         {
@@ -207,62 +207,10 @@
             "game_id": "2026-ev-2",
             "position": "Attack",
             "salary": 12,
-            "mc_ev": 34.6,
-            "mc_p90": 93.9,
+            "mc_ev": 34.8,
+            "mc_p90": 93.2,
             "mc_p10": 6.7,
             "actualPoints": 19.0
-        },
-        {
-            "firstName": "Matt",
-            "lastName": "Brandau",
-            "team": "WHP",
-            "opponent": "WAT",
-            "game_id": "2026-ev-4",
-            "position": "Midfield",
-            "salary": 27,
-            "mc_ev": 22.5,
-            "mc_p90": 50.1,
-            "mc_p10": 0.0,
-            "actualPoints": 56.0
-        },
-        {
-            "firstName": "Ross",
-            "lastName": "Scott",
-            "team": "CHA",
-            "opponent": "ATL",
-            "game_id": "2026-ev-2",
-            "position": "Midfield",
-            "salary": 17,
-            "mc_ev": 21.3,
-            "mc_p90": 67.1,
-            "mc_p10": 0.0,
-            "actualPoints": 17.0
-        },
-        {
-            "firstName": "Carter",
-            "lastName": "Rice",
-            "team": "RED",
-            "opponent": "ARC",
-            "game_id": "2026-ev-1",
-            "position": "Defense",
-            "salary": 4,
-            "mc_ev": 13.3,
-            "mc_p90": 44.5,
-            "mc_p10": 0.0,
-            "actualPoints": 1.0
-        },
-        {
-            "firstName": "Mike",
-            "lastName": "Sisselberger",
-            "team": "ARC",
-            "opponent": "OUT",
-            "game_id": "2026-ev-3",
-            "position": "Faceoff",
-            "salary": 6,
-            "mc_ev": 19.1,
-            "mc_p90": 52.6,
-            "mc_p10": 0.0,
-            "actualPoints": 9.0
         },
         {
             "firstName": "Nick",
@@ -272,10 +220,62 @@
             "game_id": "2026-ev-3",
             "position": "Goalie",
             "salary": 14,
-            "mc_ev": 35.0,
-            "mc_p90": 68.5,
+            "mc_ev": 34.6,
+            "mc_p90": 69.9,
             "mc_p10": 0.0,
             "actualPoints": 36.0
+        },
+        {
+            "firstName": "Matt",
+            "lastName": "Brandau",
+            "team": "WHP",
+            "opponent": "WAT",
+            "game_id": "2026-ev-4",
+            "position": "Midfield",
+            "salary": 27,
+            "mc_ev": 24.2,
+            "mc_p90": 54.0,
+            "mc_p10": 0.0,
+            "actualPoints": 56.0
+        },
+        {
+            "firstName": "Aidan",
+            "lastName": "Danenza",
+            "team": "RED",
+            "opponent": "ARC",
+            "game_id": "2026-ev-1",
+            "position": "Midfield",
+            "salary": 10,
+            "mc_ev": 20.6,
+            "mc_p90": 69.7,
+            "mc_p10": 0.0,
+            "actualPoints": 18.0
+        },
+        {
+            "firstName": "Mike",
+            "lastName": "Sisselberger",
+            "team": "ARC",
+            "opponent": "OUT",
+            "game_id": "2026-ev-3",
+            "position": "Faceoff",
+            "salary": 6,
+            "mc_ev": 19.2,
+            "mc_p90": 52.6,
+            "mc_p10": 0.0,
+            "actualPoints": 9.0
+        },
+        {
+            "firstName": "Carter",
+            "lastName": "Rice",
+            "team": "RED",
+            "opponent": "ARC",
+            "game_id": "2026-ev-1",
+            "position": "Defense",
+            "salary": 4,
+            "mc_ev": 13.7,
+            "mc_p90": 43.5,
+            "mc_p10": 0.0,
+            "actualPoints": 1.0
         }
     ],
     "MC_Consensus": [],
@@ -289,9 +289,9 @@
             "game_id": "2026-ev-1",
             "position": "A",
             "salary": 12,
-            "mc_ev": 29.2,
-            "mc_p90": 65.7,
-            "mc_p10": 1.3,
+            "mc_ev": 28.5,
+            "mc_p90": 63.5,
+            "mc_p10": 1.2,
             "actualPoints": 54.0
         },
         {
@@ -302,9 +302,9 @@
             "game_id": "2026-ev-4",
             "position": "A",
             "salary": 50,
-            "mc_ev": 34.3,
-            "mc_p90": 53.8,
-            "mc_p10": 14.4,
+            "mc_ev": 34.5,
+            "mc_p90": 54.1,
+            "mc_p10": 14.5,
             "actualPoints": 51.0
         },
         {
@@ -315,8 +315,8 @@
             "game_id": "2026-ev-2",
             "position": "M",
             "salary": 10,
-            "mc_ev": 19.4,
-            "mc_p90": 49.0,
+            "mc_ev": 19.1,
+            "mc_p90": 48.6,
             "mc_p10": 0.0,
             "actualPoints": 76.0
         },
@@ -328,9 +328,9 @@
             "game_id": "2026-ev-2",
             "position": "M",
             "salary": 20,
-            "mc_ev": 21.1,
-            "mc_p90": 43.7,
-            "mc_p10": 2.7,
+            "mc_ev": 21.9,
+            "mc_p90": 45.6,
+            "mc_p10": 2.8,
             "actualPoints": 65.0
         },
         {
@@ -341,8 +341,8 @@
             "game_id": "2026-ev-3",
             "position": "D",
             "salary": 3,
-            "mc_ev": 8.9,
-            "mc_p90": 19.7,
+            "mc_ev": 9.0,
+            "mc_p90": 20.6,
             "mc_p10": 0.0,
             "actualPoints": 59.0
         },
@@ -354,7 +354,7 @@
             "game_id": "2026-ev-3",
             "position": "FO",
             "salary": 20,
-            "mc_ev": 20.3,
+            "mc_ev": 19.9,
             "mc_p90": 38.4,
             "mc_p10": 0.0,
             "actualPoints": 17.7
@@ -367,23 +367,36 @@
             "game_id": "2026-ev-2",
             "position": "G",
             "salary": 47,
-            "mc_ev": 33.9,
+            "mc_ev": 33.8,
             "mc_p90": 53.0,
             "mc_p10": 13.5,
             "actualPoints": 47.0
         }
     ],
     "Core": [
+        "Jackson Eicher",
         "Matt Brandau"
     ],
     "Sleepers": [
-        "Carter Rice",
-        "Mike Sisselberger"
+        "Aidan Danenza",
+        "Mike Sisselberger",
+        "Carter Rice"
     ],
     "RecommendedStrategy": "MC_Win_160",
-    "RecommendedReason": "Stars & Scrubs slate (4 games, 68 cheap value players). Optimizing for variance with MC Win 160 is best.",
+    "RecommendedReason": "Stars & Scrubs slate (4 games, 67 cheap value players). Optimizing for variance with MC Win 160 is best.",
     "Narrative": {
         "RecommendedRoster": [
+            {
+                "firstName": "Jackson",
+                "lastName": "Eicher",
+                "position": "Attack",
+                "salary": 26,
+                "bullets": [
+                    "Hot Form: Averaging 33.7 fantasy pts over last 3 games (vs 24.8 season avg).",
+                    "Matchup Specialist: Historically performs well against ATL (1.28x average scoring rate).",
+                    "Opponent Weakness: ATL defense allows 21% extra fantasy points to Attack position."
+                ]
+            },
             {
                 "firstName": "Rob",
                 "lastName": "Pannell",
@@ -395,13 +408,12 @@
                 ]
             },
             {
-                "firstName": "Michael",
-                "lastName": "Sowers",
-                "position": "Attack",
-                "salary": 50,
+                "firstName": "Matt",
+                "lastName": "Brandau",
+                "position": "Midfield",
+                "salary": 27,
                 "bullets": [
-                    "Matchup Specialist: Historically performs well against WHP (1.27x average scoring rate).",
-                    "Opponent Weakness: WHP defense allows 9% extra fantasy points to Attack position."
+                    "Consistent Pick: Selected for steady expected floor (24.2 EV) and reliable role."
                 ]
             },
             {
@@ -414,28 +426,20 @@
                 ]
             },
             {
-                "firstName": "Matt",
-                "lastName": "Brandau",
-                "position": "Midfield",
-                "salary": 27,
-                "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (22.5 EV) and reliable role."
-                ]
-            },
-            {
-                "firstName": "Piper",
-                "lastName": "Bond",
+                "firstName": "Tyler",
+                "lastName": "Carpenter",
                 "position": "Defense",
-                "salary": 8,
+                "salary": 10,
                 "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (14.5 EV) and reliable role."
+                    "Matchup Specialist: Historically performs well against CHA (1.44x average scoring rate).",
+                    "Opponent Weakness: CHA defense allows 11% extra fantasy points to SSDM position."
                 ]
             },
             {
-                "firstName": "Luke",
-                "lastName": "Wierman",
+                "firstName": "TD",
+                "lastName": "Ierlan",
                 "position": "Faceoff",
-                "salary": 20,
+                "salary": 23,
                 "bullets": [
                     "Consistent Pick: Selected for steady expected floor (20.3 EV) and reliable role."
                 ]
@@ -455,13 +459,11 @@
                 "strategy": "MC_EV",
                 "strategyLabel": "MC EV",
                 "in": [
-                    "Jackson Eicher",
                     "Nick Washuta",
                     "Jake Piseno"
                 ],
                 "out": [
-                    "Michael Sowers",
-                    "Piper Bond",
+                    "Tyler Carpenter",
                     "Liam Entenmann"
                 ],
                 "rationale": "Optimizes strictly for the highest average expected points (mean floor) rather than variance or win probability."
@@ -470,22 +472,20 @@
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
-                    "Jackson Eicher",
                     "Adam Charalambides",
-                    "Ross Scott",
-                    "Carter Rice",
+                    "Nick Washuta",
+                    "Aidan Danenza",
                     "Mike Sisselberger",
-                    "Nick Washuta"
+                    "Carter Rice"
                 ],
                 "out": [
                     "Rob Pannell",
-                    "Michael Sowers",
                     "Jared Bernhardt",
-                    "Piper Bond",
-                    "Luke Wierman",
+                    "Tyler Carpenter",
+                    "TD Ierlan",
                     "Liam Entenmann"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Jackson Eicher (Attack, 26c), Adam Charalambides (Attack, 12c), Ross Scott (Midfield, 17c), Carter Rice (Defense, 4c), Mike Sisselberger (Faceoff, 6c), Nick Washuta (Goalie, 14c)) to maximize the team's 90th percentile ceiling (projecting up to 93.9 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Adam Charalambides (Attack, 12c), Nick Washuta (Goalie, 14c), Aidan Danenza (Midfield, 10c), Mike Sisselberger (Faceoff, 6c), Carter Rice (Defense, 4c)) to maximize the team's 90th percentile ceiling (projecting up to 93.2 pts)."
             }
         ]
     },

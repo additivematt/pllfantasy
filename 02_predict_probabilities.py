@@ -90,6 +90,9 @@ def main():
         # Fallback to per-year files if all_players_stats.json missing
         df_all = pd.concat([load_stats_json(os.path.join(sDir, f"combined_player_stats_{yr}.json")) for yr in range(2023, args.year + 1) if os.path.exists(os.path.join(sDir, f"combined_player_stats_{yr}.json"))], ignore_index=True)
         df_all = df_all[~((df_all["year"] == args.year) & (df_all["week"] >= args.week))]
+    
+    # Filter training pool to years >= 2019 to include historical data for Baseline 11
+    df_all = df_all[df_all["year"] >= 2019].copy()
     stat_cols = ["shots", "groundBalls", "saves", "faceoffsWon", "assists", "causedTurnovers", "touches", "goalsAgainst"]
     for c in stat_cols:
         if c in df_all.columns:
@@ -520,8 +523,12 @@ def main():
     for m in matchups:
         for t, opp in [(m["team_a"], m["team_b"]), (m["team_b"], m["team_a"])]:
             t_roster = roster[roster["team"] == t]
+            if t_roster.empty:
+                continue
             if "eventId" in t_roster.columns:
                 t_roster = t_roster[t_roster["eventId"].apply(lambda eid: not eid or match_game_ids(eid, m["game_id"]))]
+            if t_roster.empty:
+                continue
             t_df = t_roster.merge(p_avgs, on=["firstName", "lastName", "positionGroup"], how="left")
             if t_df.empty: continue
             t_df["opponent"], t_df["game_id"] = opp, m["game_id"]
@@ -575,7 +582,12 @@ def main():
                 print(f"  Position: {pg} -> features: {feats}")
 
         # Compute salary features on df_all (training pool)
-        df_all["salary"] = pd.to_numeric(df_all["salary"], errors="coerce").fillna(10.0)
+        df_all["salary"] = pd.to_numeric(df_all["salary"], errors="coerce")
+        pre_2023_mask = df_all["year"] < 2023
+        synth_salaries = (df_all["fp_season_avg"].fillna(0.0) * 1.3333) + 1.3333
+        synth_salaries = synth_salaries.clip(10.0, 50.0)
+        df_all.loc[pre_2023_mask, "salary"] = df_all.loc[pre_2023_mask, "salary"].fillna(synth_salaries)
+        df_all["salary"] = df_all["salary"].fillna(10.0)
         df_all["salary_normalized"] = df_all["salary"] / 50.0
         # Percentile rank within (year, week, positionGroup)
         df_all["salary_percentile"] = df_all.groupby(["year", "week", "positionGroup"])["salary"].rank(pct=True).fillna(0.5)
@@ -605,6 +617,13 @@ def main():
     shap_data = {}
     preds_out = []
     for pg, feats in FEATURE_LISTS.items():
+        # Ensure all requested features exist in df_train and df_test
+        for f in feats:
+            if f not in df_train.columns:
+                df_train[f] = 0.0
+            if f not in df_test.columns:
+                df_test[f] = 0.0
+                
         df_pg = df_train[df_train["positionGroup"] == pg].dropna(subset=feats + ["PerformanceTier"]).copy()
         df_pg = df_pg.sort_values("startTime").copy()
         tp = df_test[df_test["positionGroup"] == pg].copy()
