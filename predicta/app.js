@@ -82,10 +82,10 @@ function buildTooltipBodyHtml(p, maxCeiling, advisorBadge = false) {
                 <span>Ceiling (p90): <span class="range-bar-val">${ceiling.toFixed(1)}</span></span>
             </div>
         </div>
-        ${p.actualPoints !== undefined && p.actualPoints !== null ? `
+        ${(p.actualPoints != null && !isNaN(Number(p.actualPoints))) ? `
         <div class="tooltip-row" style="margin-top: 0.6rem; padding-top: 0.6rem; border-top: 1px solid rgba(255, 255, 255, 0.08)">
             <span class="tooltip-label" style="color: #00f0ff; font-weight: 700;">Actual Score</span>
-            <span class="tooltip-value" style="color: #00f0ff; font-weight: 700;">${p.actualPoints.toFixed(1)} pts</span>
+            <span class="tooltip-value" style="color: #00f0ff; font-weight: 700;">${Number(p.actualPoints).toFixed(1)} pts</span>
         </div>` : ''}
         <div class="sparkline-section">
             <div class="sparkline-title"><span class="sparkline-title-dot"></span>Last 10 Games</div>
@@ -583,6 +583,34 @@ function renderPlot(targetId, title, data, yRange = null) {
     // Custom Tooltip Logic
     const plotEl = document.getElementById(targetId);
     const tooltip = document.getElementById('custom-tooltip');
+
+    plotEl.on('plotly_hover', function(data){
+        if (window.isPlotlyClick) return;
+        const point = data.points[0];
+        const p = point.customdata;
+        if (!p) return;
+
+        tooltip.style.display = 'block';
+        const event = data.event;
+        let left = event ? event.clientX + 15 : (window.innerWidth / 2 - 190);
+        let top = event ? event.clientY - 100 : (window.innerHeight / 2);
+        if (left + 380 > window.innerWidth) left = event ? event.clientX - 395 : (window.innerWidth / 2 - 190);
+        if (top < 10) top = 10;
+        if (top + 450 > window.innerHeight) top = window.innerHeight - 460;
+
+        tooltip.style.left = left + 'px';
+        tooltip.style.top = top + 'px';
+        tooltip.style.transform = 'none';
+
+        tooltip.innerHTML = buildTooltipBodyHtml(p, Math.max(...sortedData.map(d => d.mc_p90 || 0), 1), false);
+        renderTooltipSparkline(p.firstName, p.lastName, p.opponent);
+    });
+
+    plotEl.on('plotly_unhover', function(){
+        if (!window.isPlotlyClick) {
+            tooltip.style.display = 'none';
+        }
+    });
 
     plotEl.on('plotly_click', function(data){
         window.isPlotlyClick = true;
