@@ -120,19 +120,6 @@
             "actualPoints": 7.0
         },
         {
-            "firstName": "Tom",
-            "lastName": "Schreiber",
-            "team": "ARC",
-            "opponent": "OUT",
-            "game_id": "2025-ev-15",
-            "position": "Midfield",
-            "salary": 32,
-            "mc_ev": 22.4,
-            "mc_p90": 47.9,
-            "mc_p10": 4.0,
-            "actualPoints": 27.0
-        },
-        {
             "firstName": "Zach",
             "lastName": "Currier",
             "team": "WAT",
@@ -144,6 +131,19 @@
             "mc_p90": 47.5,
             "mc_p10": 0.0,
             "actualPoints": 29.0
+        },
+        {
+            "firstName": "Tom",
+            "lastName": "Schreiber",
+            "team": "ARC",
+            "opponent": "OUT",
+            "game_id": "2025-ev-15",
+            "position": "Midfield",
+            "salary": 32,
+            "mc_ev": 22.4,
+            "mc_p90": 47.9,
+            "mc_p10": 4.0,
+            "actualPoints": 27.0
         },
         {
             "firstName": "Scott",
@@ -401,15 +401,6 @@
                 ]
             },
             {
-                "firstName": "Tom",
-                "lastName": "Schreiber",
-                "position": "Midfield",
-                "salary": 32,
-                "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (22.4 EV) and reliable role."
-                ]
-            },
-            {
                 "firstName": "Zach",
                 "lastName": "Currier",
                 "position": "Midfield",
@@ -417,6 +408,15 @@
                 "bullets": [
                     "Matchup Specialist: Historically performs well against ATL (1.25x average scoring rate).",
                     "Opponent Weakness: ATL defense allows 16% extra fantasy points to Midfield position."
+                ]
+            },
+            {
+                "firstName": "Tom",
+                "lastName": "Schreiber",
+                "position": "Midfield",
+                "salary": 32,
+                "bullets": [
+                    "Consistent Pick: Selected for steady expected floor (22.4 EV) and reliable role."
                 ]
             },
             {
@@ -478,8 +478,8 @@
                 "out": [
                     "Rob Pannell",
                     "TJ Malone",
-                    "Tom Schreiber",
                     "Zach Currier",
+                    "Tom Schreiber",
                     "Colin Kirst"
                 ],
                 "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Matt Rambo (Attack, 11c), Brennan O'Neill (Attack, 40c), Ross Scott (Midfield, 19c), Shane Knobloch (Midfield, 13c), Blaze Riorden (Goalie, 48c)) to maximize the team's 90th percentile ceiling (projecting up to 82.3 pts)."

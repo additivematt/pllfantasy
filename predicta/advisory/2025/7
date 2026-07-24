@@ -213,19 +213,6 @@
             "actualPoints": 8.0
         },
         {
-            "firstName": "Jared",
-            "lastName": "Bernhardt",
-            "team": "OUT",
-            "opponent": "WHP",
-            "game_id": "2025-ev-26",
-            "position": "Midfield",
-            "salary": 15,
-            "mc_ev": 21.9,
-            "mc_p90": 63.8,
-            "mc_p10": 0.0,
-            "actualPoints": 32.0
-        },
-        {
             "firstName": "Tom",
             "lastName": "Schreiber",
             "team": "ARC",
@@ -237,6 +224,19 @@
             "mc_p90": 54.1,
             "mc_p10": 4.6,
             "actualPoints": 38.0
+        },
+        {
+            "firstName": "Jared",
+            "lastName": "Bernhardt",
+            "team": "OUT",
+            "opponent": "WHP",
+            "game_id": "2025-ev-26",
+            "position": "Midfield",
+            "salary": 15,
+            "mc_ev": 21.9,
+            "mc_p90": 63.8,
+            "mc_p10": 0.0,
+            "actualPoints": 32.0
         },
         {
             "firstName": "Michael",
@@ -473,8 +473,8 @@
                 "in": [
                     "Josh Zawada",
                     "Adam Charalambides",
-                    "Jared Bernhardt",
-                    "Tom Schreiber"
+                    "Tom Schreiber",
+                    "Jared Bernhardt"
                 ],
                 "out": [
                     "TJ Malone",
@@ -482,7 +482,7 @@
                     "Brad Smith",
                     "Grant Ament"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Josh Zawada (Attack, 15c), Adam Charalambides (Attack, 18c), Jared Bernhardt (Midfield, 15c), Tom Schreiber (Midfield, 22c)) to maximize the team's 90th percentile ceiling (projecting up to 67.3 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Josh Zawada (Attack, 15c), Adam Charalambides (Attack, 18c), Tom Schreiber (Midfield, 22c), Jared Bernhardt (Midfield, 15c)) to maximize the team's 90th percentile ceiling (projecting up to 67.3 pts)."
             }
         ]
     },

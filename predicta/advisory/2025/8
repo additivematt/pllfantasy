@@ -120,19 +120,6 @@
             "actualPoints": 52.0
         },
         {
-            "firstName": "Zach",
-            "lastName": "Currier",
-            "team": "WAT",
-            "opponent": "WHP",
-            "game_id": "2025-ev-30",
-            "position": "Midfield",
-            "salary": 18,
-            "mc_ev": 22.9,
-            "mc_p90": 45.8,
-            "mc_p10": 4.3,
-            "actualPoints": 32.0
-        },
-        {
             "firstName": "Tom",
             "lastName": "Schreiber",
             "team": "ARC",
@@ -144,6 +131,19 @@
             "mc_p90": 51.5,
             "mc_p10": 4.4,
             "actualPoints": -4.0
+        },
+        {
+            "firstName": "Zach",
+            "lastName": "Currier",
+            "team": "WAT",
+            "opponent": "WHP",
+            "game_id": "2025-ev-30",
+            "position": "Midfield",
+            "salary": 18,
+            "mc_ev": 22.9,
+            "mc_p90": 45.8,
+            "mc_p10": 4.3,
+            "actualPoints": 32.0
         },
         {
             "firstName": "Mason",
@@ -187,19 +187,6 @@
     ],
     "MC_Ceil_90": [
         {
-            "firstName": "Owen",
-            "lastName": "Hiltz",
-            "team": "CHA",
-            "opponent": "ARC",
-            "game_id": "2025-ev-28",
-            "position": "Attack",
-            "salary": 35,
-            "mc_ev": 35.9,
-            "mc_p90": 66.7,
-            "mc_p10": 2.7,
-            "actualPoints": 71.0
-        },
-        {
             "firstName": "Adam",
             "lastName": "Charalambides",
             "team": "CHA",
@@ -213,17 +200,17 @@
             "actualPoints": 6.0
         },
         {
-            "firstName": "JJ",
-            "lastName": "Sillstrop",
+            "firstName": "Owen",
+            "lastName": "Hiltz",
             "team": "CHA",
             "opponent": "ARC",
             "game_id": "2025-ev-28",
-            "position": "Midfield",
-            "salary": 20,
-            "mc_ev": 21.2,
-            "mc_p90": 65.4,
-            "mc_p10": 0.0,
-            "actualPoints": 0.0
+            "position": "Attack",
+            "salary": 35,
+            "mc_ev": 35.9,
+            "mc_p90": 66.7,
+            "mc_p10": 2.7,
+            "actualPoints": 71.0
         },
         {
             "firstName": "Ross",
@@ -237,6 +224,19 @@
             "mc_p90": 65.9,
             "mc_p10": 0.0,
             "actualPoints": 18.0
+        },
+        {
+            "firstName": "JJ",
+            "lastName": "Sillstrop",
+            "team": "CHA",
+            "opponent": "ARC",
+            "game_id": "2025-ev-28",
+            "position": "Midfield",
+            "salary": 20,
+            "mc_ev": 21.2,
+            "mc_p90": 65.4,
+            "mc_p10": 0.0,
+            "actualPoints": 0.0
         },
         {
             "firstName": "Arden",
@@ -401,21 +401,21 @@
                 ]
             },
             {
-                "firstName": "Zach",
-                "lastName": "Currier",
-                "position": "Midfield",
-                "salary": 18,
-                "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (22.9 EV) and reliable role."
-                ]
-            },
-            {
                 "firstName": "Tom",
                 "lastName": "Schreiber",
                 "position": "Midfield",
                 "salary": 26,
                 "bullets": [
                     "Consistent Pick: Selected for steady expected floor (23.9 EV) and reliable role."
+                ]
+            },
+            {
+                "firstName": "Zach",
+                "lastName": "Currier",
+                "position": "Midfield",
+                "salary": 18,
+                "bullets": [
+                    "Consistent Pick: Selected for steady expected floor (22.9 EV) and reliable role."
                 ]
             },
             {
@@ -467,19 +467,19 @@
                 "strategyLabel": "MC Ceil 90",
                 "in": [
                     "Adam Charalambides",
-                    "JJ Sillstrop",
                     "Ross Scott",
+                    "JJ Sillstrop",
                     "Arden Cohen",
                     "Justin Inacio"
                 ],
                 "out": [
                     "TJ Malone",
-                    "Zach Currier",
                     "Tom Schreiber",
+                    "Zach Currier",
                     "Mason Woodward",
                     "Joseph Nardella"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Adam Charalambides (Attack, 20c), JJ Sillstrop (Midfield, 20c), Ross Scott (Midfield, 25c), Arden Cohen (Defense, 29c), Justin Inacio (Faceoff, 25c)) to maximize the team's 90th percentile ceiling (projecting up to 71.1 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Adam Charalambides (Attack, 20c), Ross Scott (Midfield, 25c), JJ Sillstrop (Midfield, 20c), Arden Cohen (Defense, 29c), Justin Inacio (Faceoff, 25c)) to maximize the team's 90th percentile ceiling (projecting up to 71.1 pts)."
             }
         ]
     },

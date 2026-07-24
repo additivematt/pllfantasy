@@ -107,43 +107,17 @@
             "actualPoints": 42.0
         },
         {
-            "firstName": "Dylan",
-            "lastName": "Molloy",
-            "team": "RED",
-            "opponent": "OUT",
-            "game_id": "2025-ev-2",
-            "position": "Attack",
-            "salary": 23,
-            "mc_ev": 35.0,
-            "mc_p90": 71.3,
-            "mc_p10": 0.0,
-            "actualPoints": 40.0
-        },
-        {
-            "firstName": "Brett",
-            "lastName": "Dobson",
-            "team": "ARC",
-            "opponent": "WHP",
+            "firstName": "Rob",
+            "lastName": "Pannell",
+            "team": "WHP",
+            "opponent": "ARC",
             "game_id": "2025-ev-3",
-            "position": "Goalie",
-            "salary": 49,
-            "mc_ev": 35.2,
-            "mc_p90": 51.7,
-            "mc_p10": 17.8,
-            "actualPoints": 45.0
-        },
-        {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
-            "team": "ATL",
-            "opponent": "CAN",
-            "game_id": "2025-ev-4",
-            "position": "Faceoff",
-            "salary": 45,
-            "mc_ev": 34.0,
-            "mc_p90": 63.7,
-            "mc_p10": 11.8,
-            "actualPoints": 22.2
+            "position": "Attack",
+            "salary": 44,
+            "mc_ev": 34.1,
+            "mc_p90": 57.2,
+            "mc_p10": 6.0,
+            "actualPoints": -1.0
         },
         {
             "firstName": "Brad",
@@ -159,30 +133,56 @@
             "actualPoints": 8.0
         },
         {
-            "firstName": "Grant",
-            "lastName": "Ament",
+            "firstName": "Connor",
+            "lastName": "Kirst",
+            "team": "CAN",
+            "opponent": "ATL",
+            "game_id": "2025-ev-4",
+            "position": "Midfield",
+            "salary": 15,
+            "mc_ev": 21.9,
+            "mc_p90": 47.4,
+            "mc_p10": 0.0,
+            "actualPoints": -2.7
+        },
+        {
+            "firstName": "Alex",
+            "lastName": "Mazzone",
+            "team": "WHP",
+            "opponent": "ARC",
+            "game_id": "2025-ev-3",
+            "position": "Defense",
+            "salary": 4,
+            "mc_ev": 13.7,
+            "mc_p90": 35.0,
+            "mc_p10": 0.0,
+            "actualPoints": 1.0
+        },
+        {
+            "firstName": "Trevor",
+            "lastName": "Baptiste",
+            "team": "ATL",
+            "opponent": "CAN",
+            "game_id": "2025-ev-4",
+            "position": "Faceoff",
+            "salary": 45,
+            "mc_ev": 34.0,
+            "mc_p90": 63.7,
+            "mc_p10": 11.8,
+            "actualPoints": 22.2
+        },
+        {
+            "firstName": "Brett",
+            "lastName": "Dobson",
             "team": "ARC",
             "opponent": "WHP",
             "game_id": "2025-ev-3",
-            "position": "Midfield",
-            "salary": 35,
-            "mc_ev": 22.5,
-            "mc_p90": 43.7,
-            "mc_p10": 3.8,
-            "actualPoints": -4.0
-        },
-        {
-            "firstName": "Nick",
-            "lastName": "Grill",
-            "team": "OUT",
-            "opponent": "RED",
-            "game_id": "2025-ev-2",
-            "position": "Defense",
-            "salary": 7,
-            "mc_ev": 12.0,
-            "mc_p90": 38.5,
-            "mc_p10": 0.0,
-            "actualPoints": 8.0
+            "position": "Goalie",
+            "salary": 49,
+            "mc_ev": 35.2,
+            "mc_p90": 51.7,
+            "mc_p10": 17.8,
+            "actualPoints": 45.0
         }
     ],
     "MC_Ceil_90": [
@@ -394,31 +394,12 @@
                 ]
             },
             {
-                "firstName": "Dylan",
-                "lastName": "Molloy",
+                "firstName": "Rob",
+                "lastName": "Pannell",
                 "position": "Attack",
-                "salary": 23,
+                "salary": 44,
                 "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (35.0 EV) and reliable role."
-                ]
-            },
-            {
-                "firstName": "Brett",
-                "lastName": "Dobson",
-                "position": "Goalie",
-                "salary": 49,
-                "bullets": [
-                    "Hot Form: Averaging 62.7 fantasy pts over last 3 games (vs 39.2 season avg).",
-                    "Opponent Weakness: WHP defense allows 8% extra fantasy points to Goalie position."
-                ]
-            },
-            {
-                "firstName": "Trevor",
-                "lastName": "Baptiste",
-                "position": "Faceoff",
-                "salary": 45,
-                "bullets": [
-                    "Opponent Weakness: CAN defense allows 7% extra fantasy points to Faceoff position."
+                    "Consistent Pick: Selected for steady expected floor (34.1 EV) and reliable role."
                 ]
             },
             {
@@ -432,21 +413,42 @@
                 ]
             },
             {
-                "firstName": "Grant",
-                "lastName": "Ament",
+                "firstName": "Connor",
+                "lastName": "Kirst",
                 "position": "Midfield",
-                "salary": 35,
+                "salary": 15,
                 "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (22.5 EV) and reliable role."
+                    "Hot Form: Averaging 16.1 fantasy pts over last 3 games (vs 11.0 season avg).",
+                    "Matchup Specialist: Historically performs well against ATL (1.36x average scoring rate).",
+                    "Opponent Weakness: ATL defense allows 13% extra fantasy points to Midfield position."
                 ]
             },
             {
-                "firstName": "Nick",
-                "lastName": "Grill",
+                "firstName": "Alex",
+                "lastName": "Mazzone",
                 "position": "Defense",
-                "salary": 7,
+                "salary": 4,
                 "bullets": [
-                    "Hot Form: Averaging 9.3 fantasy pts over last 3 games (vs 6.9 season avg)."
+                    "Consistent Pick: Selected for steady expected floor (13.7 EV) and reliable role."
+                ]
+            },
+            {
+                "firstName": "Trevor",
+                "lastName": "Baptiste",
+                "position": "Faceoff",
+                "salary": 45,
+                "bullets": [
+                    "Opponent Weakness: CAN defense allows 7% extra fantasy points to Faceoff position."
+                ]
+            },
+            {
+                "firstName": "Brett",
+                "lastName": "Dobson",
+                "position": "Goalie",
+                "salary": 49,
+                "bullets": [
+                    "Hot Form: Averaging 62.7 fantasy pts over last 3 games (vs 39.2 season avg).",
+                    "Opponent Weakness: WHP defense allows 8% extra fantasy points to Goalie position."
                 ]
             }
         ],
@@ -462,11 +464,11 @@
                     "Piper Bond"
                 ],
                 "out": [
-                    "Dylan Molloy",
-                    "Brett Dobson",
+                    "Rob Pannell",
                     "Brad Smith",
-                    "Grant Ament",
-                    "Nick Grill"
+                    "Connor Kirst",
+                    "Alex Mazzone",
+                    "Brett Dobson"
                 ],
                 "rationale": "Optimizes strictly for the highest average expected points (mean floor) rather than variance or win probability."
             },
@@ -483,11 +485,11 @@
                 ],
                 "out": [
                     "Logan Wisnauskas",
-                    "Dylan Molloy",
-                    "Brett Dobson",
+                    "Rob Pannell",
                     "Brad Smith",
-                    "Grant Ament",
-                    "Nick Grill"
+                    "Connor Kirst",
+                    "Alex Mazzone",
+                    "Brett Dobson"
                 ],
                 "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Matt Moore (Attack, 15c), Mac O'Keefe (Attack, 40c), Dalton Young (Midfield, 17c), Matt Campbell (Midfield, 37c), Chris Fake (Defense, 4c), Liam Entenmann (Goalie, 42c)) to maximize the team's 90th percentile ceiling (projecting up to 80.0 pts)."
             }

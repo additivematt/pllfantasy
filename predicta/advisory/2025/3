@@ -187,19 +187,6 @@
     ],
     "MC_Ceil_90": [
         {
-            "firstName": "Matt",
-            "lastName": "Moore",
-            "team": "ARC",
-            "opponent": "RED",
-            "game_id": "2025-ev-10",
-            "position": "Attack",
-            "salary": 18,
-            "mc_ev": 34.5,
-            "mc_p90": 73.8,
-            "mc_p10": 0.0,
-            "actualPoints": 30.0
-        },
-        {
             "firstName": "Connor",
             "lastName": "Fields",
             "team": "ARC",
@@ -211,6 +198,19 @@
             "mc_p90": 72.1,
             "mc_p10": 4.1,
             "actualPoints": 9.0
+        },
+        {
+            "firstName": "Matt",
+            "lastName": "Moore",
+            "team": "ARC",
+            "opponent": "RED",
+            "game_id": "2025-ev-10",
+            "position": "Attack",
+            "salary": 18,
+            "mc_ev": 34.5,
+            "mc_p90": 73.8,
+            "mc_p10": 0.0,
+            "actualPoints": 30.0
         },
         {
             "firstName": "Connor",
@@ -471,8 +471,8 @@
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
-                    "Matt Moore",
                     "Connor Fields",
+                    "Matt Moore",
                     "Jared Bernhardt"
                 ],
                 "out": [
@@ -480,7 +480,7 @@
                     "Rob Pannell",
                     "Zach Currier"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Matt Moore (Attack, 18c), Connor Fields (Attack, 42c), Jared Bernhardt (Midfield, 15c)) to maximize the team's 90th percentile ceiling (projecting up to 73.8 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Connor Fields (Attack, 42c), Matt Moore (Attack, 18c), Jared Bernhardt (Midfield, 15c)) to maximize the team's 90th percentile ceiling (projecting up to 73.8 pts)."
             }
         ]
     },

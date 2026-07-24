@@ -29,7 +29,9 @@ def fetch_player_graphql(slug, query, headers, year):
     return None
 
 def main():
-    f2p_path = os.path.join(os.path.dirname(__file__), "f2p_weekly_data.json")
+    f2p_path = os.path.join(os.path.dirname(__file__), "f2p_2026_season.json")
+    if not os.path.exists(f2p_path):
+        f2p_path = os.path.join(os.path.dirname(__file__), "f2p_weekly_data.json")
     if not os.path.exists(f2p_path):
         print(f"File not found: {f2p_path}")
         return

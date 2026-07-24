@@ -5,7 +5,7 @@ import sys
 # The directory where this script lives
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-YEARS = ["2023", "2024", "2025", "2026"]
+YEARS = ["2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026"]
 OUTPUT_FILE = os.path.join(BASE_DIR, "all_players_stats.json")
 MATCHUP_FILES = {
     "2023": os.path.join(BASE_DIR, "season_matchups_2023.json"),
@@ -44,8 +44,12 @@ def extract_data():
                     # If this entry has empty stats, check if the game is completed (status 2, 3 or not specified) before flagging as DNP.
                     # This prevents future scheduled games (status 0) from being marked as DNP.
                     is_completed = entry.get("event", {}).get("eventStatus", 3) in [2, 3]
-                    if is_completed and (not entry.get("stats") or len(entry.get("stats", {})) == 0):
+                    has_f2p_pts = entry.get("f2p", {}).get("totalPoints") is not None
+                    has_box_stats = bool(entry.get("stats") and len(entry.get("stats")) > 0)
+                    if is_completed and not has_box_stats and not has_f2p_pts:
                         entry["isDNP"] = True
+                    else:
+                        entry["isDNP"] = False
 
                     all_players_data[slug]["stats"].append(entry)
                     
@@ -92,7 +96,9 @@ def extract_data():
             e_id = entry.get("event", {}).get("eventId")
             if e_id:
                 player_event_ids.add(e_id)
-                e_year = e_id.split('_')[0]
+                import re
+                match_year = re.search(r"\b(20\d{2})\b", e_id.replace("_", "-"))
+                e_year = match_year.group(1) if match_year else e_id.split('_')[0]
                 w = entry.get("week")
                 t = entry["identity"]["team"]
                 if e_year not in player_weeks:

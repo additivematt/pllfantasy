@@ -27,19 +27,6 @@
             "actualPoints": 7.0
         },
         {
-            "firstName": "Graham",
-            "lastName": "Bundy",
-            "team": "OUT",
-            "opponent": "CHA",
-            "game_id": "2025-ev-5",
-            "position": "Midfield",
-            "salary": 18,
-            "mc_ev": 24.0,
-            "mc_p90": 67.5,
-            "mc_p10": 0.0,
-            "actualPoints": 22.0
-        },
-        {
             "firstName": "Tom",
             "lastName": "Schreiber",
             "team": "ARC",
@@ -51,6 +38,19 @@
             "mc_p90": 57.7,
             "mc_p10": 4.7,
             "actualPoints": 12.0
+        },
+        {
+            "firstName": "Graham",
+            "lastName": "Bundy",
+            "team": "OUT",
+            "opponent": "CHA",
+            "game_id": "2025-ev-5",
+            "position": "Midfield",
+            "salary": 18,
+            "mc_ev": 24.0,
+            "mc_p90": 67.5,
+            "mc_p10": 0.0,
+            "actualPoints": 22.0
         },
         {
             "firstName": "Chris",
@@ -94,19 +94,6 @@
     ],
     "MC_Win_160": [
         {
-            "firstName": "TJ",
-            "lastName": "Malone",
-            "team": "WHP",
-            "opponent": "WAT",
-            "game_id": "2025-ev-6",
-            "position": "Attack",
-            "salary": 44,
-            "mc_ev": 34.7,
-            "mc_p90": 54.7,
-            "mc_p10": 12.6,
-            "actualPoints": 50.0
-        },
-        {
             "firstName": "Rob",
             "lastName": "Pannell",
             "team": "WHP",
@@ -118,6 +105,19 @@
             "mc_p90": 64.0,
             "mc_p10": 3.4,
             "actualPoints": 7.0
+        },
+        {
+            "firstName": "TJ",
+            "lastName": "Malone",
+            "team": "WHP",
+            "opponent": "WAT",
+            "game_id": "2025-ev-6",
+            "position": "Attack",
+            "salary": 44,
+            "mc_ev": 34.7,
+            "mc_p90": 54.7,
+            "mc_p10": 12.6,
+            "actualPoints": 50.0
         },
         {
             "firstName": "Tom",
@@ -385,21 +385,21 @@
     "Narrative": {
         "RecommendedRoster": [
             {
-                "firstName": "TJ",
-                "lastName": "Malone",
-                "position": "Attack",
-                "salary": 44,
-                "bullets": [
-                    "Opponent Weakness: WAT defense allows 9% extra fantasy points to Attack position."
-                ]
-            },
-            {
                 "firstName": "Rob",
                 "lastName": "Pannell",
                 "position": "Attack",
                 "salary": 35,
                 "bullets": [
                     "Matchup Specialist: Historically performs well against WAT (1.40x average scoring rate).",
+                    "Opponent Weakness: WAT defense allows 9% extra fantasy points to Attack position."
+                ]
+            },
+            {
+                "firstName": "TJ",
+                "lastName": "Malone",
+                "position": "Attack",
+                "salary": 44,
+                "bullets": [
                     "Opponent Weakness: WAT defense allows 9% extra fantasy points to Attack position."
                 ]
             },
@@ -477,8 +477,8 @@
                     "Chris Fake"
                 ],
                 "out": [
-                    "TJ Malone",
                     "Rob Pannell",
+                    "TJ Malone",
                     "Brad Smith",
                     "Jake Bernhardt",
                     "Joseph Nardella"

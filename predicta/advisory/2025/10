@@ -1,17 +1,17 @@
 {
     "MC_EV": [
         {
-            "firstName": "Emmet",
-            "lastName": "Carroll",
+            "firstName": "Rob",
+            "lastName": "Pannell",
             "team": "WHP",
             "opponent": "RED",
             "game_id": "2025-ev-37",
-            "position": "Goalie",
-            "salary": 38,
-            "mc_ev": 37.5,
-            "mc_p90": 61.4,
-            "mc_p10": 12.7,
-            "actualPoints": 42.0
+            "position": "Attack",
+            "salary": 19,
+            "mc_ev": 35.1,
+            "mc_p90": 62.1,
+            "mc_p10": 6.5,
+            "actualPoints": 13.0
         },
         {
             "firstName": "Owen",
@@ -25,32 +25,6 @@
             "mc_p90": 72.9,
             "mc_p10": 4.5,
             "actualPoints": 53.0
-        },
-        {
-            "firstName": "Josh",
-            "lastName": "Zawada",
-            "team": "CHA",
-            "opponent": "OUT",
-            "game_id": "2025-ev-35",
-            "position": "Attack",
-            "salary": 16,
-            "mc_ev": 35.2,
-            "mc_p90": 82.5,
-            "mc_p10": 0.0,
-            "actualPoints": 10.0
-        },
-        {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2025-ev-38",
-            "position": "Faceoff",
-            "salary": 24,
-            "mc_ev": 25.7,
-            "mc_p90": 49.8,
-            "mc_p10": 9.6,
-            "actualPoints": 6.9
         },
         {
             "firstName": "Zach",
@@ -90,6 +64,32 @@
             "mc_p90": 36.1,
             "mc_p10": 0.0,
             "actualPoints": 10.0
+        },
+        {
+            "firstName": "Trevor",
+            "lastName": "Baptiste",
+            "team": "ATL",
+            "opponent": "OUT",
+            "game_id": "2025-ev-38",
+            "position": "Faceoff",
+            "salary": 24,
+            "mc_ev": 25.7,
+            "mc_p90": 49.8,
+            "mc_p10": 9.6,
+            "actualPoints": 6.9
+        },
+        {
+            "firstName": "Emmet",
+            "lastName": "Carroll",
+            "team": "WHP",
+            "opponent": "RED",
+            "game_id": "2025-ev-37",
+            "position": "Goalie",
+            "salary": 38,
+            "mc_ev": 37.5,
+            "mc_p90": 61.4,
+            "mc_p10": 12.7,
+            "actualPoints": 42.0
         }
     ],
     "MC_Win_160": [
@@ -114,8 +114,8 @@
             "game_id": "2025-ev-36",
             "position": "Attack",
             "salary": 46,
-            "mc_ev": 33.3,
-            "mc_p90": 60.9,
+            "mc_ev": 33.2,
+            "mc_p90": 60.8,
             "mc_p10": 10.3,
             "actualPoints": 37.0
         },
@@ -187,19 +187,6 @@
     ],
     "MC_Ceil_90": [
         {
-            "firstName": "Blaze",
-            "lastName": "Riorden",
-            "team": "CHA",
-            "opponent": "OUT",
-            "game_id": "2025-ev-35",
-            "position": "Goalie",
-            "salary": 47,
-            "mc_ev": 37.4,
-            "mc_p90": 53.7,
-            "mc_p10": 19.4,
-            "actualPoints": 52.0
-        },
-        {
             "firstName": "Adam",
             "lastName": "Charalambides",
             "team": "CHA",
@@ -213,15 +200,54 @@
             "actualPoints": 14.0
         },
         {
-            "firstName": "Josh",
-            "lastName": "Zawada",
+            "firstName": "Jackson",
+            "lastName": "Eicher",
             "team": "CHA",
             "opponent": "OUT",
             "game_id": "2025-ev-35",
             "position": "Attack",
-            "salary": 16,
-            "mc_ev": 35.2,
-            "mc_p90": 82.5,
+            "salary": 23,
+            "mc_ev": 32.2,
+            "mc_p90": 84.5,
+            "mc_p10": 1.4,
+            "actualPoints": 37.0
+        },
+        {
+            "firstName": "Jared",
+            "lastName": "Bernhardt",
+            "team": "OUT",
+            "opponent": "ATL",
+            "game_id": "2025-ev-38",
+            "position": "Midfield",
+            "salary": 15,
+            "mc_ev": 24.1,
+            "mc_p90": 55.9,
+            "mc_p10": 0.0,
+            "actualPoints": 36.0
+        },
+        {
+            "firstName": "Andrew",
+            "lastName": "McAdorey",
+            "team": "RED",
+            "opponent": "WHP",
+            "game_id": "2025-ev-37",
+            "position": "Midfield",
+            "salary": 28,
+            "mc_ev": 23.2,
+            "mc_p90": 64.9,
+            "mc_p10": 0.0,
+            "actualPoints": 16.0
+        },
+        {
+            "firstName": "Max",
+            "lastName": "Krevsky",
+            "team": "ATL",
+            "opponent": "OUT",
+            "game_id": "2025-ev-38",
+            "position": "Defense",
+            "salary": 3,
+            "mc_ev": 14.9,
+            "mc_p90": 36.1,
             "mc_p10": 0.0,
             "actualPoints": 10.0
         },
@@ -239,43 +265,17 @@
             "actualPoints": 6.9
         },
         {
-            "firstName": "Colin",
-            "lastName": "Heacock",
-            "team": "WHP",
-            "opponent": "RED",
-            "game_id": "2025-ev-37",
-            "position": "Midfield",
-            "salary": 17,
-            "mc_ev": 22.1,
-            "mc_p90": 72.1,
-            "mc_p10": 0.0,
-            "actualPoints": 0.0
-        },
-        {
-            "firstName": "Jared",
-            "lastName": "Bernhardt",
-            "team": "OUT",
-            "opponent": "ATL",
-            "game_id": "2025-ev-38",
-            "position": "Midfield",
-            "salary": 15,
-            "mc_ev": 24.1,
-            "mc_p90": 55.9,
-            "mc_p10": 0.0,
-            "actualPoints": 36.0
-        },
-        {
-            "firstName": "Max",
-            "lastName": "Krevsky",
-            "team": "ATL",
+            "firstName": "Blaze",
+            "lastName": "Riorden",
+            "team": "CHA",
             "opponent": "OUT",
-            "game_id": "2025-ev-38",
-            "position": "Defense",
-            "salary": 3,
-            "mc_ev": 14.9,
-            "mc_p90": 36.1,
-            "mc_p10": 0.0,
-            "actualPoints": 10.0
+            "game_id": "2025-ev-35",
+            "position": "Goalie",
+            "salary": 47,
+            "mc_ev": 37.4,
+            "mc_p90": 53.7,
+            "mc_p10": 19.4,
+            "actualPoints": 52.0
         }
     ],
     "MC_Consensus": [],
@@ -452,16 +452,14 @@
                 "strategy": "MC_EV",
                 "strategyLabel": "MC EV",
                 "in": [
-                    "Emmet Carroll",
                     "Owen Hiltz",
-                    "Josh Zawada",
                     "Jared Bernhardt",
-                    "Max Krevsky"
+                    "Max Krevsky",
+                    "Emmet Carroll"
                 ],
                 "out": [
                     "Blaze Riorden",
                     "Michael Sowers",
-                    "Rob Pannell",
                     "Brad Smith",
                     "Ajax Zappitello"
                 ],
@@ -472,9 +470,9 @@
                 "strategyLabel": "MC Ceil 90",
                 "in": [
                     "Adam Charalambides",
-                    "Josh Zawada",
-                    "Colin Heacock",
+                    "Jackson Eicher",
                     "Jared Bernhardt",
+                    "Andrew McAdorey",
                     "Max Krevsky"
                 ],
                 "out": [
@@ -484,7 +482,7 @@
                     "Brad Smith",
                     "Ajax Zappitello"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Adam Charalambides (Attack, 16c), Josh Zawada (Attack, 16c), Colin Heacock (Midfield, 17c), Jared Bernhardt (Midfield, 15c), Max Krevsky (Defense, 3c)) to maximize the team's 90th percentile ceiling (projecting up to 82.5 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Adam Charalambides (Attack, 16c), Jackson Eicher (Attack, 23c), Jared Bernhardt (Midfield, 15c), Andrew McAdorey (Midfield, 28c), Max Krevsky (Defense, 3c)) to maximize the team's 90th percentile ceiling (projecting up to 84.5 pts)."
             }
         ]
     },
