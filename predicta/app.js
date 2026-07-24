@@ -15,16 +15,40 @@ function normalizeTeamCode(code) {
 }
 
 // Derive opponent team code from a stat entry (mirrors interrogata logic)
-function getOpponentCodeFromStat(s, team) {
+// matchupLogs is optional: the player's matchup_logs object keyed by game_id
+function getOpponentCodeFromStat(s, team, matchupLogs) {
     if (!s || !s.event) return null;
+    // Modern (2026+): homeTeam/awayTeam populated
     if (s.event.homeTeam && s.event.awayTeam) {
         const raw = s.event.homeTeam === team ? s.event.awayTeam : s.event.homeTeam;
         return normalizeTeamCode(raw);
     }
-    if (s.f2p && s.f2p.displayString && s.f2p.displayString.includes('vs')) {
-        const parts = s.f2p.displayString.split('vs');
-        const rawOpp = parts[parts.length - 1].trim().split(' ')[0];
-        return normalizeTeamCode(rawOpp);
+    // Fallback 1: matchup_logs has team_a / team_b keyed by game_id (reliable for all 2026 games)
+    if (matchupLogs && s.event.eventId) {
+        const log = matchupLogs[s.event.eventId];
+        if (log && log.team_a && log.team_b) {
+            const normTeam = normalizeTeamCode(team);
+            if (normalizeTeamCode(log.team_a) === normTeam) return normalizeTeamCode(log.team_b);
+            if (normalizeTeamCode(log.team_b) === normTeam) return normalizeTeamCode(log.team_a);
+        }
+    }
+    // Fallback 2: parse f2p displayString (only valid for future/scheduled games e.g. "vs OUT")
+    if (s.f2p && s.f2p.displayString) {
+        const ds = s.f2p.displayString.trim();
+        if (ds.includes(' vs ')) {
+            const parts = ds.split(' vs ');
+            const left = normalizeTeamCode(parts[0].trim().replace(/^@\s*/, ''));
+            const right = normalizeTeamCode(parts[1].trim().split(' ')[0]);
+            const normTeam = normalizeTeamCode(team);
+            if (left === normTeam) return right;
+            if (right === normTeam) return left;
+            return right;
+        }
+        if (ds.includes('vs')) {
+            const parts = ds.split('vs');
+            const rawOpp = parts[parts.length - 1].trim().split(' ')[0];
+            return normalizeTeamCode(rawOpp);
+        }
     }
     return null;
 }
@@ -141,12 +165,23 @@ function renderTooltipSparkline(firstName, lastName, opponent) {
 
     const normOpp = opponent ? normalizeTeamCode(opponent) : null;
     const playerTeam = playerHistory.player.team;
+    const matchupLogs = playerHistory.matchup_logs || null;
 
-    // Include all played games (games with non-null f2p totalPoints or startTime before now + 1 day)
-    const cutoffTime = (Date.now() / 1000) + 86400;
+    // Only include games that have actually been played (eventStatus === 3 means final,
+    // or fall back to checking totalPoints is non-null for legacy entries without eventStatus).
+    // Exclude eventStatus === 0 (scheduled/future) to prevent unplayed week 10 games
+    // from appearing as 0-point results on the sparkline.
+    const nowSeconds = Date.now() / 1000;
     const rawStats = [...playerHistory.stats]
         .sort((a, b) => parseInt(a.event?.startTime || 0) - parseInt(b.event?.startTime || 0))
-        .filter(s => (s.f2p && s.f2p.totalPoints != null) || (parseInt(s.event?.startTime || 0) < cutoffTime));
+        .filter(s => {
+            const status = s.event?.eventStatus;
+            if (status === 0) return false;           // Explicitly scheduled/future — never include
+            if (status === 3) return true;            // Final — always include
+            // Legacy entries without eventStatus: include if totalPoints is set OR startTime is in the past
+            return (s.f2p && s.f2p.totalPoints != null) ||
+                   (parseInt(s.event?.startTime || 0) < nowSeconds);
+        });
 
     const allSlots = [];
     rawStats.forEach((s, idx) => {
@@ -165,19 +200,20 @@ function renderTooltipSparkline(firstName, lastName, opponent) {
 
     const labels = windowSlots.map(s => {
         if (!s) return '';
-        const opp = getOpponentCodeFromStat(s, playerTeam);
+        const opp = getOpponentCodeFromStat(s, playerTeam, matchupLogs);
         const season = s.event.eventId.split('_')[0];
         return `${season} W${s.week ?? '?'}${opp ? ' vs ' + opp : ''}`;
     });
 
-    const chartData = windowSlots.map(s => (s && !s.isDNP) ? (s.f2p.totalPoints || 0) : null);
+    // DNPs → null (gap in chart). Played games use exact totalPoints (0 is a real score, not a gap).
+    const chartData = windowSlots.map(s => (s && !s.isDNP) ? (s.f2p?.totalPoints ?? null) : null);
 
 
     // Point colours: gold for games vs current opponent, purple otherwise, transparent for null/DNP
     const pointBg = windowSlots.map(s => {
         if (!s || s.isDNP) return 'transparent';
         if (normOpp) {
-            const opp = getOpponentCodeFromStat(s, playerTeam);
+            const opp = getOpponentCodeFromStat(s, playerTeam, matchupLogs);
             if (opp === normOpp) return 'rgba(236, 201, 75, 0.95)'; // Gold
         }
         return 'rgba(159, 122, 234, 0.8)'; // Purple
@@ -185,7 +221,7 @@ function renderTooltipSparkline(firstName, lastName, opponent) {
     const pointRadius = windowSlots.map(s => {
         if (!s || s.isDNP) return 0;
         if (normOpp) {
-            const opp = getOpponentCodeFromStat(s, playerTeam);
+            const opp = getOpponentCodeFromStat(s, playerTeam, matchupLogs);
             if (opp === normOpp) return 6;
         }
         return 3;
@@ -193,7 +229,7 @@ function renderTooltipSparkline(firstName, lastName, opponent) {
     const pointBorder = windowSlots.map(s => {
         if (!s || s.isDNP) return 'transparent';
         if (normOpp) {
-            const opp = getOpponentCodeFromStat(s, playerTeam);
+            const opp = getOpponentCodeFromStat(s, playerTeam, matchupLogs);
             if (opp === normOpp) return '#ecc94b';
         }
         return '#9f7aea';
@@ -303,7 +339,7 @@ function renderTooltipSparkline(firstName, lastName, opponent) {
     if (noteEl && normOpp) {
         // Find the most recent game vs this opponent within the window
         const lastOppGame = [...windowSlots].reverse().find(s =>
-            s && !s.isDNP && getOpponentCodeFromStat(s, playerTeam) === normOpp
+            s && !s.isDNP && getOpponentCodeFromStat(s, playerTeam, matchupLogs) === normOpp
         );
         if (lastOppGame) {
             const pts = sparkFormatPoints(lastOppGame.f2p.totalPoints);
@@ -313,7 +349,7 @@ function renderTooltipSparkline(firstName, lastName, opponent) {
         } else {
             // Look in full history for any prior matchup outside the window
             const anyPrior = [...rawStats].reverse().find(s =>
-                !s.isDNP && getOpponentCodeFromStat(s, playerTeam) === normOpp
+                !s.isDNP && getOpponentCodeFromStat(s, playerTeam, matchupLogs) === normOpp
             );
             if (anyPrior) {
                 const pts = sparkFormatPoints(anyPrior.f2p.totalPoints);
