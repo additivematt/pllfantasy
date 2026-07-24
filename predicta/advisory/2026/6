@@ -92,19 +92,6 @@
     ],
     "MC_Win_160": [
         {
-            "firstName": "TJ",
-            "lastName": "Malone",
-            "team": "WHP",
-            "opponent": "OUT",
-            "game_id": "2026-ev-21",
-            "position": "Attack",
-            "salary": 34,
-            "mc_ev": 35.1,
-            "mc_p90": 55.2,
-            "mc_p10": 8.5,
-            "actualPoints": 18.0
-        },
-        {
             "firstName": "Marcus",
             "lastName": "Holman",
             "team": "CAN",
@@ -116,6 +103,19 @@
             "mc_p90": 68.4,
             "mc_p10": 9.4,
             "actualPoints": 46.0
+        },
+        {
+            "firstName": "TJ",
+            "lastName": "Malone",
+            "team": "WHP",
+            "opponent": "OUT",
+            "game_id": "2026-ev-21",
+            "position": "Attack",
+            "salary": 34,
+            "mc_ev": 35.1,
+            "mc_p90": 55.2,
+            "mc_p10": 8.5,
+            "actualPoints": 18.0
         },
         {
             "firstName": "Jack",
@@ -308,55 +308,55 @@
             "actualPoints": 48.0
         },
         {
-            "firstName": "Mike",
-            "lastName": "Sisselberger",
-            "team": "ARC",
-            "opponent": "WAT",
-            "game_id": "2026-ev-23",
-            "position": "Faceoff",
-            "salary": 8,
-            "mc_ev": 19.1,
-            "mc_p90": 33.0,
-            "mc_p10": 0.0,
-            "actualPoints": 24.0
-        },
-        {
-            "firstName": "Graham",
-            "lastName": "Bundy",
-            "team": "OUT",
-            "opponent": "WAT",
-            "game_id": "2026-ev-20",
+            "firstName": "Eric",
+            "lastName": "Spanos",
+            "team": "CHA",
+            "opponent": "RED",
+            "game_id": "2026-ev-24",
             "position": "Midfield",
-            "salary": 11,
-            "mc_ev": 13.8,
-            "mc_p90": 24.9,
-            "mc_p10": 0.0
+            "salary": 6,
+            "mc_ev": 15.9,
+            "mc_p90": 42.7,
+            "mc_p10": 0.0,
+            "actualPoints": 17.0
         },
         {
-            "firstName": "Jack",
-            "lastName": "Regnery",
+            "firstName": "Logan",
+            "lastName": "Ip",
             "team": "CAN",
             "opponent": "RED",
             "game_id": "2026-ev-22",
             "position": "Midfield",
-            "salary": 11,
-            "mc_ev": 11.3,
-            "mc_p90": 28.1,
+            "salary": 6,
+            "mc_ev": 14.9,
+            "mc_p90": 48.4,
             "mc_p10": 0.0,
-            "actualPoints": 27.0
+            "actualPoints": 0.0
         },
         {
-            "firstName": "Jarrod",
-            "lastName": "Neumann",
-            "team": "CHA",
-            "opponent": "RED",
-            "game_id": "2026-ev-24",
+            "firstName": "Tim",
+            "lastName": "Muller",
+            "team": "WHP",
+            "opponent": "OUT",
+            "game_id": "2026-ev-21",
             "position": "Defense",
-            "salary": 5,
-            "mc_ev": 10.7,
-            "mc_p90": 33.2,
+            "salary": 7,
+            "mc_ev": 11.9,
+            "mc_p90": 26.1,
             "mc_p10": 0.0,
-            "actualPoints": -2.0
+            "actualPoints": 0.0
+        },
+        {
+            "firstName": "Connor",
+            "lastName": "Farrell",
+            "team": "WAT",
+            "opponent": "OUT",
+            "game_id": "2026-ev-20",
+            "position": "Faceoff",
+            "salary": 7,
+            "mc_ev": 11.5,
+            "mc_p90": 21.7,
+            "mc_p10": 0.5
         }
     ],
     "MC_Differential": [
@@ -548,18 +548,9 @@
         "Matt Wright"
     ],
     "RecommendedStrategy": "MC_Win_160",
-    "RecommendedReason": "Stars & Scrubs slate (5 games, 52 cheap value players). Optimizing for variance with MC Win 160 is best.",
+    "RecommendedReason": "Stars & Scrubs slate (5 games, 50 cheap value players). Optimizing for variance with MC Win 160 is best.",
     "Narrative": {
         "RecommendedRoster": [
-            {
-                "firstName": "TJ",
-                "lastName": "Malone",
-                "position": "Attack",
-                "salary": 34,
-                "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (35.1 EV) and reliable role."
-                ]
-            },
             {
                 "firstName": "Marcus",
                 "lastName": "Holman",
@@ -568,6 +559,15 @@
                 "bullets": [
                     "Matchup Specialist: Historically performs well against RED (1.16x average scoring rate).",
                     "Opponent Weakness: RED defense allows 13% extra fantasy points to Attack position."
+                ]
+            },
+            {
+                "firstName": "TJ",
+                "lastName": "Malone",
+                "position": "Attack",
+                "salary": 34,
+                "bullets": [
+                    "Consistent Pick: Selected for steady expected floor (35.1 EV) and reliable role."
                 ]
             },
             {
@@ -643,8 +643,8 @@
                     "Matt Wright"
                 ],
                 "out": [
-                    "TJ Malone",
                     "Marcus Holman",
+                    "TJ Malone",
                     "Ryan Ambler",
                     "Marcus Hudgins",
                     "Logan McNaney"

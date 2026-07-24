@@ -187,6 +187,19 @@
     ],
     "MC_Ceil_90": [
         {
+            "firstName": "Blaze",
+            "lastName": "Riorden",
+            "team": "CHA",
+            "opponent": "WAT",
+            "game_id": "2026-ev-12",
+            "position": "Goalie",
+            "salary": 43,
+            "mc_ev": 38.9,
+            "mc_p90": 57.1,
+            "mc_p10": 17.8,
+            "actualPoints": 35.0
+        },
+        {
             "firstName": "CJ",
             "lastName": "Kirst",
             "team": "WAT",
@@ -213,45 +226,6 @@
             "actualPoints": 11.0
         },
         {
-            "firstName": "Levi",
-            "lastName": "Anderson",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2026-ev-10",
-            "position": "Midfield",
-            "salary": 22,
-            "mc_ev": 18.7,
-            "mc_p90": 78.9,
-            "mc_p10": 0.0,
-            "actualPoints": 11.0
-        },
-        {
-            "firstName": "Hugh",
-            "lastName": "Kelleher",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2026-ev-10",
-            "position": "Midfield",
-            "salary": 8,
-            "mc_ev": 17.1,
-            "mc_p90": 43.4,
-            "mc_p10": 0.0,
-            "actualPoints": -5.0
-        },
-        {
-            "firstName": "Piper",
-            "lastName": "Bond",
-            "team": "ARC",
-            "opponent": "WHP",
-            "game_id": "2026-ev-11",
-            "position": "Defense",
-            "salary": 6,
-            "mc_ev": 14.8,
-            "mc_p90": 30.0,
-            "mc_p10": 0.0,
-            "actualPoints": 30.0
-        },
-        {
             "firstName": "Trevor",
             "lastName": "Baptiste",
             "team": "ATL",
@@ -265,17 +239,43 @@
             "actualPoints": 9.1
         },
         {
-            "firstName": "Blaze",
-            "lastName": "Riorden",
-            "team": "CHA",
-            "opponent": "WAT",
-            "game_id": "2026-ev-12",
-            "position": "Goalie",
-            "salary": 43,
-            "mc_ev": 38.9,
-            "mc_p90": 57.1,
-            "mc_p10": 17.8,
-            "actualPoints": 35.0
+            "firstName": "Tre",
+            "lastName": "Leclaire",
+            "team": "ARC",
+            "opponent": "WHP",
+            "game_id": "2026-ev-11",
+            "position": "Midfield",
+            "salary": 13,
+            "mc_ev": 19.2,
+            "mc_p90": 57.6,
+            "mc_p10": 0.0,
+            "actualPoints": -3.0
+        },
+        {
+            "firstName": "Levi",
+            "lastName": "Anderson",
+            "team": "ATL",
+            "opponent": "OUT",
+            "game_id": "2026-ev-10",
+            "position": "Midfield",
+            "salary": 22,
+            "mc_ev": 18.7,
+            "mc_p90": 78.9,
+            "mc_p10": 0.0,
+            "actualPoints": 11.0
+        },
+        {
+            "firstName": "Jeff",
+            "lastName": "Trainor",
+            "team": "CAN",
+            "opponent": "WHP",
+            "game_id": "2026-ev-9",
+            "position": "Defense",
+            "salary": 15,
+            "mc_ev": 15.1,
+            "mc_p90": 36.3,
+            "mc_p10": 0.0,
+            "actualPoints": -2.0
         }
     ],
     "MC_Consensus": [],
@@ -375,12 +375,11 @@
     ],
     "Core": [
         "Blaze Riorden",
-        "Trevor Baptiste"
+        "Trevor Baptiste",
+        "Tre Leclaire",
+        "Jeff Trainor"
     ],
-    "Sleepers": [
-        "Hugh Kelleher",
-        "Piper Bond"
-    ],
+    "Sleepers": [],
     "RecommendedStrategy": "MC_Win_160",
     "RecommendedReason": "Stars & Scrubs slate (4 games, 58 cheap value players). Optimizing for variance with MC Win 160 is best.",
     "Narrative": {
@@ -468,18 +467,14 @@
                 "in": [
                     "CJ Kirst",
                     "Owen Hiltz",
-                    "Levi Anderson",
-                    "Hugh Kelleher",
-                    "Piper Bond"
+                    "Levi Anderson"
                 ],
                 "out": [
                     "Rob Pannell",
                     "Xander Dickson",
-                    "Tre Leclaire",
-                    "Zach Currier",
-                    "Jeff Trainor"
+                    "Zach Currier"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like CJ Kirst (Attack, 37c), Owen Hiltz (Attack, 39c), Levi Anderson (Midfield, 22c), Hugh Kelleher (Midfield, 8c), Piper Bond (Defense, 6c)) to maximize the team's 90th percentile ceiling (projecting up to 81.4 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like CJ Kirst (Attack, 37c), Owen Hiltz (Attack, 39c), Levi Anderson (Midfield, 22c)) to maximize the team's 90th percentile ceiling (projecting up to 81.4 pts)."
             }
         ]
     },

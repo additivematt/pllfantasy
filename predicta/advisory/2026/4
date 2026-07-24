@@ -187,19 +187,6 @@
     ],
     "MC_Ceil_90": [
         {
-            "firstName": "Pat",
-            "lastName": "Kavanagh",
-            "team": "OUT",
-            "opponent": "CHA",
-            "game_id": "2026-ev-15",
-            "position": "Attack",
-            "salary": 43,
-            "mc_ev": 30.5,
-            "mc_p90": 68.1,
-            "mc_p10": 0.0,
-            "actualPoints": 17.0
-        },
-        {
             "firstName": "Owen",
             "lastName": "Hiltz",
             "team": "CHA",
@@ -211,6 +198,19 @@
             "mc_p90": 78.4,
             "mc_p10": 0.0,
             "actualPoints": 9.0
+        },
+        {
+            "firstName": "Pat",
+            "lastName": "Kavanagh",
+            "team": "OUT",
+            "opponent": "CHA",
+            "game_id": "2026-ev-15",
+            "position": "Attack",
+            "salary": 43,
+            "mc_ev": 30.5,
+            "mc_p90": 68.1,
+            "mc_p10": 0.0,
+            "actualPoints": 17.0
         },
         {
             "firstName": "Hugh",
@@ -470,8 +470,8 @@
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
-                    "Pat Kavanagh",
                     "Owen Hiltz",
+                    "Pat Kavanagh",
                     "Hugh Kelleher",
                     "Sam English",
                     "Ben Ramsey"
@@ -483,7 +483,7 @@
                     "Reid Bowering",
                     "Brett Makar"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Pat Kavanagh (Attack, 43c), Owen Hiltz (Attack, 35c), Hugh Kelleher (Midfield, 5c), Sam English (Midfield, 19c), Ben Ramsey (Defense, 7c)) to maximize the team's 90th percentile ceiling (projecting up to 78.4 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Owen Hiltz (Attack, 35c), Pat Kavanagh (Attack, 43c), Hugh Kelleher (Midfield, 5c), Sam English (Midfield, 19c), Ben Ramsey (Defense, 7c)) to maximize the team's 90th percentile ceiling (projecting up to 78.4 pts)."
             }
         ]
     },
