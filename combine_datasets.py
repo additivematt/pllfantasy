@@ -94,12 +94,12 @@ def main():
         if not matched_event_stats and filtered_events:
             def get_event_type_and_num(eid):
                 eid = str(eid).lower()
-                m_num = re.search(r'(?:game|quarterfinal|semifinal|championship)[\s_-]*(\d+)', eid)
+                m_num = re.search(r'(?:game|quarterfinal|semifinal|championship|ev)[\s_-]*(\d+)', eid)
                 num = m_num.group(1) if m_num else None
                 if 'champ' in eid: return 'champ', num
                 if 'semi' in eid: return 'semi', num
                 if 'quarter' in eid: return 'quarter', num
-                if 'game' in eid: return 'game', num
+                if 'game' in eid or 'ev' in eid: return 'game', num
                 return None, num
                 
             type1, num1 = get_event_type_and_num(event_id)

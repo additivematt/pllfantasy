@@ -120,19 +120,6 @@
             "actualPoints": 34.0
         },
         {
-            "firstName": "Connor",
-            "lastName": "Kelly",
-            "team": "WAT",
-            "opponent": "ARC",
-            "game_id": "2026-ev-31",
-            "position": "Midfield",
-            "salary": 10,
-            "mc_ev": 17.9,
-            "mc_p90": 38.4,
-            "mc_p10": 0.0,
-            "actualPoints": -9.0
-        },
-        {
             "firstName": "Ryan",
             "lastName": "Ambler",
             "team": "ARC",
@@ -144,6 +131,19 @@
             "mc_p90": 42.2,
             "mc_p10": 0.0,
             "actualPoints": -2.0
+        },
+        {
+            "firstName": "Connor",
+            "lastName": "Kelly",
+            "team": "WAT",
+            "opponent": "ARC",
+            "game_id": "2026-ev-31",
+            "position": "Midfield",
+            "salary": 10,
+            "mc_ev": 17.9,
+            "mc_p90": 38.4,
+            "mc_p10": 0.0,
+            "actualPoints": -9.0
         },
         {
             "firstName": "Aidan",
@@ -187,19 +187,6 @@
     ],
     "MC_Ceil_90": [
         {
-            "firstName": "Brian",
-            "lastName": "Kelly",
-            "team": "CAN",
-            "opponent": "ATL",
-            "game_id": "2026-ev-32",
-            "position": "Attack",
-            "salary": 29,
-            "mc_ev": 28.8,
-            "mc_p90": 67.0,
-            "mc_p10": 0.0,
-            "actualPoints": 11.0
-        },
-        {
             "firstName": "Pat",
             "lastName": "Kavanagh",
             "team": "OUT",
@@ -211,6 +198,32 @@
             "mc_p90": 75.4,
             "mc_p10": 0.0,
             "actualPoints": 38.0
+        },
+        {
+            "firstName": "Logan",
+            "lastName": "Wisnauskas",
+            "team": "OUT",
+            "opponent": "CHA",
+            "game_id": "2026-ev-30",
+            "position": "Attack",
+            "salary": 32,
+            "mc_ev": 28.5,
+            "mc_p90": 64.0,
+            "mc_p10": 3.1,
+            "actualPoints": 33.0
+        },
+        {
+            "firstName": "Bryan",
+            "lastName": "Costabile",
+            "team": "ATL",
+            "opponent": "CAN",
+            "game_id": "2026-ev-32",
+            "position": "Midfield",
+            "salary": 32,
+            "mc_ev": 17.6,
+            "mc_p90": 43.8,
+            "mc_p10": 2.2,
+            "actualPoints": 41.0
         },
         {
             "firstName": "Graham",
@@ -226,30 +239,17 @@
             "actualPoints": 0.0
         },
         {
-            "firstName": "Luke",
-            "lastName": "Rhoa",
-            "team": "ATL",
-            "opponent": "CAN",
+            "firstName": "Ben",
+            "lastName": "Ramsey",
+            "team": "CAN",
+            "opponent": "ATL",
             "game_id": "2026-ev-32",
-            "position": "Midfield",
-            "salary": 7,
-            "mc_ev": 14.5,
-            "mc_p90": 44.9,
-            "mc_p10": 0.0,
-            "actualPoints": 0.0
-        },
-        {
-            "firstName": "Aidan",
-            "lastName": "Maguire",
-            "team": "ARC",
-            "opponent": "WAT",
-            "game_id": "2026-ev-31",
             "position": "Defense",
             "salary": 7,
-            "mc_ev": 14.1,
-            "mc_p90": 38.5,
+            "mc_ev": 14.0,
+            "mc_p90": 29.7,
             "mc_p10": 0.0,
-            "actualPoints": 21.0
+            "actualPoints": 22.0
         },
         {
             "firstName": "Trevor",
@@ -559,14 +559,13 @@
     ],
     "Core": [
         "Brett Dobson",
-        "Trevor Baptiste",
-        "Aidan Maguire"
+        "Trevor Baptiste"
     ],
     "Sleepers": [
-        "Luke Rhoa"
+        "Ben Ramsey"
     ],
     "RecommendedStrategy": "MC_Win_160",
-    "RecommendedReason": "Stars & Scrubs slate (4 games, 48 cheap value players). Optimizing for variance with MC Win 160 is best.",
+    "RecommendedReason": "Stars & Scrubs slate (4 games, 47 cheap value players). Optimizing for variance with MC Win 160 is best.",
     "Narrative": {
         "RecommendedRoster": [
             {
@@ -588,21 +587,21 @@
                 ]
             },
             {
-                "firstName": "Connor",
-                "lastName": "Kelly",
-                "position": "Midfield",
-                "salary": 10,
-                "bullets": [
-                    "Salary Cap Enabler: Excellent cost efficiency, projecting 17.9 EV for just 10 coins."
-                ]
-            },
-            {
                 "firstName": "Ryan",
                 "lastName": "Ambler",
                 "position": "Midfield",
                 "salary": 8,
                 "bullets": [
                     "Salary Cap Enabler: Excellent cost efficiency, projecting 17.2 EV for just 8 coins."
+                ]
+            },
+            {
+                "firstName": "Connor",
+                "lastName": "Kelly",
+                "position": "Midfield",
+                "salary": 10,
+                "bullets": [
+                    "Salary Cap Enabler: Excellent cost efficiency, projecting 17.9 EV for just 10 coins."
                 ]
             },
             {
@@ -652,18 +651,20 @@
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
-                    "Brian Kelly",
                     "Pat Kavanagh",
+                    "Logan Wisnauskas",
+                    "Bryan Costabile",
                     "Graham Bundy",
-                    "Luke Rhoa"
+                    "Ben Ramsey"
                 ],
                 "out": [
                     "Marcus Holman",
                     "Michael Sowers",
+                    "Ryan Ambler",
                     "Connor Kelly",
-                    "Ryan Ambler"
+                    "Aidan Maguire"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Brian Kelly (Attack, 29c), Pat Kavanagh (Attack, 42c), Graham Bundy (Midfield, 11c), Luke Rhoa (Midfield, 7c)) to maximize the team's 90th percentile ceiling (projecting up to 75.4 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Pat Kavanagh (Attack, 42c), Logan Wisnauskas (Attack, 32c), Bryan Costabile (Midfield, 32c), Graham Bundy (Midfield, 11c), Ben Ramsey (Defense, 7c)) to maximize the team's 90th percentile ceiling (projecting up to 75.4 pts)."
             }
         ]
     },
