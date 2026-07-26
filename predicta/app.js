@@ -59,6 +59,19 @@ function sparkFormatPoints(val) {
     return Number.isInteger(rounded) ? rounded.toString() : rounded.toFixed(1);
 }
 
+function isDNPStat(s) {
+    if (!s) return true;
+    if (s.isDNP === true) return true;
+    const hasStats = s.stats && Object.keys(s.stats).length > 0;
+    const hasDisplay = !!(s.f2p && s.f2p.displayString);
+    const hasPositivePts = s.f2p && s.f2p.totalPoints != null && s.f2p.totalPoints > 0;
+    const isCompleted = s.event && (s.event.eventStatus === 2 || s.event.eventStatus === 3 || s.event.eventStatus === undefined);
+    if (isCompleted && !hasStats && !hasDisplay && !hasPositivePts) {
+        return true;
+    }
+    return false;
+}
+
 /**
  * Build the shared stats+range-bar HTML for both tooltip paths.
  * The sparkline canvas placeholder is appended after this block.
@@ -206,12 +219,12 @@ function renderTooltipSparkline(firstName, lastName, opponent) {
     });
 
     // DNPs → null (gap in chart). Played games use exact totalPoints (0 is a real score, not a gap).
-    const chartData = windowSlots.map(s => (s && !s.isDNP) ? (s.f2p?.totalPoints ?? null) : null);
+    const chartData = windowSlots.map(s => (s && !isDNPStat(s)) ? (s.f2p?.totalPoints ?? null) : null);
 
 
     // Point colours: gold for games vs current opponent, purple otherwise, transparent for null/DNP
     const pointBg = windowSlots.map(s => {
-        if (!s || s.isDNP) return 'transparent';
+        if (!s || isDNPStat(s)) return 'transparent';
         if (normOpp) {
             const opp = getOpponentCodeFromStat(s, playerTeam, matchupLogs);
             if (opp === normOpp) return 'rgba(236, 201, 75, 0.95)'; // Gold
@@ -219,7 +232,7 @@ function renderTooltipSparkline(firstName, lastName, opponent) {
         return 'rgba(159, 122, 234, 0.8)'; // Purple
     });
     const pointRadius = windowSlots.map(s => {
-        if (!s || s.isDNP) return 0;
+        if (!s || isDNPStat(s)) return 0;
         if (normOpp) {
             const opp = getOpponentCodeFromStat(s, playerTeam, matchupLogs);
             if (opp === normOpp) return 6;
@@ -227,7 +240,7 @@ function renderTooltipSparkline(firstName, lastName, opponent) {
         return 3;
     });
     const pointBorder = windowSlots.map(s => {
-        if (!s || s.isDNP) return 'transparent';
+        if (!s || isDNPStat(s)) return 'transparent';
         if (normOpp) {
             const opp = getOpponentCodeFromStat(s, playerTeam, matchupLogs);
             if (opp === normOpp) return '#ecc94b';
@@ -296,8 +309,8 @@ function renderTooltipSparkline(firstName, lastName, opponent) {
                     callbacks: {
                         label: context => {
                             const s = windowSlots[context.dataIndex];
-                            if (!s) return '';
-                            return `${sparkFormatPoints(s.f2p.totalPoints)} FP`;
+                            if (!s || isDNPStat(s)) return 'DNP';
+                            return `${sparkFormatPoints(s.f2p?.totalPoints)} FP`;
                         }
                     },
                     backgroundColor: 'rgba(22,27,34,0.95)',

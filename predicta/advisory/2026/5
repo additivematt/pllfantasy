@@ -187,19 +187,6 @@
     ],
     "MC_Ceil_90": [
         {
-            "firstName": "Matt",
-            "lastName": "Rambo",
-            "team": "ATL",
-            "opponent": "WHP",
-            "game_id": "2026-ev-19",
-            "position": "Attack",
-            "salary": 18,
-            "mc_ev": 24.9,
-            "mc_p90": 63.4,
-            "mc_p10": 0.0,
-            "actualPoints": 29.0
-        },
-        {
             "firstName": "Connor",
             "lastName": "Shellenberger",
             "team": "ATL",
@@ -211,6 +198,19 @@
             "mc_p90": 61.1,
             "mc_p10": 8.9,
             "actualPoints": 75.0
+        },
+        {
+            "firstName": "Matt",
+            "lastName": "Rambo",
+            "team": "ATL",
+            "opponent": "WHP",
+            "game_id": "2026-ev-19",
+            "position": "Attack",
+            "salary": 18,
+            "mc_ev": 24.9,
+            "mc_p90": 63.4,
+            "mc_p10": 0.0,
+            "actualPoints": 29.0
         },
         {
             "firstName": "Sam",
@@ -381,7 +381,7 @@
         "Cam Wyers"
     ],
     "RecommendedStrategy": "MC_EV",
-    "RecommendedReason": "Tight pricing / short slate (3 games, 36 cheap value players). Optimizing for floor is best.",
+    "RecommendedReason": "Tight pricing / short slate (3 games, 37 cheap value players). Optimizing for floor is best.",
     "Narrative": {
         "RecommendedRoster": [
             {
@@ -468,8 +468,8 @@
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
-                    "Matt Rambo",
                     "Connor Shellenberger",
+                    "Matt Rambo",
                     "Sam English",
                     "Cam Wyers"
                 ],
@@ -479,7 +479,7 @@
                     "Connor Kirst",
                     "Brett Makar"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Matt Rambo (Attack, 18c), Connor Shellenberger (Attack, 37c), Sam English (Midfield, 17c), Cam Wyers (Defense, 5c)) to maximize the team's 90th percentile ceiling (projecting up to 63.4 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Connor Shellenberger (Attack, 37c), Matt Rambo (Attack, 18c), Sam English (Midfield, 17c), Cam Wyers (Defense, 5c)) to maximize the team's 90th percentile ceiling (projecting up to 63.4 pts)."
             }
         ]
     },

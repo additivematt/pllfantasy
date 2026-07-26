@@ -373,19 +373,6 @@
     ],
     "MC_Differential": [
         {
-            "firstName": "CJ",
-            "lastName": "Kirst",
-            "team": "WAT",
-            "opponent": "ARC",
-            "game_id": "2026-ev-31",
-            "position": "Attack",
-            "salary": 50,
-            "mc_ev": 29.2,
-            "mc_p90": 54.4,
-            "mc_p10": 0.0,
-            "actualPoints": 4.0
-        },
-        {
             "firstName": "Marcus",
             "lastName": "Holman",
             "team": "CAN",
@@ -397,6 +384,19 @@
             "mc_p90": 62.0,
             "mc_p10": 8.6,
             "actualPoints": 37.0
+        },
+        {
+            "firstName": "CJ",
+            "lastName": "Kirst",
+            "team": "WAT",
+            "opponent": "ARC",
+            "game_id": "2026-ev-31",
+            "position": "Attack",
+            "salary": 50,
+            "mc_ev": 29.2,
+            "mc_p90": 54.4,
+            "mc_p10": 0.0,
+            "actualPoints": 4.0
         },
         {
             "firstName": "Connor",
@@ -469,7 +469,7 @@
             "firstName": "TJ",
             "lastName": "Malone",
             "team": "WHP",
-            "opponent": null,
+            "opponent": "RED",
             "game_id": "2026-ev-29",
             "position": "A",
             "salary": 38,
@@ -482,7 +482,7 @@
             "firstName": "Rob",
             "lastName": "Pannell",
             "team": "WHP",
-            "opponent": null,
+            "opponent": "RED",
             "game_id": "2026-ev-29",
             "position": "A",
             "salary": 30,
@@ -534,7 +534,7 @@
             "firstName": "Petey",
             "lastName": "LaSalla",
             "team": "WHP",
-            "opponent": null,
+            "opponent": "RED",
             "game_id": "2026-ev-29",
             "position": "FO",
             "salary": 19,
@@ -547,7 +547,7 @@
             "firstName": "Emmet",
             "lastName": "Carroll",
             "team": "WHP",
-            "opponent": null,
+            "opponent": "RED",
             "game_id": "2026-ev-29",
             "position": "G",
             "salary": 37,
@@ -565,7 +565,7 @@
         "Ben Ramsey"
     ],
     "RecommendedStrategy": "MC_Win_160",
-    "RecommendedReason": "Stars & Scrubs slate (4 games, 47 cheap value players). Optimizing for variance with MC Win 160 is best.",
+    "RecommendedReason": "Stars & Scrubs slate (4 games, 48 cheap value players). Optimizing for variance with MC Win 160 is best.",
     "Narrative": {
         "RecommendedRoster": [
             {

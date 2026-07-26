@@ -308,30 +308,43 @@
             "actualPoints": 48.0
         },
         {
-            "firstName": "Ryder",
-            "lastName": "Garnsey",
-            "team": "RED",
-            "opponent": "CHA",
+            "firstName": "Eric",
+            "lastName": "Spanos",
+            "team": "CHA",
+            "opponent": "RED",
             "game_id": "2026-ev-24",
             "position": "Midfield",
-            "salary": 9,
-            "mc_ev": 15.5,
-            "mc_p90": 33.3,
+            "salary": 6,
+            "mc_ev": 15.9,
+            "mc_p90": 42.7,
             "mc_p10": 0.0,
-            "actualPoints": 32.0
+            "actualPoints": 17.0
         },
         {
-            "firstName": "Graydon",
-            "lastName": "Hogg",
+            "firstName": "Logan",
+            "lastName": "Ip",
             "team": "CAN",
             "opponent": "RED",
             "game_id": "2026-ev-22",
             "position": "Midfield",
-            "salary": 12,
-            "mc_ev": 13.0,
-            "mc_p90": 32.7,
+            "salary": 6,
+            "mc_ev": 14.9,
+            "mc_p90": 48.4,
             "mc_p10": 0.0,
-            "actualPoints": 7.0
+            "actualPoints": 0.0
+        },
+        {
+            "firstName": "Tim",
+            "lastName": "Muller",
+            "team": "WHP",
+            "opponent": "OUT",
+            "game_id": "2026-ev-21",
+            "position": "Defense",
+            "salary": 7,
+            "mc_ev": 11.9,
+            "mc_p90": 26.1,
+            "mc_p10": 0.0,
+            "actualPoints": 0.0
         },
         {
             "firstName": "Connor",
@@ -344,19 +357,6 @@
             "mc_ev": 11.5,
             "mc_p90": 21.7,
             "mc_p10": 0.5
-        },
-        {
-            "firstName": "Blake",
-            "lastName": "Eiland",
-            "team": "WHP",
-            "opponent": "OUT",
-            "game_id": "2026-ev-21",
-            "position": "Defense",
-            "salary": 3,
-            "mc_ev": 9.8,
-            "mc_p90": 25.2,
-            "mc_p10": 0.0,
-            "actualPoints": 2.0
         }
     ],
     "MC_Differential": [
@@ -465,7 +465,7 @@
             "firstName": "Coulter",
             "lastName": "Mackesy",
             "team": "CAN",
-            "opponent": null,
+            "opponent": "RED",
             "game_id": "2026-ev-22",
             "position": "A",
             "salary": 36,
@@ -478,7 +478,7 @@
             "firstName": "Ross",
             "lastName": "Scott",
             "team": "CHA",
-            "opponent": null,
+            "opponent": "RED",
             "game_id": "2026-ev-24",
             "position": "M",
             "salary": 23,
@@ -491,7 +491,7 @@
             "firstName": "Ryan",
             "lastName": "Stines",
             "team": "ARC",
-            "opponent": null,
+            "opponent": "WAT",
             "game_id": "2026-ev-23",
             "position": "M",
             "salary": 20,
@@ -504,7 +504,7 @@
             "firstName": "Chris",
             "lastName": "Conlin",
             "team": "RED",
-            "opponent": null,
+            "opponent": "CHA",
             "game_id": "2026-ev-24",
             "position": "D",
             "salary": 7,
@@ -517,7 +517,7 @@
             "firstName": "TD",
             "lastName": "Ierlan",
             "team": "RED",
-            "opponent": null,
+            "opponent": "CHA",
             "game_id": "2026-ev-24",
             "position": "FO",
             "salary": 23,
@@ -530,13 +530,13 @@
             "firstName": "Blaze",
             "lastName": "Riorden",
             "team": "CHA",
-            "opponent": null,
+            "opponent": "RED",
             "game_id": "2026-ev-24",
             "position": "G",
             "salary": 43,
-            "mc_ev": 0.0,
-            "mc_p90": 0.0,
-            "mc_p10": 0.0,
+            "mc_ev": 37.3,
+            "mc_p90": 54.5,
+            "mc_p10": 17.9,
             "actualPoints": 72.0
         }
     ],
@@ -548,7 +548,7 @@
         "Matt Wright"
     ],
     "RecommendedStrategy": "MC_Win_160",
-    "RecommendedReason": "Stars & Scrubs slate (5 games, 49 cheap value players). Optimizing for variance with MC Win 160 is best.",
+    "RecommendedReason": "Stars & Scrubs slate (5 games, 50 cheap value players). Optimizing for variance with MC Win 160 is best.",
     "Narrative": {
         "RecommendedRoster": [
             {

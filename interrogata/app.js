@@ -39,6 +39,19 @@ function formatPoints(val) {
     return Number.isInteger(rounded) ? rounded.toString() : rounded.toFixed(1);
 }
 
+function isDNPStat(s) {
+    if (!s) return true;
+    if (s.isDNP === true) return true;
+    const hasStats = s.stats && Object.keys(s.stats).length > 0;
+    const hasDisplay = !!(s.f2p && s.f2p.displayString);
+    const hasPositivePts = s.f2p && s.f2p.totalPoints != null && s.f2p.totalPoints > 0;
+    const isCompleted = s.event && (s.event.eventStatus === 2 || s.event.eventStatus === 3 || s.event.eventStatus === undefined);
+    if (isCompleted && !hasStats && !hasDisplay && !hasPositivePts) {
+        return true;
+    }
+    return false;
+}
+
 function normalizeTeamCode(code) {
     if (!code) return code;
     const mapping = {
@@ -506,9 +519,9 @@ function renderChart(stats, stats2, targetOpponents, targetOpponents2, player1Na
             return `${season} ${eventLabel} (${dateStr}) vs ${opp}`;
         });
         
-        const data = chartStats.map(s => (s && !s.isDNP) ? s.f2p.totalPoints : null);
+        const data = chartStats.map(s => (s && !isDNPStat(s)) ? s.f2p.totalPoints : null);
         const backgroundColors = chartStats.map(s => {
-            if (!s || s.isDNP) return 'transparent';
+            if (!s || isDNPStat(s)) return 'transparent';
             if (!targetOpponents || targetOpponents.length === 0) return 'rgba(159, 122, 234, 0.2)';
             
             const opp = getOpponentCode(s, s.identity.team);
@@ -705,15 +718,15 @@ function renderChart(stats, stats2, targetOpponents, targetOpponents2, player1Na
             }
 
             chartLabels.push(`${slot.season} ${eventLabel}`);
-            chartData1.push((s1 && !s1.isDNP) ? s1.f2p.totalPoints : null);
-            chartData2.push((s2 && !s2.isDNP) ? s2.f2p.totalPoints : null);
+            chartData1.push((s1 && !isDNPStat(s1)) ? s1.f2p.totalPoints : null);
+            chartData2.push((s2 && !isDNPStat(s2)) ? s2.f2p.totalPoints : null);
             chartStatsForGrid1.push(s1);
             chartStatsForGrid2.push(s2);
         });
 
         const getPointBackgrounds = (chartStats, primaryColor, targetOpps) => {
             return chartStats.map(s => {
-                if (!s || s.isDNP) return 'transparent';
+                if (!s || isDNPStat(s)) return 'transparent';
                 if (!targetOpps || targetOpps.length === 0) return primaryColor;
                 
                 const opp = getOpponentCode(s, s.identity.team);
@@ -830,7 +843,7 @@ function renderChart(stats, stats2, targetOpponents, targetOpponents2, player1Na
                                 const statsList = datasetIndex === 0 ? chartStatsForGrid1 : chartStatsForGrid2;
                                 const s = statsList[index];
                                 if (!s) return '';
-                                if (s.isDNP) return `${player}: DNP`;
+                                if (!s || isDNPStat(s)) return `${player}: DNP`;
                                 const matchupStr = (s.event.homeTeam && s.event.awayTeam) ? `${s.event.homeTeam} vs ${s.event.awayTeam}` : `vs ${getOpponentCode(s, s.identity.team)}`;
                                 return `${player}: ${formatPoints(s.f2p.totalPoints)} FP (${matchupStr})`;
                             }
@@ -943,7 +956,7 @@ function renderTable(stats, targetOpponents) {
     stats.slice().reverse().forEach(s => {
         const opp = getOpponentCode(s, s.identity.team);
         const oppIndex = targetOpponents ? targetOpponents.findIndex(o => opp === o) : -1;
-        const isDNP = s.isDNP === true;
+        const isDNP = isDNPStat(s);
         
         const tr = document.createElement('tr');
         if (isDNP) {

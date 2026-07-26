@@ -14,7 +14,7 @@ MATCHUP_FILES = {
     "2026": os.path.join(BASE_DIR, "season_matchups_2026.json")
 }
 
-def extract_data():
+def extract_data(compile_static=False):
     all_players_data = {} # slug -> {player: {}, stats: [], matchup_logs: {}, isActive: bool}
     team_games = {} # year -> team -> eventId -> game_details
 
@@ -44,9 +44,13 @@ def extract_data():
                     # If this entry has empty stats, check if the game is completed (status 2, 3 or not specified) before flagging as DNP.
                     # This prevents future scheduled games (status 0) from being marked as DNP.
                     is_completed = entry.get("event", {}).get("eventStatus", 3) in [2, 3]
-                    has_f2p_pts = entry.get("f2p", {}).get("totalPoints") is not None
+                    has_positive_f2p_pts = entry.get("f2p", {}).get("totalPoints") is not None and entry.get("f2p", {}).get("totalPoints") > 0
+                    has_display_str = bool(entry.get("f2p", {}).get("displayString"))
                     has_box_stats = bool(entry.get("stats") and len(entry.get("stats")) > 0)
-                    if is_completed and not has_box_stats and not has_f2p_pts:
+
+                    if entry.get("isDNP") is True:
+                        entry["isDNP"] = True
+                    elif is_completed and not has_box_stats and not has_positive_f2p_pts and not has_display_str:
                         entry["isDNP"] = True
                     else:
                         entry["isDNP"] = False
@@ -153,6 +157,14 @@ def extract_data():
                                 
     print(f"Injected {dnp_injected_count} DNP logs across all players.")
 
+    # Build lookup mapping of player name -> list of slugs for O(1) matching
+    name_to_slugs = {}
+    for slug, p_data in all_players_data.items():
+        p_name = p_data["player"]["name"]
+        if p_name not in name_to_slugs:
+            name_to_slugs[p_name] = []
+        name_to_slugs[p_name].append(slug)
+
     # Extract Matchups for each player
     for year, filename in MATCHUP_FILES.items():
         if os.path.exists(filename):
@@ -160,20 +172,13 @@ def extract_data():
             with open(filename, 'r', encoding='utf-8') as f:
                 matchups = json.load(f)
                 for game_id, game_data in matchups.items():
-                    # For each player we found, check if they are in this matchup
-                    # Optimization: only check players who are actually in this game's teams
-                    team_a = game_data.get("team_a")
-                    team_b = game_data.get("team_b")
-                    
-                    for slug, p_data in all_players_data.items():
-                        # We don't necessarily know which team they were on in that year without checking stats
-                        # So we check their name in the matchups list
-                        p_name = p_data["player"]["name"]
-                        for m in game_data.get("matchups", []):
-                            if m.get("playerA") == p_name or m.get("playerB") == p_name:
-                                if game_id not in p_data["matchup_logs"]:
-                                    p_data["matchup_logs"][game_id] = game_data
-                                break
+                    for m in game_data.get("matchups", []):
+                        for p_key in ("playerA", "playerB"):
+                            p_name = m.get(p_key)
+                            if p_name and p_name in name_to_slugs:
+                                for slug in name_to_slugs[p_name]:
+                                    if game_id not in all_players_data[slug]["matchup_logs"]:
+                                        all_players_data[slug]["matchup_logs"][game_id] = game_data
         else:
             print(f"Warning: {filename} not found.")
 
@@ -182,24 +187,27 @@ def extract_data():
         p_data["stats"].sort(key=lambda s: int(s.get("event", {}).get("startTime") or 0))
 
     with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
-        json.dump(all_players_data, f, indent=4)
+        json.dump(all_players_data, f, indent=2)
     
     print(f"Successfully extracted all player data to {OUTPUT_FILE}")
 
-    # Run the static compiler dynamically (loads 07_prepare_static_data.py)
-    try:
-        import importlib.util
-        static_data_path = os.path.join(BASE_DIR, "07_prepare_static_data.py")
-        if os.path.exists(static_data_path):
-            spec = importlib.util.spec_from_file_location("prepare_static_data", static_data_path)
-            prepare_static_data = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(prepare_static_data)
-            prepare_static_data.main()
-            print("✅ Static compiler finished successfully!")
-        else:
-            print("❌ Error: 07_prepare_static_data.py not found in scripts directory!")
-    except Exception as e:
-        print(f"Error running prepare_static_data: {e}")
+    if compile_static:
+        # Run the static compiler dynamically (loads 07_prepare_static_data.py)
+        try:
+            import importlib.util
+            static_data_path = os.path.join(BASE_DIR, "07_prepare_static_data.py")
+            if os.path.exists(static_data_path):
+                spec = importlib.util.spec_from_file_location("prepare_static_data", static_data_path)
+                prepare_static_data = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(prepare_static_data)
+                prepare_static_data.main()
+                print("✅ Static compiler finished successfully!")
+            else:
+                print("❌ Error: 07_prepare_static_data.py not found in scripts directory!")
+        except Exception as e:
+            print(f"Error running prepare_static_data: {e}")
 
 if __name__ == "__main__":
-    extract_data()
+    compile_flag = "--compile-static" in sys.argv
+    extract_data(compile_static=compile_flag)
+

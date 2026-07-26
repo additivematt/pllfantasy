@@ -187,19 +187,6 @@
     ],
     "MC_Ceil_90": [
         {
-            "firstName": "Jackson",
-            "lastName": "Eicher",
-            "team": "CHA",
-            "opponent": "ATL",
-            "game_id": "2026-ev-2",
-            "position": "Attack",
-            "salary": 26,
-            "mc_ev": 32.1,
-            "mc_p90": 66.9,
-            "mc_p10": 3.8,
-            "actualPoints": 27.0
-        },
-        {
             "firstName": "Connor",
             "lastName": "Shellenberger",
             "team": "ATL",
@@ -213,17 +200,17 @@
             "actualPoints": 29.0
         },
         {
-            "firstName": "Matt",
-            "lastName": "Brandau",
-            "team": "WHP",
-            "opponent": "WAT",
-            "game_id": "2026-ev-4",
-            "position": "Midfield",
-            "salary": 27,
-            "mc_ev": 21.3,
-            "mc_p90": 47.0,
-            "mc_p10": 0.0,
-            "actualPoints": 56.0
+            "firstName": "Jackson",
+            "lastName": "Eicher",
+            "team": "CHA",
+            "opponent": "ATL",
+            "game_id": "2026-ev-2",
+            "position": "Attack",
+            "salary": 26,
+            "mc_ev": 32.1,
+            "mc_p90": 66.9,
+            "mc_p10": 3.8,
+            "actualPoints": 27.0
         },
         {
             "firstName": "Romar",
@@ -237,6 +224,19 @@
             "mc_p90": 41.3,
             "mc_p10": 0.0,
             "actualPoints": 1.0
+        },
+        {
+            "firstName": "Matt",
+            "lastName": "Brandau",
+            "team": "WHP",
+            "opponent": "WAT",
+            "game_id": "2026-ev-4",
+            "position": "Midfield",
+            "salary": 27,
+            "mc_ev": 21.3,
+            "mc_p90": 47.0,
+            "mc_p10": 0.0,
+            "actualPoints": 56.0
         },
         {
             "firstName": "Matt",
@@ -381,7 +381,7 @@
         "Austin Kaut"
     ],
     "RecommendedStrategy": "MC_Win_160",
-    "RecommendedReason": "Stars & Scrubs slate (4 games, 64 cheap value players). Optimizing for variance with MC Win 160 is best.",
+    "RecommendedReason": "Stars & Scrubs slate (4 games, 65 cheap value players). Optimizing for variance with MC Win 160 is best.",
     "Narrative": {
         "RecommendedRoster": [
             {
@@ -465,8 +465,8 @@
                 "strategyLabel": "MC Ceil 90",
                 "in": [
                     "Jackson Eicher",
-                    "Matt Brandau",
                     "Romar Dennis",
+                    "Matt Brandau",
                     "Matt Whitcher",
                     "Luke Wierman",
                     "Austin Kaut"
@@ -479,7 +479,7 @@
                     "Justin Inacio",
                     "Jared Conners"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Jackson Eicher (Attack, 26c), Matt Brandau (Midfield, 27c), Romar Dennis (Midfield, 13c), Matt Whitcher (Defense, 7c), Luke Wierman (Faceoff, 20c), Austin Kaut (Goalie, 10c)) to maximize the team's 90th percentile ceiling (projecting up to 83.5 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Jackson Eicher (Attack, 26c), Romar Dennis (Midfield, 13c), Matt Brandau (Midfield, 27c), Matt Whitcher (Defense, 7c), Luke Wierman (Faceoff, 20c), Austin Kaut (Goalie, 10c)) to maximize the team's 90th percentile ceiling (projecting up to 83.5 pts)."
             }
         ]
     },
