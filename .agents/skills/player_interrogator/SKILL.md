@@ -32,19 +32,13 @@ To enable data-driven fantasy decisions by visualizing a player's career traject
 
 ### 2. Frontend Interface (`/interrogata/`)
 - **Technology**: Vanilla HTML5, CSS3, and JavaScript (ES6+), powered by **Chart.js**.
-- **Offline Support**: A Service Worker (`sw.js`) caches the entire app shell and `all_players_stats.json` using relative paths on first load, enabling full offline use on mobile, tablet, or PC without needing any active server.
+- **Hosting & Live Updates**: Hosted statically via **GitHub Pages**. Assets (`app.js`, `index.html`, `all_players_stats.json`) load directly over HTTPS without any Service Worker caching layers, ensuring updates pushed to GitHub are immediately live.
 - **Layout**: Full-width performance trend chart, historical matchup context cards, and a detailed game log.
 - **Filtering**: Supports filtering by **Team**, **Position**, and **Active Status** (2025/26).
 
 ### 3. Server Compatibility (`/matchup_tagger/server.py`)
 - **Role**: Shared local Python server (Port 8000) serving the Matchup Tagger, and dynamically routing `/interrogata/` and `/predicta/` locally.
-- **Decoupled Static Execution**: Because the frontend reads `./all_players_stats.json` relatively, it no longer requires the local Python server when uploaded to a static host like **GitHub Pages**. This secure HTTPS connection is perfect for Service Worker registration on mobile devices.
-
-### 4. Offline Caching (`/interrogata/sw.js`)
-- **App Shell** (HTML, CSS, JS, Chart.js, Google Fonts): **Cache-First** strategy — served from browser cache with no network request.
-- **`all_players_stats.json`**: **Stale-While-Revalidate** — the cached copy is served immediately for instant load; a background fetch silently updates the cache when online. A green **"DATA UPDATED"** status pill appears in the header when fresh data has been downloaded.
-- **Offline Indicator**: An amber **"⚡ OFFLINE — using cached data"** pill is shown in the header whenever the device has no connection to the host server.
-- **Cache Refresh**: When fresh stats are generated on your PC, running the static build script updates the files inside `interrogata/`. Once uploaded to GitHub, opening the page on your mobile device refreshes its local offline cache automatically.
+- **Decoupled Static Execution**: Because the frontend reads `./all_players_stats.json` relatively, it no longer requires the local Python server when uploaded to a static host like **GitHub Pages**.
 
 ---
 

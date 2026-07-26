@@ -10,33 +10,20 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // ── Service Worker Registration ────────────────────────────────────────
+        // Unregister legacy Service Workers and clear browser caches for Interrogata
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js')
-                .then(reg => console.log('[SW] Registered, scope:', reg.scope))
-                .catch(err => console.warn('[SW] Registration failed:', err));
-
-
-            // Listen for messages from the service worker
-            navigator.serviceWorker.addEventListener('message', event => {
-                if (event.data?.type === 'SERVER_REACHABLE') {
-                    showStatus('🟢 ONLINE', '#48bb78');
-                } else if (event.data?.type === 'SERVER_UNREACHABLE') {
-                    showStatus('⚡ OFFLINE — using cached data', '#ecc94b');
+            navigator.serviceWorker.getRegistrations().then(registrations => {
+                for (let registration of registrations) {
+                    registration.unregister();
                 }
             });
         }
-
-        // Status pill helper (looks up element dynamically as it runs in head)
-        function showStatus(text, color) {
-            const statusEl = document.getElementById('cacheStatus');
-            if (statusEl) {
-                statusEl.textContent = text;
-                statusEl.style.display = 'inline-block';
-                statusEl.style.background = color + '22';
-                statusEl.style.color = color;
-                statusEl.style.border = '1px solid ' + color + '55';
-            }
+        if ('caches' in window) {
+            caches.keys().then(keys => {
+                for (let key of keys) {
+                    caches.delete(key);
+                }
+            });
         }
     </script>
 </head>
@@ -48,7 +35,6 @@
                 <span class="logo-main">INTERROGATA</span>
                 <span class="subtitle">Deep dive player analytics</span>
             </div>
-            <div id="cacheStatus" style="display:inline-block; font-size:0.7rem; font-weight:700; letter-spacing:1px; padding:4px 10px; border-radius:20px; align-self:center; background: rgba(72, 187, 120, 0.12); color: #48bb78; border: 1px solid rgba(72, 187, 120, 0.25);">🟢 ONLINE</div>
             <div class="selectors">
                 <div class="selector-group">
                     <label for="teamFilter">Team</label>
@@ -191,6 +177,6 @@
             </section>
         </main>
     </div>
-    <script src="app.js"></script>
+    <script src="app.js?v=20260726"></script>
 </body>
 </html>

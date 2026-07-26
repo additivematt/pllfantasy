@@ -133,13 +133,6 @@ async function init() {
         updateDashboard();
     } catch (error) {
         console.error("Failed to load data:", error);
-        const statusEl = document.getElementById('cacheStatus');
-        if (statusEl) {
-            statusEl.textContent = '⚡ OFFLINE — data not loaded';
-            statusEl.style.background = 'rgba(245, 101, 101, 0.12)';
-            statusEl.style.color = '#f56565';
-            statusEl.style.border = '1px solid rgba(245, 101, 101, 0.25)';
-        }
     }
 }
 
