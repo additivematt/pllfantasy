@@ -569,11 +569,55 @@ function renderPlot(targetId, title, data, yRange = null) {
         return Math.max(6, p90 * 0.55 + 4);
     });
 
-    // Color by MC Std Dev (risk/volatility): green = safe floor, red = boom-or-bust
-    const stdValues = sortedData.map(d => d.mc_std != null ? d.mc_std : 0);
-    const stdMin = Math.max(0, Math.min(...stdValues));
-    const stdMax = Math.max(...stdValues);
+    // Detect if current week has already been played
+    const hasPlayed = (window.currentAdvisory && window.currentAdvisory.Coulda && window.currentAdvisory.Coulda.length > 0) || sortedData.some(d => d.actualPoints != null && !isNaN(Number(d.actualPoints)));
 
+    let markerValues, markerMin, markerMax, markerColorscale, colorbarTitle;
+
+    if (hasPlayed) {
+        // Color by Actual Score (FP): red = low/bust, green = high/boom
+        markerValues = sortedData.map(d => {
+            let pts = (d.actualPoints != null && !isNaN(Number(d.actualPoints))) ? Number(d.actualPoints) : null;
+            if (pts === null && window._playerStatsByName && d.firstName && d.lastName) {
+                const key = `${d.firstName} ${d.lastName}`.toLowerCase().trim();
+                const pHist = window._playerStatsByName[key];
+                if (pHist && pHist.stats) {
+                    const currentWeek = parseInt(document.getElementById('week-select')?.value || 0);
+                    const currentYear = parseInt(document.getElementById('year-select')?.value || 0);
+                    const statMatch = pHist.stats.find(s => (s.week === currentWeek || s.event?.week === currentWeek) && s.event && s.event.eventId && String(s.event.eventId).startsWith(String(currentYear)));
+                    if (statMatch && statMatch.f2p && statMatch.f2p.totalPoints != null && !statMatch.isDNP) {
+                        pts = Number(statMatch.f2p.totalPoints);
+                    }
+                }
+            }
+            return pts != null ? pts : 0;
+        });
+        markerMin = Math.max(0, Math.min(...markerValues));
+        markerMax = Math.max(...markerValues);
+        if (markerMin === markerMax) markerMax = markerMin + 1;
+        markerColorscale = [
+            [0,   'rgb(215,48,39)'],  // Red (0 / low score)
+            [0.25, 'rgb(253,174,97)'], // Orange
+            [0.5, 'rgb(255,255,191)'], // Yellow
+            [0.75, 'rgb(166,217,106)'], // Light green
+            [1,   'rgb(26,152,80)']    // Deep green (high actual score)
+        ];
+        colorbarTitle = 'Actual (FP)';
+    } else {
+        // Color by MC Std Dev (risk/volatility): green = safe floor, red = boom-or-bust
+        markerValues = sortedData.map(d => d.mc_std != null ? d.mc_std : 0);
+        markerMin = Math.max(0, Math.min(...markerValues));
+        markerMax = Math.max(...markerValues);
+        if (markerMin === markerMax) markerMax = markerMin + 1;
+        markerColorscale = [
+            [0,   'rgb(26,152,80)'],
+            [0.4, 'rgb(166,217,106)'],
+            [0.6, 'rgb(255,255,191)'],
+            [0.8, 'rgb(253,174,97)'],
+            [1,   'rgb(215,48,39)']
+        ];
+        colorbarTitle = 'Risk (σ)';
+    }
 
     const trace = {
         x: sortedData.map(d => d.salary),
@@ -586,20 +630,14 @@ function renderPlot(targetId, title, data, yRange = null) {
         customdata: sortedData,
         marker: {
             size: dotSizes,
-            color: stdValues,
-            colorscale: [
-                [0,   'rgb(26,152,80)'],
-                [0.4, 'rgb(166,217,106)'],
-                [0.6, 'rgb(255,255,191)'],
-                [0.8, 'rgb(253,174,97)'],
-                [1,   'rgb(215,48,39)']
-            ],
+            color: markerValues,
+            colorscale: markerColorscale,
             reversescale: false,
-            cmin: stdMin,
-            cmax: stdMax,
+            cmin: markerMin,
+            cmax: markerMax,
             showscale: true,
             colorbar: {
-                title: { text: 'Risk (σ)', font: { color: '#8b949e', size: 11 } },
+                title: { text: colorbarTitle, font: { color: '#8b949e', size: 11 } },
                 thickness: 15,
                 x: 1.1,
                 tickfont: { color: '#8b949e' }

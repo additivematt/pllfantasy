@@ -173,7 +173,7 @@ When comparing predicted tiers across players, always confirm you are comparing 
 The `predicta` dashboard uses a split-column layout (`2fr 1fr` grid) combining Plotly position charts on the left with the **Predicta Advisor** sidebar on the right:
 *   **X-Axis**: **Fantasy Salary (Coins)**. Mapped to actual or season-to-date average salaries to highlight sleepers.
 *   **Y-Axis**: **Boom Probability (%)**. Model's confidence of a top 25% performance within the unified boom pool.
-*   **Color (Heatmap)**: **Historic Performance vs Opposition**. Green indicates favorable matchups (Ratio > 1.0).
+*   **Color (Heatmap)**: **Risk Profile (Upcoming Weeks)** / **Actual Score (Played Weeks)**. For upcoming unplayed weeks, dot color maps risk standard deviation (`mc_std`), where green is low variance and red is high variance. For played weeks, dot color maps actual fantasy score (`actualPoints`), where red is low/bust score and green is high/boom score.
 *   **Size**: **90th Percentile Ceiling**. Dot size represents the player's predicted ceiling points (`PredictedPoints`), visually enlarging high-upside plays.
 *   **Bidirectional Interactivity**:
     - Hover/Click nodes on the Plotly charts to display custom glassmorphism stats tooltips (which show salary, boom %, opponent defense rating, and regression ceiling points).
