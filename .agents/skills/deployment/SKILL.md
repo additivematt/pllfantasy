@@ -24,6 +24,9 @@ By updating GitHub, your phone, tablet, and other mobile devices will automatica
 
 ### Step: Push the Updates to GitHub
 
+> [!IMPORTANT]
+> **Explain Before Pushing**: AI agents must always clearly explain proposed changes to the user first before executing git commands to stage, commit, or push updates.
+
 Choose **one** of the methods below to push the files online:
 
 #### Option A: Using the GitHub Desktop App (Recommended for General Use)

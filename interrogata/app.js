@@ -17,20 +17,37 @@ const TEAM_NAMES = {
     'CAR': 'Carolina Chaos'
 };
 
+const MAX_GAMES_DISPLAY = 30;
+
+function getEventYear(s) {
+    if (!s) return '';
+    let eventId = '';
+    if (typeof s === 'string') {
+        eventId = s;
+    } else if (s && s.event && s.event.eventId) {
+        eventId = s.event.eventId;
+    }
+    if (!eventId) return '';
+    const match = eventId.match(/(20[1-3]\d)/);
+    if (match) return match[1];
+    return eventId.split('_')[0];
+}
+
 function getEventLabel(eventId, week) {
+    if (!eventId) return (week !== null && week !== undefined) ? 'W' + week : '';
     const id = eventId.toLowerCase();
     if (id.includes('semifinal')) return 'SF';
     if (id.includes('quarterfinal')) return 'QF';
     if (id.includes('championship') || id.includes('final')) return 'Final';
     if (id.includes('allstar') || id.includes('all-star')) return 'ASG';
-    if (week) return 'W' + week;
-    const match = eventId.match(/game[-_](\d+)/);
+    if (week !== null && week !== undefined) return 'W' + week;
+    const match = eventId.match(/game[-_](\d+)/i);
     if (match) {
         const gameNum = parseInt(match[1]);
         if (gameNum <= 20) return 'W' + Math.ceil(gameNum / 4);
         return 'W' + (Math.ceil(gameNum / 4) + 1);
     }
-    return eventId.split('_')[0];
+    return getEventYear(eventId);
 }
 
 function formatPoints(val) {
@@ -101,6 +118,7 @@ async function init() {
         }
         
         setupEventListeners();
+        populateYearDropdown();
         populateWeeksDropdown();
         populatePlayerList();
         
@@ -125,6 +143,37 @@ async function init() {
     }
 }
 
+function populateYearDropdown() {
+    const yearSelect = document.getElementById('yearSelect');
+    if (!yearSelect || !allPlayersStats) return;
+    
+    const yearsSet = new Set();
+    for (const slug in allPlayersStats) {
+        const stats = allPlayersStats[slug].stats || [];
+        stats.forEach(s => {
+            const yr = getEventYear(s);
+            if (yr && yr.length === 4 && !isNaN(parseInt(yr))) {
+                yearsSet.add(yr);
+            }
+        });
+    }
+    
+    const sortedYears = Array.from(yearsSet).sort((a, b) => parseInt(b) - parseInt(a));
+    const currentVal = yearSelect.value || '2026';
+    
+    yearSelect.innerHTML = '';
+    sortedYears.forEach(yr => {
+        const opt = document.createElement('option');
+        opt.value = yr;
+        opt.textContent = yr;
+        if (yr === currentVal) opt.selected = true;
+        yearSelect.appendChild(opt);
+    });
+    if (!yearSelect.value && sortedYears.length > 0) {
+        yearSelect.value = sortedYears[0];
+    }
+}
+
 function populateWeeksDropdown() {
     const yearSelect = document.getElementById('yearSelect');
     const weekSelect = document.getElementById('weekSelect');
@@ -138,7 +187,7 @@ function populateWeeksDropdown() {
         const stats = allPlayersStats[slug].stats || [];
         stats.forEach(s => {
             if (!s.event || !s.event.eventId) return;
-            const sYear = s.event.eventId.split('_')[0];
+            const sYear = getEventYear(s);
             if (sYear === year && s.week !== null && s.week !== undefined) {
                 if (!weekMap.has(s.week)) {
                     weekMap.set(s.week, s.event.eventId);
@@ -278,19 +327,29 @@ function updateDashboard() {
     
     currentPlayerData = allPlayersStats[slug];
     const player = currentPlayerData.player;
-    const stats = currentPlayerData.stats;
+    const stats = currentPlayerData.stats || [];
+    
+    // Slice stats to max 30 games (most recent 30 games)
+    const displayStats = stats.length > MAX_GAMES_DISPLAY ? stats.slice(-MAX_GAMES_DISPLAY) : stats;
     
     // Update Player Overview
     document.getElementById('playerName').textContent = player.name;
-    const latestStat = stats[stats.length-1];
-    document.getElementById('playerMeta').textContent = `#${latestStat.identity.jerseyNumber || '?'} | ${player.position} | ${TEAM_NAMES[player.team] || player.team}`;
+    const latestStat = stats[stats.length - 1] || {};
+    const jersey = latestStat.identity?.jerseyNumber || '?';
+    document.getElementById('playerMeta').textContent = `#${jersey} | ${player.position} | ${TEAM_NAMES[player.team] || player.team}`;
     document.getElementById('playerAvatar').textContent = player.name.split(' ').map(n => n[0]).join('');
 
-    // Calculate Summary
-    const validPoints = stats.map(s => s.f2p.totalPoints || 0).filter(p => p !== 0);
-    const avg = (validPoints.length > 0) ? formatPoints(validPoints.reduce((a, b) => a + b, 0) / validPoints.length) : "0";
-    const total = formatPoints(validPoints.reduce((a, b) => a + b, 0));
+    // Calculate Summary over displayed games (excluding DNPs)
+    const validStats = displayStats.filter(s => !isDNPStat(s) && s.f2p && s.f2p.totalPoints !== null && s.f2p.totalPoints !== undefined);
+    const pointsList = validStats.map(s => s.f2p.totalPoints);
+    const avg = (pointsList.length > 0) ? formatPoints(pointsList.reduce((a, b) => a + b, 0) / pointsList.length) : "0";
+    const total = formatPoints(pointsList.reduce((a, b) => a + b, 0));
     
+    const avgLabel = document.getElementById('avgFPLabel');
+    const totalLabel = document.getElementById('totalPointsLabel');
+    if (avgLabel) avgLabel.textContent = `Avg FP (Last ${displayStats.length})`;
+    if (totalLabel) totalLabel.textContent = `Total Points (Last ${displayStats.length})`;
+
     document.getElementById('avgFP').textContent = avg;
     document.getElementById('totalPoints').textContent = total;
     
@@ -298,16 +357,19 @@ function updateDashboard() {
     const slug2 = document.getElementById('playerSearch2') ? document.getElementById('playerSearch2').value : '';
     const compareMiniCard = document.getElementById('compareMiniCard');
     let compareData = null;
+    let displayStats2 = null;
     
     if (slug2 && allPlayersStats[slug2]) {
         compareData = allPlayersStats[slug2];
         const p2 = compareData.player;
-        const stats2 = compareData.stats;
+        const stats2 = compareData.stats || [];
+        displayStats2 = stats2.length > MAX_GAMES_DISPLAY ? stats2.slice(-MAX_GAMES_DISPLAY) : stats2;
         
-        // Calculate Player 2 Summary
-        const validPoints2 = stats2.map(s => s.f2p.totalPoints || 0).filter(p => p !== 0);
-        const avg2 = (validPoints2.length > 0) ? formatPoints(validPoints2.reduce((a, b) => a + b, 0) / validPoints2.length) : "0";
-        const total2 = formatPoints(validPoints2.reduce((a, b) => a + b, 0));
+        // Calculate Player 2 Summary over displayed games
+        const validStats2 = displayStats2.filter(s => !isDNPStat(s) && s.f2p && s.f2p.totalPoints !== null && s.f2p.totalPoints !== undefined);
+        const pointsList2 = validStats2.map(s => s.f2p.totalPoints);
+        const avg2 = (pointsList2.length > 0) ? formatPoints(pointsList2.reduce((a, b) => a + b, 0) / pointsList2.length) : "0";
+        const total2 = formatPoints(pointsList2.reduce((a, b) => a + b, 0));
         
         // Update mini player card
         document.getElementById('compareName').textContent = p2.name;
@@ -326,16 +388,14 @@ function updateDashboard() {
     let targetOpponents = [];
     if (year && week) {
         const targetGames = stats.filter(s => {
-            const sYear = s.event.eventId.split('_')[0];
+            const sYear = getEventYear(s);
             return sYear === year && s.week === parseInt(week);
         });
         
         targetGames.forEach(tg => {
             const opp = getOpponentCode(tg, player.team);
-            if (opp) {
-                if (!targetOpponents.includes(opp)) {
-                    targetOpponents.push(opp);
-                }
+            if (opp && !targetOpponents.includes(opp)) {
+                targetOpponents.push(opp);
             }
         });
     }
@@ -344,23 +404,21 @@ function updateDashboard() {
     let targetOpponents2 = [];
     if (compareData && year && week) {
         const targetGames2 = compareData.stats.filter(s => {
-            const sYear = s.event.eventId.split('_')[0];
+            const sYear = getEventYear(s);
             return sYear === year && s.week === parseInt(week);
         });
         
         targetGames2.forEach(tg => {
             const opp = getOpponentCode(tg, compareData.player.team);
-            if (opp) {
-                if (!targetOpponents2.includes(opp)) {
-                    targetOpponents2.push(opp);
-                }
+            if (opp && !targetOpponents2.includes(opp)) {
+                targetOpponents2.push(opp);
             }
         });
     }
     
     renderMatchupContext(targetOpponents);
-    renderChart(stats, compareData ? compareData.stats : null, targetOpponents, targetOpponents2, player.name, compareData ? compareData.player.name : '');
-    renderTable(stats, targetOpponents);
+    renderChart(displayStats, displayStats2, targetOpponents, targetOpponents2, player.name, compareData ? compareData.player.name : '');
+    renderTable(displayStats, targetOpponents);
 }
 
 function renderMatchupContext(targetOpponents) {
@@ -374,18 +432,16 @@ function renderMatchupContext(targetOpponents) {
         return;
     }
 
-    info.style.display = 'none'; // Hide the placeholder box
+    info.style.display = 'none';
     
     targetOpponents.forEach((targetOpponent, index) => {
         const opponentName = TEAM_NAMES[targetOpponent] || targetOpponent;
         
-        // Add a header for each opponent
         const oppHeader = document.createElement('div');
         oppHeader.className = 'opponent-highlight';
         oppHeader.style.gridColumn = '1 / -1';
         if (index > 0) oppHeader.style.marginTop = '1.5rem';
         
-        // Use different color for second opponent if needed
         const accentColor = index === 0 ? 'var(--accent-secondary)' : '#4fd1c5';
         
         const year = document.getElementById('yearSelect').value;
@@ -393,23 +449,22 @@ function renderMatchupContext(targetOpponents) {
         const currentYear = parseInt(year);
         const currentWeek = parseInt(week);
 
-        // Calculate average points for these historical games (moved up for header)
         const historicalGames = currentPlayerData.stats.filter(s => {
-            const home = s.event.homeTeam;
-            const away = s.event.awayTeam;
+            const home = s.event?.homeTeam;
+            const away = s.event?.awayTeam;
             const isMatchup = home === targetOpponent || away === targetOpponent;
             if (!isMatchup) return false;
             
-            const gYear = parseInt(s.event.eventId.split('_')[0]);
+            const gYear = parseInt(getEventYear(s));
             const gWeek = s.week;
             return gYear < currentYear || (gYear === currentYear && gWeek < currentWeek);
         });
-        historicalGames.sort((a, b) => b.event.startTime - a.event.startTime);
+        historicalGames.sort((a, b) => (b.event?.startTime || 0) - (a.event?.startTime || 0));
         const displayGames = historicalGames.slice(0, 4);
         
         let avgStr = "";
         if (displayGames.length > 0) {
-            const sum = displayGames.reduce((acc, g) => acc + (g.f2p.totalPoints || 0), 0);
+            const sum = displayGames.reduce((acc, g) => acc + (g.f2p?.totalPoints || 0), 0);
             const avg = formatPoints(sum / displayGames.length);
             avgStr = `
                 <div style="display: flex; flex-direction: column; align-items: flex-end;">
@@ -418,11 +473,10 @@ function renderMatchupContext(targetOpponents) {
                 </div>`;
         }
 
-        // Look up target game for salary information
         const player = currentPlayerData.player;
         
         const targetGame = currentPlayerData.stats.find(s => {
-            const sYear = s.event.eventId.split('_')[0];
+            const sYear = getEventYear(s);
             const isTargetWeek = sYear === year && s.week === parseInt(week);
             if (!isTargetWeek) return false;
             
@@ -431,7 +485,7 @@ function renderMatchupContext(targetOpponents) {
         });
 
         let salaryStr = "";
-        if (targetGame && targetGame.f2p && targetGame.f2p.salary !== undefined) {
+        if (targetGame && targetGame.f2p && targetGame.f2p.salary !== undefined && targetGame.f2p.salary !== null) {
             salaryStr = `
                 <span class="cost-badge" style="font-size: 0.85rem; font-weight: 600; color: var(--accent-secondary); background: rgba(236, 201, 75, 0.12); border: 1px solid rgba(236, 201, 75, 0.25); border-radius: 6px; padding: 3px 8px; margin-left: 12px; display: inline-flex; align-items: center; vertical-align: middle;">
                     ${targetGame.f2p.salary} Coins
@@ -447,11 +501,6 @@ function renderMatchupContext(targetOpponents) {
         container.appendChild(oppHeader);
 
         if (displayGames.length === 0) {
-            oppHeader.innerHTML = `
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
-                    <h3 style="color: ${accentColor}; margin-bottom: 0; font-size: 1.25rem; display: flex; align-items: center; flex-wrap: wrap;">Facing: ${opponentName} ${salaryStr}</h3>
-                </div>
-                <p>No previous matchups found against this opponent.</p>`;
             const noData = document.createElement('p');
             noData.className = 'no-data';
             noData.textContent = `No previous matchups found against ${opponentName}.`;
@@ -462,11 +511,11 @@ function renderMatchupContext(targetOpponents) {
             displayGames.forEach(game => {
                 const div = document.createElement('div');
                 div.className = 'matchup-item';
-                if (index > 0) div.style.borderTopColor = '#4fd1c5'; // Different top border for second opponent
+                if (index > 0) div.style.borderTopColor = '#4fd1c5';
                 
-                const matchupLog = currentPlayerData.matchup_logs[game.event.eventId];
+                const matchupLog = currentPlayerData.matchup_logs ? currentPlayerData.matchup_logs[game.event?.eventId] : null;
                 let matchupInfo = "No specific matchup logged";
-                if (matchupLog) {
+                if (matchupLog && matchupLog.matchups) {
                     const m = matchupLog.matchups.find(ml => ml.playerA === currentPlayerData.player.name || ml.playerB === currentPlayerData.player.name);
                     if (m) {
                         const opponentPlayer = (m.playerA === currentPlayerData.player.name) ? m.playerB : m.playerA;
@@ -474,15 +523,15 @@ function renderMatchupContext(targetOpponents) {
                     }
                 }
 
-                const dateStr = new Date(game.event.startTime * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-                const eventLabel = getEventLabel(game.event.eventId, game.week);
+                const dateStr = game.event?.startTime ? new Date(game.event.startTime * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
+                const eventLabel = getEventLabel(game.event?.eventId, game.week);
                 
                 const pointsColor = index === 0 ? 'var(--accent-secondary)' : '#4fd1c5';
                 div.innerHTML = `
                     <div class="meta">${dateStr} | ${eventLabel}</div>
                     <div class="details">
                         <div><span class="opponent-name">${matchupInfo}</span></div>
-                        <span class="points" style="color: ${pointsColor}">${formatPoints(game.f2p.totalPoints)} FP</span>
+                        <span class="points" style="color: ${pointsColor}">${formatPoints(game.f2p?.totalPoints)} FP</span>
                     </div>
                 `;
                 container.appendChild(div);
@@ -500,31 +549,31 @@ function renderChart(stats, stats2, targetOpponents, targetOpponents2, player1Na
         stats.forEach((s, index) => {
             if (index > 0) {
                 const prev = stats[index-1];
-                const currYear = s.event.eventId.split('_')[0];
-                const prevYear = prev.event.eventId.split('_')[0];
+                const currYear = getEventYear(s);
+                const prevYear = getEventYear(prev);
                 if (currYear !== prevYear) {
                     chartStats.push(null);
                 }
             }
-            if (s.event.eventId.toLowerCase().includes('allstar')) return;
+            if (s.event?.eventId && s.event.eventId.toLowerCase().includes('allstar')) return;
             chartStats.push(s);
         });
 
         const labels = chartStats.map(s => {
             if (!s) return '';
-            const season = s.event.eventId.split('_')[0];
-            const eventLabel = getEventLabel(s.event.eventId, s.week);
-            const dateStr = new Date(s.event.startTime * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-            const opp = getOpponentCode(s, s.identity.team);
+            const season = getEventYear(s);
+            const eventLabel = getEventLabel(s.event?.eventId, s.week);
+            const dateStr = s.event?.startTime ? new Date(s.event.startTime * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '';
+            const opp = getOpponentCode(s, s.identity?.team) || '';
             return `${season} ${eventLabel} (${dateStr}) vs ${opp}`;
         });
         
-        const data = chartStats.map(s => (s && !isDNPStat(s)) ? s.f2p.totalPoints : null);
+        const data = chartStats.map(s => (s && !isDNPStat(s)) ? s.f2p?.totalPoints : null);
         const backgroundColors = chartStats.map(s => {
             if (!s || isDNPStat(s)) return 'transparent';
             if (!targetOpponents || targetOpponents.length === 0) return 'rgba(159, 122, 234, 0.2)';
             
-            const opp = getOpponentCode(s, s.identity.team);
+            const opp = getOpponentCode(s, s.identity?.team);
             const oppIndex = targetOpponents.findIndex(o => opp === o);
             if (oppIndex === 0) return 'rgba(236, 201, 75, 0.8)'; // Gold
             if (oppIndex === 1) return 'rgba(79, 209, 197, 0.8)'; // Cyan
@@ -569,8 +618,8 @@ function renderChart(stats, stats2, targetOpponents, targetOpponents2, player1Na
                                 const leftStat = chartStats[leftIndex];
                                 const rightStat = chartStats[rightIndex];
                                 if (leftStat && rightStat) {
-                                    const leftYear = leftStat.event.eventId.split('_')[0];
-                                    const rightYear = rightStat.event.eventId.split('_')[0];
+                                    const leftYear = getEventYear(leftStat);
+                                    const rightYear = getEventYear(rightStat);
                                     if (leftYear !== rightYear) return 'transparent';
                                 }
                             }
@@ -580,7 +629,7 @@ function renderChart(stats, stats2, targetOpponents, targetOpponents2, player1Na
                             const p0 = chartStats[ctx.p0DataIndex];
                             const p1 = chartStats[ctx.p1DataIndex];
                             if (p0 && p1) {
-                                if (p0.event.eventId.split('_')[0] !== p1.event.eventId.split('_')[0]) return undefined;
+                                if (getEventYear(p0) !== getEventYear(p1)) return undefined;
                                 if (p1.week - p0.week > 1) return [5, 5];
                             }
                             return undefined;
@@ -598,8 +647,8 @@ function renderChart(stats, stats2, targetOpponents, targetOpponents2, player1Na
                             label: function(context) {
                                 const s = chartStats[context.dataIndex];
                                 if (!s) return '';
-                                const matchupStr = (s.event.homeTeam && s.event.awayTeam) ? `${s.event.homeTeam} vs ${s.event.awayTeam}` : `vs ${getOpponentCode(s, s.identity.team)}`;
-                                return `${formatPoints(s.f2p.totalPoints)} FP (${matchupStr})`;
+                                const matchupStr = (s.event?.homeTeam && s.event?.awayTeam) ? `${s.event.homeTeam} vs ${s.event.awayTeam}` : `vs ${getOpponentCode(s, s.identity?.team)}`;
+                                return `${formatPoints(s.f2p?.totalPoints)} FP (${matchupStr})`;
                             }
                         }
                     }
@@ -609,7 +658,7 @@ function renderChart(stats, stats2, targetOpponents, targetOpponents2, player1Na
                         beginAtZero: true,
                         grid: { color: 'rgba(255,255,255,0.05)' },
                         ticks: { color: '#a0aec0' }
-                      },
+                    },
                     x: {
                         grid: { 
                             display: true,
@@ -617,7 +666,7 @@ function renderChart(stats, stats2, targetOpponents, targetOpponents2, player1Na
                                 if (ctx.index === 0) return 'rgba(255,255,255,0.1)';
                                 const curr = chartStats[ctx.index];
                                 const prev = chartStats[ctx.index - 1];
-                                if (curr && (!prev || curr.event.eventId.split('_')[0] !== prev.event.eventId.split('_')[0])) return 'rgba(255,255,255,0.3)';
+                                if (curr && (!prev || getEventYear(curr) !== getEventYear(prev))) return 'rgba(255,255,255,0.3)';
                                 return 'transparent';
                             }
                         },
@@ -628,8 +677,8 @@ function renderChart(stats, stats2, targetOpponents, targetOpponents2, player1Na
                             callback: function(val, index) {
                                 const s = chartStats[index];
                                 if (!s) return '';
-                                const year = s.event.eventId.split('_')[0];
-                                const firstIndex = chartStats.findIndex(item => item && item.event.eventId.split('_')[0] === year);
+                                const year = getEventYear(s);
+                                const firstIndex = chartStats.findIndex(item => item && getEventYear(item) === year);
                                 if (index === firstIndex) return year;
                                 return '';
                             }
@@ -644,8 +693,8 @@ function renderChart(stats, stats2, targetOpponents, targetOpponents2, player1Na
         const counts1 = {};
         stats.forEach(s => {
             if (!s) return;
-            if (s.event.eventId.toLowerCase().includes('allstar')) return;
-            const season = s.event.eventId.split('_')[0];
+            if (s.event?.eventId && s.event.eventId.toLowerCase().includes('allstar')) return;
+            const season = getEventYear(s);
             const key = `${season}_${s.week}`;
             counts1[key] = (counts1[key] === undefined) ? 0 : counts1[key] + 1;
             slots1.push({ season, week: s.week, gameIndex: counts1[key], stat: s });
@@ -655,8 +704,8 @@ function renderChart(stats, stats2, targetOpponents, targetOpponents2, player1Na
         const counts2 = {};
         stats2.forEach(s => {
             if (!s) return;
-            if (s.event.eventId.toLowerCase().includes('allstar')) return;
-            const season = s.event.eventId.split('_')[0];
+            if (s.event?.eventId && s.event.eventId.toLowerCase().includes('allstar')) return;
+            const season = getEventYear(s);
             const key = `${season}_${s.week}`;
             counts2[key] = (counts2[key] === undefined) ? 0 : counts2[key] + 1;
             slots2.push({ season, week: s.week, gameIndex: counts2[key], stat: s });
@@ -711,15 +760,15 @@ function renderChart(stats, stats2, targetOpponents, targetOpponents2, player1Na
             const s2 = p2Slot ? p2Slot.stat : null;
 
             const statObj = s1 || s2;
-            let eventLabel = statObj ? getEventLabel(statObj.event.eventId, slot.week) : 'W' + slot.week;
+            let eventLabel = statObj ? getEventLabel(statObj.event?.eventId, slot.week) : 'W' + slot.week;
             
             if (slot.gameIndex > 0) {
                 eventLabel += ` (G${slot.gameIndex + 1})`;
             }
 
             chartLabels.push(`${slot.season} ${eventLabel}`);
-            chartData1.push((s1 && !isDNPStat(s1)) ? s1.f2p.totalPoints : null);
-            chartData2.push((s2 && !isDNPStat(s2)) ? s2.f2p.totalPoints : null);
+            chartData1.push((s1 && !isDNPStat(s1)) ? s1.f2p?.totalPoints : null);
+            chartData2.push((s2 && !isDNPStat(s2)) ? s2.f2p?.totalPoints : null);
             chartStatsForGrid1.push(s1);
             chartStatsForGrid2.push(s2);
         });
@@ -729,7 +778,7 @@ function renderChart(stats, stats2, targetOpponents, targetOpponents2, player1Na
                 if (!s || isDNPStat(s)) return 'transparent';
                 if (!targetOpps || targetOpps.length === 0) return primaryColor;
                 
-                const opp = getOpponentCode(s, s.identity.team);
+                const opp = getOpponentCode(s, s.identity?.team);
                 const oppIndex = targetOpps.findIndex(o => opp === o);
                 
                 if (oppIndex === 0) return 'rgba(236, 201, 75, 0.8)'; // Gold
@@ -767,8 +816,8 @@ function renderChart(stats, stats2, targetOpponents, targetOpponents2, player1Na
                 const leftStat = statsList[leftIndex];
                 const rightStat = statsList[rightIndex];
                 if (leftStat && rightStat) {
-                    const leftYear = leftStat.event.eventId.split('_')[0];
-                    const rightYear = rightStat.event.eventId.split('_')[0];
+                    const leftYear = getEventYear(leftStat);
+                    const rightYear = getEventYear(rightStat);
                     if (leftYear !== rightYear) {
                         return isDash ? undefined : 'transparent';
                     }
@@ -792,7 +841,7 @@ function renderChart(stats, stats2, targetOpponents, targetOpponents2, player1Na
                     {
                         label: player1Name,
                         data: chartData1,
-                        borderColor: '#9f7aea', // Electric Purple
+                        borderColor: '#9f7aea',
                         backgroundColor: 'rgba(159, 122, 234, 0.05)',
                         fill: true,
                         tension: 0.4,
@@ -808,7 +857,7 @@ function renderChart(stats, stats2, targetOpponents, targetOpponents2, player1Na
                     {
                         label: player2Name,
                         data: chartData2,
-                        borderColor: '#4fd1c5', // Cyan
+                        borderColor: '#4fd1c5',
                         backgroundColor: 'rgba(79, 209, 197, 0.05)',
                         fill: true,
                         tension: 0.4,
@@ -844,8 +893,8 @@ function renderChart(stats, stats2, targetOpponents, targetOpponents2, player1Na
                                 const s = statsList[index];
                                 if (!s) return '';
                                 if (!s || isDNPStat(s)) return `${player}: DNP`;
-                                const matchupStr = (s.event.homeTeam && s.event.awayTeam) ? `${s.event.homeTeam} vs ${s.event.awayTeam}` : `vs ${getOpponentCode(s, s.identity.team)}`;
-                                return `${player}: ${formatPoints(s.f2p.totalPoints)} FP (${matchupStr})`;
+                                const matchupStr = (s.event?.homeTeam && s.event?.awayTeam) ? `${s.event.homeTeam} vs ${s.event.awayTeam}` : `vs ${getOpponentCode(s, s.identity?.team)}`;
+                                return `${player}: ${formatPoints(s.f2p?.totalPoints)} FP (${matchupStr})`;
                             }
                         }
                     }
@@ -863,7 +912,7 @@ function renderChart(stats, stats2, targetOpponents, targetOpponents2, player1Na
                                 if (ctx.index === 0) return 'rgba(255,255,255,0.1)';
                                 const curr = chartStatsForGrid1[ctx.index] || chartStatsForGrid2[ctx.index];
                                 const prev = chartStatsForGrid1[ctx.index - 1] || chartStatsForGrid2[ctx.index - 1];
-                                if (curr && (!prev || curr.event.eventId.split('_')[0] !== prev.event.eventId.split('_')[0])) {
+                                if (curr && (!prev || getEventYear(curr) !== getEventYear(prev))) {
                                     return 'rgba(255,255,255,0.3)';
                                 }
                                 return 'transparent';
@@ -876,10 +925,10 @@ function renderChart(stats, stats2, targetOpponents, targetOpponents2, player1Na
                             callback: function(val, index) {
                                 const s = chartStatsForGrid1[index] || chartStatsForGrid2[index];
                                 if (!s) return '';
-                                const year = s.event.eventId.split('_')[0];
+                                const year = getEventYear(s);
                                 const firstIndex = chartLabels.findIndex((label, idx) => {
                                     const item = chartStatsForGrid1[idx] || chartStatsForGrid2[idx];
-                                    return item && item.event.eventId.split('_')[0] === year;
+                                    return item && getEventYear(item) === year;
                                 });
                                 if (index === firstIndex) return year;
                                 return '';
@@ -954,7 +1003,7 @@ function renderTable(stats, targetOpponents) {
     }
 
     stats.slice().reverse().forEach(s => {
-        const opp = getOpponentCode(s, s.identity.team);
+        const opp = getOpponentCode(s, s.identity?.team) || '-';
         const oppIndex = targetOpponents ? targetOpponents.findIndex(o => opp === o) : -1;
         const isDNP = isDNPStat(s);
         
@@ -963,7 +1012,6 @@ function renderTable(stats, targetOpponents) {
             tr.className = 'dnp-row';
         } else if (oppIndex !== -1) {
             tr.className = 'relevant';
-            // Apply custom coloring for multiple opponents
             if (oppIndex === 0) {
                 tr.style.backgroundColor = 'rgba(236, 201, 75, 0.15)';
                 tr.style.borderLeft = '4px solid var(--accent-secondary)';
@@ -976,18 +1024,18 @@ function renderTable(stats, targetOpponents) {
             }
         }
 
-        const season = s.event.eventId.split('_')[0];
-        const matchupLog = currentPlayerData.matchup_logs[s.event.eventId];
+        const season = getEventYear(s);
+        const matchupLog = (s.event?.eventId && currentPlayerData.matchup_logs) ? currentPlayerData.matchup_logs[s.event.eventId] : null;
         let opponentPlayer = "-";
-        if (matchupLog) {
+        if (matchupLog && matchupLog.matchups) {
             const m = matchupLog.matchups.find(ml => ml.playerA === currentPlayerData.player.name || ml.playerB === currentPlayerData.player.name);
             if (m) opponentPlayer = (m.playerA === currentPlayerData.player.name) ? m.playerB : m.playerA;
         }
-        const eventLabel = getEventLabel(s.event.eventId, s.week);
+        const eventLabel = getEventLabel(s.event?.eventId, s.week);
         
         const costStr = (s.f2p && s.f2p.salary !== undefined && s.f2p.salary !== null) ? `${s.f2p.salary}` : '-';
         
-        const fpVal = isDNP ? 'DNP' : formatPoints(s.f2p.totalPoints);
+        const fpVal = isDNP ? 'DNP' : formatPoints(s.f2p?.totalPoints);
         const fpStyle = isDNP ? 'color:var(--text-secondary); opacity: 0.6;' : 'font-weight:700; color:var(--accent-secondary)';
         const getVal = (val) => isDNP ? '-' : val;
         
@@ -999,16 +1047,16 @@ function renderTable(stats, targetOpponents) {
                 <td>${opp}</td>
                 <td style="color:var(--text-secondary); font-weight: 500;">${costStr}</td>
                 <td style="${fpStyle}">${fpVal}</td>
-                <td>${getVal(s.stats.assists || 0)}</td>
-                <td>${getVal(s.stats.causedTurnovers || 0)}</td>
-                <td>${getVal(s.stats.groundBalls || 0)}</td>
-                <td>${getVal(s.stats.goalsAgainst || 0)}</td>
-                <td>${getVal(s.stats.saves || 0)}</td>
+                <td>${getVal(s.stats?.assists || 0)}</td>
+                <td>${getVal(s.stats?.causedTurnovers || 0)}</td>
+                <td>${getVal(s.stats?.groundBalls || 0)}</td>
+                <td>${getVal(s.stats?.goalsAgainst || 0)}</td>
+                <td>${getVal(s.stats?.saves || 0)}</td>
                 <td>${isDNP ? '-' : opponentPlayer}</td>
             `;
         } else if (position === 'FO') {
-            const fow = s.stats.faceoffsWon || 0;
-            const totalFo = s.stats.faceoffs || 0;
+            const fow = s.stats?.faceoffsWon || 0;
+            const totalFo = s.stats?.faceoffs || 0;
             const fol = Math.max(0, totalFo - fow);
             cells = `
                 <td>${season}</td>
@@ -1016,11 +1064,11 @@ function renderTable(stats, targetOpponents) {
                 <td>${opp}</td>
                 <td style="color:var(--text-secondary); font-weight: 500;">${costStr}</td>
                 <td style="${fpStyle}">${fpVal}</td>
-                <td>${getVal(s.stats.goals || 0)}</td>
-                <td>${getVal(s.stats.assists || 0)}</td>
-                <td>${getVal(s.stats.causedTurnovers || 0)}</td>
-                <td>${getVal(s.stats.turnovers || 0)}</td>
-                <td>${getVal(s.stats.groundBalls || 0)}</td>
+                <td>${getVal(s.stats?.goals || 0)}</td>
+                <td>${getVal(s.stats?.assists || 0)}</td>
+                <td>${getVal(s.stats?.causedTurnovers || 0)}</td>
+                <td>${getVal(s.stats?.turnovers || 0)}</td>
+                <td>${getVal(s.stats?.groundBalls || 0)}</td>
                 <td>${getVal(fow)}</td>
                 <td>${getVal(fol)}</td>
                 <td>${isDNP ? '-' : opponentPlayer}</td>
@@ -1032,12 +1080,12 @@ function renderTable(stats, targetOpponents) {
                 <td>${opp}</td>
                 <td style="color:var(--text-secondary); font-weight: 500;">${costStr}</td>
                 <td style="${fpStyle}">${fpVal}</td>
-                <td>${getVal(s.stats.goals || 0)}</td>
-                <td>${getVal(s.stats.assists || 0)}</td>
-                <td>${getVal(s.stats.causedTurnovers || 0)}</td>
-                <td>${getVal(s.stats.turnovers || 0)}</td>
-                <td>${getVal(s.stats.groundBalls || 0)}</td>
-                <td>${getVal(s.stats.touches || 0)}</td>
+                <td>${getVal(s.stats?.goals || 0)}</td>
+                <td>${getVal(s.stats?.assists || 0)}</td>
+                <td>${getVal(s.stats?.causedTurnovers || 0)}</td>
+                <td>${getVal(s.stats?.turnovers || 0)}</td>
+                <td>${getVal(s.stats?.groundBalls || 0)}</td>
+                <td>${getVal(s.stats?.touches || 0)}</td>
                 <td>${isDNP ? '-' : opponentPlayer}</td>
             `;
         }

@@ -101,7 +101,7 @@ def extract_data(compile_static=False):
             if e_id:
                 player_event_ids.add(e_id)
                 import re
-                match_year = re.search(r"\b(20\d{2})\b", e_id.replace("_", "-"))
+                match_year = re.search(r"(20[1-3]\d)", e_id)
                 e_year = match_year.group(1) if match_year else e_id.split('_')[0]
                 w = entry.get("week")
                 t = entry["identity"]["team"]

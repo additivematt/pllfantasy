@@ -9,6 +9,7 @@ Rather than loading all documentation into your context at once, this workspace 
 
 > [!IMPORTANT]
 > **Git Command Convention**: When executing Git commands (e.g., staging files, committing, and pushing updates to GitHub), always invoke the standard system `git` command directly. Do **not** use the portable `scratch\mingit\cmd\git.exe` executable.
+> **Explain Before Pushing**: Always clearly explain proposed changes to the user first before executing git commands to stage, commit, or push updates.
 
 ---
 
@@ -23,7 +24,7 @@ For detailed instructions and context on specific parts of the project, navigate
 | **matcha** | Phase 1/3 | Manual defensive matchup tagging UI & server | [SKILL.md](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.agents/skills/matchup_tagger/SKILL.md) |
 | **predicta** | Phase 2 | XGBoost classifier, Monte Carlo sims, Predicta UI | [SKILL.md](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.agents/skills/prediction_engine/SKILL.md) |
 | **coulda** | Phase 3 | Retroactive optimal roster calculator | [SKILL.md](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.agents/skills/lineup_optimization/SKILL.md) |
-| **evaluata** | Phase 3 | Ground truth tiers, precision/recall accuracy | [SKILL.md](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.agents/skills/accuracy_evaluation/SKILL.md) |
+| **evaluata** | Phase 3 | Ground truth tiers, MAE/RMSE error stats, Boom recall, MC roster scores (EV, Win_160, Ceil_90) | [SKILL.md](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.agents/skills/accuracy_evaluation/SKILL.md) |
 | **uploada** | Phase 2/3 | Git push to GitHub Pages, offline cache refresh | [SKILL.md](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.agents/skills/deployment/SKILL.md) |
 | **interrogata** | Always | Player career trend charts, matchup history | [SKILL.md](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.agents/skills/player_interrogator/SKILL.md) |
 | **styla** | Always | Obsidian design system tokens & patterns | [SKILL.md](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.agents/skills/design_system/SKILL.md) |
