@@ -122,9 +122,29 @@ async function init() {
         populateWeeksDropdown();
         populatePlayerList();
         
-        // Default to Jeff Teat or player specified in URL parameter
-        const urlParams = new URLSearchParams(window.location.search);
-        const playerParam = urlParams.get('player');
+        // Check multiple fallback locations for selected player (URL search, hash, localStorage)
+        let playerParam = null;
+        try {
+            const urlObj = new URL(window.location.href);
+            playerParam = urlObj.searchParams.get('player');
+            if (!playerParam && window.location.hash) {
+                const hashParams = new URLSearchParams(window.location.hash.substring(1));
+                playerParam = hashParams.get('player');
+            }
+            if (!playerParam) {
+                const match = window.location.href.match(/[?&#]player=([^&?#]+)/i);
+                if (match) playerParam = decodeURIComponent(match[1]);
+            }
+        } catch (e) {
+            console.warn('URL parsing failed:', e);
+        }
+
+        if (!playerParam) {
+            try {
+                playerParam = localStorage.getItem('interrogata_selected_player');
+                localStorage.removeItem('interrogata_selected_player');
+            } catch (e) {}
+        }
         
         const search = document.getElementById('playerSearch');
         let selectedSlug = null;
@@ -134,10 +154,14 @@ async function init() {
             if (allPlayersStats[paramLower]) {
                 selectedSlug = paramLower;
             } else {
-                const paramName = paramLower.replace(/-/g, ' ');
+                const paramClean = paramLower.replace(/[^a-z0-9]/g, '');
                 for (const slug in allPlayersStats) {
                     const pName = (allPlayersStats[slug]?.player?.name || '').toLowerCase();
-                    if (slug.toLowerCase() === paramLower || pName === paramName || pName.replace(/[^a-z0-9]/g, '') === paramLower.replace(/[^a-z0-9]/g, '')) {
+                    const pSlug = slug.toLowerCase();
+                    if (pSlug === paramLower ||
+                        pSlug.replace(/[^a-z0-9]/g, '') === paramClean ||
+                        pName === paramLower.replace(/-/g, ' ') ||
+                        pName.replace(/[^a-z0-9]/g, '') === paramClean) {
                         selectedSlug = slug;
                         break;
                     }

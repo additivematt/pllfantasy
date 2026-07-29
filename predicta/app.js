@@ -72,6 +72,22 @@ function isDNPStat(s) {
     return false;
 }
 
+function openInterrogator(playerSlug) {
+    if (!playerSlug) return;
+    try {
+        localStorage.setItem('interrogata_selected_player', playerSlug);
+    } catch (e) {}
+    
+    let targetUrl;
+    try {
+        targetUrl = new URL('../interrogata/', window.location.href);
+    } catch (e) {
+        targetUrl = new URL('/interrogata/', window.location.origin);
+    }
+    targetUrl.searchParams.set('player', playerSlug);
+    window.open(targetUrl.href, '_blank', 'noopener');
+}
+
 /**
  * Build the shared stats+range-bar HTML for both tooltip paths.
  * The sparkline canvas placeholder is appended after this block.
@@ -156,10 +172,10 @@ function buildTooltipBodyHtml(p, maxCeiling, advisorBadge = false) {
             <div class="sparkline-opp-note" id="sparkline-opp-note"></div>
         </div>
         <div class="tooltip-actions">
-            <a href="../interrogata/index.html?player=${encodeURIComponent(playerSlug)}" target="_blank" rel="noopener" class="tooltip-expand-btn" onclick="event.stopPropagation();">
+            <button type="button" class="tooltip-expand-btn" onclick="event.stopPropagation(); openInterrogator('${playerSlug}');">
                 <span>Open Interrogator</span>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-            </a>
+            </button>
         </div>
     `;
 }
