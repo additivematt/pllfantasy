@@ -25,7 +25,7 @@ By updating GitHub, your phone, tablet, and other mobile devices will automatica
 ### Step: Push the Updates to GitHub
 
 > [!IMPORTANT]
-> **Explain Before Pushing**: AI agents must always clearly explain proposed changes to the user first before executing git commands to stage, commit, or push updates.
+> **Explain Solution & Request Permission Before Committing/Pushing**: AI agents MUST ALWAYS clearly explain the root cause, proposed solution, or intended implementation to the user FIRST and ask for permission before executing git commands to stage, commit, or push updates to GitHub, UNLESS explicitly instructed within the current chat to proceed straight away.
 
 Choose **one** of the methods below to push the files online:
 

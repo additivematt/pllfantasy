@@ -9,7 +9,7 @@ Rather than loading all documentation into your context at once, this workspace 
 
 > [!IMPORTANT]
 > **Git Command Convention**: When executing Git commands (e.g., staging files, committing, and pushing updates to GitHub), always invoke the standard system `git` command directly. Do **not** use the portable `scratch\mingit\cmd\git.exe` executable.
-> **Explain Before Pushing**: Always clearly explain proposed changes to the user first before executing git commands to stage, commit, or push updates.
+> **Explain Solution & Request Permission Before Committing/Pushing**: When resolving an issue or implementing a new feature, the agent MUST ALWAYS clearly explain the root cause, proposed solution, or intended implementation to the user FIRST and ask for permission before executing git commands to stage, commit, or push updates to GitHub, UNLESS explicitly instructed within the current chat to proceed straight away.
 
 ---
 
