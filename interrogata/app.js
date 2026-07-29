@@ -122,9 +122,41 @@ async function init() {
         populateWeeksDropdown();
         populatePlayerList();
         
-        // Default to Jeff Teat if available
+        // Default to Jeff Teat or player specified in URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const playerParam = urlParams.get('player');
+        
         const search = document.getElementById('playerSearch');
-        if (allPlayersStats['jeff-teat']) {
+        let selectedSlug = null;
+
+        if (playerParam) {
+            const paramLower = playerParam.toLowerCase().trim();
+            if (allPlayersStats[paramLower]) {
+                selectedSlug = paramLower;
+            } else {
+                const paramName = paramLower.replace(/-/g, ' ');
+                for (const slug in allPlayersStats) {
+                    const pName = (allPlayersStats[slug]?.player?.name || '').toLowerCase();
+                    if (slug.toLowerCase() === paramLower || pName === paramName || pName.replace(/[^a-z0-9]/g, '') === paramLower.replace(/[^a-z0-9]/g, '')) {
+                        selectedSlug = slug;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (selectedSlug) {
+            if (!Array.from(search.options).some(o => o.value === selectedSlug)) {
+                const p = allPlayersStats[selectedSlug]?.player;
+                if (p) {
+                    const opt = document.createElement('option');
+                    opt.value = selectedSlug;
+                    opt.textContent = `${p.name} (${p.position || ''} - ${p.team || ''})`;
+                    search.appendChild(opt);
+                }
+            }
+            search.value = selectedSlug;
+        } else if (allPlayersStats['jeff-teat']) {
             search.value = 'jeff-teat';
         } else if (search.options.length > 1) {
             search.selectedIndex = 1;

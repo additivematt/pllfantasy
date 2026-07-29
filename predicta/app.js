@@ -110,6 +110,18 @@ function buildTooltipBodyHtml(p, maxCeiling, advisorBadge = false) {
         }
     }
 
+    let playerSlug = p.slug || '';
+    if (!playerSlug && window._playerStatsByName && p.firstName && p.lastName) {
+        const key = `${p.firstName} ${p.lastName}`.toLowerCase().trim();
+        const pHist = window._playerStatsByName[key];
+        if (pHist && pHist.player && pHist.player.slug) {
+            playerSlug = pHist.player.slug;
+        }
+    }
+    if (!playerSlug && p.firstName && p.lastName) {
+        playerSlug = `${p.firstName}-${p.lastName}`.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    }
+
     return `
         <div class="tooltip-header">${p.firstName} ${p.lastName} ${advisorTag}</div>
         <div class="tooltip-grid">
@@ -142,6 +154,12 @@ function buildTooltipBodyHtml(p, maxCeiling, advisorBadge = false) {
             <div class="sparkline-title"><span class="sparkline-title-dot"></span>Last 10 Games</div>
             <div class="sparkline-canvas-wrapper"><canvas id="tooltip-sparkline-canvas"></canvas></div>
             <div class="sparkline-opp-note" id="sparkline-opp-note"></div>
+        </div>
+        <div class="tooltip-actions">
+            <a href="../interrogata/index.html?player=${encodeURIComponent(playerSlug)}" target="_blank" rel="noopener" class="tooltip-expand-btn" onclick="event.stopPropagation();">
+                <span>Open Interrogator</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            </a>
         </div>
     `;
 }

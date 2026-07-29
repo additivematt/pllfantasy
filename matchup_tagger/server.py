@@ -383,9 +383,11 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 self.send_error(400, "Invalid advisory path format")
                 return
 
-        # 0b. Serve player stats file within pllinterrogata scope
-        if clean_path == '/pllinterrogata/all_players_stats.json':
-            filepath = os.path.join(SCRIPTS_DIR, 'all_players_stats.json')
+        # 0b. Serve player stats file within pllinterrogata or interrogata scope
+        if clean_path in ['/pllinterrogata/all_players_stats.json', '/interrogata/all_players_stats.json']:
+            filepath = os.path.join(SCRIPTS_DIR, 'interrogata', 'all_players_stats.json')
+            if not os.path.exists(filepath):
+                filepath = os.path.join(SCRIPTS_DIR, 'all_players_stats.json')
             return self.serve_file(filepath)
 
         # 1. Serve Predicta UI files
@@ -398,8 +400,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             return self.serve_file(filepath)
 
         # 2. Serve Player Interrogator files
-        if clean_path.startswith('/pllinterrogata/'):
-            sub_path = clean_path.replace('/pllinterrogata/', '')
+        if clean_path.startswith('/pllinterrogata/') or clean_path.startswith('/interrogata/'):
+            sub_path = clean_path.replace('/pllinterrogata/', '').replace('/interrogata/', '')
             # Try new folder name 'interrogata' first, then fallback to 'player_interrogator'
             filepath = os.path.join(SCRIPTS_DIR, 'interrogata', sub_path.lstrip('/'))
             if not os.path.exists(filepath) and not filepath.endswith('index.html'):
@@ -506,6 +508,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 # Automatically refresh the Interrogator data
                 print("Refreshing Player Interrogator data...")
                 try:
+                    importlib.reload(extract_trial_data)
                     extract_trial_data.extract_data()
                 except Exception as e:
                     print(f"Error refreshing data: {e}")
