@@ -72,17 +72,79 @@ function isDNPStat(s) {
     return false;
 }
 
+function getSlugFromPlayer(p) {
+    if (!p) return 'jeff-teat';
+    
+    // 1. Direct slug property
+    if (p.slug) return p.slug;
+    if (p.player && p.player.slug) return p.player.slug;
+    
+    // 2. Extract first and last name from available fields
+    let firstName = p.firstName || p.first_name || '';
+    let lastName = p.lastName || p.last_name || '';
+    
+    if ((!firstName || !lastName) && (p.name || p.playerName || p.player_name)) {
+        const full = (p.name || p.playerName || p.player_name).trim();
+        const parts = full.split(' ');
+        if (parts.length >= 2) {
+            firstName = parts[0];
+            lastName = parts.slice(1).join(' ');
+        } else {
+            lastName = full;
+        }
+    }
+
+    if ((!firstName || !lastName) && p.player && p.player.name) {
+        const full = p.player.name.trim();
+        const parts = full.split(' ');
+        if (parts.length >= 2) {
+            firstName = parts[0];
+            lastName = parts.slice(1).join(' ');
+        } else {
+            lastName = full;
+        }
+    }
+
+    // 3. Lookup in window._playerStatsByName
+    if (firstName || lastName) {
+        const fullNameKey = `${firstName} ${lastName}`.trim().toLowerCase();
+        if (window._playerStatsByName && window._playerStatsByName[fullNameKey]) {
+            const entry = window._playerStatsByName[fullNameKey];
+            if (entry.player && entry.player.slug) return entry.player.slug;
+        }
+    }
+
+    // 4. Lookup by officialId in window.allPlayersStats
+    if (p.officialId && window.allPlayersStats) {
+        for (const s in window.allPlayersStats) {
+            const entry = window.allPlayersStats[s];
+            if (entry.player && entry.player.officialId === p.officialId) {
+                return s;
+            }
+        }
+    }
+
+    // 5. Construct fallback slug
+    if (firstName && lastName) {
+        return `${firstName}-${lastName}`.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    } else if (lastName) {
+        return lastName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    }
+
+    return 'jeff-teat';
+}
+
 function openInterrogator(playerSlug) {
-    if (!playerSlug) return;
+    if (!playerSlug) playerSlug = 'jeff-teat';
     try {
         localStorage.setItem('interrogata_selected_player', playerSlug);
     } catch (e) {}
     
     let targetUrl;
     try {
-        targetUrl = new URL('../interrogata/', window.location.href);
+        targetUrl = new URL('../interrogata/index.html', window.location.href);
     } catch (e) {
-        targetUrl = new URL('/interrogata/', window.location.origin);
+        targetUrl = new URL('/interrogata/index.html', window.location.origin);
     }
     targetUrl.searchParams.set('player', playerSlug);
     window.open(targetUrl.href, '_blank', 'noopener');
@@ -126,24 +188,15 @@ function buildTooltipBodyHtml(p, maxCeiling, advisorBadge = false) {
         }
     }
 
-    let playerSlug = p.slug || '';
-    if (!playerSlug && window._playerStatsByName && p.firstName && p.lastName) {
-        const key = `${p.firstName} ${p.lastName}`.toLowerCase().trim();
-        const pHist = window._playerStatsByName[key];
-        if (pHist && pHist.player && pHist.player.slug) {
-            playerSlug = pHist.player.slug;
-        }
-    }
-    if (!playerSlug && p.firstName && p.lastName) {
-        playerSlug = `${p.firstName}-${p.lastName}`.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-    }
+    const playerSlug = getSlugFromPlayer(p);
+    const displayName = (p.firstName && p.lastName) ? `${p.firstName} ${p.lastName}` : (p.name || p.playerName || 'Player');
 
     return `
-        <div class="tooltip-header">${p.firstName} ${p.lastName} ${advisorTag}</div>
+        <div class="tooltip-header">${displayName} ${advisorTag}</div>
         <div class="tooltip-grid">
-            <div class="tooltip-row"><span class="tooltip-label">Opponent</span><span class="tooltip-value">${p.opponent}</span></div>
+            <div class="tooltip-row"><span class="tooltip-label">Opponent</span><span class="tooltip-value">${p.opponent || 'N/A'}</span></div>
             <div class="tooltip-row"><span class="tooltip-label">Opp. Rating</span><span class="tooltip-value" style="color: ${p.team_def_rating > 1.1 ? '#00ff88' : p.team_def_rating < 0.9 ? '#ff4444' : '#ffffff'}">${(p.team_def_rating || 1.0).toFixed(2)}</span></div>
-            <div class="tooltip-row"><span class="tooltip-label">Salary</span><span class="tooltip-value">${p.salary} Coins</span></div>
+            <div class="tooltip-row"><span class="tooltip-label">Salary</span><span class="tooltip-value">${p.salary || 0} Coins</span></div>
             <div class="tooltip-row"><span class="tooltip-label">Risk (\u03c3)</span><span class="tooltip-value" style="color: ${p.mc_std > 20 ? '#ff4444' : p.mc_std > 12 ? '#fdae61' : '#6dbe6d'}">${(p.mc_std != null ? p.mc_std : 0).toFixed(1)}</span></div>
             <div class="tooltip-row"><span class="tooltip-label">Season Avg</span><span class="tooltip-value">${(p.fp_season_avg || 0).toFixed(1)}</span></div>
             <div class="tooltip-row"><span class="tooltip-label">Boom Prob</span><span class="tooltip-value" style="color: rgba(255,255,255,0.55)">${(p.BoomProbability || 0).toFixed(0)}%</span></div>
