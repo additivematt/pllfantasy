@@ -176,7 +176,7 @@ The `predicta` dashboard uses a split-column layout (`2fr 1fr` grid) combining P
 *   **Color (Heatmap)**: **Risk Profile (Upcoming Weeks)** / **Actual Score (Played Weeks)**. For upcoming unplayed weeks, dot color maps risk standard deviation (`mc_std`), where green is low variance and red is high variance. For played weeks, dot color maps actual fantasy score (`actualPoints`), where red is low/bust score and green is high/boom score.
 *   **Size**: **90th Percentile Ceiling**. Dot size represents the player's predicted ceiling points (`PredictedPoints`), visually enlarging high-upside plays.
 *   **Bidirectional Interactivity**:
-    - Hover/Click nodes on the Plotly charts to display custom glassmorphism stats tooltips (which show salary, boom %, opponent defense rating, and regression ceiling points).
+    - Hover/Click nodes on the Plotly charts to display custom glassmorphism stats tooltips (which show salary, boom %, opponent defense rating, regression ceiling points, and an **"Open Interrogator ↗"** action button to open full career trends in a new tab).
     - Click player pills (Consensus Core / Sleepers) or roster table rows in the Advisor sidebar to smoothly center and scroll the corresponding Plotly chart into view, temporarily flash the node with a bright magenta border, and focus the tooltip.
 *   **Roster Strategy Selector**: Tab buttons to swap lineups across 4 strategies:
     - **BOOM** (Legacy): Maximizes Expected Value (shows player EV and Boom % columns).

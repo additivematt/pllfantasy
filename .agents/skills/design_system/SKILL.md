@@ -47,6 +47,7 @@ Never use default browser or library tooltips.
 *   **Layout**: Bold header (`Electric Purple`), followed by labeled stat rows.
 *   **Shadow**: `box-shadow: 0 10px 30px rgba(159, 122, 234, 0.2);`
 *   **Interaction**: Mobile/Tablet friendly. Tapping a data point opens and locks the tooltip. Tapping anywhere else on the screen (background, other elements, or empty chart space) dismisses it. Do not use explicit "✕" close buttons.
+*   **Inter-App Deep-Linking**: Action buttons within tooltips (such as "Open Interrogator ↗") use glassmorphism borders (`1px solid rgba(159, 122, 234, 0.4)`), Electric Purple accents, and `target="_blank"` navigation with `event.stopPropagation()` to prevent unwanted canvas dismissals.
 
 ### Interactive Charts (Plotly)
 *   **Background**: `rgba(0,0,0,0)` (Transparent).

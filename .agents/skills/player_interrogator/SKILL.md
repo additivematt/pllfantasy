@@ -54,6 +54,10 @@ To enable data-driven fantasy decisions by visualizing a player's career traject
 - **Normalization**: Automatically maps inconsistent team codes (e.g., `BOS` -> `CAN`, `MDW` -> `WHP`) to ensure historical data lookups are accurate.
 - **Dynamic Fantasy Cost**: Displays the player's F2P coin cost (salary) for the selected game (eventId) dynamically in the opponent's highlight header card, accounting for separate costs for each game in a double-header week.
 
+### URL Parameter Deep-Linking
+- **URL Parameter Support**: Supports launching directly to a pre-selected player via `?player=<slug>` (e.g., `../interrogata/index.html?player=brennan-oneill`).
+- **Resilient Resolution**: On `init()`, parses the `player` URL parameter against player slugs or lowercased name variations, auto-populates `#playerSearch`, and immediately renders that player's career trend chart, matchup context cards, and game log.
+
 ### Visualization & Filtering
 - **Multi-Color Highlighting**: In double-header weeks, the chart and game log use distinct colors (Gold and Cyan) to distinguish between the two opponents.
 - **Historical Averages**: The "Matchup Context" section displays the player's average fantasy points from their last 4 games against the specific upcoming opponent, styled for high visibility.
