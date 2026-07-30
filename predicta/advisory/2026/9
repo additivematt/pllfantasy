@@ -213,19 +213,6 @@
             "actualPoints": 33.0
         },
         {
-            "firstName": "Bryan",
-            "lastName": "Costabile",
-            "team": "ATL",
-            "opponent": "CAN",
-            "game_id": "2026-ev-32",
-            "position": "Midfield",
-            "salary": 32,
-            "mc_ev": 17.6,
-            "mc_p90": 43.8,
-            "mc_p10": 2.2,
-            "actualPoints": 41.0
-        },
-        {
             "firstName": "Graham",
             "lastName": "Bundy",
             "team": "OUT",
@@ -237,6 +224,19 @@
             "mc_p90": 36.0,
             "mc_p10": 0.0,
             "actualPoints": 0.0
+        },
+        {
+            "firstName": "Bryan",
+            "lastName": "Costabile",
+            "team": "ATL",
+            "opponent": "CAN",
+            "game_id": "2026-ev-32",
+            "position": "Midfield",
+            "salary": 32,
+            "mc_ev": 17.6,
+            "mc_p90": 43.8,
+            "mc_p10": 2.2,
+            "actualPoints": 41.0
         },
         {
             "firstName": "Ben",
@@ -373,19 +373,6 @@
     ],
     "MC_Differential": [
         {
-            "firstName": "Marcus",
-            "lastName": "Holman",
-            "team": "CAN",
-            "opponent": "ATL",
-            "game_id": "2026-ev-32",
-            "position": "Attack",
-            "salary": 38,
-            "mc_ev": 31.4,
-            "mc_p90": 62.0,
-            "mc_p10": 8.6,
-            "actualPoints": 37.0
-        },
-        {
             "firstName": "CJ",
             "lastName": "Kirst",
             "team": "WAT",
@@ -399,17 +386,17 @@
             "actualPoints": 4.0
         },
         {
-            "firstName": "Connor",
-            "lastName": "Kelly",
-            "team": "WAT",
-            "opponent": "ARC",
-            "game_id": "2026-ev-31",
-            "position": "Midfield",
-            "salary": 10,
-            "mc_ev": 17.9,
-            "mc_p90": 38.4,
-            "mc_p10": 0.0,
-            "actualPoints": -9.0
+            "firstName": "Marcus",
+            "lastName": "Holman",
+            "team": "CAN",
+            "opponent": "ATL",
+            "game_id": "2026-ev-32",
+            "position": "Attack",
+            "salary": 38,
+            "mc_ev": 31.4,
+            "mc_p90": 62.0,
+            "mc_p10": 8.6,
+            "actualPoints": 37.0
         },
         {
             "firstName": "Ryan",
@@ -423,6 +410,19 @@
             "mc_p90": 42.2,
             "mc_p10": 0.0,
             "actualPoints": -2.0
+        },
+        {
+            "firstName": "Connor",
+            "lastName": "Kelly",
+            "team": "WAT",
+            "opponent": "ARC",
+            "game_id": "2026-ev-31",
+            "position": "Midfield",
+            "salary": 10,
+            "mc_ev": 17.9,
+            "mc_p90": 38.4,
+            "mc_p10": 0.0,
+            "actualPoints": -9.0
         },
         {
             "firstName": "Ethan",
@@ -653,8 +653,8 @@
                 "in": [
                     "Pat Kavanagh",
                     "Logan Wisnauskas",
-                    "Bryan Costabile",
                     "Graham Bundy",
+                    "Bryan Costabile",
                     "Ben Ramsey"
                 ],
                 "out": [
@@ -664,7 +664,7 @@
                     "Connor Kelly",
                     "Aidan Maguire"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Pat Kavanagh (Attack, 42c), Logan Wisnauskas (Attack, 32c), Bryan Costabile (Midfield, 32c), Graham Bundy (Midfield, 11c), Ben Ramsey (Defense, 7c)) to maximize the team's 90th percentile ceiling (projecting up to 75.4 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Pat Kavanagh (Attack, 42c), Logan Wisnauskas (Attack, 32c), Graham Bundy (Midfield, 11c), Bryan Costabile (Midfield, 32c), Ben Ramsey (Defense, 7c)) to maximize the team's 90th percentile ceiling (projecting up to 75.4 pts)."
             }
         ]
     },
