@@ -187,19 +187,6 @@
     ],
     "MC_Ceil_90": [
         {
-            "firstName": "Matt",
-            "lastName": "Rambo",
-            "team": "ATL",
-            "opponent": "WHP",
-            "game_id": "2026-ev-19",
-            "position": "Attack",
-            "salary": 18,
-            "mc_ev": 24.9,
-            "mc_p90": 63.4,
-            "mc_p10": 0.0,
-            "actualPoints": 29.0
-        },
-        {
             "firstName": "Connor",
             "lastName": "Shellenberger",
             "team": "ATL",
@@ -211,6 +198,19 @@
             "mc_p90": 61.1,
             "mc_p10": 8.9,
             "actualPoints": 75.0
+        },
+        {
+            "firstName": "Rob",
+            "lastName": "Pannell",
+            "team": "WHP",
+            "opponent": "ATL",
+            "game_id": "2026-ev-19",
+            "position": "Attack",
+            "salary": 28,
+            "mc_ev": 30.8,
+            "mc_p90": 55.0,
+            "mc_p10": 5.8,
+            "actualPoints": 61.0
         },
         {
             "firstName": "Sam",
@@ -239,17 +239,17 @@
             "actualPoints": 44.0
         },
         {
-            "firstName": "Cam",
-            "lastName": "Wyers",
-            "team": "ARC",
-            "opponent": "RED",
+            "firstName": "Matt",
+            "lastName": "Wright",
+            "team": "RED",
+            "opponent": "ARC",
             "game_id": "2026-ev-18",
             "position": "Defense",
-            "salary": 5,
-            "mc_ev": 13.1,
-            "mc_p90": 38.1,
+            "salary": 4,
+            "mc_ev": 12.4,
+            "mc_p90": 34.8,
             "mc_p10": 0.0,
-            "actualPoints": 0.0
+            "actualPoints": 2.0
         },
         {
             "firstName": "Nathan",
@@ -354,9 +354,9 @@
             "game_id": "2026-ev-19",
             "position": "FO",
             "salary": 14,
-            "mc_ev": 10.4,
-            "mc_p90": 27.6,
-            "mc_p10": 1.8,
+            "mc_ev": 0.0,
+            "mc_p90": 0.0,
+            "mc_p10": 0.0,
             "actualPoints": 44.0
         },
         {
@@ -375,10 +375,11 @@
     ],
     "Core": [
         "Liam Entenmann",
+        "Rob Pannell",
         "Bryan Costabile"
     ],
     "Sleepers": [
-        "Cam Wyers"
+        "Matt Wright"
     ],
     "RecommendedStrategy": "MC_EV",
     "RecommendedReason": "Tight pricing / short slate (3 games, 37 cheap value players). Optimizing for floor is best.",
@@ -468,18 +469,16 @@
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
-                    "Matt Rambo",
                     "Connor Shellenberger",
                     "Sam English",
-                    "Cam Wyers"
+                    "Matt Wright"
                 ],
                 "out": [
                     "TJ Malone",
-                    "Rob Pannell",
                     "Connor Kirst",
                     "Brett Makar"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Matt Rambo (Attack, 18c), Connor Shellenberger (Attack, 37c), Sam English (Midfield, 17c), Cam Wyers (Defense, 5c)) to maximize the team's 90th percentile ceiling (projecting up to 63.4 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Connor Shellenberger (Attack, 37c), Sam English (Midfield, 17c), Matt Wright (Defense, 4c)) to maximize the team's 90th percentile ceiling (projecting up to 61.1 pts)."
             }
         ]
     },

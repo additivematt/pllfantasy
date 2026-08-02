@@ -107,19 +107,6 @@
             "actualPoints": 16.0
         },
         {
-            "firstName": "Logan",
-            "lastName": "McNaney",
-            "team": "OUT",
-            "opponent": "RED",
-            "game_id": "2026-ev-7",
-            "position": "Goalie",
-            "salary": 38,
-            "mc_ev": 40.0,
-            "mc_p90": 62.4,
-            "mc_p10": 20.8,
-            "actualPoints": 51.0
-        },
-        {
             "firstName": "Michael",
             "lastName": "Sowers",
             "team": "WAT",
@@ -133,17 +120,17 @@
             "actualPoints": 22.0
         },
         {
-            "firstName": "Justin",
-            "lastName": "Inacio",
-            "team": "CHA",
+            "firstName": "Zach",
+            "lastName": "Currier",
+            "team": "WAT",
             "opponent": "CAN",
-            "game_id": "2026-ev-5",
-            "position": "Faceoff",
-            "salary": 18,
-            "mc_ev": 21.4,
-            "mc_p90": 45.6,
-            "mc_p10": 0.0,
-            "actualPoints": 13.9
+            "game_id": "2026-ev-8",
+            "position": "Midfield",
+            "salary": 16,
+            "mc_ev": 18.5,
+            "mc_p90": 34.8,
+            "mc_p10": 3.1,
+            "actualPoints": 24.6
         },
         {
             "firstName": "Jared",
@@ -159,30 +146,43 @@
             "actualPoints": 29.0
         },
         {
-            "firstName": "Connor",
-            "lastName": "Kelly",
-            "team": "WAT",
-            "opponent": "CAN",
-            "game_id": "2026-ev-8",
-            "position": "Midfield",
-            "salary": 22,
-            "mc_ev": 20.0,
-            "mc_p90": 38.3,
+            "firstName": "Jared",
+            "lastName": "Conners",
+            "team": "RED",
+            "opponent": "OUT",
+            "game_id": "2026-ev-7",
+            "position": "Defense",
+            "salary": 8,
+            "mc_ev": 14.1,
+            "mc_p90": 37.2,
             "mc_p10": 0.0,
-            "actualPoints": 17.0
+            "actualPoints": 23.0
         },
         {
-            "firstName": "Jeff",
-            "lastName": "Trainor",
-            "team": "CAN",
-            "opponent": "CHA",
+            "firstName": "Justin",
+            "lastName": "Inacio",
+            "team": "CHA",
+            "opponent": "CAN",
             "game_id": "2026-ev-5",
-            "position": "Defense",
-            "salary": 10,
-            "mc_ev": 16.1,
-            "mc_p90": 44.7,
+            "position": "Faceoff",
+            "salary": 18,
+            "mc_ev": 21.4,
+            "mc_p90": 45.6,
             "mc_p10": 0.0,
-            "actualPoints": 53.0
+            "actualPoints": 13.9
+        },
+        {
+            "firstName": "Logan",
+            "lastName": "McNaney",
+            "team": "OUT",
+            "opponent": "RED",
+            "game_id": "2026-ev-7",
+            "position": "Goalie",
+            "salary": 38,
+            "mc_ev": 40.0,
+            "mc_p90": 62.4,
+            "mc_p10": 20.8,
+            "actualPoints": 51.0
         }
     ],
     "MC_Ceil_90": [
@@ -354,9 +354,9 @@
             "game_id": "2026-ev-6",
             "position": "FO",
             "salary": 9,
-            "mc_ev": 10.9,
-            "mc_p90": 32.9,
-            "mc_p10": 2.3,
+            "mc_ev": 0.0,
+            "mc_p90": 0.0,
+            "mc_p10": 0.0,
             "actualPoints": 35.9
         },
         {
@@ -377,14 +377,13 @@
         "Dylan Molloy",
         "Logan McNaney",
         "Michael Sowers",
-        "Justin Inacio",
-        "Jeff Trainor"
+        "Justin Inacio"
     ],
     "Sleepers": [
         "Nakeie Montgomery"
     ],
     "RecommendedStrategy": "MC_Win_160",
-    "RecommendedReason": "Stars & Scrubs slate (4 games, 52 cheap value players). Optimizing for variance with MC Win 160 is best.",
+    "RecommendedReason": "Stars & Scrubs slate (4 games, 51 cheap value players). Optimizing for variance with MC Win 160 is best.",
     "Narrative": {
         "RecommendedRoster": [
             {
@@ -394,15 +393,6 @@
                 "salary": 27,
                 "bullets": [
                     "Matchup Specialist: Historically performs well against OUT (1.18x average scoring rate)."
-                ]
-            },
-            {
-                "firstName": "Logan",
-                "lastName": "McNaney",
-                "position": "Goalie",
-                "salary": 38,
-                "bullets": [
-                    "Opponent Weakness: RED defense allows 20% extra fantasy points to Goalie position."
                 ]
             },
             {
@@ -417,13 +407,12 @@
                 ]
             },
             {
-                "firstName": "Justin",
-                "lastName": "Inacio",
-                "position": "Faceoff",
-                "salary": 18,
+                "firstName": "Zach",
+                "lastName": "Currier",
+                "position": "Midfield",
+                "salary": 16,
                 "bullets": [
-                    "Hot Form: Averaging 21.8 fantasy pts over last 3 games (vs 18.1 season avg).",
-                    "Opponent Weakness: CAN defense allows 41% extra fantasy points to Faceoff position."
+                    "Opponent Weakness: CAN defense allows 8% extra fantasy points to Midfield position."
                 ]
             },
             {
@@ -436,22 +425,31 @@
                 ]
             },
             {
-                "firstName": "Connor",
-                "lastName": "Kelly",
-                "position": "Midfield",
-                "salary": 22,
+                "firstName": "Jared",
+                "lastName": "Conners",
+                "position": "Defense",
+                "salary": 8,
                 "bullets": [
-                    "Opponent Weakness: CAN defense allows 8% extra fantasy points to Midfield position."
+                    "Consistent Pick: Selected for steady expected floor (14.1 EV) and reliable role."
                 ]
             },
             {
-                "firstName": "Jeff",
-                "lastName": "Trainor",
-                "position": "Defense",
-                "salary": 10,
+                "firstName": "Justin",
+                "lastName": "Inacio",
+                "position": "Faceoff",
+                "salary": 18,
                 "bullets": [
-                    "Opponent Weakness: CHA defense allows 6% extra fantasy points to SSDM position.",
-                    "Salary Cap Enabler: Excellent cost efficiency, projecting 16.1 EV for just 10 coins."
+                    "Hot Form: Averaging 21.8 fantasy pts over last 3 games (vs 18.1 season avg).",
+                    "Opponent Weakness: CAN defense allows 41% extra fantasy points to Faceoff position."
+                ]
+            },
+            {
+                "firstName": "Logan",
+                "lastName": "McNaney",
+                "position": "Goalie",
+                "salary": 38,
+                "bullets": [
+                    "Opponent Weakness: RED defense allows 20% extra fantasy points to Goalie position."
                 ]
             }
         ],
@@ -460,10 +458,14 @@
                 "strategy": "MC_EV",
                 "strategyLabel": "MC EV",
                 "in": [
-                    "Aidan Danenza"
+                    "Aidan Danenza",
+                    "Connor Kelly",
+                    "Jeff Trainor"
                 ],
                 "out": [
-                    "Jared Bernhardt"
+                    "Zach Currier",
+                    "Jared Bernhardt",
+                    "Jared Conners"
                 ],
                 "rationale": "Optimizes strictly for the highest average expected points (mean floor) rather than variance or win probability."
             },
@@ -472,13 +474,15 @@
                 "strategyLabel": "MC Ceil 90",
                 "in": [
                     "Aidan Danenza",
-                    "Nakeie Montgomery"
+                    "Nakeie Montgomery",
+                    "Jeff Trainor"
                 ],
                 "out": [
+                    "Zach Currier",
                     "Jared Bernhardt",
-                    "Connor Kelly"
+                    "Jared Conners"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Aidan Danenza (Midfield, 12c), Nakeie Montgomery (Midfield, 5c)) to maximize the team's 90th percentile ceiling (projecting up to 58.5 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Aidan Danenza (Midfield, 12c), Nakeie Montgomery (Midfield, 5c), Jeff Trainor (Defense, 10c)) to maximize the team's 90th percentile ceiling (projecting up to 58.5 pts)."
             }
         ]
     },

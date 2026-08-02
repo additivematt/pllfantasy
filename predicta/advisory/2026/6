@@ -118,18 +118,6 @@
             "actualPoints": 46.0
         },
         {
-            "firstName": "Jack",
-            "lastName": "Hannah",
-            "team": "WAT",
-            "opponent": "OUT",
-            "game_id": "2026-ev-20",
-            "position": "Midfield",
-            "salary": 16,
-            "mc_ev": 18.1,
-            "mc_p90": 41.6,
-            "mc_p10": 0.0
-        },
-        {
             "firstName": "Ryan",
             "lastName": "Ambler",
             "team": "ARC",
@@ -141,6 +129,18 @@
             "mc_p90": 40.9,
             "mc_p10": 0.0,
             "actualPoints": -12.0
+        },
+        {
+            "firstName": "Jack",
+            "lastName": "Hannah",
+            "team": "WAT",
+            "opponent": "OUT",
+            "game_id": "2026-ev-20",
+            "position": "Midfield",
+            "salary": 16,
+            "mc_ev": 18.1,
+            "mc_p90": 41.6,
+            "mc_p10": 0.0
         },
         {
             "firstName": "Marcus",
@@ -308,6 +308,19 @@
             "actualPoints": 48.0
         },
         {
+            "firstName": "Mike",
+            "lastName": "Sisselberger",
+            "team": "ARC",
+            "opponent": "WAT",
+            "game_id": "2026-ev-23",
+            "position": "Faceoff",
+            "salary": 8,
+            "mc_ev": 19.1,
+            "mc_p90": 33.0,
+            "mc_p10": 0.0,
+            "actualPoints": 24.0
+        },
+        {
             "firstName": "Eric",
             "lastName": "Spanos",
             "team": "CHA",
@@ -345,18 +358,6 @@
             "mc_p90": 26.1,
             "mc_p10": 0.0,
             "actualPoints": 0.0
-        },
-        {
-            "firstName": "Connor",
-            "lastName": "Farrell",
-            "team": "WAT",
-            "opponent": "OUT",
-            "game_id": "2026-ev-20",
-            "position": "Faceoff",
-            "salary": 7,
-            "mc_ev": 11.5,
-            "mc_p90": 21.7,
-            "mc_p10": 0.5
         }
     ],
     "MC_Differential": [
@@ -571,15 +572,6 @@
                 ]
             },
             {
-                "firstName": "Jack",
-                "lastName": "Hannah",
-                "position": "Midfield",
-                "salary": 16,
-                "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (18.1 EV) and reliable role."
-                ]
-            },
-            {
                 "firstName": "Ryan",
                 "lastName": "Ambler",
                 "position": "Midfield",
@@ -587,6 +579,15 @@
                 "bullets": [
                     "Hot Form: Averaging 16.0 fantasy pts over last 3 games (vs 8.8 season avg).",
                     "Salary Cap Enabler: Excellent cost efficiency, projecting 17.5 EV for just 12 coins."
+                ]
+            },
+            {
+                "firstName": "Jack",
+                "lastName": "Hannah",
+                "position": "Midfield",
+                "salary": 16,
+                "bullets": [
+                    "Consistent Pick: Selected for steady expected floor (18.1 EV) and reliable role."
                 ]
             },
             {
