@@ -133,43 +133,43 @@
             "actualPoints": 42.0
         },
         {
-            "firstName": "Zach",
-            "lastName": "Currier",
-            "team": "WAT",
-            "opponent": "ARC",
+            "firstName": "Tom",
+            "lastName": "Schreiber",
+            "team": "ARC",
+            "opponent": "WAT",
             "game_id": "2024-ev-1",
             "position": "Midfield",
-            "salary": 31,
-            "mc_ev": 30.2,
-            "mc_p90": 59.5,
-            "mc_p10": 9.2,
-            "actualPoints": 21.6
+            "salary": 48,
+            "mc_ev": 40.5,
+            "mc_p90": 86.7,
+            "mc_p10": 9.6,
+            "actualPoints": 37.0
         },
         {
-            "firstName": "Cade",
-            "lastName": "van Raaphorst",
+            "firstName": "Craig",
+            "lastName": "Chick",
             "team": "CAN",
             "opponent": "ATL",
             "game_id": "2024-ev-2",
             "position": "Defense",
-            "salary": 18,
-            "mc_ev": 25.9,
-            "mc_p90": 52.2,
+            "salary": 4,
+            "mc_ev": 14.9,
+            "mc_p90": 37.1,
             "mc_p10": 0.0,
-            "actualPoints": 22.0
+            "actualPoints": 0.0
         },
         {
-            "firstName": "Nick",
-            "lastName": "Rowlett",
-            "team": "CHA",
-            "opponent": "OUT",
-            "game_id": "2024-ev-3",
+            "firstName": "Petey",
+            "lastName": "LaSalla",
+            "team": "WHP",
+            "opponent": "ATL",
+            "game_id": "2024-ev-4",
             "position": "Faceoff",
-            "salary": 11,
-            "mc_ev": 23.6,
-            "mc_p90": 52.2,
-            "mc_p10": 3.1,
-            "actualPoints": 1.5
+            "salary": 9,
+            "mc_ev": 32.6,
+            "mc_p90": 79.4,
+            "mc_p10": 0.2,
+            "actualPoints": 2.0
         },
         {
             "firstName": "Colin",
@@ -374,8 +374,8 @@
         }
     ],
     "Core": [
-        "Grant Ament",
-        "Cade van Raaphorst"
+        "Tom Schreiber",
+        "Grant Ament"
     ],
     "Sleepers": [],
     "RecommendedStrategy": "MC_EV",
@@ -455,18 +455,18 @@
                 "in": [
                     "Michael Sowers",
                     "Jeff Teat",
-                    "Zach Currier",
-                    "Nick Rowlett",
+                    "Craig Chick",
+                    "Petey LaSalla",
                     "Colin Kirst"
                 ],
                 "out": [
                     "Zed Williams",
                     "Matt Rambo",
                     "Austin Kaut",
-                    "Tom Schreiber",
-                    "Trevor Baptiste"
+                    "Trevor Baptiste",
+                    "Cade van Raaphorst"
                 ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Michael Sowers (Attack, 35c), Jeff Teat (Attack, 47c), Zach Currier (Midfield, 31c), Nick Rowlett (Faceoff, 11c), Colin Kirst (Goalie, 33c)) to increase the joint probability of the entire lineup hitting the 160 target score."
+                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Michael Sowers (Attack, 35c), Jeff Teat (Attack, 47c), Craig Chick (Defense, 4c), Petey LaSalla (Faceoff, 9c), Colin Kirst (Goalie, 33c)) to increase the joint probability of the entire lineup hitting the 160 target score."
             }
         ]
     },

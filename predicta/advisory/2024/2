@@ -94,19 +94,6 @@
     ],
     "MC_Win_160": [
         {
-            "firstName": "Jeff",
-            "lastName": "Teat",
-            "team": "ATL",
-            "opponent": "CHA",
-            "game_id": "2024-ev-8",
-            "position": "Attack",
-            "salary": 50,
-            "mc_ev": 59.2,
-            "mc_p90": 118.6,
-            "mc_p10": 25.0,
-            "actualPoints": 36.0
-        },
-        {
             "firstName": "Rob",
             "lastName": "Pannell",
             "team": "RED",
@@ -118,6 +105,19 @@
             "mc_p90": 100.7,
             "mc_p10": 17.4,
             "actualPoints": 46.0
+        },
+        {
+            "firstName": "Jeff",
+            "lastName": "Teat",
+            "team": "ATL",
+            "opponent": "CHA",
+            "game_id": "2024-ev-8",
+            "position": "Attack",
+            "salary": 50,
+            "mc_ev": 59.2,
+            "mc_p90": 118.6,
+            "mc_p10": 25.0,
+            "actualPoints": 36.0
         },
         {
             "firstName": "Tom",
@@ -453,8 +453,8 @@
                 "strategy": "MC_Win_160",
                 "strategyLabel": "MC Win 160",
                 "in": [
-                    "Jeff Teat",
                     "Rob Pannell",
+                    "Jeff Teat",
                     "Tom Schreiber",
                     "Owen McElroy"
                 ],
@@ -464,7 +464,7 @@
                     "Tim Troutner",
                     "Cross Ferrara"
                 ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Jeff Teat (Attack, 50c), Rob Pannell (Attack, 41c), Tom Schreiber (Midfield, 47c), Owen McElroy (Goalie, 2c)) to increase the joint probability of the entire lineup hitting the 160 target score."
+                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Rob Pannell (Attack, 41c), Jeff Teat (Attack, 50c), Tom Schreiber (Midfield, 47c), Owen McElroy (Goalie, 2c)) to increase the joint probability of the entire lineup hitting the 160 target score."
             },
             {
                 "strategy": "MC_Ceil_90",

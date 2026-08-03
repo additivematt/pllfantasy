@@ -109,13 +109,19 @@ Inject the Monte Carlo Expected Value (`mc_ev`), standard deviation, and 90th pe
 python 05_bake_mc_ev.py 2026 <WEEK>
 ```
 
-#### Step 7: Compile Static JSON Payloads
-Generate the extensionless JSON files read by the service worker in the Web UI.
+#### Step 6b: Optimize Lineups & Update Active Baseline Roster CSVs
+Execute the roster optimizer to update the active baseline roster files (`rosters_mc_ev.csv`, `rosters_mc_win_160.csv`, `rosters_mc_ceil_90.csv`).
 ```bash
-python 07_prepare_static_data.py
+python 06_optimize_lineups.py --year 2026 --week <WEEK> --seed 42
 ```
-> [!NOTE]
-> While Phase 3's `combine_datasets.py` automatically runs the static compiler behind the scenes during post-game updates, you must run this step manually during Phase 2 to compile the new predictions and simulations.
+> [!IMPORTANT]
+> This step establishes the single source of truth for all active baseline rosters.
+
+#### Step 7: Compile Static JSON Payloads
+Generate the extensionless JSON files read by the Web UI. `07_prepare_static_data.py` pulls roster selections directly from the saved active baseline roster CSVs (`rosters_mc_ev.csv`, `rosters_mc_win_160.csv`, `rosters_mc_ceil_90.csv`), guaranteeing 100% parity between the evaluation harness and the Web UI.
+```bash
+python 07_prepare_static_data.py --force
+```
 
 #### Step 8: Push to GitHub Pages
 Pushes the compiled static payloads to GitHub. The changes will build and be live on GitHub Pages in about 30 seconds.

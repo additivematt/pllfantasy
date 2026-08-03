@@ -188,7 +188,8 @@ def generate_random_valid_lineup(players, budget=200):
             return selected
     return None
 
-def run_local_search(players, sim_matrix, objective, initial_lineup, budget=200, target_win_score=165.0, restarts=10):
+def run_local_search(players, sim_matrix, objective, initial_lineup, budget=200, target_win_score=165.0, restarts=10, seed=42):
+    np.random.seed(seed)
     best_lineup = list(initial_lineup)
     best_val = evaluate_lineup_mc(best_lineup, sim_matrix, objective, target_win_score)
     
@@ -302,7 +303,8 @@ def main():
                 os.path.join(SCRIPTS_DIR, "predicta", "advisory", f"week{week}_{year}_consensus_ownership.json")
             ]
             
-            if os.path.exists(pred_out) and os.path.exists(adv_out):
+            force_rebuild = "--force" in sys.argv
+            if not force_rebuild and os.path.exists(pred_out) and os.path.exists(adv_out):
                 t_out = min(os.path.getmtime(pred_out), os.path.getmtime(adv_out))
                 t_src = max(os.path.getmtime(f) for f in src_files if os.path.exists(f))
                 if t_out > t_src:
@@ -642,6 +644,35 @@ def main():
                             "mc_p10": round(floor_val, 1)
                         })
                         
+                    def clean_name_local(n):
+                        return (n or "").replace("'", "").replace("-", "").replace(".", "").replace(" ", "").lower()
+
+                    def load_saved_roster(csv_filename, fallback_filename):
+                        paths = [
+                            os.path.join(SCRIPTS_DIR, csv_filename),
+                            os.path.join(SCRIPTS_DIR, "baselines", fallback_filename)
+                        ]
+                        for p_path in paths:
+                            if os.path.exists(p_path):
+                                try:
+                                    df_csv = pd.read_csv(p_path)
+                                    df_w = df_csv[(df_csv["year"] == year) & (df_csv["week"] == week)]
+                                    if len(df_w) >= 7:
+                                        matched = []
+                                        for _, r in df_w.iterrows():
+                                            fn = clean_name_local(r["firstName"])
+                                            ln = clean_name_local(r["lastName"])
+                                            for p in player_pool:
+                                                if clean_name_local(p["firstName"]) == fn and clean_name_local(p["lastName"]) == ln:
+                                                    if p not in matched:
+                                                        matched.append(p)
+                                                        break
+                                        if len(matched) == 7:
+                                            return matched
+                                except Exception:
+                                    pass
+                        return None
+
                     # 1. Run MC EV Baseline
                     ev_baseline = run_mc_ev_optimizer(player_pool, budget=200)
                     if not ev_baseline:
@@ -650,14 +681,20 @@ def main():
                             continue
                         ev_baseline = []
                         
-                    # 2. Run MC EV Optimization via Local Search
-                    team_mc_ev = run_local_search(player_pool, sim_matrix, 'MC_EV', ev_baseline, budget=200) if ev_baseline else []
+                    # 2. Pull MC EV Optimization from CSV if available, else Local Search
+                    team_mc_ev = load_saved_roster("rosters_mc_ev.csv", "rosters_mc_ev_baseline_10.csv")
+                    if not team_mc_ev and ev_baseline:
+                        team_mc_ev = run_local_search(player_pool, sim_matrix, 'MC_EV', ev_baseline, budget=200)
                     
-                    # 3. Run MC Win 160 Optimization
-                    team_mc_win_160 = run_local_search(player_pool, sim_matrix, 'MC_Win_Prob', ev_baseline, budget=200, target_win_score=160.0) if ev_baseline else []
+                    # 3. Pull MC Win 160 Optimization from CSV if available, else Local Search
+                    team_mc_win_160 = load_saved_roster("rosters_mc_win_160.csv", "rosters_mc_win_160_baseline_10.csv")
+                    if not team_mc_win_160 and ev_baseline:
+                        team_mc_win_160 = run_local_search(player_pool, sim_matrix, 'MC_Win_Prob', ev_baseline, budget=200, target_win_score=160.0)
                     
-                    # 4. Run MC Ceil 90 Optimization
-                    team_mc_ceil_90 = run_local_search(player_pool, sim_matrix, 'MC_Ceiling_90', ev_baseline, budget=200) if ev_baseline else []
+                    # 4. Pull MC Ceil 90 Optimization from CSV if available, else Local Search
+                    team_mc_ceil_90 = load_saved_roster("rosters_mc_ceil_90.csv", "rosters_mc_ceil_90_baseline_10.csv")
+                    if not team_mc_ceil_90 and ev_baseline:
+                        team_mc_ceil_90 = run_local_search(player_pool, sim_matrix, 'MC_Ceiling_90', ev_baseline, budget=200)
 
                     # 6. Consensus & Differential Options (Incorporating User Feedback)
                     def clean_name_local(n):

@@ -8,7 +8,7 @@
             "game_id": "2025_semifinal_2",
             "position": "Attack",
             "salary": 46,
-            "mc_ev": 42.4,
+            "mc_ev": 39.0,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 47.0
@@ -34,7 +34,7 @@
             "game_id": "2025_semifinal_2",
             "position": "Attack",
             "salary": 47,
-            "mc_ev": 35.5,
+            "mc_ev": 36.3,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 55.0
@@ -53,17 +53,17 @@
             "actualPoints": 8.0
         },
         {
-            "firstName": "Jared",
-            "lastName": "Bernhardt",
-            "team": "OUT",
-            "opponent": "RED",
-            "game_id": "2025_semifinal_1",
+            "firstName": "Mikie",
+            "lastName": "Schlosser",
+            "team": "WAT",
+            "opponent": "ATL",
+            "game_id": "2025_semifinal_2",
             "position": "Midfield",
-            "salary": 15,
-            "mc_ev": 21.2,
+            "salary": 4,
+            "mc_ev": 19.7,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
-            "actualPoints": 15.0
+            "actualPoints": 0.0
         },
         {
             "firstName": "Jake",
@@ -73,7 +73,7 @@
             "game_id": "2025_semifinal_2",
             "position": "Midfield",
             "salary": 10,
-            "mc_ev": 19.1,
+            "mc_ev": 19.0,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 4.0
@@ -101,7 +101,7 @@
             "game_id": "2025_semifinal_2",
             "position": "Attack",
             "salary": 46,
-            "mc_ev": 42.4,
+            "mc_ev": 39.0,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 47.0
@@ -127,7 +127,7 @@
             "game_id": "2025_semifinal_1",
             "position": "Attack",
             "salary": 36,
-            "mc_ev": 34.8,
+            "mc_ev": 35.1,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 18.0
@@ -146,17 +146,17 @@
             "actualPoints": 8.0
         },
         {
-            "firstName": "Jared",
-            "lastName": "Bernhardt",
-            "team": "OUT",
-            "opponent": "RED",
-            "game_id": "2025_semifinal_1",
+            "firstName": "Reid",
+            "lastName": "Bowering",
+            "team": "ATL",
+            "opponent": "WAT",
+            "game_id": "2025_semifinal_2",
             "position": "Midfield",
-            "salary": 15,
-            "mc_ev": 21.2,
+            "salary": 17,
+            "mc_ev": 19.3,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
-            "actualPoints": 15.0
+            "actualPoints": 31.0
         },
         {
             "firstName": "Jake",
@@ -166,23 +166,23 @@
             "game_id": "2025_semifinal_2",
             "position": "Midfield",
             "salary": 10,
-            "mc_ev": 19.1,
+            "mc_ev": 19.0,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 4.0
         },
         {
-            "firstName": "Jimmy",
-            "lastName": "Freehill",
+            "firstName": "Dylan",
+            "lastName": "Hess",
             "team": "WAT",
             "opponent": "ATL",
             "game_id": "2025_semifinal_2",
             "position": "Defense",
             "salary": 6,
-            "mc_ev": 15.3,
+            "mc_ev": 16.4,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
-            "actualPoints": 30.0
+            "actualPoints": 0.0
         }
     ],
     "MC_Ceil_90": [
@@ -194,36 +194,23 @@
             "game_id": "2025_semifinal_2",
             "position": "Attack",
             "salary": 46,
-            "mc_ev": 42.4,
+            "mc_ev": 39.0,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 47.0
         },
         {
-            "firstName": "CJ",
-            "lastName": "Kirst",
-            "team": "WAT",
-            "opponent": "ATL",
+            "firstName": "Connor",
+            "lastName": "Shellenberger",
+            "team": "ATL",
+            "opponent": "WAT",
             "game_id": "2025_semifinal_2",
             "position": "Attack",
-            "salary": 6,
-            "mc_ev": 32.4,
+            "salary": 47,
+            "mc_ev": 36.3,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
-            "actualPoints": 30.0
-        },
-        {
-            "firstName": "Jared",
-            "lastName": "Bernhardt",
-            "team": "OUT",
-            "opponent": "RED",
-            "game_id": "2025_semifinal_1",
-            "position": "Midfield",
-            "salary": 15,
-            "mc_ev": 21.2,
-            "mc_p90": 0.0,
-            "mc_p10": 0.0,
-            "actualPoints": 15.0
+            "actualPoints": 55.0
         },
         {
             "firstName": "Mikie",
@@ -233,10 +220,23 @@
             "game_id": "2025_semifinal_2",
             "position": "Midfield",
             "salary": 4,
-            "mc_ev": 18.5,
+            "mc_ev": 19.7,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 0.0
+        },
+        {
+            "firstName": "Jared",
+            "lastName": "Bernhardt",
+            "team": "OUT",
+            "opponent": "RED",
+            "game_id": "2025_semifinal_1",
+            "position": "Midfield",
+            "salary": 15,
+            "mc_ev": 19.5,
+            "mc_p90": 0.0,
+            "mc_p10": 0.0,
+            "actualPoints": 15.0
         },
         {
             "firstName": "Brian",
@@ -289,7 +289,7 @@
             "game_id": "2025_semifinal_1",
             "position": "A",
             "salary": 10,
-            "mc_ev": 34.9,
+            "mc_ev": 34.3,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 59.0
@@ -302,7 +302,7 @@
             "game_id": "2025_semifinal_2",
             "position": "A",
             "salary": 10,
-            "mc_ev": 35.5,
+            "mc_ev": 36.3,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 55.0
@@ -315,7 +315,7 @@
             "game_id": "2025_semifinal_2",
             "position": "M",
             "salary": 10,
-            "mc_ev": 19.8,
+            "mc_ev": 19.9,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 46.0
@@ -328,7 +328,7 @@
             "game_id": "2025_semifinal_2",
             "position": "M",
             "salary": 10,
-            "mc_ev": 17.7,
+            "mc_ev": 19.3,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 31.0
@@ -375,13 +375,9 @@
     ],
     "Core": [
         "Jeff Teat",
-        "Trevor Baptiste",
-        "Jared Bernhardt"
+        "Trevor Baptiste"
     ],
-    "Sleepers": [
-        "CJ Kirst",
-        "Mikie Schlosser"
-    ],
+    "Sleepers": [],
     "RecommendedStrategy": "MC_EV",
     "RecommendedReason": "Tight pricing / short slate (2 games, 26 cheap value players). Optimizing for floor is best.",
     "Narrative": {
@@ -427,12 +423,13 @@
                 ]
             },
             {
-                "firstName": "Jared",
-                "lastName": "Bernhardt",
+                "firstName": "Mikie",
+                "lastName": "Schlosser",
                 "position": "Midfield",
-                "salary": 15,
+                "salary": 4,
                 "bullets": [
-                    "Opponent Weakness: RED defense allows 8% extra fantasy points to Midfield position."
+                    "Opponent Weakness: ATL defense allows 17% extra fantasy points to Midfield position.",
+                    "Salary Cap Enabler: Excellent cost efficiency, projecting 19.7 EV for just 4 coins."
                 ]
             },
             {
@@ -441,7 +438,7 @@
                 "position": "Midfield",
                 "salary": 10,
                 "bullets": [
-                    "Salary Cap Enabler: Excellent cost efficiency, projecting 19.1 EV for just 10 coins."
+                    "Salary Cap Enabler: Excellent cost efficiency, projecting 19.0 EV for just 10 coins."
                 ]
             },
             {
@@ -463,30 +460,28 @@
                 "strategyLabel": "MC Win 160",
                 "in": [
                     "Chris Kavanagh",
-                    "Jimmy Freehill"
+                    "Reid Bowering"
                 ],
                 "out": [
                     "Connor Shellenberger",
-                    "Dylan Hess"
+                    "Mikie Schlosser"
                 ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Chris Kavanagh (Attack, 36c), Jimmy Freehill (Defense, 6c)) to increase the joint probability of the entire lineup hitting the 160 target score."
+                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Chris Kavanagh (Attack, 36c), Reid Bowering (Midfield, 17c)) to increase the joint probability of the entire lineup hitting the 160 target score."
             },
             {
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
-                    "CJ Kirst",
-                    "Mikie Schlosser",
+                    "Jared Bernhardt",
                     "Brian Tevlin",
                     "Matt DeLuca"
                 ],
                 "out": [
                     "Liam Entenmann",
-                    "Connor Shellenberger",
                     "Jake Stevens",
                     "Dylan Hess"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like CJ Kirst (Attack, 6c), Mikie Schlosser (Midfield, 4c), Brian Tevlin (Defense, 16c), Matt DeLuca (Goalie, 32c)) to maximize the team's 90th percentile ceiling (projecting up to 0.0 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Jared Bernhardt (Midfield, 15c), Brian Tevlin (Defense, 16c), Matt DeLuca (Goalie, 32c)) to maximize the team's 90th percentile ceiling (projecting up to 0.0 pts)."
             }
         ]
     },
