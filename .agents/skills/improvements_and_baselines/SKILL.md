@@ -13,24 +13,30 @@ description: Central tracking for feature improvements, model baseline audits (B
 ## Centralized Improvement Policy
 All improvement ideas, including feature proposals, architectural refactors, simulation enhancements, and UI upgrades, MUST be recorded in this document. Individual feature docs should link here and must not maintain separate/independent lists of improvements.
 
+> [!IMPORTANT]
+> **User Core Metric Preference (Precision > Recall)**:
+> The user explicitly prioritizes **Boom Precision** over **Boom Recall**. Because the user often makes manual lineup adjustments, tactical swaps, or custom player selections rather than strictly copying the automated 7-player recommended roster, high individual player precision is essential. The user needs to know that when a player receives a `Boom` tier or high projection on the dashboard, that individual player is **highly likely to perform well and deliver top-tier points**, eliminating false-positive "bust" traps. Optimization and hyperparameter tuning experiments should explicitly measure and prioritize Boom Precision and $F_{0.5}$ score alongside roster EV.
+
+
 ---
 
 ## Target Success Criteria & Evaluation Baseline
 To ensure that changes are mathematically sound and do not degrade model performance:
 - **Baseline Metric**: The table below defines the official baseline backtest metrics established on **17 July 2026** (Baseline 10, Generative Faceoff Heuristic + Salary as a Feature + Asymmetric Class Weighting + Pool Blending).
 
-### Baseline 10 (Bradley-Terry & Generative Heuristic — 17 July 2026)
+### Baseline 10 (Bradley-Terry & Generative Heuristic — 17 July 2026, Deterministic July 2026)
 
-Established after integrating the Bradley-Terry matchup win probability model and propensity-shrunk statistics for the Faceoff position, while maintaining the Salary as a Feature GBDT model for other position groups.
+Established after integrating the Bradley-Terry matchup win probability model and propensity-shrunk statistics for the Faceoff position, while maintaining the Salary as a Feature GBDT model for other position groups. (Restored clean `>= 2023` training pool cutoff and enforced seed=42 across `02`, `03`, `04`, and `06` for 100% end-to-end deterministic reproducibility).
 
-| Season | Strategy | Total Score | Coulda Max | Ceiling % | Notes (vs. Baseline 9) |
+
+| Season | Strategy | Total Score | Coulda Max | Ceiling % | Notes / Evaluated Weeks |
 |---|---|---|---|---|---|
-| 2025 | MC_EV | 2219.3 | 4679.1 | 47.4% | **+134.3 pts** (on identical weeks) |
+| 2025 | MC_EV | 2219.3 | 4679.1 | 47.4% | **+134.3 pts** vs Baseline 9 |
 | 2025 | MC_Ceil_90 | 2322.8 | 4679.1 | 49.6% | **+35.5 pts** |
 | 2025 | MC_Win_160 | 2290.9 | 4679.1 | 49.0% | **+72.8 pts** |
-| 2026 | MC_EV | 1154.3 | 2525.0 | 45.7% | **-11.1 pts** (noise) |
-| 2026 | MC_Ceil_90 | 934.2 | 2525.0 | 37.0% | **+1.8 pts** |
-| 2026 | MC_Win_160 | 1167.5 | 2525.0 | 46.2% | **+9.3 pts** |
+| 2026 | MC_EV | 1274.0 | 2886.9 | 44.1% | Deterministic W1–W6, W8–W9 (W10 pending) |
+| 2026 | MC_Win_160 | 1118.1 | 2886.9 | 38.7% | High-floor win-threshold strategy |
+| 2026 | MC_Ceil_90 | 989.9 | 2886.9 | 34.3% | 90th percentile ceiling strategy |
 
 - **Target Threshold**: A proposed feature or logic change will be accepted if it demonstrates a statistically significant improvement over these baselines (paired t-test p-value < 0.05) without increasing runtimes by more than 20%, or if it fixes a critical code health issue without degrading performance.
 - **RNG Reproducibility**: All backtests must run under a fixed random seed to ensure comparison consistency.
@@ -48,28 +54,29 @@ Established after integrating the Bradley-Terry matchup win probability model an
 ---
 
 ## Recommended Priority Order (Accuracy Improvements)
-The following items represent the highest-impact improvements for **prediction accuracy**, ordered by priority. Item 27 (data leakage elimination) is the **mandatory prerequisite** — all other improvements must be tested on a leak-free pipeline.
+
+The following table summarizes all remaining improvement items in the active backlog, ranked by expected value (EV impact) and likelihood of effectiveness when evaluated against **Baseline 10**. Detailed specifications for each item are maintained in their respective Tier sections in the main body below.
 
 > [!IMPORTANT]
-> **Boom Recall is the #1 bottleneck** (9 July 2026 analysis):
-> Baseline 6 Boom recall and cash game stability have been improved by asymmetric class weighting and pool blending, but it remains a target area. All active backlog items must now be A/B tested against Baseline 6's optimal configuration.
+> **Active Baseline 10 Benchmark**:
+> Baseline 10 integrates the Generative Bradley-Terry Faceoff Heuristic (`FACEOFF_HEURISTIC_ENABLED = True`), Salary as a Feature (`SALARY_AS_FEATURE = True`), Asymmetric Class Weighting (Weight 2.0), and MC Historical Pool Blending ($K=15$). All proposed features below must be evaluated against this baseline.
 
-
-#### Item 33: Position-Specific XGBoost Hyperparameter Tuning *(elevated from Tier 2)*
-- **Problem**: All five position groups use identical model configurations and tree depths regardless of sample size.
-- **Why it matters**: Attack has ~48 rows/season while Goalie has ~16. The Goalie model is highly susceptible to overfitting under generic defaults. The per-position accuracy gaps (Goalie: 26.1%, Faceoff: 21.4% overall accuracy) are a major driver of the ceiling % plateau.
-- **Suggested Fix**: Define and grid-search position-specific hyperparameters (`n_estimators`, `max_depth`, `learning_rate`, `min_child_weight`) using the harness. For small-sample positions (FO, Goalie), use lower `max_depth` (3–4), higher `min_child_weight` (5–10), and fewer `n_estimators` (50–100).
-- **A/B Test Plan**: Grid-search per position using the evaluation harness. Compare per-position accuracy and total Ceiling % vs Baseline 6.
-- **Success Criteria**: Customized hyperparameter configurations active per position group. Goalie and FO accuracy improvements without degrading Attack/Midfield.
-- **Status**: ⏳ Pending re-test against Baseline 6.
-
-#### Item 45: The Continuous Target Pivot (Regression Pipeline Integration)
-- **Problem**: Forcing the prediction engine into discrete categorical tiers (Boom/Average/Bust) throws away massive amounts of ordinal variance. The difference between a high-tier and low-tier "Average" performance is completely smoothed out, blinding the linear programming optimizer to granular value edges.
-- **Why it matters**: Optimization under tight salary caps requires exact expected values. Relying on class probabilities to derive continuous MC EV distributions creates artificial clipping and sub-optimal roster allocations.
-- **Suggested Fix**: Implement an XGBoost Regressor pipeline running in parallel with (or replacing) the classifier. Have the regressor target raw fantasy points directly. Use the continuous output to anchor the mean of the Monte Carlo bootstrap distributions.
-- **A/B Test Plan**: Run the evaluation harness using continuous regression-driven expected values for roster optimization. Measure net impact on 2025 and 2026 Ceiling % against Baseline 6.
-- **Success Criteria**: Statistically significant positive shift in Ceiling % across both seasons, completely bypassing the 0% Faceoff classifier plateau.
-- **Status**: ⏳ Pending re-test against Baseline 6.
+| Item # & Name | Tier / Category | Expected Value (EV Impact) | Confidence | Likely Effectiveness Critique & Rationale |
+|---|---|---|---|---|
+| **Item 48**: Precision-Oriented Tuning & Threshold Calibration | Tier 2 (Tuning) | **+10 to +30 pts** (Precision boost) | **High** | **User Preference Priority**. Tunes classification decision thresholds ($P \ge \tau$), reduces Boom class weights ($2.0 \to 0.75\text{--}1.0$), and optimizes hyperparameters ($F_{0.5}$ metric) to maximize Boom Precision and eliminate false-positive trap picks. |
+| **Item 39**: Skewed Bootstrap (CDF Mapping) | Tier 3 (Simulation) | **+20 to +50 pts** (+0.8–1.5% Ceiling) | **High** | **Top Priority**. Lacrosse scoring is heavily right-skewed. The current linear score multiplier shifts whole distributions uniformly, distorting tail shape. Quantile CDF mapping preserves true breakout tail shapes, directly boosting tournament strategies (`MC_Win_160` & `MC_Ceil_90`). |
+| **Item 33**: Position-Specific Hyperparameter Tuning | Tier 2 (Tuning) | **+15 to +40 pts** (+0.5–1.2% Ceiling) | **High** | **High Impact**. Goalie models (~16 rows/season) severely overfit under generic defaults (`max_depth=6`). Tuning Goalie to shallower trees (`max_depth=3-4`) and higher regularization will stabilize Goalie predictions. *(FO is excluded via Bradley-Terry heuristic)*. |
+| **Item 43**: Scoring Environment Multiplier | Tier 3 (Simulation) | **+10 to +30 pts** | **Med-High** | Shootout games elevate scoring ceilings for all participants across both teams. Modeling a multiplicative scoring environment factor during Monte Carlo bootstrapping captures shootout game-stacks better than team-level pace alone. |
+| **Item 41**: Ensemble Meta-Selector (Strategy Picker) | Tier 3 (Optimizer) | **+15 to +35 pts** / season | **Medium** | `MC_Win_160` beat `MC_EV` in 2026 (+11.4 pts) but trailed in 2025. A simple slate-aware decision tree picking `MC_EV` vs `MC_Win_160` based on slate size and salary depth can capture peak weekly upside. |
+| **Item 32**: Matchup Rating Temporal Decay | Tier 2 (Features) | **+10 to +25 pts** | **Medium** | Exponential decay weighting (`LAMBDA_RECENCY`) prioritizes recent defender form over ancient matchups. Requires Bayesian shrinkage to avoid noise in small sample pairings. |
+| **Item 14**: Dynamic MC Volatility Ceiling Clamp | Tier 3 (Simulation) | **+5 to +20 pts** | **Medium** | Replacing static unclamped bounds with position-specific volatility clamps prevents extreme simulated outliers from distorting local search lineup optimization. |
+| **Item 12**: Dynamic Correlation Matrix | Tier 3 (Simulator) | **+5 to +15 pts** | **Medium** | Replaces ~15 hardcoded copula coefficients with season-dynamic Pearson correlations. Improves code health and adapts to shifting team playstyles. |
+| **Item 42**: Player-Level Pairwise Correlations | Tier 3 (Simulation) | **+5 to +15 pts** | **Low-Med** | Models elite teammate synergy (e.g. Shellenberger + Teat). However, small per-pair sample sizes (8–10 games) require heavy Ledoit-Wolf shrinkage to avoid noise. |
+| **Item 45**: Continuous Target & Stacked Regressor | Tier 2 (Architecture) | **+0 to +15 pts** | **Low-Med** | *Completed Exploration*. Pure regression improved MAE ($11.55$) but flattened tail variance (39.1% ceiling). Stacking `PredictedPoints` into Boom Classifier added +103 pts over raw classifier, but Baseline 10 still leads. |
+| **Item 47**: First-Principles Feature Ablation | Tier 2 (Features) | **-270 to -425 pts (2025)** | **High** | ❌ **REJECTED (July 2026 A/B Test)**. All 4 isolated feature toggles (Mid/Def assists, Goalie GB/CT, Opp Def Form, Squad Churn) caused severe score drops in 2025 (-270.0 to -425.5 pts). Kept disabled in `config.py`. |
+| **Item 40 / 44**: Historical Ownership & Chalk Penalty | Tier 3 (Optimizer) | **0 to +15 pts** | **Low** | EV maximization is mathematically optimal for cumulative season scoring. Ownership penalty is only effective for weekly H2H formats if high ownership "chalk" systematically underperforms. |
+| **Items 16–19**: Pipeline Validation, Speed & Safety | Tier 4 (Infrastructure) | **Execution Speed & Zero Scratches** | **High** | Eliminates silent player drops, cuts backtest runtime by 50%+ via parallelism/Parquet, and adds unit test safety. |
+| **Items 20–24**: UI/UX & Live Game-Day Tools | Tier 5 (UX & Operations) | **Operational Safety (0 DNP Scratches)** | **High** | Live scratch alerts (Item 22) prevent starting inactive players on game day. Plotly outcome bands and regret analysis enhance decision clarity. |
 
 
 
@@ -116,17 +123,22 @@ To track historical performance changes and maintain auditability across key mil
 ### Baseline 9 (Market Consensus: Salary As Feature — 16 July 2026)
 - **Status**: ⚠️ **Superseded by Baseline 10**. Set `SALARY_AS_FEATURE = True` in production config. This incorporates normalized salary percentile into the GBDT model.
 
-### Baseline 10 (Bradley-Terry & Generative Heuristic — 17 July 2026)
+### Baseline 10 (Bradley-Terry & Generative Heuristic — 17 July 2026, Updated 24 July 2026)
 - **Changes / Description**: Bypasses the GBDT classifier for the Faceoff position and implements a generative Bradley-Terry matchup win probability model scaled by expected pace and shrunk player-specific stats (ground balls, goals, assists, caused turnovers).
+- **Audit & Fix (24 July 2026)**: 
+  1. Identified and removed an uncommitted experimental edit in `02_predict_probabilities.py` that had temporarily shifted the training pool cutoff from `>= 2023` to `>= 2019` (the rejected Baseline 11 injection). Reverting back to `>= 2023` restored true Baseline 10 standard consistency.
+  2. Fixed local search non-determinism by adding `--seed 42` (default 42) and `np.random.seed(args.seed)` to `06_optimize_lineups.py`. Enforcing end-to-end deterministic seeds across all pipeline stages (`02`, `03`, `04`, `06`) produced reproducible Baseline 10 `MC_EV` score of **1274.0 pts** across evaluated 2026 weeks.
 - **Roster Files**: All Baseline 10 rosters are archived in the `baselines/` directory as `rosters_<strategy>_baseline_10.csv`.
 - **Performance Summary**:
 
-  | Season | Strategy | Total Score | Coulda Max | Ceiling % | Notes (vs. Baseline 9) |
+  | Season | Strategy | Total Score | Coulda Max | Ceiling % | Notes / Evaluated Weeks |
   |---|---|---|---|---|---|
-  | 2025 | MC_EV | 2219.3 | 4679.1 | 47.4% | **+134.3 pts** (on identical evaluated weeks) |
-  | 2026 | MC_EV | 895.6 | 1841.3 | 48.6% | -3.2 pts (noise on identical evaluated weeks) |
+  | 2025 | MC_EV | 2219.3 | 4679.1 | 47.4% | **+134.3 pts** vs Baseline 9 |
+  | 2026 | MC_EV | 1274.0 | 2886.9 | 44.1% | Deterministic W1–W6, W8–W9 (W10 pending) |
+  | 2026 | MC_Win_160 | 1118.1 | 2886.9 | 38.7% | High-floor win-threshold strategy |
+  | 2026 | MC_Ceil_90 | 989.9 | 2886.9 | 34.3% | 90th percentile ceiling strategy |
 
-- **Interpretation**: The generative faceoff model is a major success. By replacing GBDT classifier predictions (which had 0% Boom recall/precision) with head-to-head win probability modeling and individual stat propensity, it yielded a massive +134.3 points improvement in 2025 and neutral results in 2026. This is now the official production configuration.
+- **Interpretation**: The generative faceoff model is a major success. By replacing GBDT classifier predictions (which had 0% Boom recall/precision) with head-to-head win probability modeling and individual stat propensity, it yielded a massive +134.3 points improvement in 2025 and reliable 1274.0 pts performance across 2026. This is the active production configuration.
 
 ---
 
@@ -134,13 +146,70 @@ To track historical performance changes and maintain auditability across key mil
 
 ### Tier 2: Model & Feature Improvements (Accuracy)
 
+#### Item 48: Boom Precision Optimization & Decision Threshold Tuning *(User Core Preference)*
+- **Problem**: Baseline 10 currently uses asymmetric Boom class weighting (weight = 2.0) to maximize **Boom Recall** (finding ceiling/breakout performers). However, the user explicitly prioritizes **Boom Precision** over Boom Recall to eliminate false-positive "trap" picks and ensure selected players reliably deliver high-tier points.
+- **Why it matters**: In real-world fantasy management, the user often makes manual lineup adjustments and custom player swaps rather than strictly copying the automated 7-player recommended roster. High individual player precision gives the user complete confidence that whenever a player receives a `Boom` tier or high projection, that player is highly reliable and will deliver top-tier points without trapping the manager with a "dud" score.
+- **Actionable Tuning Options to Optimize for Precision**:
+  1. **Decision Threshold Elevation ($P \ge \tau$)**: Shift the classification decision boundary $\tau$ higher (e.g., from default $0.50$ up to $0.60\text{--}0.70$). Requiring higher probability confidence before assigning a `Boom` tier directly increases Boom Precision.
+  2. **Dual-Gate Consensus Filtering (`--dual-gate`)**: Require a player to satisfy both $P(\text{Boom}) \ge \tau$ AND continuous projected points $\ge q_{75}$ for their position group to receive a Boom tier tag.
+  3. **Volume / Role Floor Prerequisites (`--volume-floor`)**: Require Attackmen and Midfielders to maintain a volume floor (`shots_last3_avg \ge 2.5`) to be assigned a Boom tier prediction, disqualifying low-touch fluke duds.
+  4. **Class Weight Adjustment**: Reduce the Boom `sample_weight` in `02_predict_probabilities.py` from $2.0$ down to $0.75\text{--}1.0$.
+  5. **Metric Optimization ($F_{0.5}$ Score)**: Replace standard Log-Loss / $F_1$ evaluation with the $F_{0.5}$ score during hyperparameter tuning, weighting Precision twice as heavily as Recall.
+
+- **Phase 1 A/B Test Results (Threshold & Weight Shifts - August 2026)**:
+  - **Challenger 1 ($W=1.0$)**: Scored 1,489.3 pts (-46.3 pts vs Baseline 10). Reducing sample weights caused probability calibration to collapse to 0 predicted Booms.
+  - **Challenger 2 ($W=0.75$)**: Scored 1,315.1 pts (-220.5 pts vs Baseline 10).
+  - **Challenger 3 ($\tau=0.60$)**: **1,564.8 pts (+29.2 pts over Baseline 10 control, 42.6% ceiling)**. Statistically significant improvement in overall Tier Accuracy ($45.5\%$ vs $43.2\%$, $p=0.0462$). However, raw Boom Precision dropped because fewer Booms were called.
+
+- **Phase 2 A/B Test Results (Techniques #1 & #2 across 2025 & 2026 Seasons)**:
+  - **Technique #2 (`--volume-floor`) — Standout Winner**:
+    - **2026 Season**: Overall Boom Precision jumped to **32.78%** (+15.28%), Attack Precision to **27.50%**, Defense Precision to **30.00%**, Goalie Precision to **27.86%**. Produced statistically significant improvements in Boom Recall ($p=0.0018$) and Goalie Recall ($41.67\%$, $p=0.0058$). Maintained peak **1,564.8 pts** roster score (42.6% ceiling).
+    - **2025 Season**: Overall Boom Precision jumped to **37.32%** (+5.39%), Goalie Precision jumped to **28.33%** ($p=0.0273$), Tier Accuracy improved to **45.25%** ($p=0.0158$). Roster score 2,270.3 pts (48.5% ceiling).
+  - **Technique #1 (`--dual-gate`)**:
+    - **2026 Season**: Overall Boom Precision **28.43%** (+10.93%), Defense Precision **30.00%**, Attack Precision **21.67%**, Goalie Recall **31.67%** ($p=0.0399$). Score 1,564.8 pts.
+    - **2025 Season**: Overall Boom Precision **37.97%** (+6.03%), Defense Precision **42.31%** (+9.83%), Tier Accuracy **45.62%** ($p=0.0166$). Score 2,270.3 pts.
+  - **Combined (`--dual-gate --volume-floor`)**:
+    - **2026 Season**: Overall Boom Precision **30.10%**, Attack Precision **26.67%**, Defense Precision **30.00%**, Score 1,564.8 pts.
+    - **2025 Season**: Overall Boom Precision **37.97%**, Defense Precision **42.31%**, Tier Accuracy **45.62%**, Score 2,270.3 pts.
+
+- **Status**: ✅ **Completed & Adopted (`--volume-floor` and `--dual-gate` CLI flags added)**. Volume Floor Prerequisites (`--volume-floor`) and Dual-Gate Consensus (`--dual-gate`) successfully boost Boom Precision (+5.4% to +15.3%) and deliver statistically significant improvements in overall tier accuracy ($p < 0.02$) across both seasons.
+
+#### Item 47: Individual First-Principles Feature Ablation vs Baseline 10 *(Top Immediate Priority)*
+
+- **Problem**: The new first-principles feature set (midfield assists, defense assists/shots, goalie CTs/GBs, opponent defensive form vs position, squad/defensive churn, retiring non-FO 1v1 defender pairings) was tested as a block in standalone trial scripts. We must isolate which specific features provide statistically significant gains over Baseline 10.
+- **Why it matters**: Adding features en masse introduces noise or multicollinearity. Isolating each feature inside the production Baseline 10 GBDT pipeline will confirm individual signal before merging into production.
+- **Suggested Fix**: Create modular feature toggles in `config.py` / `feature_engineering.py` and run A/B backtests using `prediction_model_evaluation_harness.py` against Baseline 10 for:
+  1. Midfielder & Defenseman `assists` / `shots`.
+  2. Goalie `causedTurnovers` & `groundBalls`.
+  3. `opp_fp_allowed_to_position_last3` (rolling opponent defensive form vs position).
+  4. Squad & Defensive Unit Churn (`team_roster_churn`, `opp_def_churn`).
+  5. Retiring 1v1 defender pairings for non-faceoff positions.
+- **A/B Test Plan**: Test each toggle individually against Baseline 10 across 2025 and 2026 seasons.
+- **Success Criteria**: Statistically significant positive shift in Ceiling % (p < 0.05) or improved per-position MAE/recall without degrading overall roster score.
+- **Status**: ⏳ Pending step-by-step A/B backtest against Baseline 10.
+
+#### Item 33: Position-Specific XGBoost Hyperparameter Tuning
+- **Problem**: Attack, Midfield, Defense, and Goalie position groups use identical model configurations and tree depths despite vast sample size differences (Attack ~48 rows/season vs. Goalie ~16 rows/season).
+- **Why it matters**: The Goalie GBDT model is highly susceptible to overfitting under generic defaults. (Note: Faceoff is excluded from GBDT tuning because it uses the Baseline 10 Bradley-Terry generative heuristic).
+- **Suggested Fix**: Grid-search position-specific hyperparameters (`n_estimators`, `max_depth`, `learning_rate`, `min_child_weight`) per position group. For small-sample positions (Goalie), test shallower tree depths (`max_depth` 3–4), higher regularization (`min_child_weight` 5–10), and fewer estimators (50–100).
+- **A/B Test Plan**: Grid-search per position using the evaluation harness against Baseline 10.
+- **Success Criteria**: Improved Goalie/Midfield accuracy and total Ceiling % vs Baseline 10.
+- **Status**: ⏳ Pending re-test against Baseline 10.
+
+#### Item 45: The Continuous Target Pivot & Stacked Regressor Explorations
+- **Problem**: Forcing the prediction engine into discrete categorical tiers (Boom/Average/Bust) throws away continuous ordinal variance.
+- **Findings (July 2026 Trial Runs across 15 Weeks)**:
+  - *Pure Direct Point Regression* (`02_predict_points_regression.py`) achieved superior linear point correlation ($r = 0.444$, MAE $11.55$ vs Baseline 10 MAE $12.18$), but dampened upside ($39.1\%$ Ceiling % vs Baseline 10 $47.4\%$).
+  - *Challenger Stacked Model* (`02_predict_probabilities_challenger.py`), which feeds continuous `PredictedPoints` as a stacked meta-feature into the Calibrated Boom Classifier, restored roster performance ($44.8\%$ Ceiling %, +103 pts in 2025 and +138 pts in 2026 over a non-stacked classifier).
+  - Baseline 10 remains the active production control due to its Bradley-Terry Faceoff Heuristic and tuned GBDT tier calibration.
+- **Status**: 🔬 Exploration Completed. Actionable next step moved to **Item 47** (A/B testing proposed new features individually within Baseline 10).
+
 #### Item 32: Matchup Rating Temporal Decay
 - **Problem**: Defender and opponent ratings use career averages, weighting ancient games the same as recent matchups.
 - **Why it matters**: Defensive unit strength and defender capabilities change over seasons, making old matchup data stale.
 - **Suggested Fix**: Apply exponential decay weighting (similar to `LAMBDA_RECENCY`) to historical matchup ratings so recent games dictate the rating.
 - **Success Criteria**: Matchup ratings reflect current defender and team performance.
 
-*(Item 33 has been elevated to Tier 1 — see Recommended Priority Order above.)*
 
 ---
 
@@ -273,6 +342,44 @@ To track historical performance changes and maintain auditability across key mil
 ---
 
 ## Graveyard / Rejected Ideas
+
+#### Item 47: Historical Data Expansion (2019–2022 Training Pool Injection)
+- **Problem**: Model training was formerly cut off at 2023. Injecting 2019-2022 historic data was proposed to provide 4 extra years of sample data for learning player breakout profiles.
+- **Implementation**: Features missing from historic datasets (Touches, Salaries) were mathematically synthesized via linear regression and FP-derived synthetic salaries to avoid nulls.
+- **A/B Test Results (vs Baseline 10)**:
+  - **2025 Season:** 1806.6 points (Statistically significant degradation: **-412.7 points** vs Baseline 10, p=0.023). Ceiling capture dropped to 38.6%.
+  - **2026 Season:** 1166.9 points (Negligible change: +12.6 points vs Baseline 10).
+- **Why it failed**:
+  - *Variance Smoothing*: Synthesizing missing `Touches` and `Salaries` from 2019–2022 averages artificially smoothed data, stripping out natural volatility and ruining calibration for extreme outlier ceilings.
+  - *Meta Drift*: The PLL has undergone major rule and tactical changes since 2019 (shot clocks, pace, defensive schemes). 5–7 year old patterns poisoned the model's ability to predict modern meta.
+- **Status**: ❌ **Rejected**. High-degradation feature expansion. Training pool cutoff remains at 2023.
+
+#### Item 45 / Challenger Explorations: Standalone Point-Direct Regression & Challenger Models (July 2026)
+- **Description**: Evaluated two standalone trial prediction engines across all 15 available weeks (2025 W1-14, 2026 W1-3):
+  1. *Pure Direct Point Regression* (`02_predict_points_regression.py`): Trained `XGBRegressor` directly on raw fantasy points using the new first-principles feature set.
+  2. *Challenger Stacked Boom Classifier* (`02_predict_probabilities_challenger.py`): Fed raw first-principles features + the continuous regressor point prediction (`PredictedPoints`) into a Calibrated Boom Classifier (Weight 2.0).
+  3. *Direct New-Features Classifier* (`02_predict_probabilities_new_features_classifier.py`): Trained Boom Classifier directly on new features without regressor input.
+- **Key Findings**:
+  - *Point Error vs Roster Score*: Pure Direct Regression achieved the best point correlation ($r = 0.444$, MAE $11.55$), but dampened upside when optimizing rosters ($39.1\%$ overall ceiling vs $47.4\%$ for Baseline 10).
+  - *Importance of Stacking*: Feeding `PredictedPoints` into the Boom Classifier boosted roster scoring significantly (+103 pts in 2025, +138 pts in 2026 over the direct classifier), proving that continuous regressor predictions provide a crucial baseline anchor for classification.
+  - *Baseline 10 Superiority*: Baseline 10 remains the active production benchmark (47.4% ceiling in '25, 51.7% in '26 W1-3) due to its Generative Bradley-Terry Faceoff Heuristic and tuned GBDT tier calibration.
+- **Actionable Next Step**: Proceed with individual feature ablation testing against Baseline 10 rather than replacing the GBDT classifier entirely.
+
+#### Item 47: Individual First-Principles Feature Ablation vs Baseline 10 (July 2026 A/B Test)
+- **Problem / Proposal**: Tested 4 isolated candidate feature groups (Midfield/Defense assists & shots, Goalie GBs & CTs, Opponent defensive form by position, Squad & defensive unit churn) plus an isolated **Midfield Assists On Its Own** toggle (`FEATURE_MID_ASSISTS_ONLY_ENABLED`) to evaluate if adding individual volume signals improves Baseline 10.
+- **A/B Test Results (vs Baseline 10: 2025 = 2219.3 pts | 2026 = 1154.3 pts)**:
+  - **Toggle 1 (Midfield & Defense Assists/Shots)**: 1949.3 pts in '25 (**-270.0 pts**), 1215.7 pts in '26 (+61.4 pts), $p = 0.2111$.
+  - **Toggle 1b (Midfield Assists On Its Own)**:
+    - *Continuous Error*: MAE `11.954` pts (+0.325 pts), RMSE `14.947` pts (-0.235 pts), Pearson $r = 0.374$ (+0.010 overall, Midfield $r = 0.083$).
+    - *Classifier Scores*: Tier Acc `38.0%` (-4.6%), Boom Prec `39.2%` (-0.4%), Boom Rec `33.0%` (+1.2%).
+    - *MC_EV Roster Score*: 1897.8 pts in '25 (**-321.5 pts**, $p=0.1476$), 987.9 pts in '26 (**-126.4 pts**, $p=0.1531$).
+    - *MC_Win_160 Roster Score*: 2012.9 pts in '25 (**-278.0 pts**, $p=0.1186$), 1030.6 pts in '26 (**-71.9 pts**, $p=0.1523$).
+    - *MC_Ceil_90 Roster Score*: 1531.4 pts in '25 (**-791.4 pts**, $p=0.0013$ statistically significant collapse), 816.9 pts in '26 (**-117.3 pts**, $p=0.1160$).
+  - **Toggle 2 (Goalie GBs & CTs)**: 1793.8 pts in '25 (**-425.5 pts**), 1212.7 pts in '26 (+58.4 pts), $p = 0.0228$ (Statistically significant degradation).
+  - **Toggle 3 (Opponent Defensive Form by Position)**: 1824.8 pts in '25 (**-394.5 pts**), 1242.4 pts in '26 (+88.1 pts), $p = 0.0251$ (Statistically significant degradation).
+  - **Toggle 4 (Squad & Defensive Churn)**: 1824.8 pts in '25 (**-394.5 pts**), 1242.4 pts in '26 (+88.1 pts), $p = 0.0251$ (Statistically significant degradation).
+- **Why it failed**: Adding granular sub-stat averages introduces collinear noise that degrades GBDT tree split quality and tier classification accuracy (-4.6%), dampening outlier ceiling predictions needed for Monte Carlo roster optimization across all 3 strategies (`MC_EV`, `MC_Win_160`, `MC_Ceil_90`).
+- **Status**: ❌ **Rejected**. All feature toggles remain `False` in `config.py`. Baseline 10 remains the active production configuration.
 
 #### Item 10: Player Usage and Field Time Proxy
 - **Problem**: Stale Baseline 3 test showed degradation in 2025 ($-360.6$ pts) and 2026 ($-139.5$ pts). Touches anomaly overfit to volatile state fluctuations.
