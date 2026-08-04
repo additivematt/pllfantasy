@@ -5,69 +5,628 @@
     {
       "name": "Joey Spallina",
       "clean_name": "joeyspallina",
-      "count": 20,
-      "rate": 0.8
+      "count": 10,
+      "rate": 0.4
     },
     {
-      "name": "Brennan O'Neill",
-      "clean_name": "brennanoneill",
-      "count": 22,
-      "rate": 0.88
+      "name": "TD Ierlan",
+      "clean_name": "tdierlan",
+      "count": 9,
+      "rate": 0.36
     },
     {
-      "name": "Pat Kavanagh",
-      "clean_name": "patkavanagh",
-      "count": 15,
-      "rate": 0.6
+      "name": "Blaze Riorden",
+      "clean_name": "blazeriorden",
+      "count": 8,
+      "rate": 0.32
+    },
+    {
+      "name": "Bryan Costabile",
+      "clean_name": "bryancostabile",
+      "count": 8,
+      "rate": 0.32
+    },
+    {
+      "name": "Michael Sowers",
+      "clean_name": "michaelsowers",
+      "count": 7,
+      "rate": 0.28
+    },
+    {
+      "name": "Emmet Carroll",
+      "clean_name": "emmetcarroll",
+      "count": 7,
+      "rate": 0.28
+    },
+    {
+      "name": "Chad Palumbo",
+      "clean_name": "chadpalumbo",
+      "count": 7,
+      "rate": 0.28
+    },
+    {
+      "name": "Alec Stathakis",
+      "clean_name": "alecstathakis",
+      "count": 6,
+      "rate": 0.24
+    },
+    {
+      "name": "Andrew McAdorey",
+      "clean_name": "andrewmcadorey",
+      "count": 5,
+      "rate": 0.2
+    },
+    {
+      "name": "Adam Poitras",
+      "clean_name": "adampoitras",
+      "count": 4,
+      "rate": 0.16
+    },
+    {
+      "name": "Aidan Carroll",
+      "clean_name": "aidancarroll",
+      "count": 4,
+      "rate": 0.16
+    },
+    {
+      "name": "Rob Pannell",
+      "clean_name": "robpannell",
+      "count": 4,
+      "rate": 0.16
+    },
+    {
+      "name": "Dylan Molloy",
+      "clean_name": "dylanmolloy",
+      "count": 4,
+      "rate": 0.16
+    },
+    {
+      "name": "Tre Leclaire",
+      "clean_name": "treleclaire",
+      "count": 4,
+      "rate": 0.16
+    },
+    {
+      "name": "Luke Wierman",
+      "clean_name": "lukewierman",
+      "count": 4,
+      "rate": 0.16
+    },
+    {
+      "name": "Jake Piseno",
+      "clean_name": "jakepiseno",
+      "count": 4,
+      "rate": 0.16
+    },
+    {
+      "name": "Zach Currier",
+      "clean_name": "zachcurrier",
+      "count": 4,
+      "rate": 0.16
+    },
+    {
+      "name": "Chris Kavanagh",
+      "clean_name": "chriskavanagh",
+      "count": 4,
+      "rate": 0.16
+    },
+    {
+      "name": "Coulter Mackesy",
+      "clean_name": "coultermackesy",
+      "count": 4,
+      "rate": 0.16
+    },
+    {
+      "name": "Brian Tevlin",
+      "clean_name": "briantevlin",
+      "count": 4,
+      "rate": 0.16
+    },
+    {
+      "name": "Sam King",
+      "clean_name": "samking",
+      "count": 4,
+      "rate": 0.16
+    },
+    {
+      "name": "Brett Makar",
+      "clean_name": "brettmakar",
+      "count": 3,
+      "rate": 0.12
+    },
+    {
+      "name": "Sean Byrne",
+      "clean_name": "seanbyrne",
+      "count": 3,
+      "rate": 0.12
+    },
+    {
+      "name": "Logan Wisnauskas",
+      "clean_name": "loganwisnauskas",
+      "count": 3,
+      "rate": 0.12
     },
     {
       "name": "CJ Kirst",
       "clean_name": "cjkirst",
-      "count": 19,
-      "rate": 0.76
+      "count": 3,
+      "rate": 0.12
+    },
+    {
+      "name": "Ty English",
+      "clean_name": "tyenglish",
+      "count": 3,
+      "rate": 0.12
+    },
+    {
+      "name": "Marcus Holman",
+      "clean_name": "marcusholman",
+      "count": 2,
+      "rate": 0.08
+    },
+    {
+      "name": "Will Donovan",
+      "clean_name": "willdonovan",
+      "count": 2,
+      "rate": 0.08
+    },
+    {
+      "name": "Ethan Rall",
+      "clean_name": "ethanrall",
+      "count": 2,
+      "rate": 0.08
+    },
+    {
+      "name": "Dillon Ward",
+      "clean_name": "dillonward",
+      "count": 2,
+      "rate": 0.08
+    },
+    {
+      "name": "Trevor Baptiste",
+      "clean_name": "trevorbaptiste",
+      "count": 2,
+      "rate": 0.08
+    },
+    {
+      "name": "Ajax Zappitello",
+      "clean_name": "ajaxzappitello",
+      "count": 2,
+      "rate": 0.08
+    },
+    {
+      "name": "Ryan Stines",
+      "clean_name": "ryanstines",
+      "count": 2,
+      "rate": 0.08
+    },
+    {
+      "name": "Brett Dobson",
+      "clean_name": "brettdobson",
+      "count": 2,
+      "rate": 0.08
+    },
+    {
+      "name": "Andrew McMeekin",
+      "clean_name": "andrewmcmeekin",
+      "count": 2,
+      "rate": 0.08
+    },
+    {
+      "name": "Shane Knobloch",
+      "clean_name": "shaneknobloch",
+      "count": 2,
+      "rate": 0.08
+    },
+    {
+      "name": "Connor Kelly",
+      "clean_name": "connorkelly",
+      "count": 1,
+      "rate": 0.04
+    },
+    {
+      "name": "Connor Farrell",
+      "clean_name": "connorfarrell",
+      "count": 1,
+      "rate": 0.04
+    },
+    {
+      "name": "Kieran McArdle",
+      "clean_name": "kieranmcardle",
+      "count": 1,
+      "rate": 0.04
+    },
+    {
+      "name": "Troy Reh",
+      "clean_name": "troyreh",
+      "count": 1,
+      "rate": 0.04
+    },
+    {
+      "name": "Mac O'Keefe",
+      "clean_name": "macokeefe",
+      "count": 1,
+      "rate": 0.04
+    },
+    {
+      "name": "Zach Goodrich",
+      "clean_name": "zachgoodrich",
+      "count": 1,
+      "rate": 0.04
+    },
+    {
+      "name": "Matt Collison",
+      "clean_name": "mattcollison",
+      "count": 1,
+      "rate": 0.04
+    },
+    {
+      "name": "Teddy Malone",
+      "clean_name": "teddymalone",
+      "count": 1,
+      "rate": 0.04
+    },
+    {
+      "name": "Brendan Nichtern",
+      "clean_name": "brendannichtern",
+      "count": 1,
+      "rate": 0.04
+    },
+    {
+      "name": "Austin Kaut",
+      "clean_name": "austinkaut",
+      "count": 1,
+      "rate": 0.04
+    },
+    {
+      "name": "Jared Conners",
+      "clean_name": "jaredconners",
+      "count": 1,
+      "rate": 0.04
+    },
+    {
+      "name": "Sam English",
+      "clean_name": "samenglish",
+      "count": 1,
+      "rate": 0.04
+    },
+    {
+      "name": "Reid Bowering",
+      "clean_name": "reidbowering",
+      "count": 1,
+      "rate": 0.04
+    },
+    {
+      "name": "Connor Fields",
+      "clean_name": "connorfields",
+      "count": 1,
+      "rate": 0.04
+    },
+    {
+      "name": "Mikey Weisshaar",
+      "clean_name": "mikeyweisshaar",
+      "count": 1,
+      "rate": 0.04
+    },
+    {
+      "name": "TJ Malone",
+      "clean_name": "tjmalone",
+      "count": 1,
+      "rate": 0.04
+    },
+    {
+      "name": "Connor Kirst",
+      "clean_name": "connorkirst",
+      "count": 1,
+      "rate": 0.04
+    },
+    {
+      "name": "Mike Sisselberger",
+      "clean_name": "mikesisselberger",
+      "count": 1,
+      "rate": 0.04
+    },
+    {
+      "name": "Matt Whitcher",
+      "clean_name": "mattwhitcher",
+      "count": 1,
+      "rate": 0.04
+    },
+    {
+      "name": "Jack Regnery",
+      "clean_name": "jackregnery",
+      "count": 1,
+      "rate": 0.04
+    },
+    {
+      "name": "Brendan Lavelle",
+      "clean_name": "brendanlavelle",
+      "count": 1,
+      "rate": 0.04
+    },
+    {
+      "name": "Tim Troutner",
+      "clean_name": "timtroutner",
+      "count": 1,
+      "rate": 0.04
+    },
+    {
+      "name": "Colin Kirst",
+      "clean_name": "colinkirst",
+      "count": 1,
+      "rate": 0.04
+    },
+    {
+      "name": "Connor Shellenberger",
+      "clean_name": "connorshellenberger",
+      "count": 1,
+      "rate": 0.04
+    },
+    {
+      "name": "Matt Traynor",
+      "clean_name": "matttraynor",
+      "count": 1,
+      "rate": 0.04
     }
   ],
   "local_league": [
     {
-      "name": "Joey Spallina",
-      "clean_name": "joeyspallina",
-      "count": 3,
-      "rate": 0.75
+      "name": "Michael Sowers",
+      "clean_name": "michaelsowers",
+      "count": 4,
+      "rate": 0.5
     },
     {
-      "name": "Pat Kavanagh",
-      "clean_name": "patkavanagh",
+      "name": "Sean Byrne",
+      "clean_name": "seanbyrne",
+      "count": 3,
+      "rate": 0.38
+    },
+    {
+      "name": "TD Ierlan",
+      "clean_name": "tdierlan",
+      "count": 3,
+      "rate": 0.38
+    },
+    {
+      "name": "CJ Kirst",
+      "clean_name": "cjkirst",
       "count": 2,
-      "rate": 0.5
+      "rate": 0.25
+    },
+    {
+      "name": "Sam King",
+      "clean_name": "samking",
+      "count": 2,
+      "rate": 0.25
+    },
+    {
+      "name": "Connor Fields",
+      "clean_name": "connorfields",
+      "count": 2,
+      "rate": 0.25
+    },
+    {
+      "name": "Dylan Molloy",
+      "clean_name": "dylanmolloy",
+      "count": 2,
+      "rate": 0.25
+    },
+    {
+      "name": "Mitchell Dunham",
+      "clean_name": "mitchelldunham",
+      "count": 2,
+      "rate": 0.25
+    },
+    {
+      "name": "Sam English",
+      "clean_name": "samenglish",
+      "count": 2,
+      "rate": 0.25
+    },
+    {
+      "name": "Trevor Baptiste",
+      "clean_name": "trevorbaptiste",
+      "count": 2,
+      "rate": 0.25
+    },
+    {
+      "name": "Bryan Costabile",
+      "clean_name": "bryancostabile",
+      "count": 1,
+      "rate": 0.12
+    },
+    {
+      "name": "Nathan Laliberte",
+      "clean_name": "nathanlaliberte",
+      "count": 1,
+      "rate": 0.12
+    },
+    {
+      "name": "Beau Pederson",
+      "clean_name": "beaupederson",
+      "count": 1,
+      "rate": 0.12
+    },
+    {
+      "name": "Ross Scott",
+      "clean_name": "rossscott",
+      "count": 1,
+      "rate": 0.12
+    },
+    {
+      "name": "Andrew McAdorey",
+      "clean_name": "andrewmcadorey",
+      "count": 1,
+      "rate": 0.12
+    },
+    {
+      "name": "Brett Dobson",
+      "clean_name": "brettdobson",
+      "count": 1,
+      "rate": 0.12
+    },
+    {
+      "name": "Brendan Lavelle",
+      "clean_name": "brendanlavelle",
+      "count": 1,
+      "rate": 0.12
+    },
+    {
+      "name": "Marcus Holman",
+      "clean_name": "marcusholman",
+      "count": 1,
+      "rate": 0.12
+    },
+    {
+      "name": "Shane Knobloch",
+      "clean_name": "shaneknobloch",
+      "count": 1,
+      "rate": 0.12
+    },
+    {
+      "name": "Jack Regnery",
+      "clean_name": "jackregnery",
+      "count": 1,
+      "rate": 0.12
+    },
+    {
+      "name": "Blaze Riorden",
+      "clean_name": "blazeriorden",
+      "count": 1,
+      "rate": 0.12
+    },
+    {
+      "name": "Ethan Rall",
+      "clean_name": "ethanrall",
+      "count": 1,
+      "rate": 0.12
+    },
+    {
+      "name": "Adam Poitras",
+      "clean_name": "adampoitras",
+      "count": 1,
+      "rate": 0.12
+    },
+    {
+      "name": "Matt Traynor",
+      "clean_name": "matttraynor",
+      "count": 1,
+      "rate": 0.12
+    },
+    {
+      "name": "Brett Makar",
+      "clean_name": "brettmakar",
+      "count": 1,
+      "rate": 0.12
+    },
+    {
+      "name": "Liam Entenmann",
+      "clean_name": "liamentenmann",
+      "count": 1,
+      "rate": 0.12
+    },
+    {
+      "name": "TJ Malone",
+      "clean_name": "tjmalone",
+      "count": 1,
+      "rate": 0.12
+    },
+    {
+      "name": "Tre Leclaire",
+      "clean_name": "treleclaire",
+      "count": 1,
+      "rate": 0.12
     }
   ],
   "local_league_rosters": {
-    "Big, Bouncy T.Ds": {
+    "Jeff\u2019s Teat": {
       "rank": 1,
-      "points": 991.1,
+      "points": 1681.9,
       "players": [
-        "Joey Spallina",
-        "Rob Pannell",
-        "TJ Malone"
+        "Michael Sowers",
+        "CJ Kirst",
+        "Bryan Costabile",
+        "Sam King",
+        "Sean Byrne",
+        "Nathan Laliberte",
+        "Beau Pederson"
+      ]
+    },
+    "Big, Bouncy T.Ds": {
+      "rank": 2,
+      "points": 1651.1,
+      "players": [
+        "Connor Fields",
+        "Dylan Molloy",
+        "Ross Scott",
+        "Andrew McAdorey",
+        "Mitchell Dunham",
+        "Brett Dobson",
+        "TD Ierlan"
+      ]
+    },
+    "SogMutts": {
+      "rank": 3,
+      "points": 1632,
+      "players": [
+        "Connor Fields",
+        "CJ Kirst",
+        "Sam English",
+        "Sam King",
+        "Brendan Lavelle",
+        "Sean Byrne",
+        "TD Ierlan"
       ]
     },
     "Blazing Squad": {
-      "rank": 2,
-      "points": 975.9,
+      "rank": 4,
+      "points": 1583.9,
       "players": [
-        "Joey Spallina",
-        "Logan Wisnauskas",
-        "Pat Kavanagh"
+        "Marcus Holman",
+        "Michael Sowers",
+        "Shane Knobloch",
+        "Jack Regnery",
+        "Blaze Riorden",
+        "Trevor Baptiste",
+        "Ethan Rall"
       ]
     },
-    "Jeff's Teat": {
-      "rank": 3,
-      "points": 915.5,
+    "Mrs Smith": {
+      "rank": 5,
+      "points": 1566.1,
       "players": [
-        "Brennan O'Neill",
-        "Pat Kavanagh",
-        "Kieran McArdle"
+        "Dylan Molloy",
+        "Michael Sowers",
+        "Adam Poitras",
+        "Matt Traynor",
+        "Brett Makar",
+        "Liam Entenmann",
+        "TD Ierlan"
       ]
+    },
+    "Haribo Sowers": {
+      "rank": 6,
+      "points": 1341.9,
+      "players": [
+        "Michael Sowers",
+        "TJ Malone",
+        "Tre Leclaire",
+        "Sam English",
+        "Mitchell Dunham",
+        "Sean Byrne",
+        "Trevor Baptiste"
+      ]
+    },
+    "Ament To That!": {
+      "rank": 7,
+      "points": 0,
+      "players": []
+    },
+    "Palumb\u2019s Penalties": {
+      "rank": 8,
+      "points": 0,
+      "players": []
     }
   }
 }

@@ -83,18 +83,19 @@ python 03_apply_roster_filter.py --year 2026 --week <WEEK>
 > [!IMPORTANT]
 > This script reads the raw predictions, filters out scratched players, updates traded players' matchups, writes `predicta/predictions/week<WEEK>_2026_predictions.csv`, and automatically calls `06_optimize_lineups.py` to generate the baseline advisory report.
 
-#### Step 4b: Scrape Leaderboard & Competitor Rosters
-Once competitor rosters lock and become visible (or when you want to pull consensus selections), scrape the global top 25 leaders and your local league rivals:
+#### Step 4b: Scrape Leaderboard, Competitor & User Team Rosters
+Once competitor rosters lock and become visible (or when updating consensus selections), scrape the global top 25 leaders, local league rivals, and your own user team roster (`SogMutts`):
 ```bash
-python 08_scrape_challenger_rosters.py --year 2026 --week <WEEK> --my-team "<YOUR_TEAM_NAME>"
+python 08_scrape_challenger_rosters.py --year 2026 --week <WEEK> --my-team "SogMutts"
 ```
-*Outputs: `predicta/advisory/week<WEEK>_2026_consensus_ownership.json`.*
+*Outputs: `predicta/advisory/week<WEEK>_2026_consensus_ownership.json` and updates `predicta/advisory/challenger_rosters_history.json` with user team selections.*
 
 > [!TIP]
-> **Automated Login**:
-> 1. **Refresh Token (.env file / Env Var)**: Save your long-lived Firebase refresh token as `F2P_REFRESH_TOKEN` in a local `.env` file or environment variable. The script will exchange it for a fresh ID token automatically.
-> 2. **Password Login (.env file / Env Var)**: If your account has a password, set `F2P_EMAIL` and `F2P_PASSWORD` in your `.env` file.
-> 3. **Manual**: If neither is set, pass a fresh token via `--token <JWT_TOKEN>`.
+> **User Team Integration & Automated Login**:
+> 1. **Default User Team**: `config.py` sets `F2P_MY_TEAM_NAME = "SogMutts"`. The scraper automatically captures and archives your 7-player lineup for historical tracking alongside consensus and rival lineups.
+> 2. **Refresh Token (.env file / Env Var)**: Save your long-lived Firebase refresh token as `F2P_REFRESH_TOKEN` in a local `.env` file or environment variable. The script will exchange it for a fresh ID token automatically.
+> 3. **Password Login (.env file / Env Var)**: If your account has a password, set `F2P_EMAIL` and `F2P_PASSWORD` in your `.env` file.
+> 4. **Manual**: If neither is set, pass a fresh token via `--token <JWT_TOKEN>`.
 
 #### Step 5: Run Monte Carlo Simulations
 Run 10,000 Monte Carlo trials for the week's games. This models joint scoring distributions and team/opponent correlations using the Copula structure.

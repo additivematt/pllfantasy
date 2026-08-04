@@ -199,9 +199,10 @@ def main():
     for idx, rival in enumerate(top_3_rivals):
          print(f"  #{idx+1}: {rival.get('teamName')} ({rival.get('seasonTotalPoints')} pts)")
 
-    # 6. Fetch Rosters for Local League & Top 3 Rivals
+    # 6. Fetch Rosters for Local League
     local_selections = []
     local_rival_rosters = {}
+    my_team_roster = None
     print("\nFetching local league rosters...")
     for idx, user in enumerate(local_leaderboard):
         uid = user.get("firebaseId")
@@ -209,7 +210,7 @@ def main():
         rank = idx + 1
         points = user.get("seasonTotalPoints")
         
-        is_targeted_rival = user in rival_candidates
+        is_my_team = args.my_team and clean_name(team_name) == clean_name(args.my_team)
         
         url_roster = f"https://f2p.premierlacrosseleague.com/api/fantasy/challengerFetch/?userId={uid}"
         try:
@@ -227,14 +228,17 @@ def main():
                         unresolved_pids.append(pid)
                         resolved_names.append(f"Unknown ID {pid}")
                 
-                if is_targeted_rival:
-                    local_rival_rosters[team_name] = {
-                        "rank": rank,
-                        "points": points,
-                        "players": resolved_names
-                    }
+                roster_info = {
+                    "rank": rank,
+                    "points": points,
+                    "players": resolved_names
+                }
                 
-                if unresolved_pids:
+                local_rival_rosters[team_name] = roster_info
+                if is_my_team:
+                    my_team_roster = roster_info
+                    print(f"  [My Team Roster] Scraped roster for '{team_name}': {resolved_names}")
+                elif unresolved_pids:
                     print(f"  [Local Roster] Scraped roster for '{team_name}' (⚠️ {len(unresolved_pids)} unresolved IDs: {unresolved_pids})")
                 else:
                     print(f"  [Local Roster] Scraped roster for '{team_name}'")

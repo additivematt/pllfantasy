@@ -29,6 +29,13 @@ GAME_PACE_ENABLED = True
 # and compute game_pace based on estimated possessions instead of goals.
 PACE_ADJUSTED_RATES_ENABLED = os.environ.get("PACE_ADJUSTED_RATES_ENABLED", "False") == "True"
 
+# --- Item 47 Feature Ablation Toggles ---
+FEATURE_MID_DEF_STATS_ENABLED = os.environ.get("FEATURE_MID_DEF_STATS_ENABLED", "False") == "True"
+FEATURE_MID_ASSISTS_ONLY_ENABLED = os.environ.get("FEATURE_MID_ASSISTS_ONLY_ENABLED", "False") == "True"
+FEATURE_GOALIE_GB_CT_ENABLED = os.environ.get("FEATURE_GOALIE_GB_CT_ENABLED", "False") == "True"
+FEATURE_OPP_DEF_FORM_POS_ENABLED = os.environ.get("FEATURE_OPP_DEF_FORM_POS_ENABLED", "False") == "True"
+FEATURE_SQUAD_CHURN_ENABLED = os.environ.get("FEATURE_SQUAD_CHURN_ENABLED", "False") == "True"
+
 
 # MC Ceiling Clamp Multiplier: Caps simulated player scores at
 # max_historical * this value. Set to None to disable clamping entirely.
@@ -83,4 +90,5 @@ F2P_LEADERBOARD_GROUP_ID = int(os.environ.get("F2P_LEADERBOARD_GROUP_ID", 51185)
 F2P_LOCAL_LEAGUE_GROUP_ID = int(os.environ.get("F2P_LOCAL_LEAGUE_GROUP_ID", 53205))
 F2P_CONSENSUS_WEIGHT = float(os.environ.get("F2P_CONSENSUS_WEIGHT", 0.2))
 F2P_FIREBASE_ID_TOKEN = os.environ.get("F2P_FIREBASE_ID_TOKEN", "")
+F2P_MY_TEAM_NAME = os.environ.get("F2P_MY_TEAM_NAME", "SogMutts")
 
