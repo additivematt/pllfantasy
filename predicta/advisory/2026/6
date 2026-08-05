@@ -280,30 +280,30 @@
     ],
     "MC_Consensus": [
         {
-            "firstName": "JC",
-            "lastName": "Higginbotham",
-            "team": "CAN",
+            "firstName": "Blaze",
+            "lastName": "Riorden",
+            "team": "CHA",
             "opponent": "RED",
-            "game_id": "2026-ev-22",
+            "game_id": "2026-ev-24",
             "position": "Goalie",
-            "salary": 10,
-            "mc_ev": 33.0,
-            "mc_p90": 60.5,
-            "mc_p10": 9.3,
-            "actualPoints": 1.0
+            "salary": 43,
+            "mc_ev": 35.4,
+            "mc_p90": 51.3,
+            "mc_p10": 17.1,
+            "actualPoints": 72.0
         },
         {
-            "firstName": "Brennan",
-            "lastName": "O'Neill",
-            "team": "OUT",
-            "opponent": "WHP",
-            "game_id": "2026-ev-21",
+            "firstName": "Michael",
+            "lastName": "Sowers",
+            "team": "WAT",
+            "opponent": "ARC",
+            "game_id": "2026-ev-23",
             "position": "Attack",
-            "salary": 36,
-            "mc_ev": 30.0,
-            "mc_p90": 57.4,
-            "mc_p10": 12.6,
-            "actualPoints": 28.0
+            "salary": 42,
+            "mc_ev": 31.4,
+            "mc_p90": 45.7,
+            "mc_p10": 15.2,
+            "actualPoints": 33.0
         },
         {
             "firstName": "Joey",
@@ -319,56 +319,56 @@
             "actualPoints": 48.0
         },
         {
-            "firstName": "Aidan",
-            "lastName": "Danenza",
+            "firstName": "Andrew",
+            "lastName": "McAdorey",
             "team": "RED",
             "opponent": "CAN",
             "game_id": "2026-ev-22",
             "position": "Midfield",
-            "salary": 13,
-            "mc_ev": 17.3,
-            "mc_p90": 36.7,
-            "mc_p10": 0.0,
-            "actualPoints": 19.0
+            "salary": 26,
+            "mc_ev": 18.3,
+            "mc_p90": 37.1,
+            "mc_p10": 6.9,
+            "actualPoints": 30.5
         },
         {
-            "firstName": "Mike",
-            "lastName": "Sisselberger",
-            "team": "ARC",
-            "opponent": "WAT",
-            "game_id": "2026-ev-23",
-            "position": "Faceoff",
-            "salary": 8,
-            "mc_ev": 17.2,
-            "mc_p90": 30.9,
-            "mc_p10": 0.0,
-            "actualPoints": 24.0
-        },
-        {
-            "firstName": "Michael",
-            "lastName": "Leo",
+            "firstName": "TD",
+            "lastName": "Ierlan",
             "team": "RED",
             "opponent": "CHA",
             "game_id": "2026-ev-24",
-            "position": "Midfield",
-            "salary": 13,
-            "mc_ev": 16.7,
-            "mc_p90": 39.0,
-            "mc_p10": 0.0,
-            "actualPoints": 7.0
+            "position": "Faceoff",
+            "salary": 23,
+            "mc_ev": 17.6,
+            "mc_p90": 35.2,
+            "mc_p10": 6.0,
+            "actualPoints": 37.8
         },
         {
-            "firstName": "Mason",
-            "lastName": "Woodward",
-            "team": "ARC",
-            "opponent": "WAT",
-            "game_id": "2026-ev-23",
-            "position": "Defense",
-            "salary": 10,
-            "mc_ev": 12.1,
-            "mc_p90": 36.3,
+            "firstName": "Chad",
+            "lastName": "Palumbo",
+            "team": "CHA",
+            "opponent": "RED",
+            "game_id": "2026-ev-24",
+            "position": "Midfield",
+            "salary": 27,
+            "mc_ev": 16.7,
+            "mc_p90": 34.6,
             "mc_p10": 0.0,
-            "actualPoints": 1.0
+            "actualPoints": 35.0
+        },
+        {
+            "firstName": "Ty",
+            "lastName": "English",
+            "team": "CHA",
+            "opponent": "RED",
+            "game_id": "2026-ev-24",
+            "position": "Defense",
+            "salary": 6,
+            "mc_ev": 8.9,
+            "mc_p90": 20.4,
+            "mc_p10": 0.0,
+            "actualPoints": 32.0
         }
     ],
     "MC_Differential": [
@@ -386,30 +386,43 @@
             "actualPoints": 44.0
         },
         {
-            "firstName": "Joey",
-            "lastName": "Spallina",
-            "team": "WHP",
-            "opponent": "OUT",
-            "game_id": "2026-ev-21",
+            "firstName": "Connor",
+            "lastName": "Fields",
+            "team": "ARC",
+            "opponent": "WAT",
+            "game_id": "2026-ev-23",
             "position": "Attack",
-            "salary": 24,
-            "mc_ev": 27.4,
-            "mc_p90": 62.2,
-            "mc_p10": 2.1,
-            "actualPoints": 48.0
+            "salary": 25,
+            "mc_ev": 31.7,
+            "mc_p90": 60.7,
+            "mc_p10": 0.0,
+            "actualPoints": 22.0
         },
         {
-            "firstName": "Pat",
-            "lastName": "Kavanagh",
-            "team": "OUT",
-            "opponent": "WHP",
-            "game_id": "2026-ev-21",
+            "firstName": "Michael",
+            "lastName": "Sowers",
+            "team": "WAT",
+            "opponent": "ARC",
+            "game_id": "2026-ev-23",
             "position": "Attack",
-            "salary": 41,
-            "mc_ev": 28.0,
-            "mc_p90": 47.0,
-            "mc_p10": 7.2,
-            "actualPoints": 64.0
+            "salary": 42,
+            "mc_ev": 31.4,
+            "mc_p90": 45.7,
+            "mc_p10": 15.2,
+            "actualPoints": 33.0
+        },
+        {
+            "firstName": "Sam",
+            "lastName": "English",
+            "team": "RED",
+            "opponent": "CHA",
+            "game_id": "2026-ev-24",
+            "position": "Midfield",
+            "salary": 22,
+            "mc_ev": 19.9,
+            "mc_p90": 41.4,
+            "mc_p10": 0.0,
+            "actualPoints": 34.5
         },
         {
             "firstName": "Evan",
@@ -425,30 +438,17 @@
             "actualPoints": -3.0
         },
         {
-            "firstName": "Connor",
-            "lastName": "Kirst",
-            "team": "CAN",
-            "opponent": "RED",
-            "game_id": "2026-ev-22",
-            "position": "Midfield",
-            "salary": 17,
-            "mc_ev": 20.1,
-            "mc_p90": 41.5,
-            "mc_p10": 0.0,
-            "actualPoints": -2.0
-        },
-        {
-            "firstName": "Luke",
-            "lastName": "Wierman",
-            "team": "OUT",
-            "opponent": "WHP",
-            "game_id": "2026-ev-21",
+            "firstName": "TD",
+            "lastName": "Ierlan",
+            "team": "RED",
+            "opponent": "CHA",
+            "game_id": "2026-ev-24",
             "position": "Faceoff",
-            "salary": 19,
-            "mc_ev": 17.3,
-            "mc_p90": 33.0,
-            "mc_p10": 3.8,
-            "actualPoints": 14.5
+            "salary": 23,
+            "mc_ev": 17.6,
+            "mc_p90": 35.2,
+            "mc_p10": 6.0,
+            "actualPoints": 37.8
         },
         {
             "firstName": "Ajax",
@@ -671,52 +671,53 @@
         ]
     },
     "TacticalAdvice": {
-        "FloorLocks": [
+        "FloorLocks": [],
+        "DifferentialLeverage": [
             {
                 "firstName": "Joey",
                 "lastName": "Spallina",
                 "position": "Attack",
-                "globalRate": 80,
-                "rivalCount": 2,
-                "description": "Critical Floor Lock: Owned by 80% of global leaders and 2 of your local rivals. High floor risk if omitted."
-            },
-            {
-                "firstName": "Pat",
-                "lastName": "Kavanagh",
-                "position": "Attack",
-                "globalRate": 60,
-                "rivalCount": 2,
-                "description": "Critical Floor Lock: Owned by 60% of global leaders and 2 of your local rivals. High floor risk if omitted."
-            }
-        ],
-        "DifferentialLeverage": [
-            {
-                "firstName": "CJ",
-                "lastName": "Kirst",
-                "position": "Attack",
-                "globalRate": 76,
+                "globalRate": 40,
                 "rivalCount": 0,
-                "description": "High Leverage Differential: Owned by 76% of global leaders but 0 of your local rivals. Start him to gain ground."
+                "description": "High Leverage Differential: Owned by 40% of global leaders but 0 of your local rivals. Start him to gain ground."
             }
         ],
         "Rivals": [
             {
-                "teamName": "Big, Bouncy T.Ds",
+                "teamName": "Jeff\u2019s Teat",
                 "rank": 1,
-                "points": 991.1,
-                "roster": "Joey Spallina, Rob Pannell, TJ Malone"
+                "points": 1681.9,
+                "roster": "Michael Sowers, CJ Kirst, Bryan Costabile, Sam King, Sean Byrne, Nathan Laliberte, Beau Pederson"
+            },
+            {
+                "teamName": "Big, Bouncy T.Ds",
+                "rank": 2,
+                "points": 1651.1,
+                "roster": "Connor Fields, Dylan Molloy, Ross Scott, Andrew McAdorey, Mitchell Dunham, Brett Dobson, TD Ierlan"
+            },
+            {
+                "teamName": "SogMutts",
+                "rank": 3,
+                "points": 1632,
+                "roster": "Connor Fields, CJ Kirst, Sam English, Sam King, Brendan Lavelle, Sean Byrne, TD Ierlan"
             },
             {
                 "teamName": "Blazing Squad",
-                "rank": 2,
-                "points": 975.9,
-                "roster": "Joey Spallina, Logan Wisnauskas, Pat Kavanagh"
+                "rank": 4,
+                "points": 1583.9,
+                "roster": "Marcus Holman, Michael Sowers, Shane Knobloch, Jack Regnery, Blaze Riorden, Trevor Baptiste, Ethan Rall"
             },
             {
-                "teamName": "Jeff's Teat",
-                "rank": 3,
-                "points": 915.5,
-                "roster": "Brennan O'Neill, Pat Kavanagh, Kieran McArdle"
+                "teamName": "Mrs Smith",
+                "rank": 5,
+                "points": 1566.1,
+                "roster": "Dylan Molloy, Michael Sowers, Adam Poitras, Matt Traynor, Brett Makar, Liam Entenmann, TD Ierlan"
+            },
+            {
+                "teamName": "Haribo Sowers",
+                "rank": 6,
+                "points": 1341.9,
+                "roster": "Michael Sowers, TJ Malone, Tre Leclaire, Sam English, Mitchell Dunham, Sean Byrne, Trevor Baptiste"
             }
         ]
     }
