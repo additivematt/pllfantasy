@@ -91,8 +91,8 @@ def main():
         df_all = pd.concat([load_stats_json(os.path.join(sDir, f"combined_player_stats_{yr}.json")) for yr in range(2023, args.year + 1) if os.path.exists(os.path.join(sDir, f"combined_player_stats_{yr}.json"))], ignore_index=True)
         df_all = df_all[~((df_all["year"] == args.year) & (df_all["week"] >= args.week))]
     
-    # Filter training pool to years >= 2019 to include historical data for Baseline 11
-    df_all = df_all[df_all["year"] >= 2019].copy()
+    # Filter training pool to years >= 2023 for clean Baseline 10 standard
+    df_all = df_all[df_all["year"] >= 2023].copy()
     stat_cols = ["shots", "groundBalls", "saves", "faceoffsWon", "assists", "causedTurnovers", "touches", "goalsAgainst"]
     for c in stat_cols:
         if c in df_all.columns:
@@ -106,6 +106,11 @@ def main():
     df_all = add_rolling_features(df_all)
     m_by_g = load_all_matchups(sDir)
     df_all, def_r, team_def, pair_r, pvst_r = add_matchup_ratings(df_all, m_by_g, DATA_LEAKAGE_FIX_ENABLED)
+
+    if os.environ.get("RANDOM_NOISE_CONTROL_ENABLED") == "True":
+        np.random.seed(42)
+        for nf in ["random_noise_1", "random_noise_2", "random_noise_3", "random_noise_4"]:
+            df_all[nf] = np.random.randn(len(df_all))
 
     def get_feats(row, gml=None):
         pN = f"{row['firstName']} {row['lastName']}"
@@ -143,7 +148,7 @@ def main():
         }
         if EWMA_ENABLED:
             res["fp_ewma_4"] = use_grp["TotalFantasyPoints"].ewm(halflife=4, min_periods=1).mean().iloc[-1] if not use_grp.empty else 0.0
-        cols_to_avg = ["shots", "groundBalls", "saves", "faceoffsWon", "assists", "causedTurnovers", "faceoffPct", "touches", "shotPct"]
+        cols_to_avg = ["shots", "groundBalls", "saves", "faceoffsWon", "assists", "causedTurnovers", "faceoffPct", "touches", "shotPct", "assistOpportunities", "shotsOnGoal", "shotsOnGoalPct", "turnovers", "twoPointGoals"]
         for c in cols_to_avg:
             if c in use_grp.columns:
                 res[f"{c}_season_avg"] = use_grp[c].mean()
@@ -156,6 +161,9 @@ def main():
 
     p_avgs = df_all.groupby(["firstName", "lastName", "positionGroup"]).apply(calc_player_avgs).reset_index()
     p_avgs["shotPct_anomaly"] = p_avgs["shotPct_last3_avg"] - p_avgs["shotPct_season_avg"]
+    p_avgs["turnover_rate_per_touch"] = (p_avgs["turnovers_season_avg"] / (p_avgs["touches_season_avg"] + 1e-5)).fillna(0.0)
+    p_avgs["sog_rate_per_touch"] = (p_avgs["shotsOnGoal_season_avg"] / (p_avgs["touches_season_avg"] + 1e-5)).fillna(0.0)
+    p_avgs["assist_opp_rate_per_touch"] = (p_avgs["assistOpportunities_season_avg"] / (p_avgs["touches_season_avg"] + 1e-5)).fillna(0.0)
 
     # Filter to active games only for fallbacks
     df_active_only = df_all[df_all["isDNP"] != True]
@@ -557,6 +565,10 @@ def main():
         return df_all, pd.DataFrame()
         
     df_test = pd.concat(test_rows, ignore_index=True)
+    if os.environ.get("RANDOM_NOISE_CONTROL_ENABLED") == "True":
+        np.random.seed(42 + args.year * 100 + args.week)
+        for nf in ["random_noise_1", "random_noise_2", "random_noise_3", "random_noise_4"]:
+            df_test[nf] = np.random.randn(len(df_test))
     matchup_cols = ["pairing_rating", "opponent_rating", "player_vs_team_rating", "team_def_rating", "team_faceoff_advantage"]
     for mc in matchup_cols:
         if mc in df_test.columns:
