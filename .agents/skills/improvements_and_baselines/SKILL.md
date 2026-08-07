@@ -24,7 +24,20 @@ All improvement ideas, including feature proposals, architectural refactors, sim
 To ensure that changes are mathematically sound and do not degrade model performance:
 - **Baseline Metric**: The table below defines the official baseline backtest metrics established on **17 July 2026** (Baseline 10, Generative Faceoff Heuristic + Salary as a Feature + Asymmetric Class Weighting + Pool Blending).
 
-### Baseline 10 (Bradley-Terry & Generative Heuristic — 17 July 2026, Deterministic July 2026)
+### Baseline 11 (Player-Anchored EV — 7 August 2026)
+
+Established after fixing the Monte Carlo expected value calculation to use **Player-Anchored EV** ($\text{EV} = \text{player\_fp\_avg} \times (0.5 + P_{\text{Boom}} / 100)$), which anchors expectations to individual player caliber while using $P_{\text{Boom}}$ as a dynamic matchup factor. This completely eliminated artificial position-mean regression penalties on top-tier superstars.
+
+| Season | Strategy | Total Score | Coulda Max | Ceiling % | Top-5 Max Score | Top-5 Max Ceiling % | Notes / Evaluated Weeks |
+|---|---|---|---|---|---|---|---|
+| 2025 | MC_EV | 2194.9 | 4679.1 | 46.9% | 2479.7 | 53.0% | 13 Weeks evaluated |
+| 2025 | MC_Win_160 | 2146.0 | 4679.1 | 45.9% | 2479.7 | 53.0% | 13 Weeks evaluated |
+| 2025 | MC_Ceil_90 | **2384.1** | 4679.1 | **51.0%** | 2479.7 | 53.0% | **+61.3 pts** vs Baseline 10 |
+| 2026 | MC_EV | **1885.8** | 3699.4 | **51.0%** | **1729.0** | **46.7%** | **+412.8 pts** vs Baseline 10 (10 Played Weeks) |
+| 2026 | MC_Win_160 | **1706.8** | 3699.4 | **46.1%** | **1729.0** | **46.7%** | **+184.0 pts** vs Baseline 10 (10 Played Weeks) |
+| 2026 | MC_Ceil_90 | **1853.8** | 3699.4 | **50.1%** | **1729.0** | **46.7%** | **+620.9 pts** vs Baseline 10 (10 Played Weeks) |
+
+### Baseline 10 (Bradley-Terry & Generative Heuristic — 17 July 2026, Superseded)
 
 Established after integrating the Bradley-Terry matchup win probability model and propensity-shrunk statistics for the Faceoff position, while maintaining the Salary as a Feature GBDT model for other position groups. (Restored clean `>= 2023` training pool cutoff and enforced seed=42 across `02`, `03`, `04`, and `06` for 100% end-to-end deterministic reproducibility).
 
@@ -46,6 +59,7 @@ Established after integrating the Bradley-Terry matchup win probability model an
 > 1. **Do NOT Re-Backtest the Baseline**: When A/B testing a new feature, do not waste compute resources re-running backtests for baseline configurations. All baseline scores are frozen and archived directly in `baselines/rosters_<strategy>_baseline_10.csv` (which includes the `actualPoints` column). Use those existing scores for comparison.
 > 2. **Do NOT Create New Baselines**: Do not establish a new baseline or overwrite Baseline 10 data unless the user explicitly instructs you to do so.
 > 3. **Prior Baselines are superseded**: Baseline 3 through 9 scores are now invalid comparison points due to being superseded. Do not use them for future comparisons.
+> 4. **Mandatory Top-5 Roster Pool Metrics**: All future roster backtests MUST report the Top-5 Candidate Roster Pool metrics (`Top-1`, `Top-5 Mean`, `Top-5 Max`, `Top-5 Min`, `Top-5 Max Ceiling %`) via `scratch/evaluate_top5_roster_pool.py` to eliminate single-lineup random outcome noise.
 
 > [!NOTE]
 > **Baseline 3 Discrepancy Resolved (13 July 2026):**

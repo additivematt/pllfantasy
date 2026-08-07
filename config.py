@@ -35,6 +35,10 @@ FEATURE_MID_ASSISTS_ONLY_ENABLED = os.environ.get("FEATURE_MID_ASSISTS_ONLY_ENAB
 FEATURE_GOALIE_GB_CT_ENABLED = os.environ.get("FEATURE_GOALIE_GB_CT_ENABLED", "False") == "True"
 FEATURE_OPP_DEF_FORM_POS_ENABLED = os.environ.get("FEATURE_OPP_DEF_FORM_POS_ENABLED", "False") == "True"
 FEATURE_SQUAD_CHURN_ENABLED = os.environ.get("FEATURE_SQUAD_CHURN_ENABLED", "False") == "True"
+# --- Baseline 11 Monte Carlo EV Anchoring ---
+# Player-Anchored EV: EV = player_fp_avg * (0.5 + BoomProb / 100)
+# Anchors baseline expectation to player caliber while using BoomProb as a dynamic matchup factor.
+USE_PLAYER_ANCHORED_EV = os.environ.get("USE_PLAYER_ANCHORED_EV", "True") == "True"
 
 
 # MC Ceiling Clamp Multiplier: Caps simulated player scores at

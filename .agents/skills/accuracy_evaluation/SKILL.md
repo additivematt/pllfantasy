@@ -40,6 +40,17 @@ The evaluation harness outputs several key metrics to measure model performance:
 - **Boom Recall**: Out of all players who actually Boomed, how many did the model successfully predict? (Maximizes finding the ceiling).
 - **Thresholds**: The explicit `q25` and `q75` point cutoffs for that week to provide context on the scoring environment.
 
+### 5. Top-5 Candidate Roster Pool Metrics (Mandatory for Roster Backtests)
+> [!IMPORTANT]
+> To eliminate single-lineup random outcome noise (where 1 player scratch or boom/bust outcome creates 50+ point swings in small 10–13 slate samples), **all future roster backtests MUST evaluate the Top-5 Candidate Roster Pool** generated via MILP integer cut constraints (`scratch/evaluate_top5_roster_pool.py`).
+
+For every backtested week, the evaluation harness calculates:
+1. **`Top-1 Score`**: The actual points scored by the single #1 recommended lineup.
+2. **`Top-5 Mean Score`**: The average actual points scored across all top 5 recommended lineups.
+3. **`Top-5 Max Score`**: The maximum actual points scored by the best lineup present in the top 5 advisory recommendations (measures if a slate-winning roster was present in the candidate pool).
+4. **`Top-5 Min Score`**: The minimum actual points scored (floor risk) among the top 5 recommendations.
+5. **`Top-5 Max Ceiling %`**: `Top-5 Max Score / Coulda Max` (the ratio of the candidate pool's best roster to the theoretical optimal ceiling).
+
 ## Execution and Harness
 
 Evaluation metrics are computed out-of-sample using the decoupled evaluation harness script [prediction_model_evaluation_harness.py](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/prediction_model_evaluation_harness.py):

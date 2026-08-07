@@ -6,6 +6,7 @@ import numpy as np
 import scipy.stats as stats
 import re
 from utils import assign_position_group, assign_sub_position, calc_fantasy
+import config
 from config import LAMBDA_RECENCY, MC_POOL_BLENDING_ENABLED, MC_POOL_BLENDING_K, PACE_ADJUSTED_RATES_ENABLED
 
 # ── Team Mapping ─────────────────────────────────────────────────────────────
@@ -271,9 +272,23 @@ def main():
     df_hist = load_historical_data(args.year, args.week, script_dir)
     tier_avgs = calculate_tier_averages(df_hist)
     
-    # Calculate EV from BoomProbability (with default fallback)
-    if "BoomProbability" in df_preds.columns:
+    # Calculate EV dynamically for each row
+    use_pred_pts_ev = getattr(config, "USE_PREDICTED_POINTS_FOR_EV", False) or (os.environ.get("USE_PREDICTED_POINTS_FOR_EV", "False") == "True")
+    use_player_anchored_ev = getattr(config, "USE_PLAYER_ANCHORED_EV", True) and (os.environ.get("USE_PLAYER_ANCHORED_EV", "True") == "True")
+
+    if use_player_anchored_ev and "BoomProbability" in df_preds.columns:
+        def calc_player_anchored_ev(r):
+            base_fp = r.get("fp_season_avg") if pd.notna(r.get("fp_season_avg")) and float(r.get("fp_season_avg", 0)) > 2.0 else tier_avgs.get(r["positionGroup"], {}).get("NonBoom", 8.0)
+            boom_p = float(r.get("BoomProbability", 25.0)) / 100.0
+            matchup_mult = 0.5 + boom_p
+            return float(base_fp) * matchup_mult
+        df_preds["EV"] = df_preds.apply(calc_player_anchored_ev, axis=1)
+    elif use_pred_pts_ev and "PredictedPoints" in df_preds.columns:
+        df_preds["EV"] = df_preds["PredictedPoints"]
+    elif "BoomProbability" in df_preds.columns:
         df_preds["EV"] = df_preds.apply(lambda r: (r["BoomProbability"] / 100.0) * tier_avgs.get(r["positionGroup"], {}).get("Boom", 25.0) + (1.0 - r["BoomProbability"] / 100.0) * tier_avgs.get(r["positionGroup"], {}).get("NonBoom", 8.0), axis=1)
+    elif "PredictedPoints" in df_preds.columns:
+        df_preds["EV"] = df_preds["PredictedPoints"]
     else:
         df_preds["EV"] = 10.0
         
