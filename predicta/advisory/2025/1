@@ -120,19 +120,6 @@
             "actualPoints": 30.0
         },
         {
-            "firstName": "Cross",
-            "lastName": "Ferrara",
-            "team": "CHA",
-            "opponent": "ATL",
-            "game_id": "2025-ev-1",
-            "position": "Midfield",
-            "salary": 14,
-            "mc_ev": 22.0,
-            "mc_p90": 50.0,
-            "mc_p10": 0.0,
-            "actualPoints": 10.0
-        },
-        {
             "firstName": "Brad",
             "lastName": "Smith",
             "team": "WHP",
@@ -144,6 +131,19 @@
             "mc_p90": 38.6,
             "mc_p10": 4.1,
             "actualPoints": 8.0
+        },
+        {
+            "firstName": "Cross",
+            "lastName": "Ferrara",
+            "team": "CHA",
+            "opponent": "ATL",
+            "game_id": "2025-ev-1",
+            "position": "Midfield",
+            "salary": 14,
+            "mc_ev": 22.0,
+            "mc_p90": 50.0,
+            "mc_p10": 0.0,
+            "actualPoints": 10.0
         },
         {
             "firstName": "Owen",
@@ -401,6 +401,16 @@
                 ]
             },
             {
+                "firstName": "Brad",
+                "lastName": "Smith",
+                "position": "Midfield",
+                "salary": 20,
+                "bullets": [
+                    "Matchup Specialist: Historically performs well against ARC (1.32x average scoring rate).",
+                    "Opponent Weakness: ARC defense allows 11% extra fantasy points to Midfield position."
+                ]
+            },
+            {
                 "firstName": "Cross",
                 "lastName": "Ferrara",
                 "position": "Midfield",
@@ -409,16 +419,6 @@
                     "Hot Form: Averaging 13.3 fantasy pts over last 3 games (vs 11.1 season avg).",
                     "Matchup Specialist: Historically performs well against ATL (1.34x average scoring rate).",
                     "Opponent Weakness: ATL defense allows 6% extra fantasy points to Midfield position."
-                ]
-            },
-            {
-                "firstName": "Brad",
-                "lastName": "Smith",
-                "position": "Midfield",
-                "salary": 20,
-                "bullets": [
-                    "Matchup Specialist: Historically performs well against ARC (1.32x average scoring rate).",
-                    "Opponent Weakness: ARC defense allows 11% extra fantasy points to Midfield position."
                 ]
             },
             {
@@ -484,8 +484,8 @@
                 "out": [
                     "Logan Wisnauskas",
                     "Xander Dickson",
-                    "Cross Ferrara",
                     "Brad Smith",
+                    "Cross Ferrara",
                     "Owen Grant",
                     "Brett Dobson"
                 ],

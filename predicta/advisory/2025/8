@@ -94,19 +94,6 @@
     ],
     "MC_Win_160": [
         {
-            "firstName": "Michael",
-            "lastName": "Sowers",
-            "team": "WAT",
-            "opponent": "WHP",
-            "game_id": "2025-ev-30",
-            "position": "Attack",
-            "salary": 48,
-            "mc_ev": 34.8,
-            "mc_p90": 66.5,
-            "mc_p10": 16.9,
-            "actualPoints": 40.0
-        },
-        {
             "firstName": "TJ",
             "lastName": "Malone",
             "team": "WHP",
@@ -120,17 +107,17 @@
             "actualPoints": 52.0
         },
         {
-            "firstName": "Jonathan",
-            "lastName": "Donville",
-            "team": "OUT",
-            "opponent": "CAN",
-            "game_id": "2025-ev-29",
-            "position": "Midfield",
-            "salary": 2,
-            "mc_ev": 20.9,
-            "mc_p90": 37.6,
-            "mc_p10": 9.4,
-            "actualPoints": 2.0
+            "firstName": "Michael",
+            "lastName": "Sowers",
+            "team": "WAT",
+            "opponent": "WHP",
+            "game_id": "2025-ev-30",
+            "position": "Attack",
+            "salary": 48,
+            "mc_ev": 34.8,
+            "mc_p90": 66.5,
+            "mc_p10": 16.9,
+            "actualPoints": 40.0
         },
         {
             "firstName": "Bryan",
@@ -144,6 +131,19 @@
             "mc_p90": 57.6,
             "mc_p10": 2.9,
             "actualPoints": 18.0
+        },
+        {
+            "firstName": "Jonathan",
+            "lastName": "Donville",
+            "team": "OUT",
+            "opponent": "CAN",
+            "game_id": "2025-ev-29",
+            "position": "Midfield",
+            "salary": 2,
+            "mc_ev": 20.9,
+            "mc_p90": 37.6,
+            "mc_p10": 9.4,
+            "actualPoints": 2.0
         },
         {
             "firstName": "Bryce",
@@ -385,6 +385,15 @@
     "Narrative": {
         "RecommendedRoster": [
             {
+                "firstName": "TJ",
+                "lastName": "Malone",
+                "position": "Attack",
+                "salary": 41,
+                "bullets": [
+                    "Opponent Weakness: WAT defense allows 7% extra fantasy points to Attack position."
+                ]
+            },
+            {
                 "firstName": "Michael",
                 "lastName": "Sowers",
                 "position": "Attack",
@@ -395,12 +404,13 @@
                 ]
             },
             {
-                "firstName": "TJ",
-                "lastName": "Malone",
-                "position": "Attack",
-                "salary": 41,
+                "firstName": "Bryan",
+                "lastName": "Costabile",
+                "position": "Midfield",
+                "salary": 28,
                 "bullets": [
-                    "Opponent Weakness: WAT defense allows 7% extra fantasy points to Attack position."
+                    "Hot Form: Averaging 27.3 fantasy pts over last 3 games (vs 22.4 season avg).",
+                    "Opponent Weakness: RED defense allows 14% extra fantasy points to Midfield position."
                 ]
             },
             {
@@ -410,16 +420,6 @@
                 "salary": 2,
                 "bullets": [
                     "Salary Cap Enabler: Excellent cost efficiency, projecting 20.9 EV for just 2 coins."
-                ]
-            },
-            {
-                "firstName": "Bryan",
-                "lastName": "Costabile",
-                "position": "Midfield",
-                "salary": 28,
-                "bullets": [
-                    "Hot Form: Averaging 27.3 fantasy pts over last 3 games (vs 22.4 season avg).",
-                    "Opponent Weakness: RED defense allows 14% extra fantasy points to Midfield position."
                 ]
             },
             {
@@ -460,8 +460,8 @@
                     "Graham Bundy"
                 ],
                 "out": [
-                    "Michael Sowers",
                     "TJ Malone",
+                    "Michael Sowers",
                     "Jonathan Donville"
                 ],
                 "rationale": "Optimizes strictly for the highest average expected points (mean floor) rather than variance or win probability."
@@ -477,10 +477,10 @@
                     "Arden Cohen"
                 ],
                 "out": [
-                    "Michael Sowers",
                     "TJ Malone",
-                    "Jonathan Donville",
+                    "Michael Sowers",
                     "Bryan Costabile",
+                    "Jonathan Donville",
                     "Bryce Young"
                 ],
                 "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Matt Rambo (Attack, 9c), Aidan Carroll (Attack, 33c), Colin Heacock (Midfield, 24c), Matt Brandau (Midfield, 29c), Arden Cohen (Defense, 29c)) to maximize the team's 90th percentile ceiling (projecting up to 76.0 pts)."

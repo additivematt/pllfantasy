@@ -94,17 +94,17 @@
     ],
     "MC_Win_160": [
         {
-            "firstName": "Blaze",
-            "lastName": "Riorden",
-            "team": "CHA",
-            "opponent": "RED",
+            "firstName": "Dylan",
+            "lastName": "Molloy",
+            "team": "RED",
+            "opponent": "CHA",
             "game_id": "2025-ev-25",
-            "position": "Goalie",
-            "salary": 44,
-            "mc_ev": 35.7,
-            "mc_p90": 53.1,
-            "mc_p10": 16.9,
-            "actualPoints": 48.0
+            "position": "Attack",
+            "salary": 40,
+            "mc_ev": 35.5,
+            "mc_p90": 68.6,
+            "mc_p10": 4.1,
+            "actualPoints": 18.0
         },
         {
             "firstName": "Rob",
@@ -120,30 +120,17 @@
             "actualPoints": 10.0
         },
         {
-            "firstName": "TJ",
-            "lastName": "Malone",
+            "firstName": "Brad",
+            "lastName": "Smith",
             "team": "WHP",
             "opponent": "OUT",
             "game_id": "2025-ev-26",
-            "position": "Attack",
-            "salary": 45,
-            "mc_ev": 33.2,
-            "mc_p90": 54.4,
-            "mc_p10": 5.6,
-            "actualPoints": 12.0
-        },
-        {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
-            "team": "ATL",
-            "opponent": "CAN",
-            "game_id": "2025-ev-23",
-            "position": "Faceoff",
-            "salary": 35,
-            "mc_ev": 31.8,
-            "mc_p90": 59.9,
-            "mc_p10": 11.5,
-            "actualPoints": 17.6
+            "position": "Midfield",
+            "salary": 28,
+            "mc_ev": 24.1,
+            "mc_p90": 40.3,
+            "mc_p10": 6.4,
+            "actualPoints": -3.0
         },
         {
             "firstName": "Mic",
@@ -159,19 +146,6 @@
             "actualPoints": 5.0
         },
         {
-            "firstName": "Tom",
-            "lastName": "Schreiber",
-            "team": "ARC",
-            "opponent": "WAT",
-            "game_id": "2025-ev-24",
-            "position": "Midfield",
-            "salary": 22,
-            "mc_ev": 24.9,
-            "mc_p90": 53.9,
-            "mc_p10": 4.6,
-            "actualPoints": 38.0
-        },
-        {
             "firstName": "Michael",
             "lastName": "Rexrode",
             "team": "ATL",
@@ -183,6 +157,32 @@
             "mc_p90": 30.2,
             "mc_p10": 0.0,
             "actualPoints": 11.0
+        },
+        {
+            "firstName": "Trevor",
+            "lastName": "Baptiste",
+            "team": "ATL",
+            "opponent": "CAN",
+            "game_id": "2025-ev-23",
+            "position": "Faceoff",
+            "salary": 35,
+            "mc_ev": 31.8,
+            "mc_p90": 59.9,
+            "mc_p10": 11.5,
+            "actualPoints": 17.6
+        },
+        {
+            "firstName": "Blaze",
+            "lastName": "Riorden",
+            "team": "CHA",
+            "opponent": "RED",
+            "game_id": "2025-ev-25",
+            "position": "Goalie",
+            "salary": 44,
+            "mc_ev": 35.7,
+            "mc_p90": 53.1,
+            "mc_p10": 16.9,
+            "actualPoints": 48.0
         }
     ],
     "MC_Ceil_90": [
@@ -385,12 +385,12 @@
     "Narrative": {
         "RecommendedRoster": [
             {
-                "firstName": "Blaze",
-                "lastName": "Riorden",
-                "position": "Goalie",
-                "salary": 44,
+                "firstName": "Dylan",
+                "lastName": "Molloy",
+                "position": "Attack",
+                "salary": 40,
                 "bullets": [
-                    "Opponent Weakness: RED defense allows 10% extra fantasy points to Goalie position."
+                    "Consistent Pick: Selected for steady expected floor (35.5 EV) and reliable role."
                 ]
             },
             {
@@ -403,12 +403,32 @@
                 ]
             },
             {
-                "firstName": "TJ",
-                "lastName": "Malone",
-                "position": "Attack",
-                "salary": 45,
+                "firstName": "Brad",
+                "lastName": "Smith",
+                "position": "Midfield",
+                "salary": 28,
                 "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (33.2 EV) and reliable role."
+                    "Consistent Pick: Selected for steady expected floor (24.1 EV) and reliable role."
+                ]
+            },
+            {
+                "firstName": "Mic",
+                "lastName": "Kelly",
+                "position": "Midfield",
+                "salary": 14,
+                "bullets": [
+                    "Opponent Weakness: ATL defense allows 8% extra fantasy points to Midfield position."
+                ]
+            },
+            {
+                "firstName": "Michael",
+                "lastName": "Rexrode",
+                "position": "Defense",
+                "salary": 4,
+                "bullets": [
+                    "Matchup Specialist: Historically performs well against CAN (1.46x average scoring rate).",
+                    "Opponent Weakness: CAN defense allows 15% extra fantasy points to Defensemen position.",
+                    "Salary Cap Enabler: Excellent cost efficiency, projecting 15.1 EV for just 4 coins."
                 ]
             },
             {
@@ -422,32 +442,12 @@
                 ]
             },
             {
-                "firstName": "Mic",
-                "lastName": "Kelly",
-                "position": "Midfield",
-                "salary": 14,
+                "firstName": "Blaze",
+                "lastName": "Riorden",
+                "position": "Goalie",
+                "salary": 44,
                 "bullets": [
-                    "Opponent Weakness: ATL defense allows 8% extra fantasy points to Midfield position."
-                ]
-            },
-            {
-                "firstName": "Tom",
-                "lastName": "Schreiber",
-                "position": "Midfield",
-                "salary": 22,
-                "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (24.9 EV) and reliable role."
-                ]
-            },
-            {
-                "firstName": "Michael",
-                "lastName": "Rexrode",
-                "position": "Defense",
-                "salary": 4,
-                "bullets": [
-                    "Matchup Specialist: Historically performs well against CAN (1.46x average scoring rate).",
-                    "Opponent Weakness: CAN defense allows 15% extra fantasy points to Defensemen position.",
-                    "Salary Cap Enabler: Excellent cost efficiency, projecting 15.1 EV for just 4 coins."
+                    "Opponent Weakness: RED defense allows 10% extra fantasy points to Goalie position."
                 ]
             }
         ],
@@ -456,12 +456,12 @@
                 "strategy": "MC_EV",
                 "strategyLabel": "MC EV",
                 "in": [
-                    "Dylan Molloy",
-                    "Asher Nolting"
+                    "Asher Nolting",
+                    "Tom Schreiber"
                 ],
                 "out": [
                     "Rob Pannell",
-                    "TJ Malone"
+                    "Brad Smith"
                 ],
                 "rationale": "Optimizes strictly for the highest average expected points (mean floor) rather than variance or win probability."
             },
@@ -474,9 +474,9 @@
                     "Colin Heacock"
                 ],
                 "out": [
+                    "Dylan Molloy",
                     "Rob Pannell",
-                    "TJ Malone",
-                    "Tom Schreiber"
+                    "Brad Smith"
                 ],
                 "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Owen Hiltz (Attack, 32c), Adam Charalambides (Attack, 18c), Colin Heacock (Midfield, 26c)) to maximize the team's 90th percentile ceiling (projecting up to 71.2 pts)."
             }

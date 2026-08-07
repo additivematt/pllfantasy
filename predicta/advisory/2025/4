@@ -146,30 +146,30 @@
             "actualPoints": 27.0
         },
         {
-            "firstName": "Jake",
-            "lastName": "Bernhardt",
+            "firstName": "Scott",
+            "lastName": "Smith",
+            "team": "CHA",
+            "opponent": "WHP",
+            "game_id": "2025-ev-16",
+            "position": "Defense",
+            "salary": 18,
+            "mc_ev": 16.5,
+            "mc_p90": 42.7,
+            "mc_p10": 0.0,
+            "actualPoints": 11.0
+        },
+        {
+            "firstName": "Joseph",
+            "lastName": "Nardella",
             "team": "WHP",
             "opponent": "CAN",
             "game_id": "2025-ev-14",
-            "position": "Defense",
-            "salary": 3,
-            "mc_ev": 12.2,
-            "mc_p90": 33.0,
-            "mc_p10": 0.0,
-            "actualPoints": -3.0
-        },
-        {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
-            "team": "ATL",
-            "opponent": "WAT",
-            "game_id": "2025-ev-13",
             "position": "Faceoff",
-            "salary": 35,
-            "mc_ev": 31.3,
-            "mc_p90": 59.9,
-            "mc_p10": 11.5,
-            "actualPoints": 12.4
+            "salary": 26,
+            "mc_ev": 28.9,
+            "mc_p90": 55.4,
+            "mc_p10": 5.8,
+            "actualPoints": 22.7
         },
         {
             "firstName": "Blaze",
@@ -375,8 +375,8 @@
     ],
     "Core": [
         "Rob Pannell",
-        "Trevor Baptiste",
-        "Mic Kelly"
+        "Mic Kelly",
+        "Scott Smith"
     ],
     "Sleepers": [],
     "RecommendedStrategy": "MC_Win_160",
@@ -420,22 +420,21 @@
                 ]
             },
             {
-                "firstName": "Jake",
-                "lastName": "Bernhardt",
+                "firstName": "Scott",
+                "lastName": "Smith",
                 "position": "Defense",
-                "salary": 3,
+                "salary": 18,
                 "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (12.2 EV) and reliable role."
+                    "Consistent Pick: Selected for steady expected floor (16.5 EV) and reliable role."
                 ]
             },
             {
-                "firstName": "Trevor",
-                "lastName": "Baptiste",
+                "firstName": "Joseph",
+                "lastName": "Nardella",
                 "position": "Faceoff",
-                "salary": 35,
+                "salary": 26,
                 "bullets": [
-                    "Matchup Specialist: Historically performs well against WAT (1.22x average scoring rate).",
-                    "Opponent Weakness: WAT defense allows 52% extra fantasy points to Faceoff position."
+                    "Consistent Pick: Selected for steady expected floor (28.9 EV) and reliable role."
                 ]
             },
             {
@@ -454,11 +453,11 @@
                 "strategyLabel": "MC EV",
                 "in": [
                     "Aidan Carroll",
-                    "Scott Smith"
+                    "Trevor Baptiste"
                 ],
                 "out": [
                     "TJ Malone",
-                    "Jake Bernhardt"
+                    "Joseph Nardella"
                 ],
                 "rationale": "Optimizes strictly for the highest average expected points (mean floor) rather than variance or win probability."
             },
@@ -468,16 +467,16 @@
                 "in": [
                     "Aidan Carroll",
                     "Colin Heacock",
-                    "Scott Smith",
+                    "Trevor Baptiste",
                     "Brendan Krebs"
                 ],
                 "out": [
                     "TJ Malone",
                     "Adam Poitras",
-                    "Jake Bernhardt",
+                    "Joseph Nardella",
                     "Blaze Riorden"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Aidan Carroll (Attack, 29c), Colin Heacock (Midfield, 26c), Scott Smith (Defense, 18c), Brendan Krebs (Goalie, 28c)) to maximize the team's 90th percentile ceiling (projecting up to 75.1 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Aidan Carroll (Attack, 29c), Colin Heacock (Midfield, 26c), Trevor Baptiste (Faceoff, 35c), Brendan Krebs (Goalie, 28c)) to maximize the team's 90th percentile ceiling (projecting up to 75.1 pts)."
             }
         ]
     },

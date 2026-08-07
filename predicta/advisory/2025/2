@@ -120,19 +120,6 @@
             "actualPoints": 71.0
         },
         {
-            "firstName": "Tom",
-            "lastName": "Schreiber",
-            "team": "ARC",
-            "opponent": "CAN",
-            "game_id": "2025-ev-7",
-            "position": "Midfield",
-            "salary": 39,
-            "mc_ev": 30.1,
-            "mc_p90": 65.4,
-            "mc_p10": 5.4,
-            "actualPoints": 12.0
-        },
-        {
             "firstName": "Graham",
             "lastName": "Bundy",
             "team": "OUT",
@@ -144,6 +131,19 @@
             "mc_p90": 71.4,
             "mc_p10": 0.0,
             "actualPoints": 22.0
+        },
+        {
+            "firstName": "Tom",
+            "lastName": "Schreiber",
+            "team": "ARC",
+            "opponent": "CAN",
+            "game_id": "2025-ev-7",
+            "position": "Midfield",
+            "salary": 39,
+            "mc_ev": 30.1,
+            "mc_p90": 65.4,
+            "mc_p10": 5.4,
+            "actualPoints": 12.0
         },
         {
             "firstName": "Jake",
@@ -187,19 +187,6 @@
     ],
     "MC_Ceil_90": [
         {
-            "firstName": "Brennan",
-            "lastName": "O'Neill",
-            "team": "OUT",
-            "opponent": "CHA",
-            "game_id": "2025-ev-5",
-            "position": "Attack",
-            "salary": 44,
-            "mc_ev": 36.1,
-            "mc_p90": 68.2,
-            "mc_p10": 0.0,
-            "actualPoints": 38.0
-        },
-        {
             "firstName": "Matt",
             "lastName": "Moore",
             "team": "ARC",
@@ -211,6 +198,19 @@
             "mc_p90": 72.4,
             "mc_p10": 0.0,
             "actualPoints": 15.0
+        },
+        {
+            "firstName": "Brennan",
+            "lastName": "O'Neill",
+            "team": "OUT",
+            "opponent": "CHA",
+            "game_id": "2025-ev-5",
+            "position": "Attack",
+            "salary": 44,
+            "mc_ev": 36.1,
+            "mc_p90": 68.2,
+            "mc_p10": 0.0,
+            "actualPoints": 38.0
         },
         {
             "firstName": "Eric",
@@ -404,21 +404,21 @@
                 ]
             },
             {
-                "firstName": "Tom",
-                "lastName": "Schreiber",
-                "position": "Midfield",
-                "salary": 39,
-                "bullets": [
-                    "Matchup Specialist: Historically performs well against CAN (1.25x average scoring rate)."
-                ]
-            },
-            {
                 "firstName": "Graham",
                 "lastName": "Bundy",
                 "position": "Midfield",
                 "salary": 18,
                 "bullets": [
                     "Consistent Pick: Selected for steady expected floor (25.4 EV) and reliable role."
+                ]
+            },
+            {
+                "firstName": "Tom",
+                "lastName": "Schreiber",
+                "position": "Midfield",
+                "salary": 39,
+                "bullets": [
+                    "Matchup Specialist: Historically performs well against CAN (1.25x average scoring rate)."
                 ]
             },
             {
@@ -470,8 +470,8 @@
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
-                    "Brennan O'Neill",
                     "Matt Moore",
+                    "Brennan O'Neill",
                     "Eric Dobson",
                     "Chris Fake",
                     "Mike Sisselberger"
@@ -483,7 +483,7 @@
                     "Jake Bernhardt",
                     "Joseph Nardella"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Brennan O'Neill (Attack, 44c), Matt Moore (Attack, 23c), Eric Dobson (Midfield, 8c), Chris Fake (Defense, 5c), Mike Sisselberger (Faceoff, 11c)) to maximize the team's 90th percentile ceiling (projecting up to 72.4 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Matt Moore (Attack, 23c), Brennan O'Neill (Attack, 44c), Eric Dobson (Midfield, 8c), Chris Fake (Defense, 5c), Mike Sisselberger (Faceoff, 11c)) to maximize the team's 90th percentile ceiling (projecting up to 72.4 pts)."
             }
         ]
     },

@@ -120,19 +120,6 @@
             "actualPoints": 40.0
         },
         {
-            "firstName": "Matt",
-            "lastName": "Traynor",
-            "team": "ATL",
-            "opponent": "WAT",
-            "game_id": "2025-ev-41",
-            "position": "Midfield",
-            "salary": 23,
-            "mc_ev": 23.6,
-            "mc_p90": 53.7,
-            "mc_p10": 0.0,
-            "actualPoints": 19.0
-        },
-        {
             "firstName": "Zach",
             "lastName": "Currier",
             "team": "WAT",
@@ -144,6 +131,19 @@
             "mc_p90": 40.1,
             "mc_p10": 3.5,
             "actualPoints": 13.5
+        },
+        {
+            "firstName": "Matt",
+            "lastName": "Traynor",
+            "team": "ATL",
+            "opponent": "WAT",
+            "game_id": "2025-ev-41",
+            "position": "Midfield",
+            "salary": 23,
+            "mc_ev": 23.6,
+            "mc_p90": 53.7,
+            "mc_p10": 0.0,
+            "actualPoints": 19.0
         },
         {
             "firstName": "Ethan",
@@ -408,15 +408,6 @@
                 ]
             },
             {
-                "firstName": "Matt",
-                "lastName": "Traynor",
-                "position": "Midfield",
-                "salary": 23,
-                "bullets": [
-                    "Matchup Specialist: Historically performs well against WAT (1.25x average scoring rate)."
-                ]
-            },
-            {
                 "firstName": "Zach",
                 "lastName": "Currier",
                 "position": "Midfield",
@@ -424,6 +415,15 @@
                 "bullets": [
                     "Matchup Specialist: Historically performs well against ATL (1.20x average scoring rate).",
                     "Opponent Weakness: ATL defense allows 8% extra fantasy points to Midfield position."
+                ]
+            },
+            {
+                "firstName": "Matt",
+                "lastName": "Traynor",
+                "position": "Midfield",
+                "salary": 23,
+                "bullets": [
+                    "Matchup Specialist: Historically performs well against WAT (1.25x average scoring rate)."
                 ]
             },
             {
@@ -481,8 +481,8 @@
                 ],
                 "out": [
                     "Asher Nolting",
-                    "Matt Traynor",
                     "Zach Currier",
+                    "Matt Traynor",
                     "Ethan Rall"
                 ],
                 "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like CJ Kirst (Attack, 2c), JJ Sillstrop (Midfield, 8c), Matt Brandau (Midfield, 28c), Matthew Dunn (Defense, 5c)) to maximize the team's 90th percentile ceiling (projecting up to 85.5 pts)."
