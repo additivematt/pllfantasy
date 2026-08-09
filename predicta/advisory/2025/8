@@ -94,19 +94,6 @@
     ],
     "MC_Win_160": [
         {
-            "firstName": "Brett",
-            "lastName": "Dobson",
-            "team": "ARC",
-            "opponent": "CHA",
-            "game_id": "2025-ev-28",
-            "position": "Goalie",
-            "salary": 40,
-            "mc_ev": 47.2,
-            "mc_p90": 72.6,
-            "mc_p10": 29.1,
-            "actualPoints": 45.0
-        },
-        {
             "firstName": "Jeff",
             "lastName": "Teat",
             "team": "ATL",
@@ -133,30 +120,17 @@
             "actualPoints": 52.0
         },
         {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
-            "team": "ATL",
-            "opponent": "RED",
-            "game_id": "2025-ev-27",
-            "position": "Faceoff",
-            "salary": 30,
-            "mc_ev": 30.7,
-            "mc_p90": 58.3,
-            "mc_p10": 11.2,
-            "actualPoints": 11.3
-        },
-        {
-            "firstName": "Tom",
-            "lastName": "Schreiber",
-            "team": "ARC",
-            "opponent": "CHA",
-            "game_id": "2025-ev-28",
+            "firstName": "Zach",
+            "lastName": "Currier",
+            "team": "WAT",
+            "opponent": "WHP",
+            "game_id": "2025-ev-30",
             "position": "Midfield",
-            "salary": 26,
-            "mc_ev": 24.8,
-            "mc_p90": 53.2,
-            "mc_p10": 4.5,
-            "actualPoints": -4.0
+            "salary": 18,
+            "mc_ev": 23.0,
+            "mc_p90": 46.0,
+            "mc_p10": 4.3,
+            "actualPoints": 32.0
         },
         {
             "firstName": "Jonathan",
@@ -172,16 +146,42 @@
             "actualPoints": 2.0
         },
         {
-            "firstName": "Mason",
-            "lastName": "Woodward",
+            "firstName": "Ajax",
+            "lastName": "Zappitello",
+            "team": "WHP",
+            "opponent": "WAT",
+            "game_id": "2025-ev-30",
+            "position": "Defense",
+            "salary": 26,
+            "mc_ev": 16.1,
+            "mc_p90": 31.9,
+            "mc_p10": 2.7,
+            "actualPoints": 36.0
+        },
+        {
+            "firstName": "Trevor",
+            "lastName": "Baptiste",
+            "team": "ATL",
+            "opponent": "RED",
+            "game_id": "2025-ev-27",
+            "position": "Faceoff",
+            "salary": 30,
+            "mc_ev": 30.7,
+            "mc_p90": 58.3,
+            "mc_p10": 11.2,
+            "actualPoints": 11.3
+        },
+        {
+            "firstName": "Brett",
+            "lastName": "Dobson",
             "team": "ARC",
             "opponent": "CHA",
             "game_id": "2025-ev-28",
-            "position": "Defense",
-            "salary": 13,
-            "mc_ev": 13.7,
-            "mc_p90": 33.4,
-            "mc_p10": 0.0,
+            "position": "Goalie",
+            "salary": 40,
+            "mc_ev": 47.2,
+            "mc_p90": 72.6,
+            "mc_p10": 29.1,
             "actualPoints": 45.0
         }
     ],
@@ -453,16 +453,16 @@
                 "strategy": "MC_Win_160",
                 "strategyLabel": "MC Win 160",
                 "in": [
-                    "Brett Dobson",
-                    "Tom Schreiber",
-                    "Mason Woodward"
+                    "Zach Currier",
+                    "Ajax Zappitello",
+                    "Brett Dobson"
                 ],
                 "out": [
                     "Emmet Carroll",
                     "Andrew McAdorey",
                     "Scott Smith"
                 ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Brett Dobson (Goalie, 40c), Tom Schreiber (Midfield, 26c), Mason Woodward (Defense, 13c)) to increase the joint probability of the entire lineup hitting the 160 target score."
+                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Zach Currier (Midfield, 18c), Ajax Zappitello (Defense, 26c), Brett Dobson (Goalie, 40c)) to increase the joint probability of the entire lineup hitting the 160 target score."
             }
         ]
     },

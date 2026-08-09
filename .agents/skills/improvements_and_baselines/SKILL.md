@@ -33,9 +33,9 @@ Established after fixing the Monte Carlo expected value calculation to use **Pla
 | **2025** | `MC_EV` | **182.6 pts/wk** | **177.5 pts/wk** | **202.0 pts/wk** | **151.5 pts/wk** | 353.2 pts/wk | **57.2%** |
 | **2025** | `MC_Win_160` | **174.9 pts/wk** | **171.9 pts/wk** | **198.3 pts/wk** | **147.7 pts/wk** | 353.2 pts/wk | **56.2%** |
 | **2025** | `MC_Ceil_90` | **179.2 pts/wk** | **179.3 pts/wk** | **202.6 pts/wk** | **153.7 pts/wk** | 353.2 pts/wk | **57.4%** |
-| **2026** | `MC_EV` | **150.2 pts/wk** | **148.6 pts/wk** | **176.6 pts/wk** | **125.5 pts/wk** | 352.4 pts/wk | **50.1%** |
-| **2026** | `MC_Win_160` | **140.5 pts/wk** | **146.3 pts/wk** | **169.7 pts/wk** | **120.2 pts/wk** | 352.4 pts/wk | **48.1%** |
-| **2026** | `MC_Ceil_90` | **138.5 pts/wk** | **143.7 pts/wk** | **170.8 pts/wk** | **116.2 pts/wk** | 352.4 pts/wk | **48.5%** |
+| **2026** | `MC_EV` | **147.5 pts/wk** | **146.1 pts/wk** | **172.8 pts/wk** | **124.2 pts/wk** | 357.0 pts/wk | **48.4%** |
+| **2026** | `MC_Win_160` | **139.3 pts/wk** | **145.7 pts/wk** | **169.5 pts/wk** | **120.6 pts/wk** | 357.0 pts/wk | **47.5%** |
+| **2026** | `MC_Ceil_90` | **137.3 pts/wk** | **142.5 pts/wk** | **170.3 pts/wk** | **112.9 pts/wk** | 357.0 pts/wk | **47.7%** |
 
 ### Baseline 10 (Bradley-Terry & Generative Heuristic — 17 July 2026, Superseded)
 

@@ -107,17 +107,17 @@
             "actualPoints": 55.0
         },
         {
-            "firstName": "Asher",
-            "lastName": "Nolting",
-            "team": "CAN",
-            "opponent": "ATL",
-            "game_id": "2025-ev-23",
+            "firstName": "Rob",
+            "lastName": "Pannell",
+            "team": "WHP",
+            "opponent": "OUT",
+            "game_id": "2025-ev-26",
             "position": "Attack",
-            "salary": 37,
-            "mc_ev": 34.5,
-            "mc_p90": 74.3,
-            "mc_p10": 4.0,
-            "actualPoints": 45.0
+            "salary": 32,
+            "mc_ev": 30.4,
+            "mc_p90": 53.2,
+            "mc_p10": 5.6,
+            "actualPoints": 10.0
         },
         {
             "firstName": "Zach",
@@ -172,17 +172,17 @@
             "actualPoints": 17.6
         },
         {
-            "firstName": "Emmet",
-            "lastName": "Carroll",
-            "team": "WHP",
-            "opponent": "OUT",
+            "firstName": "Logan",
+            "lastName": "McNaney",
+            "team": "OUT",
+            "opponent": "WHP",
             "game_id": "2025-ev-26",
             "position": "Goalie",
-            "salary": 40,
-            "mc_ev": 52.6,
-            "mc_p90": 90.0,
-            "mc_p10": 11.9,
-            "actualPoints": 40.0
+            "salary": 42,
+            "mc_ev": 53.1,
+            "mc_p90": 84.2,
+            "mc_p10": 13.5,
+            "actualPoints": 56.0
         }
     ],
     "MC_Ceil_90": [
@@ -374,7 +374,6 @@
         }
     ],
     "Core": [
-        "Emmet Carroll",
         "Jeff Teat",
         "Trevor Baptiste",
         "Tom Schreiber",
@@ -454,14 +453,16 @@
                 "strategy": "MC_Win_160",
                 "strategyLabel": "MC Win 160",
                 "in": [
-                    "Asher Nolting",
-                    "Scott Smith"
+                    "Rob Pannell",
+                    "Scott Smith",
+                    "Logan McNaney"
                 ],
                 "out": [
+                    "Emmet Carroll",
                     "Connor Shellenberger",
                     "Matthew Dunn"
                 ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Asher Nolting (Attack, 37c), Scott Smith (Defense, 8c)) to increase the joint probability of the entire lineup hitting the 160 target score."
+                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Rob Pannell (Attack, 32c), Scott Smith (Defense, 8c), Logan McNaney (Goalie, 42c)) to increase the joint probability of the entire lineup hitting the 160 target score."
             }
         ]
     },
