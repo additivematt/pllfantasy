@@ -28,14 +28,14 @@ To ensure that changes are mathematically sound and do not degrade model perform
 
 Established after fixing the Monte Carlo expected value calculation to use **Player-Anchored EV** ($\text{EV} = \text{player\_fp\_avg} \times (0.5 + P_{\text{Boom}} / 100)$), which anchors expectations to individual player caliber while using $P_{\text{Boom}}$ as a dynamic matchup factor. This completely eliminated artificial position-mean regression penalties on top-tier superstars.
 
-| Season | Strategy | Total Score | Coulda Max | Ceiling % | Top-5 Max Score | Top-5 Max Ceiling % | Notes / Evaluated Weeks |
-|---|---|---|---|---|---|---|---|
-| 2025 | MC_EV | 2194.9 | 4679.1 | 46.9% | 2479.7 | 53.0% | 13 Weeks evaluated |
-| 2025 | MC_Win_160 | 2146.0 | 4679.1 | 45.9% | 2479.7 | 53.0% | 13 Weeks evaluated |
-| 2025 | MC_Ceil_90 | **2384.1** | 4679.1 | **51.0%** | 2479.7 | 53.0% | **+61.3 pts** vs Baseline 10 |
-| 2026 | MC_EV | **1885.8** | 3699.4 | **51.0%** | **1729.0** | **46.7%** | **+412.8 pts** vs Baseline 10 (10 Played Weeks) |
-| 2026 | MC_Win_160 | **1706.8** | 3699.4 | **46.1%** | **1729.0** | **46.7%** | **+184.0 pts** vs Baseline 10 (10 Played Weeks) |
-| 2026 | MC_Ceil_90 | **1853.8** | 3699.4 | **50.1%** | **1729.0** | **46.7%** | **+620.9 pts** vs Baseline 10 (10 Played Weeks) |
+| Season | Strategy | Avg Weekly Score | Total Score | Coulda Max (Avg/Wk) | Ceiling % | Notes / Evaluated Weeks |
+|---|---|---|---|---|---|---|
+| 2025 | MC_EV | **182.6 pts/wk** | **2374.4** | 353.2 pts/wk (4591.6) | **51.7%** | 13 Weeks evaluated |
+| 2025 | MC_Win_160 | **171.3 pts/wk** | **2227.0** | 353.2 pts/wk (4591.6) | **48.5%** | 13 Weeks evaluated |
+| 2025 | MC_Ceil_90 | **184.2 pts/wk** | **2394.4** | 353.2 pts/wk (4591.6) | **52.2%** | 13 Weeks evaluated |
+| 2026 | MC_EV | **162.0 pts/wk** | **1619.8** | 352.4 pts/wk (3524.0) | **46.0%** | **+146.8 pts** vs Baseline 10 (10 Played Weeks) |
+| 2026 | MC_Win_160 | **156.4 pts/wk** | **1563.8** | 352.4 pts/wk (3524.0) | **44.4%** | **+41.0 pts** vs Baseline 10 (10 Played Weeks) |
+| 2026 | MC_Ceil_90 | **158.1 pts/wk** | **1580.7** | 352.4 pts/wk (3524.0) | **44.9%** | **+347.8 pts** vs Baseline 10 (10 Played Weeks) |
 
 ### Baseline 10 (Bradley-Terry & Generative Heuristic — 17 July 2026, Superseded)
 
@@ -56,9 +56,13 @@ Established after integrating the Bradley-Terry matchup win probability model an
 
 > [Safe/Default Mode]
 > **Instructions for AI Agents / Backtesting Rules:**
-> 1. **Do NOT Re-Backtest the Baseline**: When A/B testing a new feature, do not waste compute resources re-running backtests for baseline configurations. All baseline scores are frozen and archived directly in `baselines/rosters_<strategy>_baseline_10.csv` (which includes the `actualPoints` column). Use those existing scores for comparison.
-> 2. **Do NOT Create New Baselines**: Do not establish a new baseline or overwrite Baseline 10 data unless the user explicitly instructs you to do so.
-> 3. **Prior Baselines are superseded**: Baseline 3 through 9 scores are now invalid comparison points due to being superseded. Do not use them for future comparisons.
+> 1. **Do NOT Re-Calculate or Re-Backtest the Baseline**: NEVER attempt to recalculate baseline scores on the fly. ALWAYS read baseline scores and roster compositions directly from the archived roster CSV files in `baselines/rosters_<strategy>_baseline_11.csv` (which contains the exact pre-calculated `actualPoints` column). Use those existing archived scores for all baseline comparisons.
+> 2. **Do NOT Create New Baselines**: Do not establish a new baseline or overwrite Baseline data unless the user explicitly instructs you to do so. When establishing an official new baseline, execute [`generate_baseline_archive.py`](file:///F:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/generate_baseline_archive.py) via:
+>    ```bash
+>    python generate_baseline_archive.py --baseline-num N
+>    ```
+>    This runs the full production pipeline (`02` -> `03` -> `04` -> `05` -> `06_optimize_lineups.py`) across all historical weeks to guarantee 100% mathematical parity with production and the Web UI.
+> 3. **Prior Baselines are superseded**: Baseline 3 through 10 scores are now invalid comparison points due to being superseded by Baseline 11. Do not use them for future comparisons.
 > 4. **Mandatory Top-5 Roster Pool Metrics**: All future roster backtests MUST report the Top-5 Candidate Roster Pool metrics (`Top-1`, `Top-5 Mean`, `Top-5 Max`, `Top-5 Min`, `Top-5 Max Ceiling %`) via `scratch/evaluate_top5_roster_pool.py` to eliminate single-lineup random outcome noise.
 
 > [!NOTE]
