@@ -28,14 +28,14 @@ To ensure that changes are mathematically sound and do not degrade model perform
 
 Established after fixing the Monte Carlo expected value calculation to use **Player-Anchored EV** ($\text{EV} = \text{player\_fp\_avg} \times (0.5 + P_{\text{Boom}} / 100)$), which anchors expectations to individual player caliber while using $P_{\text{Boom}}$ as a dynamic matchup factor. This completely eliminated artificial position-mean regression penalties on top-tier superstars.
 
-| Season | Strategy | Avg Weekly Score | Total Score | Coulda Max (Avg/Wk) | Ceiling % | Notes / Evaluated Weeks |
-|---|---|---|---|---|---|---|
-| 2025 | MC_EV | **182.6 pts/wk** | **2374.4** | 353.2 pts/wk (4591.6) | **51.7%** | 13 Weeks evaluated |
-| 2025 | MC_Win_160 | **171.3 pts/wk** | **2227.0** | 353.2 pts/wk (4591.6) | **48.5%** | 13 Weeks evaluated |
-| 2025 | MC_Ceil_90 | **184.2 pts/wk** | **2394.4** | 353.2 pts/wk (4591.6) | **52.2%** | 13 Weeks evaluated |
-| 2026 | MC_EV | **162.0 pts/wk** | **1619.8** | 352.4 pts/wk (3524.0) | **46.0%** | **+146.8 pts** vs Baseline 10 (10 Played Weeks) |
-| 2026 | MC_Win_160 | **156.4 pts/wk** | **1563.8** | 352.4 pts/wk (3524.0) | **44.4%** | **+41.0 pts** vs Baseline 10 (10 Played Weeks) |
-| 2026 | MC_Ceil_90 | **158.1 pts/wk** | **1580.7** | 352.4 pts/wk (3524.0) | **44.9%** | **+347.8 pts** vs Baseline 10 (10 Played Weeks) |
+| Season | Strategy | Top-1 (Avg/Wk) | Top-5 Mean (Avg/Wk) | Top-5 Max (Avg/Wk) | Top-5 Min (Avg/Wk) | Coulda Max (Avg/Wk) | Top-5 Max Ceiling % |
+|---|---|---|---|---|---|---|---|
+| **2025** | `MC_EV` | **182.6 pts/wk** | **177.5 pts/wk** | **202.0 pts/wk** | **151.5 pts/wk** | 353.2 pts/wk | **57.2%** |
+| **2025** | `MC_Win_160` | **174.9 pts/wk** | **171.9 pts/wk** | **198.3 pts/wk** | **147.7 pts/wk** | 353.2 pts/wk | **56.2%** |
+| **2025** | `MC_Ceil_90` | **179.2 pts/wk** | **179.3 pts/wk** | **202.6 pts/wk** | **153.7 pts/wk** | 353.2 pts/wk | **57.4%** |
+| **2026** | `MC_EV` | **150.2 pts/wk** | **148.6 pts/wk** | **176.6 pts/wk** | **125.5 pts/wk** | 352.4 pts/wk | **50.1%** |
+| **2026** | `MC_Win_160` | **140.5 pts/wk** | **146.3 pts/wk** | **169.7 pts/wk** | **120.2 pts/wk** | 352.4 pts/wk | **48.1%** |
+| **2026** | `MC_Ceil_90` | **138.5 pts/wk** | **143.7 pts/wk** | **170.8 pts/wk** | **116.2 pts/wk** | 352.4 pts/wk | **48.5%** |
 
 ### Baseline 10 (Bradley-Terry & Generative Heuristic — 17 July 2026, Superseded)
 

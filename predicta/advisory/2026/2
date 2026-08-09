@@ -187,17 +187,17 @@
     ],
     "MC_Ceil_90": [
         {
-            "firstName": "Connor",
-            "lastName": "Shellenberger",
-            "team": "ATL",
-            "opponent": "WHP",
-            "game_id": "2026-ev-6",
+            "firstName": "Asher",
+            "lastName": "Nolting",
+            "team": "CAN",
+            "opponent": "CHA",
+            "game_id": "2026-ev-5",
             "position": "Attack",
-            "salary": 46,
-            "mc_ev": 37.8,
-            "mc_p90": 63.9,
-            "mc_p10": 17.3,
-            "actualPoints": 10.0
+            "salary": 39,
+            "mc_ev": 32.4,
+            "mc_p90": 67.9,
+            "mc_p10": 3.6,
+            "actualPoints": 8.0
         },
         {
             "firstName": "Marcus",
@@ -213,19 +213,6 @@
             "actualPoints": 21.0
         },
         {
-            "firstName": "Andrew",
-            "lastName": "McAdorey",
-            "team": "RED",
-            "opponent": "OUT",
-            "game_id": "2026-ev-7",
-            "position": "Midfield",
-            "salary": 23,
-            "mc_ev": 23.3,
-            "mc_p90": 58.2,
-            "mc_p10": 0.0,
-            "actualPoints": 10.0
-        },
-        {
             "firstName": "Matt",
             "lastName": "Brandau",
             "team": "WHP",
@@ -239,17 +226,30 @@
             "actualPoints": 10.0
         },
         {
-            "firstName": "Gavin",
-            "lastName": "Adler",
+            "firstName": "Andrew",
+            "lastName": "McAdorey",
+            "team": "RED",
+            "opponent": "OUT",
+            "game_id": "2026-ev-7",
+            "position": "Midfield",
+            "salary": 23,
+            "mc_ev": 23.3,
+            "mc_p90": 58.2,
+            "mc_p10": 0.0,
+            "actualPoints": 10.0
+        },
+        {
+            "firstName": "Kenny",
+            "lastName": "Brower",
             "team": "WAT",
             "opponent": "CAN",
             "game_id": "2026-ev-8",
             "position": "Defense",
-            "salary": 11,
-            "mc_ev": 15.0,
-            "mc_p90": 40.8,
-            "mc_p10": 0.0,
-            "actualPoints": 2.0
+            "salary": 15,
+            "mc_ev": 17.4,
+            "mc_p90": 26.9,
+            "mc_p10": 1.2,
+            "actualPoints": 1.0
         },
         {
             "firstName": "TD",
@@ -559,7 +559,6 @@
     ],
     "Core": [
         "Liam Entenmann",
-        "Connor Shellenberger",
         "Marcus Holman",
         "Matt Brandau",
         "TD Ierlan"
@@ -652,14 +651,14 @@
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
-                    "Andrew McAdorey",
-                    "Gavin Adler"
+                    "Asher Nolting",
+                    "Andrew McAdorey"
                 ],
                 "out": [
-                    "Zach Currier",
-                    "Kenny Brower"
+                    "Connor Shellenberger",
+                    "Zach Currier"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Andrew McAdorey (Midfield, 23c), Gavin Adler (Defense, 11c)) to maximize the team's 90th percentile ceiling (projecting up to 58.2 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Asher Nolting (Attack, 39c), Andrew McAdorey (Midfield, 23c)) to maximize the team's 90th percentile ceiling (projecting up to 67.9 pts)."
             }
         ]
     },

@@ -42,7 +42,7 @@ The evaluation harness outputs several key metrics to measure model performance:
 
 ### 5. Top-5 Candidate Roster Pool Metrics (Mandatory for Roster Backtests)
 > [!IMPORTANT]
-> To eliminate single-lineup random outcome noise (where 1 player scratch or boom/bust outcome creates 50+ point swings in small 10–13 slate samples), **all future roster backtests MUST evaluate the Top-5 Candidate Roster Pool** generated via MILP integer cut constraints (`scratch/evaluate_top5_roster_pool.py`).
+> To eliminate single-lineup random outcome noise (where 1 player scratch or boom/bust outcome creates 50+ point swings in small 10–13 slate samples), **all future roster backtests MUST evaluate the Top-5 Candidate Roster Pool**. The production optimizer (`06_optimize_lineups.py`) automatically generates and saves ranks 1 through 5 (with a `lineup_rank` column `1..5`) directly into the archived roster CSVs (`baselines/rosters_<strategy>_baseline_<N>.csv`).
 
 For every backtested week, the evaluation harness calculates:
 1. **`Top-1 Score`**: The actual points scored by the single #1 recommended lineup.
@@ -50,6 +50,15 @@ For every backtested week, the evaluation harness calculates:
 3. **`Top-5 Max Score`**: The maximum actual points scored by the best lineup present in the top 5 advisory recommendations (measures if a slate-winning roster was present in the candidate pool).
 4. **`Top-5 Min Score`**: The minimum actual points scored (floor risk) among the top 5 recommendations.
 5. **`Top-5 Max Ceiling %`**: `Top-5 Max Score / Coulda Max` (the ratio of the candidate pool's best roster to the theoretical optimal ceiling).
+
+---
+
+### 6. Primary Reporting Metric: Average Weekly Score (Mandatory Default)
+> [!IMPORTANT]
+> **Reporting Standard (Average Weekly Score > Raw Season Total)**:
+> By default, all roster evaluation summaries, backtests, and comparison tables MUST report **Average Weekly Score** ($\text{Total Score} / N_{\text{weeks}}$) as the primary performance metric.
+> 
+> Because different seasons and backtests evaluate varying numbers of weeks (e.g. 13 weeks in 2025 vs 10 weeks in 2026), raw total season scores obscure true per-week performance and complicate direct comparison. Reporting Average Weekly Score standardizes all roster metrics onto a clear, intuitive per-week scale (e.g. 188.6 pts/wk vs 168.8 pts/wk).
 
 ## Execution and Harness
 

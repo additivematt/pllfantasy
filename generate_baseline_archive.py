@@ -22,7 +22,7 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 BASELINES_DIR = os.path.join(SCRIPT_DIR, "baselines")
 
 EVAL_WEEKS_2025 = [1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 13, 14]
-EVAL_WEEKS_2026 = [1, 2, 3, 4, 5, 6, 8, 9, 10, 11]
+EVAL_WEEKS_2026 = [1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12]
 
 def run_cmd(cmd, env=None, check=True):
     full_env = os.environ.copy()
@@ -86,7 +86,7 @@ def main():
         csv_path = os.path.join(BASELINES_DIR, f"rosters_{strat_key}_baseline_{num}.csv")
         if os.path.exists(csv_path):
             df = pd.read_csv(csv_path)
-            for yr, n_w in [(2025, 13), (2026, 10)]:
+            for yr, n_w in [(2025, len(EVAL_WEEKS_2025)), (2026, len(EVAL_WEEKS_2026))]:
                 df_yr = df[df["year"] == yr]
                 if "lineup_rank" in df_yr.columns:
                     df_yr = df_yr[df_yr["lineup_rank"] == 1]

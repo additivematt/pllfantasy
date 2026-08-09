@@ -94,19 +94,6 @@
     ],
     "MC_Win_160": [
         {
-            "firstName": "Chris",
-            "lastName": "Kavanagh",
-            "team": "RED",
-            "opponent": "OUT",
-            "game_id": "2025_semifinal_1",
-            "position": "Attack",
-            "salary": 36,
-            "mc_ev": 34.6,
-            "mc_p90": 0.0,
-            "mc_p10": 0.0,
-            "actualPoints": 18.0
-        },
-        {
             "firstName": "Jeff",
             "lastName": "Teat",
             "team": "ATL",
@@ -120,43 +107,17 @@
             "actualPoints": 47.0
         },
         {
-            "firstName": "Jonathan",
-            "lastName": "Donville",
+            "firstName": "Logan",
+            "lastName": "McNaney",
             "team": "OUT",
             "opponent": "RED",
             "game_id": "2025_semifinal_1",
-            "position": "Midfield",
-            "salary": 10,
-            "mc_ev": 18.0,
+            "position": "Goalie",
+            "salary": 39,
+            "mc_ev": 35.4,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
-            "actualPoints": 8.0
-        },
-        {
-            "firstName": "Zach",
-            "lastName": "Currier",
-            "team": "WAT",
-            "opponent": "ATL",
-            "game_id": "2025_semifinal_2",
-            "position": "Midfield",
-            "salary": 22,
-            "mc_ev": 19.8,
-            "mc_p90": 0.0,
-            "mc_p10": 0.0,
-            "actualPoints": 15.0
-        },
-        {
-            "firstName": "Michael",
-            "lastName": "Grace",
-            "team": "ATL",
-            "opponent": "WAT",
-            "game_id": "2025_semifinal_2",
-            "position": "Defense",
-            "salary": 13,
-            "mc_ev": 13.5,
-            "mc_p90": 0.0,
-            "mc_p10": 0.0,
-            "actualPoints": 2.0
+            "actualPoints": 25.0
         },
         {
             "firstName": "Trevor",
@@ -172,17 +133,56 @@
             "actualPoints": 8.0
         },
         {
-            "firstName": "Logan",
-            "lastName": "McNaney",
-            "team": "OUT",
-            "opponent": "RED",
-            "game_id": "2025_semifinal_1",
-            "position": "Goalie",
-            "salary": 39,
-            "mc_ev": 35.4,
+            "firstName": "CJ",
+            "lastName": "Kirst",
+            "team": "WAT",
+            "opponent": "ATL",
+            "game_id": "2025_semifinal_2",
+            "position": "Attack",
+            "salary": 6,
+            "mc_ev": 30.3,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
-            "actualPoints": 25.0
+            "actualPoints": 30.0
+        },
+        {
+            "firstName": "Zach",
+            "lastName": "Currier",
+            "team": "WAT",
+            "opponent": "ATL",
+            "game_id": "2025_semifinal_2",
+            "position": "Midfield",
+            "salary": 22,
+            "mc_ev": 19.8,
+            "mc_p90": 0.0,
+            "mc_p10": 0.0,
+            "actualPoints": 15.0
+        },
+        {
+            "firstName": "Andrew",
+            "lastName": "McAdorey",
+            "team": "RED",
+            "opponent": "OUT",
+            "game_id": "2025_semifinal_1",
+            "position": "Midfield",
+            "salary": 32,
+            "mc_ev": 17.3,
+            "mc_p90": 0.0,
+            "mc_p10": 0.0,
+            "actualPoints": 9.0
+        },
+        {
+            "firstName": "Michael",
+            "lastName": "Grace",
+            "team": "ATL",
+            "opponent": "WAT",
+            "game_id": "2025_semifinal_2",
+            "position": "Defense",
+            "salary": 13,
+            "mc_ev": 13.5,
+            "mc_p90": 0.0,
+            "mc_p10": 0.0,
+            "actualPoints": 2.0
         }
     ],
     "MC_Ceil_90": [
@@ -376,7 +376,9 @@
     "Core": [
         "Jeff Teat",
         "Trevor Baptiste",
+        "CJ Kirst",
         "Zach Currier",
+        "Andrew McAdorey",
         "Michael Grace"
     ],
     "Sleepers": [],
@@ -462,16 +464,12 @@
                 "strategy": "MC_Win_160",
                 "strategyLabel": "MC Win 160",
                 "in": [
-                    "Chris Kavanagh",
-                    "Jonathan Donville",
                     "Logan McNaney"
                 ],
                 "out": [
-                    "Liam Entenmann",
-                    "CJ Kirst",
-                    "Andrew McAdorey"
+                    "Liam Entenmann"
                 ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Chris Kavanagh (Attack, 36c), Jonathan Donville (Midfield, 10c), Logan McNaney (Goalie, 39c)) to increase the joint probability of the entire lineup hitting the 160 target score."
+                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Logan McNaney (Goalie, 39c)) to increase the joint probability of the entire lineup hitting the 160 target score."
             },
             {
                 "strategy": "MC_Ceil_90",
