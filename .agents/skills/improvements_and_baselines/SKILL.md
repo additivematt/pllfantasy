@@ -24,6 +24,10 @@ All improvement ideas, including feature proposals, architectural refactors, sim
 To ensure that changes are mathematically sound and do not degrade model performance:
 - **Baseline Metric**: The table below defines the official baseline backtest metrics established on **17 July 2026** (Baseline 10, Generative Faceoff Heuristic + Salary as a Feature + Asymmetric Class Weighting + Pool Blending).
 
+> [!CAUTION]
+> **STRICT MANDATE: Baseline CSV Archives MUST Always Store All Top-5 Candidate Lineups (Ranks 1 to 5)**:
+> When creating, archiving, or populating baseline roster CSVs (`baselines/rosters_<strategy>_baseline_<N>.csv`), the files MUST ALWAYS contain all 5 distinct candidate rosters for every week (with a `lineup_rank` column `1..5`, yielding 35 player rows per week $\times N_{\text{weeks}}$). **NEVER delete, strip, or filter out ranks 2 through 5** from baseline roster CSV archives. Ranks 2–5 are mandatory for evaluating Top-5 portfolio performance metrics (`Top-5 Mean`, `Top-5 Max`, `Top-5 Min`, `Top-5 Max Ceiling %`).
+
 ### Baseline 11 (Player-Anchored EV — 7 August 2026)
 
 Established after fixing the Monte Carlo expected value calculation to use **Player-Anchored EV** ($\text{EV} = \text{player\_fp\_avg} \times (0.5 + P_{\text{Boom}} / 100)$), which anchors expectations to individual player caliber while using $P_{\text{Boom}}$ as a dynamic matchup factor. This completely eliminated artificial position-mean regression penalties on top-tier superstars.

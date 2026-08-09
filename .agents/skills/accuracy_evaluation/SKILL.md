@@ -42,7 +42,11 @@ The evaluation harness outputs several key metrics to measure model performance:
 
 ### 5. Top-5 Candidate Roster Pool Metrics (Mandatory for Roster Backtests)
 > [!IMPORTANT]
-> To eliminate single-lineup random outcome noise (where 1 player scratch or boom/bust outcome creates 50+ point swings in small 10–13 slate samples), **all future roster backtests MUST evaluate the Top-5 Candidate Roster Pool**. The production optimizer (`06_optimize_lineups.py`) automatically generates and saves ranks 1 through 5 (with a `lineup_rank` column `1..5`) directly into the archived roster CSVs (`baselines/rosters_<strategy>_baseline_<N>.csv`).
+> To eliminate single-lineup random outcome noise (where 1 player scratch or boom/bust outcome creates 50+ point swings in small 10–13 slate samples), **all future roster backtests MUST evaluate the Top-5 Candidate Roster Pool**. 
+
+> [!CAUTION]
+> **STRICT MANDATE: Baseline CSV Archives MUST Always Store All Top-5 Candidate Lineups (Ranks 1 to 5)**:
+> When creating, archiving, or populating baseline roster CSVs (`baselines/rosters_<strategy>_baseline_<N>.csv`), the files MUST ALWAYS contain all 5 distinct candidate rosters for every week (with a `lineup_rank` column `1..5`, yielding 35 player rows per week $\times N_{\text{weeks}}$). **NEVER delete, strip, or filter out ranks 2 through 5** from baseline roster CSV archives.
 
 For every backtested week, the evaluation harness calculates:
 1. **`Top-1 Score`**: The actual points scored by the single #1 recommended lineup.
