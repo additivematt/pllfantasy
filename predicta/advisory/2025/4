@@ -94,30 +94,17 @@
     ],
     "MC_Win_160": [
         {
-            "firstName": "Logan",
-            "lastName": "McNaney",
-            "team": "OUT",
-            "opponent": "ARC",
-            "game_id": "2025-ev-15",
-            "position": "Goalie",
-            "salary": 36,
-            "mc_ev": 40.6,
-            "mc_p90": 70.4,
-            "mc_p10": 9.7,
-            "actualPoints": 41.0
-        },
-        {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
-            "team": "ATL",
-            "opponent": "WAT",
-            "game_id": "2025-ev-13",
-            "position": "Faceoff",
-            "salary": 35,
-            "mc_ev": 40.4,
-            "mc_p90": 77.3,
-            "mc_p10": 14.8,
-            "actualPoints": 12.4
+            "firstName": "TJ",
+            "lastName": "Malone",
+            "team": "WHP",
+            "opponent": "CHA",
+            "game_id": "2025-ev-16",
+            "position": "Attack",
+            "salary": 46,
+            "mc_ev": 39.0,
+            "mc_p90": 47.6,
+            "mc_p10": 15.6,
+            "actualPoints": 7.0
         },
         {
             "firstName": "Jeff",
@@ -133,32 +120,6 @@
             "actualPoints": 93.0
         },
         {
-            "firstName": "Scott",
-            "lastName": "Smith",
-            "team": "CHA",
-            "opponent": "WHP",
-            "game_id": "2025-ev-16",
-            "position": "Defense",
-            "salary": 18,
-            "mc_ev": 27.5,
-            "mc_p90": 71.4,
-            "mc_p10": 0.0,
-            "actualPoints": 11.0
-        },
-        {
-            "firstName": "Tom",
-            "lastName": "Schreiber",
-            "team": "ARC",
-            "opponent": "OUT",
-            "game_id": "2025-ev-15",
-            "position": "Midfield",
-            "salary": 32,
-            "mc_ev": 25.6,
-            "mc_p90": 54.6,
-            "mc_p10": 4.5,
-            "actualPoints": 27.0
-        },
-        {
             "firstName": "Zach",
             "lastName": "Currier",
             "team": "WAT",
@@ -172,17 +133,56 @@
             "actualPoints": 29.0
         },
         {
-            "firstName": "Mac",
-            "lastName": "O'Keefe",
+            "firstName": "Grant",
+            "lastName": "Ament",
             "team": "ARC",
             "opponent": "OUT",
             "game_id": "2025-ev-15",
-            "position": "Attack",
-            "salary": 15,
-            "mc_ev": 22.7,
-            "mc_p90": 57.2,
+            "position": "Midfield",
+            "salary": 21,
+            "mc_ev": 17.8,
+            "mc_p90": 36.2,
+            "mc_p10": 3.1,
+            "actualPoints": 5.0
+        },
+        {
+            "firstName": "Scott",
+            "lastName": "Smith",
+            "team": "CHA",
+            "opponent": "WHP",
+            "game_id": "2025-ev-16",
+            "position": "Defense",
+            "salary": 18,
+            "mc_ev": 27.5,
+            "mc_p90": 71.4,
             "mc_p10": 0.0,
-            "actualPoints": 22.0
+            "actualPoints": 11.0
+        },
+        {
+            "firstName": "Trevor",
+            "lastName": "Baptiste",
+            "team": "ATL",
+            "opponent": "WAT",
+            "game_id": "2025-ev-13",
+            "position": "Faceoff",
+            "salary": 35,
+            "mc_ev": 40.4,
+            "mc_p90": 77.3,
+            "mc_p10": 14.8,
+            "actualPoints": 12.4
+        },
+        {
+            "firstName": "Colin",
+            "lastName": "Kirst",
+            "team": "CAN",
+            "opponent": "WHP",
+            "game_id": "2025-ev-14",
+            "position": "Goalie",
+            "salary": 20,
+            "mc_ev": 29.0,
+            "mc_p90": 44.9,
+            "mc_p10": 15.0,
+            "actualPoints": 37.0
         }
     ],
     "MC_Ceil_90": [
@@ -374,13 +374,10 @@
         }
     ],
     "Core": [
-        "Logan McNaney",
         "Trevor Baptiste",
         "Jeff Teat",
         "Scott Smith",
-        "Tom Schreiber",
-        "Zach Currier",
-        "Mac O'Keefe"
+        "Zach Currier"
     ],
     "Sleepers": [],
     "RecommendedStrategy": "MC_EV",
@@ -453,7 +450,23 @@
                 ]
             }
         ],
-        "Variants": []
+        "Variants": [
+            {
+                "strategy": "MC_Win_160",
+                "strategyLabel": "MC Win 160",
+                "in": [
+                    "TJ Malone",
+                    "Grant Ament",
+                    "Colin Kirst"
+                ],
+                "out": [
+                    "Logan McNaney",
+                    "Tom Schreiber",
+                    "Mac O'Keefe"
+                ],
+                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like TJ Malone (Attack, 46c), Grant Ament (Midfield, 21c), Colin Kirst (Goalie, 20c)) to increase the joint probability of the entire lineup hitting the 160 target score."
+            }
+        ]
     },
     "TacticalAdvice": {
         "FloorLocks": [],

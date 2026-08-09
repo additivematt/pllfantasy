@@ -187,19 +187,6 @@
     ],
     "MC_Ceil_90": [
         {
-            "firstName": "Logan",
-            "lastName": "McNaney",
-            "team": "OUT",
-            "opponent": "CHA",
-            "game_id": "2025-ev-35",
-            "position": "Goalie",
-            "salary": 44,
-            "mc_ev": 47.7,
-            "mc_p90": 81.6,
-            "mc_p10": 18.9,
-            "actualPoints": 24.0
-        },
-        {
             "firstName": "Jeff",
             "lastName": "Teat",
             "team": "ATL",
@@ -213,30 +200,30 @@
             "actualPoints": 25.0
         },
         {
-            "firstName": "Owen",
-            "lastName": "Hiltz",
-            "team": "CHA",
-            "opponent": "OUT",
-            "game_id": "2025-ev-35",
+            "firstName": "Chris",
+            "lastName": "Kavanagh",
+            "team": "RED",
+            "opponent": "WHP",
+            "game_id": "2025-ev-37",
             "position": "Attack",
-            "salary": 46,
-            "mc_ev": 38.8,
-            "mc_p90": 78.2,
-            "mc_p10": 4.8,
-            "actualPoints": 53.0
+            "salary": 36,
+            "mc_ev": 34.0,
+            "mc_p90": 60.3,
+            "mc_p10": 9.1,
+            "actualPoints": 82.0
         },
         {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2025-ev-38",
-            "position": "Faceoff",
-            "salary": 24,
-            "mc_ev": 30.4,
-            "mc_p90": 59.0,
-            "mc_p10": 11.3,
-            "actualPoints": 6.9
+            "firstName": "Andrew",
+            "lastName": "McAdorey",
+            "team": "RED",
+            "opponent": "WHP",
+            "game_id": "2025-ev-37",
+            "position": "Midfield",
+            "salary": 28,
+            "mc_ev": 24.2,
+            "mc_p90": 67.8,
+            "mc_p10": 0.0,
+            "actualPoints": 16.0
         },
         {
             "firstName": "Zach",
@@ -265,17 +252,30 @@
             "actualPoints": 0.0
         },
         {
-            "firstName": "Jared",
-            "lastName": "Bernhardt",
+            "firstName": "Trevor",
+            "lastName": "Baptiste",
+            "team": "ATL",
+            "opponent": "OUT",
+            "game_id": "2025-ev-38",
+            "position": "Faceoff",
+            "salary": 24,
+            "mc_ev": 30.4,
+            "mc_p90": 59.0,
+            "mc_p10": 11.3,
+            "actualPoints": 6.9
+        },
+        {
+            "firstName": "Logan",
+            "lastName": "McNaney",
             "team": "OUT",
             "opponent": "CHA",
             "game_id": "2025-ev-35",
-            "position": "Midfield",
-            "salary": 15,
-            "mc_ev": 18.6,
-            "mc_p90": 42.8,
-            "mc_p10": 0.0,
-            "actualPoints": 21.0
+            "position": "Goalie",
+            "salary": 44,
+            "mc_ev": 47.7,
+            "mc_p90": 81.6,
+            "mc_p10": 18.9,
+            "actualPoints": 24.0
         }
     ],
     "MC_Consensus": [],
@@ -467,12 +467,16 @@
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
+                    "Chris Kavanagh",
+                    "Andrew McAdorey",
                     "Logan McNaney"
                 ],
                 "out": [
-                    "Blaze Riorden"
+                    "Blaze Riorden",
+                    "Owen Hiltz",
+                    "Jared Bernhardt"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Logan McNaney (Goalie, 44c)) to maximize the team's 90th percentile ceiling (projecting up to 81.6 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Chris Kavanagh (Attack, 36c), Andrew McAdorey (Midfield, 28c), Logan McNaney (Goalie, 44c)) to maximize the team's 90th percentile ceiling (projecting up to 81.6 pts)."
             }
         ]
     },
