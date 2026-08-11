@@ -632,29 +632,8 @@ function renderPlot(targetId, title, data, yRange = null) {
     // Use locked range if provided (for shared-axis position groups), else auto-scale to data
     const yAxisRange = yRange !== null ? yRange : [Math.max(0, yMin - yPad), yMax + yPad * 2];
 
-    // For overlap detection use the actual axis range
-    const yAxisMin = yAxisRange[0];
-    const yAxisSpan = yAxisRange[1] - yAxisRange[0];
-    const placed = [];
-    const textLabels = sortedData.map((d, i) => {
-        const xNorm = (d.salary - xMin) / (xMax - xMin || 1);
-        const yNorm = (sortedY[i] - yAxisMin) / (yAxisSpan || 1);
-        
-        let overlap = false;
-        for (let p of placed) {
-            const dist = Math.sqrt(Math.pow(p.x - xNorm, 2) + Math.pow(p.y - yNorm, 2));
-            if (dist < 0.07) {
-                overlap = true;
-                break;
-            }
-        }
-        
-        if (!overlap || couldaSet.has(`${d.firstName} ${d.lastName}|${d.game_id}`)) {
-            placed.push({ x: xNorm, y: yNorm });
-            return d.lastName;
-        }
-        return "";
-    });
+    // Initial textLabels array (will be dynamically optimized by updateDynamicLabels in pixel space)
+    const textLabels = sortedData.map(d => d.lastName);
 
     // Custom marker line colors, widths, and text colors to highlight Coulda players in cyan (#00f0ff)
     const markerLineColors = sortedData.map(d => couldaSet.has(`${d.firstName} ${d.lastName}|${d.game_id}`) ? '#00f0ff' : '#161b22');
@@ -803,10 +782,12 @@ function renderPlot(targetId, title, data, yRange = null) {
     };
 
     Plotly.purge(targetId);
-    Plotly.newPlot(targetId, [trace], layout, { responsive: true, displayModeBar: false });
+    const plotEl = document.getElementById(targetId);
+    Plotly.newPlot(targetId, [trace], layout, { responsive: true, displayModeBar: 'hover', scrollZoom: true }).then(() => {
+        updateDynamicLabels(plotEl);
+    });
 
     // Custom Tooltip Logic
-    const plotEl = document.getElementById(targetId);
     const tooltip = document.getElementById('custom-tooltip');
 
     plotEl.on('plotly_click', function(data){
@@ -823,6 +804,217 @@ function renderPlot(targetId, title, data, yRange = null) {
         tooltip.innerHTML = buildTooltipBodyHtml(p, Math.max(...sortedData.map(d => d.mc_p90 || 0), 1), false);
         renderTooltipSparkline(p.firstName, p.lastName, p.opponent);
 
+    });
+
+    // Attach relayout & autosize listeners for dynamic label updating on zoom / pan / reset / resize
+    plotEl.on('plotly_relayout', function() {
+        if (plotEl._isUpdatingLabels) return;
+        if (plotEl._relayoutTimer) cancelAnimationFrame(plotEl._relayoutTimer);
+        plotEl._relayoutTimer = requestAnimationFrame(() => {
+            updateDynamicLabels(plotEl);
+        });
+    });
+
+    plotEl.on('plotly_autosize', function() {
+        if (plotEl._isUpdatingLabels) return;
+        if (plotEl._relayoutTimer) cancelAnimationFrame(plotEl._relayoutTimer);
+        plotEl._relayoutTimer = requestAnimationFrame(() => {
+            updateDynamicLabels(plotEl);
+        });
+    });
+}
+
+/**
+ * Dynamically computes label visibility and non-overlapping multi-directional text positions in pixel space.
+ * Called initially after plot rendering and on every plotly_relayout (zoom / pan / reset / resize).
+ */
+function updateDynamicLabels(plotEl) {
+    if (!plotEl || !plotEl._fullLayout || !plotEl.data || plotEl.data.length === 0) return;
+    if (plotEl._isUpdatingLabels) return;
+
+    const fullLayout = plotEl._fullLayout;
+    const xa = fullLayout.xaxis;
+    const ya = fullLayout.yaxis;
+    if (!xa || !ya) return;
+
+    const xRange = xa.range;
+    const yRange = ya.range;
+    const trace = plotEl.data[0];
+    const sortedData = trace.customdata;
+    if (!sortedData || !Array.isArray(sortedData)) return;
+
+    const couldaSet = getCouldaSet();
+    const dotSizes = trace.marker ? trace.marker.size : 10;
+    const getMcEv = d => (d.mc_ev != null && d.mc_ev > 0) ? d.mc_ev : (d.fp_season_avg || 0);
+
+    const availablePositions = [
+        'top center',
+        'bottom center',
+        'middle right',
+        'middle left',
+        'top right',
+        'top left',
+        'bottom right',
+        'bottom left'
+    ];
+
+    function getBoundingRect(px, py, r, text, pos) {
+        const textLen = text ? text.length : 0;
+        const w = textLen * 6.2 + 8;
+        const h = 13;
+        const pad = 2;
+
+        let x1, x2, y1, y2;
+        switch (pos) {
+            case 'bottom center':
+                x1 = px - w / 2; x2 = px + w / 2;
+                y1 = py + r + pad; y2 = py + r + pad + h;
+                break;
+            case 'middle right':
+                x1 = px + r + pad + 2; x2 = px + r + pad + 2 + w;
+                y1 = py - h / 2; y2 = py + h / 2;
+                break;
+            case 'middle left':
+                x1 = px - r - pad - 2 - w; x2 = px - r - pad - 2;
+                y1 = py - h / 2; y2 = py + h / 2;
+                break;
+            case 'top right':
+                x1 = px + r + pad; x2 = px + r + pad + w;
+                y1 = py - r - h; y2 = py - r;
+                break;
+            case 'top left':
+                x1 = px - r - pad - w; x2 = px - r - pad;
+                y1 = py - r - h; y2 = py - r;
+                break;
+            case 'bottom right':
+                x1 = px + r + pad; x2 = px + r + pad + w;
+                y1 = py + r; y2 = py + r + h;
+                break;
+            case 'bottom left':
+                x1 = px - r - pad - w; x2 = px - r - pad;
+                y1 = py + r; y2 = py + r + h;
+                break;
+            case 'top center':
+            default:
+                x1 = px - w / 2; x2 = px + w / 2;
+                y1 = py - r - pad - h; y2 = py - r - pad;
+                break;
+        }
+        return { x1, x2, y1, y2 };
+    }
+
+    function rectsOverlap(r1, r2, buffer = 3) {
+        return !(
+            r1.x2 + buffer < r2.x1 ||
+            r1.x1 - buffer > r2.x2 ||
+            r1.y2 + buffer < r2.y1 ||
+            r1.y1 - buffer > r2.y2
+        );
+    }
+
+    function rectOverlapsCircle(r1, cx, cy, cr, buffer = 2) {
+        const closestX = Math.max(r1.x1, Math.min(cx, r1.x2));
+        const closestY = Math.max(r1.y1, Math.min(cy, r1.y2));
+        const dx = cx - closestX;
+        const dy = cy - closestY;
+        return (dx * dx + dy * dy) < (cr + buffer) * (cr + buffer);
+    }
+
+    const xSpan = Math.abs(xRange[1] - xRange[0]);
+    const ySpan = Math.abs(yRange[1] - yRange[0]);
+    const minX = Math.min(...xRange) - xSpan * 0.05;
+    const maxX = Math.max(...xRange) + xSpan * 0.05;
+    const minY = Math.min(...yRange) - ySpan * 0.05;
+    const maxY = Math.max(...yRange) + ySpan * 0.05;
+
+    const dotsInfo = sortedData.map((d, i) => {
+        const salary = d.salary;
+        const ev = getMcEv(d);
+        const size = Array.isArray(dotSizes) ? dotSizes[i] : (dotSizes || 10);
+        const r = size / 2;
+
+        let px, py;
+        if (typeof xa.c2p === 'function') {
+            px = xa.c2p(salary);
+            py = ya.c2p(ev);
+        } else {
+            px = ((salary - xRange[0]) / (xRange[1] - xRange[0] || 1)) * (xa._length || 600);
+            py = ((yRange[1] - ev) / (yRange[1] - yRange[0] || 1)) * (ya._length || 400);
+        }
+
+        const inView = (salary >= minX && salary <= maxX && ev >= minY && ev <= maxY);
+        const isCoulda = couldaSet.has(`${d.firstName} ${d.lastName}|${d.game_id}`);
+
+        return {
+            index: i,
+            data: d,
+            lastName: d.lastName || '',
+            px,
+            py,
+            r,
+            inView,
+            isCoulda
+        };
+    });
+
+    const placedLabels = [];
+    const newTextLabels = new Array(sortedData.length).fill("");
+    const newTextPositions = new Array(sortedData.length).fill("top center");
+
+    for (const dot of dotsInfo) {
+        if (!dot.inView || !dot.lastName) continue;
+
+        let bestPos = null;
+        let bestRect = null;
+
+        for (const pos of availablePositions) {
+            const rect = getBoundingRect(dot.px, dot.py, dot.r, dot.lastName, pos);
+
+            let collision = false;
+            for (const placed of placedLabels) {
+                if (rectsOverlap(rect, placed.rect)) {
+                    collision = true;
+                    break;
+                }
+            }
+
+            if (!collision) {
+                for (const otherDot of dotsInfo) {
+                    if (otherDot.index === dot.index || !otherDot.inView) continue;
+                    if (rectOverlapsCircle(rect, otherDot.px, otherDot.py, otherDot.r)) {
+                        collision = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!collision) {
+                bestPos = pos;
+                bestRect = rect;
+                break;
+            }
+        }
+
+        if (!bestPos && dot.isCoulda) {
+            bestPos = 'top center';
+            bestRect = getBoundingRect(dot.px, dot.py, dot.r, dot.lastName, bestPos);
+        }
+
+        if (bestPos && bestRect) {
+            newTextLabels[dot.index] = dot.lastName;
+            newTextPositions[dot.index] = bestPos;
+            placedLabels.push({ rect: bestRect, dotIndex: dot.index });
+        }
+    }
+
+    plotEl._isUpdatingLabels = true;
+    Plotly.restyle(plotEl, {
+        text: [newTextLabels],
+        textposition: [newTextPositions]
+    }, [0]).then(() => {
+        plotEl._isUpdatingLabels = false;
+    }).catch(() => {
+        plotEl._isUpdatingLabels = false;
     });
 }
 
