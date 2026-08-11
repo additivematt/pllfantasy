@@ -164,7 +164,7 @@ class StatsDatabase:
         return players
 
     def _calc_fantasy(self, s):
-        pts = (s.get("onePointGoals", 0) * 10 + s.get("twoPointGoals", 0) * 15 + s.get("assists", 0) * 7 + s.get("faceoffsWon", 0) * 0.8 + (s.get("faceoffs", 0) - s.get("faceoffsWon", 0)) * -0.5 + s.get("groundBalls", 0) + s.get("saves", 0) * 3 + s.get("causedTurnovers", 0) * 10)
+        pts = (s.get("onePointGoals", 0) * 10 + s.get("twoPointGoals", 0) * 20 + s.get("assists", 0) * 10 + s.get("turnovers", 0) * -3 + s.get("goalsAgainst", 0) * -1 + s.get("twoPointGoalsAgainst", 0) * -2 + s.get("faceoffsWon", 0) * 0.8 + (s.get("faceoffs", 0) - s.get("faceoffsWon", 0)) * -0.5 + s.get("groundBalls", 0) + s.get("saves", 0) * 3 + s.get("causedTurnovers", 0) * 10)
         if s.get("onePointGoals", 0) + s.get("twoPointGoals", 0) >= 3: pts += 5
         if s.get("assists", 0) >= 3: pts += 5
         if s.get("causedTurnovers", 0) >= 3: pts += 5
@@ -180,6 +180,10 @@ class RosterEvaluator:
         """Audits weekly roster according to rules and returns actual points scored."""
         week_roster = df_roster[(df_roster["year"] == year) & (df_roster["week"] == week)].copy()
         
+        # If baseline file contains all 5 candidate ranks, evaluate rank 1 for Top-1 score
+        if "lineup_rank" in week_roster.columns:
+            week_roster = week_roster[week_roster["lineup_rank"] == 1].copy()
+
         if week_roster.empty:
             return None, ["Roster is empty."]
 
@@ -227,23 +231,53 @@ class RosterEvaluator:
 
         return total_actual_points, errors
 
+    def evaluate_top5_pool(self, df_roster, year, week):
+        """Evaluates the candidate pool of Top 5 distinct recommended rosters per week.
+
+        Computes Top-1, Top-5 Mean, Top-5 Max, and Top-5 Min scores.
+        """
+        week_df = df_roster[(df_roster["year"] == year) & (df_roster["week"] == week)].copy()
+        if week_df.empty or "lineup_rank" not in week_df.columns:
+            return None
+
+        rank_scores = []
+        ranks = sorted(week_df["lineup_rank"].unique())
+        
+        for r in ranks:
+            rank_roster = week_df[week_df["lineup_rank"] == r]
+            if len(rank_roster) != LINEUP_SIZE:
+                continue
+            r_pts = 0.0
+            for _, row in rank_roster.iterrows():
+                pts = self.stats_db.get_actual_points(
+                    year, week, row["firstName"], row["lastName"], row.get("eventId")
+                )
+                r_pts += pts if pts is not None else 0.0
+            rank_scores.append(r_pts)
+
+        if not rank_scores:
+            return None
+
+        return {
+            "top1": rank_scores[0],
+            "scores": rank_scores,
+            "mean": float(np.mean(rank_scores)),
+            "max": float(np.max(rank_scores)),
+            "min": float(np.min(rank_scores)),
+            "n_ranks": len(rank_scores)
+        }
+
     def compute_vor(self, df_roster, year, week, week_players):
         """Computes Value Over Replacement (VOR) for each selected player.
 
         VOR = Player Actual FP - Median FP of all players who played at that
         position that week. Measures whether each individual selection decision
         beat the positional baseline, independent of lineup-level luck.
-
-        Returns:
-            dict with keys:
-                'total_vor': sum of VOR across all 7 slots
-                'avg_vor': mean VOR per slot (total_vor / 7)
-                'per_position': dict mapping position code -> list of
-                    {'player': str, 'actual': float, 'median': float, 'vor': float}
-                'player_details': list of per-player VOR detail dicts
-            or None if the roster is missing.
         """
         week_roster = df_roster[(df_roster["year"] == year) & (df_roster["week"] == week)].copy()
+        if "lineup_rank" in week_roster.columns:
+            week_roster = week_roster[week_roster["lineup_rank"] == 1].copy()
+
         if week_roster.empty:
             return None
 
@@ -700,9 +734,26 @@ def main():
             all_vor_details.extend(vor_result["player_details"])
             weekly_vor_totals.append(vor_result["total_vor"])
 
+        # 5. Top-5 Candidate Roster Pool Evaluation
+        top5_result = roster_eval.evaluate_top5_pool(df_roster, args.year, w)
+        top5_summary = {}
+        if top5_result:
+            max_ceil_pct = (top5_result["max"] / coulda_score * 100.0) if coulda_score > 0 else 0.0
+            mean_ceil_pct = (top5_result["mean"] / coulda_score * 100.0) if coulda_score > 0 else 0.0
+            top5_summary = {
+                "top1": top5_result["top1"],
+                "mean": top5_result["mean"],
+                "max": top5_result["max"],
+                "min": top5_result["min"],
+                "max_ceil_pct": max_ceil_pct,
+                "mean_ceil_pct": mean_ceil_pct
+            }
+
         pct_of_coulda = (score / coulda_score * 100.0) if coulda_score > 0 else 0.0
         vor_str = f" | VOR: {vor_result['total_vor']:+.1f} (avg {vor_result['avg_vor']:+.1f}/slot)" if vor_result else ""
         print(f"  -> Score: {score:.1f} pts | Coulda Optimal: {coulda_score:.1f} pts ({pct_of_coulda:.1f}% of ceiling){vor_str}")
+        if top5_summary:
+            print(f"     [Top-5 Pool] Top-1: {top5_summary['top1']:.1f} | Mean: {top5_summary['mean']:.1f} | Max: {top5_summary['max']:.1f} ({top5_summary['max_ceil_pct']:.1f}% ceil) | Min: {top5_summary['min']:.1f}")
         
         weeks_data[str(w)] = {
             "actual_score": score,
@@ -710,7 +761,8 @@ def main():
             "pct_of_ceiling": pct_of_coulda,
             "errors": errors,
             "prediction_metrics": pred_metrics,
-            "vor": vor_summary
+            "vor": vor_summary,
+            "top5": top5_summary
         }
         
         total_score += score
@@ -720,19 +772,53 @@ def main():
     print(f"\n{'='*75}")
     print(f" SEASON SUMMARY REPORT ({args.year})")
     print(f"{'='*75}")
-    print(f"{'Week':<8} | {'Lineup Score':<12} | {'Coulda Ceiling':<15} | {'Ceiling %':<10} | {'Total VOR':<10}")
-    print(f"{'-'*75}")
-    for w in sorted(weeks_data.keys(), key=int):
-        wd = weeks_data[w]
-        vor_val = wd.get('vor', {}).get('total_vor')
-        vor_str = f"{vor_val:+.1f}" if vor_val is not None else "N/A"
-        print(f"Week {w:<3} | {wd['actual_score']:<12.1f} | {wd['coulda_score']:<15.1f} | {wd['pct_of_ceiling']:<9.1f}% | {vor_str}")
-    print(f"{'-'*75}")
     
+    # Check if Top-5 data is present across weeks
+    has_top5 = any("top5" in wd and wd["top5"] for wd in weeks_data.values())
+
     total_pct = (total_score / total_coulda * 100.0) if total_coulda > 0 else 0.0
-    print(f"TOTAL    | {total_score:<12.1f} | {total_coulda:<15.1f} | {total_pct:<9.1f}% |")
-    print(f"Avg/Week | {total_score/len(weeks_data):<12.1f} | {total_coulda/len(weeks_data):<15.1f} | {total_pct:<9.1f}% |")
-    print(f"{'='*75}")
+
+    if has_top5:
+        print(f"{'Week':<6} | {'Top-1 Score':<11} | {'Top-5 Mean':<11} | {'Top-5 Max':<11} | {'Coulda Max':<11} | {'Top-5 Max Ceil %':<16} | {'Total VOR':<9}")
+        print(f"{'-'*85}")
+        for w in sorted(weeks_data.keys(), key=int):
+            wd = weeks_data[w]
+            t5 = wd.get("top5", {})
+            vor_val = wd.get("vor", {}).get("total_vor")
+            vor_str = f"{vor_val:+.1f}" if vor_val is not None else "N/A"
+            t1_val = t5.get("top1", wd["actual_score"])
+            t5_mean = t5.get("mean", 0.0)
+            t5_max = t5.get("max", 0.0)
+            max_ceil = t5.get("max_ceil_pct", 0.0)
+            print(f"W{w:<4} | {t1_val:<11.1f} | {t5_mean:<11.1f} | {t5_max:<11.1f} | {wd['coulda_score']:<11.1f} | {max_ceil:<16.1f}% | {vor_str}")
+        print(f"{'-'*85}")
+        
+        n_wks = len(weeks_data)
+        avg_t1 = total_score / n_wks
+        avg_t5_mean = sum(wd.get("top5", {}).get("mean", 0.0) for wd in weeks_data.values()) / n_wks
+        avg_t5_max = sum(wd.get("top5", {}).get("max", 0.0) for wd in weeks_data.values()) / n_wks
+        avg_t5_min = sum(wd.get("top5", {}).get("min", 0.0) for wd in weeks_data.values()) / n_wks
+        avg_coulda = total_coulda / n_wks
+        avg_max_ceil = (avg_t5_max / avg_coulda * 100.0) if avg_coulda > 0 else 0.0
+        avg_t1_ceil = (avg_t1 / avg_coulda * 100.0) if avg_coulda > 0 else 0.0
+
+        print(f"TOTAL  | {total_score:<11.1f} | {avg_t5_mean*n_wks:<11.1f} | {avg_t5_max*n_wks:<11.1f} | {total_coulda:<11.1f} | {avg_max_ceil:<16.1f}% |")
+        print(f"AVG/WK | {avg_t1:<11.1f} | {avg_t5_mean:<11.1f} | {avg_t5_max:<11.1f} | {avg_coulda:<11.1f} | {avg_max_ceil:<16.1f}% |")
+        print(f" (Top-1 Avg: {avg_t1:.1f} pts/wk ({avg_t1_ceil:.1f}% ceil) | Top-5 Min Avg: {avg_t5_min:.1f} pts/wk)")
+        print(f"{'='*85}")
+    else:
+        print(f"{'Week':<8} | {'Lineup Score':<12} | {'Coulda Ceiling':<15} | {'Ceiling %':<10} | {'Total VOR':<10}")
+        print(f"{'-'*75}")
+        for w in sorted(weeks_data.keys(), key=int):
+            wd = weeks_data[w]
+            vor_val = wd.get('vor', {}).get('total_vor')
+            vor_str = f"{vor_val:+.1f}" if vor_val is not None else "N/A"
+            print(f"Week {w:<3} | {wd['actual_score']:<12.1f} | {wd['coulda_score']:<15.1f} | {wd['pct_of_ceiling']:<9.1f}% | {vor_str}")
+        print(f"{'-'*75}")
+        
+        print(f"TOTAL    | {total_score:<12.1f} | {total_coulda:<15.1f} | {total_pct:<9.1f}% |")
+        print(f"Avg/Week | {total_score/len(weeks_data):<12.1f} | {total_coulda/len(weeks_data):<15.1f} | {total_pct:<9.1f}% |")
+        print(f"{'='*75}")
 
     # Output predictions accuracy report if present
     summary_metrics = {

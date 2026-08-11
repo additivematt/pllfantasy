@@ -64,12 +64,19 @@ The evaluation harness outputs several key metrics to measure model performance:
 > **STRICT MANDATE: Baseline CSV Archives MUST Always Store All Top-5 Candidate Lineups (Ranks 1 to 5)**:
 > When creating, archiving, or populating baseline roster CSVs (`baselines/rosters_<strategy>_baseline_<N>.csv`), the files MUST ALWAYS contain all 5 distinct candidate rosters for every week (with a `lineup_rank` column `1..5`, yielding 35 player rows per week $\times N_{\text{weeks}}$). **NEVER delete, strip, or filter out ranks 2 through 5** from baseline roster CSV archives.
 
-For every backtested week, the evaluation harness calculates:
+For every backtested week, the evaluation harness natively calculates and outputs:
 1. **`Top-1 Score`**: The actual points scored by the single #1 recommended lineup.
-2. **`Top-5 Mean Score`**: The average actual points scored across all top 5 recommended lineups.
+2. **`Top-5 Mean Score`**: The average actual points scored across all top 5 recommended lineups (measures portfolio recommendation quality).
 3. **`Top-5 Max Score`**: The maximum actual points scored by the best lineup present in the top 5 advisory recommendations (measures if a slate-winning roster was present in the candidate pool).
 4. **`Top-5 Min Score`**: The minimum actual points scored (floor risk) among the top 5 recommendations.
 5. **`Top-5 Max Ceiling %`**: `Top-5 Max Score / Coulda Max` (the ratio of the candidate pool's best roster to the theoretical optimal ceiling).
+
+**Baseline 11 Top-5 Roster Pool Reference Values (MC_EV)**:
+
+| Season | Top-1 Avg/Wk | Top-5 Mean Avg/Wk | Top-5 Max Avg/Wk | Top-5 Min Avg/Wk | Coulda Max Avg/Wk | Top-5 Max Ceiling % |
+|---|---|---|---|---|---|---|
+| **2025** | **182.6** | **177.5** | **201.9** | **151.5** | 353.2 | **57.2%** |
+| **2026** | **158.2** | **149.3** | **182.1** | **124.8** | 372.9 | **48.8%** |
 
 ---
 
