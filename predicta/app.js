@@ -59,6 +59,17 @@ function sparkFormatPoints(val) {
     return Number.isInteger(rounded) ? rounded.toString() : rounded.toFixed(1);
 }
 
+function getPercentile(arr, p) {
+    if (!arr || arr.length === 0) return 0;
+    const sorted = [...arr].filter(v => v !== null && !isNaN(v)).sort((a, b) => a - b);
+    if (sorted.length === 0) return 0;
+    const index = (sorted.length - 1) * p;
+    const lower = Math.floor(index);
+    const upper = Math.ceil(index);
+    const weight = index - lower;
+    return sorted[lower] * (1 - weight) + sorted[upper] * weight;
+}
+
 function isDNPStat(s) {
     if (!s) return true;
     if (s.isDNP === true) return true;
@@ -217,7 +228,7 @@ function buildTooltipBodyHtml(p, maxCeiling, advisorBadge = false) {
         ${actualPts != null ? `
         <div class="tooltip-row" style="margin-top: 0.6rem; padding-top: 0.6rem; border-top: 1px solid rgba(255, 255, 255, 0.08)">
             <span class="tooltip-label" style="color: #00f0ff; font-weight: 700;">Actual Score</span>
-            <span class="tooltip-value" style="color: #00f0ff; font-weight: 700;">${actualPts.toFixed(1)} pts</span>
+            <span class="tooltip-value" style="color: #00f0ff; font-weight: 700;">${actualPts.toFixed(1)} pts ${p._posRank ? `(#${p._posRank} of ${p._posTotal})` : ''}</span>
         </div>` : ''}
         <div class="sparkline-section">
             <div class="sparkline-title"><span class="sparkline-title-dot"></span>Last 10 Games</div>
@@ -662,8 +673,8 @@ function renderPlot(targetId, title, data, yRange = null) {
     let markerValues, markerMin, markerMax, markerColorscale, colorbarTitle;
 
     if (hasPlayed) {
-        // Color by Actual Score (FP): red = low/bust, green = high/boom
-        markerValues = sortedData.map(d => {
+        // Color by Position Group Percentile Rank: red = bottom 25% (bust), yellow = middle 50% (avg), green = top 25% (boom)
+        const ptsList = sortedData.map(d => {
             let pts = (d.actualPoints != null && !isNaN(Number(d.actualPoints))) ? Number(d.actualPoints) : null;
             if (pts === null && window._playerStatsByName && d.firstName && d.lastName) {
                 const key = `${d.firstName} ${d.lastName}`.toLowerCase().trim();
@@ -679,22 +690,45 @@ function renderPlot(targetId, title, data, yRange = null) {
             }
             return pts != null ? pts : 0;
         });
-        markerMin = Math.max(0, Math.min(...markerValues));
-        markerMax = Math.max(...markerValues);
-        if (markerMin === markerMax) markerMax = markerMin + 1;
+
+        // Determine positional rank for each player within this specific position chart
+        const sortedPts = [...ptsList].sort((a, b) => b - a);
+        const totalInGroup = sortedPts.length;
+
+        markerValues = sortedData.map((d, idx) => {
+            const pts = ptsList[idx];
+            const rank = sortedPts.indexOf(pts) + 1; // 1-indexed rank
+            d._posRank = rank;
+            d._posTotal = totalInGroup;
+            if (totalInGroup <= 1) return 1.0;
+            // Fractional percentile rank within position group (1.0 = #1 top score in position, 0.0 = bottom score)
+            return (totalInGroup - rank) / (totalInGroup - 1);
+        });
+
+        markerMin = 0;
+        markerMax = 1;
+
         markerColorscale = [
-            [0,   'rgb(215,48,39)'],  // Red (0 / low score)
-            [0.25, 'rgb(253,174,97)'], // Orange
-            [0.5, 'rgb(255,255,191)'], // Yellow
-            [0.75, 'rgb(166,217,106)'], // Light green
-            [1,   'rgb(26,152,80)']    // Deep green (high actual score)
+            [0,    'rgb(215,48,39)'],  // Red (0% / Bottom 25% - Bust)
+            [0.25, 'rgb(253,174,97)'], // Orange (25% boundary)
+            [0.5,  'rgb(255,255,191)'], // Pale Yellow (50% / Median - Average)
+            [0.75, 'rgb(166,217,106)'], // Light green (75% boundary - Boom cutoff)
+            [1,    'rgb(26,152,80)']    // Deep green (100% / Top scorer in position)
         ];
-        colorbarTitle = 'Actual (FP)';
+        colorbarTitle = 'Pos Rank (%)';
     } else {
         // Color by MC Std Dev (risk/volatility): green = safe floor, red = boom-or-bust
         markerValues = sortedData.map(d => d.mc_std != null ? d.mc_std : 0);
-        markerMin = Math.max(0, Math.min(...markerValues));
-        markerMax = Math.max(...markerValues);
+        const validValues = markerValues.filter(v => v != null && !isNaN(v));
+        if (validValues.length > 0) {
+            const p5 = getPercentile(validValues, 0.05);
+            const p95 = getPercentile(validValues, 0.95);
+            markerMin = Math.max(0, Math.round(p5 * 10) / 10);
+            markerMax = Math.max(markerMin + 1, Math.round(p95 * 10) / 10);
+        } else {
+            markerMin = Math.max(0, Math.min(...markerValues));
+            markerMax = Math.max(...markerValues);
+        }
         if (markerMin === markerMax) markerMax = markerMin + 1;
         markerColorscale = [
             [0,   'rgb(26,152,80)'],
@@ -727,7 +761,11 @@ function renderPlot(targetId, title, data, yRange = null) {
                 title: { text: colorbarTitle, font: { color: '#8b949e', size: 11 } },
                 thickness: 15,
                 x: 1.1,
-                tickfont: { color: '#8b949e' }
+                tickfont: { color: '#8b949e' },
+                ...(hasPlayed ? {
+                    tickvals: [0, 0.25, 0.5, 0.75, 1],
+                    ticktext: ['0%', '25%', '50%', '75%', '100%']
+                } : {})
             },
             line: { color: markerLineColors, width: markerLineWidths },
             opacity: 0.9
