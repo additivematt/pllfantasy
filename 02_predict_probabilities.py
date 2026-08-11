@@ -144,6 +144,10 @@ def main():
         res = {
             "fp_season_avg": use_grp["TotalFantasyPoints"].mean(),
             "fp_last3_avg": use_grp["TotalFantasyPoints"].tail(3).mean(),
+            "fp_last5_avg": use_grp["TotalFantasyPoints"].tail(5).mean(),
+            "fp_last10_avg": use_grp["TotalFantasyPoints"].tail(10).mean(),
+            "fp_last15_avg": use_grp["TotalFantasyPoints"].tail(15).mean(),
+            "n_games_played": len(grp_active) if not grp_active.empty else 0,
             "fp_lag1": use_grp["TotalFantasyPoints"].iloc[-1] if not use_grp.empty else 0,
         }
         if EWMA_ENABLED:

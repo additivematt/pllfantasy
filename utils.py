@@ -265,4 +265,69 @@ def run_local_search(players, sim_matrix, objective, initial_lineup, budget=200,
             
     return best_lineup
 
+def get_eval_weeks(year, script_dir=None):
+    """
+    Dynamically discovers all played or predicted fantasy weeks for a given season year.
+    Inspected data sources:
+    1. combined_player_stats_{year}.json
+    2. predicta/predictions/week{W}_{year}_predictions.csv
+    Excludes All-Star week (week 7) if no valid fantasy points exist.
+    """
+    import os, json
+    if script_dir is None:
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+    weeks = set()
+    stats_file = os.path.join(script_dir, f"combined_player_stats_{year}.json")
+    if os.path.exists(stats_file):
+        try:
+            with open(stats_file, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            for p in data:
+                w = p.get("week")
+                f2p = p.get("f2p", {})
+                if w is not None and (f2p.get("totalPoints") is not None or p.get("stats")):
+                    weeks.add(int(w))
+        except Exception:
+            pass
+
+    pred_dir = os.path.join(script_dir, "predicta", "predictions")
+    if os.path.exists(pred_dir):
+        for fname in os.listdir(pred_dir):
+            if fname.startswith("week") and fname.endswith(f"_{year}_predictions.csv"):
+                try:
+                    w = int(fname.split("_")[0].replace("week", ""))
+                    weeks.add(w)
+                except ValueError:
+                    pass
+
+    # Week 7 in 2025/2026 is All-Star exhibition week without fantasy scoring
+    if 7 in weeks and year in (2025, 2026):
+        weeks.remove(7)
+
+    return sorted(list(weeks))
+
+def get_latest_baseline_num(baselines_dir=None):
+    """
+    Dynamically finds the highest existing baseline archive number in baselines/ directory.
+    Defaults to 11 if no archives are found.
+    """
+    import os
+    if baselines_dir is None:
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        baselines_dir = os.path.join(script_dir, "baselines")
+    if not os.path.exists(baselines_dir):
+        return 11
+    max_num = 11
+    for fname in os.listdir(baselines_dir):
+        if fname.startswith("rosters_") and "_baseline_" in fname and fname.endswith(".csv"):
+            try:
+                num_part = fname.split("_baseline_")[-1].replace(".csv", "")
+                n = int(num_part)
+                if n > max_num:
+                    max_num = n
+            except ValueError:
+                pass
+    return max_num
+
+
 

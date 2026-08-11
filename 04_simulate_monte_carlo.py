@@ -277,8 +277,28 @@ def main():
     use_player_anchored_ev = getattr(config, "USE_PLAYER_ANCHORED_EV", True) and (os.environ.get("USE_PLAYER_ANCHORED_EV", "True") == "True")
 
     if use_player_anchored_ev and "BoomProbability" in df_preds.columns:
+        window_choice = os.environ.get("EV_WINDOW_GAMES", "all").strip().lower()
         def calc_player_anchored_ev(r):
-            base_fp = r.get("fp_season_avg") if pd.notna(r.get("fp_season_avg")) and float(r.get("fp_season_avg", 0)) > 2.0 else tier_avgs.get(r["positionGroup"], {}).get("NonBoom", 8.0)
+            if window_choice == "all":
+                base_fp = r.get("fp_season_avg") if pd.notna(r.get("fp_season_avg")) and float(r.get("fp_season_avg", 0)) > 2.0 else tier_avgs.get(r["positionGroup"], {}).get("NonBoom", 8.0)
+            else:
+                col_name = f"fp_last{window_choice}_avg"
+                raw_fp = r.get(col_name) if col_name in r else r.get("fp_season_avg")
+                n_games = float(r.get("n_games_played", 0) or 0)
+                
+                sal = float(r.get("salary", 10) or 10)
+                pos = r.get("positionGroup", "Attack")
+                nonboom_default = tier_avgs.get(pos, {}).get("NonBoom", 8.0)
+                prior_fp = (sal / 1.3333) if (sal > 0 and sal != 10) else nonboom_default
+                prior_fp = max(5.0, min(22.0, prior_fp))
+                
+                K = float(os.environ.get("EV_SHRINKAGE_K", "5.0"))
+                if n_games == 0 or pd.isna(raw_fp) or float(raw_fp or 0) <= 0.0:
+                    base_fp = prior_fp
+                else:
+                    weight = n_games / (n_games + K)
+                    base_fp = weight * float(raw_fp) + (1.0 - weight) * prior_fp
+            
             boom_p = float(r.get("BoomProbability", 25.0)) / 100.0
             matchup_mult = 0.5 + boom_p
             return float(base_fp) * matchup_mult

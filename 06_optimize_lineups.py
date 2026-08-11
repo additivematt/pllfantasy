@@ -429,24 +429,54 @@ def main():
         recommended_strategy = "MC Win 160"
         recommended_reason = f"Full slate ({slate_size} games). High player pool variance means optimizing for ceiling with {recommended_strategy} is best."
 
-    # Append optimal selections to strategy roster CSVs
+    # Append optimal selections (Top 5 Candidate Pool with lineup_rank) to strategy roster CSVs
     for r_name, roster in rosters.items():
         if roster:
             suffix = r_name.lower().replace(" ", "_")
             csv_path = os.path.join(script_dir, f"rosters_{suffix}.csv")
             
+            # Rank 1 is ALWAYS the primary optimal roster from local search
+            top5_lineups = [roster]
+            
+            # Generate Ranks 2 to 5 via MILP integer cut constraints
+            metric_key = "mc_ev" if r_name == "MC EV" else ("mc_p90" if r_name == "MC Ceil 90" else "mc_ev")
+            df_pool = pd.DataFrame(player_pool)
+            if metric_key in df_pool.columns:
+                df_pool = df_pool.sort_values(metric_key, ascending=False).drop_duplicates(subset=['firstName', 'lastName'], keep='first')
+            p_list = df_pool.to_dict('records')
+            
+            pos_reqs = {'A': 2, 'M': 2, 'D': 1, 'FO': 1, 'G': 1}
+            for n in range(1, 5):
+                prob = pulp.LpProblem(f"TopLineup_{r_name}_{n}", pulp.LpMaximize)
+                x = {i: pulp.LpVariable(f"x_{n}_{i}", cat='Binary') for i in range(len(p_list))}
+                prob += pulp.lpSum([(p_list[i].get(metric_key) or 0.0) * x[i] for i in range(len(p_list))])
+                prob += pulp.lpSum([p_list[i]['salary'] * x[i] for i in range(len(p_list))]) <= args.budget
+                for pos_code, req_cnt in pos_reqs.items():
+                    prob += pulp.lpSum([x[i] for i, p in enumerate(p_list) if get_standard_pos(p.get('positionGroup') or p.get('position')) == pos_code]) == req_cnt
+                for prev_l in top5_lineups:
+                    prev_indices = [i for i, p in enumerate(p_list) if any(clean_name(p['firstName']) == clean_name(pl['firstName']) and clean_name(p['lastName']) == clean_name(pl['lastName']) for pl in prev_l)]
+                    if prev_indices:
+                        prob += pulp.lpSum([x[i] for i in prev_indices]) <= len(prev_indices) - 1
+                prob.solve(pulp.PULP_CBC_CMD(msg=False))
+                if pulp.LpStatus[prob.status] == 'Optimal':
+                    top5_lineups.append([p_list[i] for i in range(len(p_list)) if x[i].varValue > 0.5])
+                else:
+                    break
+            
             rows = []
-            for p in roster:
-                std_pos = get_standard_pos(p.get('positionGroup') or p.get('position'))
-                rows.append({
-                    "year": int(args.year),
-                    "week": int(args.week),
-                    "firstName": p["firstName"],
-                    "lastName": p["lastName"],
-                    "position": std_pos,
-                    "salary": int(p["salary"]),
-                    "eventId": p.get("game_id") or p.get("eventId")
-                })
+            for r_rank, lineup in enumerate(top5_lineups, 1):
+                for p in lineup:
+                    std_pos = get_standard_pos(p.get('positionGroup') or p.get('position'))
+                    rows.append({
+                        "year": int(args.year),
+                        "week": int(args.week),
+                        "lineup_rank": int(r_rank),
+                        "firstName": p["firstName"],
+                        "lastName": p["lastName"],
+                        "position": std_pos,
+                        "salary": int(p["salary"]),
+                        "eventId": p.get("game_id") or p.get("eventId")
+                    })
             df_new = pd.DataFrame(rows)
             if os.path.exists(csv_path):
                 df_old = pd.read_csv(csv_path)
@@ -455,7 +485,7 @@ def main():
             else:
                 df_combined = df_new
             df_combined.to_csv(csv_path, index=False)
-            print(f"Appended optimal {r_name} selections to {csv_path}")
+            print(f"Appended Top-5 optimal {r_name} selections (ranks 1-5) to {csv_path}")
 
     print("Cross-referencing complete!")
     print(f"Consensus Core Players: {len(consensus_core)}")

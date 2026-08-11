@@ -227,6 +227,81 @@ class RosterEvaluator:
 
         return total_actual_points, errors
 
+    def compute_vor(self, df_roster, year, week, week_players):
+        """Computes Value Over Replacement (VOR) for each selected player.
+
+        VOR = Player Actual FP - Median FP of all players who played at that
+        position that week. Measures whether each individual selection decision
+        beat the positional baseline, independent of lineup-level luck.
+
+        Returns:
+            dict with keys:
+                'total_vor': sum of VOR across all 7 slots
+                'avg_vor': mean VOR per slot (total_vor / 7)
+                'per_position': dict mapping position code -> list of
+                    {'player': str, 'actual': float, 'median': float, 'vor': float}
+                'player_details': list of per-player VOR detail dicts
+            or None if the roster is missing.
+        """
+        week_roster = df_roster[(df_roster["year"] == year) & (df_roster["week"] == week)].copy()
+        if week_roster.empty:
+            return None
+
+        # Build per-position median FP from all players who actually played
+        # (exclude DNPs which scored 0 but weren't real options)
+        pos_points = {}  # position -> list of actual FP
+        for p in week_players:
+            if p.get("isDNP"):
+                continue
+            pos = p["position"]
+            pts = p.get("actualPoints", 0) or 0
+            pos_points.setdefault(pos, []).append(pts)
+
+        pos_medians = {}
+        for pos, pts_list in pos_points.items():
+            pos_medians[pos] = float(np.median(pts_list))
+
+        # Compute VOR for each roster slot
+        week_roster["norm_pos"] = week_roster["position"].apply(get_standard_pos)
+        player_details = []
+        total_vor = 0.0
+
+        for _, row in week_roster.iterrows():
+            pos = row["norm_pos"]
+            actual = self.stats_db.get_actual_points(
+                year, week, row["firstName"], row["lastName"], row.get("eventId")
+            )
+            if actual is None:
+                actual = 0.0
+
+            median_fp = pos_medians.get(pos, 0.0)
+            vor = actual - median_fp
+
+            detail = {
+                "player": f"{row['firstName']} {row['lastName']}",
+                "position": pos,
+                "actual": actual,
+                "pos_median": median_fp,
+                "vor": vor
+            }
+            player_details.append(detail)
+            total_vor += vor
+
+        n_players = len(player_details)
+        avg_vor = total_vor / n_players if n_players > 0 else 0.0
+
+        # Aggregate per-position
+        per_position = {}
+        for d in player_details:
+            per_position.setdefault(d["position"], []).append(d)
+
+        return {
+            "total_vor": total_vor,
+            "avg_vor": avg_vor,
+            "per_position": per_position,
+            "player_details": player_details
+        }
+
 # ── Coulda Optimal Solver ─────────────────────────────────────────────────────
 def solve_coulda_optimal(players):
     """Solve the retroactive optimal lineup using integer linear programming (PuLP)."""
@@ -333,6 +408,20 @@ class PredictionEvaluator:
             metrics["RMSE"] = rmse
             metrics["R_Squared"] = r2
             metrics["Pearson_Correlation"] = corr
+
+            # Spearman Rank Correlation (overall and per-position)
+            # Measures rank-ordering accuracy: did we correctly order who
+            # would outscore whom? This is what the optimizer needs.
+            if len(y_true) > 5 and np.std(y_pred) > 0:
+                spearman_rho, _ = stats.spearmanr(y_true, y_pred)
+                metrics["Spearman_Correlation"] = spearman_rho
+
+                # Per-position Spearman (minimum 5 players to compute)
+                for pos in ["A", "M", "D", "FO", "G"]:
+                    df_pos = df_eval[df_eval["positionGroup"] == pos]
+                    if len(df_pos) >= 5 and np.std(df_pos["PredictedPoints"]) > 0:
+                        pos_rho, _ = stats.spearmanr(df_pos["actualPoints"], df_pos["PredictedPoints"])
+                        metrics[f"{pos}_Spearman"] = pos_rho
 
         # 2. Classification Metrics (Accuracy, Boom Precision/Recall, Brier Score)
         if "BoomProbability" in df_eval.columns or "PredictedTier" in df_eval.columns:
@@ -563,6 +652,9 @@ def main():
     
     # Track classification & regression metric averages
     metrics_history = []
+    # Track VOR across all weeks
+    all_vor_details = []  # flat list of per-player VOR dicts across all weeks
+    weekly_vor_totals = []  # per-week total VOR
 
     for w in weeks:
         print(f"Evaluating Week {w}...")
@@ -593,15 +685,32 @@ def main():
                 pred_metrics = m
                 metrics_history.append(m)
 
+        # 4. Value Over Replacement (VOR) computation
+        vor_result = roster_eval.compute_vor(df_roster, args.year, w, week_players)
+        vor_summary = {}
+        if vor_result:
+            vor_summary = {
+                "total_vor": vor_result["total_vor"],
+                "avg_vor": vor_result["avg_vor"],
+                "per_position": {
+                    pos: round(np.mean([d["vor"] for d in details]), 1)
+                    for pos, details in vor_result["per_position"].items()
+                }
+            }
+            all_vor_details.extend(vor_result["player_details"])
+            weekly_vor_totals.append(vor_result["total_vor"])
+
         pct_of_coulda = (score / coulda_score * 100.0) if coulda_score > 0 else 0.0
-        print(f"  -> Score: {score:.1f} pts | Coulda Optimal: {coulda_score:.1f} pts ({pct_of_coulda:.1f}% of ceiling)")
+        vor_str = f" | VOR: {vor_result['total_vor']:+.1f} (avg {vor_result['avg_vor']:+.1f}/slot)" if vor_result else ""
+        print(f"  -> Score: {score:.1f} pts | Coulda Optimal: {coulda_score:.1f} pts ({pct_of_coulda:.1f}% of ceiling){vor_str}")
         
         weeks_data[str(w)] = {
             "actual_score": score,
             "coulda_score": coulda_score,
             "pct_of_ceiling": pct_of_coulda,
             "errors": errors,
-            "prediction_metrics": pred_metrics
+            "prediction_metrics": pred_metrics,
+            "vor": vor_summary
         }
         
         total_score += score
@@ -611,16 +720,18 @@ def main():
     print(f"\n{'='*75}")
     print(f" SEASON SUMMARY REPORT ({args.year})")
     print(f"{'='*75}")
-    print(f"{'Week':<8} | {'Lineup Score':<12} | {'Coulda Ceiling':<15} | {'Percentage':<10}")
+    print(f"{'Week':<8} | {'Lineup Score':<12} | {'Coulda Ceiling':<15} | {'Ceiling %':<10} | {'Total VOR':<10}")
     print(f"{'-'*75}")
     for w in sorted(weeks_data.keys(), key=int):
         wd = weeks_data[w]
-        print(f"Week {w:<3} | {wd['actual_score']:<12.1f} | {wd['coulda_score']:<15.1f} | {wd['pct_of_ceiling']:<9.1f}%")
+        vor_val = wd.get('vor', {}).get('total_vor')
+        vor_str = f"{vor_val:+.1f}" if vor_val is not None else "N/A"
+        print(f"Week {w:<3} | {wd['actual_score']:<12.1f} | {wd['coulda_score']:<15.1f} | {wd['pct_of_ceiling']:<9.1f}% | {vor_str}")
     print(f"{'-'*75}")
     
     total_pct = (total_score / total_coulda * 100.0) if total_coulda > 0 else 0.0
-    print(f"TOTAL    | {total_score:<12.1f} | {total_coulda:<15.1f} | {total_pct:<9.1f}%")
-    print(f"Avg/Week | {total_score/len(weeks_data):<12.1f} | {total_coulda/len(weeks_data):<15.1f} | {total_pct:<9.1f}%")
+    print(f"TOTAL    | {total_score:<12.1f} | {total_coulda:<15.1f} | {total_pct:<9.1f}% |")
+    print(f"Avg/Week | {total_score/len(weeks_data):<12.1f} | {total_coulda/len(weeks_data):<15.1f} | {total_pct:<9.1f}% |")
     print(f"{'='*75}")
 
     # Output predictions accuracy report if present
@@ -630,6 +741,36 @@ def main():
         "pct_of_ceiling": total_pct,
         "num_weeks": len(weeks_data)
     }
+
+    # VOR Season Summary
+    if all_vor_details:
+        season_avg_vor = np.mean([d["vor"] for d in all_vor_details])
+        season_total_vor = sum(weekly_vor_totals)
+        season_avg_weekly_vor = np.mean(weekly_vor_totals) if weekly_vor_totals else 0.0
+        n_positive = sum(1 for d in all_vor_details if d["vor"] > 0)
+        n_total = len(all_vor_details)
+        pct_above_replacement = 100.0 * n_positive / n_total if n_total > 0 else 0.0
+
+        print(f"\nValue Over Replacement (VOR) Summary ({n_total} player-slot decisions):")
+        print(f"  Season Avg VOR/Slot:    {season_avg_vor:+.1f} pts")
+        print(f"  Season Avg VOR/Week:    {season_avg_weekly_vor:+.1f} pts")
+        print(f"  Slots Above Median:     {n_positive}/{n_total} ({pct_above_replacement:.1f}%)")
+
+        # Per-position VOR breakdown
+        pos_vor = {}
+        for d in all_vor_details:
+            pos_vor.setdefault(d["position"], []).append(d["vor"])
+        print(f"  Per-Position Avg VOR:")
+        for pos in ["A", "M", "D", "FO", "G"]:
+            if pos in pos_vor:
+                vals = pos_vor[pos]
+                pos_above = sum(1 for v in vals if v > 0)
+                print(f"    {pos:<3}: {np.mean(vals):+6.1f} pts/slot  ({pos_above}/{len(vals)} above median)")
+
+        summary_metrics["vor_avg_per_slot"] = season_avg_vor
+        summary_metrics["vor_avg_per_week"] = season_avg_weekly_vor
+        summary_metrics["vor_pct_above_replacement"] = pct_above_replacement
+        summary_metrics["vor_total_decisions"] = n_total
 
     if metrics_history:
         print("\nPrediction Quality Metrics (Averaged across evaluated weeks):")
