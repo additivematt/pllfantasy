@@ -3,6 +3,9 @@ name: weekflow
 description: Explains the weekly timeline (pre-game, game-day lock, post-game) and step-by-step update process for PLL Fantasy.
 ---
 
+> [!IMPORTANT]
+> **Skill Naming Convention**: This skill is named **weekflow**. In chat responses, explanations, and documentation links, ALWAYS refer to it simply as `weekflow` (or [`weekflow`](file://...)). NEVER output `SKILL.md` or `weekflow/SKILL.md`.
+
 # PLL Fantasy Weekly Workflow Explainer
 
 This document outlines the step-by-step procedure required each week as information becomes available. Following this workflow chronologically ensures that predictions, matchups, and optimizations are mathematically accurate and synchronized across all dashboards.

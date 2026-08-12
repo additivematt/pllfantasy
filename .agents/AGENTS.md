@@ -10,7 +10,11 @@ Rather than loading all documentation into your context at once, this workspace 
 > [!IMPORTANT]
 > **Git Command Convention**: When executing Git commands (e.g., staging files, committing, and pushing updates to GitHub), always invoke the standard system `git` command directly. Do **not** use the portable `scratch\mingit\cmd\git.exe` executable.
 > **Explain Solution & Request Permission Before Committing/Pushing**: When resolving an issue or implementing a new feature, the agent MUST ALWAYS clearly explain the root cause, proposed solution, or intended implementation to the user FIRST and ask for permission before executing git commands to stage, commit, or push updates to GitHub, UNLESS explicitly instructed within the current chat to proceed straight away.
-> **Skill Reference Convention**: When referencing, editing, or linking any skill file in chat or documentation, ALWAYS prefix the skill name (e.g., `fetcha: SKILL.md` or `fetcha/SKILL.md`, `evaluata: SKILL.md`, `weekflow: SKILL.md`). NEVER refer to a file as a bare `SKILL.md`.
+> [!IMPORTANT]
+> **Strict Skill Reference & Naming Convention**:
+> - **ALWAYS** refer to skills strictly by their clean codenames in chat text and documentation (e.g., `fetcha`, `predicta`, `coulda`, `evaluata`, `improva`, `interrogata`, `matcha`, `styla`, `uploada`, `weekflow`).
+> - **NEVER** output `SKILL.md`, `skill.md`, `fetcha: SKILL.md`, or `fetcha/SKILL.md` in visible chat text, explanations, or link labels.
+> - **ALWAYS** use the clean codename as the link label text (e.g., write `[fetcha](...)`, never `[fetcha/SKILL.md](...)` or `[SKILL.md](...)`).
 
 ---
 
@@ -18,18 +22,18 @@ Rather than loading all documentation into your context at once, this workspace 
 
 For detailed instructions and context on specific parts of the project, navigate to the relevant skill folder:
 
-| Codename | Phase | What It Does | Skill File |
+| Codename | Phase | What It Does | Skill Link |
 |---|---|---|---|
-| **weekflow** | Meta | Weekly timeline & checklist — start here | [weekflow/SKILL.md](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.agents/skills/weekflow/SKILL.md) |
-| **fetcha** | Phase 1 | Scrape F2P salaries, GraphQL stats, build unified dataset | [fetcha/SKILL.md](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.agents/skills/fetcha/SKILL.md) |
-| **matcha** | Phase 1/3 | Manual defensive matchup tagging UI & server | [matcha/SKILL.md](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.agents/skills/matcha/SKILL.md) |
-| **predicta** | Phase 2 | XGBoost classifier, Monte Carlo sims, Predicta UI | [predicta/SKILL.md](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.agents/skills/predicta/SKILL.md) |
-| **coulda** | Phase 3 | Retroactive optimal roster calculator | [coulda/SKILL.md](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.agents/skills/coulda/SKILL.md) |
-| **evaluata** | Phase 3 | Ground truth tiers, MAE/RMSE error stats, Boom recall, MC roster scores (EV, Win_160, Ceil_90) | [evaluata/SKILL.md](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.agents/skills/evaluata/SKILL.md) |
-| **uploada** | Phase 2/3 | Git push to GitHub Pages, offline cache refresh | [uploada/SKILL.md](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.agents/skills/uploada/SKILL.md) |
-| **interrogata** | Always | Player career trend charts, matchup history | [interrogata/SKILL.md](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.agents/skills/interrogata/SKILL.md) |
-| **styla** | Always | Obsidian design system tokens & patterns | [styla/SKILL.md](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.agents/skills/styla/SKILL.md) |
-| **improva** | Reference | Backlog, baselines, A/B testing rules | [improva/SKILL.md](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.agents/skills/improva/SKILL.md) |
+| **weekflow** | Meta | Weekly timeline & checklist — start here | [weekflow](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.agents/skills/weekflow/SKILL.md) |
+| **fetcha** | Phase 1 | Scrape F2P salaries, GraphQL stats, build unified dataset | [fetcha](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.agents/skills/fetcha/SKILL.md) |
+| **matcha** | Phase 1/3 | Manual defensive matchup tagging UI & server | [matcha](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.agents/skills/matcha/SKILL.md) |
+| **predicta** | Phase 2 | XGBoost classifier, Monte Carlo sims, Predicta UI | [predicta](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.agents/skills/predicta/SKILL.md) |
+| **coulda** | Phase 3 | Retroactive optimal roster calculator | [coulda](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.agents/skills/coulda/SKILL.md) |
+| **evaluata** | Phase 3 | Ground truth tiers, MAE/RMSE error stats, Boom recall, MC roster scores (EV, Win_160, Ceil_90) | [evaluata](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.agents/skills/evaluata/SKILL.md) |
+| **uploada** | Phase 2/3 | Git push to GitHub Pages, offline cache refresh | [uploada](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.agents/skills/uploada/SKILL.md) |
+| **interrogata** | Always | Player career trend charts, matchup history | [interrogata](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.agents/skills/interrogata/SKILL.md) |
+| **styla** | Always | Obsidian design system tokens & patterns | [styla](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.agents/skills/styla/SKILL.md) |
+| **improva** | Reference | Backlog, baselines, A/B testing rules | [improva](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.agents/skills/improva/SKILL.md) |
 
 ---
 

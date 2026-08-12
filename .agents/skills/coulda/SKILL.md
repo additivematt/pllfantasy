@@ -3,6 +3,9 @@ name: coulda
 description: Detailed rules for PLL F2P lineup building, per-game double-header roster selection rules, pre-computed pair tables, and retroactive optimizer.
 ---
 
+> [!IMPORTANT]
+> **Skill Naming Convention**: This skill is named **coulda**. In chat responses, explanations, and documentation links, ALWAYS refer to it simply as `coulda` (or [`coulda`](file://...)). NEVER output `SKILL.md` or `coulda/SKILL.md`.
+
 # Agent Context: PLL Fantasy Lineup Optimization ("Coulda/Shoulda")
 
 ## Purpose

@@ -3,6 +3,9 @@ name: evaluata
 description: Instructions for assigning ground truth performance tiers (Boom, Average, Bust), evaluating classifier accuracy, and precision/recall reporting.
 ---
 
+> [!IMPORTANT]
+> **Skill Naming Convention**: This skill is named **evaluata**. In chat responses, explanations, and documentation links, ALWAYS refer to it simply as `evaluata` (or [`evaluata`](file://...)). NEVER output `SKILL.md` or `evaluata/SKILL.md`.
+
 # Agent Context: Predicta Evaluation Engine
 
 ## Purpose

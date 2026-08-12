@@ -3,6 +3,9 @@ name: styla
 description: Design system guide defining color tokens, glassmorphism CSS, Plotly layouts, and tooltip patterns for all PLL Fantasy UIs.
 ---
 
+> [!IMPORTANT]
+> **Skill Naming Convention**: This skill is named **styla**. In chat responses, explanations, and documentation links, ALWAYS refer to it simply as `styla` (or [`styla`](file://...)). NEVER output `SKILL.md` or `styla/SKILL.md`.
+
 # Styla: The Obsidian Design System
 
 This document defines the visual language and UI patterns for all web applications in the PLL Fantasy workspace. Adhering to these standards ensures a premium, cohesive user experience across all tools (Interrogator, Predicta, etc.).

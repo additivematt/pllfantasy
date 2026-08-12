@@ -3,6 +3,9 @@ name: matcha
 description: Instructions for the matchup tagging web application backend (server.py) and UI, capturing manual defensive assignments from film.
 ---
 
+> [!IMPORTANT]
+> **Skill Naming Convention**: This skill is named **matcha**. In chat responses, explanations, and documentation links, ALWAYS refer to it simply as `matcha` (or [`matcha`](file://...)). NEVER output `SKILL.md` or `matcha/SKILL.md`.
+
 # Agent Context: PLL Matchup Tagger (matcha)
 
 ## Purpose

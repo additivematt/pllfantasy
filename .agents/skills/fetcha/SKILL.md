@@ -3,6 +3,9 @@ name: fetcha
 description: Scrapes F2P player costs/salaries, queries GraphQL box scores, backfills history, and merges into the unified player dataset.
 ---
 
+> [!IMPORTANT]
+> **Skill Naming Convention**: This skill is named **fetcha**. In chat responses, explanations, and documentation links, ALWAYS refer to it simply as `fetcha` (or [`fetcha`](file://...)). NEVER output `SKILL.md` or `fetcha/SKILL.md`.
+
 # Agent Context: PLL Fantasy Data Fetching Pipeline
 
 ## Purpose

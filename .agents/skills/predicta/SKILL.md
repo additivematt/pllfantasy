@@ -3,6 +3,9 @@ name: predicta
 description: Guides prediction modeling, out-of-fold stacked regressors, Monte Carlo simulations (10,000 trials), and static UI compilation.
 ---
 
+> [!IMPORTANT]
+> **Skill Naming Convention**: This skill is named **predicta**. In chat responses, explanations, and documentation links, ALWAYS refer to it simply as `predicta` (or [`predicta`](file://...)). NEVER output `SKILL.md` or `predicta/SKILL.md`.
+
 # Agent Context: PLL Fantasy Prediction Engine
 
 ## Purpose

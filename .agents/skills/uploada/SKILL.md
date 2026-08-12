@@ -3,6 +3,9 @@ name: uploada
 description: Instructions for compiling static payloads, committing files with git, and deploying updates to GitHub Pages for offline mobile cache updates.
 ---
 
+> [!IMPORTANT]
+> **Skill Naming Convention**: This skill is named **uploada**. In chat responses, explanations, and documentation links, ALWAYS refer to it simply as `uploada` (or [`uploada`](file://...)). NEVER output `SKILL.md` or `uploada/SKILL.md`.
+
 # How to Upload PLL Fantasy Updates to GitHub (uploada)
 
 This guide provides simple, step-by-step instructions on how to push your latest lacrosse stats and predictions from your PC to GitHub Pages. 

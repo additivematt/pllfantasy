@@ -3,6 +3,9 @@ name: interrogata
 description: Documentation for the Player Interrogator UI, including DNP tracking, Chart.js trend charts, position-specific logs, and offline Service Worker caching.
 ---
 
+> [!IMPORTANT]
+> **Skill Naming Convention**: This skill is named **interrogata**. In chat responses, explanations, and documentation links, ALWAYS refer to it simply as `interrogata` (or [`interrogata`](file://...)). NEVER output `SKILL.md` or `interrogata/SKILL.md`.
+
 # Player Stats Interrogator (interrogata)
 
 ## Purpose

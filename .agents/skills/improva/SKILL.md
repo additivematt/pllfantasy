@@ -3,6 +3,9 @@ name: improva
 description: Central tracking for feature improvements, model baseline audits (Baseline 3), and A/B backtest evaluation rules.
 ---
 
+> [!IMPORTANT]
+> **Skill Naming Convention**: This skill is named **improva**. In chat responses, explanations, and documentation links, ALWAYS refer to it simply as `improva` (or [`improva`](file://...)). NEVER output `SKILL.md` or `improva/SKILL.md`.
+
 # PLL Fantasy Prediction Engine — Improvement Ideas
 
 > **Date**: June 2026 (updated August 2026 — VOR & Spearman Diagnostics, Items 49–51)  
@@ -34,8 +37,12 @@ Established after correcting the official platform scoring formula (`calc_fantas
 
 | Season | Strategy | Top-1 (Avg/Wk) | Top-5 Mean (Avg/Wk) | Top-5 Max (Avg/Wk) | Top-5 Min (Avg/Wk) | Coulda Max (Avg/Wk) | Top-5 Max Ceiling % |
 |---|---|---|---|---|---|---|---|
-| **2025** | `MC_EV` | **172.6 pts/wk** | **169.1 pts/wk** | **190.1 pts/wk** | **146.1 pts/wk** | 353.2 pts/wk | **53.8%** |
-| **2026** | `MC_EV` | **151.6 pts/wk** | **156.4 pts/wk** | **180.7 pts/wk** | **129.4 pts/wk** | 370.2 pts/wk | **48.8%** |
+| **2025** | `MC_EV` | **181.7 pts/wk** | **172.2 pts/wk** | **199.1 pts/wk** | **146.8 pts/wk** | 359.9 pts/wk | **55.3%** |
+| **2025** | `MC_Win_160` | **179.6 pts/wk** | **173.9 pts/wk** | **200.4 pts/wk** | **149.3 pts/wk** | 359.9 pts/wk | **55.7%** |
+| **2025** | `MC_Ceil_90` | **177.7 pts/wk** | **182.0 pts/wk** | **209.8 pts/wk** | **154.6 pts/wk** | 359.9 pts/wk | **58.3%** |
+| **2026** | `MC_EV` | **141.0 pts/wk** | **145.8 pts/wk** | **167.1 pts/wk** | **128.1 pts/wk** | 372.9 pts/wk | **44.8%** |
+| **2026** | `MC_Win_160` | **141.4 pts/wk** | **143.7 pts/wk** | **165.2 pts/wk** | **127.1 pts/wk** | 372.9 pts/wk | **44.3%** |
+| **2026** | `MC_Ceil_90` | **140.0 pts/wk** | **139.7 pts/wk** | **162.2 pts/wk** | **114.5 pts/wk** | 372.9 pts/wk | **43.5%** |
 
 **Baseline 12 Process-Quality Metrics (MC_EV Top-1)**:
 
@@ -131,7 +138,7 @@ The following table summarizes all remaining improvement items in the active bac
 | **3** | **Item 50**: Attack Ranking Recovery *(NEW)* | Tier 2 (Features) | **+5 to +15 pts/wk** | **Medium** | A_Spearman degraded 42% from 2025→2026. Combined with salary pricing collapse (FP/coin: 3.69→2.24), Attack slots are a double headwind. |
 | **4** | **Item 39**: Skewed Bootstrap (CDF Mapping) | Tier 3 (Simulation) | **+5 to +15 pts/wk** | **High** | Still important for tournament strategies but ranking fixes have higher leverage — they affect every single lineup. |
 | **5** | **Item 43**: Scoring Environment Multiplier | Tier 3 (Simulation) | **+3 to +10 pts/wk** | **Med-High** | Shootout game-stacks remain undermodeled. |
-| **6** | **Item 51**: VOR-Based A/B Testing Framework *(NEW)* | Evaluation | **Better accept/reject decisions** | **High** | Use ~77 VOR data points instead of ~11 roster scores for A/B tests. Run in parallel with Item 49 so Midfield fixes are measured correctly. |
+| — | **Item 51**: VOR-Based A/B Testing Framework | Evaluation | — | — | ❌ **Unnecessary / Closed.** Covered by the mandatory 22-metric 6-column evaluation framework (which already reports VOR, Spearman ρ, Top-5 candidate pool, and Boom metrics). |
 | **7** | **Item 32**: Matchup Rating Temporal Decay | Tier 2 (Features) | **+3 to +8 pts/wk** | **Medium** | Less urgent than ranking fixes. |
 | **8** | **Item 41**: Ensemble Meta-Selector (Strategy Picker) | Tier 3 (Optimizer) | **+3 to +8 pts/wk** | **Medium** | Strategy switching value is modest. |
 | **9** | **Item 12**: Dynamic Correlation Matrix | Tier 3 (Simulator) | **+2 to +5 pts/wk** | **Medium** | Code health + adaptive correlations. |
@@ -371,18 +378,9 @@ To track historical performance changes and maintain auditability across key mil
 - **Suggested Fix**: Compute a multiplicative "scoring environment" factor based on both teams' recent combined scoring rates. Apply this as a distribution-wide inflation factor in the MC simulator, separate from the individual matchup multiplier.
 - **Success Criteria**: Better calibration of simulated scores in high-pace game weeks.
 
-#### Item 51: VOR-Based A/B Testing Framework *(NEW — August 2026)*
-- **Problem**: All current A/B test decisions (accept/reject) in this document use roster score deltas and paired t-tests on ~11-13 weekly lineup scores per season. With such small N, the paired t-test has statistical power ~0.3-0.4 for detecting a true 15 pt/wk effect — meaning ~60-70% of real improvements are rejected as "not significant" and some noise gets accepted.
-- **Why it matters**: VOR provides ~77 per-player-slot data points per season instead of ~11 lineup scores, increasing statistical power by ~$\sqrt{7} \approx 2.6\times$. This makes it far more feasible to detect real 5-10 pt/slot improvements.
-- **Proposed Change**:
-  1. For each week, compute VOR for all 7 selected players in both Baseline and Challenger rosters.
-  2. Run a paired t-test on the per-slot VOR values ($N \approx 77$ instead of $N \approx 11$).
-  3. Report both roster-level and VOR-level statistical tests.
-  4. Use VOR as the primary decision criterion; roster score as secondary confirmation.
-  5. Report per-position Spearman ρ changes as diagnostic metrics (not decision criteria) to identify *where* a change helped or hurt.
-- **Implementation**: Extend `prediction_model_evaluation_harness.py --compare` to include VOR comparison and Spearman ρ deltas.
-- **Success Criteria**: Framework operational. All future A/B tests report VOR alongside roster scores.
-- **Status**: ⏳ Pending. Should be implemented in parallel with Item 49 so Midfield fixes are measured correctly.
+#### Item 51: VOR-Based A/B Testing Framework
+- **Status**: ❌ **Unnecessary / Closed**.
+- **Rationale**: The official evaluation mandate in [evaluata](../evaluata/SKILL.md) already defines the comprehensive **22-Metric, 4-Category, 6-Column Mobile Layout** (`Metric | 2-Yr Control | 2-Yr Test | 2025 Δ | 2026 Δ | Status (2-Year Effect)`). This framework natively tracks per-slot VOR values (~77 data points), per-position Spearman ρ rank correlations, Top-5 candidate roster pool metrics, MAE/RMSE, Boom Precision/Recall, and Brier Score. Model decisions are already evaluated holistically across the complete metric suite, making a separate Item 51 initiative redundant.
 
 ---
 
