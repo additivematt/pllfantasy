@@ -127,7 +127,7 @@ def assign_sub_position(pos):
     return "Unknown"
 
 def calc_fantasy(s):
-    pts = (s.get("onePointGoals", 0) * 10 + s.get("twoPointGoals", 0) * 15 + s.get("assists", 0) * 7 + s.get("faceoffsWon", 0) * 0.8 + (s.get("faceoffs", 0) - s.get("faceoffsWon", 0)) * -0.5 + s.get("groundBalls", 0) + s.get("saves", 0) * 3 + s.get("causedTurnovers", 0) * 10)
+    pts = (s.get("onePointGoals", 0) * 10 + s.get("twoPointGoals", 0) * 20 + s.get("assists", 0) * 10 + s.get("turnovers", 0) * -3 + s.get("goalsAgainst", 0) * -1 + s.get("twoPointGoalsAgainst", 0) * -2 + s.get("faceoffsWon", 0) * 0.8 + (s.get("faceoffs", 0) - s.get("faceoffsWon", 0)) * -0.5 + s.get("groundBalls", 0) + s.get("saves", 0) * 3 + s.get("causedTurnovers", 0) * 10)
     if s.get("onePointGoals", 0) + s.get("twoPointGoals", 0) >= 3: pts += 5
     if s.get("assists", 0) >= 3: pts += 5
     if s.get("causedTurnovers", 0) >= 3: pts += 5
@@ -300,9 +300,15 @@ def get_eval_weeks(year, script_dir=None):
                 except ValueError:
                     pass
 
-    # Week 7 in 2025/2026 is All-Star exhibition week without fantasy scoring
-    if 7 in weeks and year in (2025, 2026):
-        weeks.remove(7)
+    # Exclude exhibition/All-Star weeks where 0 fantasy points were scored
+    weeks_to_remove = []
+    if stats_file and os.path.exists(stats_file):
+        for w in list(weeks):
+            w_pts = sum((p.get("f2p", {}).get("totalPoints") or 0) for p in data if p.get("week") == w)
+            if w_pts == 0:
+                weeks_to_remove.append(w)
+    for w in weeks_to_remove:
+        weeks.remove(w)
 
     return sorted(list(weeks))
 

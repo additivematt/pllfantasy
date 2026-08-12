@@ -20,7 +20,7 @@ TEAM_NAME_TO_ID = {
 
 FEATURE_LISTS = {
     "Attack":   ["fp_season_avg", "fp_last3_avg", "fp_lag1", "shots_season_avg", "shots_last3_avg", "assists_season_avg", "assists_last3_avg", "touches_season_avg", "touches_last3_avg", "shotPct_anomaly", "days_since_last_game", "team_faceoff_advantage", "pairing_rating", "opponent_rating", "player_vs_team_rating", "team_def_rating", "team_vacated_touch_share", "team_inactive_fp_avg", "opp_def_health", "opp_goalie_health"],
-    "Midfield": ["fp_season_avg", "fp_last3_avg", "fp_lag1", "shots_season_avg", "shots_last3_avg", "groundBalls_season_avg", "groundBalls_last3_avg", "touches_season_avg", "touches_last3_avg", "shotPct_anomaly", "days_since_last_game", "team_faceoff_advantage", "pairing_rating", "opponent_rating", "player_vs_team_rating", "team_def_rating", "team_vacated_touch_share", "team_inactive_fp_avg", "opp_ssdm_health"],
+    "Midfield": ["fp_season_avg", "fp_last3_avg", "fp_lag1", "shots_season_avg", "shots_last3_avg", "assists_season_avg", "assists_last3_avg", "groundBalls_season_avg", "groundBalls_last3_avg", "touches_season_avg", "touches_last3_avg", "shotPct_anomaly", "days_since_last_game", "team_faceoff_advantage", "pairing_rating", "opponent_rating", "player_vs_team_rating", "team_def_rating", "team_vacated_touch_share", "team_inactive_fp_avg", "opp_ssdm_health"],
     "Defense":  ["fp_season_avg", "fp_last3_avg", "fp_lag1", "groundBalls_season_avg", "groundBalls_last3_avg", "causedTurnovers_season_avg", "causedTurnovers_last3_avg", "days_since_last_game", "team_faceoff_advantage", "pairing_rating", "opponent_rating", "player_vs_team_rating", "team_def_rating"],
     "Faceoff":  ["fp_season_avg", "fp_last3_avg", "fp_lag1", "faceoffsWon_season_avg", "faceoffsWon_last3_avg", "faceoffPct_season_avg", "faceoffPct_last3_avg", "days_since_last_game", "team_faceoff_advantage", "pairing_rating", "opponent_rating", "player_vs_team_rating", "team_def_rating"],
     "Goalie":   ["fp_season_avg", "fp_last3_avg", "fp_lag1", "saves_season_avg", "saves_last3_avg", "days_since_last_game", "pairing_rating", "player_vs_team_rating", "team_def_rating"],
@@ -545,8 +545,10 @@ def add_matchup_ratings(df_all, matchups_by_game, leakage_fix_enabled):
             if df_hist.empty:
                 continue
                 
-            # Compute ratings on prior history
-            def_r, team_def, pair_r, pvst_r = compute_defender_ratings(df_hist, matchups_by_game)
+            # Compute ratings on prior history (supporting optional TEAM_DEF_MAX_GAMES setting/env var)
+            def_max_env = os.environ.get("TEAM_DEF_MAX_GAMES", None)
+            def_max_val = int(def_max_env) if def_max_env and def_max_env != "None" else getattr(config, "TEAM_DEF_MAX_GAMES", None)
+            def_r, team_def, pair_r, pvst_r = compute_defender_ratings(df_hist, matchups_by_game, max_games_per_team=def_max_val)
             _, team_def_l3, _, _ = compute_defender_ratings(df_hist, matchups_by_game, max_games_per_team=3)
             
             # Map ratings to the rows belonging to current game `gid`

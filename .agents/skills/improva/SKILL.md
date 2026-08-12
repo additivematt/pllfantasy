@@ -28,7 +28,23 @@ To ensure that changes are mathematically sound and do not degrade model perform
 > **STRICT MANDATE: Baseline CSV Archives MUST Always Store All Top-5 Candidate Lineups (Ranks 1 to 5)**:
 > When creating, archiving, or populating baseline roster CSVs (`baselines/rosters_<strategy>_baseline_<N>.csv`), the files MUST ALWAYS contain all 5 distinct candidate rosters for every week (with a `lineup_rank` column `1..5`, yielding 35 player rows per week $\times N_{\text{weeks}}$). **NEVER delete, strip, or filter out ranks 2 through 5** from baseline roster CSV archives. Ranks 2–5 are mandatory for evaluating Top-5 portfolio performance metrics (`Top-5 Mean`, `Top-5 Max`, `Top-5 Min`, `Top-5 Max Ceiling %`).
 
-### Baseline 11 (Player-Anchored EV — 7 August 2026)
+### Baseline 12 (Midfield Assist & 2-Pt Goal Features + Platform Scoring Fix — 12 August 2026)
+
+Established after correcting the official platform scoring formula (`calc_fantasy` assist multiplier $7 \rightarrow 10\text{ pts}$, 2-pt goal multiplier $15 \rightarrow 20\text{ pts}$, turnover multiplier $0 \rightarrow -3\text{ pts}$) and incorporating `assists_season_avg`, `assists_last3_avg`, `twoPointGoals_season_avg`, and `twoPointGoals_last3_avg` directly into `FEATURE_LISTS["Midfield"]`. Boosted **2026 Top-5 Mean roster score by +7.2 pts/wk** (149.2 $\rightarrow$ **156.4 pts/wk**), **2026 Top-5 Floor (Min) by +5.2 pts/wk** (124.2 $\rightarrow$ **129.4 pts/wk**), and **2026 Midfield Spearman rank correlation by +15.1%** ($\rho \rightarrow \mathbf{0.1508}$).
+
+| Season | Strategy | Top-1 (Avg/Wk) | Top-5 Mean (Avg/Wk) | Top-5 Max (Avg/Wk) | Top-5 Min (Avg/Wk) | Coulda Max (Avg/Wk) | Top-5 Max Ceiling % |
+|---|---|---|---|---|---|---|---|
+| **2025** | `MC_EV` | **172.6 pts/wk** | **169.1 pts/wk** | **190.1 pts/wk** | **146.1 pts/wk** | 353.2 pts/wk | **53.8%** |
+| **2026** | `MC_EV` | **151.6 pts/wk** | **156.4 pts/wk** | **180.7 pts/wk** | **129.4 pts/wk** | 370.2 pts/wk | **48.8%** |
+
+**Baseline 12 Process-Quality Metrics (MC_EV Top-1)**:
+
+| Season | Avg VOR/Slot | VOR/Week | Slots Above Median | Spearman ρ (Overall) | A | M | D | FO | G |
+|---|---|---|---|---|---|---|---|---|---|
+| **2025** | **+7.0** | **+49.2** | **67.1%** (61/91) | **0.348** | 0.291 | **0.049** | 0.112 | 0.445 | 0.191 |
+| **2026** | **+12.8** | **+89.2** | **79.2%** (61/77) | **0.347** | **0.227** | **0.151** | 0.244 | 0.171 | 0.256 |
+
+### Baseline 11 (Player-Anchored EV — 7 August 2026, Superseded)
 
 Established after fixing the Monte Carlo expected value calculation to use **Player-Anchored EV** ($\text{EV} = \text{player\_fp\_avg} \times (0.5 + P_{\text{Boom}} / 100)$), which anchors expectations to individual player caliber while using $P_{\text{Boom}}$ as a dynamic matchup factor. This completely eliminated artificial position-mean regression penalties on top-tier superstars.
 
@@ -110,7 +126,7 @@ The following table summarizes all remaining improvement items in the active bac
 
 | # | Item # & Name | Category | Expected Impact | Confidence | Rationale |
 |---|---|---|---|---|---|
-| **1** | **Item 49**: Midfield Ranking Fix *(NEW)* | Tier 2 (Features) | **+15 to +30 pts/wk** | **High** | **Highest-leverage item.** M_Spearman ≈ 0.10 = near-random ranking for 2 of 7 roster slots (29% of lineup). Fixing Midfield feature representation is the single biggest opportunity. |
+| **1** | **Item 49**: Midfield Ranking Fix ✅ DONE | Tier 2 (Features) | **+7.2 pts/wk (T5 Mean)** | **High** | ✅ **ACCEPTED & INTEGRATED (Baseline 12)**. Corrected platform scoring weights (assists * 10, 2G * 20, TO * -3) and added assists & 2-pt goals to Midfield. Boosted 2026 T5 Mean roster score by +7.2 pts/wk, T5 Floor by +5.2 pts/wk, and Midfield Spearman by +15.1%. |
 | **2** | **Item 33**: Position-Specific Hyperparameter Tuning | Tier 2 (Tuning) | **+10 to +25 pts/wk** | **High** | Now motivated by concrete per-position Spearman data showing which positions need help. Focus: Midfield (shallow trees) and Goalie (heavy regularization). |
 | **3** | **Item 50**: Attack Ranking Recovery *(NEW)* | Tier 2 (Features) | **+5 to +15 pts/wk** | **Medium** | A_Spearman degraded 42% from 2025→2026. Combined with salary pricing collapse (FP/coin: 3.69→2.24), Attack slots are a double headwind. |
 | **4** | **Item 39**: Skewed Bootstrap (CDF Mapping) | Tier 3 (Simulation) | **+5 to +15 pts/wk** | **High** | Still important for tournament strategies but ranking fixes have higher leverage — they affect every single lineup. |
@@ -685,4 +701,11 @@ A full codebase audit on **1 July 2026** identified 6 distinct leakage sources. 
   - **Regressor-Only EV**: 2,243.6 pts ('25) / **1,038.2 pts ('26)** (collapsed by **-235.8 pts** in 2026).
 - **Scientific Conclusion**: Proved that combining continuous point expectations (`PredictedPoints`) with tier probabilities (`BoomProbability`) in Baseline 10 is not harmful "double counting", but rather **beneficial model ensembling** that acts as an ensemble smoother over small weekly sample sizes (~8 goalies, ~16 attackers per week), yielding **+235.8 pts higher score** in 2026 compared to Regressor-Only!
 - **Status**: ✅ **Validated Baseline 10 Model Stacking Architecture**.
+
+#### 9. Opponent Team Defensive Rating Multi-Year Rolling Window Research Note 💡 INVESTIGATE
+- **Hypothesis**: Testing whether computing `team_def_rating` over recent rolling windows of 5, 8, or 10 games per opponent outperforms the season-to-date expanding window.
+- **Empirical Discovery**: When tested within a single season, `max_games = 5`, `8`, or `10` returns the exact same games as the season-to-date history because PLL teams play only 10 regular-season games per year (accumulating only 5–6 games by mid-season).
+- **Future Investigation**: To properly test rolling 5, 8, or 10-game team defensive windows, the ratings generator must carry over multi-year history (combining 2025 and 2026 prior games) so early-season weeks draw from late-season prior year games.
+- **Status**: 💡 **Logged for future multi-year window investigation**.
+
 
