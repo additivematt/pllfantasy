@@ -134,7 +134,7 @@ The following table summarizes all remaining improvement items in the active bac
 | # | Item # & Name | Category | Expected Impact | Confidence | Rationale |
 |---|---|---|---|---|---|
 | **1** | **Item 49**: Midfield Ranking Fix ✅ DONE | Tier 2 (Features) | **+7.2 pts/wk (T5 Mean)** | **High** | ✅ **ACCEPTED & INTEGRATED (Baseline 12)**. Corrected platform scoring weights (assists * 10, 2G * 20, TO * -3) and added assists & 2-pt goals to Midfield. Boosted 2026 T5 Mean roster score by +7.2 pts/wk, T5 Floor by +5.2 pts/wk, and Midfield Spearman by +15.1%. |
-| **2** | **Item 33**: Position-Specific Hyperparameter Tuning | Tier 2 (Tuning) | **+10 to +25 pts/wk** | **High** | Now motivated by concrete per-position Spearman data showing which positions need help. Focus: Midfield (shallow trees) and Goalie (heavy regularization). |
+| **2** | **Item 33**: Position-Specific Hyperparameter Tuning ✅ DONE | Tier 2 (Tuning) | **+2.3 pts/wk (T5 Mean '26)** | **High** | ✅ **ACCEPTED & COMPLETED**. TimeSeriesSplit tuned tree depths (A:4, M:3, D:4, G:3) and node regularization (A:3, M:5, D:4, G:10). Achieved +2.8 pts/wk 2026 Top-1 gain, +2.3 pts/wk 2026 Top-5 Mean gain, and +4.6 pts/wk 2-year floor protection. |
 | **3** | **Item 50**: Attack Ranking Recovery *(NEW)* | Tier 2 (Features) | **+5 to +15 pts/wk** | **Medium** | A_Spearman degraded 42% from 2025→2026. Combined with salary pricing collapse (FP/coin: 3.69→2.24), Attack slots are a double headwind. |
 | **4** | **Item 39**: Skewed Bootstrap (CDF Mapping) | Tier 3 (Simulation) | **+5 to +15 pts/wk** | **High** | Still important for tournament strategies but ranking fixes have higher leverage — they affect every single lineup. |
 | **5** | **Item 43**: Scoring Environment Multiplier | Tier 3 (Simulation) | **+3 to +10 pts/wk** | **Med-High** | Shootout game-stacks remain undermodeled. |
@@ -211,6 +211,21 @@ To track historical performance changes and maintain auditability across key mil
   | 2026 | MC_Ceil_90 | 1232.9 | 3676.2 | 33.5% | 90th percentile ceiling strategy |
 
 - **Interpretation**: The generative faceoff model is a major success. By replacing GBDT classifier predictions (which had 0% Boom recall/precision) with head-to-head win probability modeling and individual stat propensity, it yielded a massive +134.3 points improvement in 2025 and reliable 1274.0 pts performance across 2026. This is the active production configuration.
+
+### Baseline 13 (Position-Specific Hyperparameter Tuning — August 2026)
+- **Status**: 🟢 **Active Production Baseline**. Integrated position-specific GBDT hyperparameters (`--hyperparams-file position_hyperparams_item33.json`) across both `XGBRegressor` and `XGBClassifier`:
+  - **Attack**: `max_depth=4`, `min_child_weight=3`, `learning_rate=0.05`, `n_estimators=100`
+  - **Midfield**: `max_depth=3`, `min_child_weight=5`, `learning_rate=0.05`, `n_estimators=100`
+  - **Defense**: `max_depth=4`, `min_child_weight=4`, `learning_rate=0.05`, `n_estimators=100`
+  - **Goalie**: `max_depth=3`, `min_child_weight=10`, `learning_rate=0.05`, `n_estimators=75`
+- **Roster Files**: All Baseline 13 rosters are archived in `baselines/`:
+  - [`baselines/rosters_mc_ev_baseline_13.csv`](file:///F:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/baselines/rosters_mc_ev_baseline_13.csv)
+  - [`baselines/rosters_mc_win_160_baseline_13.csv`](file:///F:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/baselines/rosters_mc_win_160_baseline_13.csv)
+  - [`baselines/rosters_mc_ceil_90_baseline_13.csv`](file:///F:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/baselines/rosters_mc_ceil_90_baseline_13.csv)
+- **Key Gains vs Baseline 12**:
+  - **2026 Top-1 Score**: **+2.8 pts/wk** improvement across 2026 slates.
+  * **2026 Top-5 Mean Score**: **+2.3 pts/wk** portfolio gain across 2026 slates.
+  * **2-Year Floor Safety (Top-5 Min)**: Improved from 138.3 to 142.8 pts/wk (**+4.6 pts/wk** floor protection).
 
 ---
 

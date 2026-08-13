@@ -56,6 +56,7 @@ def main():
     pace_group.add_argument("--pace-scale", action="store_true", default=None, help="Enable game pace scaling of GBDT features")
     pace_group.add_argument("--no-pace-scale", action="store_true", default=None, help="Disable game pace scaling of GBDT features")
     p.add_argument("--boom-weight", type=float, default=2.0, help="Asymmetric sample weight for 'Boom' class in classifier training")
+    p.add_argument("--hyperparams-file", type=str, default=None, help="Path to JSON file containing position-specific XGBoost hyperparameters")
     args = p.parse_args()
     # Resolve pace scaling: CLI overrides config toggle
     if args.pace_scale:
@@ -808,12 +809,23 @@ def main():
             continue
         
         # 1. Stacking: Out-of-fold point predictions on training data (5-Fold CV using TimeSeriesSplit)
-        df_pg["PredictedPoints"] = 0.0
-        tscv = TimeSeriesSplit(n_splits=5)
-        
+        df_pg["PredictedPoints"] = 0        # Load tuned hyperparams if provided
+        hparams_kwargs = {"n_estimators": 100, "random_state": 42}
+        if args.hyperparams_file and os.path.exists(args.hyperparams_file):
+            try:
+                with open(args.hyperparams_file) as hf:
+                    hparams_dict = json.load(hf)
+                    if pg in hparams_dict:
+                        hparams_kwargs.update(hparams_dict[pg])
+                        print(f"  [INFO] Applying tuned hyperparams for {pg}: {hparams_dict[pg]}")
+            except Exception as ex:
+                print(f"  [WARNING] Failed to load hyperparams file: {ex}")
+
+        # 1. Out-of-Fold Stacking: Fit regression on expanding window / TimeSeriesSplit
+        tscv_reg = TimeSeriesSplit(n_splits=3)
         predicted_mask = np.zeros(len(df_pg), dtype=bool)
         
-        for train_idx, val_idx in tscv.split(df_pg):
+        for train_idx, val_idx in tscv_reg.split(df_pg):
             train_fold = df_pg.iloc[train_idx]
             val_fold = df_pg.iloc[val_idx]
             
@@ -821,23 +833,18 @@ def main():
             X_tr = sc_fold.fit_transform(train_fold[feats])
             X_val = sc_fold.transform(val_fold[feats])
             
-            reg_fold = XGBRegressor(n_estimators=100, random_state=42, objective=quantile_obj)
+            reg_fold = XGBRegressor(objective=quantile_obj, **hparams_kwargs)
             reg_fold.fit(X_tr, train_fold["TotalFantasyPoints"])
             
             df_pg.loc[df_pg.index[val_idx], "PredictedPoints"] = reg_fold.predict(X_val)
             predicted_mask[val_idx] = True
-            
-        # For the earliest games (first training split), we cannot generate leak-free OOF predictions
-        # via KFold(shuffle=True) as it leaks future data within the fold.
-        # Instead, we leave them as 0.0 and filter them out before training the classifier
-        # to ensure the classifier only trains on strictly leak-free stacked features.
         
         # 2. Stacking: Fit regression on entire training set and predict on test set
         sc_all = StandardScaler()
         X_all_reg = sc_all.fit_transform(df_pg[feats])
         X_test_reg = sc_all.transform(tp[feats])
         
-        reg_full = XGBRegressor(n_estimators=100, random_state=42, objective=quantile_obj)
+        reg_full = XGBRegressor(objective=quantile_obj, **hparams_kwargs)
         reg_full.fit(X_all_reg, df_pg["TotalFantasyPoints"])
         
         tp["PredictedPoints"] = reg_full.predict(X_test_reg)
@@ -857,8 +864,7 @@ def main():
         # 5. Calibrated Classification
         le = LabelEncoder()
         ye = le.fit_transform(clf_train["PerformanceTier"].astype(str))
-        
-        base_clf = XGBClassifier(n_estimators=100, random_state=42)
+        base_clf = XGBClassifier(**hparams_kwargs)
         try:
             mod = CalibratedClassifierCV(estimator=base_clf, method='isotonic', cv=TimeSeriesSplit(n_splits=3))
         except TypeError:
