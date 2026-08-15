@@ -36,6 +36,16 @@ if getattr(config, "EWMA_ENABLED", False):
         if "fp_ewma_4" not in feats:
             feats.append("fp_ewma_4")
 
+if getattr(config, "FEATURE_ATTACK_2PT_GOALS_ENABLED", False):
+    for f in ["twoPointGoals_season_avg", "twoPointGoals_last3_avg", "two_pt_goal_ratio"]:
+        if f not in FEATURE_LISTS["Attack"]:
+            FEATURE_LISTS["Attack"].append(f)
+
+if getattr(config, "FEATURE_ATTACK_GOALIE_FORM_ENABLED", False):
+    for f in ["opp_goalie_save_pct_last3", "opp_goalie_ga_last3"]:
+        if f not in FEATURE_LISTS["Attack"]:
+            FEATURE_LISTS["Attack"].append(f)
+
 def load_stats_json(path):
     yr_match = re.search(r'combined_player_stats_(\d{4})', path)
     yr = int(yr_match.group(1)) if yr_match else None

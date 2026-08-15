@@ -8,7 +8,7 @@
             "game_id": "2026-ev-26",
             "position": "Goalie",
             "salary": 46,
-            "mc_ev": 43.4,
+            "mc_ev": 43.5,
             "mc_p90": 64.0,
             "mc_p10": 20.3,
             "actualPoints": 10.0
@@ -27,19 +27,6 @@
             "actualPoints": 24.0
         },
         {
-            "firstName": "Sam",
-            "lastName": "King",
-            "team": "ARC",
-            "opponent": "ATL",
-            "game_id": "2026-ev-27",
-            "position": "Midfield",
-            "salary": 26,
-            "mc_ev": 29.8,
-            "mc_p90": 63.4,
-            "mc_p10": 2.8,
-            "actualPoints": 39.0
-        },
-        {
             "firstName": "Ty",
             "lastName": "English",
             "team": "CHA",
@@ -47,10 +34,23 @@
             "game_id": "2026-ev-26",
             "position": "Defense",
             "salary": 18,
-            "mc_ev": 29.8,
+            "mc_ev": 30.2,
             "mc_p90": 78.7,
             "mc_p10": 0.0,
             "actualPoints": 33.0
+        },
+        {
+            "firstName": "Sam",
+            "lastName": "King",
+            "team": "ARC",
+            "opponent": "ATL",
+            "game_id": "2026-ev-27",
+            "position": "Midfield",
+            "salary": 26,
+            "mc_ev": 27.8,
+            "mc_p90": 60.2,
+            "mc_p10": 2.6,
+            "actualPoints": 39.0
         },
         {
             "firstName": "Kieran",
@@ -60,7 +60,7 @@
             "game_id": "2026-ev-25",
             "position": "Attack",
             "salary": 26,
-            "mc_ev": 26.9,
+            "mc_ev": 27.1,
             "mc_p90": 55.1,
             "mc_p10": 1.9,
             "actualPoints": 30.0
@@ -73,9 +73,9 @@
             "game_id": "2026-ev-28",
             "position": "Faceoff",
             "salary": 25,
-            "mc_ev": 23.9,
+            "mc_ev": 23.7,
             "mc_p90": 45.0,
-            "mc_p10": 2.1,
+            "mc_p10": 1.9,
             "actualPoints": 37.4
         },
         {
@@ -86,8 +86,8 @@
             "game_id": "2026-ev-25",
             "position": "Midfield",
             "salary": 18,
-            "mc_ev": 22.7,
-            "mc_p90": 49.8,
+            "mc_ev": 21.9,
+            "mc_p90": 47.6,
             "mc_p10": 0.0,
             "actualPoints": 7.0
         }
@@ -101,7 +101,7 @@
             "game_id": "2026-ev-26",
             "position": "Goalie",
             "salary": 46,
-            "mc_ev": 43.4,
+            "mc_ev": 43.5,
             "mc_p90": 64.0,
             "mc_p10": 20.3,
             "actualPoints": 10.0
@@ -120,19 +120,6 @@
             "actualPoints": 24.0
         },
         {
-            "firstName": "Sam",
-            "lastName": "King",
-            "team": "ARC",
-            "opponent": "ATL",
-            "game_id": "2026-ev-27",
-            "position": "Midfield",
-            "salary": 26,
-            "mc_ev": 29.8,
-            "mc_p90": 63.4,
-            "mc_p10": 2.8,
-            "actualPoints": 39.0
-        },
-        {
             "firstName": "Ty",
             "lastName": "English",
             "team": "CHA",
@@ -140,10 +127,23 @@
             "game_id": "2026-ev-26",
             "position": "Defense",
             "salary": 18,
-            "mc_ev": 29.8,
+            "mc_ev": 30.2,
             "mc_p90": 78.7,
             "mc_p10": 0.0,
             "actualPoints": 33.0
+        },
+        {
+            "firstName": "Sam",
+            "lastName": "King",
+            "team": "ARC",
+            "opponent": "ATL",
+            "game_id": "2026-ev-27",
+            "position": "Midfield",
+            "salary": 26,
+            "mc_ev": 27.8,
+            "mc_p90": 60.2,
+            "mc_p10": 2.6,
+            "actualPoints": 39.0
         },
         {
             "firstName": "Kieran",
@@ -153,7 +153,7 @@
             "game_id": "2026-ev-25",
             "position": "Attack",
             "salary": 26,
-            "mc_ev": 26.9,
+            "mc_ev": 27.1,
             "mc_p90": 55.1,
             "mc_p10": 1.9,
             "actualPoints": 30.0
@@ -166,23 +166,23 @@
             "game_id": "2026-ev-28",
             "position": "Faceoff",
             "salary": 25,
-            "mc_ev": 23.9,
+            "mc_ev": 23.7,
             "mc_p90": 45.0,
-            "mc_p10": 2.1,
+            "mc_p10": 1.9,
             "actualPoints": 37.4
         },
         {
             "firstName": "Matt",
-            "lastName": "Collison",
-            "team": "WAT",
-            "opponent": "RED",
-            "game_id": "2026-ev-25",
+            "lastName": "Traynor",
+            "team": "ATL",
+            "opponent": "ARC",
+            "game_id": "2026-ev-27",
             "position": "Midfield",
-            "salary": 18,
-            "mc_ev": 22.7,
-            "mc_p90": 49.8,
-            "mc_p10": 0.0,
-            "actualPoints": 7.0
+            "salary": 19,
+            "mc_ev": 19.6,
+            "mc_p90": 41.6,
+            "mc_p10": 6.8,
+            "actualPoints": 8.0
         }
     ],
     "MC_Ceil_90": [
@@ -194,7 +194,7 @@
             "game_id": "2026-ev-26",
             "position": "Goalie",
             "salary": 46,
-            "mc_ev": 43.4,
+            "mc_ev": 43.5,
             "mc_p90": 64.0,
             "mc_p10": 20.3,
             "actualPoints": 10.0
@@ -213,19 +213,6 @@
             "actualPoints": 24.0
         },
         {
-            "firstName": "Sam",
-            "lastName": "King",
-            "team": "ARC",
-            "opponent": "ATL",
-            "game_id": "2026-ev-27",
-            "position": "Midfield",
-            "salary": 26,
-            "mc_ev": 29.8,
-            "mc_p90": 63.4,
-            "mc_p10": 2.8,
-            "actualPoints": 39.0
-        },
-        {
             "firstName": "Ty",
             "lastName": "English",
             "team": "CHA",
@@ -233,10 +220,23 @@
             "game_id": "2026-ev-26",
             "position": "Defense",
             "salary": 18,
-            "mc_ev": 29.8,
+            "mc_ev": 30.2,
             "mc_p90": 78.7,
             "mc_p10": 0.0,
             "actualPoints": 33.0
+        },
+        {
+            "firstName": "Sam",
+            "lastName": "King",
+            "team": "ARC",
+            "opponent": "ATL",
+            "game_id": "2026-ev-27",
+            "position": "Midfield",
+            "salary": 26,
+            "mc_ev": 27.8,
+            "mc_p90": 60.2,
+            "mc_p10": 2.6,
+            "actualPoints": 39.0
         },
         {
             "firstName": "Kieran",
@@ -246,7 +246,7 @@
             "game_id": "2026-ev-25",
             "position": "Attack",
             "salary": 26,
-            "mc_ev": 26.9,
+            "mc_ev": 27.1,
             "mc_p90": 55.1,
             "mc_p10": 1.9,
             "actualPoints": 30.0
@@ -259,9 +259,9 @@
             "game_id": "2026-ev-28",
             "position": "Faceoff",
             "salary": 25,
-            "mc_ev": 23.9,
+            "mc_ev": 23.7,
             "mc_p90": 45.0,
-            "mc_p10": 2.1,
+            "mc_p10": 1.9,
             "actualPoints": 37.4
         },
         {
@@ -272,25 +272,38 @@
             "game_id": "2026-ev-25",
             "position": "Midfield",
             "salary": 18,
-            "mc_ev": 22.7,
-            "mc_p90": 49.8,
+            "mc_ev": 21.9,
+            "mc_p90": 47.6,
             "mc_p10": 0.0,
             "actualPoints": 7.0
         }
     ],
     "MC_Consensus": [
         {
-            "firstName": "Blaze",
-            "lastName": "Riorden",
-            "team": "CHA",
-            "opponent": "WHP",
+            "firstName": "Michael",
+            "lastName": "Sowers",
+            "team": "WAT",
+            "opponent": "RED",
+            "game_id": "2026-ev-25",
+            "position": "Attack",
+            "salary": 43,
+            "mc_ev": 34.6,
+            "mc_p90": 50.5,
+            "mc_p10": 16.8,
+            "actualPoints": 53.0
+        },
+        {
+            "firstName": "Emmet",
+            "lastName": "Carroll",
+            "team": "WHP",
+            "opponent": "CHA",
             "game_id": "2026-ev-26",
             "position": "Goalie",
-            "salary": 46,
-            "mc_ev": 43.4,
-            "mc_p90": 64.0,
-            "mc_p10": 20.3,
-            "actualPoints": 10.0
+            "salary": 36,
+            "mc_ev": 31.8,
+            "mc_p90": 54.5,
+            "mc_p10": 13.4,
+            "actualPoints": 29.0
         },
         {
             "firstName": "Joey",
@@ -300,9 +313,9 @@
             "game_id": "2026-ev-26",
             "position": "Attack",
             "salary": 32,
-            "mc_ev": 31.1,
+            "mc_ev": 30.8,
             "mc_p90": 66.2,
-            "mc_p10": 3.4,
+            "mc_p10": 2.3,
             "actualPoints": 42.0
         },
         {
@@ -319,30 +332,17 @@
             "actualPoints": 15.0
         },
         {
-            "firstName": "TD",
-            "lastName": "Ierlan",
+            "firstName": "Andrew",
+            "lastName": "McAdorey",
             "team": "RED",
             "opponent": "WAT",
             "game_id": "2026-ev-25",
-            "position": "Faceoff",
-            "salary": 26,
-            "mc_ev": 21.1,
-            "mc_p90": 40.0,
-            "mc_p10": 6.9,
-            "actualPoints": 3.7
-        },
-        {
-            "firstName": "Bryan",
-            "lastName": "Costabile",
-            "team": "ATL",
-            "opponent": "ARC",
-            "game_id": "2026-ev-27",
             "position": "Midfield",
-            "salary": 34,
-            "mc_ev": 18.2,
-            "mc_p90": 42.9,
-            "mc_p10": 4.3,
-            "actualPoints": 12.0
+            "salary": 22,
+            "mc_ev": 20.6,
+            "mc_p90": 44.9,
+            "mc_p10": 0.0,
+            "actualPoints": 21.0
         },
         {
             "firstName": "Brian",
@@ -352,23 +352,23 @@
             "game_id": "2026-ev-25",
             "position": "Defense",
             "salary": 21,
-            "mc_ev": 13.2,
+            "mc_ev": 13.5,
             "mc_p90": 26.3,
             "mc_p10": 2.0,
             "actualPoints": 21.0
         },
         {
-            "firstName": "Richie",
-            "lastName": "Connell",
-            "team": "WHP",
-            "opponent": "CHA",
-            "game_id": "2026-ev-26",
-            "position": "Attack",
-            "salary": 8,
-            "mc_ev": 11.8,
-            "mc_p90": 25.0,
-            "mc_p10": 0.5,
-            "actualPoints": 20.0
+            "firstName": "Alec",
+            "lastName": "Stathakis",
+            "team": "WAT",
+            "opponent": "RED",
+            "game_id": "2026-ev-25",
+            "position": "Faceoff",
+            "salary": 13,
+            "mc_ev": 4.4,
+            "mc_p90": 7.7,
+            "mc_p10": 0.0,
+            "actualPoints": 14.9
         }
     ],
     "MC_Differential": [
@@ -380,7 +380,7 @@
             "game_id": "2026-ev-26",
             "position": "Goalie",
             "salary": 46,
-            "mc_ev": 43.4,
+            "mc_ev": 43.5,
             "mc_p90": 64.0,
             "mc_p10": 20.3,
             "actualPoints": 10.0
@@ -399,19 +399,6 @@
             "actualPoints": 24.0
         },
         {
-            "firstName": "Sam",
-            "lastName": "King",
-            "team": "ARC",
-            "opponent": "ATL",
-            "game_id": "2026-ev-27",
-            "position": "Midfield",
-            "salary": 26,
-            "mc_ev": 29.8,
-            "mc_p90": 63.4,
-            "mc_p10": 2.8,
-            "actualPoints": 39.0
-        },
-        {
             "firstName": "Ty",
             "lastName": "English",
             "team": "CHA",
@@ -419,10 +406,23 @@
             "game_id": "2026-ev-26",
             "position": "Defense",
             "salary": 18,
-            "mc_ev": 29.8,
+            "mc_ev": 30.2,
             "mc_p90": 78.7,
             "mc_p10": 0.0,
             "actualPoints": 33.0
+        },
+        {
+            "firstName": "Sam",
+            "lastName": "King",
+            "team": "ARC",
+            "opponent": "ATL",
+            "game_id": "2026-ev-27",
+            "position": "Midfield",
+            "salary": 26,
+            "mc_ev": 27.8,
+            "mc_p90": 60.2,
+            "mc_p10": 2.6,
+            "actualPoints": 39.0
         },
         {
             "firstName": "Kieran",
@@ -432,7 +432,7 @@
             "game_id": "2026-ev-25",
             "position": "Attack",
             "salary": 26,
-            "mc_ev": 26.9,
+            "mc_ev": 27.1,
             "mc_p90": 55.1,
             "mc_p10": 1.9,
             "actualPoints": 30.0
@@ -445,9 +445,9 @@
             "game_id": "2026-ev-28",
             "position": "Faceoff",
             "salary": 25,
-            "mc_ev": 23.9,
+            "mc_ev": 23.7,
             "mc_p90": 45.0,
-            "mc_p10": 2.1,
+            "mc_p10": 1.9,
             "actualPoints": 37.4
         },
         {
@@ -458,8 +458,8 @@
             "game_id": "2026-ev-25",
             "position": "Midfield",
             "salary": 18,
-            "mc_ev": 22.7,
-            "mc_p90": 49.8,
+            "mc_ev": 21.9,
+            "mc_p90": 47.6,
             "mc_p10": 0.0,
             "actualPoints": 7.0
         }
@@ -473,7 +473,7 @@
             "game_id": "2026-ev-26",
             "position": "A",
             "salary": 32,
-            "mc_ev": 26.2,
+            "mc_ev": 26.4,
             "mc_p90": 42.0,
             "mc_p10": 9.9,
             "actualPoints": 72.0
@@ -486,7 +486,7 @@
             "game_id": "2026-ev-28",
             "position": "A",
             "salary": 40,
-            "mc_ev": 27.5,
+            "mc_ev": 27.7,
             "mc_p90": 53.7,
             "mc_p10": 0.8,
             "actualPoints": 56.0
@@ -512,9 +512,9 @@
             "game_id": "2026-ev-25",
             "position": "M",
             "salary": 20,
-            "mc_ev": 20.9,
-            "mc_p90": 34.7,
-            "mc_p10": 5.8,
+            "mc_ev": 21.1,
+            "mc_p90": 35.4,
+            "mc_p10": 6.0,
             "actualPoints": 46.5
         },
         {
@@ -538,9 +538,9 @@
             "game_id": "2026-ev-28",
             "position": "FO",
             "salary": 25,
-            "mc_ev": 23.9,
+            "mc_ev": 23.7,
             "mc_p90": 45.0,
-            "mc_p10": 2.1,
+            "mc_p10": 1.9,
             "actualPoints": 37.4
         },
         {
@@ -551,20 +551,19 @@
             "game_id": "2026-ev-26",
             "position": "G",
             "salary": 36,
-            "mc_ev": 31.9,
-            "mc_p90": 55.5,
-            "mc_p10": 16.4,
+            "mc_ev": 31.8,
+            "mc_p90": 54.5,
+            "mc_p10": 13.4,
             "actualPoints": 29.0
         }
     ],
     "Core": [
         "Blaze Riorden",
         "Connor Shellenberger",
-        "Sam King",
         "Ty English",
+        "Sam King",
         "Kieran McArdle",
-        "Andrew McMeekin",
-        "Matt Collison"
+        "Andrew McMeekin"
     ],
     "Sleepers": [],
     "RecommendedStrategy": "MC_EV",
@@ -591,21 +590,21 @@
                 ]
             },
             {
-                "firstName": "Sam",
-                "lastName": "King",
-                "position": "Midfield",
-                "salary": 26,
-                "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (29.8 EV) and reliable role."
-                ]
-            },
-            {
                 "firstName": "Ty",
                 "lastName": "English",
                 "position": "Defense",
                 "salary": 18,
                 "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (29.8 EV) and reliable role."
+                    "Consistent Pick: Selected for steady expected floor (30.2 EV) and reliable role."
+                ]
+            },
+            {
+                "firstName": "Sam",
+                "lastName": "King",
+                "position": "Midfield",
+                "salary": 26,
+                "bullets": [
+                    "Consistent Pick: Selected for steady expected floor (27.8 EV) and reliable role."
                 ]
             },
             {
@@ -623,7 +622,7 @@
                 "position": "Faceoff",
                 "salary": 25,
                 "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (23.9 EV) and reliable role."
+                    "Consistent Pick: Selected for steady expected floor (23.7 EV) and reliable role."
                 ]
             },
             {
@@ -636,7 +635,19 @@
                 ]
             }
         ],
-        "Variants": []
+        "Variants": [
+            {
+                "strategy": "MC_Win_160",
+                "strategyLabel": "MC Win 160",
+                "in": [
+                    "Matt Traynor"
+                ],
+                "out": [
+                    "Matt Collison"
+                ],
+                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Matt Traynor (Midfield, 19c)) to increase the joint probability of the entire lineup hitting the 160 target score."
+            }
+        ]
     },
     "TacticalAdvice": {
         "FloorLocks": [],

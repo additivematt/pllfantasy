@@ -22,6 +22,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.calibration import CalibratedClassifierCV
 from sklearn.model_selection import KFold, TimeSeriesSplit
 from utils import assign_position_group, assign_sub_position, calc_fantasy, clean_name
+import config
 from config import GAME_PACE_ENABLED, DATA_LEAKAGE_FIX_ENABLED, EWMA_ENABLED, SALARY_AS_FEATURE, SALARY_AS_FEATURE_POSITIONS, USAGE_HEALTH_FEATURES_ENABLED, FACEOFF_HEURISTIC_ENABLED
 from feature_engineering import (
     TEAM_NAME_TO_ID,
@@ -39,11 +40,14 @@ from feature_engineering import (
     compute_game_pace_features
 )
 
-def quantile_obj(y_true, y_pred):
+def quantile_obj(y_true, y_pred, sample_weight=None):
     alpha = 0.9
     errors = y_true - y_pred
     grad = np.where(errors >= 0, -alpha, 1.0 - alpha)
     hess = np.ones_like(y_true)
+    if sample_weight is not None:
+        grad = grad * sample_weight
+        hess = hess * sample_weight
     return grad, hess
 
 
@@ -57,6 +61,7 @@ def main():
     pace_group.add_argument("--no-pace-scale", action="store_true", default=None, help="Disable game pace scaling of GBDT features")
     p.add_argument("--boom-weight", type=float, default=2.0, help="Asymmetric sample weight for 'Boom' class in classifier training")
     p.add_argument("--hyperparams-file", type=str, default=None, help="Path to JSON file containing position-specific XGBoost hyperparameters")
+    p.add_argument("--recency-weight", type=float, default=getattr(config, "ATTACK_RECENCY_WEIGHT", 0.0), help="Recency sample weight factor for training samples")
     args = p.parse_args()
     # Resolve pace scaling: CLI overrides config toggle
     if args.pace_scale:
@@ -821,6 +826,15 @@ def main():
             except Exception as ex:
                 print(f"  [WARNING] Failed to load hyperparams file: {ex}")
 
+        # Recency sample weighting (Item 50): scale sample weights by season recency when requested
+        rec_w_val = getattr(args, "recency_weight", 0.0) or float(os.environ.get("ATTACK_RECENCY_WEIGHT", "0.0"))
+        if rec_w_val > 0 and "year" in df_pg.columns and (pg == "Attack" or os.environ.get("ALL_POSITIONS_RECENCY") == "True"):
+            years_vec = df_pg["year"].fillna(2023)
+            recency_w = 1.0 + rec_w_val * (years_vec - 2023)
+            print(f"  [INFO] Applying recency sample weighting for {pg} (factor={rec_w_val})")
+        else:
+            recency_w = None
+
         # 1. Out-of-Fold Stacking: Fit regression on expanding window / TimeSeriesSplit
         tscv_reg = TimeSeriesSplit(n_splits=3)
         predicted_mask = np.zeros(len(df_pg), dtype=bool)
@@ -834,7 +848,11 @@ def main():
             X_val = sc_fold.transform(val_fold[feats])
             
             reg_fold = XGBRegressor(objective=quantile_obj, **hparams_kwargs)
-            reg_fold.fit(X_tr, train_fold["TotalFantasyPoints"])
+            if recency_w is not None:
+                w_tr = recency_w.iloc[train_idx].values
+                reg_fold.fit(X_tr, train_fold["TotalFantasyPoints"], sample_weight=w_tr)
+            else:
+                reg_fold.fit(X_tr, train_fold["TotalFantasyPoints"])
             
             df_pg.loc[df_pg.index[val_idx], "PredictedPoints"] = reg_fold.predict(X_val)
             predicted_mask[val_idx] = True
@@ -845,7 +863,10 @@ def main():
         X_test_reg = sc_all.transform(tp[feats])
         
         reg_full = XGBRegressor(objective=quantile_obj, **hparams_kwargs)
-        reg_full.fit(X_all_reg, df_pg["TotalFantasyPoints"])
+        if recency_w is not None:
+            reg_full.fit(X_all_reg, df_pg["TotalFantasyPoints"], sample_weight=recency_w.values)
+        else:
+            reg_full.fit(X_all_reg, df_pg["TotalFantasyPoints"])
         
         tp["PredictedPoints"] = reg_full.predict(X_test_reg)
         
@@ -870,12 +891,14 @@ def main():
         except TypeError:
             mod = CalibratedClassifierCV(base_estimator=base_clf, method='isotonic', cv=TimeSeriesSplit(n_splits=3))
             
+        clf_recency_w = recency_w.loc[clf_train.index].values if recency_w is not None else np.ones(len(clf_train))
         if args.boom_weight != 1.0:
             print(f"  [INFO] Applying asymmetric class weighting: Boom weight = {args.boom_weight}")
-            sample_weights = np.where(clf_train["PerformanceTier"] == 'Boom', args.boom_weight, 1.0)
+            sample_weights = np.where(clf_train["PerformanceTier"] == 'Boom', args.boom_weight, 1.0) * clf_recency_w
             mod.fit(X_tr_clf, ye, sample_weight=sample_weights)
         else:
-            mod.fit(X_tr_clf, ye)
+            sample_weights = clf_recency_w
+            mod.fit(X_tr_clf, ye, sample_weight=sample_weights)
         
         # 5b. Extract and log classifier feature importances and SHAP values
         try:

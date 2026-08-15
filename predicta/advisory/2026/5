@@ -74,22 +74,22 @@
             "position": "Midfield",
             "salary": 27,
             "mc_ev": 21.6,
-            "mc_p90": 54.8,
+            "mc_p90": 55.0,
             "mc_p10": 0.0,
             "actualPoints": 17.0
         },
         {
-            "firstName": "Andrew",
-            "lastName": "McAdorey",
-            "team": "RED",
-            "opponent": "ARC",
-            "game_id": "2026-ev-18",
+            "firstName": "Matt",
+            "lastName": "Traynor",
+            "team": "ATL",
+            "opponent": "WHP",
+            "game_id": "2026-ev-19",
             "position": "Midfield",
-            "salary": 24,
-            "mc_ev": 19.8,
-            "mc_p90": 37.8,
-            "mc_p10": 7.8,
-            "actualPoints": 8.0
+            "salary": 17,
+            "mc_ev": 20.2,
+            "mc_p90": 43.2,
+            "mc_p10": 0.0,
+            "actualPoints": 7.0
         }
     ],
     "MC_Win_160": [
@@ -159,19 +159,6 @@
             "actualPoints": 12.0
         },
         {
-            "firstName": "Matt",
-            "lastName": "Traynor",
-            "team": "ATL",
-            "opponent": "WHP",
-            "game_id": "2026-ev-19",
-            "position": "Midfield",
-            "salary": 17,
-            "mc_ev": 19.0,
-            "mc_p90": 40.5,
-            "mc_p10": 0.0,
-            "actualPoints": 7.0
-        },
-        {
             "firstName": "Andrew",
             "lastName": "McAdorey",
             "team": "RED",
@@ -183,6 +170,19 @@
             "mc_p90": 37.8,
             "mc_p10": 7.8,
             "actualPoints": 8.0
+        },
+        {
+            "firstName": "Matt",
+            "lastName": "Traynor",
+            "team": "ATL",
+            "opponent": "WHP",
+            "game_id": "2026-ev-19",
+            "position": "Midfield",
+            "salary": 17,
+            "mc_ev": 20.2,
+            "mc_p90": 43.2,
+            "mc_p10": 0.0,
+            "actualPoints": 7.0
         }
     ],
     "MC_Ceil_90": [
@@ -260,7 +260,7 @@
             "position": "Midfield",
             "salary": 27,
             "mc_ev": 21.6,
-            "mc_p90": 54.8,
+            "mc_p90": 55.0,
             "mc_p10": 0.0,
             "actualPoints": 17.0
         },
@@ -272,8 +272,8 @@
             "game_id": "2026-ev-18",
             "position": "Midfield",
             "salary": 18,
-            "mc_ev": 18.8,
-            "mc_p90": 45.5,
+            "mc_ev": 18.9,
+            "mc_p90": 45.9,
             "mc_p10": 0.0,
             "actualPoints": 17.0
         }
@@ -339,9 +339,9 @@
             "game_id": "2026-ev-19",
             "position": "Midfield",
             "salary": 27,
-            "mc_ev": 18.9,
-            "mc_p90": 44.6,
-            "mc_p10": 2.2,
+            "mc_ev": 19.1,
+            "mc_p90": 45.3,
+            "mc_p10": 2.3,
             "actualPoints": 44.0
         },
         {
@@ -438,19 +438,6 @@
             "actualPoints": 12.0
         },
         {
-            "firstName": "Matt",
-            "lastName": "Traynor",
-            "team": "ATL",
-            "opponent": "WHP",
-            "game_id": "2026-ev-19",
-            "position": "Midfield",
-            "salary": 17,
-            "mc_ev": 19.0,
-            "mc_p90": 40.5,
-            "mc_p10": 0.0,
-            "actualPoints": 7.0
-        },
-        {
             "firstName": "Andrew",
             "lastName": "McAdorey",
             "team": "RED",
@@ -462,6 +449,19 @@
             "mc_p90": 37.8,
             "mc_p10": 7.8,
             "actualPoints": 8.0
+        },
+        {
+            "firstName": "Matt",
+            "lastName": "Traynor",
+            "team": "ATL",
+            "opponent": "WHP",
+            "game_id": "2026-ev-19",
+            "position": "Midfield",
+            "salary": 17,
+            "mc_ev": 20.2,
+            "mc_p90": 43.2,
+            "mc_p10": 0.0,
+            "actualPoints": 7.0
         }
     ],
     "Coulda": [
@@ -499,8 +499,8 @@
             "game_id": "2026-ev-17",
             "position": "M",
             "salary": 23,
-            "mc_ev": 16.5,
-            "mc_p90": 40.6,
+            "mc_ev": 16.9,
+            "mc_p90": 41.7,
             "mc_p10": 0.0,
             "actualPoints": 46.0
         },
@@ -512,8 +512,8 @@
             "game_id": "2026-ev-18",
             "position": "M",
             "salary": 5,
-            "mc_ev": 5.1,
-            "mc_p90": 12.2,
+            "mc_ev": 5.5,
+            "mc_p90": 13.2,
             "mc_p10": 0.0,
             "actualPoints": 46.0
         },
@@ -565,7 +565,7 @@
     ],
     "Sleepers": [],
     "RecommendedStrategy": "MC_EV",
-    "RecommendedReason": "Tight pricing / short slate (3 games, 10 cheap value players). Optimizing for floor is best.",
+    "RecommendedReason": "Tight pricing / short slate (3 games, 12 cheap value players). Optimizing for floor is best.",
     "Narrative": {
         "RecommendedRoster": [
             {
@@ -624,12 +624,12 @@
                 ]
             },
             {
-                "firstName": "Andrew",
-                "lastName": "McAdorey",
+                "firstName": "Matt",
+                "lastName": "Traynor",
                 "position": "Midfield",
-                "salary": 24,
+                "salary": 17,
                 "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (19.8 EV) and reliable role."
+                    "Opponent Weakness: WHP defense allows 12% extra fantasy points to Midfield position."
                 ]
             }
         ],
@@ -638,12 +638,12 @@
                 "strategy": "MC_Win_160",
                 "strategyLabel": "MC Win 160",
                 "in": [
-                    "Matt Traynor"
+                    "Andrew McAdorey"
                 ],
                 "out": [
                     "Matt Brandau"
                 ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Matt Traynor (Midfield, 17c)) to increase the joint probability of the entire lineup hitting the 160 target score."
+                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Andrew McAdorey (Midfield, 24c)) to increase the joint probability of the entire lineup hitting the 160 target score."
             },
             {
                 "strategy": "MC_Ceil_90",
@@ -654,7 +654,7 @@
                 ],
                 "out": [
                     "Brett Dobson",
-                    "Andrew McAdorey"
+                    "Matt Traynor"
                 ],
                 "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Liam Entenmann (Goalie, 50c), Tre Leclaire (Midfield, 18c)) to maximize the team's 90th percentile ceiling (projecting up to 59.4 pts)."
             }
