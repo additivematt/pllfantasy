@@ -83,8 +83,8 @@ def get_week_for_event(event_id):
             elif game_num in (29, 30, 31, 32): return 9
             elif game_num in (20, 33, 34, 35, 36): return 10  # 20=Waterdogs vs Outlaws rescheduled
             elif game_num in (37, 38, 39, 40, 41): return 11
-            elif game_num in (42, 43, 44, 45, 46): return 12
-            elif game_num in (47, 48, 49): return 13
+            elif game_num in (42, 43, 44, 45): return 12
+            elif game_num in (46, 47, 48): return 13
             
         if game_num <= 20:
             return math.ceil(game_num / 4)
