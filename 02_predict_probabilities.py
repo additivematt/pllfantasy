@@ -828,7 +828,7 @@ def main():
 
         # Recency sample weighting (Item 50): scale sample weights by season recency when requested
         rec_w_val = getattr(args, "recency_weight", 0.0) or float(os.environ.get("ATTACK_RECENCY_WEIGHT", "0.0"))
-        if rec_w_val > 0 and "year" in df_pg.columns and (pg == "Attack" or os.environ.get("ALL_POSITIONS_RECENCY") == "True"):
+        if rec_w_val > 0 and "year" in df_pg.columns and pg in ["Attack", "Midfield", "Defense", "Goalie"]:
             years_vec = df_pg["year"].fillna(2023)
             recency_w = 1.0 + rec_w_val * (years_vec - 2023)
             print(f"  [INFO] Applying recency sample weighting for {pg} (factor={rec_w_val})")
