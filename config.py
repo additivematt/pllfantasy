@@ -36,10 +36,12 @@ FEATURE_GOALIE_GB_CT_ENABLED = os.environ.get("FEATURE_GOALIE_GB_CT_ENABLED", "F
 FEATURE_OPP_DEF_FORM_POS_ENABLED = os.environ.get("FEATURE_OPP_DEF_FORM_POS_ENABLED", "False") == "True"
 FEATURE_SQUAD_CHURN_ENABLED = os.environ.get("FEATURE_SQUAD_CHURN_ENABLED", "False") == "True"
 
-# --- Item 50 Attack Recovery Toggles ---
+# --- Item 50 & Baseline 14 Recency Sample Weighting ---
 FEATURE_ATTACK_2PT_GOALS_ENABLED = os.environ.get("FEATURE_ATTACK_2PT_GOALS_ENABLED", "False") == "True"
 FEATURE_ATTACK_GOALIE_FORM_ENABLED = os.environ.get("FEATURE_ATTACK_GOALIE_FORM_ENABLED", "False") == "True"
-ATTACK_RECENCY_WEIGHT = float(os.environ.get("ATTACK_RECENCY_WEIGHT", "0.0"))
+RECENCY_WEIGHT_DEFAULT = float(os.environ.get("RECENCY_WEIGHT_DEFAULT", "0.3"))
+ATTACK_RECENCY_WEIGHT = RECENCY_WEIGHT_DEFAULT
+ALL_POSITIONS_RECENCY_WEIGHT = RECENCY_WEIGHT_DEFAULT
 # --- Baseline 11 Monte Carlo EV Anchoring ---
 # Player-Anchored EV: EV = player_fp_avg * (0.5 + BoomProb / 100)
 # Anchors baseline expectation to player caliber while using BoomProb as a dynamic matchup factor.

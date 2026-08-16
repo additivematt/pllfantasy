@@ -61,7 +61,7 @@ def main():
     pace_group.add_argument("--no-pace-scale", action="store_true", default=None, help="Disable game pace scaling of GBDT features")
     p.add_argument("--boom-weight", type=float, default=2.0, help="Asymmetric sample weight for 'Boom' class in classifier training")
     p.add_argument("--hyperparams-file", type=str, default=None, help="Path to JSON file containing position-specific XGBoost hyperparameters")
-    p.add_argument("--recency-weight", type=float, default=getattr(config, "ATTACK_RECENCY_WEIGHT", 0.0), help="Recency sample weight factor for training samples")
+    p.add_argument("--recency-weight", type=float, default=getattr(config, "RECENCY_WEIGHT_DEFAULT", 0.3), help="Recency sample weight factor for training samples")
     args = p.parse_args()
     # Resolve pace scaling: CLI overrides config toggle
     if args.pace_scale:
@@ -827,7 +827,7 @@ def main():
                 print(f"  [WARNING] Failed to load hyperparams file: {ex}")
 
         # Recency sample weighting (Item 50): scale sample weights by season recency when requested
-        rec_w_val = getattr(args, "recency_weight", 0.0) or float(os.environ.get("ATTACK_RECENCY_WEIGHT", "0.0"))
+        rec_w_val = getattr(args, "recency_weight", 0.0) or float(os.environ.get("RECENCY_WEIGHT_DEFAULT", "0.3"))
         if rec_w_val > 0 and "year" in df_pg.columns and pg in ["Attack", "Midfield", "Defense", "Goalie"]:
             years_vec = df_pg["year"].fillna(2023)
             recency_w = 1.0 + rec_w_val * (years_vec - 2023)

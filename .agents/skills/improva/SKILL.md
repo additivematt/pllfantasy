@@ -31,7 +31,33 @@ To ensure that changes are mathematically sound and do not degrade model perform
 > **STRICT MANDATE: Baseline CSV Archives MUST Always Store All Top-5 Candidate Lineups (Ranks 1 to 5)**:
 > When creating, archiving, or populating baseline roster CSVs (`baselines/rosters_<strategy>_baseline_<N>.csv`), the files MUST ALWAYS contain all 5 distinct candidate rosters for every week (with a `lineup_rank` column `1..5`, yielding 35 player rows per week $\times N_{\text{weeks}}$). **NEVER delete, strip, or filter out ranks 2 through 5** from baseline roster CSV archives. Ranks 2–5 are mandatory for evaluating Top-5 portfolio performance metrics (`Top-5 Mean`, `Top-5 Max`, `Top-5 Min`, `Top-5 Max Ceiling %`).
 
-### Baseline 12 (Midfield Assist & 2-Pt Goal Features + Platform Scoring Fix — 12 August 2026)
+### Baseline 14 (Multi-Position Recency Weighting & Item 50 Attack Recovery — 16 August 2026, ACTIVE)
+
+Established after incorporating **Recency Sample Weighting ($\text{factor}=0.3$) across all non-faceoff position groups (Attack, Midfield, Defense, Goalie)** alongside Baseline 13 position-specific XGBoost hyperparameters (`Attack: max_depth=4, min_child_weight=3; Midfield: max_depth=3, min_child_weight=5; Defense: max_depth=4, min_child_weight=4; Goalie: max_depth=3, min_child_weight=10`). 
+
+**Key Gains**:
+- **Attack Spearman Recovery**: Boosted 2025 Attack Spearman correlation by **+32.2%** ($0.3250 \rightarrow \mathbf{0.4297}$), maintaining **0.5435** in 2026.
+- **Defense Breakout**: Elevated 2026 Defense Spearman correlation to **0.6121** (historic high) and lowered Defense MAE to **8.283 pts**.
+- **Goalie Breakout**: Boosted 2026 Goalie Spearman correlation to **0.5270** (+9.2%).
+- **Roster & Selection Lift**: 2-Year Top-1 roster score increased by **+2.1 pts/wk** (166.1 pts/wk), Top-5 Candidate Mean by **+2.2 pts/wk** (159.2 pts/wk), and Average VOR to **+10.5 pts/pick** (76.1% picks above median).
+
+| Season | Strategy | Top-1 (Avg/Wk) | Top-5 Mean (Avg/Wk) | Top-5 Max (Avg/Wk) | Top-5 Min (Avg/Wk) | Coulda Max (Avg/Wk) | Top-5 Max Ceiling % |
+|---|---|---|---|---|---|---|---|
+| **2025** | `MC_EV` | **171.5 pts/wk** | **174.8 pts/wk** | **202.1 pts/wk** | **148.8 pts/wk** | 359.9 pts/wk | **56.1%** |
+| **2025** | `MC_Win_160` | **175.3 pts/wk** | **176.5 pts/wk** | **203.4 pts/wk** | **151.3 pts/wk** | 359.9 pts/wk | **56.5%** |
+| **2025** | `MC_Ceil_90` | **172.7 pts/wk** | **184.6 pts/wk** | **212.8 pts/wk** | **156.6 pts/wk** | 359.9 pts/wk | **59.1%** |
+| **2026** | `MC_EV` | **157.9 pts/wk** | **151.2 pts/wk** | **173.4 pts/wk** | **132.6 pts/wk** | 372.9 pts/wk | **46.5%** |
+| **2026** | `MC_Win_160` | **153.6 pts/wk** | **149.8 pts/wk** | **171.8 pts/wk** | **131.2 pts/wk** | 372.9 pts/wk | **46.1%** |
+| **2026** | `MC_Ceil_90` | **151.9 pts/wk** | **145.7 pts/wk** | **168.2 pts/wk** | **118.9 pts/wk** | 372.9 pts/wk | **45.1%** |
+
+**Baseline 14 Process-Quality Metrics (MC_EV Top-1)**:
+
+| Season | Avg VOR/Slot | VOR/Week | Slots Above Median | Spearman ρ (Overall) | A | M | D | FO | G |
+|---|---|---|---|---|---|---|---|---|---|
+| **2025** | **+8.0** | **+56.2** | **70.2%** (64/91) | **0.384** | **0.430** | 0.413 | 0.439 | 0.445 | 0.298 |
+| **2026** | **+13.3** | **+92.7** | **81.2%** (63/77) | **0.353** | **0.544** | **0.481** | **0.612** | 0.171 | **0.527** |
+
+### Baseline 12 (Midfield Assist & 2-Pt Goal Features + Platform Scoring Fix — 12 August 2026, Superseded)
 
 Established after correcting the official platform scoring formula (`calc_fantasy` assist multiplier $7 \rightarrow 10\text{ pts}$, 2-pt goal multiplier $15 \rightarrow 20\text{ pts}$, turnover multiplier $0 \rightarrow -3\text{ pts}$) and incorporating `assists_season_avg`, `assists_last3_avg`, `twoPointGoals_season_avg`, and `twoPointGoals_last3_avg` directly into `FEATURE_LISTS["Midfield"]`. Boosted **2026 Top-5 Mean roster score by +7.2 pts/wk** (149.2 $\rightarrow$ **156.4 pts/wk**), **2026 Top-5 Floor (Min) by +5.2 pts/wk** (124.2 $\rightarrow$ **129.4 pts/wk**), and **2026 Midfield Spearman rank correlation by +15.1%** ($\rho \rightarrow \mathbf{0.1508}$).
 
