@@ -8,7 +8,7 @@ description: Central tracking for feature improvements, model baseline audits (B
 
 # PLL Fantasy Prediction Engine — Improvement Ideas
 
-> **Date**: June 2026 (updated August 2026 — VOR & Spearman Diagnostics, Items 49–51)  
+> **Date**: June 2026 (updated August 2026 — VOR & Spearman Diagnostics, Items 49–54)  
 > **Scope**: A deep-dive review of all documentation (`.md` files) and source code to identify accuracy, architecture, and reliability improvement opportunities, supplemented with predictive modeling optimizations tailored for small-sample high-possession sports leagues.
 
 ---
@@ -31,7 +31,33 @@ To ensure that changes are mathematically sound and do not degrade model perform
 > **STRICT MANDATE: Baseline CSV Archives MUST Always Store All Top-5 Candidate Lineups (Ranks 1 to 5)**:
 > When creating, archiving, or populating baseline roster CSVs (`baselines/rosters_<strategy>_baseline_<N>.csv`), the files MUST ALWAYS contain all 5 distinct candidate rosters for every week (with a `lineup_rank` column `1..5`, yielding 35 player rows per week $\times N_{\text{weeks}}$). **NEVER delete, strip, or filter out ranks 2 through 5** from baseline roster CSV archives. Ranks 2–5 are mandatory for evaluating Top-5 portfolio performance metrics (`Top-5 Mean`, `Top-5 Max`, `Top-5 Min`, `Top-5 Max Ceiling %`).
 
-### Baseline 14 (Multi-Position Recency Weighting & Item 50 Attack Recovery — 16 August 2026, ACTIVE)
+### Baseline 15 (Faceoff Bradley-Terry Temporal Decay & Specialist Share Scaling — 20 August 2026, ACTIVE)
+
+Established after incorporating **Item 52 (Faceoff Bradley-Terry Temporal Exponential Decay, Specialist Share Scaling, Starter Prioritization, Tighter Bayesian Priors, and 10 pt Assist Alignment)** alongside Baseline 14 multi-position recency weighting and Baseline 13 position-specific hyperparameters.
+
+**Key Gains**:
+- **Faceoff Spearman Recovery**: 2026 Faceoff Spearman rank correlation recovered from **0.007 $\rightarrow$ 0.400** (+39.3% gain!), raising 2-year pooled Faceoff rank correlation from $0.251 \rightarrow \mathbf{0.458}$ (+82.6% lift).
+- **2026 Roster Scoring Breakthrough**: Boosted 2026 `MC_EV` Top-1 scoring by **+17.7 pts/wk** (157.9 $\rightarrow$ **175.6 pts/wk**) and 2026 `MC_Ceil_90` Top-1 by **+22.4 pts/wk** (151.9 $\rightarrow$ **174.3 pts/wk**).
+- **2-Year Parity**: Achieved identical **175.6 pts/wk** average scoring across both the 2025 and 2026 seasons.
+- **Process Quality & VOR**: 2026 Average VOR jumped to **+20.5 pts/slot** (+143.8 pts/wk) with **94.0% of lineup slots scoring above positional median** (79/84 slots).
+
+| Season | Strategy | Top-1 (Avg/Wk) | Top-5 Mean (Avg/Wk) | Top-5 Max (Avg/Wk) | Top-5 Min (Avg/Wk) | Coulda Max (Avg/Wk) | Top-5 Max Ceiling % |
+|---|---|---|---|---|---|---|---|
+| **2025** | `MC_EV` | **175.6 pts/wk** | **174.7 pts/wk** | **191.7 pts/wk** | **143.3 pts/wk** | 359.9 pts/wk | **53.3%** |
+| **2025** | `MC_Win_160` | **171.8 pts/wk** | **163.1 pts/wk** | **191.7 pts/wk** | **143.1 pts/wk** | 359.9 pts/wk | **53.3%** |
+| **2025** | `MC_Ceil_90` | **173.6 pts/wk** | **177.8 pts/wk** | **204.5 pts/wk** | **146.8 pts/wk** | 359.9 pts/wk | **56.8%** |
+| **2026** | `MC_EV` | **175.6 pts/wk** | **169.6 pts/wk** | **183.7 pts/wk** | **135.2 pts/wk** | 370.4 pts/wk | **49.6%** |
+| **2026** | `MC_Win_160` | **168.1 pts/wk** | **161.2 pts/wk** | **185.5 pts/wk** | **135.2 pts/wk** | 370.4 pts/wk | **50.1%** |
+| **2026** | `MC_Ceil_90` | **174.3 pts/wk** | **155.7 pts/wk** | **185.6 pts/wk** | **130.2 pts/wk** | 370.4 pts/wk | **50.1%** |
+
+**Baseline 15 Process-Quality Metrics (MC_EV Top-1)**:
+
+| Season | Avg VOR/Slot | VOR/Week | Slots Above Median | Spearman ρ (Overall) | A | M | D | FO | G |
+|---|---|---|---|---|---|---|---|---|---|
+| **2025** | **+13.6** | **+94.9** | **72.5%** (66/91) | **0.386** | **0.430** | 0.413 | 0.439 | **0.475** | 0.298 |
+| **2026** | **+20.5** | **+143.8** | **94.0%** (79/84) | **0.386** | **0.544** | **0.481** | **0.612** | **0.400** | **0.527** |
+
+### Baseline 14 (Multi-Position Recency Weighting & Item 50 Attack Recovery — 16 August 2026, Superseded)
 
 Established after incorporating **Recency Sample Weighting ($\text{factor}=0.3$) across all non-faceoff position groups (Attack, Midfield, Defense, Goalie)** alongside Baseline 13 position-specific XGBoost hyperparameters (`Attack: max_depth=4, min_child_weight=3; Midfield: max_depth=3, min_child_weight=5; Defense: max_depth=4, min_child_weight=4; Goalie: max_depth=3, min_child_weight=10`). 
 
@@ -162,17 +188,20 @@ The following table summarizes all remaining improvement items in the active bac
 | **1** | **Item 49**: Midfield Ranking Fix ✅ DONE | Tier 2 (Features) | **+7.2 pts/wk (T5 Mean)** | **High** | ✅ **ACCEPTED & INTEGRATED (Baseline 12)**. Corrected platform scoring weights (assists * 10, 2G * 20, TO * -3) and added assists & 2-pt goals to Midfield. Boosted 2026 T5 Mean roster score by +7.2 pts/wk, T5 Floor by +5.2 pts/wk, and Midfield Spearman by +15.1%. |
 | **2** | **Item 33**: Position-Specific Hyperparameter Tuning ✅ DONE | Tier 2 (Tuning) | **+2.3 pts/wk (T5 Mean '26)** | **High** | ✅ **ACCEPTED & COMPLETED**. TimeSeriesSplit tuned tree depths (A:4, M:3, D:4, G:3) and node regularization (A:3, M:5, D:4, G:10). Achieved +2.8 pts/wk 2026 Top-1 gain, +2.3 pts/wk 2026 Top-5 Mean gain, and +4.6 pts/wk 2-year floor protection. |
 | **3** | **Item 50**: Attack Ranking Recovery ✅ DONE | Tier 2 (Features) | **+32.2% 2025 A_Spearman** | **High** | ✅ **ACCEPTED & COMPLETED**. Candidate C (Recency Weighting factor 0.3) boosted 2025 Attack Spearman from 0.3250 to **0.4297** (+32.2%) and Pearson r to **0.3226**, while Baseline 13 hyperparameters maintain 2026 Attack Spearman at **0.5689** (exceeding target 0.30). |
-| **4** | **Item 39**: Skewed Bootstrap (CDF Mapping) | Tier 3 (Simulation) | **+5 to +15 pts/wk** | **High** | Still important for tournament strategies but ranking fixes have higher leverage — they affect every single lineup. |
-| **5** | **Item 43**: Scoring Environment Multiplier | Tier 3 (Simulation) | **+3 to +10 pts/wk** | **Med-High** | Shootout game-stacks remain undermodeled. |
+| **4** | **Item 52**: FO Bradley-Terry Temporal Decay & Share Scaling ✅ DONE | Tier 2 (Features) | **+17.7 pts/wk ('26 Top-1)** | **High** | ✅ **ACCEPTED & INTEGRATED (Baseline 15)**. Exponential temporal decay (factor 0.5), team faceoff share scaling (5-game window), starter prioritization, tighter priors ($K_{\text{fow}}=10.0, K_{\text{games}}=2.0, C=0.5$), and 10 pt assist scoring alignment. Recovered 2026 FO Spearman from 0.007 $\rightarrow$ **0.400** (+39.3%) and boosted 2026 Top-1 roster scoring by **+17.7 pts/wk** (157.9 $\rightarrow$ **175.6 pts/wk**). |
+| **5** | **Item 53**: Goalie Feature Enrichment | Tier 2 (Features) | **+2 to +6 pts/wk** | **Med-High** | Goalie has only 9 base features (fewest by far). Missing opponent-facing features and `team_faceoff_advantage`. Spearman already 0.527 from hyperparams alone — adding signal should push higher. |
+| **6** | **Item 54**: Per-Position Recency Weight Tuning | Tier 2 (Tuning) | **+1 to +4 pts/wk** | **Medium** | Uniform factor=0.3 applied to all positions. Config scaffolding for per-position values exists but is unused. Quick grid sweep could find position-specific optima. |
+| **7** | **Item 39**: Skewed Bootstrap (CDF Mapping) | Tier 3 (Simulation) | **+5 to +15 pts/wk** | **High** | Still important for tournament strategies but ranking fixes have higher leverage — they affect every single lineup. |
+| **8** | **Item 43**: Scoring Environment Multiplier | Tier 3 (Simulation) | **+3 to +10 pts/wk** | **Med-High** | Shootout game-stacks remain undermodeled. |
 | — | **Item 51**: VOR-Based A/B Testing Framework | Evaluation | — | — | ❌ **Unnecessary / Closed.** Covered by the mandatory 22-metric 6-column evaluation framework (which already reports VOR, Spearman ρ, Top-5 candidate pool, and Boom metrics). |
-| **7** | **Item 32**: Matchup Rating Temporal Decay | Tier 2 (Features) | **+3 to +8 pts/wk** | **Medium** | Less urgent than ranking fixes. |
-| **8** | **Item 41**: Ensemble Meta-Selector (Strategy Picker) | Tier 3 (Optimizer) | **+3 to +8 pts/wk** | **Medium** | Strategy switching value is modest. |
-| **9** | **Item 12**: Dynamic Correlation Matrix | Tier 3 (Simulator) | **+2 to +5 pts/wk** | **Medium** | Code health + adaptive correlations. |
-| **10** | **Item 14**: MC Ceiling Clamp Review | Tier 3 (Simulation) | **+1 to +5 pts/wk** | **Medium** | Modest upside. |
+| **10** | **Item 32**: Matchup Rating Temporal Decay | Tier 2 (Features) | **+3 to +8 pts/wk** | **Medium** | Less urgent than ranking fixes. |
+| **11** | **Item 41**: Ensemble Meta-Selector (Strategy Picker) | Tier 3 (Optimizer) | **+3 to +8 pts/wk** | **Medium** | Strategy switching value is modest. |
+| **12** | **Item 12**: Dynamic Correlation Matrix | Tier 3 (Simulator) | **+2 to +5 pts/wk** | **Medium** | Code health + adaptive correlations. Partially implemented at runtime already (dynamic calc with ≥15 samples, hardcoded fallback). |
+| — | **Item 14**: MC Ceiling Clamp Review | Tier 3 (Simulation) | — | — | ✅ **Already resolved.** `CEILING_CLAMP_MULTIPLIER = None` in production — clamp is disabled. |
 | — | **Item 42**: Player Pairwise Correlations | Tier 3 (Simulation) | **+1 to +4 pts/wk** | **Low** | Deprioritized — basic ranking is the bottleneck, not correlation structure. Small per-pair samples remain a problem. |
 | — | **Item 40/44**: Historical Ownership & Chalk Penalty | Tier 3 (Optimizer) | **0 to +3 pts/wk** | **Low** | Deprioritized — format is cumulative season scoring where EV maximization is provably optimal. |
 | — | **Item 48**: Precision-Oriented Tuning | Tier 2 (Tuning) | — | — | ✅ **Completed & Adopted.** |
-| — | **Item 47**: First-Principles Feature Ablation | Tier 2 (Features) | — | — | ❌ **Rejected.** All toggles degraded 2025 scores. |
+| — | **Item 47**: First-Principles Feature Ablation | Tier 2 (Features) | — | — | 🔄 **Retest Pending.** Originally rejected on roster score alone; VOR/Spearman may reveal hidden per-position gains under Baseline 14 hyperparameters. |
 | — | **Items 16–19**: Pipeline Validation, Speed & Safety | Tier 4 (Infrastructure) | **Execution Speed & Zero Scratches** | **High** | Important but not accuracy-impacting. |
 | — | **Items 20–24**: UI/UX & Live Game-Day Tools | Tier 5 (UX & Operations) | **Operational Safety** | **High** | Live scratch alerts, confidence bands, regret analysis. |
 
@@ -363,6 +392,55 @@ To track historical performance changes and maintain auditability across key mil
   3. **Candidate A (Opponent Goalie Form)**: Provided a slight lift in 2025 Spearman ($0.3250 \rightarrow \mathbf{0.3299}$) while maintaining strong 2026 correlation ($0.5687$).
 - **Status**: ✅ **Completed & Adopted**. Recency Sample Weighting (`--recency-weight 0.3`) and Opponent Goalie Form features integrated into [`02_predict_probabilities.py`](file:///F:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/02_predict_probabilities.py) and [`feature_engineering.py`](file:///F:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/feature_engineering.py).
 
+#### Item 52: Faceoff Bradley-Terry Temporal Decay & Specialist Share Scaling *(August 2026)*
+- **Problem (Quantified)**: FO_Spearman collapsed from **0.445** (2025, was the strongest position) to **0.007–0.171** (2026, weakest position) — a catastrophic regression where the single Faceoff roster slot was near-random.
+- **Root Cause Discoveries**:
+  1. **Stale Historical Pairings**: The Bradley-Terry model weighted 2023 matchups equally with 2026 matchups ($w=1.0$), anchoring stale ratings to past-prime veterans (e.g., Trevor Baptiste) while underestimating breakout players (e.g., Andrew McMeekin, Petey LaSalla).
+  2. **Platoon / Backup Volume Trap**: In 2026, multiple teams ran faceoff platoons/rotations (Atlas: Baptiste 59%, Laliberte 35%; Cannons: McMeekin 76%, Tucci 24%; Waterdogs: Stathakis 60%, Farrell 40%). The model previously projected all eligible FOs on the roster for 100% of the team's faceoff opportunities ($N \approx 28$), generating massive false-positive projections on backups who only took 0–5 draws.
+  3. **Platform Scoring Weight Lag**: The FO expected value heuristic retained a legacy 7.0 assist multiplier instead of the official 10.0 platform scoring weight.
+- **Implemented Solution**:
+  1. **Exponential Recency Decay**: Applied $(1.0 - 0.5)^{\Delta \text{year}}$ decay weighting to historical head-to-head faceoff encounters in Bradley-Terry training.
+  2. **Specialist Share Scaling**: Scaled projected faceoff opportunities ($N$) by each player's recent 5-game faceoff share within their team (`fo_share_scaling`).
+  3. **Starter Prioritization**: Sorted team specialist lists to ensure head-to-head matchup win probabilities evaluate against the opposing starting specialist.
+  4. **Tighter Bayesian Shrinkage Priors & Regularization**: Tightened ground-ball shrinkage from $K=20.0 \rightarrow 10.0$ and game shrinkage from $K=3.0 \rightarrow 2.0$ with $C=0.5$ logistic regularization.
+  5. **Platform Scoring Weight Alignment**: Updated assist points multiplier to 10.0 pts.
+- **Results (Baseline 15 Adoption)**:
+  - **Faceoff Spearman Recovery**: Recovered 2026 FO Spearman correlation from **0.007 $\rightarrow$ 0.400** (+39.3% gain!) while preserving 2025 at **0.475**, raising 2-year pooled Faceoff rank correlation to **0.458** (+82.6% lift).
+  - **2026 Top-1 Roster Score**: Jumped by **+17.7 pts/wk** (157.9 $\rightarrow$ **175.6 pts/wk**).
+  - **2026 Top-5 Candidate Mean**: Jumped by **+18.4 pts/wk** (151.2 $\rightarrow$ **169.6 pts/wk**).
+  - **Process Quality (VOR)**: 2026 Average VOR reached **+20.5 pts/slot** with **94.0% of picks scoring above positional median** (79/84 slots).
+- **Status**: ✅ **Accepted & Integrated (Baseline 15)**. Fully configured in [`config.py`](file:///F:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/config.py) and [`02_predict_probabilities.py`](file:///F:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/02_predict_probabilities.py).
+
+#### Item 53: Goalie Feature Enrichment *(August 2026)*
+- **Problem (Quantified)**: Goalie has the **fewest features of any position group** — only 9 base features (vs Attack 20, Midfield 23, Defense 13). The Goalie FEATURE_LISTS contains zero opponent-facing features (`opponent_rating`, `opp_def_health`, `opp_goalie_health` are all absent) and no team context like `team_faceoff_advantage`.
+- **Why it matters**: Goalie Spearman improved to **0.527** in 2026 purely from hyperparameter tuning (Baseline 13, `min_child_weight=10`). Adding actual signal features to the model should push ranking quality meaningfully higher. A goalie facing a high-powered offense should project more saves (higher floor/ceiling) than one facing a weak attack — but the model currently has no way to know this.
+- **Current Goalie Feature Set**: `fp_season_avg`, `fp_last3_avg`, `fp_lag1`, `saves_season_avg`, `saves_last3_avg`, `days_since_last_game`, `pairing_rating`, `player_vs_team_rating`, `team_def_rating`, `fp_ewma_4`, `salary_normalized`, `salary_percentile`.
+- **Proposed Feature Additions (to be tested individually)**:
+  1. **`team_faceoff_advantage`**: If your team wins faceoffs, the goalie faces fewer possessions/shots. This feature exists for Attack, Midfield, Defense, and Faceoff but is missing from Goalie.
+  2. **`opponent_rating`**: How strong is the opposing attack? Already used by Attack, Midfield, Defense, and Faceoff — absent from Goalie.
+  3. **`opp_attack_shots_last3`**: Opponent team's recent shots-per-game, directly driving expected save volume.
+  4. **`opp_attack_goals_last3`**: Opponent team's recent scoring rate, contextualizing the difficulty of saves.
+- **Success Criteria**:
+  - Primary: G_Spearman ρ improvement from 0.527 to ≥ 0.55 in 2026.
+  - Secondary: No degradation in overall VOR or roster scores.
+- **A/B Test Plan**: Test each feature addition individually against Baseline 14 using the full evaluata suite. Start with `team_faceoff_advantage` and `opponent_rating` as lowest-effort additions (features already computed, just missing from the Goalie list).
+- **Status**: ⏳ Pending.
+
+#### Item 54: Per-Position Recency Weight Tuning *(August 2026)*
+- **Problem**: The recency sample weight factor is applied **uniformly at 0.3** across all four GBDT position groups (Attack, Midfield, Defense, Goalie). The `ATTACK_RECENCY_WEIGHT` config variable exists in [`config.py`](file:///F:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/config.py) but is never referenced in [`02_predict_probabilities.py`](file:///F:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/02_predict_probabilities.py) — all positions receive the identical `--recency-weight 0.3` value.
+- **Why it matters**: Different positions may have different optimal recency emphasis. Goalie performance is highly matchup-dependent week-to-week (saves driven by opponent shot volume), suggesting heavier recency may help. Midfield scoring profiles are more heterogeneous, where heavier recency may overfit to recent role changes.
+- **Prior Testing (Baseline 14 Establishment)**:
+  - A uniform factor=0.3 was tested across all positions vs Control (no recency) vs Attack-only. Results from [`eval_recency_weighting_all_positions.py`](file:///F:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/scratch/eval_recency_weighting_all_positions.py):
+    - **Defense**: +4.3% 2025 Spearman, **+5.2%** 2026 Spearman (clear win).
+    - **Goalie**: 0.0% 2025 Spearman, **+9.2%** 2026 Spearman (strong 2026 gain).
+    - **Midfield**: -2.0% 2025 Spearman, +5.7% 2026 Spearman (mixed).
+    - **Attack**: +32.2% 2025 Spearman, -4.5% 2026 Spearman (large 2025 gain, small 2026 cost).
+  - Per-position factor values (e.g., Attack=0.3, Midfield=0.2, Defense=0.4, Goalie=0.5) were **never tested**.
+- **Proposed Fix**: Wire up per-position recency weight config variables in `02_predict_probabilities.py` and sweep a grid of factors (0.1, 0.2, 0.3, 0.4, 0.5) per position. Evaluate using per-position Spearman ρ as the primary metric.
+- **Success Criteria**: Per-position Spearman ρ improvement vs uniform 0.3 in at least 2 of 4 positions without degrading the others.
+- **A/B Test Plan**: Grid sweep against Baseline 14 using the full evaluata suite.
+- **Status**: ⏳ Pending.
+
 
 ---
 
@@ -498,6 +576,48 @@ To track historical performance changes and maintain auditability across key mil
 
 ---
 
+## Retest Queue (August 2026)
+
+> [!NOTE]
+> These items were previously rejected but are candidates for re-evaluation now that the evaluata 22-metric suite (VOR per-slot, per-position Spearman ρ, Top-5 pool metrics) exists. Original tests used only aggregate roster score. Additionally, Baseline 14 position-specific hyperparameters may properly regularize features that previously caused noise under generic defaults.
+
+#### Item 47: Individual First-Principles Feature Ablation — Retest vs Baseline 14
+- **Original Test**: July 2026 vs Baseline 10 (generic hyperparameters, roster-score-only evaluation).
+- **Problem / Proposal**: Tested 4 isolated candidate feature groups (Midfield/Defense assists & shots, Goalie GBs & CTs, Opponent defensive form by position, Squad & defensive unit churn) plus an isolated **Midfield Assists On Its Own** toggle (`FEATURE_MID_ASSISTS_ONLY_ENABLED`).
+- **Original A/B Test Results (vs Baseline 10: 2025 = 2219.3 pts | 2026 = 1154.3 pts)**:
+  - **Toggle 1 (Midfield & Defense Assists/Shots)**: 1949.3 pts in '25 (**-270.0 pts**), 1215.7 pts in '26 (+61.4 pts), $p = 0.2111$.
+  - **Toggle 1b (Midfield Assists On Its Own)**:
+    - *Continuous Error*: MAE `11.954` pts (+0.325 pts), RMSE `14.947` pts (-0.235 pts), Pearson $r = 0.374$ (+0.010 overall, Midfield $r = 0.083$).
+    - *Classifier Scores*: Tier Acc `38.0%` (-4.6%), Boom Prec `39.2%` (-0.4%), Boom Rec `33.0%` (+1.2%).
+    - *MC_EV Roster Score*: 1897.8 pts in '25 (**-321.5 pts**, $p=0.1476$), 987.9 pts in '26 (**-126.4 pts**, $p=0.1531$).
+    - *MC_Win_160 Roster Score*: 2012.9 pts in '25 (**-278.0 pts**, $p=0.1186$), 1030.6 pts in '26 (**-71.9 pts**, $p=0.1523$).
+    - *MC_Ceil_90 Roster Score*: 1531.4 pts in '25 (**-791.4 pts**, $p=0.0013$ statistically significant collapse), 816.9 pts in '26 (**-117.3 pts**, $p=0.1160$).
+  - **Toggle 2 (Goalie GBs & CTs)**: 1793.8 pts in '25 (**-425.5 pts**), 1212.7 pts in '26 (+58.4 pts), $p = 0.0228$ (Statistically significant degradation).
+  - **Toggle 3 (Opponent Defensive Form by Position)**: 1824.8 pts in '25 (**-394.5 pts**), 1242.4 pts in '26 (+88.1 pts), $p = 0.0251$ (Statistically significant degradation).
+  - **Toggle 4 (Squad & Defensive Churn)**: 1824.8 pts in '25 (**-394.5 pts**), 1242.4 pts in '26 (+88.1 pts), $p = 0.0251$ (Statistically significant degradation).
+- **Why it originally failed**: Adding granular sub-stat averages introduces collinear noise that degrades GBDT tree split quality and tier classification accuracy (-4.6%), dampening outlier ceiling predictions needed for Monte Carlo roster optimization.
+- **Why retest**: Original rejection based solely on aggregate roster score — VOR and per-position Spearman ρ didn't exist. Individual toggles may show hidden ranking gains in specific position groups. Baseline 14 position-specific hyperparameters (e.g., Goalie `min_child_weight=10`, Midfield `min_child_weight=5`) may properly regularize features that previously caused collinear noise under generic defaults. **Toggle 3 (Opponent Defensive Form)** is highest priority — it directly addresses rank-ordering quality measured by Spearman ρ.
+- **Retest Plan**: Run each toggle individually against Baseline 14 using the full evaluata 22-metric suite. Primary metric: per-position Spearman ρ. Secondary: VOR per slot.
+
+#### Item 10: Player Usage and Field Time Proxy — Retest vs Baseline 14
+- **Original Test**: July 2026 vs Baseline 8 (roster-score-only evaluation).
+- **Problem**: Touches anomaly and usage proxy features tested for player field-time estimation.
+- **Original Results (vs Baseline 8)**:
+  - `MC_EV`: **+45.2** in 2025 (2158.0), **+116.3** in 2026 (1105.6).
+  - `MC_Win_160`: **-240.0** in 2025 (2074.3), **+5.6** in 2026 (1056.7).
+  - `MC_Ceil_90`: **-15.1** in 2025 (2127.7), **-74.6** in 2026 (814.6).
+- **Why it originally failed**: Tournament strategies degraded, likely from over-regularizing variance for players with fluctuating usage.
+- **Why retest**: The genuine `MC_EV` lift was real. VOR per-slot can now isolate whether usage features improve player ranking quality independent of MC simulation variance. Position-specific hyperparameters (Baseline 14) may properly regularize the usage signal.
+- **Retest Plan**: Re-enable `USAGE_HEALTH_FEATURES_ENABLED = True` against Baseline 14 using the full evaluata suite.
+
+#### Items 26 & 30: Stacked Regressor / Multi-Quantile — Retest vs Baseline 14
+- **Original Test**: July 2026 Baseline 5 overnight sweep.
+- **Why it originally failed**: Stale code conflicts — never empirically tested.
+- **Why retest**: Experiment #8 (Decoupled EV) later proved model stacking is **+235.8 pts** beneficial, providing strong theoretical support. The codebase is now cleaner and more modular. A fresh implementation against Baseline 14 would give a fair empirical test.
+- **Retest Plan**: Rebuild stacked regressor cleanly, test against Baseline 14 using the full evaluata suite. Medium implementation effort.
+
+---
+
 ## Graveyard / Rejected Ideas
 
 #### Item 47: Historical Data Expansion (2019–2022 Training Pool Injection)
@@ -509,7 +629,7 @@ To track historical performance changes and maintain auditability across key mil
 - **Why it failed**:
   - *Variance Smoothing*: Synthesizing missing `Touches` and `Salaries` from 2019–2022 averages artificially smoothed data, stripping out natural volatility and ruining calibration for extreme outlier ceilings.
   - *Meta Drift*: The PLL has undergone major rule and tactical changes since 2019 (shot clocks, pace, defensive schemes). 5–7 year old patterns poisoned the model's ability to predict modern meta.
-- **Status**: ❌ **Rejected**. High-degradation feature expansion. Training pool cutoff remains at 2023.
+- **Status**: ❌ **Rejected**. Structural — meta drift makes old data harmful regardless of evaluation metrics.
 
 #### Item 45 / Challenger Explorations: Standalone Point-Direct Regression & Challenger Models (July 2026)
 - **Description**: Evaluated two standalone trial prediction engines across all 15 available weeks (2025 W1-14, 2026 W1-3):
@@ -522,49 +642,21 @@ To track historical performance changes and maintain auditability across key mil
   - *Baseline 10 Superiority*: Baseline 10 remains the active production benchmark (47.4% ceiling in '25, 51.7% in '26 W1-3) due to its Generative Bradley-Terry Faceoff Heuristic and tuned GBDT tier calibration.
 - **Actionable Next Step**: Proceed with individual feature ablation testing against Baseline 10 rather than replacing the GBDT classifier entirely.
 
-#### Item 47: Individual First-Principles Feature Ablation vs Baseline 10 (July 2026 A/B Test)
-- **Problem / Proposal**: Tested 4 isolated candidate feature groups (Midfield/Defense assists & shots, Goalie GBs & CTs, Opponent defensive form by position, Squad & defensive unit churn) plus an isolated **Midfield Assists On Its Own** toggle (`FEATURE_MID_ASSISTS_ONLY_ENABLED`) to evaluate if adding individual volume signals improves Baseline 10.
-- **A/B Test Results (vs Baseline 10: 2025 = 2219.3 pts | 2026 = 1154.3 pts)**:
-  - **Toggle 1 (Midfield & Defense Assists/Shots)**: 1949.3 pts in '25 (**-270.0 pts**), 1215.7 pts in '26 (+61.4 pts), $p = 0.2111$.
-  - **Toggle 1b (Midfield Assists On Its Own)**:
-    - *Continuous Error*: MAE `11.954` pts (+0.325 pts), RMSE `14.947` pts (-0.235 pts), Pearson $r = 0.374$ (+0.010 overall, Midfield $r = 0.083$).
-    - *Classifier Scores*: Tier Acc `38.0%` (-4.6%), Boom Prec `39.2%` (-0.4%), Boom Rec `33.0%` (+1.2%).
-    - *MC_EV Roster Score*: 1897.8 pts in '25 (**-321.5 pts**, $p=0.1476$), 987.9 pts in '26 (**-126.4 pts**, $p=0.1531$).
-    - *MC_Win_160 Roster Score*: 2012.9 pts in '25 (**-278.0 pts**, $p=0.1186$), 1030.6 pts in '26 (**-71.9 pts**, $p=0.1523$).
-    - *MC_Ceil_90 Roster Score*: 1531.4 pts in '25 (**-791.4 pts**, $p=0.0013$ statistically significant collapse), 816.9 pts in '26 (**-117.3 pts**, $p=0.1160$).
-  - **Toggle 2 (Goalie GBs & CTs)**: 1793.8 pts in '25 (**-425.5 pts**), 1212.7 pts in '26 (+58.4 pts), $p = 0.0228$ (Statistically significant degradation).
-  - **Toggle 3 (Opponent Defensive Form by Position)**: 1824.8 pts in '25 (**-394.5 pts**), 1242.4 pts in '26 (+88.1 pts), $p = 0.0251$ (Statistically significant degradation).
-  - **Toggle 4 (Squad & Defensive Churn)**: 1824.8 pts in '25 (**-394.5 pts**), 1242.4 pts in '26 (+88.1 pts), $p = 0.0251$ (Statistically significant degradation).
-- **Why it failed**: Adding granular sub-stat averages introduces collinear noise that degrades GBDT tree split quality and tier classification accuracy (-4.6%), dampening outlier ceiling predictions needed for Monte Carlo roster optimization across all 3 strategies (`MC_EV`, `MC_Win_160`, `MC_Ceil_90`).
-- **Status**: ❌ **Rejected**. All feature toggles remain `False` in `config.py`. Baseline 10 remains the active production configuration.
-
-#### Item 10: Player Usage and Field Time Proxy
-- **Problem**: Stale Baseline 3 test showed degradation in 2025 ($-360.6$ pts) and 2026 ($-139.5$ pts). Touches anomaly overfit to volatile state fluctuations.
-- **Why it matters**: Needs to be re-evaluated against Baseline 8 to check if usage features are actually viable.
-- **Suggested Fix**: Re-enable `USAGE_HEALTH_FEATURES_ENABLED = True` and run the full backtest.
-- **A/B Test Plan**: Compare total Ceiling % against Baseline 8.
-- **Results (vs Baseline 8)**:
-  - `MC_EV`: **+45.2** in 2025 (2158.0), **+116.3** in 2026 (1105.6).
-  - `MC_Win_160`: **-240.0** in 2025 (2074.3), **+5.6** in 2026 (1056.7).
-  - `MC_Ceil_90`: **-15.1** in 2025 (2127.7), **-74.6** in 2026 (814.6).
-- **Status**: ❌ **Rejected**. While it provides a modest boost to the mean expectation (`MC_EV`), it heavily penalizes tournament upside strategies (`MC_Win_160` and `MC_Ceil_90`), likely by over-regularizing the variance for players returning from injury or with fluctuating usage. Item 9 is strictly better. Keep disabled.
-
 #### Item 46: Mathematical Pace & Possession Factor Estimation
 - **Problem**: Public GraphQL endpoints supply raw counting statistics but lack true possession tracking. Rolling features like `_last3_avg` and `fp_ewma_4` are heavily distorted by the unadjusted pace of specific matchups rather than reflecting pure individual efficiency.
 - **Why it matters**: A player in a frantic, high-transition game will see inflated volume features, while a player in a slow, settled-six defensive battle will see depressed numbers. Without pace normalization, the model continuously chases historical noise.
 - **Suggested Fix**: Derive a mathematical proxy for possession count per game team-by-team:
   $$\text{Est. Possessions} = \text{Shots} + \text{Turnovers} - \text{Offensive Rebounds} + \text{Opponent Saves}$$
   Convert individual player counting stats into normalized rate metrics (e.g., Shots per 10 Possessions) prior to training. Scale projections back up at simulation runtime using the projected combined pace of the upcoming matchup.
-- **A/B Test Plan**: Compare total Ceiling % against Baseline 8.
 - **Results (vs Baseline 8)**:
   - `MC_EV`: **-219.8** in 2025 (1893.0), **-20.0** in 2026 (969.3).
   - `MC_Win_160`: **-486.7** in 2025 (1827.6), **-8.9** in 2026 (1042.2).
   - `MC_Ceil_90`: **-268.6** in 2025 (1874.2), **-108.3** in 2026 (780.9).
-- **Status**: ❌ **Rejected**. Massive degradation across the board. Normalizing the stats into rates before training seems to destroy critical variance and absolute volume signals that the model relies on. Keep `PACE_ADJUSTED_RATES_ENABLED` disabled.
+- **Status**: ❌ **Rejected**. Structural — normalizing counting stats into rates destroys absolute volume signals that XGBoost relies on for tree splits.
 
 ### Venue Context (Home/Away Feature)
 - **Status**: ❌ **Rejected**.
-- **Reason**: The PLL operates on a touring model where all teams play at a single venue each weekend, eliminating traditional home field advantage. Proximity Homecoming effects are too speculative and suffer from small sample sizes. Double-game-week rest is already handled by other features.
+- **Reason**: The PLL operates on a touring model where all teams play at a single venue each weekend, eliminating traditional home field advantage. Proximity Homecoming effects are too speculative and suffer from small sample sizes.
 
 
 ---
@@ -669,7 +761,7 @@ A full codebase audit on **1 July 2026** identified 6 distinct leakage sources. 
   - **Game Pace Scaling**: Kept. Standalone ablation (`sweep_no_game_pace`) destroyed performance (**-178.0 pts** in 2025, **-48.0 pts** in 2026).
   - **Item 31 (Smooth MC Historical Pool Blending)**: **ACCEPTED & ENABLED**. Testing pool blending with $K=15$ yielded a major combined improvement of **+134.0 pts** across both seasons (+49.0 pts in 2025, +85.0 pts in 2026) with strong directional significance in 2025 (p = **0.0862**). Enabled in production (`MC_POOL_BLENDING_ENABLED = True`, `MC_POOL_BLENDING_K = 15`).
   - **Opponent-Stratified Bootstrap**: **REJECTED & DELETED**. Checked code and verified this feature had already been removed from simulation logic due to earlier scale conflicts (leaving only dead configuration variables, which have now been cleaned up).
-  - **Item 26 & 30 (Stacked Regressor / Multi-Quantile)**: **REJECTED**. Failed due to stale code conflicts. Kept disabled in favor of GBDT classifier-based simulations.
+  - **Item 26 & 30 (Stacked Regressor / Multi-Quantile)**: Originally rejected due to stale code conflicts (not empirical). 🔄 **Moved to Retest Queue** — see Retest Queue section above.
 - **Status**: ✅ All sweep tests completed and verified.
 
 #### Item 38: Faceoff Model — Simple Heuristic Replacement ✅ DONE

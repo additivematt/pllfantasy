@@ -88,9 +88,16 @@ EWMA_ENABLED = True
 MC_POOL_BLENDING_ENABLED = True
 MC_POOL_BLENDING_K = 15
 
-# Faceoff Bradley-Terry & Generative Heuristic: Bypass GBDT and use a generative
-# matchup-level model for the Faceoff position. Enabled by default.
+# Faceoff Bradley-Terry & Generative Heuristic (Item 52): Bypass GBDT and use a generative
+# matchup-level model for the Faceoff position with temporal decay and specialist share scaling.
 FACEOFF_HEURISTIC_ENABLED = True
+FACEOFF_BT_EXP_DECAY = float(os.environ.get("FACEOFF_BT_EXP_DECAY", "0.5"))
+FACEOFF_BT_REGULARIZATION_C = float(os.environ.get("FACEOFF_BT_REGULARIZATION_C", "0.5"))
+FACEOFF_SHRINKAGE_K_FOW = float(os.environ.get("FACEOFF_SHRINKAGE_K_FOW", "10.0"))
+FACEOFF_SHRINKAGE_K_GAMES = float(os.environ.get("FACEOFF_SHRINKAGE_K_GAMES", "2.0"))
+FACEOFF_STAT_RECENCY_WEIGHT = float(os.environ.get("FACEOFF_STAT_RECENCY_WEIGHT", "0.5"))
+FACEOFF_SHARE_SCALING_ENABLED = os.environ.get("FACEOFF_SHARE_SCALING_ENABLED", "True") == "True"
+FACEOFF_SHARE_WINDOW_GAMES = int(os.environ.get("FACEOFF_SHARE_WINDOW_GAMES", "5"))
 
 # --- API Tokens (with environment variable fallbacks) ─────────────────────────
 API_TOKEN_STATS = os.environ.get("PLL_STATS_API_TOKEN", "N)eIKy1rZ%/%fm1WhM7tuVcrR*UIsc")

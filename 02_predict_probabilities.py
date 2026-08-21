@@ -23,7 +23,13 @@ from sklearn.calibration import CalibratedClassifierCV
 from sklearn.model_selection import KFold, TimeSeriesSplit
 from utils import assign_position_group, assign_sub_position, calc_fantasy, clean_name
 import config
-from config import GAME_PACE_ENABLED, DATA_LEAKAGE_FIX_ENABLED, EWMA_ENABLED, SALARY_AS_FEATURE, SALARY_AS_FEATURE_POSITIONS, USAGE_HEALTH_FEATURES_ENABLED, FACEOFF_HEURISTIC_ENABLED
+from config import (
+    GAME_PACE_ENABLED, DATA_LEAKAGE_FIX_ENABLED, EWMA_ENABLED, SALARY_AS_FEATURE,
+    SALARY_AS_FEATURE_POSITIONS, USAGE_HEALTH_FEATURES_ENABLED, FACEOFF_HEURISTIC_ENABLED,
+    FACEOFF_BT_EXP_DECAY, FACEOFF_BT_REGULARIZATION_C, FACEOFF_SHRINKAGE_K_FOW,
+    FACEOFF_SHRINKAGE_K_GAMES, FACEOFF_STAT_RECENCY_WEIGHT, FACEOFF_SHARE_SCALING_ENABLED,
+    FACEOFF_SHARE_WINDOW_GAMES
+)
 from feature_engineering import (
     TEAM_NAME_TO_ID,
     FEATURE_LISTS,
@@ -60,7 +66,8 @@ def main():
     pace_group.add_argument("--pace-scale", action="store_true", default=None, help="Enable game pace scaling of GBDT features")
     pace_group.add_argument("--no-pace-scale", action="store_true", default=None, help="Disable game pace scaling of GBDT features")
     p.add_argument("--boom-weight", type=float, default=2.0, help="Asymmetric sample weight for 'Boom' class in classifier training")
-    p.add_argument("--hyperparams-file", type=str, default=None, help="Path to JSON file containing position-specific XGBoost hyperparameters")
+    default_hparams = os.path.join(os.path.dirname(__file__), "position_hyperparams_item33.json")
+    p.add_argument("--hyperparams-file", type=str, default=default_hparams if os.path.exists(default_hparams) else None, help="Path to JSON file containing position-specific XGBoost hyperparameters")
     p.add_argument("--recency-weight", type=float, default=getattr(config, "RECENCY_WEIGHT_DEFAULT", 0.3), help="Recency sample weight factor for training samples")
     args = p.parse_args()
     # Resolve pace scaling: CLI overrides config toggle
@@ -652,9 +659,9 @@ def main():
         if len(df_pg) < 15 or tp.empty: continue
         
         if pg == "Faceoff" and FACEOFF_HEURISTIC_ENABLED:
-            print("  [INFO] Running Faceoff Bradley-Terry & Generative Heuristic instead of GBDT...")
+            print("  [INFO] Running Faceoff Bradley-Terry & Generative Heuristic with Temporal Decay & Share Scaling (Item 52)...")
             
-            # A. Fit Bradley-Terry Model on df_train
+            # A. Fit Bradley-Terry Model on df_train with Exponential Temporal Decay
             df_train_fo = df_train[(df_train["positionGroup"] == "Faceoff") & (df_train["faceoffs"] > 0)].copy()
             
             matchup_dataset = []
@@ -667,11 +674,13 @@ def main():
                     if not p1_rows.empty and not p2_rows.empty:
                         p1 = p1_rows.iloc[0]
                         p2 = p2_rows.iloc[0]
+                        g_yr = p1.get("year", 2023)
                         matchup_dataset.append({
                             "player_a": f"{p1['firstName']} {p1['lastName']}",
                             "player_b": f"{p2['firstName']} {p2['lastName']}",
                             "fow_a": p1["faceoffsWon"],
-                            "fow_b": p2["faceoffsWon"]
+                            "fow_b": p2["faceoffsWon"],
+                            "year": g_yr
                         })
             
             fo_players = sorted(list(df_train_fo.apply(lambda r: f"{r['firstName']} {r['lastName']}", axis=1).unique()))
@@ -687,8 +696,13 @@ def main():
                     pb = m["player_b"]
                     wa = m["fow_a"]
                     wb = m["fow_b"]
+                    m_yr = m["year"]
                     tot = wa + wb
                     if tot == 0: continue
+                    
+                    # Temporal exponential decay weighting (Item 52)
+                    delta_yr = max(0, args.year - m_yr)
+                    t_weight = max(0.05, (1.0 - FACEOFF_BT_EXP_DECAY) ** delta_yr)
                     
                     x_vec = np.zeros(len(fo_players))
                     x_vec[player_to_idx[pa]] = 1.0
@@ -696,22 +710,22 @@ def main():
                     
                     X_bt.append(x_vec)
                     y_bt.append(1.0)
-                    w_bt.append(wa)
+                    w_bt.append(wa * t_weight)
                     
                     X_bt.append(x_vec)
                     y_bt.append(0.0)
-                    w_bt.append(wb)
+                    w_bt.append(wb * t_weight)
                 
                 if X_bt:
                     X_bt = np.array(X_bt)
                     y_bt = np.array(y_bt)
                     w_bt = np.array(w_bt)
-                    bt_model = LogisticRegression(fit_intercept=False, C=1.0)
+                    bt_model = LogisticRegression(fit_intercept=False, C=FACEOFF_BT_REGULARIZATION_C, max_iter=1000)
                     bt_model.fit(X_bt, y_bt, sample_weight=w_bt)
                     ratings = bt_model.coef_[0]
                     player_ratings = {fo_players[i]: ratings[i] for i in range(len(fo_players))}
             
-            # B. Compute player-specific shrunk stats
+            # B. Compute player-specific shrunk stats with recency weighting
             df_train_fo_active = df_train_fo[df_train_fo["faceoffs"] > 0]
             
             global_gb_rate = df_train_fo_active["groundBalls"].sum() / max(1, df_train_fo_active["faceoffsWon"].sum())
@@ -726,25 +740,52 @@ def main():
             
             player_sums = {}
             for (f_name, l_name), grp in df_train_fo_active.groupby(["firstName", "lastName"]):
+                if FACEOFF_STAT_RECENCY_WEIGHT > 0:
+                    grp_weights = 1.0 + FACEOFF_STAT_RECENCY_WEIGHT * (grp["year"].fillna(2023) - 2023)
+                    eff_games = grp_weights.sum()
+                    eff_fow = (grp["faceoffsWon"] * grp_weights).sum()
+                    eff_gb = (grp["groundBalls"] * grp_weights).sum()
+                    eff_ct = (grp["causedTurnovers"] * grp_weights).sum()
+                    eff_a = (grp["assists"] * grp_weights).sum()
+                    eff_g = (grp["goals"] * grp_weights).sum()
+                else:
+                    eff_games = len(grp)
+                    eff_fow = grp["faceoffsWon"].sum()
+                    eff_gb = grp["groundBalls"].sum()
+                    eff_ct = grp["causedTurnovers"].sum()
+                    eff_a = grp["assists"].sum()
+                    eff_g = grp["goals"].sum()
+
+                recent_grp = grp.sort_values("startTime").tail(FACEOFF_SHARE_WINDOW_GAMES)
+                recent_fo_share = recent_grp["faceoffs"].mean()
+
                 player_sums[(f_name, l_name)] = {
-                    "games": len(grp),
-                    "faceoffsWon": grp["faceoffsWon"].sum(),
-                    "groundBalls": grp["groundBalls"].sum(),
-                    "causedTurnovers": grp["causedTurnovers"].sum(),
-                    "assists": grp["assists"].sum(),
-                    "goals": grp["goals"].sum()
+                    "games": eff_games,
+                    "faceoffsWon": eff_fow,
+                    "groundBalls": eff_gb,
+                    "causedTurnovers": eff_ct,
+                    "assists": eff_a,
+                    "goals": eff_g,
+                    "recent_fo_avg": recent_fo_share
                 }
             
             # C. Predict on test week
             test_fo_by_team = {}
             for _, r in tp.iterrows():
-                test_fo_by_team.setdefault(r["team"], []).append(f"{r['firstName']} {r['lastName']}")
+                p_name_full = f"{r['firstName']} {r['lastName']}"
+                p_k = (r["firstName"], r["lastName"])
+                p_info = player_sums.get(p_k, {})
+                test_fo_by_team.setdefault(r["team"], []).append((p_name_full, p_info.get("recent_fo_avg", 0.0), p_info.get("faceoffsWon", 0.0)))
                 
+            # Prioritize team specialists so primary starter is first index
+            for tm in test_fo_by_team:
+                test_fo_by_team[tm].sort(key=lambda x: (x[1], x[2]), reverse=True)
+
             for _, r in tp.iterrows():
                 pN = f"{r['firstName']} {r['lastName']}"
                 opp_team = r["opponent"]
                 opp_fos = test_fo_by_team.get(opp_team, [])
-                opp_pN = opp_fos[0] if opp_fos else None
+                opp_pN = opp_fos[0][0] if opp_fos else None
                 
                 r_a = player_ratings.get(pN, 0.0)
                 r_b = player_ratings.get(opp_pN, 0.0) if opp_pN else 0.0
@@ -753,11 +794,22 @@ def main():
                 
                 exp_goals = test_pace_map.get(r["game_id"], 24.0)
                 N = 4.0 + exp_goals
+
+                p_key = (r["firstName"], r["lastName"])
+                p_data = player_sums.get(p_key, {"games": 0, "faceoffsWon": 0, "groundBalls": 0, "causedTurnovers": 0, "assists": 0, "goals": 0, "recent_fo_avg": 0})
+
+                # Scale opportunities for platoons/backups
+                if FACEOFF_SHARE_SCALING_ENABLED:
+                    tm_fos = test_fo_by_team.get(r["team"], [])
+                    if len(tm_fos) > 1:
+                        tot_tm_vol = sum(x[1] for x in tm_fos)
+                        my_vol = p_data.get("recent_fo_avg", 0.0)
+                        fo_share = np.clip(my_vol / tot_tm_vol, 0.05, 1.0) if tot_tm_vol > 0 else 0.5
+                    else:
+                        fo_share = 1.0
+                    N = N * fo_share
                 
                 fow = N * p_win
-                
-                p_key = (r["firstName"], r["lastName"])
-                p_data = player_sums.get(p_key, {"games": 0, "faceoffsWon": 0, "groundBalls": 0, "causedTurnovers": 0, "assists": 0, "goals": 0})
                 
                 games = p_data["games"]
                 fow_sum = p_data["faceoffsWon"]
@@ -766,23 +818,24 @@ def main():
                 a_sum = p_data["assists"]
                 g_sum = p_data["goals"]
                 
-                # Shrink ground balls per FOW (K=20 faceoffs won prior)
+                # Shrink ground balls per FOW (Item 52 tightened prior)
                 if fow_sum > 0:
                     gb_per_fow = gb_sum / fow_sum
-                    gb_rate_shrunk = (fow_sum / (fow_sum + 20.0)) * gb_per_fow + (20.0 / (fow_sum + 20.0)) * global_gb_rate
+                    gb_rate_shrunk = (fow_sum / (fow_sum + FACEOFF_SHRINKAGE_K_FOW)) * gb_per_fow + (FACEOFF_SHRINKAGE_K_FOW / (fow_sum + FACEOFF_SHRINKAGE_K_FOW)) * global_gb_rate
                 else:
                     gb_rate_shrunk = global_gb_rate
                     
-                # Shrink other stats per game (K=3.0 games prior)
-                ct_rate_shrunk = (games / (games + 3.0)) * (ct_sum / max(1, games)) + (3.0 / (games + 3.0)) * global_ct_rate
-                a_rate_shrunk = (games / (games + 3.0)) * (a_sum / max(1, games)) + (3.0 / (games + 3.0)) * global_a_rate
-                g_rate_shrunk = (games / (games + 3.0)) * (g_sum / max(1, games)) + (3.0 / (games + 3.0)) * global_g_rate
+                # Shrink other stats per game (Item 52 tightened prior)
+                ct_rate_shrunk = (games / (games + FACEOFF_SHRINKAGE_K_GAMES)) * (ct_sum / max(1, games)) + (FACEOFF_SHRINKAGE_K_GAMES / (games + FACEOFF_SHRINKAGE_K_GAMES)) * global_ct_rate
+                a_rate_shrunk = (games / (games + FACEOFF_SHRINKAGE_K_GAMES)) * (a_sum / max(1, games)) + (FACEOFF_SHRINKAGE_K_GAMES / (games + FACEOFF_SHRINKAGE_K_GAMES)) * global_a_rate
+                g_rate_shrunk = (games / (games + FACEOFF_SHRINKAGE_K_GAMES)) * (g_sum / max(1, games)) + (FACEOFF_SHRINKAGE_K_GAMES / (games + FACEOFF_SHRINKAGE_K_GAMES)) * global_g_rate
                 
                 opp_def_scale = r.get("team_def_rating", 1.0)
                 a_rate_shrunk = a_rate_shrunk * opp_def_scale
                 g_rate_shrunk = g_rate_shrunk * opp_def_scale
                 
-                ev = 0.8 * fow - 0.5 * (N - fow) + gb_rate_shrunk * fow + 10.0 * ct_rate_shrunk + 7.0 * a_rate_shrunk + 10.0 * g_rate_shrunk
+                # Updated platform scoring weights: Assist = 10.0 pts
+                ev = 0.8 * fow - 0.5 * (N - fow) + gb_rate_shrunk * fow + 10.0 * ct_rate_shrunk + 10.0 * a_rate_shrunk + 10.0 * g_rate_shrunk
                 
                 # D. Convert to pseudo-BoomProbability and pseudo-PredictedTier
                 fo_train_tiers = df_train[(df_train["positionGroup"] == "Faceoff") & (df_train["PerformanceTier"].notna())]
@@ -814,7 +867,8 @@ def main():
             continue
         
         # 1. Stacking: Out-of-fold point predictions on training data (5-Fold CV using TimeSeriesSplit)
-        df_pg["PredictedPoints"] = 0        # Load tuned hyperparams if provided
+        df_pg["PredictedPoints"] = 0.0
+        # Load tuned hyperparams if provided
         hparams_kwargs = {"n_estimators": 100, "random_state": 42}
         if args.hyperparams_file and os.path.exists(args.hyperparams_file):
             try:
