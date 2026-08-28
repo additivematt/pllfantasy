@@ -191,6 +191,12 @@ def extract_data(compile_static=False):
     
     print(f"Successfully extracted all player data to {OUTPUT_FILE}")
 
+    interrogata_dest = os.path.join(BASE_DIR, "interrogata", "all_players_stats.json")
+    if os.path.isdir(os.path.dirname(interrogata_dest)):
+        import shutil
+        shutil.copyfile(OUTPUT_FILE, interrogata_dest)
+        print(f"Successfully synced {interrogata_dest}")
+
     if compile_static:
         # Run the static compiler dynamically (loads 07_prepare_static_data.py)
         try:
