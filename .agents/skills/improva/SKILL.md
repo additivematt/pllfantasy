@@ -192,8 +192,8 @@ The following table summarizes all remaining improvement items in the active bac
 | **5** | **Item 53**: Goalie Feature Enrichment ❌ TESTED / REJECTED | Tier 2 (Features) | **+2.3 pts/wk (MC160)** | **Med-High** | ❌ **TESTED & REJECTED FOR BASELINE PROMOTION**. Evaluated Control vs 6 candidate feature sets across 25 weeks (13 in 2025, 12 in 2026). Candidate 3 (`opp_shots`, `opp_goals`) improved 2026 MC_EV (+0.1 pts/wk Mean, +0.9 pts/wk Max, +2.4 pts/wk Min) and 2-year MC_WIN_160 (+2.3 pts/wk Top-1, +1.7% VOR slots above median), but caused a -7.9 pt drag on 2025 MC_EV Top-1. Rejected to maintain Baseline 15 parity. |
 | **6** | **Item 59**: Roster-Slot & Coulda-Weighted Evaluation Metrics ✅ DONE | Tier 1 (Evaluation) | **Evaluation Parity** | **High** | ✅ **ACCEPTED & IMPLEMENTED**. Added `Slot_Weighted_Spearman` (A:2, M:2, D:1, FO:1, G:1) and `Coulda_Weighted_Spearman` to `prediction_model_evaluation_harness.py` and `evaluata` to eliminate the depth-defender population trap (~40% of pool). |
 | **7** | **Item 60**: Position-Tailored Decision Thresholds & Risk Asymmetry | Tier 2 (Tuning) | **+2 to +6 pts/wk** | **High** | Tune $P(\text{Boom})$ thresholds $\tau_{\text{pos}}$ per position group (precision-oriented $\tau \ge 0.60$ for expensive Attack/Goalie anchors; upside-seeking $\tau \approx 0.40$ for cheap Defense/SSDM). |
-| **8** | **Item 61**: Positional Variance & Salary-Scaled Loss Weights | Tier 2 (Training) | **+3 to +8 pts/wk** | **High** | Scale training sample weights by positional standard deviation and salary percentile in `02_predict_probabilities.py` so tree splits optimize high-impact starters over bench SSDMs. |
-| **9** | **Item 54**: Per-Position Recency Weight Tuning | Tier 2 (Tuning) | **+1 to +4 pts/wk** | **Medium** | Uniform factor=0.3 applied to all positions. Config scaffolding for per-position values exists but is unused. Quick grid sweep could find position-specific optima. |
+| — | **Item 61**: Positional Variance & Salary-Scaled Loss Weights ❌ REJECTED | Tier 2 (Training) | **-6.6 to -8.8 pts/wk** | **High** | ❌ **TESTED & REJECTED FOR BASELINE PROMOTION**. Evaluated $\alpha=1.0$ and milder $\alpha=0.25$ across all 25 weeks (13 in 2025, 12 in 2026). While rank-ordering improved dramatically (Slot-Weighted Spearman +12.2%, Attack Spearman +18.0%, Goalie Spearman +22.0%, MAE/RMSE lower), lineup scores collapsed across all strategies (-8.8 pts/wk EV, -4.0 pts/wk Win_160, -15.7 pts/wk Ceil_90) because downweighting low-salary players destroyed calibration on cheap budget enablers needed under the 200-coin salary cap. |
+| **8** | **Item 54**: Per-Position Recency Weight Tuning | Tier 2 (Tuning) | **+1 to +4 pts/wk** | **Medium** | Uniform factor=0.3 applied to all positions. Config scaffolding for per-position values exists but is unused. Quick grid sweep could find position-specific optima. |
 | **10** | **Item 39**: Skewed Bootstrap (CDF Mapping) | Tier 3 (Simulation) | **+5 to +15 pts/wk** | **High** | Still important for tournament strategies but ranking fixes have higher leverage — they affect every single lineup. |
 | **11** | **Item 43**: Scoring Environment Multiplier | Tier 3 (Simulation) | **+3 to +10 pts/wk** | **Med-High** | Shootout game-stacks remain undermodeled. |
 | — | **Item 51**: VOR-Based A/B Testing Framework | Evaluation | — | — | ❌ **Unnecessary / Closed.** Covered by the mandatory 22-metric 6-column evaluation framework (which already reports VOR, Spearman ρ, Top-5 candidate pool, and Boom metrics). |
@@ -480,13 +480,24 @@ To track historical performance changes and maintain auditability across key mil
 
 #### Item 61: Positional Scoring Variance & Salary-Scaled Sample Weighting for Training Loss *(August 2026)*
 - **Problem**: The GBDT regression and classification models minimize uniform loss across all training samples. A 15-point residual error on an elite 45-coin Attackman (e.g. Jeff Teat) is treated identically to a 15-point residual on a 2-coin backup SSDM who played 3 minutes.
-- **Why it matters**: The tree split optimization capacity is squandered minimizing variance on low-impact bench players rather than mastering the high-variance superstar tier that dictates fantasy outcomes.
 - **Proposed Fix**: Weight training samples in `02_predict_probabilities.py` proportionally to positional standard deviation and normalized salary percentile:
-  $$w_i = 1.0 + \alpha \cdot \left(\frac{\sigma_{\text{pos}}}{\sigma_{\text{all}}}\right) \cdot \text{SalaryPercentile}_i$$
-  This concentrates gradient descent on the high-leverage players that determine optimal rosters.
-- **A/B Test Plan**: Test sample-weighting scaling factors $\alpha \in [0.5, 1.0, 2.0]$ against Baseline 15 using the 22-metric evaluation harness.
-- **Success Criteria**: Statistically significant reduction in Attack/Goalie MAE and improvement in Slot-Weighted Spearman and 2-Year Top-1/Top-5 Roster Scores.
-- **Status**: ⏳ Pending.
+  $$w_i = w_{\text{recency}, i} \cdot \left[1.0 + \alpha \cdot \left(\frac{\sigma_{\text{pos}}}{\sigma_{\text{all}}}\right) \cdot \text{SalaryPercentile}_i\right]$$
+- **A/B Test Results vs Baseline 15 (Full 25-Week Production Sweep: 2025 = 13 wks, 2026 = 12 wks)**:
+  - **Candidate 1 ($\alpha = 1.0$)**:
+    - *Category 1 (Portfolio)*: Top-1 Score `169.0` pts (**-6.6 pts/wk** 🔴, '25: -7.1 pts, '26: -6.1 pts), Top-5 Mean `167.6` pts (**-1.3 pts/wk** 🔴), MC_Win_160 `170.7` pts (+0.7 pts), MC_Ceil_90 `163.6` pts (**-10.3 pts/wk** 🔴).
+    - *Category 2 (VOR)*: Avg VOR / Slot `+14.1` pts (**-0.9 pts** 🔴), Avg VOR / Week `+99.0` pts (**-6.6 pts** 🔴), Slots Above Median `74.3%` (**-2.9%** 🔴).
+    - *Category 3 (Continuous & Correlation)*: Slot-Weighted Spearman `0.1936` (**+0.0132** / **+7.3% gain** 🟢), Attack Spearman `0.2529` (**+0.0216** / **+9.3% gain** 🟢), Goalie Spearman `0.2475` (**+0.0730** / **+41.8% breakout** 🟢), MAE `13.421` (-0.016 pts 🟢), RMSE `19.431` (-0.020 pts 🟢).
+    - *Category 4 (Classification)*: Tier Acc `44.7%` (-0.7% 🔴), Boom Prec `39.9%` (**-0.7%** 🔴), Midfield Boom Prec `36.0%` (+4.8% 🟢), Boom Rec `37.9%` (+1.0% 🟢).
+  - **Candidate 2 ($\alpha = 0.25$, Milder Weighting)**:
+    - *Category 1 (Portfolio)*: Top-1 Score `166.8` pts (**-8.8 pts/wk** 🔴, '25: -2.7 pts, '26: -15.5 pts), Top-5 Mean `160.1` pts (**-8.8 pts/wk** 🔴), MC_Win_160 `166.0` pts (**-4.0 pts/wk** 🔴), MC_Ceil_90 `158.2` pts (**-15.7 pts/wk** 🔴).
+    - *Category 2 (VOR)*: Avg VOR / Slot `+13.8` pts (**-1.3 pts** 🔴), Avg VOR / Week `+96.8` pts (**-8.8 pts** 🔴), Slots Above Median `74.9%` (**-2.3%** 🔴).
+    - *Category 3 (Continuous & Correlation)*: Slot-Weighted Spearman `0.2024` (**+0.0219** / **+12.2% gain** 🟢), Attack Spearman `0.2730` (**+0.0417** / **+18.0% gain** 🟢), Midfield Spearman `0.0925` (**+0.0227** / **+32.5% gain** 🟢), Goalie Spearman `0.2129` (**+0.0384** / **+22.0% gain** 🟢), Defense Spearman `0.1861` (-0.0136 🔴).
+    - *Category 4 (Classification)*: Tier Acc `44.4%` (-0.9% 🔴), Boom Prec `38.9%` (**-1.7%** 🔴), Boom Rec `33.7%` (**-3.2%** 🔴).
+- **Diagnosis: The Salary Knapsack Paradox**:
+  - While continuous rank-ordering quality surges under salary-scaled loss weighting (Slot-Weighted Spearman +12.2%, Attack Spearman +18.0%, Goalie Spearman +22.0%), optimal lineup assembly is a strict **200-coin knapsack problem**.
+  - When the model focuses its gradient updates on high-salary stars, its predictions and tail calibration for cheap players (5–15 coins, representing ~40% of the player pool) degrade, causing **Boom Precision (-1.7%)** and **Boom Recall (-3.2%)** to drop.
+  - Because the optimizer MUST select 2–3 cheap budget enablers to afford the superstars, it inadvertently selects low-ceiling budget traps that bust, dragging down total 7-man lineup scores across all strategies. Uniform sample loss weighting (the Baseline 15 standard) is mathematically superior for knapsack-constrained lineup building because the optimizer needs equal precision on budget enablers as it does on superstars.
+- **Status**: ❌ **Rejected**. Preserves Baseline 15 reference standard (`ITEM61_SALARY_VARIANCE_WEIGHTING_ENABLED = False`).
 
 
 ---

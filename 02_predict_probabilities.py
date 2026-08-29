@@ -70,6 +70,7 @@ def main():
     default_hparams = os.path.join(os.path.dirname(__file__), "position_hyperparams_item33.json")
     p.add_argument("--hyperparams-file", type=str, default=default_hparams if os.path.exists(default_hparams) else None, help="Path to JSON file containing position-specific XGBoost hyperparameters")
     p.add_argument("--recency-weight", type=float, default=getattr(config, "RECENCY_WEIGHT_DEFAULT", 0.3), help="Recency sample weight factor for training samples")
+    p.add_argument("--item61-alpha", type=float, default=float(os.environ.get("ITEM61_ALPHA", getattr(config, "ITEM61_ALPHA", 0.0))), help="Item 61 positional variance & salary-scaled sample loss weighting factor")
     args = p.parse_args()
     # Resolve pace scaling: CLI overrides config toggle
     if args.pace_scale:
@@ -897,7 +898,20 @@ def main():
             recency_w = 1.0 + rec_w_val * (years_vec - 2023)
             print(f"  [INFO] Applying recency sample weighting for {pg} (factor={rec_w_val})")
         else:
-            recency_w = None
+            recency_w = pd.Series(1.0, index=df_pg.index)
+
+        # Item 61: Positional Scoring Variance & Salary-Scaled Sample Weighting for Training Loss
+        item61_alpha = getattr(args, "item61_alpha", 0.0) or float(os.environ.get("ITEM61_ALPHA", getattr(config, "ITEM61_ALPHA", 0.0)))
+        if item61_alpha > 0 and pg in ["Attack", "Midfield", "Defense", "Goalie"]:
+            sigma_all = df_train["TotalFantasyPoints"].std()
+            sigma_pos = df_pg["TotalFantasyPoints"].std()
+            var_ratio = (sigma_pos / sigma_all) if (sigma_all and sigma_all > 0) else 1.0
+            sal_pct = df_pg["salary_percentile"].fillna(0.5)
+            item61_w = 1.0 + item61_alpha * var_ratio * sal_pct
+            print(f"  [INFO] Applying Item 61 salary-variance sample weighting for {pg} (alpha={item61_alpha}, var_ratio={var_ratio:.3f}, mean_w={item61_w.mean():.3f})")
+            final_sample_w = recency_w * item61_w
+        else:
+            final_sample_w = recency_w if rec_w_val > 0 else None
 
         # 1. Out-of-Fold Stacking: Fit regression on expanding window / TimeSeriesSplit
         tscv_reg = TimeSeriesSplit(n_splits=3)
@@ -912,8 +926,8 @@ def main():
             X_val = sc_fold.transform(val_fold[feats])
             
             reg_fold = XGBRegressor(objective=quantile_obj, **hparams_kwargs)
-            if recency_w is not None:
-                w_tr = recency_w.iloc[train_idx].values
+            if final_sample_w is not None:
+                w_tr = final_sample_w.iloc[train_idx].values
                 reg_fold.fit(X_tr, train_fold["TotalFantasyPoints"], sample_weight=w_tr)
             else:
                 reg_fold.fit(X_tr, train_fold["TotalFantasyPoints"])
@@ -927,8 +941,8 @@ def main():
         X_test_reg = sc_all.transform(tp[feats])
         
         reg_full = XGBRegressor(objective=quantile_obj, **hparams_kwargs)
-        if recency_w is not None:
-            reg_full.fit(X_all_reg, df_pg["TotalFantasyPoints"], sample_weight=recency_w.values)
+        if final_sample_w is not None:
+            reg_full.fit(X_all_reg, df_pg["TotalFantasyPoints"], sample_weight=final_sample_w.values)
         else:
             reg_full.fit(X_all_reg, df_pg["TotalFantasyPoints"])
         
@@ -955,13 +969,13 @@ def main():
         except TypeError:
             mod = CalibratedClassifierCV(base_estimator=base_clf, method='isotonic', cv=TimeSeriesSplit(n_splits=3))
             
-        clf_recency_w = recency_w.loc[clf_train.index].values if recency_w is not None else np.ones(len(clf_train))
+        clf_base_w = final_sample_w.loc[clf_train.index].values if final_sample_w is not None else np.ones(len(clf_train))
         if args.boom_weight != 1.0:
             print(f"  [INFO] Applying asymmetric class weighting: Boom weight = {args.boom_weight}")
-            sample_weights = np.where(clf_train["PerformanceTier"] == 'Boom', args.boom_weight, 1.0) * clf_recency_w
+            sample_weights = np.where(clf_train["PerformanceTier"] == 'Boom', args.boom_weight, 1.0) * clf_base_w
             mod.fit(X_tr_clf, ye, sample_weight=sample_weights)
         else:
-            sample_weights = clf_recency_w
+            sample_weights = clf_base_w
             mod.fit(X_tr_clf, ye, sample_weight=sample_weights)
         
         # 5b. Extract and log classifier feature importances and SHAP values

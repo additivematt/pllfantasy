@@ -45,6 +45,10 @@ FEATURE_GOALIE_OPP_SHOTS_ENABLED = os.environ.get("FEATURE_GOALIE_OPP_SHOTS_ENAB
 RECENCY_WEIGHT_DEFAULT = float(os.environ.get("RECENCY_WEIGHT_DEFAULT", "0.3"))
 ATTACK_RECENCY_WEIGHT = RECENCY_WEIGHT_DEFAULT
 ALL_POSITIONS_RECENCY_WEIGHT = RECENCY_WEIGHT_DEFAULT
+
+# --- Item 61 Positional Scoring Variance & Salary-Scaled Sample Loss Weighting ---
+ITEM61_SALARY_VARIANCE_WEIGHTING_ENABLED = os.environ.get("ITEM61_SALARY_VARIANCE_WEIGHTING_ENABLED", "False") == "True"
+ITEM61_ALPHA = float(os.environ.get("ITEM61_ALPHA", "0.0"))
 # --- Baseline 11 Monte Carlo EV Anchoring ---
 # Player-Anchored EV: EV = player_fp_avg * (0.5 + BoomProb / 100)
 # Anchors baseline expectation to player caliber while using BoomProb as a dynamic matchup factor.
