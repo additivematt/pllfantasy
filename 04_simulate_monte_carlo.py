@@ -238,6 +238,9 @@ def main():
     parser.add_argument("--correlated", action="store_true", default=True, help="Use correlation copula")
     parser.add_argument("--no-correlation", action="store_false", dest="correlated", help="Disable correlation copula")
     parser.add_argument("--seed", type=int, default=42, help="Random seed for numpy reproducibility")
+    steep_group = parser.add_mutually_exclusive_group()
+    steep_group.add_argument("--positional-steepness", action="store_true", default=None, help="Enable Item 60 positional variance steepness scaling in EV")
+    steep_group.add_argument("--no-positional-steepness", action="store_true", default=None, help="Disable Item 60 positional variance steepness scaling in EV")
     args = parser.parse_args()
     
     np.random.seed(args.seed)
@@ -300,7 +303,20 @@ def main():
                     base_fp = weight * float(raw_fp) + (1.0 - weight) * prior_fp
             
             boom_p = float(r.get("BoomProbability", 25.0)) / 100.0
-            matchup_mult = 0.5 + boom_p
+            pos = r.get("positionGroup", "Attack")
+            if args.positional_steepness is not None:
+                use_steepness = args.positional_steepness
+            else:
+                use_steepness = (os.environ.get("ITEM60_POSITIONAL_STEEPNESS_ENABLED", "False") == "True") or getattr(config, "ITEM60_POSITIONAL_STEEPNESS_ENABLED", False)
+
+            if use_steepness:
+                steepness_map = getattr(config, "ITEM60_STEEPNESS", {
+                    "Attack": 1.26, "Goalie": 1.03, "Midfield": 0.96, "Faceoff": 0.82, "Defense": 0.69
+                })
+                s = steepness_map.get(pos, 1.0)
+                matchup_mult = (1.0 - s * 0.5) + s * boom_p
+            else:
+                matchup_mult = 0.5 + boom_p
             return float(base_fp) * matchup_mult
         df_preds["EV"] = df_preds.apply(calc_player_anchored_ev, axis=1)
     elif use_pred_pts_ev and "PredictedPoints" in df_preds.columns:

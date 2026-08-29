@@ -71,6 +71,9 @@ def main():
     p.add_argument("--hyperparams-file", type=str, default=default_hparams if os.path.exists(default_hparams) else None, help="Path to JSON file containing position-specific XGBoost hyperparameters")
     p.add_argument("--recency-weight", type=float, default=getattr(config, "RECENCY_WEIGHT_DEFAULT", 0.3), help="Recency sample weight factor for training samples")
     p.add_argument("--item61-alpha", type=float, default=float(os.environ.get("ITEM61_ALPHA", getattr(config, "ITEM61_ALPHA", 0.0))), help="Item 61 positional variance & salary-scaled sample loss weighting factor")
+    thresh_group = p.add_mutually_exclusive_group()
+    thresh_group.add_argument("--tailored-thresholds", action="store_true", default=None, help="Enable Item 60 position-tailored decision thresholds for Boom classification")
+    thresh_group.add_argument("--no-tailored-thresholds", action="store_true", default=None, help="Disable Item 60 position-tailored decision thresholds")
     args = p.parse_args()
     # Resolve pace scaling: CLI overrides config toggle
     if args.pace_scale:
@@ -79,6 +82,11 @@ def main():
         args.use_pace_scale = False
     else:
         args.use_pace_scale = GAME_PACE_ENABLED
+
+    if args.tailored_thresholds is not None:
+        use_tailored_thresholds = args.tailored_thresholds
+    else:
+        use_tailored_thresholds = (os.environ.get("ITEM60_TAILORED_THRESHOLDS_ENABLED", "False") == "True") or getattr(config, "ITEM60_TAILORED_THRESHOLDS_ENABLED", False)
     sDir = os.path.dirname(__file__)
     matchups, _ = parse_schedule(os.path.join(sDir, "pll-schedule.ics"), args.year, args.week)
     
@@ -1021,10 +1029,24 @@ def main():
         pP = mod.predict_proba(X_te_clf)
         
         bI = list(le.classes_).index("Boom") if "Boom" in le.classes_ else -1
+        threshold_map = getattr(config, "ITEM60_THRESHOLDS", {
+            "Attack": 0.45, "Midfield": 0.35, "Defense": 0.42, "Goalie": 0.58, "Faceoff": 0.50
+        })
+        tau_pos = threshold_map.get(pg, 0.40)
+
         for i, (_, r) in enumerate(tp.iterrows()):
+            if use_tailored_thresholds and bI >= 0:
+                p_boom = pP[i][bI]
+                if p_boom >= tau_pos:
+                    assigned_tier = "Boom"
+                else:
+                    assigned_tier = "Bust" if pL[i] == "Bust" else "Average"
+            else:
+                assigned_tier = pL[i]
+
             preds_out.append({
                 **r.to_dict(),
-                "PredictedTier": pL[i],
+                "PredictedTier": assigned_tier,
                 "BoomProbability": round(pP[i][bI]*100, 1) if bI >= 0 else 0,
                 "fo_win_prob": 0.0,
                 "expected_fow": 0.0,

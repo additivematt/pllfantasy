@@ -191,7 +191,7 @@ The following table summarizes all remaining improvement items in the active bac
 | **4** | **Item 52**: FO Bradley-Terry Temporal Decay & Share Scaling ✅ DONE | Tier 2 (Features) | **+17.7 pts/wk ('26 Top-1)** | **High** | ✅ **ACCEPTED & INTEGRATED (Baseline 15)**. Exponential temporal decay (factor 0.5), team faceoff share scaling (5-game window), starter prioritization, tighter priors ($K_{\text{fow}}=10.0, K_{\text{games}}=2.0, C=0.5$), and 10 pt assist scoring alignment. Recovered 2026 FO Spearman from 0.007 $\rightarrow$ **0.400** (+39.3%) and boosted 2026 Top-1 roster scoring by **+17.7 pts/wk** (157.9 $\rightarrow$ **175.6 pts/wk**). |
 | **5** | **Item 53**: Goalie Feature Enrichment ❌ TESTED / REJECTED | Tier 2 (Features) | **+2.3 pts/wk (MC160)** | **Med-High** | ❌ **TESTED & REJECTED FOR BASELINE PROMOTION**. Evaluated Control vs 6 candidate feature sets across 25 weeks (13 in 2025, 12 in 2026). Candidate 3 (`opp_shots`, `opp_goals`) improved 2026 MC_EV (+0.1 pts/wk Mean, +0.9 pts/wk Max, +2.4 pts/wk Min) and 2-year MC_WIN_160 (+2.3 pts/wk Top-1, +1.7% VOR slots above median), but caused a -7.9 pt drag on 2025 MC_EV Top-1. Rejected to maintain Baseline 15 parity. |
 | **6** | **Item 59**: Roster-Slot & Coulda-Weighted Evaluation Metrics ✅ DONE | Tier 1 (Evaluation) | **Evaluation Parity** | **High** | ✅ **ACCEPTED & IMPLEMENTED**. Added `Slot_Weighted_Spearman` (A:2, M:2, D:1, FO:1, G:1) and `Coulda_Weighted_Spearman` to `prediction_model_evaluation_harness.py` and `evaluata` to eliminate the depth-defender population trap (~40% of pool). |
-| **7** | **Item 60**: Position-Tailored Decision Thresholds & Risk Asymmetry | Tier 2 (Tuning) | **+2 to +6 pts/wk** | **High** | Tune $P(\text{Boom})$ thresholds $\tau_{\text{pos}}$ per position group (precision-oriented $\tau \ge 0.60$ for expensive Attack/Goalie anchors; upside-seeking $\tau \approx 0.40$ for cheap Defense/SSDM). |
+| — | **Item 60**: Position-Tailored Decision Thresholds & Risk Asymmetry ❌ REJECTED | Tier 2 (Tuning) | **-6.4 pts/wk** | **High** | ❌ **TESTED & REJECTED FOR BASELINE PROMOTION**. Evaluated Candidate 1 (Part A: Classification Thresholds) and Candidate 2 (Part B: Positional Variance Steepness in MC) across all 25 weeks (13 in 2025, 12 in 2026). Part A dropped overall Boom Recall (-6.6%) and Tier Accuracy (-2.9%). Part B collapsed Top-1 scores by -6.4 pts/wk (175.6 $\rightarrow$ 169.2) across MC_EV, -5.6 pts/wk on MC_Win_160, and -4.7 pts/wk on MC_Ceil_90 due to the Probability Domain Distortion (formula pivoted at 50% Boom%, penalizing Attack while artificially inflating Defense). |
 | — | **Item 61**: Positional Variance & Salary-Scaled Loss Weights ❌ REJECTED | Tier 2 (Training) | **-6.6 to -8.8 pts/wk** | **High** | ❌ **TESTED & REJECTED FOR BASELINE PROMOTION**. Evaluated $\alpha=1.0$ and milder $\alpha=0.25$ across all 25 weeks (13 in 2025, 12 in 2026). While rank-ordering improved dramatically (Slot-Weighted Spearman +12.2%, Attack Spearman +18.0%, Goalie Spearman +22.0%, MAE/RMSE lower), lineup scores collapsed across all strategies (-8.8 pts/wk EV, -4.0 pts/wk Win_160, -15.7 pts/wk Ceil_90) because downweighting low-salary players destroyed calibration on cheap budget enablers needed under the 200-coin salary cap. |
 | **8** | **Item 54**: Per-Position Recency Weight Tuning | Tier 2 (Tuning) | **+1 to +4 pts/wk** | **Medium** | Uniform factor=0.3 applied to all positions. Config scaffolding for per-position values exists but is unused. Quick grid sweep could find position-specific optima. |
 | **10** | **Item 39**: Skewed Bootstrap (CDF Mapping) | Tier 3 (Simulation) | **+5 to +15 pts/wk** | **High** | Still important for tournament strategies but ranking fixes have higher leverage — they affect every single lineup. |
@@ -455,28 +455,35 @@ To track historical performance changes and maintain auditability across key mil
   2. **Coulda-Weighted Spearman (`Coulda_Weighted_Spearman`)**: Weights positional rank correlation by empirical points contribution in Coulda retroactive optimal lineups ($w_A = 0.348, w_M = 0.285, w_G = 0.147, w_D = 0.131, w_{FO} = 0.088$).
   3. **Slot-Weighted MAE (`Slot_Weighted_MAE`)**: Standardizes regression error across the 7 roster slots.
 - **Status**: ✅ **Completed & Adopted**. Integrated natively into [`prediction_model_evaluation_harness.py`](file:///F:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/prediction_model_evaluation_harness.py) and documented in [`evaluata`](file:///F:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.agents/skills/evaluata/SKILL.md).
-
 #### Item 60: Position-Tailored Decision Thresholds & Risk Asymmetry *(August 2026)*
-- **Problem**: Decision thresholds for assigning `Boom` tiers and confidence filtering currently apply globally across all position groups (or require manual flags). However, different positions carry fundamentally different budget risk and upside profiles:
-  - **Attack & Goalie** (30–45 coins): Require **High Precision** ($\tau \ge 0.60$) to eliminate expensive false-positive "trap" picks that ruin the 200-coin salary cap.
-  - **Defense & SSDM** (2–15 coins): Benefit from **High Recall / Upside Seeking** ($\tau \approx 0.40$), because hitting a 40+ point boom on a 3-coin defenseman unlocks the budget for superstar attackers with virtually zero downside risk.
-  - **Midfield** (15–30 coins): Requires balanced precision/recall with dual-gate consensus filtering.
-- **A/B Test Results (Evaluated across all 25 slates, 2025 & 2026)**:
-  1. **Classification Tiering Shifts (Precision vs Recall by Position)**:
-     - **Candidate 3 ($\tau_A=0.60, \tau_G=0.60, \tau_M=0.50, \tau_D=0.30$)**:
-       - **Attack Precision**: Soared from **30.3% $\rightarrow$ 53.8%** (+77.6% relative jump!).
-       - **Goalie Precision**: Improved from **25.9% $\rightarrow$ 34.6%** (+33.6% gain).
-       - **Midfield Precision**: Improved from **27.8% $\rightarrow$ 41.7%** (+50.0% gain).
-       - **Defense Recall**: Soared from **32.3% $\rightarrow$ 88.6%** (capturing ~90% of all defensive breakouts).
-     - **Candidate 5 ($\tau_A=0.55, \tau_G=0.55$ Precision Anchors)**:
-       - Attack Precision: **41.4%** (+11.1%), Goalie Precision: **31.2%** (+5.3%), Overall Tier Accuracy: **43.0%** (+1.5%), Overall Boom Precision: **32.4%** (+2.4%).
-  2. **Roster Selection & EV Scaling Shifts**:
-     - **Candidate B (Steepness by Positional Variance)**:
-       - 2-Year Top-1 Score: **171.6 pts/wk** (+0.9 pts/wk over Control, +2.2 pts/wk in 2025).
-       - 2-Year Top-5 Candidate Mean: **173.6 pts/wk** (**+1.9 pts/wk** portfolio gain).
-       - 2-Year Top-5 Floor (Min): **154.5 pts/wk** (**+4.9 pts/wk floor protection**).
-       - Avg VOR / Slot: **+12.0 pts**.
-- **Status**: 🔬 **Tested & Verified**. Demonstrates massive precision gains for high-cost Attack/Goalie anchors (+77% Attack, +34% Goalie) while preserving high recall for defensive flyers. Ready for production integration flag.
+- **Problem**: Decision thresholds for assigning `Boom` tiers and confidence filtering currently apply globally across all position groups. Different positions carry fundamentally different budget risk and upside profiles:
+  - **Attack & Goalie** (30–45 coins): High budget exposure where false-positive picks ruin the 200-coin salary cap.
+  - **Defense & SSDM** (2–15 coins): High-leverage budget enablers where hitting upside unlocks the cap for superstar attackers.
+  - **Midfield** (15–30 coins): Severe probability suppression (empirical median $P(\text{Boom}) = 30.7\%$) resulting in single-digit baseline recall.
+- **A/B Test Results vs Baseline 15 (Full 25-Week Production Sweep: 2025 = 13 wks, 2026 = 12 wks)**:
+  1. **Candidate 1 (Part A: Classification Decision Thresholds $\tau_{\text{pos}}$)**:
+     - *Thresholds*: $\tau_A=0.45, \tau_M=0.35, \tau_D=0.42, \tau_G=0.58, \tau_{FO}=0.50$.
+     - *Category 1 (Portfolio)*: Top-1 Score `175.6` pts (Flat 🟡), Top-5 Mean `168.9` pts (Flat 🟡), Top-5 Max `196.3` pts (Flat 🟡), Top-5 Min `142.7` pts (Flat 🟡).
+     - *Category 2 (VOR)*: Avg VOR / Slot `+15.1` pts (Flat 🟡), Avg VOR / Week `+105.6` pts (Flat 🟡), Slots Above Median `77.1%` (Flat 🟡).
+     - *Category 3 (Continuous & Correlation)*: MAE `13.419` (-0.018 pts 🟢), Goalie Spearman `0.1802` (+0.0057 🟢), Slot-Weighted Spearman `0.1810` (+0.0006 🟡).
+     - *Category 4 (Classification)*: Midfield Boom Precision `32.5%` (**+1.3% gain** 🟢, jumped in 2025 from $15.8\% \rightarrow 25.2\%$), Brier Score `0.2088` (better calibration 🟢), **Boom Precision dropped to 35.8% (-4.8% 🔴)**, **Boom Recall dropped to 30.3% (-6.6% 🔴)**, **Tier Accuracy dropped to 42.5% (-2.9% 🔴)**.
+     - *Finding*: Hard static thresholds overlaying an already asymmetric weighted classifier (`Boom weight = 2.0`) overly constrained positive Boom predictions across the whole pool, significantly degrading overall Tier Accuracy and Boom Recall.
+  2. **Candidate 2 (Part B: Risk Asymmetry / Positional Variance Steepness in MC Simulation)**:
+     - *Formula*: Scaled multiplier slope by positional variance: $\text{mult} = (1.0 - S_{\text{pos}} \cdot 0.5) + S_{\text{pos}} \cdot P(\text{Boom})$, with $S_A=1.26, S_G=1.03, S_M=0.96, S_{FO}=0.82, S_D=0.69$.
+     - *Category 1 (Portfolio)*:
+       - **MC_EV Top-1 Score collapsed from 175.6 $\rightarrow$ 169.2 pts/wk (-6.4 pts/wk 🔴, '25: -3.8 pts, '26: -9.2 pts)**.
+       - **MC_EV Top-5 Mean dropped to 166.6 pts/wk (-2.3 pts/wk 🔴)**.
+       - **MC_EV Top-5 Max dropped to 192.5 pts/wk (-3.8 pts/wk 🔴)**.
+       - **MC_WIN_160 Top-1 Score collapsed from 170.0 $\rightarrow$ 164.4 pts/wk (-5.6 pts/wk 🔴)**, with Top-5 Max collapsing by **-9.1 pts/wk** (198.3 $\rightarrow$ 189.1).
+       - **MC_CEIL_90 Top-1 Score dropped from 173.9 $\rightarrow$ 169.2 pts/wk (-4.7 pts/wk 🔴)**, with Top-5 Max collapsing by **-6.7 pts/wk** (196.5 $\rightarrow$ 189.8).
+     - *Category 2 (VOR)*: Avg VOR / Slot `+14.2` pts (**-0.9 pts** 🔴), Avg VOR / Week `+99.2` pts (**-6.4 pts** 🔴), Slots Above Median `74.9%` (**-2.3%** 🔴).
+     - *Category 3 & 4*: Continuous error, rank ordering, and classification metrics remained identical to Control.
+- **Diagnosis: The Probability Domain Distortion**:
+  - The linear steepness multiplier $\text{mult} = (1.0 - 0.5 S_{\text{pos}}) + S_{\text{pos}} \cdot P(\text{Boom})$ pivots symmetrically around $P(\text{Boom}) = 50\%$.
+  - In real PLL play, player Boom probabilities virtually never reach $50\%$ (empirical medians: Attack $37.1\%$, Defense $36.2\%$, Midfield $30.7\%$, Faceoff $20.7\%$).
+  - Because all positions operate strictly below the $50\%$ pivot point, steeper positions ($S_A = 1.26$) receive a permanent mathematical tax (e.g. at 35% Boom, Attack mult $= 0.811$ vs Control's $0.850$, a $-4.0\%$ penalty), while flatter positions ($S_D = 0.69$) receive a structural inflation (Defense mult $= 0.896$ vs Control's $0.850$, a $+4.6\%$ boost).
+  - This distorted the MILP knapsack optimizer into over-allocating salary cap to defensemen while starving elite attackers. Because attackers carry the highest ceiling in PLL fantasy (10 pts per goal/assist, 20 pts per 2-pointer), starving attack collapsed full-lineup ceiling scores across every strategy.
+- **Status**: ❌ **Rejected**. Preserves Baseline 15 reference standard (`ITEM60_TAILORED_THRESHOLDS_ENABLED = False`, `ITEM60_POSITIONAL_STEEPNESS_ENABLED = False`).
 
 #### Item 61: Positional Scoring Variance & Salary-Scaled Sample Weighting for Training Loss *(August 2026)*
 - **Problem**: The GBDT regression and classification models minimize uniform loss across all training samples. A 15-point residual error on an elite 45-coin Attackman (e.g. Jeff Teat) is treated identically to a 15-point residual on a 2-coin backup SSDM who played 3 minutes.

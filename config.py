@@ -49,6 +49,26 @@ ALL_POSITIONS_RECENCY_WEIGHT = RECENCY_WEIGHT_DEFAULT
 # --- Item 61 Positional Scoring Variance & Salary-Scaled Sample Loss Weighting ---
 ITEM61_SALARY_VARIANCE_WEIGHTING_ENABLED = os.environ.get("ITEM61_SALARY_VARIANCE_WEIGHTING_ENABLED", "False") == "True"
 ITEM61_ALPHA = float(os.environ.get("ITEM61_ALPHA", "0.0"))
+
+# --- Item 60 Position-Tailored Decision Thresholds (Part A) ---
+ITEM60_TAILORED_THRESHOLDS_ENABLED = os.environ.get("ITEM60_TAILORED_THRESHOLDS_ENABLED", "False") == "True"
+ITEM60_THRESHOLDS = {
+    "Attack": float(os.environ.get("ITEM60_THRESH_ATTACK", "0.45")),
+    "Midfield": float(os.environ.get("ITEM60_THRESH_MIDFIELD", "0.35")),
+    "Defense": float(os.environ.get("ITEM60_THRESH_DEFENSE", "0.42")),
+    "Goalie": float(os.environ.get("ITEM60_THRESH_GOALIE", "0.58")),
+    "Faceoff": float(os.environ.get("ITEM60_THRESH_FACEOFF", "0.50")),
+}
+
+# --- Item 60 Part B: Risk Asymmetry / Positional Variance Steepness in MC Simulation ---
+ITEM60_POSITIONAL_STEEPNESS_ENABLED = os.environ.get("ITEM60_POSITIONAL_STEEPNESS_ENABLED", "False") == "True"
+ITEM60_STEEPNESS = {
+    "Attack": float(os.environ.get("ITEM60_STEEPNESS_ATTACK", "1.26")),
+    "Goalie": float(os.environ.get("ITEM60_STEEPNESS_GOALIE", "1.03")),
+    "Midfield": float(os.environ.get("ITEM60_STEEPNESS_MIDFIELD", "0.96")),
+    "Faceoff": float(os.environ.get("ITEM60_STEEPNESS_FACEOFF", "0.82")),
+    "Defense": float(os.environ.get("ITEM60_STEEPNESS_DEFENSE", "0.69")),
+}
 # --- Baseline 11 Monte Carlo EV Anchoring ---
 # Player-Anchored EV: EV = player_fp_avg * (0.5 + BoomProb / 100)
 # Anchors baseline expectation to player caliber while using BoomProb as a dynamic matchup factor.
