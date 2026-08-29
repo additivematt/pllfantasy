@@ -44,6 +44,8 @@ The evaluation harness outputs several key metrics to measure model performance:
 - **Brier Score**: Mean squared error of predicted Boom probability vs binary Boom indicator. Lower is better.
 - **Thresholds**: The explicit `q25` and `q75` point cutoffs for that week to provide context on the scoring environment.
 - **Spearman Rank Correlation** (`Spearman_Correlation`, `{pos}_Spearman`): Measures rank-ordering accuracy — did we correctly rank who would outscore whom? Reported both overall and per-position (A, M, D, FO, G). This is what the optimizer actually needs: correct ordering within each position pool, not exact point predictions. A value of 1.0 = perfect ranking, 0.0 = random, -1.0 = inverse.
+- **Slot-Weighted Spearman** (`Slot_Weighted_Spearman`): Weights positional Spearman correlations by actual starting lineup requirements ($w_A = 2/7, w_M = 2/7, w_D = 1/7, w_{FO} = 1/7, w_G = 1/7$). Resolves the "population trap" where depth defensemen (~40% of player pool) distort overall unweighted Spearman.
+- **Coulda-Weighted Spearman** (`Coulda_Weighted_Spearman`): Weights positional correlations by historical points contribution to winning Coulda lineups ($w_A = 0.348, w_M = 0.285, w_G = 0.147, w_D = 0.131, w_{FO} = 0.088$). Reflects where fantasy matchups are mathematically won or lost.
 
 **Baseline 11 Spearman Reference Values (Season-Pooled)**:
 
@@ -129,6 +131,18 @@ DNP entries (`gamesPlayed = 0`) are excluded from the positional median calculat
 ### 8. Official 22-Metric 6-Column Mobile Reporting Specification (Mandatory for ALL Testing)
 
 > [!CAUTION]
+> **STRICT BAN: NEVER Use Quick Deterministic Point Expectation Proxies for Evaluation**:
+> Simplified deterministic point expectation proxies (e.g. single-pass MILP on raw $y_{\text{pred}}$ or in-memory point estimates without simulation) are **strictly forbidden** for feature evaluation, model comparisons, or backtesting.
+> 
+> **Why Deterministic Proxies are Invalid**:
+> 1. **Underestimates Roster Ceiling & Synergy**: They lack the non-linear correlation structures (Gaussian Copula interactions, teammate stacking, opponent inverse correlation) and 10,000-trial distributional upside modeling of the production optimizer, producing artificially depressed and distorted roster scores (~135–142 pts/wk vs true ~175.6 pts/wk).
+> 2. **Inaccurate Relative Comparison**: They introduce distortions in salary allocation and player selection that do not reflect true production behavior.
+> 
+> **Mandatory Production Evaluation Pipeline**:
+> ALL candidate evaluations, feature comparisons, and A/B tests MUST execute the **full 5-stage production pipeline** across all evaluated weeks:
+> `02_predict_probabilities.py` $\rightarrow$ `03_apply_roster_filter.py` $\rightarrow$ `04_simulate_monte_carlo.py` (10,000 trials) $\rightarrow$ `05_bake_mc_ev.py` $\rightarrow$ `06_optimize_lineups.py`.
+
+> [!CAUTION]
 > **STRICT MANDATE: Mandatory 6-Column Mobile Layout for ALL A/B Tests and Model Evaluations**:
 > ALL future A/B backtests, feature ablation sweeps, model evaluations, and baseline comparison reports MUST present results using this standardized **6-column mobile layout**:
 >
@@ -161,7 +175,7 @@ DNP entries (`gamesPlayed = 0`) are excluded from the positional median calculat
 | **Avg VOR / Week** | +70.6 | +66.6 | -8.4 pts | +1.8 pts | 🟢 Strong (+66.6 pts/wk) |
 | **Slots Above Median %** | 73.0% | 72.4% | -2.1% | **+1.3%** | 🟢 High (72.4%) |
 
-#### Category 3: Continuous Accuracy & Position Rank Correlation (9 Metrics)
+#### Category 3: Continuous Accuracy & Position Rank Correlation (10 Metrics)
 *Measures raw projection accuracy and relative rank-ordering quality by position.*
 
 | Metric | 2-Yr Control | 2-Yr Test | 2025 $\Delta$ | 2026 $\Delta$ | Status (2-Year Effect) |
@@ -170,6 +184,7 @@ DNP entries (`gamesPlayed = 0`) are excluded from the positional median calculat
 | **RMSE** | 15.947 | 15.912 | -0.025 pts | -0.048 pts | 🟢 Lower extreme error |
 | **Pearson $r$** | 0.0894 | 0.0891 | -0.0059 | +0.0070 | 🟡 Flat (-0.0003) |
 | **Overall Spearman $\rho$** | 0.3517 | 0.3476 | -0.0147 | +0.0096 | 🟡 Flat (-0.0041) |
+| **Slot-Weighted Spearman $\rho$** | 0.2850 | 0.2830 | -0.0120 | +0.0080 | 🟡 Flat (-0.0020) |
 | **Attack Spearman $\rho$** | 0.2696 | 0.2628 | -0.0395 | +0.0359 | 🟡 Split (-0.0068) |
 | **Midfield Spearman $\rho$** | 0.1073 | 0.0905 | -0.0449 | **+0.0198** | 🟡 Split (+0.020 in '26) |
 | **Defense Spearman $\rho$** | 0.1767 | 0.1696 | -0.0158 | +0.0043 | 🟡 Flat (-0.0071) |
@@ -218,6 +233,31 @@ Value Over Replacement (VOR) Summary (91 player-slot decisions):
     FO :   +7.1 pts/slot  (10/13 above median)
     G  :   +8.0 pts/slot  (10/13 above median)
 ```
+
+---
+
+### 9. SSH-Resilient Detached Execution Mandate (Long-Running Scripts)
+
+> [!IMPORTANT]
+> **STRICT MANDATE: Run Backtests and Baseline Generation as Independent Detached Processes**:
+> When running long-running backtests, A/B sweeps, multi-week Monte Carlo trials, or baseline archive generation (`generate_baseline_archive.py`), **NEVER rely on an interactive foreground shell attached to an SSH session**. If an SSH session drops or disconnects, the OS automatically terminates all attached child processes, corrupting or aborting long runs.
+>
+> **Mandatory Detached Launch Standard on Windows**:
+> All long-running pipeline and evaluation jobs MUST be launched as independent background processes detached from the terminal session, redirecting `stdout` and `stderr` to persistent log files:
+>
+> 1. **Batch Runner (`scratch/run_<job>.bat`)**:
+>    ```cmd
+>    @echo off
+>    cd /d "F:\Google Drive\Documents\Hobbies\Lacrosse\PLL fantasy\scripts"
+>    python -u "scratch\<script>.py" > "scratch\<job>.log" 2>&1
+>    ```
+> 2. **Silent Detached VBS Launcher (`scratch/start_<job>_silent.vbs`)**:
+>    ```vbs
+>    Set WshShell = CreateObject("WScript.Shell")
+>    WshShell.Run "cmd /c ""F:\Google Drive\Documents\Hobbies\Lacrosse\PLL fantasy\scripts\scratch\run_<job>.bat""", 0, False
+>    ```
+> 3. **Execution**:
+>    Launch via `wscript scratch/start_<job>_silent.vbs` or `cscript //nologo scratch/start_<job>_silent.vbs`. The process runs completely detached in the background on the host Windows OS, writes progress to `scratch/<job>.log`, and persists regardless of SSH drops, client disconnections, or shell closures.
 
 ---
 

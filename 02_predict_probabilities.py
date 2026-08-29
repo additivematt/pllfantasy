@@ -43,7 +43,8 @@ from feature_engineering import (
     assign_tiers_expanding,
     filter_played_only,
     get_historical_average_salary,
-    compute_game_pace_features
+    compute_game_pace_features,
+    compute_opp_fp_allowed_and_churn
 )
 
 def quantile_obj(y_true, y_pred, sample_weight=None):
@@ -119,6 +120,7 @@ def main():
     df_all = add_rolling_features(df_all)
     m_by_g = load_all_matchups(sDir)
     df_all, def_r, team_def, pair_r, pvst_r = add_matchup_ratings(df_all, m_by_g, DATA_LEAKAGE_FIX_ENABLED)
+    df_all = compute_opp_fp_allowed_and_churn(df_all)
 
     if os.environ.get("RANDOM_NOISE_CONTROL_ENABLED") == "True":
         np.random.seed(42)
@@ -544,6 +546,10 @@ def main():
             return s.replace("_game_", "_").replace("-ev-", "_").replace("-", "_").lower()
         return clean(id1) == clean(id2)
 
+    recent_opp_fp_allowed = df_all.groupby(["opponent", "positionGroup"])["opp_fp_allowed_to_position_last3"].last().to_dict() if "opp_fp_allowed_to_position_last3" in df_all.columns else {}
+    recent_team_churn = df_all.groupby("team")["team_roster_churn"].last().to_dict() if "team_roster_churn" in df_all.columns else {}
+    recent_opp_def_churn = df_all.groupby("opponent")["opp_def_churn"].last().to_dict() if "opp_def_churn" in df_all.columns else {}
+
     test_rows = []
     for m in matchups:
         for t, opp in [(m["team_a"], m["team_b"]), (m["team_b"], m["team_a"])]:
@@ -572,6 +578,10 @@ def main():
             t_df["opp_ssdm_health"] = opp_ssdm_h
             t_df["opp_def_health"] = opp_def_h
             t_df["opp_goalie_health"] = opp_goalie_h
+            
+            t_df["opp_fp_allowed_to_position_last3"] = t_df["positionGroup"].apply(lambda pg: recent_opp_fp_allowed.get((opp, pg), 15.0))
+            t_df["team_roster_churn"] = recent_team_churn.get(t, 0.0)
+            t_df["opp_def_churn"] = recent_opp_def_churn.get(opp, 0.0)
             
             tm = t_df.apply(lambda r: get_feats(r, m_by_g.get(m["game_id"], {}).get("matchups", [])), axis=1, result_type='expand')
             t_df["pairing_rating"], t_df["opponent_rating"], t_df["player_vs_team_rating"], t_df["team_def_rating"] = tm[0], tm[1], tm[2], tm[3]

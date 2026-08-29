@@ -443,19 +443,43 @@ class PredictionEvaluator:
             metrics["R_Squared"] = r2
             metrics["Pearson_Correlation"] = corr
 
-            # Spearman Rank Correlation (overall and per-position)
+            # Spearman Rank Correlation (overall, per-position, and weighted)
             # Measures rank-ordering accuracy: did we correctly order who
             # would outscore whom? This is what the optimizer needs.
             if len(y_true) > 5 and np.std(y_pred) > 0:
                 spearman_rho, _ = stats.spearmanr(y_true, y_pred)
                 metrics["Spearman_Correlation"] = spearman_rho
 
-                # Per-position Spearman (minimum 5 players to compute)
+                # Per-position Spearman and MAE (minimum 5 players to compute)
+                pos_rhos = {}
+                pos_maes = {}
                 for pos in ["A", "M", "D", "FO", "G"]:
                     df_pos = df_eval[df_eval["positionGroup"] == pos]
                     if len(df_pos) >= 5 and np.std(df_pos["PredictedPoints"]) > 0:
                         pos_rho, _ = stats.spearmanr(df_pos["actualPoints"], df_pos["PredictedPoints"])
                         metrics[f"{pos}_Spearman"] = pos_rho
+                        pos_rhos[pos] = pos_rho
+                    if len(df_pos) > 0:
+                        p_mae = float(np.mean(np.abs(df_pos["actualPoints"] - df_pos["PredictedPoints"])))
+                        metrics[f"{pos}_MAE"] = p_mae
+                        pos_maes[pos] = p_mae
+
+                # Slot-Weighted Spearman (weights: A:2, M:2, D:1, FO:1, G:1 based on 7-man roster slots)
+                slot_weights = {"A": 2, "M": 2, "D": 1, "FO": 1, "G": 1}
+                valid_slot_w = [slot_weights[p] for p in pos_rhos]
+                if valid_slot_w and sum(valid_slot_w) > 0:
+                    metrics["Slot_Weighted_Spearman"] = sum(pos_rhos[p] * slot_weights[p] for p in pos_rhos) / sum(valid_slot_w)
+
+                # Coulda-Weighted Spearman (weights based on historical Coulda optimal lineup points share: A:0.348, M:0.285, G:0.147, D:0.131, FO:0.088)
+                coulda_weights = {"A": 0.348, "M": 0.285, "G": 0.147, "D": 0.131, "FO": 0.088}
+                valid_coulda_w = [coulda_weights[p] for p in pos_rhos]
+                if valid_coulda_w and sum(valid_coulda_w) > 0:
+                    metrics["Coulda_Weighted_Spearman"] = sum(pos_rhos[p] * coulda_weights[p] for p in pos_rhos) / sum(valid_coulda_w)
+
+                # Slot-Weighted MAE
+                valid_mae_w = [slot_weights[p] for p in pos_maes]
+                if valid_mae_w and sum(valid_mae_w) > 0:
+                    metrics["Slot_Weighted_MAE"] = sum(pos_maes[p] * slot_weights[p] for p in pos_maes) / sum(valid_mae_w)
 
         # 2. Classification Metrics (Accuracy, Boom Precision/Recall, Brier Score)
         if "BoomProbability" in df_eval.columns or "PredictedTier" in df_eval.columns:

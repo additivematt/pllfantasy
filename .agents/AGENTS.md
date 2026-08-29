@@ -15,6 +15,10 @@ Rather than loading all documentation into your context at once, this workspace 
 > - **ALWAYS** refer to skills strictly by their clean codenames in chat text and documentation (e.g., `fetcha`, `predicta`, `coulda`, `evaluata`, `improva`, `interrogata`, `matcha`, `styla`, `uploada`, `weekflow`).
 > - **NEVER** output `SKILL.md`, `skill.md`, `fetcha: SKILL.md`, or `fetcha/SKILL.md` in visible chat text, explanations, or link labels.
 > - **ALWAYS** use the clean codename as the link label text (e.g., write `[fetcha](...)`, never `[fetcha/SKILL.md](...)` or `[SKILL.md](...)`).
+>
+> **SSH-Resilient Detached Execution Standard**:
+> - When launching long-running pipeline jobs, A/B sweeps, or baseline generation (`generate_baseline_archive.py`), **NEVER run long-running scripts in an interactive foreground shell attached to an SSH session**.
+> - Always execute via a silent detached Windows runner (`scratch/start_<job>_silent.vbs` running a batch script with stdout/stderr redirection) so the process continues independently on the host OS if the SSH session drops.
 
 ---
 

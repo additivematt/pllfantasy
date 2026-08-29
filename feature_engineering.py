@@ -46,6 +46,37 @@ if getattr(config, "FEATURE_ATTACK_GOALIE_FORM_ENABLED", False):
         if f not in FEATURE_LISTS["Attack"]:
             FEATURE_LISTS["Attack"].append(f)
 
+if getattr(config, "FEATURE_GOALIE_OPP_SHOTS_ENABLED", False):
+    for f in ["opp_shots_season_avg", "opp_shots_last3_avg", "opp_goals_season_avg", "opp_goals_last3_avg"]:
+        if f not in FEATURE_LISTS["Goalie"]:
+            FEATURE_LISTS["Goalie"].append(f)
+
+if getattr(config, "FEATURE_DEF_STATS_ENABLED", False) or getattr(config, "FEATURE_MID_DEF_STATS_ENABLED", False):
+    for f in ["assists_season_avg", "assists_last3_avg", "shots_season_avg", "shots_last3_avg"]:
+        if f not in FEATURE_LISTS["Defense"]:
+            FEATURE_LISTS["Defense"].append(f)
+
+if getattr(config, "FEATURE_GOALIE_GB_CT_ENABLED", False):
+    for f in ["groundBalls_season_avg", "groundBalls_last3_avg", "causedTurnovers_season_avg", "causedTurnovers_last3_avg"]:
+        if f not in FEATURE_LISTS["Goalie"]:
+            FEATURE_LISTS["Goalie"].append(f)
+
+if getattr(config, "FEATURE_OPP_DEF_FORM_POS_ENABLED", False):
+    for pos in ["Attack", "Midfield", "Defense", "Goalie"]:
+        if "opp_fp_allowed_to_position_last3" not in FEATURE_LISTS[pos]:
+            FEATURE_LISTS[pos].append("opp_fp_allowed_to_position_last3")
+
+if getattr(config, "FEATURE_SQUAD_CHURN_ENABLED", False):
+    for pos in ["Attack", "Midfield", "Defense", "Goalie"]:
+        for f in ["team_roster_churn", "opp_def_churn"]:
+            if f not in FEATURE_LISTS[pos]:
+                FEATURE_LISTS[pos].append(f)
+
+if getattr(config, "FEATURE_RETIRE_1V1_PAIRINGS_ENABLED", False):
+    for pos in ["Attack", "Midfield", "Defense", "Goalie"]:
+        if "pairing_rating" in FEATURE_LISTS[pos]:
+            FEATURE_LISTS[pos].remove("pairing_rating")
+
 def load_stats_json(path):
     yr_match = re.search(r'combined_player_stats_(\d{4})', path)
     yr = int(yr_match.group(1)) if yr_match else None
@@ -359,6 +390,35 @@ def add_rolling_features(df):
     else:
         df["team_faceoff_advantage"] = 0.0
 
+    # Team offensive shots and goals (Opponent pressure signals)
+    active_team_df = df[df["isDNP"] != True].copy() if "isDNP" in df.columns else df.copy()
+    if "shots" in active_team_df.columns:
+        team_shots = active_team_df.groupby(["eventId", "team", "startTime"], as_index=False)["shots"].sum()
+        team_shots = team_shots.sort_values(["team", "startTime"])
+        team_shots["team_shots_season_avg"] = team_shots.groupby("team")["shots"].transform(lambda x: x.expanding().mean().shift(1))
+        team_shots["team_shots_last3_avg"] = team_shots.groupby("team")["shots"].transform(lambda x: x.rolling(3, min_periods=1).mean().shift(1))
+
+        opp_shots = team_shots[["eventId", "team", "team_shots_season_avg", "team_shots_last3_avg"]].rename(
+            columns={"team": "opponent", "team_shots_season_avg": "opp_shots_season_avg", "team_shots_last3_avg": "opp_shots_last3_avg"}
+        )
+        df = df.merge(opp_shots, on=["eventId", "opponent"], how="left")
+        df["opp_shots_season_avg"] = df["opp_shots_season_avg"].fillna(45.0)
+        df["opp_shots_last3_avg"] = df["opp_shots_last3_avg"].fillna(df["opp_shots_season_avg"])
+
+    if "onePointGoals" in active_team_df.columns and "twoPointGoals" in active_team_df.columns:
+        team_goals = active_team_df.groupby(["eventId", "team", "startTime"], as_index=False)[["onePointGoals", "twoPointGoals"]].sum()
+        team_goals["goals"] = team_goals["onePointGoals"].fillna(0) + team_goals["twoPointGoals"].fillna(0)
+        team_goals = team_goals.sort_values(["team", "startTime"])
+        team_goals["team_goals_season_avg"] = team_goals.groupby("team")["goals"].transform(lambda x: x.expanding().mean().shift(1))
+        team_goals["team_goals_last3_avg"] = team_goals.groupby("team")["goals"].transform(lambda x: x.rolling(3, min_periods=1).mean().shift(1))
+
+        opp_goals = team_goals[["eventId", "team", "team_goals_season_avg", "team_goals_last3_avg"]].rename(
+            columns={"team": "opponent", "team_goals_season_avg": "opp_goals_season_avg", "team_goals_last3_avg": "opp_goals_last3_avg"}
+        )
+        df = df.merge(opp_goals, on=["eventId", "opponent"], how="left")
+        df["opp_goals_season_avg"] = df["opp_goals_season_avg"].fillna(12.0)
+        df["opp_goals_last3_avg"] = df["opp_goals_last3_avg"].fillna(df["opp_goals_season_avg"])
+
     # Roster injury features
     df["player_exp_touches"] = df["touches_season_avg"].fillna(0.0)
     df["is_dnp"] = (df.get("isDNP", False) == True).astype(float) if "isDNP" in df.columns else 0.0
@@ -635,3 +695,76 @@ def get_historical_average_salary(first, last, current_year, s_dir):
             if sals:
                 break
     return sum(sals) / len(sals) if sals else None
+
+
+def compute_opp_fp_allowed_and_churn(df):
+    """
+    Computes:
+    1. opp_fp_allowed_to_position_last3: rolling 3-game average of FP allowed by each opponent to each positionGroup.
+       Uses shift(1) so current game is not included in its own feature (prevents data leakage).
+    2. team_roster_churn: fraction of active players in the current game that were not in the previous game for that team.
+    3. opp_def_churn: fraction of active defense/goalie players on the opponent that were not in the opponent's previous game.
+    """
+    if df.empty:
+        return df
+        
+    df = df.sort_values("startTime").copy()
+    
+    # 1. Opponent FP Allowed by Position Group
+    active_df = df[df["isDNP"] != True].copy()
+    if not active_df.empty and "opponent" in active_df.columns:
+        game_pos_allowed = active_df.groupby(["eventId", "opponent", "positionGroup", "startTime"], as_index=False)["TotalFantasyPoints"].sum()
+        game_pos_allowed = game_pos_allowed.rename(columns={"opponent": "team", "TotalFantasyPoints": "fp_allowed"})
+        game_pos_allowed = game_pos_allowed.sort_values(["team", "positionGroup", "startTime"])
+        
+        game_pos_allowed["opp_fp_allowed_to_position_last3"] = game_pos_allowed.groupby(["team", "positionGroup"])["fp_allowed"].transform(
+            lambda x: x.rolling(3, min_periods=1).mean().shift(1)
+        )
+        
+        df = df.merge(
+            game_pos_allowed[["eventId", "team", "positionGroup", "opp_fp_allowed_to_position_last3"]].rename(columns={"team": "opponent"}),
+            on=["eventId", "opponent", "positionGroup"],
+            how="left"
+        )
+        pos_means = df.groupby("positionGroup")["TotalFantasyPoints"].transform("mean")
+        df["opp_fp_allowed_to_position_last3"] = df["opp_fp_allowed_to_position_last3"].fillna(pos_means).fillna(15.0)
+    else:
+        df["opp_fp_allowed_to_position_last3"] = 15.0
+
+    # 2. Roster Churn & Defensive Churn
+    if not active_df.empty and "firstName" in active_df.columns and "lastName" in active_df.columns:
+        active_df["player_name"] = active_df["firstName"].fillna("") + " " + active_df["lastName"].fillna("")
+        game_rosters = active_df.groupby(["eventId", "team", "startTime"])["player_name"].apply(set).reset_index()
+        game_rosters = game_rosters.sort_values(["team", "startTime"])
+        game_rosters["prev_roster"] = game_rosters.groupby("team")["player_name"].shift(1)
+        
+        def calc_churn(row, col="prev_roster"):
+            curr = row["player_name"]
+            prev = row.get(col)
+            if prev is None or not isinstance(prev, set) or len(prev) == 0:
+                return 0.0
+            new_count = len(curr - prev)
+            return min(1.0, new_count / float(len(prev)))
+            
+        game_rosters["team_roster_churn"] = game_rosters.apply(lambda r: calc_churn(r, "prev_roster"), axis=1)
+        
+        def_players = active_df[active_df["positionGroup"].isin(["Defense", "Goalie"])].copy()
+        if not def_players.empty:
+            def_rosters = def_players.groupby(["eventId", "team", "startTime"])["player_name"].apply(set).reset_index()
+            def_rosters = def_rosters.sort_values(["team", "startTime"])
+            def_rosters["prev_def_roster"] = def_rosters.groupby("team")["player_name"].shift(1)
+            def_rosters["team_def_churn"] = def_rosters.apply(lambda r: calc_churn(r, "prev_def_roster"), axis=1)
+            
+            df = df.merge(game_rosters[["eventId", "team", "team_roster_churn"]], on=["eventId", "team"], how="left")
+            df["team_roster_churn"] = df["team_roster_churn"].fillna(0.0)
+            
+            df = df.merge(def_rosters[["eventId", "team", "team_def_churn"]].rename(columns={"team": "opponent", "team_def_churn": "opp_def_churn"}), on=["eventId", "opponent"], how="left")
+            df["opp_def_churn"] = df["opp_def_churn"].fillna(0.0)
+        else:
+            df["team_roster_churn"] = 0.0
+            df["opp_def_churn"] = 0.0
+    else:
+        df["team_roster_churn"] = 0.0
+        df["opp_def_churn"] = 0.0
+        
+    return df
