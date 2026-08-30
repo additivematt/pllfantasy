@@ -22,6 +22,34 @@ Rather than loading all documentation into your context at once, this workspace 
 
 ---
 
+## Mandatory Confirmation for File Deletions
+
+### Strict Non-Deletion Policy
+You are strictly forbidden from deleting, removing, or destructively overwriting any file without explicit prior confirmation from the user in the chat. Autonomy directives NEVER override this safety constraint.
+
+1. **Terminal & CLI Commands**:
+   - NEVER execute deletion commands without prior approval (e.g., `rm`, `del`, `Remove-Item`, `rmdir`, `erase`, `git rm`, `git clean`, `git reset --hard`).
+
+2. **Programmatic Deletions (Scripts & Automation)**:
+   - NEVER write, generate, or execute scripts containing automated file deletion calls without prior approval.
+   - This includes:
+     - **Python**: `os.remove()`, `os.unlink()`, `shutil.rmtree()`, `pathlib.Path.unlink()`
+     - **Node.js / JavaScript**: `fs.unlink()`, `fs.rm()`, `fs.rmdir()`, `rimraf`
+     - **PowerShell / Bash**: Scripts invoking deletion cmdlets or sub-processes
+
+3. **Destructive Overwrites & Truncation**:
+   - NEVER replace existing files with empty or wiped content.
+   - Modify existing files in place rather than overwriting entire files unless creating net-new files.
+
+### Protocol When Deletion Is Required
+If an obsolete file genuinely needs to be deleted:
+1. **STOP** and clearly state:
+   - The exact file path targeted.
+   - The reason why deletion is necessary.
+2. **WAIT** for the user's explicit confirmation before taking action.
+
+---
+
 ## 🗺️ Master Skills Directory
 
 For detailed instructions and context on specific parts of the project, navigate to the relevant skill folder:
