@@ -88,7 +88,8 @@ def main():
     else:
         use_tailored_thresholds = (os.environ.get("ITEM60_TAILORED_THRESHOLDS_ENABLED", "False") == "True") or getattr(config, "ITEM60_TAILORED_THRESHOLDS_ENABLED", False)
     sDir = os.path.dirname(__file__)
-    matchups, _ = parse_schedule(os.path.join(sDir, "pll-schedule.ics"), args.year, args.week)
+    raw_matchups, _ = parse_schedule(os.path.join(sDir, "pll-schedule.ics"), args.year, args.week)
+    matchups = [m for m in raw_matchups if m.get("team_a") and m.get("team_b")] if raw_matchups else []
     
     # Fallback to combined_player_stats for historical schedule if ICS doesn't cover this year
     if not matchups:
@@ -100,8 +101,9 @@ def main():
                 if p.get("week") == args.week:
                     evt = p.get("event", {})
                     g_id = evt.get("eventId")
-                    if g_id and g_id not in week_games:
-                        week_games[g_id] = {"team_a": evt.get("homeTeam"), "team_b": evt.get("awayTeam"), "game_id": g_id.replace("_game_", "-ev-")}
+                    ha, aa = evt.get("homeTeam"), evt.get("awayTeam")
+                    if g_id and ha and aa and g_id not in week_games:
+                        week_games[g_id] = {"team_a": ha, "team_b": aa, "game_id": g_id.replace("_game_", "-ev-")}
             matchups = list(week_games.values())
 
     if not matchups:
