@@ -21,13 +21,20 @@ def normalize_event_id(event_id):
         p_type, p_num, year = match.groups()
         return f"{year}_{p_type}_{p_num}"
 
-    # 3. Legacy Championship: championship-YYYY-MM-DD -> YYYY_championship_game
+    # 3. Modern Playoffs: YYYY-quarterfinals-N or YYYY-semifinal-N -> YYYY_quarterfinal_N / YYYY_semifinal_N
+    match = re.match(r"(\d{4})-(quarterfinals?|semifinals?|championship)-(\d+)", event_id)
+    if match:
+        year, p_type, p_num = match.groups()
+        p_type = p_type.rstrip('s')
+        return f"{year}_{p_type}_{p_num}"
+
+    # 4. Legacy Championship: championship-YYYY-MM-DD -> YYYY_championship_game
     match = re.match(r"championship-(\d{4})-\d{1,2}-\d{1,2}", event_id)
     if match:
         year = match.group(1)
         return f"{year}_championship_game"
 
-    # 4. Modern Cleanup: e.g., 2025_championship -> 2025_championship_game
+    # 5. Modern Cleanup: e.g., 2025_championship -> 2025_championship_game
     if "championship" in event_id and "game" not in event_id:
         parts = event_id.split('_')
         if len(parts) >= 2:
@@ -51,10 +58,9 @@ def get_week_for_event(event_id):
     if "allstar" in eid.replace("-", "").replace("_", "").lower():
         return None
 
-    
     # Extract year if present
     year = None
-    match_year = re.search(r"^(\d{4})_", eid)
+    match_year = re.search(r"^(\d{4})[-_]", eid)
     if match_year:
         year = int(match_year.group(1))
     

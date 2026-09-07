@@ -4,7 +4,7 @@ import re
 import requests
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from graphql_query import GRAPHQL_QUERY
-from utils import get_week_for_event
+from utils import get_week_for_event, normalize_event_id, calc_fantasy
 from config import API_TOKEN_STATS
 
 ENDPOINT = "https://api.stats.premierlacrosseleague.com/graphql"
@@ -60,6 +60,7 @@ def main():
                 graphql_results[slug] = data
 
     combined_data = []
+    seen_events = set()
 
     for f2p_player in f2p_data:
         slug = f2p_player.get("slug")
@@ -85,7 +86,7 @@ def main():
         matched_event_stats = None
         for ev in filtered_events:
             # Match the f2p eventId (like "2026_game_1") with graphql slugname
-            if ev.get("slugname") == event_id:
+            if ev.get("slugname") == event_id or normalize_event_id(ev.get("slugname")) == normalize_event_id(event_id):
                 matched_event = ev
                 matched_event_stats = ev.get("playerEventStats", {})
                 break
@@ -123,7 +124,7 @@ def main():
                 "team": f2p_player.get("currentTeam", {}).get("teamId"),
                 "jerseyNumber": f2p_player.get("currentTeam", {}).get("jerseyNumber")
             },
-            "week": get_week_for_event(event_id),
+            "week": week,
             "event": {
                 "eventId": event_id,
                 "startTime": f2p_player.get("startTime"),
@@ -149,6 +150,65 @@ def main():
                 break
         
         combined_data.append(combined_entry)
+        seen_events.add((slug, event_id))
+        seen_events.add((slug, normalize_event_id(event_id)))
+
+    # Also add any GraphQL events (e.g. Quarterfinals, Postseason) not present in F2P dataset
+    for slug, graphql_player in graphql_results.items():
+        all_events = graphql_player.get("allEvents") or []
+        filtered_events = [ev for ev in all_events if ev.get("seasonSegment", "").lower() in ["regular", "post"]]
+        for ev in filtered_events:
+            s_name = ev.get("slugname")
+            if not s_name:
+                continue
+            norm_eid = normalize_event_id(s_name)
+            if (slug, s_name) in seen_events or (slug, norm_eid) in seen_events:
+                continue
+            
+            stats = ev.get("playerEventStats", {})
+            if not stats:
+                continue
+                
+            week = get_week_for_event(s_name)
+            if week is None:
+                continue
+                
+            fp = calc_fantasy(stats)
+            current_team = graphql_player.get("currentTeam") or {}
+            team_id = current_team.get("teamId") or current_team.get("officialId")
+            
+            combined_entry = {
+                "identity": {
+                    "slug": slug,
+                    "officialId": graphql_player.get("officialId"),
+                    "firstName": graphql_player.get("firstName"),
+                    "lastName": graphql_player.get("lastName"),
+                    "position": graphql_player.get("position"),
+                    "team": team_id,
+                    "jerseyNumber": current_team.get("jerseyNum")
+                },
+                "week": week,
+                "event": {
+                    "eventId": norm_eid,
+                    "startTime": ev.get("startTime"),
+                    "eventStatus": ev.get("eventStatus", 3),
+                    "homeTeam": (ev.get("homeTeam") or {}).get("officialId"),
+                    "awayTeam": (ev.get("awayTeam") or {}).get("officialId")
+                },
+                "f2p": {
+                    "salary": None,
+                    "projectedPoints": None,
+                    "totalPoints": fp,
+                    "matchupRating": None,
+                    "rosterPositionRank": None,
+                    "displayString": None
+                },
+                "stats": stats,
+                "isDNP": False
+            }
+            combined_data.append(combined_entry)
+            seen_events.add((slug, s_name))
+            seen_events.add((slug, norm_eid))
 
     out_path = os.path.join(os.path.dirname(__file__), "combined_player_stats_2026.json")
     
@@ -160,7 +220,7 @@ def main():
                 old_data = json.load(f)
                 
                 # Determine which weeks are being updated by the new data
-                weeks_to_update = set(get_week_for_event(p.get("eventId")) for p in f2p_data if p.get("eventId"))
+                weeks_to_update = set(r.get("week") for r in combined_data if r.get("week"))
                 print(f"Updating data for week(s): {weeks_to_update}")
                 
                 # Key by slug + eventId to allow updates/prevent duplicates,
