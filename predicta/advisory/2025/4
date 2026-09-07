@@ -8,9 +8,9 @@
             "game_id": "2025-ev-16",
             "position": "Goalie",
             "salary": 48,
-            "mc_ev": 46.4,
-            "mc_p90": 68.3,
-            "mc_p10": 23.9,
+            "mc_ev": 48.4,
+            "mc_p90": 71.3,
+            "mc_p10": 24.9,
             "actualPoints": 0.0
         },
         {
@@ -101,9 +101,9 @@
             "game_id": "2025-ev-16",
             "position": "Goalie",
             "salary": 48,
-            "mc_ev": 46.4,
-            "mc_p90": 68.3,
-            "mc_p10": 23.9,
+            "mc_ev": 48.4,
+            "mc_p90": 71.3,
+            "mc_p10": 24.9,
             "actualPoints": 0.0
         },
         {
@@ -172,17 +172,17 @@
             "actualPoints": 22.0
         },
         {
-            "firstName": "Grant",
-            "lastName": "Ament",
-            "team": "ARC",
-            "opponent": "OUT",
+            "firstName": "Graham",
+            "lastName": "Bundy",
+            "team": "OUT",
+            "opponent": "ARC",
             "game_id": "2025-ev-15",
             "position": "Midfield",
-            "salary": 21,
-            "mc_ev": 16.2,
-            "mc_p90": 33.0,
-            "mc_p10": 2.8,
-            "actualPoints": 5.0
+            "salary": 20,
+            "mc_ev": 16.5,
+            "mc_p90": 44.6,
+            "mc_p10": 1.9,
+            "actualPoints": 20.0
         }
     ],
     "MC_Ceil_90": [
@@ -194,9 +194,9 @@
             "game_id": "2025-ev-16",
             "position": "Goalie",
             "salary": 48,
-            "mc_ev": 46.4,
-            "mc_p90": 68.3,
-            "mc_p10": 23.9,
+            "mc_ev": 48.4,
+            "mc_p90": 71.3,
+            "mc_p10": 24.9,
             "actualPoints": 0.0
         },
         {
@@ -367,9 +367,9 @@
             "game_id": "2025-ev-13",
             "position": "G",
             "salary": 43,
-            "mc_ev": 34.6,
-            "mc_p90": 55.7,
-            "mc_p10": 13.9,
+            "mc_ev": 36.9,
+            "mc_p90": 59.4,
+            "mc_p10": 14.8,
             "actualPoints": 62.0
         }
     ],
@@ -457,12 +457,12 @@
                 "strategy": "MC_Win_160",
                 "strategyLabel": "MC Win 160",
                 "in": [
-                    "Grant Ament"
+                    "Graham Bundy"
                 ],
                 "out": [
                     "Connor Kelly"
                 ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Grant Ament (Midfield, 21c)) to increase the joint probability of the entire lineup hitting the 160 target score."
+                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Graham Bundy (Midfield, 20c)) to increase the joint probability of the entire lineup hitting the 160 target score."
             }
         ]
     },

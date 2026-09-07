@@ -85,6 +85,9 @@ def get_week_for_event(event_id):
             elif game_num in (37, 38, 39, 40, 41): return 11
             elif game_num in (42, 43, 44, 45): return 12
             elif game_num in (46, 47, 48): return 13
+            elif game_num in (49, 50): return 14
+            elif game_num in (51, 52): return 15
+            elif game_num >= 53: return 16
             
         if game_num <= 20:
             return math.ceil(game_num / 4)

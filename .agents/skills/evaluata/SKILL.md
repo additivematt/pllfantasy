@@ -1,266 +1,105 @@
 ---
 name: evaluata
-description: Instructions for assigning ground truth performance tiers (Boom, Average, Bust), evaluating classifier accuracy, and precision/recall reporting.
+description: >-
+  Computes prediction accuracy, ground truth tiers, Boom precision/recall, and VOR process-quality metrics.
+  Use this skill when evaluating model accuracy, running the 22-metric evaluation harness, or auditing
+  A/B backtests. Do NOT use for training models or generating live predictions.
 ---
 
 > [!IMPORTANT]
 > **Skill Naming Convention**: This skill is named **evaluata**. In chat responses, explanations, and documentation links, ALWAYS refer to it simply as `evaluata` (or [`evaluata`](file://...)). NEVER output `SKILL.md` or `evaluata/SKILL.md`.
 
-# Agent Context: Predicta Evaluation Engine
+# Predicta Evaluation Engine (evaluata)
 
-## Purpose
+This skill outlines the methodology for evaluating the accuracy of the `predicta` machine learning pipeline. Use this when working on model evaluation, backtesting, or auditing accuracy metrics.
 
-This skill outlines the methodology for evaluating the accuracy of the `predicta` machine learning pipeline. Use this when working on model evaluation, backtesting, or improving accuracy metrics.
+---
 
-## Methodology
+## 1. Methodology & Data Sources
 
-### 1. Data Sources
-- **Predictions**: `weekN_YYYY_predictions.csv` (The model's outputs).
-- **Actuals**: `combined_player_stats_YYYY.json` (The ground truth fantasy points scored).
-- Players who did not play (i.e., those who do not have an entry in the actuals JSON for that week) are explicitly excluded from the evaluation, as the model cannot predict scratches.
+- **Predictions**: `weekN_YYYY_predictions.csv` (Model outputs).
+- **Actuals**: `combined_player_stats_YYYY.json` (Ground truth fantasy points scored).
+- **Exclusion**: Players who did not play (scratches / DNPs) are excluded from evaluation.
 
-### 2. Tier Assignment (Ground Truth)
-Actual tiers are determined dynamically based on the distribution of points scored by players *who actually played* in that week's games. Players are bucketed by their major `positionGroup` (Attack, Midfield, Defense, Goalie, Faceoff).
-
+### Ground Truth Tier Assignment
+Actual tiers are determined dynamically based on the distribution of points scored by players *who actually played* that week, bucketed by major `positionGroup` (Attack, Midfield, Defense, Goalie, Faceoff):
 - **Boom**: Top 25% (Scores `> q75`)
 - **Average**: Middle 50% (Scores `> q25` and `≤ q75`)
 - **Bust**: Bottom 25% (Scores `≤ q25`)
 
-### 3. The "Clustering" Nuance
 > [!WARNING]
-> You will frequently observe that the **Bust** tier contains significantly more than 25% of the player population. This is a mathematical reality of fantasy lacrosse scoring, not a bug.
-
-Fantasy point distributions exhibit a heavy right-skew, especially for defensive players and some midfielders. A large percentage of the population will score `0` or `1` point. 
-
-Because the `pd.cut` interval is right-inclusive (`(-inf, q25]`), if `q25 = 0.0` and 40% of the player pool scores `0.0`, all 40% of those players will be classified as Busts. Conversely, high scores (Booms) are spread out, meaning the top 25% cutoff usually results in a much cleaner 25% slice of the population without massive ties on the boundary.
-
-### 4. Metrics Evaluated
-The evaluation harness outputs several key metrics to measure model performance:
-- **Overall Accuracy**: Total correct tier predictions / Total players evaluated.
-- **Confusion Matrix**: A cross-tabulation of Predicted vs. Actual tiers.
-- **Per-Position Accuracy**: Accuracy isolated by `positionGroup`.
-- **Boom Precision**: Out of all players the model predicted to Boom, how many actually Boomed? (Minimizes false positives / traps).
-- **Boom Recall**: Out of all players who actually Boomed, how many did the model successfully predict? (Maximizes finding the ceiling).
-- **Brier Score**: Mean squared error of predicted Boom probability vs binary Boom indicator. Lower is better.
-- **Thresholds**: The explicit `q25` and `q75` point cutoffs for that week to provide context on the scoring environment.
-- **Spearman Rank Correlation** (`Spearman_Correlation`, `{pos}_Spearman`): Measures rank-ordering accuracy — did we correctly rank who would outscore whom? Reported both overall and per-position (A, M, D, FO, G). This is what the optimizer actually needs: correct ordering within each position pool, not exact point predictions. A value of 1.0 = perfect ranking, 0.0 = random, -1.0 = inverse.
-- **Slot-Weighted Spearman** (`Slot_Weighted_Spearman`): Weights positional Spearman correlations by actual starting lineup requirements ($w_A = 2/7, w_M = 2/7, w_D = 1/7, w_{FO} = 1/7, w_G = 1/7$). Resolves the "population trap" where depth defensemen (~40% of player pool) distort overall unweighted Spearman.
-- **Coulda-Weighted Spearman** (`Coulda_Weighted_Spearman`): Weights positional correlations by historical points contribution to winning Coulda lineups ($w_A = 0.348, w_M = 0.285, w_G = 0.147, w_D = 0.131, w_{FO} = 0.088$). Reflects where fantasy matchups are mathematically won or lost.
-
-**Baseline 11 Spearman Reference Values (Season-Pooled)**:
-
-| Position | 2025 rho | 2026 rho | Signal Quality |
-|---|---|---|---|
-| Attack | 0.330 | 0.191 | Moderate / Weak |
-| **Midfield** | **0.089** | **0.131** | **Near-random** |
-| Defense | 0.128 | 0.240 | Weak / Moderate |
-| Faceoff | 0.445 | 0.171 | Strong / Weak |
-| Goalie | 0.339 | 0.259 | Moderate |
-| **Overall** | **0.363** | **0.337** | **Moderate** |
-
-> [!WARNING]
-> **Midfield Spearman is near-random (rho ~ 0.09-0.13) in both seasons.** This means the model's ordering of midfielders adds almost no information, and the optimizer is nearly guessing between midfield candidates for 2 of 7 roster slots. This is the single biggest opportunity for model improvement.
-
-### 5. Top-5 Candidate Roster Pool Metrics (Mandatory for Roster Backtests)
-> [!IMPORTANT]
-> To eliminate single-lineup random outcome noise (where 1 player scratch or boom/bust outcome creates 50+ point swings in small 10–13 slate samples), **all future roster backtests MUST evaluate the Top-5 Candidate Roster Pool**. 
-
-> [!CAUTION]
-> **STRICT MANDATE: Baseline CSV Archives MUST Always Store All Top-5 Candidate Lineups (Ranks 1 to 5)**:
-> When creating, archiving, or populating baseline roster CSVs (`baselines/rosters_<strategy>_baseline_<N>.csv`), the files MUST ALWAYS contain all 5 distinct candidate rosters for every week (with a `lineup_rank` column `1..5`, yielding 35 player rows per week $\times N_{\text{weeks}}$). **NEVER delete, strip, or filter out ranks 2 through 5** from baseline roster CSV archives.
-
-For every backtested week, the evaluation harness natively calculates and outputs:
-1. **`Top-1 Score`**: The actual points scored by the single #1 recommended lineup.
-2. **`Top-5 Mean Score`**: The average actual points scored across all top 5 recommended lineups (measures portfolio recommendation quality).
-3. **`Top-5 Max Score`**: The maximum actual points scored by the best lineup present in the top 5 advisory recommendations (measures if a slate-winning roster was present in the candidate pool).
-4. **`Top-5 Min Score`**: The minimum actual points scored (floor risk) among the top 5 recommendations.
-5. **`Top-5 Max Ceiling %`**: `Top-5 Max Score / Coulda Max` (the ratio of the candidate pool's best roster to the theoretical optimal ceiling).
-
-**Baseline 11 Top-5 Roster Pool Reference Values (MC_EV)**:
-
-| Season | Top-1 Avg/Wk | Top-5 Mean Avg/Wk | Top-5 Max Avg/Wk | Top-5 Min Avg/Wk | Coulda Max Avg/Wk | Top-5 Max Ceiling % |
-|---|---|---|---|---|---|---|
-| **2025** | **182.6** | **177.5** | **201.9** | **151.5** | 353.2 | **57.2%** |
-| **2026** | **158.2** | **149.3** | **182.1** | **124.8** | 372.9 | **48.8%** |
+> The **Bust** tier frequently contains >25% of the player population due to right-inclusive clustering at `0.0` or `1.0` points for depth defenders. Conversely, high scores (Booms) are spread out, providing cleaner 25% thresholds.
 
 ---
 
-### 6. Primary Reporting Metric: Average Weekly Score (Mandatory Default)
-> [!IMPORTANT]
-> **Reporting Standard (Average Weekly Score > Raw Season Total)**:
-> By default, all roster evaluation summaries, backtests, and comparison tables MUST report **Average Weekly Score** ($\text{Total Score} / N_{\text{weeks}}$) as the primary performance metric.
-> 
-> Because different seasons and backtests evaluate varying numbers of weeks (e.g. 13 weeks in 2025 vs 10 weeks in 2026), raw total season scores obscure true per-week performance and complicate direct comparison. Reporting Average Weekly Score standardizes all roster metrics onto a clear, intuitive per-week scale (e.g. 188.6 pts/wk vs 168.8 pts/wk).
+## 2. Key Metrics Evaluated
 
-### 7. Value Over Replacement (VOR) — Process-Quality Metric (Mandatory for Roster Backtests)
-> [!IMPORTANT]
-> **VOR evaluates individual player selection decisions, not lineup outcomes.** Because lineup scores are dominated by luck (1 DNP or bust swings a 7-player lineup by 30+ pts), and seasons have only 11–13 weeks, outcome-based metrics have very low statistical power for distinguishing good models from lucky ones. VOR solves this by measuring each of the ~77 player-slot decisions per season independently.
+1. **Overall & Positional Accuracy**: Total correct tier predictions / Total players evaluated.
+2. **Boom Precision**: Out of all players predicted to Boom, how many actually Boomed? (User's primary metric to avoid traps).
+3. **Boom Recall**: Out of all players who actually Boomed, how many did the model predict?
+4. **Brier Score**: Mean squared error of predicted Boom probability vs binary Boom indicator.
+5. **Spearman Rank Correlation ($\rho$)**: Measures rank-ordering accuracy overall and per-position (A, M, D, FO, G).
+6. **Slot-Weighted Spearman (`Slot_Weighted_Spearman`)**: Weights positional correlations by roster slots ($w_A=2/7, w_M=2/7, w_D=1/7, w_{FO}=1/7, w_G=1/7$). Resolves the depth-defender population trap (~40% of pool).
+7. **Coulda-Weighted Spearman (`Coulda_Weighted_Spearman`)**: Weights correlations by historical points contribution to winning Coulda lineups ($w_A=0.348, w_M=0.285, w_G=0.147, w_D=0.131, w_{FO}=0.088$).
 
-**Definition**: For each selected player in a lineup:
+---
+
+## 3. Mandatory Top-5 Candidate Roster Pool Metrics
+
+To eliminate single-lineup outcome luck, all roster backtests MUST evaluate the **Top-5 Candidate Roster Pool**:
+- **`Top-1 Score`**: Points scored by the #1 recommended lineup.
+- **`Top-5 Mean Score`**: Average points scored across all top 5 recommended lineups.
+- **`Top-5 Max Score`**: Maximum points scored by the best lineup in the top 5 pool.
+- **`Top-5 Min Score`**: Floor risk among the top 5 recommendations.
+- **`Top-5 Max Ceiling %`**: `Top-5 Max Score / Coulda Max`.
+
+> [!CAUTION]
+> **Baseline CSV Archives MUST Always Store All Top-5 Candidate Lineups (Ranks 1 to 5)**:
+> Baseline CSV files (`baselines/rosters_<strategy>_baseline_<N>.csv`) MUST ALWAYS contain all 5 distinct candidate rosters for every week (`lineup_rank` 1..5, 35 player rows/wk). Never filter out ranks 2 through 5.
+
+---
+
+## 4. Value Over Replacement (VOR) — Process-Quality Metric
+
+VOR measures individual player selection decisions independent of lineup outcome luck:
 $$\text{VOR} = \text{Player Actual FP} - \text{Median FP (all players who played at that position that week)}$$
 
-- **VOR > 0**: The selected player outperformed the positional median — a good pick.
-- **VOR < 0**: The selected player underperformed the positional median — a bad pick.
-- **VOR = 0**: The selected player performed exactly at the positional median — a neutral pick.
+- **Season Avg VOR/Slot**: Mean VOR across all player-slot decisions ($N \approx 77\text{–}91$).
+- **Season Avg VOR/Week**: Mean weekly total VOR.
+- **Slots Above Median (%)**: Percentage of picks that beat the positional median (Random = 50%).
 
-DNP entries (`gamesPlayed = 0`) are excluded from the positional median calculation, since they were not real selection options.
+---
 
-**Reported Metrics**:
-1. **Season Avg VOR/Slot**: Mean VOR across all player-slot decisions ($N \approx 77\text{–}91$). Measures average selection quality per pick.
-2. **Season Avg VOR/Week**: Mean of per-week total VOR. Measures aggregate weekly selection quality.
-3. **Slots Above Median (%)**: Percentage of individual player picks that beat the positional median. A random selector would score ~50%; the model should consistently exceed this.
-4. **Per-Position Avg VOR**: Breakdown by position (A, M, D, FO, G) to identify which position groups the model selects well vs poorly.
+## 5. Mandatory 22-Metric 6-Column Mobile Layout
 
-**Why VOR is more robust than lineup scores for A/B testing**:
-- Lineup scores give ~11 data points per season. VOR gives ~77 (7 players × 11 weeks).
-- Statistical power for a paired t-test increases by ~$\sqrt{7} \approx 2.6\times$, making it far easier to detect true 5–10 pt/slot improvements.
-- VOR is insensitive to correlated game-level luck (e.g. a defensive slugfest tanking all 3 players from the same game simultaneously inflates a single lineup score delta but shows up as 3 independent below-median VOR slots).
-
-**Baseline 11 VOR Reference Values (MC_EV Top-1)**:
-
-| Season | Avg VOR/Slot | Avg VOR/Week | Slots Above Median | Decisions |
-|---|---|---|---|---|
-| **2025** | **+8.2 pts** | **+57.6 pts** | **69.2%** (63/91) | 91 |
-| **2026** | **+12.5 pts** | **+87.4 pts** | **77.9%** (60/77) | 77 |
+ALL A/B backtests, feature sweeps, and baseline reports MUST present results using the standardized 6-column format across 4 category tables:
+`Metric | 2-Yr Control | 2-Yr Test | 2025 Δ | 2026 Δ | Status (2-Year Effect)`
 
 > [!NOTE]
-> VOR shows the model actually makes **better per-pick decisions** in 2026 (+12.5 vs +8.2 VOR/slot, 77.9% vs 69.2% above median), even though 2026 lineup scores are lower. This confirms the 2025 vs 2026 gap is driven primarily by salary pricing efficiency and scoring environment, not by degraded model quality.
+> For the complete table templates, column specifications, and sample numbers, see the [22-Metric Mobile Reporting Specification](references/reporting_spec.md).
+
+> [!CAUTION]
+> **STRICT BAN on Deterministic Proxies**: Single-pass MILP on raw $y_{\text{pred}}$ is strictly forbidden. All evaluations MUST execute the full 5-stage production pipeline (`02` $\rightarrow$ `03` $\rightarrow$ `04` $\rightarrow$ `05` $\rightarrow$ `06_optimize_lineups.py`).
 
 ---
 
-### 8. Official 22-Metric 6-Column Mobile Reporting Specification (Mandatory for ALL Testing)
+## 6. Execution & Verification
 
-> [!CAUTION]
-> **STRICT BAN: NEVER Use Quick Deterministic Point Expectation Proxies for Evaluation**:
-> Simplified deterministic point expectation proxies (e.g. single-pass MILP on raw $y_{\text{pred}}$ or in-memory point estimates without simulation) are **strictly forbidden** for feature evaluation, model comparisons, or backtesting.
-> 
-> **Why Deterministic Proxies are Invalid**:
-> 1. **Underestimates Roster Ceiling & Synergy**: They lack the non-linear correlation structures (Gaussian Copula interactions, teammate stacking, opponent inverse correlation) and 10,000-trial distributional upside modeling of the production optimizer, producing artificially depressed and distorted roster scores (~135–142 pts/wk vs true ~175.6 pts/wk).
-> 2. **Inaccurate Relative Comparison**: They introduce distortions in salary allocation and player selection that do not reflect true production behavior.
-> 
-> **Mandatory Production Evaluation Pipeline**:
-> ALL candidate evaluations, feature comparisons, and A/B tests MUST execute the **full 5-stage production pipeline** across all evaluated weeks:
-> `02_predict_probabilities.py` $\rightarrow$ `03_apply_roster_filter.py` $\rightarrow$ `04_simulate_monte_carlo.py` (10,000 trials) $\rightarrow$ `05_bake_mc_ev.py` $\rightarrow$ `06_optimize_lineups.py`.
-
-> [!CAUTION]
-> **STRICT MANDATE: Mandatory 6-Column Mobile Layout for ALL A/B Tests and Model Evaluations**:
-> ALL future A/B backtests, feature ablation sweeps, model evaluations, and baseline comparison reports MUST present results using this standardized **6-column mobile layout**:
->
-> `Metric | 2-Yr Control | 2-Yr Test | 2025 Δ | 2026 Δ | Status (2-Year Effect)`
->
-> **Mandatory Formatting Rules**:
-> 1. **No Code Keys or Units in Table**: Omit code identifiers and unit strings inside table cells to fit mobile screens cleanly without horizontal wrapping.
-> 2. **Separate Category Headings**: Results MUST be presented across 4 distinct category tables with section headers, rather than a single giant table.
-> 3. **2-Yr Pooled Baseline Benchmark**: Always report the 23-week pooled benchmark (`2-Yr Control` vs `2-Yr Test`).
-> 4. **Individual Season Deltas**: `2025 Δ` (13 weeks) and `2026 Δ` (10 weeks) MUST be reported to catch single-season overfitting.
-> 5. **2-Year Effect Status Narrative**: The `Status (2-Year Effect)` column MUST evaluate the overall 23-week pooled effect. Do NOT prefix status text with `"2-Yr"`; use clean, concise color-coded emojis (🟢, 🔴, 🟡) with punchy 2–4 word narrative notes (e.g. `🟢 Lower error (-0.037 pts)`, `🟢 Portfolio Gain (+7.2 pts)`, `🔴 Drop (-8.5 pts)`).
-
-#### Category 1: Candidate Portfolio & Roster Performance (5 Metrics)
-*Evaluates actual fantasy points scored by recommended lineups against out-of-sample ground truth.*
-
-| Metric | 2-Yr Control | 2-Yr Test | 2025 $\Delta$ | 2026 $\Delta$ | Status (2-Year Effect) |
-|---|---|---|---|---|---|
-| **Top-1 Avg Score** | 172.0 | 163.5 | -10.0 pts | -6.6 pts | 🔴 Drop (-8.5 pts) |
-| **Top-5 Mean Score** | 165.2 | 163.6 | -8.4 pts | **+7.2 pts** | 🟡 Split (-1.6 pts) |
-| **Top-5 Max Score** | 193.1 | 186.0 | -11.8 pts | -1.0 pts | 🔴 Drop (-7.1 pts) |
-| **Top-5 Min Score** | 139.6 | 138.8 | -5.4 pts | **+5.2 pts** | 🟢 Floor Safe (+5.2 pts '26) |
-| **Top-5 Max Ceiling %** | 54.5% | 51.1% | -4.3% | -2.1% | 🟡 Minor Drop (-3.4%) |
-
-#### Category 2: Process Quality — Value Over Replacement (VOR) (3 Metrics)
-*Measures individual player selection decisions independent of weekly lineup outcome luck.*
-
-| Metric | 2-Yr Control | 2-Yr Test | 2025 $\Delta$ | 2026 $\Delta$ | Status (2-Year Effect) |
-|---|---|---|---|---|---|
-| **Avg VOR / Slot** | +10.1 | +9.6 | -1.2 pts | +0.3 pts | 🟢 Strong (+9.6 pts/pick) |
-| **Avg VOR / Week** | +70.6 | +66.6 | -8.4 pts | +1.8 pts | 🟢 Strong (+66.6 pts/wk) |
-| **Slots Above Median %** | 73.0% | 72.4% | -2.1% | **+1.3%** | 🟢 High (72.4%) |
-
-#### Category 3: Continuous Accuracy & Position Rank Correlation (10 Metrics)
-*Measures raw projection accuracy and relative rank-ordering quality by position.*
-
-| Metric | 2-Yr Control | 2-Yr Test | 2025 $\Delta$ | 2026 $\Delta$ | Status (2-Year Effect) |
-|---|---|---|---|---|---|
-| **MAE** | 12.333 | 12.296 | -0.037 pts | -0.036 pts | 🟢 Lower error (-0.037 pts) |
-| **RMSE** | 15.947 | 15.912 | -0.025 pts | -0.048 pts | 🟢 Lower extreme error |
-| **Pearson $r$** | 0.0894 | 0.0891 | -0.0059 | +0.0070 | 🟡 Flat (-0.0003) |
-| **Overall Spearman $\rho$** | 0.3517 | 0.3476 | -0.0147 | +0.0096 | 🟡 Flat (-0.0041) |
-| **Slot-Weighted Spearman $\rho$** | 0.2850 | 0.2830 | -0.0120 | +0.0080 | 🟡 Flat (-0.0020) |
-| **Attack Spearman $\rho$** | 0.2696 | 0.2628 | -0.0395 | +0.0359 | 🟡 Split (-0.0068) |
-| **Midfield Spearman $\rho$** | 0.1073 | 0.0905 | -0.0449 | **+0.0198** | 🟡 Split (+0.020 in '26) |
-| **Defense Spearman $\rho$** | 0.1767 | 0.1696 | -0.0158 | +0.0043 | 🟡 Flat (-0.0071) |
-| **Faceoff Spearman $\rho$** | 0.3259 | 0.3259 | 0.0000 | 0.0000 | 🟢 Unchanged (0.326) |
-| **Goalie Spearman $\rho$** | 0.3042 | 0.2191 | -0.1482 | -0.0031 | 🔴 Drop (-0.0851) |
-
-#### Category 4: Classification, Boom Detection & Calibration (5 Metrics)
-*Measures tier classification accuracy and high-upside Boom probability calibration.*
-
-| Metric | 2-Yr Control | 2-Yr Test | 2025 $\Delta$ | 2026 $\Delta$ | Status (2-Year Effect) |
-|---|---|---|---|---|---|
-| **Tier Accuracy** | 44.9% | 45.4% | +0.7% | +0.2% | 🟢 Improved (+0.5%) |
-| **Boom Precision** | 33.3% | 33.9% | +0.8% | +0.4% | 🟢 Improved (+0.6%) |
-| **Midfield Boom Precision** | 33.3% | 33.9% | +0.8% | +0.4% | 🟢 Improved (+0.6%) |
-| **Boom Recall** | 7.2% | 7.6% | +0.5% | +0.3% | 🟢 Improved (+0.4%) |
-| **Boom Brier Score** | 0.1927 | 0.1911 | -0.0013 | -0.0020 | 🟢 Better calibration |
-
----
-
-## Execution and Harness
-
-Evaluation metrics are computed out-of-sample using the decoupled evaluation harness script [prediction_model_evaluation_harness.py](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/prediction_model_evaluation_harness.py):
+### Running the Evaluation Harness
+Run the decoupled evaluation harness script:
 ```bash
 python prediction_model_evaluation_harness.py
 ```
-This script acts as the single source of truth for backtest accuracy verification.
 
-### Example Output Snippet
-```text
-ATTACK     | Acc: 47.1% (24/51) | Boom Prec: 60.0% | Rec: 23.1% | Bust <= 0.0 | Boom > 25.0
-MIDFIELD   | Acc: 40.3% (25/62) | Boom Prec: 42.9% | Rec: 21.4% | Bust <= 0.0 | Boom > 17.0
-DEFENSE    | Acc: 41.8% (38/91) | Boom Prec: 41.2% | Rec: 28.0% | Bust <= 0.0 | Boom > 10.4
-FACEOFF    | Acc: 21.4% ( 3/14) | Boom Prec:  0.0% | Rec:  0.0% | Bust <= 0.0 | Boom > 11.6
-GOALIE     | Acc: 26.1% ( 6/23) | Boom Prec: 66.7% | Rec: 33.3% | Bust <= 0.0 | Boom > 23.2
-```
+### Detached Execution for Long Backtests
+For multi-week backtests and sweeps, always execute via detached background runners to prevent SSH disconnection aborts. See [Detached Execution Guide](references/detached_execution.md).
 
-```text
-Value Over Replacement (VOR) Summary (91 player-slot decisions):
-  Season Avg VOR/Slot:    +8.2 pts
-  Season Avg VOR/Week:    +57.6 pts
-  Slots Above Median:     63/91 (69.2%)
-  Per-Position Avg VOR:
-    A  :  +12.4 pts/slot  (16/26 above median)
-    M  :   +7.1 pts/slot  (17/26 above median)
-    D  :   +3.4 pts/slot  (10/13 above median)
-    FO :   +7.1 pts/slot  (10/13 above median)
-    G  :   +8.0 pts/slot  (10/13 above median)
-```
-
----
-
-### 9. SSH-Resilient Detached Execution Mandate (Long-Running Scripts)
-
-> [!IMPORTANT]
-> **STRICT MANDATE: Run Backtests and Baseline Generation as Independent Detached Processes**:
-> When running long-running backtests, A/B sweeps, multi-week Monte Carlo trials, or baseline archive generation (`generate_baseline_archive.py`), **NEVER rely on an interactive foreground shell attached to an SSH session**. If an SSH session drops or disconnects, the OS automatically terminates all attached child processes, corrupting or aborting long runs.
->
-> **Mandatory Detached Launch Standard on Windows**:
-> All long-running pipeline and evaluation jobs MUST be launched as independent background processes detached from the terminal session, redirecting `stdout` and `stderr` to persistent log files:
->
-> 1. **Batch Runner (`scratch/run_<job>.bat`)**:
->    ```cmd
->    @echo off
->    cd /d "F:\Google Drive\Documents\Hobbies\Lacrosse\PLL fantasy\scripts"
->    python -u "scratch\<script>.py" > "scratch\<job>.log" 2>&1
->    ```
-> 2. **Silent Detached VBS Launcher (`scratch/start_<job>_silent.vbs`)**:
->    ```vbs
->    Set WshShell = CreateObject("WScript.Shell")
->    WshShell.Run "cmd /c ""F:\Google Drive\Documents\Hobbies\Lacrosse\PLL fantasy\scripts\scratch\run_<job>.bat""", 0, False
->    ```
-> 3. **Execution**:
->    Launch via `wscript scratch/start_<job>_silent.vbs` or `cscript //nologo scratch/start_<job>_silent.vbs`. The process runs completely detached in the background on the host Windows OS, writes progress to `scratch/<job>.log`, and persists regardless of SSH drops, client disconnections, or shell closures.
+### Closed-Loop Verification
+After executing `prediction_model_evaluation_harness.py`:
+1. Confirm the process completes with exit code 0.
+2. Confirm the printed output includes accuracy rows for all 5 position groups (ATTACK, MIDFIELD, DEFENSE, FACEOFF, GOALIE) and the VOR Summary block.
 
 ---
 
 > [!NOTE]
 > All improvement ideas are tracked centrally in the [improva](../improva/SKILL.md) skill. Do not add new improvement ideas to this file.
-

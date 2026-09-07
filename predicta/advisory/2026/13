@@ -47,23 +47,10 @@
             "game_id": "2026-ev-47",
             "position": "Goalie",
             "salary": 30,
-            "mc_ev": 33.7,
-            "mc_p90": 58.6,
+            "mc_ev": 37.2,
+            "mc_p90": 64.7,
             "mc_p10": 0.0,
             "actualPoints": 11.0
-        },
-        {
-            "firstName": "Matt",
-            "lastName": "Brandau",
-            "team": "WHP",
-            "opponent": "WAT",
-            "game_id": "2026-ev-46",
-            "position": "Midfield",
-            "salary": 20,
-            "mc_ev": 18.9,
-            "mc_p90": 57.4,
-            "mc_p10": 0.0,
-            "actualPoints": 8.0
         },
         {
             "firstName": "Trevor",
@@ -77,6 +64,19 @@
             "mc_p90": 38.1,
             "mc_p10": 6.8,
             "actualPoints": 11.9
+        },
+        {
+            "firstName": "Matt",
+            "lastName": "Brandau",
+            "team": "WHP",
+            "opponent": "WAT",
+            "game_id": "2026-ev-46",
+            "position": "Midfield",
+            "salary": 20,
+            "mc_ev": 18.9,
+            "mc_p90": 57.4,
+            "mc_p10": 0.0,
+            "actualPoints": 8.0
         },
         {
             "firstName": "Gavin",
@@ -133,6 +133,32 @@
             "actualPoints": 51.0
         },
         {
+            "firstName": "Liam",
+            "lastName": "Entenmann",
+            "team": "ATL",
+            "opponent": "WAT",
+            "game_id": "2026-ev-47",
+            "position": "Goalie",
+            "salary": 30,
+            "mc_ev": 37.2,
+            "mc_p90": 64.7,
+            "mc_p10": 0.0,
+            "actualPoints": 11.0
+        },
+        {
+            "firstName": "Trevor",
+            "lastName": "Baptiste",
+            "team": "ATL",
+            "opponent": "WAT",
+            "game_id": "2026-ev-47",
+            "position": "Faceoff",
+            "salary": 21,
+            "mc_ev": 17.7,
+            "mc_p90": 38.1,
+            "mc_p10": 6.8,
+            "actualPoints": 11.9
+        },
+        {
             "firstName": "Josh",
             "lastName": "Yago",
             "team": "WAT",
@@ -157,32 +183,6 @@
             "mc_p90": 29.2,
             "mc_p10": 0.0,
             "actualPoints": 18.0
-        },
-        {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
-            "team": "ATL",
-            "opponent": "WAT",
-            "game_id": "2026-ev-47",
-            "position": "Faceoff",
-            "salary": 21,
-            "mc_ev": 17.7,
-            "mc_p90": 38.1,
-            "mc_p10": 6.8,
-            "actualPoints": 11.9
-        },
-        {
-            "firstName": "Liam",
-            "lastName": "Entenmann",
-            "team": "ATL",
-            "opponent": "WAT",
-            "game_id": "2026-ev-47",
-            "position": "Goalie",
-            "salary": 30,
-            "mc_ev": 33.7,
-            "mc_p90": 58.6,
-            "mc_p10": 0.0,
-            "actualPoints": 11.0
         }
     ],
     "MC_Ceil_90": [
@@ -226,19 +226,6 @@
             "actualPoints": 51.0
         },
         {
-            "firstName": "Liam",
-            "lastName": "Entenmann",
-            "team": "ATL",
-            "opponent": "WAT",
-            "game_id": "2026-ev-47",
-            "position": "Goalie",
-            "salary": 30,
-            "mc_ev": 33.7,
-            "mc_p90": 58.6,
-            "mc_p10": 0.0,
-            "actualPoints": 11.0
-        },
-        {
             "firstName": "Matt",
             "lastName": "Brandau",
             "team": "WHP",
@@ -250,6 +237,19 @@
             "mc_p90": 57.4,
             "mc_p10": 0.0,
             "actualPoints": 8.0
+        },
+        {
+            "firstName": "Gavin",
+            "lastName": "Adler",
+            "team": "WAT",
+            "opponent": "ATL",
+            "game_id": "2026-ev-47",
+            "position": "Defense",
+            "salary": 12,
+            "mc_ev": 12.6,
+            "mc_p90": 29.2,
+            "mc_p10": 0.0,
+            "actualPoints": 18.0
         },
         {
             "firstName": "Trevor",
@@ -265,17 +265,17 @@
             "actualPoints": 11.9
         },
         {
-            "firstName": "Gavin",
-            "lastName": "Adler",
-            "team": "WAT",
-            "opponent": "ATL",
+            "firstName": "Liam",
+            "lastName": "Entenmann",
+            "team": "ATL",
+            "opponent": "WAT",
             "game_id": "2026-ev-47",
-            "position": "Defense",
-            "salary": 12,
-            "mc_ev": 12.6,
-            "mc_p90": 29.2,
+            "position": "Goalie",
+            "salary": 30,
+            "mc_ev": 37.2,
+            "mc_p90": 64.7,
             "mc_p10": 0.0,
-            "actualPoints": 18.0
+            "actualPoints": 11.0
         }
     ],
     "MC_Consensus": [
@@ -300,9 +300,9 @@
             "game_id": "2026-ev-48",
             "position": "Goalie",
             "salary": 31,
-            "mc_ev": 23.0,
-            "mc_p90": 44.8,
-            "mc_p10": 7.6,
+            "mc_ev": 24.1,
+            "mc_p90": 46.8,
+            "mc_p10": 8.0,
             "actualPoints": 1.0
         },
         {
@@ -386,17 +386,17 @@
             "actualPoints": 18.0
         },
         {
-            "firstName": "CJ",
-            "lastName": "Kirst",
-            "team": "WAT",
-            "opponent": "ATL",
-            "game_id": "2026-ev-47",
+            "firstName": "Chris",
+            "lastName": "Kavanagh",
+            "team": "RED",
+            "opponent": "OUT",
+            "game_id": "2026-ev-48",
             "position": "Attack",
-            "salary": 50,
-            "mc_ev": 40.9,
-            "mc_p90": 65.8,
-            "mc_p10": 4.0,
-            "actualPoints": 44.0
+            "salary": 43,
+            "mc_ev": 39.3,
+            "mc_p90": 76.0,
+            "mc_p10": 12.5,
+            "actualPoints": 19.0
         },
         {
             "firstName": "Finn",
@@ -412,30 +412,30 @@
             "actualPoints": 51.0
         },
         {
-            "firstName": "Logan",
-            "lastName": "McNaney",
-            "team": "OUT",
-            "opponent": "RED",
-            "game_id": "2026-ev-48",
-            "position": "Goalie",
-            "salary": 30,
-            "mc_ev": 31.0,
-            "mc_p90": 52.8,
-            "mc_p10": 0.0,
-            "actualPoints": 12.0
-        },
-        {
-            "firstName": "Matt",
-            "lastName": "Brandau",
-            "team": "WHP",
-            "opponent": "WAT",
+            "firstName": "Josh",
+            "lastName": "Yago",
+            "team": "WAT",
+            "opponent": "WHP",
             "game_id": "2026-ev-46",
             "position": "Midfield",
-            "salary": 20,
-            "mc_ev": 18.9,
-            "mc_p90": 57.4,
+            "salary": 23,
+            "mc_ev": 17.6,
+            "mc_p90": 32.3,
             "mc_p10": 0.0,
-            "actualPoints": 8.0
+            "actualPoints": 11.0
+        },
+        {
+            "firstName": "Gavin",
+            "lastName": "Adler",
+            "team": "WAT",
+            "opponent": "ATL",
+            "game_id": "2026-ev-47",
+            "position": "Defense",
+            "salary": 12,
+            "mc_ev": 12.6,
+            "mc_p90": 29.2,
+            "mc_p10": 0.0,
+            "actualPoints": 18.0
         },
         {
             "firstName": "Trevor",
@@ -451,17 +451,17 @@
             "actualPoints": 11.9
         },
         {
-            "firstName": "Gavin",
-            "lastName": "Adler",
-            "team": "WAT",
-            "opponent": "ATL",
-            "game_id": "2026-ev-47",
-            "position": "Defense",
-            "salary": 12,
-            "mc_ev": 12.6,
-            "mc_p90": 29.2,
-            "mc_p10": 0.0,
-            "actualPoints": 18.0
+            "firstName": "Dillon",
+            "lastName": "Ward",
+            "team": "RED",
+            "opponent": "OUT",
+            "game_id": "2026-ev-48",
+            "position": "Goalie",
+            "salary": 32,
+            "mc_ev": 34.8,
+            "mc_p90": 63.9,
+            "mc_p10": 13.8,
+            "actualPoints": 15.0
         }
     ],
     "Coulda": [
@@ -551,9 +551,9 @@
             "game_id": "2026-ev-47",
             "position": "G",
             "salary": 36,
-            "mc_ev": 16.8,
-            "mc_p90": 31.4,
-            "mc_p10": 3.6,
+            "mc_ev": 21.9,
+            "mc_p90": 40.9,
+            "mc_p10": 4.7,
             "actualPoints": 62.0
         }
     ],
@@ -606,15 +606,6 @@
                 ]
             },
             {
-                "firstName": "Matt",
-                "lastName": "Brandau",
-                "position": "Midfield",
-                "salary": 20,
-                "bullets": [
-                    "Matchup Specialist: Historically performs well against WAT (1.20x average scoring rate)."
-                ]
-            },
-            {
                 "firstName": "Trevor",
                 "lastName": "Baptiste",
                 "position": "Faceoff",
@@ -622,6 +613,15 @@
                 "bullets": [
                     "Matchup Specialist: Historically performs well against WAT (1.19x average scoring rate).",
                     "Opponent Weakness: WAT defense allows 38% extra fantasy points to Faceoff position."
+                ]
+            },
+            {
+                "firstName": "Matt",
+                "lastName": "Brandau",
+                "position": "Midfield",
+                "salary": 20,
+                "bullets": [
+                    "Matchup Specialist: Historically performs well against WAT (1.20x average scoring rate)."
                 ]
             },
             {

@@ -8,9 +8,9 @@
             "game_id": "2026-ev-26",
             "position": "Goalie",
             "salary": 46,
-            "mc_ev": 40.9,
-            "mc_p90": 63.3,
-            "mc_p10": 19.2,
+            "mc_ev": 46.5,
+            "mc_p90": 72.0,
+            "mc_p10": 21.8,
             "actualPoints": 10.0
         },
         {
@@ -101,9 +101,9 @@
             "game_id": "2026-ev-26",
             "position": "Goalie",
             "salary": 46,
-            "mc_ev": 40.9,
-            "mc_p90": 63.3,
-            "mc_p10": 19.2,
+            "mc_ev": 46.5,
+            "mc_p90": 72.0,
+            "mc_p10": 21.8,
             "actualPoints": 10.0
         },
         {
@@ -194,9 +194,9 @@
             "game_id": "2026-ev-26",
             "position": "Goalie",
             "salary": 46,
-            "mc_ev": 40.9,
-            "mc_p90": 63.3,
-            "mc_p10": 19.2,
+            "mc_ev": 46.5,
+            "mc_p90": 72.0,
+            "mc_p10": 21.8,
             "actualPoints": 10.0
         },
         {
@@ -252,17 +252,17 @@
             "actualPoints": 37.4
         },
         {
-            "firstName": "Zach",
-            "lastName": "Currier",
-            "team": "WAT",
-            "opponent": "RED",
-            "game_id": "2026-ev-25",
+            "firstName": "Jack",
+            "lastName": "Regnery",
+            "team": "CAN",
+            "opponent": "OUT",
+            "game_id": "2026-ev-28",
             "position": "Midfield",
-            "salary": 20,
-            "mc_ev": 26.0,
-            "mc_p90": 47.8,
-            "mc_p10": 7.2,
-            "actualPoints": 46.5
+            "salary": 17,
+            "mc_ev": 22.3,
+            "mc_p90": 47.2,
+            "mc_p10": 0.0,
+            "actualPoints": 30.0
         },
         {
             "firstName": "Mac",
@@ -287,9 +287,9 @@
             "game_id": "2026-ev-26",
             "position": "Goalie",
             "salary": 46,
-            "mc_ev": 40.9,
-            "mc_p90": 63.3,
-            "mc_p10": 19.2,
+            "mc_ev": 46.5,
+            "mc_p90": 72.0,
+            "mc_p10": 21.8,
             "actualPoints": 10.0
         },
         {
@@ -380,9 +380,9 @@
             "game_id": "2026-ev-26",
             "position": "Goalie",
             "salary": 46,
-            "mc_ev": 40.9,
-            "mc_p90": 63.3,
-            "mc_p10": 19.2,
+            "mc_ev": 46.5,
+            "mc_p90": 72.0,
+            "mc_p10": 21.8,
             "actualPoints": 10.0
         },
         {
@@ -551,9 +551,9 @@
             "game_id": "2026-ev-26",
             "position": "G",
             "salary": 36,
-            "mc_ev": 31.6,
-            "mc_p90": 56.1,
-            "mc_p10": 14.3,
+            "mc_ev": 35.3,
+            "mc_p90": 62.6,
+            "mc_p10": 15.9,
             "actualPoints": 29.0
         }
     ],
@@ -562,8 +562,7 @@
         "Connor Shellenberger",
         "Sam King",
         "Ty English",
-        "Andrew McMeekin",
-        "Zach Currier"
+        "Andrew McMeekin"
     ],
     "Sleepers": [],
     "RecommendedStrategy": "MC_EV",
@@ -641,12 +640,14 @@
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
+                    "Jack Regnery",
                     "Mac O'Keefe"
                 ],
                 "out": [
+                    "Zach Currier",
                     "Connor Fields"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Mac O'Keefe (Attack, 24c)) to maximize the team's 90th percentile ceiling (projecting up to 57.4 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Jack Regnery (Midfield, 17c), Mac O'Keefe (Attack, 24c)) to maximize the team's 90th percentile ceiling (projecting up to 57.4 pts)."
             }
         ]
     },

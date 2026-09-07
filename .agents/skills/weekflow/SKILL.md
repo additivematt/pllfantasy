@@ -1,163 +1,121 @@
 ---
 name: weekflow
-description: Explains the weekly timeline (pre-game, game-day lock, post-game) and step-by-step update process for PLL Fantasy.
+description: >-
+  Guides the end-to-end 3-phase weekly operational pipeline (pre-game prep, game-day lock, post-game wrap-up).
+  Use this skill as the primary entry point when executing the weekly game cycle or checking pipeline order.
+  Do NOT use for deep architectural refactoring or design system changes.
 ---
 
 > [!IMPORTANT]
 > **Skill Naming Convention**: This skill is named **weekflow**. In chat responses, explanations, and documentation links, ALWAYS refer to it simply as `weekflow` (or [`weekflow`](file://...)). NEVER output `SKILL.md` or `weekflow/SKILL.md`.
 
-# PLL Fantasy Weekly Workflow Explainer
+# PLL Fantasy Weekly Workflow (weekflow)
 
-This document outlines the step-by-step procedure required each week as information becomes available. Following this workflow chronologically ensures that predictions, matchups, and optimizations are mathematically accurate and synchronized across all dashboards.
+This runbook defines the sequential procedure executed each week as information becomes available.
 
 ---
 
 ## 🗺️ Master Context Index
 
-If you are a new AI agent onboarded to this project, use this document as your entry point. Refer to the following specialized workspace skills for deep-dive context on specific subsystems:
-
-| Skill | Purpose & Scope |
-|---|---|
-| [fetcha](../fetcha/SKILL.md) | **Data pipeline**: Scrapers, GraphQL stats fetching, historical backfilling, and unified dataset consolidation. |
-| [interrogata](../interrogata/SKILL.md) | **Player Interrogator UI**: Career trajectory trend charts, historical matchup averages, and DNP tracking. |
-| [matcha](../matcha/SKILL.md) | **Matchup Tagging UI**: Manual defensive assignment tagger app scope, backend server, and data flows. |
-| [predicta](../predicta/SKILL.md) | **Prediction Engine**: XGBoost classifiers, quantile regressors, Monte Carlo simulations, and EV baking. |
-| [coulda](../coulda/SKILL.md) | **Retroactive Optimization**: Calculating historical max-possible scores under F2P salary limits. |
-| [evaluata](../evaluata/SKILL.md) | **Accuracy Reports**: Ground truth assignment, scoring distribution ties, and accuracy evaluation logic. |
-| [uploada](../uploada/SKILL.md) | **Deployment**: Git commands, GitHub Pages static assets compilation, and offline Service Worker cache updates. |
-| [styla](../styla/SKILL.md) | **Design System**: UI aesthetic requirements, Glassmorphism, animations, and Electric Purple color tokens. |
-| [improva](../improva/SKILL.md) | **Backlog & Baseline Tracking**: Feature pipeline, Baseline 2 evaluation metrics, and A/B testing rules. |
+Refer to the specialized workspace skills for subsystem deep-dives:
+- [fetcha](../fetcha/SKILL.md): Scrapers, GraphQL stats fetching, historical backfills, unified dataset.
+- [interrogata](../interrogata/SKILL.md): Player Interrogator UI, career trajectory trend charts, DNP tracking.
+- [matcha](../matcha/SKILL.md): Defensive assignment tagging app, backend server, data flows.
+- [predicta](../predicta/SKILL.md): XGBoost classifiers, out-of-fold regressors, Monte Carlo simulations.
+- [coulda](../coulda/SKILL.md): Retroactive optimal lineups, double-header per-game rules, ceiling benchmarks.
+- [evaluata](../evaluata/SKILL.md): Accuracy reports, 22-metric 6-column layout, VOR evaluations.
+- [uploada](../uploada/SKILL.md): Git deployment to GitHub Pages, mobile cache updates.
+- [styla](../styla/SKILL.md): Obsidian design system tokens, Glassmorphism, animations.
+- [improva](../improva/SKILL.md): Active Baseline 15 benchmark, backlog, A/B testing rules.
 
 ---
 
-## 📅 Weekly Timeline & Workflow Overview
-
-The weekly cycle is divided into three distinct phases based on when official data is released:
+## 📅 Weekly Timeline Overview
 
 ```
 [Phase 1: Tuesday–Thursday] ──> [Phase 2: Friday (Game-Day -24h)] ──> [Phase 3: Monday (Post-Game)]
    - Fetch weekly salaries         - Official rosters published       - Fetch box stats (GraphQL)
    - Pre-matchup tagging           - Filter inactive players          - Retroactive "Coulda" run
    - Raw model predictions         - MC Simulations & EV Baking       - Accuracy evaluation
-                                   - Static UI Compile & Git Push
+                                   - Static UI Compile & Git Push     - Append week to active baseline
 ```
 
 ---
 
-## 🛠️ Step-by-Step Instructions
+## Phase 1: Pre-Game Prep (Tuesday – Thursday)
 
-### Phase 1: Pre-Game Prep (Tuesday – Thursday)
-*When player salaries and initial weekly projections are updated on the F2P platform.*
-
-#### Step 1: Fetch Latest Weekly F2P Data
-Run the F2P scraping script to get player salaries, projections, and injury statuses for the target week. This updates `f2p_2026_season.json` and `f2p_weekly_data.json`.
+### Step 1: Fetch Latest Weekly F2P Data
 ```bash
 python 01_fetch_f2p_costs.py --week <WEEK>
 ```
+*Updates `f2p_2026_season.json` and `f2p_weekly_data.json`.*
 
-#### Step 2: (Optional) Preemptive Matchup Tagging
-If you want to tag matchups in the UI before F2P has released stats for the week, you can generate placeholder entries using a backfill script:
+### Step 2: (Optional) Preemptive Matchup Tagging
 ```bash
 python scratch/backfill_week<WEEK>_preliminary.py
 ```
-> [!NOTE]
-> This parses team schedules and generates blank placeholder events in `combined_player_stats_2026.json` so the games immediately show up in the Matchup Tagger UI dropdowns.
+*Creates blank placeholder events in `combined_player_stats_2026.json` for tagger dropdowns.*
 
-#### Step 3: Run Raw predictions
-Execute the prediction models on the raw (unfiltered) rosters. These scripts automatically filter out players on Injured Reserve (`IR`) or marked Out (`O`).
+### Step 3: Run Raw Predictions
 ```bash
-# 1. Run Classification Model (Boom Probability & Tiers)
 python 02_predict_probabilities.py --year 2026 --week <WEEK>
-
-# (Deprecated: Quantile Regression model removed in Tier 1 Refactoring)
 ```
-*Outputs: `predicta/predictions/week<WEEK>_2026_predictions_raw.csv`.*
+*Outputs `predicta/predictions/week<WEEK>_2026_predictions_raw.csv` (filters IR/Out players).*
 
 ---
 
-### Phase 2: Game-Day Lock (Friday — 24 Hours Before Game-Time)
-*When official gameday rosters are finalized and published by the league.*
+## Phase 2: Game-Day Lock (Friday — 24h Before Game-Time)
 
-#### Step 4: Apply Active Roster Filter & Update Trades
-Official rosters are used to filter out inactive scratches (dressing list limited to 19 active players) and update team codes for traded players.
+### Step 4: Apply Active Roster Filter & Update Trades
 ```bash
 python 03_apply_roster_filter.py --year 2026 --week <WEEK>
 ```
-> [!IMPORTANT]
-> This script reads the raw predictions, filters out scratched players, updates traded players' matchups, writes `predicta/predictions/week<WEEK>_2026_predictions.csv`, and automatically calls `06_optimize_lineups.py` to generate the baseline advisory report.
+*Filters 19-man active dressing lists, resolves trades, and produces final candidate pool.*
 
-#### Step 4b: Scrape Leaderboard, Competitor & User Team Rosters
-Once competitor rosters lock and become visible (or when updating consensus selections), scrape the global top 25 leaders, local league rivals, and your own user team roster (`SogMutts`):
+### Step 4b: Scrape Leaderboard & Competitor Rosters
 ```bash
 python 08_scrape_challenger_rosters.py --year 2026 --week <WEEK> --my-team "SogMutts"
 ```
-*Outputs: `predicta/advisory/week<WEEK>_2026_consensus_ownership.json` and updates `predicta/advisory/challenger_rosters_history.json` with user team selections.*
+*Outputs `predicta/advisory/week<WEEK>_2026_consensus_ownership.json`. For authentication setup, see [F2P Token Setup Guide](references/f2p_token_setup.md).*
 
-> [!TIP]
-> **User Team Integration & Automated Login**:
-> 1. **Default User Team**: `config.py` sets `F2P_MY_TEAM_NAME = "SogMutts"`. The scraper automatically captures and archives your 7-player lineup for historical tracking alongside consensus and rival lineups.
-> 2. **Refresh Token (.env file / Env Var)**: Save your long-lived Firebase refresh token as `F2P_REFRESH_TOKEN` in a local `.env` file or environment variable. The script will exchange it for a fresh ID token automatically.
-> 3. **Password Login (.env file / Env Var)**: If your account has a password, set `F2P_EMAIL` and `F2P_PASSWORD` in your `.env` file.
-> 4. **Manual**: If neither is set, pass a fresh token via `--token <JWT_TOKEN>`.
-
-#### Step 5: Run Monte Carlo Simulations
-Run 10,000 Monte Carlo trials for the week's games. This models joint scoring distributions and team/opponent correlations using the Copula structure.
+### Step 5: Run Monte Carlo Simulations
 ```bash
 python 04_simulate_monte_carlo.py --year 2026 --week <WEEK> --sims 10000
 ```
-*Outputs: `predicta/predictions/week<WEEK>_2026_simulations.csv`.*
+*Outputs `predicta/predictions/week<WEEK>_2026_simulations.csv`.*
 
-#### Step 6: Bake Simulation Stats
-Inject the Monte Carlo Expected Value (`mc_ev`), standard deviation, and 90th percentile ceiling (`mc_p90`) directly into the final prediction file.
+### Step 6: Bake Simulation Stats
 ```bash
 python 05_bake_mc_ev.py 2026 <WEEK>
 ```
+*Bakes `mc_ev`, standard deviation, and `mc_p90` into the prediction dataset.*
 
-#### Step 6b: Optimize Lineups & Update Active Baseline Roster CSVs
-Execute the roster optimizer to update the active baseline roster files (`rosters_mc_ev.csv`, `rosters_mc_win_160.csv`, `rosters_mc_ceil_90.csv`).
+### Step 6b: Optimize Lineups
 ```bash
 python 06_optimize_lineups.py --year 2026 --week <WEEK> --seed 42
 ```
-> [!IMPORTANT]
-> This step establishes the single source of truth for all active baseline rosters.
+*Updates active baseline roster CSVs (`rosters_mc_ev.csv`, `rosters_mc_win_160.csv`, `rosters_mc_ceil_90.csv`).*
 
-#### Step 7: Compile Static JSON Payloads
-Generate the extensionless JSON files read by the Web UI. `07_prepare_static_data.py` pulls roster selections directly from the saved active baseline roster CSVs (`rosters_mc_ev.csv`, `rosters_mc_win_160.csv`, `rosters_mc_ceil_90.csv`), guaranteeing 100% parity between the evaluation harness and the Web UI.
+### Step 7: Compile Static JSON Payloads
 ```bash
 python 07_prepare_static_data.py --force
 ```
+*Generates static extensionless JSONs for the dashboard.*
 
-#### Step 8: Push to GitHub Pages
-Pushes the compiled static payloads to GitHub. The changes will build and be live on GitHub Pages in about 30 seconds.
-```powershell
-# Stage the modified data files
-git add interrogata/all_players_stats.json predicta/predictions/ predicta/advisory/
-
-# Create the commit
-git commit -m "Update week <WEEK> predictions & simulations"
-
-# Push to GitHub
-git push origin main
-```
+### Step 8: Push to GitHub Pages
+Follow [uploada](../uploada/SKILL.md) to stage, commit, and push updates online.
 
 ---
 
-### Phase 3: Post-Game Wrap-Up (Monday / Tuesday)
-*When all games are completed and stats are officially recorded.*
+## Phase 3: Post-Game Wrap-Up (Monday / Tuesday)
 
-#### Step 9: Tag Defensive Matchups (film study)
-Start the local server and open the Matchup Tagger UI to record defensive assignments observed during game film:
+### Step 9: Tag Defensive Matchups (Film Study)
+Start the local server and tag assignments at `http://localhost:8000/pllmatcha/`:
 ```bash
-# 1. Start the server
 run_or_restart_server.bat
-
-# 2. Open http://localhost:8000/pllmatcha/ in your web browser
 ```
-> [!NOTE]
-> Saving matchups to `season_matchups_2026.json` automatically triggers `extract_trial_data.py` to compile the player database.
 
-#### Step 10: Fetch Final Game Stats & Points
-Retrieve actual box scores and final fantasy points to grow the season training dataset:
+### Step 10: Fetch Final Game Stats & Points
 ```bash
 # 1. Fetch actual F2P points
 python 01_fetch_f2p_costs.py --week <WEEK>
@@ -165,29 +123,25 @@ python 01_fetch_f2p_costs.py --week <WEEK>
 # 2. Fetch GraphQL box scores
 python fetch_fantasy_points.py
 
-# 3. Combine and upsert into the unified 2026 JSON dataset
+# 3. Combine and upsert into unified dataset
 python combine_datasets.py
 ```
 
-#### Step 11: Run Retroactive "Coulda" Roster Optimization
-Find the mathematically optimal roster that could have been selected for the week, providing the maximum ceiling benchmark:
+### Step 11: Run Retroactive Coulda Roster Optimization
 ```bash
 python coulda_optimizer.py --year 2026 --week <WEEK>
 ```
 
-#### Step 12: Evaluate Prediction Accuracy
-Compare the predicted tiers against the actual outcomes using the evaluation harness:
+### Step 12: Evaluate Prediction Accuracy
 ```bash
 python prediction_model_evaluation_harness.py
 ```
 
-#### Step 12b: Incrementally Append Week to Active Baseline Archive
-To add the completed week's Top-5 candidate rosters and ground-truth `actualPoints` to the active baseline archive without re-generating past historical weeks:
+### Step 12b: Incrementally Append Week to Active Baseline Archive
 ```bash
 python generate_baseline_archive.py --year 2026 --week <WEEK>
 ```
-> [!NOTE]
-> Using `--year` and `--week` flags runs the pipeline for that single week in seconds, safely upserts the 35 candidate rows into the latest active baseline archive in `baselines/`, and updates overall Baseline scores without disturbing past historical weeks or requiring a hardcoded baseline number.
+*Upserts 35 candidate rows into active baseline archive in `baselines/` without disturbing historical weeks.*
 
 ---
 
@@ -197,54 +151,25 @@ python generate_baseline_archive.py --year 2026 --week <WEEK>
 |---|:---:|---|---|
 | `01_fetch_f2p_costs.py` | Prep | F2P API | `f2p_weekly_data.json` |
 | `02_predict_probabilities.py` | Prep | Historical stats + F2P costs | `_predictions_raw.csv` |
-| `03_apply_roster_filter.py` | Lock | Raw predictions + Gameday Roster API | `predicta/predictions/weekN_YYYY_predictions.csv` |
-| `04_simulate_monte_carlo.py` | Lock | `predicta/predictions/weekN_YYYY_predictions.csv` | `predicta/predictions/weekN_YYYY_simulations.csv` |
-| `05_bake_mc_ev.py` | Lock | Predictions + Simulations | Updated final predictions |
+| `03_apply_roster_filter.py` | Lock | Raw predictions + Gameday Roster API | `weekN_YYYY_predictions.csv` |
+| `04_simulate_monte_carlo.py` | Lock | Final filtered predictions | `weekN_YYYY_simulations.csv` |
+| `05_bake_mc_ev.py` | Lock | Predictions + Simulations | Updated predictions JSON |
+| `06_optimize_lineups.py` | Lock | Baked predictions & simulations | Active baseline roster CSVs |
 | `07_prepare_static_data.py` | Lock | CSVs + `season_matchups_2026.json` | Static Web UI JSONs |
-| `08_scrape_challenger_rosters.py` | Lock | F2P API + Refresh Token | `weekN_YYYY_consensus_ownership.json` |
-| Matchup Tagger UI (Matcha) | Post | User manual tagging | `season_matchups_2026.json` |
+| `08_scrape_challenger_rosters.py` | Lock | F2P API + Refresh Token | `consensus_ownership.json` |
+| Matchup Tagger UI (Matcha) | Post | User film tagging | `season_matchups_2026.json` |
 | `fetch_fantasy_points.py` | Post | PLL Stats GraphQL API | Raw stats cache |
 | `combine_datasets.py` | Post | Raw stats + F2P costs | `combined_player_stats_2026.json` |
-| `coulda_optimizer.py` | Post | Finalized `combined_player_stats_2026.json` | Optimal retroactive roster |
+| `coulda_optimizer.py` | Post | Finalized `combined_player_stats` | Optimal retroactive roster |
+| `generate_baseline_archive.py` | Post | Finalized stats + active models | Appended baseline roster archive |
 
 ---
 
-## 🔑 One-Time Setup for F2P Refresh Token Automation
-
-To run the weekly scraper automatically without manual token copy-paste or HAR file exports, you can set up a local `.env` file with your credentials or refresh token.
-
-### Setup Steps:
-1. Copy the template [.env.example](file:///f:/Google%20Drive/Documents/Hobbies/Lacrosse/PLL%20fantasy/scripts/.env.example) to a new file named `.env` in the scripts directory.
-2. Fill in **one** of the authentication methods:
-   * **Method A (Email & Password)**: If your account uses a password, enter your email and password in the `.env` file.
-   * **Method B (Refresh Token)**: If you log in via Magic Link, extract your long-lived Firebase **Refresh Token** from your browser's IndexedDB and enter it as `F2P_REFRESH_TOKEN` in the `.env` file.
-
-### Easy IndexedDB Token Extraction:
-1. Open your browser to the logged-in [F2P leagues page](https://f2p.premierlacrosseleague.com/fantasy/leagues).
-2. Open **Developer Tools** (`F12`), go to the **Console** tab.
-3. Paste the following JavaScript and press **Enter**:
-   ```javascript
-   (async function() {
-     const db = await new Promise((res, rej) => {
-       const req = indexedDB.open("firebaseLocalStorageDb");
-       req.onsuccess = () => res(req.result);
-       req.onerror = rej;
-     });
-     const tx = db.transaction("firebaseLocalStorage", "readonly");
-     const store = tx.objectStore("firebaseLocalStorage");
-     const records = await new Promise((res) => {
-       const req = store.getAll();
-       req.onsuccess = () => res(req.result);
-     });
-     if (records && records.length > 0) {
-       const token = records[0].value.stsTokenManager?.refreshToken || records[0].value.refreshToken;
-       console.log("Your F2P_REFRESH_TOKEN is:\n\n" + token);
-     } else {
-       console.error("No active session found in IndexedDB.");
-     }
-   })();
-   ```
-4. Copy the printed token and save it in your `.env` file.
+## Verification Directive
+Verify that static outputs exist after Phase 2 compilation:
+```bash
+python -c "import os; assert os.path.exists('predicta/predictions/2026/<WEEK>') and os.path.exists('interrogata/all_players_stats.json'); print('Static payload verification: OK')"
+```
 
 ---
 

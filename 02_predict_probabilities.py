@@ -103,6 +103,50 @@ def main():
                     if g_id and g_id not in week_games:
                         week_games[g_id] = {"team_a": evt.get("homeTeam"), "team_b": evt.get("awayTeam"), "game_id": g_id.replace("_game_", "-ev-")}
             matchups = list(week_games.values())
+
+    if not matchups:
+        f2p_paths = [
+            os.path.join(sDir, f"f2p_{args.year}_season.json"),
+            os.path.join(sDir, "f2p_weekly_data.json")
+        ]
+        f2p_records = []
+        for fp in f2p_paths:
+            if os.path.exists(fp):
+                try:
+                    with open(fp, encoding="utf-8") as f_f2p:
+                        f2p_records = json.load(f_f2p)
+                    break
+                except Exception:
+                    pass
+        week_f2p = [p for p in f2p_records if p.get("week") == args.week]
+        if week_f2p:
+            loc_to_team = {
+                "UTA": "ARC", "DEN": "OUT", "BOS": "CAN", "PHI": "WAT",
+                "MD": "WHP", "NY": "ATL", "CAR": "CHA", "CAL": "RED",
+                "ARC": "ARC", "OUT": "OUT", "CAN": "CAN", "WAT": "WAT",
+                "WHP": "WHP", "ATL": "ATL", "CHA": "CHA", "RED": "RED"
+            }
+            games_found = {}
+            for p in week_f2p:
+                ev_id = p.get("eventId")
+                tm = p.get("currentTeam", {})
+                t_code = tm.get("teamId") if isinstance(tm, dict) else p.get("team")
+                disp = p.get("displayString", "")
+                st = float(p.get("startTime", 0)) if p.get("startTime") else None
+                if ev_id and t_code:
+                    gid = ev_id.replace("_game_", "-ev-")
+                    if gid not in games_found:
+                        m_opp = re.search(r"vs\s+([A-Za-z]+)", disp)
+                        opp_code = m_opp.group(1).upper() if m_opp else None
+                        opp_code = loc_to_team.get(opp_code, opp_code)
+                        if opp_code:
+                            games_found[gid] = {
+                                "team_a": t_code,
+                                "team_b": opp_code,
+                                "game_id": gid,
+                                "startTime": st
+                            }
+            matchups = list(games_found.values())
             
     if not matchups: return
     # Load from consolidated all_players_stats.json (includes DNP rows, leakage-safe)
@@ -373,10 +417,12 @@ def main():
                                 else:
                                     overall_avg = overall_avgs.get((first, last), 0)
                                     salary = int(round(overall_avg)) if overall_avg > 0 else 10
+                    tm_val = p.get("currentTeam", {})
+                    t_id_val = tm_val.get("teamId") if isinstance(tm_val, dict) else p.get("team")
                     roster_rows.append({
                         "firstName": first,
                         "lastName": last,
-                        "team": p["currentTeam"]["teamId"],
+                        "team": t_id_val,
                         "positionGroup": assign_position_group(p["position"]),
                         "subPosition": assign_sub_position(p["position"]),
                         "officialId": p.get("officialId", "00000"),
@@ -408,7 +454,6 @@ def main():
         # Backtest fallback: load actual active/DNP status from all_players_stats.json
         stats_path = os.path.join(sDir, "all_players_stats.json")
         if os.path.exists(stats_path):
-            import re
             print(f"No live gameday roster found. Simulating rosters from {stats_path} for {args.year} Week {args.week}...")
             with open(stats_path, encoding="utf-8") as f:
                 all_stats = json.load(f)

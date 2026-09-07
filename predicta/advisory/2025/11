@@ -30,14 +30,14 @@
             "firstName": "Colin",
             "lastName": "Kirst",
             "team": "CAN",
-            "opponent": "WHP",
-            "game_id": "2025-ev-42",
+            "opponent": "RED",
+            "game_id": "2025-ev-39",
             "position": "Goalie",
-            "salary": 7,
-            "mc_ev": 34.8,
-            "mc_p90": 61.6,
-            "mc_p10": 16.8,
-            "actualPoints": 17.0
+            "salary": 9,
+            "mc_ev": 35.9,
+            "mc_p90": 62.9,
+            "mc_p10": 17.1,
+            "actualPoints": 10.0
         },
         {
             "firstName": "Trevor",
@@ -179,9 +179,9 @@
             "game_id": "2025-ev-40",
             "position": "Goalie",
             "salary": 44,
-            "mc_ev": 43.5,
-            "mc_p90": 64.7,
-            "mc_p10": 25.9,
+            "mc_ev": 45.0,
+            "mc_p90": 66.9,
+            "mc_p10": 26.8,
             "actualPoints": 39.0
         }
     ],
@@ -211,32 +211,6 @@
             "mc_p90": 83.0,
             "mc_p10": 6.7,
             "actualPoints": 4.0
-        },
-        {
-            "firstName": "Colin",
-            "lastName": "Kirst",
-            "team": "CAN",
-            "opponent": "WHP",
-            "game_id": "2025-ev-42",
-            "position": "Goalie",
-            "salary": 7,
-            "mc_ev": 34.8,
-            "mc_p90": 61.6,
-            "mc_p10": 16.8,
-            "actualPoints": 17.0
-        },
-        {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
-            "team": "ATL",
-            "opponent": "WAT",
-            "game_id": "2025-ev-41",
-            "position": "Faceoff",
-            "salary": 23,
-            "mc_ev": 30.5,
-            "mc_p90": 60.6,
-            "mc_p10": 11.2,
-            "actualPoints": 63.8
         },
         {
             "firstName": "Andrew",
@@ -276,6 +250,32 @@
             "mc_p90": 46.4,
             "mc_p10": 0.0,
             "actualPoints": 11.0
+        },
+        {
+            "firstName": "Trevor",
+            "lastName": "Baptiste",
+            "team": "ATL",
+            "opponent": "WAT",
+            "game_id": "2025-ev-41",
+            "position": "Faceoff",
+            "salary": 23,
+            "mc_ev": 30.5,
+            "mc_p90": 60.6,
+            "mc_p10": 11.2,
+            "actualPoints": 63.8
+        },
+        {
+            "firstName": "Colin",
+            "lastName": "Kirst",
+            "team": "CAN",
+            "opponent": "RED",
+            "game_id": "2025-ev-39",
+            "position": "Goalie",
+            "salary": 9,
+            "mc_ev": 35.9,
+            "mc_p90": 62.9,
+            "mc_p10": 17.1,
+            "actualPoints": 10.0
         }
     ],
     "MC_Consensus": [],
@@ -367,9 +367,9 @@
             "game_id": "2025-ev-40",
             "position": "G",
             "salary": 44,
-            "mc_ev": 43.5,
-            "mc_p90": 64.7,
-            "mc_p10": 25.9,
+            "mc_ev": 45.0,
+            "mc_p90": 66.9,
+            "mc_p10": 26.8,
             "actualPoints": 39.0
         }
     ],
@@ -406,11 +406,11 @@
                 "firstName": "Colin",
                 "lastName": "Kirst",
                 "position": "Goalie",
-                "salary": 7,
+                "salary": 9,
                 "bullets": [
-                    "Matchup Specialist: Historically performs well against WHP (1.18x average scoring rate).",
-                    "Opponent Weakness: WHP defense allows 22% extra fantasy points to Goalie position.",
-                    "Salary Cap Enabler: Excellent cost efficiency, projecting 34.8 EV for just 7 coins."
+                    "Matchup Specialist: Historically performs well against RED (1.18x average scoring rate).",
+                    "Opponent Weakness: RED defense allows 22% extra fantasy points to Goalie position.",
+                    "Salary Cap Enabler: Excellent cost efficiency, projecting 35.9 EV for just 9 coins."
                 ]
             },
             {

@@ -1,6 +1,9 @@
 ---
 name: styla
-description: Design system guide defining color tokens, glassmorphism CSS, Plotly layouts, and tooltip patterns for all PLL Fantasy UIs.
+description: >-
+  Defines Obsidian design system tokens, Glassmorphism CSS, Plotly layouts, and tooltip patterns.
+  Use this skill when styling web UIs, updating CSS variables, or building visual dashboards in
+  the PLL Fantasy workspace. Do NOT use for backend modeling, data pipelines, or CLI scripts.
 ---
 
 > [!IMPORTANT]

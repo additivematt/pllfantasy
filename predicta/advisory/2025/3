@@ -14,6 +14,19 @@
             "actualPoints": 4.0
         },
         {
+            "firstName": "Brendan",
+            "lastName": "Krebs",
+            "team": "WHP",
+            "opponent": "ATL",
+            "game_id": "2025-ev-11",
+            "position": "Goalie",
+            "salary": 13,
+            "mc_ev": 35.0,
+            "mc_p90": 59.4,
+            "mc_p10": 8.5,
+            "actualPoints": 26.0
+        },
+        {
             "firstName": "Dylan",
             "lastName": "Molloy",
             "team": "RED",
@@ -25,19 +38,6 @@
             "mc_p90": 72.4,
             "mc_p10": 4.3,
             "actualPoints": 39.0
-        },
-        {
-            "firstName": "Brendan",
-            "lastName": "Krebs",
-            "team": "WHP",
-            "opponent": "ATL",
-            "game_id": "2025-ev-11",
-            "position": "Goalie",
-            "salary": 13,
-            "mc_ev": 29.4,
-            "mc_p90": 49.9,
-            "mc_p10": 7.1,
-            "actualPoints": 26.0
         },
         {
             "firstName": "Trevor",
@@ -107,6 +107,19 @@
             "actualPoints": 4.0
         },
         {
+            "firstName": "Brendan",
+            "lastName": "Krebs",
+            "team": "WHP",
+            "opponent": "ATL",
+            "game_id": "2025-ev-11",
+            "position": "Goalie",
+            "salary": 13,
+            "mc_ev": 35.0,
+            "mc_p90": 59.4,
+            "mc_p10": 8.5,
+            "actualPoints": 26.0
+        },
+        {
             "firstName": "Dylan",
             "lastName": "Molloy",
             "team": "RED",
@@ -118,19 +131,6 @@
             "mc_p90": 72.4,
             "mc_p10": 4.3,
             "actualPoints": 39.0
-        },
-        {
-            "firstName": "Brendan",
-            "lastName": "Krebs",
-            "team": "WHP",
-            "opponent": "ATL",
-            "game_id": "2025-ev-11",
-            "position": "Goalie",
-            "salary": 13,
-            "mc_ev": 29.4,
-            "mc_p90": 49.9,
-            "mc_p10": 7.1,
-            "actualPoints": 26.0
         },
         {
             "firstName": "Trevor",
@@ -213,19 +213,6 @@
             "actualPoints": 39.0
         },
         {
-            "firstName": "Zach",
-            "lastName": "Currier",
-            "team": "WAT",
-            "opponent": "OUT",
-            "game_id": "2025-ev-12",
-            "position": "Midfield",
-            "salary": 27,
-            "mc_ev": 19.4,
-            "mc_p90": 38.6,
-            "mc_p10": 3.4,
-            "actualPoints": -3.0
-        },
-        {
             "firstName": "Andrew",
             "lastName": "McAdorey",
             "team": "RED",
@@ -239,30 +226,43 @@
             "actualPoints": -0.7
         },
         {
-            "firstName": "Kenny",
-            "lastName": "Brower",
-            "team": "WAT",
-            "opponent": "OUT",
-            "game_id": "2025-ev-12",
-            "position": "Defense",
-            "salary": 11,
-            "mc_ev": 21.5,
-            "mc_p90": 43.1,
+            "firstName": "Josh",
+            "lastName": "Balcarcel",
+            "team": "RED",
+            "opponent": "ARC",
+            "game_id": "2025-ev-10",
+            "position": "Midfield",
+            "salary": 19,
+            "mc_ev": 15.9,
+            "mc_p90": 33.6,
             "mc_p10": 0.0,
-            "actualPoints": 11.0
+            "actualPoints": 8.0
         },
         {
-            "firstName": "Luke",
-            "lastName": "Wierman",
-            "team": "OUT",
+            "firstName": "Ben",
+            "lastName": "Ramsey",
+            "team": "CAN",
             "opponent": "WAT",
-            "game_id": "2025-ev-12",
+            "game_id": "2025-ev-9",
+            "position": "Defense",
+            "salary": 27,
+            "mc_ev": 26.5,
+            "mc_p90": 74.6,
+            "mc_p10": 0.0,
+            "actualPoints": 1.0
+        },
+        {
+            "firstName": "Mike",
+            "lastName": "Sisselberger",
+            "team": "ARC",
+            "opponent": "RED",
+            "game_id": "2025-ev-10",
             "position": "Faceoff",
-            "salary": 21,
-            "mc_ev": 14.1,
-            "mc_p90": 23.5,
-            "mc_p10": 3.4,
-            "actualPoints": 10.2
+            "salary": 9,
+            "mc_ev": 8.5,
+            "mc_p90": 15.6,
+            "mc_p10": 0.0,
+            "actualPoints": 26.0
         },
         {
             "firstName": "Brendan",
@@ -272,9 +272,9 @@
             "game_id": "2025-ev-11",
             "position": "Goalie",
             "salary": 13,
-            "mc_ev": 29.4,
-            "mc_p90": 49.9,
-            "mc_p10": 7.1,
+            "mc_ev": 35.0,
+            "mc_p90": 59.4,
+            "mc_p10": 8.5,
             "actualPoints": 26.0
         }
     ],
@@ -367,19 +367,21 @@
             "game_id": "2025-ev-11",
             "position": "G",
             "salary": 41,
-            "mc_ev": 28.1,
-            "mc_p90": 46.3,
-            "mc_p10": 9.4,
+            "mc_ev": 30.3,
+            "mc_p90": 50.0,
+            "mc_p10": 10.2,
             "actualPoints": 52.0
         }
     ],
     "Core": [
         "Jeff Teat",
-        "Dylan Molloy",
         "Brendan Krebs",
-        "Kenny Brower"
+        "Dylan Molloy",
+        "Josh Balcarcel"
     ],
-    "Sleepers": [],
+    "Sleepers": [
+        "Mike Sisselberger"
+    ],
     "RecommendedStrategy": "MC_EV",
     "RecommendedReason": "Tight pricing / short slate (4 games, 11 cheap value players). Optimizing for floor is best.",
     "Narrative": {
@@ -394,21 +396,21 @@
                 ]
             },
             {
-                "firstName": "Dylan",
-                "lastName": "Molloy",
-                "position": "Attack",
-                "salary": 39,
-                "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (38.1 EV) and reliable role."
-                ]
-            },
-            {
                 "firstName": "Brendan",
                 "lastName": "Krebs",
                 "position": "Goalie",
                 "salary": 13,
                 "bullets": [
                     "Opponent Weakness: ATL defense allows 6% extra fantasy points to Goalie position."
+                ]
+            },
+            {
+                "firstName": "Dylan",
+                "lastName": "Molloy",
+                "position": "Attack",
+                "salary": 39,
+                "bullets": [
+                    "Consistent Pick: Selected for steady expected floor (38.1 EV) and reliable role."
                 ]
             },
             {
@@ -453,16 +455,16 @@
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
-                    "Zach Currier",
                     "Andrew McAdorey",
-                    "Luke Wierman"
+                    "Ben Ramsey",
+                    "Mike Sisselberger"
                 ],
                 "out": [
                     "Trevor Baptiste",
                     "Tom Schreiber",
-                    "Josh Balcarcel"
+                    "Kenny Brower"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Zach Currier (Midfield, 27c), Andrew McAdorey (Midfield, 40c), Luke Wierman (Faceoff, 21c)) to maximize the team's 90th percentile ceiling (projecting up to 72.6 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Andrew McAdorey (Midfield, 40c), Ben Ramsey (Defense, 27c), Mike Sisselberger (Faceoff, 9c)) to maximize the team's 90th percentile ceiling (projecting up to 74.6 pts)."
             }
         ]
     },

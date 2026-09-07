@@ -1,6 +1,19 @@
 {
     "MC_EV": [
         {
+            "firstName": "Liam",
+            "lastName": "Entenmann",
+            "team": "ATL",
+            "opponent": "WHP",
+            "game_id": "2026-ev-6",
+            "position": "Goalie",
+            "salary": 48,
+            "mc_ev": 46.4,
+            "mc_p90": 70.9,
+            "mc_p10": 18.0,
+            "actualPoints": 38.0
+        },
+        {
             "firstName": "Connor",
             "lastName": "Shellenberger",
             "team": "ATL",
@@ -12,19 +25,6 @@
             "mc_p90": 69.5,
             "mc_p10": 18.9,
             "actualPoints": 10.0
-        },
-        {
-            "firstName": "Liam",
-            "lastName": "Entenmann",
-            "team": "ATL",
-            "opponent": "WHP",
-            "game_id": "2026-ev-6",
-            "position": "Goalie",
-            "salary": 48,
-            "mc_ev": 40.4,
-            "mc_p90": 61.7,
-            "mc_p10": 15.7,
-            "actualPoints": 38.0
         },
         {
             "firstName": "TJ",
@@ -64,19 +64,6 @@
             "mc_p90": 42.5,
             "mc_p10": 7.8,
             "actualPoints": 24.6
-        },
-        {
-            "firstName": "Ethan",
-            "lastName": "Rall",
-            "team": "CAN",
-            "opponent": "CHA",
-            "game_id": "2026-ev-5",
-            "position": "Defense",
-            "salary": 17,
-            "mc_ev": 18.0,
-            "mc_p90": 45.3,
-            "mc_p10": 1.2,
-            "actualPoints": 23.0
         },
         {
             "firstName": "TD",
@@ -90,9 +77,35 @@
             "mc_p90": 28.8,
             "mc_p10": 6.3,
             "actualPoints": 8.1
+        },
+        {
+            "firstName": "Ethan",
+            "lastName": "Rall",
+            "team": "CAN",
+            "opponent": "CHA",
+            "game_id": "2026-ev-5",
+            "position": "Defense",
+            "salary": 17,
+            "mc_ev": 18.0,
+            "mc_p90": 45.3,
+            "mc_p10": 1.2,
+            "actualPoints": 23.0
         }
     ],
     "MC_Win_160": [
+        {
+            "firstName": "Liam",
+            "lastName": "Entenmann",
+            "team": "ATL",
+            "opponent": "WHP",
+            "game_id": "2026-ev-6",
+            "position": "Goalie",
+            "salary": 48,
+            "mc_ev": 46.4,
+            "mc_p90": 70.9,
+            "mc_p10": 18.0,
+            "actualPoints": 38.0
+        },
         {
             "firstName": "Connor",
             "lastName": "Shellenberger",
@@ -105,19 +118,6 @@
             "mc_p90": 69.5,
             "mc_p10": 18.9,
             "actualPoints": 10.0
-        },
-        {
-            "firstName": "Liam",
-            "lastName": "Entenmann",
-            "team": "ATL",
-            "opponent": "WHP",
-            "game_id": "2026-ev-6",
-            "position": "Goalie",
-            "salary": 48,
-            "mc_ev": 40.4,
-            "mc_p90": 61.7,
-            "mc_p10": 15.7,
-            "actualPoints": 38.0
         },
         {
             "firstName": "TJ",
@@ -157,6 +157,19 @@
             "mc_p90": 42.5,
             "mc_p10": 7.8,
             "actualPoints": 24.6
+        },
+        {
+            "firstName": "TD",
+            "lastName": "Ierlan",
+            "team": "RED",
+            "opponent": "OUT",
+            "game_id": "2026-ev-7",
+            "position": "Faceoff",
+            "salary": 18,
+            "mc_ev": 17.3,
+            "mc_p90": 28.8,
+            "mc_p10": 6.3,
+            "actualPoints": 8.1
         },
         {
             "firstName": "Ajax",
@@ -170,22 +183,22 @@
             "mc_p90": 32.7,
             "mc_p10": 7.3,
             "actualPoints": 11.0
-        },
-        {
-            "firstName": "TD",
-            "lastName": "Ierlan",
-            "team": "RED",
-            "opponent": "OUT",
-            "game_id": "2026-ev-7",
-            "position": "Faceoff",
-            "salary": 18,
-            "mc_ev": 17.3,
-            "mc_p90": 28.8,
-            "mc_p10": 6.3,
-            "actualPoints": 8.1
         }
     ],
     "MC_Ceil_90": [
+        {
+            "firstName": "Liam",
+            "lastName": "Entenmann",
+            "team": "ATL",
+            "opponent": "WHP",
+            "game_id": "2026-ev-6",
+            "position": "Goalie",
+            "salary": 48,
+            "mc_ev": 46.4,
+            "mc_p90": 70.9,
+            "mc_p10": 18.0,
+            "actualPoints": 38.0
+        },
         {
             "firstName": "Connor",
             "lastName": "Shellenberger",
@@ -198,19 +211,6 @@
             "mc_p90": 69.5,
             "mc_p10": 18.9,
             "actualPoints": 10.0
-        },
-        {
-            "firstName": "Liam",
-            "lastName": "Entenmann",
-            "team": "ATL",
-            "opponent": "WHP",
-            "game_id": "2026-ev-6",
-            "position": "Goalie",
-            "salary": 48,
-            "mc_ev": 40.4,
-            "mc_p90": 61.7,
-            "mc_p10": 15.7,
-            "actualPoints": 38.0
         },
         {
             "firstName": "TJ",
@@ -252,19 +252,6 @@
             "actualPoints": 24.6
         },
         {
-            "firstName": "Ethan",
-            "lastName": "Rall",
-            "team": "CAN",
-            "opponent": "CHA",
-            "game_id": "2026-ev-5",
-            "position": "Defense",
-            "salary": 17,
-            "mc_ev": 18.0,
-            "mc_p90": 45.3,
-            "mc_p10": 1.2,
-            "actualPoints": 23.0
-        },
-        {
             "firstName": "TD",
             "lastName": "Ierlan",
             "team": "RED",
@@ -276,6 +263,19 @@
             "mc_p90": 28.8,
             "mc_p10": 6.3,
             "actualPoints": 8.1
+        },
+        {
+            "firstName": "Ethan",
+            "lastName": "Rall",
+            "team": "CAN",
+            "opponent": "CHA",
+            "game_id": "2026-ev-5",
+            "position": "Defense",
+            "salary": 17,
+            "mc_ev": 18.0,
+            "mc_p90": 45.3,
+            "mc_p10": 1.2,
+            "actualPoints": 23.0
         }
     ],
     "MC_Consensus": [
@@ -287,9 +287,9 @@
             "game_id": "2026-ev-5",
             "position": "Goalie",
             "salary": 43,
-            "mc_ev": 39.4,
-            "mc_p90": 56.5,
-            "mc_p10": 18.5,
+            "mc_ev": 44.6,
+            "mc_p90": 64.0,
+            "mc_p10": 21.0,
             "actualPoints": 18.0
         },
         {
@@ -345,19 +345,6 @@
             "actualPoints": 10.0
         },
         {
-            "firstName": "Logan",
-            "lastName": "Wisnauskas",
-            "team": "OUT",
-            "opponent": "RED",
-            "game_id": "2026-ev-7",
-            "position": "Attack",
-            "salary": 17,
-            "mc_ev": 14.1,
-            "mc_p90": 28.9,
-            "mc_p10": 1.6,
-            "actualPoints": 30.0
-        },
-        {
             "firstName": "Brian",
             "lastName": "Tevlin",
             "team": "RED",
@@ -369,9 +356,35 @@
             "mc_p90": 28.5,
             "mc_p10": 0.8,
             "actualPoints": 4.0
+        },
+        {
+            "firstName": "Logan",
+            "lastName": "Wisnauskas",
+            "team": "OUT",
+            "opponent": "RED",
+            "game_id": "2026-ev-7",
+            "position": "Attack",
+            "salary": 17,
+            "mc_ev": 14.1,
+            "mc_p90": 28.9,
+            "mc_p10": 1.6,
+            "actualPoints": 30.0
         }
     ],
     "MC_Differential": [
+        {
+            "firstName": "Blaze",
+            "lastName": "Riorden",
+            "team": "CHA",
+            "opponent": "CAN",
+            "game_id": "2026-ev-5",
+            "position": "Goalie",
+            "salary": 43,
+            "mc_ev": 44.6,
+            "mc_p90": 64.0,
+            "mc_p10": 21.0,
+            "actualPoints": 18.0
+        },
         {
             "firstName": "Michael",
             "lastName": "Sowers",
@@ -384,19 +397,6 @@
             "mc_p90": 51.7,
             "mc_p10": 15.2,
             "actualPoints": 22.0
-        },
-        {
-            "firstName": "Blaze",
-            "lastName": "Riorden",
-            "team": "CHA",
-            "opponent": "CAN",
-            "game_id": "2026-ev-5",
-            "position": "Goalie",
-            "salary": 43,
-            "mc_ev": 39.4,
-            "mc_p90": 56.5,
-            "mc_p10": 18.5,
-            "actualPoints": 18.0
         },
         {
             "firstName": "Marcus",
@@ -438,19 +438,6 @@
             "actualPoints": 24.6
         },
         {
-            "firstName": "Ethan",
-            "lastName": "Rall",
-            "team": "CAN",
-            "opponent": "CHA",
-            "game_id": "2026-ev-5",
-            "position": "Defense",
-            "salary": 17,
-            "mc_ev": 18.0,
-            "mc_p90": 45.3,
-            "mc_p10": 1.2,
-            "actualPoints": 23.0
-        },
-        {
             "firstName": "TD",
             "lastName": "Ierlan",
             "team": "RED",
@@ -462,6 +449,19 @@
             "mc_p90": 28.8,
             "mc_p10": 6.3,
             "actualPoints": 8.1
+        },
+        {
+            "firstName": "Ethan",
+            "lastName": "Rall",
+            "team": "CAN",
+            "opponent": "CHA",
+            "game_id": "2026-ev-5",
+            "position": "Defense",
+            "salary": 17,
+            "mc_ev": 18.0,
+            "mc_p90": 45.3,
+            "mc_p10": 1.2,
+            "actualPoints": 23.0
         }
     ],
     "Coulda": [
@@ -551,15 +551,15 @@
             "game_id": "2026-ev-6",
             "position": "G",
             "salary": 34,
-            "mc_ev": 33.4,
-            "mc_p90": 54.3,
-            "mc_p10": 14.4,
+            "mc_ev": 35.8,
+            "mc_p90": 58.1,
+            "mc_p10": 15.4,
             "actualPoints": 55.0
         }
     ],
     "Core": [
-        "Connor Shellenberger",
         "Liam Entenmann",
+        "Connor Shellenberger",
         "TJ Malone",
         "Andrew McAdorey",
         "Zach Currier",
@@ -571,15 +571,6 @@
     "Narrative": {
         "RecommendedRoster": [
             {
-                "firstName": "Connor",
-                "lastName": "Shellenberger",
-                "position": "Attack",
-                "salary": 46,
-                "bullets": [
-                    "Opponent Weakness: WHP defense allows 11% extra fantasy points to Attack position."
-                ]
-            },
-            {
                 "firstName": "Liam",
                 "lastName": "Entenmann",
                 "position": "Goalie",
@@ -587,6 +578,15 @@
                 "bullets": [
                     "Hot Form: Averaging 47.3 fantasy pts over last 3 games (vs 36.8 season avg).",
                     "Opponent Weakness: WHP defense allows 16% extra fantasy points to Goalie position."
+                ]
+            },
+            {
+                "firstName": "Connor",
+                "lastName": "Shellenberger",
+                "position": "Attack",
+                "salary": 46,
+                "bullets": [
+                    "Opponent Weakness: WHP defense allows 11% extra fantasy points to Attack position."
                 ]
             },
             {
@@ -618,21 +618,21 @@
                 ]
             },
             {
-                "firstName": "Ethan",
-                "lastName": "Rall",
-                "position": "Defense",
-                "salary": 17,
-                "bullets": [
-                    "Opponent Weakness: CHA defense allows 10% extra fantasy points to SSDM position."
-                ]
-            },
-            {
                 "firstName": "TD",
                 "lastName": "Ierlan",
                 "position": "Faceoff",
                 "salary": 18,
                 "bullets": [
                     "Consistent Pick: Selected for steady expected floor (17.3 EV) and reliable role."
+                ]
+            },
+            {
+                "firstName": "Ethan",
+                "lastName": "Rall",
+                "position": "Defense",
+                "salary": 17,
+                "bullets": [
+                    "Opponent Weakness: CHA defense allows 10% extra fantasy points to SSDM position."
                 ]
             }
         ],

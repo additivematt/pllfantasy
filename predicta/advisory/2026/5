@@ -1,6 +1,19 @@
 {
     "MC_EV": [
         {
+            "firstName": "Brett",
+            "lastName": "Dobson",
+            "team": "ARC",
+            "opponent": "RED",
+            "game_id": "2026-ev-18",
+            "position": "Goalie",
+            "salary": 48,
+            "mc_ev": 45.5,
+            "mc_p90": 65.7,
+            "mc_p10": 32.8,
+            "actualPoints": 55.0
+        },
+        {
             "firstName": "Joey",
             "lastName": "Spallina",
             "team": "WHP",
@@ -27,17 +40,17 @@
             "actualPoints": 40.0
         },
         {
-            "firstName": "Matt",
-            "lastName": "Brandau",
-            "team": "WHP",
-            "opponent": "ATL",
-            "game_id": "2026-ev-19",
-            "position": "Midfield",
-            "salary": 27,
-            "mc_ev": 21.2,
-            "mc_p90": 54.0,
+            "firstName": "Mitchell",
+            "lastName": "Dunham",
+            "team": "ARC",
+            "opponent": "RED",
+            "game_id": "2026-ev-18",
+            "position": "Defense",
+            "salary": 12,
+            "mc_ev": 25.3,
+            "mc_p90": 65.0,
             "mc_p10": 0.0,
-            "actualPoints": 17.0
+            "actualPoints": 12.0
         },
         {
             "firstName": "Andrew",
@@ -53,17 +66,17 @@
             "actualPoints": 8.0
         },
         {
-            "firstName": "Mitchell",
-            "lastName": "Dunham",
-            "team": "ARC",
-            "opponent": "RED",
-            "game_id": "2026-ev-18",
-            "position": "Defense",
-            "salary": 12,
-            "mc_ev": 25.3,
-            "mc_p90": 65.0,
+            "firstName": "Matt",
+            "lastName": "Brandau",
+            "team": "WHP",
+            "opponent": "ATL",
+            "game_id": "2026-ev-19",
+            "position": "Midfield",
+            "salary": 27,
+            "mc_ev": 21.2,
+            "mc_p90": 54.0,
             "mc_p10": 0.0,
-            "actualPoints": 12.0
+            "actualPoints": 17.0
         },
         {
             "firstName": "Andrew",
@@ -77,19 +90,6 @@
             "mc_p90": 40.1,
             "mc_p10": 0.9,
             "actualPoints": 32.3
-        },
-        {
-            "firstName": "Brett",
-            "lastName": "Dobson",
-            "team": "ARC",
-            "opponent": "RED",
-            "game_id": "2026-ev-18",
-            "position": "Goalie",
-            "salary": 48,
-            "mc_ev": 43.9,
-            "mc_p90": 63.3,
-            "mc_p10": 31.6,
-            "actualPoints": 55.0
         }
     ],
     "MC_Win_160": [
@@ -101,9 +101,9 @@
             "game_id": "2026-ev-18",
             "position": "Goalie",
             "salary": 48,
-            "mc_ev": 43.9,
-            "mc_p90": 63.3,
-            "mc_p10": 31.6,
+            "mc_ev": 45.5,
+            "mc_p90": 65.7,
+            "mc_p10": 32.8,
             "actualPoints": 55.0
         },
         {
@@ -187,19 +187,6 @@
     ],
     "MC_Ceil_90": [
         {
-            "firstName": "Brett",
-            "lastName": "Dobson",
-            "team": "ARC",
-            "opponent": "RED",
-            "game_id": "2026-ev-18",
-            "position": "Goalie",
-            "salary": 48,
-            "mc_ev": 43.9,
-            "mc_p90": 63.3,
-            "mc_p10": 31.6,
-            "actualPoints": 55.0
-        },
-        {
             "firstName": "Joey",
             "lastName": "Spallina",
             "team": "WHP",
@@ -226,17 +213,17 @@
             "actualPoints": 40.0
         },
         {
-            "firstName": "Mitchell",
-            "lastName": "Dunham",
-            "team": "ARC",
-            "opponent": "RED",
-            "game_id": "2026-ev-18",
-            "position": "Defense",
-            "salary": 12,
-            "mc_ev": 25.3,
-            "mc_p90": 65.0,
+            "firstName": "Matt",
+            "lastName": "Brandau",
+            "team": "WHP",
+            "opponent": "ATL",
+            "game_id": "2026-ev-19",
+            "position": "Midfield",
+            "salary": 27,
+            "mc_ev": 21.2,
+            "mc_p90": 54.0,
             "mc_p10": 0.0,
-            "actualPoints": 12.0
+            "actualPoints": 17.0
         },
         {
             "firstName": "Andrew",
@@ -252,17 +239,17 @@
             "actualPoints": 8.0
         },
         {
-            "firstName": "Matt",
-            "lastName": "Brandau",
-            "team": "WHP",
-            "opponent": "ATL",
-            "game_id": "2026-ev-19",
-            "position": "Midfield",
-            "salary": 27,
-            "mc_ev": 21.2,
-            "mc_p90": 54.0,
+            "firstName": "Mitchell",
+            "lastName": "Dunham",
+            "team": "ARC",
+            "opponent": "RED",
+            "game_id": "2026-ev-18",
+            "position": "Defense",
+            "salary": 12,
+            "mc_ev": 25.3,
+            "mc_p90": 65.0,
             "mc_p10": 0.0,
-            "actualPoints": 17.0
+            "actualPoints": 12.0
         },
         {
             "firstName": "Andrew",
@@ -276,9 +263,35 @@
             "mc_p90": 40.1,
             "mc_p10": 0.9,
             "actualPoints": 32.3
+        },
+        {
+            "firstName": "Brett",
+            "lastName": "Dobson",
+            "team": "ARC",
+            "opponent": "RED",
+            "game_id": "2026-ev-18",
+            "position": "Goalie",
+            "salary": 48,
+            "mc_ev": 45.5,
+            "mc_p90": 65.7,
+            "mc_p10": 32.8,
+            "actualPoints": 55.0
         }
     ],
     "MC_Consensus": [
+        {
+            "firstName": "Emmet",
+            "lastName": "Carroll",
+            "team": "WHP",
+            "opponent": "ATL",
+            "game_id": "2026-ev-19",
+            "position": "Goalie",
+            "salary": 41,
+            "mc_ev": 37.1,
+            "mc_p90": 62.8,
+            "mc_p10": 14.8,
+            "actualPoints": 29.0
+        },
         {
             "firstName": "Joey",
             "lastName": "Spallina",
@@ -304,19 +317,6 @@
             "mc_p90": 46.2,
             "mc_p10": 5.0,
             "actualPoints": 61.0
-        },
-        {
-            "firstName": "Emmet",
-            "lastName": "Carroll",
-            "team": "WHP",
-            "opponent": "ATL",
-            "game_id": "2026-ev-19",
-            "position": "Goalie",
-            "salary": 41,
-            "mc_ev": 25.5,
-            "mc_p90": 43.2,
-            "mc_p10": 10.2,
-            "actualPoints": 29.0
         },
         {
             "firstName": "Andrew",
@@ -380,23 +380,10 @@
             "game_id": "2026-ev-18",
             "position": "Goalie",
             "salary": 48,
-            "mc_ev": 43.9,
-            "mc_p90": 63.3,
-            "mc_p10": 31.6,
+            "mc_ev": 45.5,
+            "mc_p90": 65.7,
+            "mc_p10": 32.8,
             "actualPoints": 55.0
-        },
-        {
-            "firstName": "Chris",
-            "lastName": "Kavanagh",
-            "team": "RED",
-            "opponent": "ARC",
-            "game_id": "2026-ev-18",
-            "position": "Attack",
-            "salary": 39,
-            "mc_ev": 34.2,
-            "mc_p90": 60.5,
-            "mc_p10": 11.9,
-            "actualPoints": 66.0
         },
         {
             "firstName": "TJ",
@@ -410,6 +397,19 @@
             "mc_p90": 55.8,
             "mc_p10": 8.6,
             "actualPoints": 33.0
+        },
+        {
+            "firstName": "Chris",
+            "lastName": "Kavanagh",
+            "team": "RED",
+            "opponent": "ARC",
+            "game_id": "2026-ev-18",
+            "position": "Attack",
+            "salary": 39,
+            "mc_ev": 34.2,
+            "mc_p90": 60.5,
+            "mc_p10": 11.9,
+            "actualPoints": 66.0
         },
         {
             "firstName": "Mitchell",
@@ -526,7 +526,7 @@
             "position": "D",
             "salary": 26,
             "mc_ev": 12.1,
-            "mc_p90": 24.7,
+            "mc_p90": 33.3,
             "mc_p10": 1.1,
             "actualPoints": 39.0
         },
@@ -551,24 +551,33 @@
             "game_id": "2026-ev-18",
             "position": "G",
             "salary": 48,
-            "mc_ev": 43.9,
-            "mc_p90": 63.3,
-            "mc_p10": 31.6,
+            "mc_ev": 45.5,
+            "mc_p90": 65.7,
+            "mc_p10": 32.8,
             "actualPoints": 55.0
         }
     ],
     "Core": [
+        "Brett Dobson",
         "Marcus Holman",
-        "Andrew McAdorey",
         "Mitchell Dunham",
-        "Andrew McMeekin",
-        "Brett Dobson"
+        "Andrew McAdorey",
+        "Andrew McMeekin"
     ],
     "Sleepers": [],
     "RecommendedStrategy": "MC_EV",
     "RecommendedReason": "Tight pricing / short slate (3 games, 8 cheap value players). Optimizing for floor is best.",
     "Narrative": {
         "RecommendedRoster": [
+            {
+                "firstName": "Brett",
+                "lastName": "Dobson",
+                "position": "Goalie",
+                "salary": 48,
+                "bullets": [
+                    "Consistent Pick: Selected for steady expected floor (45.5 EV) and reliable role."
+                ]
+            },
             {
                 "firstName": "Joey",
                 "lastName": "Spallina",
@@ -588,12 +597,12 @@
                 ]
             },
             {
-                "firstName": "Matt",
-                "lastName": "Brandau",
-                "position": "Midfield",
-                "salary": 27,
+                "firstName": "Mitchell",
+                "lastName": "Dunham",
+                "position": "Defense",
+                "salary": 12,
                 "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (21.2 EV) and reliable role."
+                    "Salary Cap Enabler: Excellent cost efficiency, projecting 25.3 EV for just 12 coins."
                 ]
             },
             {
@@ -606,12 +615,12 @@
                 ]
             },
             {
-                "firstName": "Mitchell",
-                "lastName": "Dunham",
-                "position": "Defense",
-                "salary": 12,
+                "firstName": "Matt",
+                "lastName": "Brandau",
+                "position": "Midfield",
+                "salary": 27,
                 "bullets": [
-                    "Salary Cap Enabler: Excellent cost efficiency, projecting 25.3 EV for just 12 coins."
+                    "Consistent Pick: Selected for steady expected floor (21.2 EV) and reliable role."
                 ]
             },
             {
@@ -621,15 +630,6 @@
                 "salary": 17,
                 "bullets": [
                     "Consistent Pick: Selected for steady expected floor (19.9 EV) and reliable role."
-                ]
-            },
-            {
-                "firstName": "Brett",
-                "lastName": "Dobson",
-                "position": "Goalie",
-                "salary": 48,
-                "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (43.9 EV) and reliable role."
                 ]
             }
         ],

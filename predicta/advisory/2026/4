@@ -8,9 +8,9 @@
             "game_id": "2026-ev-15",
             "position": "Goalie",
             "salary": 44,
-            "mc_ev": 47.2,
-            "mc_p90": 69.4,
-            "mc_p10": 21.6,
+            "mc_ev": 49.5,
+            "mc_p90": 72.7,
+            "mc_p10": 22.6,
             "actualPoints": 31.0
         },
         {
@@ -94,30 +94,30 @@
     ],
     "MC_Win_160": [
         {
-            "firstName": "Liam",
-            "lastName": "Entenmann",
-            "team": "ATL",
-            "opponent": "RED",
-            "game_id": "2026-ev-14",
+            "firstName": "Blaze",
+            "lastName": "Riorden",
+            "team": "CHA",
+            "opponent": "OUT",
+            "game_id": "2026-ev-15",
             "position": "Goalie",
-            "salary": 50,
-            "mc_ev": 47.5,
-            "mc_p90": 67.7,
-            "mc_p10": 23.0,
-            "actualPoints": 10.0
+            "salary": 44,
+            "mc_ev": 49.5,
+            "mc_p90": 72.7,
+            "mc_p10": 22.6,
+            "actualPoints": 31.0
         },
         {
-            "firstName": "Chris",
-            "lastName": "Kavanagh",
-            "team": "RED",
-            "opponent": "ATL",
-            "game_id": "2026-ev-14",
+            "firstName": "Michael",
+            "lastName": "Sowers",
+            "team": "WAT",
+            "opponent": "CAN",
+            "game_id": "2026-ev-16",
             "position": "Attack",
-            "salary": 43,
-            "mc_ev": 37.7,
-            "mc_p90": 64.9,
-            "mc_p10": 11.8,
-            "actualPoints": 29.0
+            "salary": 44,
+            "mc_ev": 37.6,
+            "mc_p90": 55.5,
+            "mc_p10": 16.3,
+            "actualPoints": 43.0
         },
         {
             "firstName": "Brian",
@@ -194,9 +194,9 @@
             "game_id": "2026-ev-15",
             "position": "Goalie",
             "salary": 44,
-            "mc_ev": 47.2,
-            "mc_p90": 69.4,
-            "mc_p10": 21.6,
+            "mc_ev": 49.5,
+            "mc_p90": 72.7,
+            "mc_p10": 22.6,
             "actualPoints": 31.0
         },
         {
@@ -287,9 +287,9 @@
             "game_id": "2026-ev-15",
             "position": "Goalie",
             "salary": 44,
-            "mc_ev": 47.2,
-            "mc_p90": 69.4,
-            "mc_p10": 21.6,
+            "mc_ev": 49.5,
+            "mc_p90": 72.7,
+            "mc_p10": 22.6,
             "actualPoints": 31.0
         },
         {
@@ -332,19 +332,6 @@
             "actualPoints": 2.0
         },
         {
-            "firstName": "Jake",
-            "lastName": "Piseno",
-            "team": "OUT",
-            "opponent": "CHA",
-            "game_id": "2026-ev-15",
-            "position": "Defense",
-            "salary": 20,
-            "mc_ev": 14.6,
-            "mc_p90": 35.0,
-            "mc_p10": 1.7,
-            "actualPoints": 54.0
-        },
-        {
             "firstName": "TD",
             "lastName": "Ierlan",
             "team": "RED",
@@ -356,6 +343,19 @@
             "mc_p90": 21.1,
             "mc_p10": 4.9,
             "actualPoints": 6.6
+        },
+        {
+            "firstName": "Brian",
+            "lastName": "Tevlin",
+            "team": "RED",
+            "opponent": "ATL",
+            "game_id": "2026-ev-14",
+            "position": "Defense",
+            "salary": 17,
+            "mc_ev": 13.3,
+            "mc_p90": 20.8,
+            "mc_p10": 0.8,
+            "actualPoints": 10.0
         },
         {
             "firstName": "Chad",
@@ -373,17 +373,17 @@
     ],
     "MC_Differential": [
         {
-            "firstName": "Liam",
-            "lastName": "Entenmann",
-            "team": "ATL",
-            "opponent": "RED",
-            "game_id": "2026-ev-14",
+            "firstName": "Blaze",
+            "lastName": "Riorden",
+            "team": "CHA",
+            "opponent": "OUT",
+            "game_id": "2026-ev-15",
             "position": "Goalie",
-            "salary": 50,
-            "mc_ev": 47.5,
-            "mc_p90": 67.7,
-            "mc_p10": 23.0,
-            "actualPoints": 10.0
+            "salary": 44,
+            "mc_ev": 49.5,
+            "mc_p90": 72.7,
+            "mc_p10": 22.6,
+            "actualPoints": 31.0
         },
         {
             "firstName": "Michael",
@@ -551,13 +551,14 @@
             "game_id": "2026-ev-16",
             "position": "G",
             "salary": 27,
-            "mc_ev": 14.1,
-            "mc_p90": 26.8,
+            "mc_ev": 18.9,
+            "mc_p90": 35.9,
             "mc_p10": 0.0,
             "actualPoints": 55.0
         }
     ],
     "Core": [
+        "Blaze Riorden",
         "Brian Kelly",
         "Mitchell Dunham",
         "Zach Currier",
@@ -575,7 +576,7 @@
                 "position": "Goalie",
                 "salary": 44,
                 "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (47.2 EV) and reliable role."
+                    "Consistent Pick: Selected for steady expected floor (49.5 EV) and reliable role."
                 ]
             },
             {
@@ -640,14 +641,12 @@
                 "strategy": "MC_Win_160",
                 "strategyLabel": "MC Win 160",
                 "in": [
-                    "Liam Entenmann",
-                    "Chris Kavanagh"
+                    "Michael Sowers"
                 ],
                 "out": [
-                    "Blaze Riorden",
                     "CJ Kirst"
                 ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Liam Entenmann (Goalie, 50c), Chris Kavanagh (Attack, 43c)) to increase the joint probability of the entire lineup hitting the 160 target score."
+                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Michael Sowers (Attack, 44c)) to increase the joint probability of the entire lineup hitting the 160 target score."
             }
         ]
     },

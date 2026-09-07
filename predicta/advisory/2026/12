@@ -8,9 +8,9 @@
             "game_id": "2026-ev-43",
             "position": "Goalie",
             "salary": 48,
-            "mc_ev": 44.6,
-            "mc_p90": 68.5,
-            "mc_p10": 26.3,
+            "mc_ev": 49.2,
+            "mc_p90": 75.7,
+            "mc_p10": 29.0,
             "actualPoints": 25.0
         },
         {
@@ -101,9 +101,9 @@
             "game_id": "2026-ev-43",
             "position": "Goalie",
             "salary": 48,
-            "mc_ev": 44.6,
-            "mc_p90": 68.5,
-            "mc_p10": 26.3,
+            "mc_ev": 49.2,
+            "mc_p90": 75.7,
+            "mc_p10": 29.0,
             "actualPoints": 25.0
         },
         {
@@ -187,6 +187,19 @@
     ],
     "MC_Ceil_90": [
         {
+            "firstName": "Brett",
+            "lastName": "Dobson",
+            "team": "ARC",
+            "opponent": "CHA",
+            "game_id": "2026-ev-43",
+            "position": "Goalie",
+            "salary": 48,
+            "mc_ev": 49.2,
+            "mc_p90": 75.7,
+            "mc_p10": 29.0,
+            "actualPoints": 25.0
+        },
+        {
             "firstName": "Joey",
             "lastName": "Spallina",
             "team": "WHP",
@@ -200,17 +213,17 @@
             "actualPoints": 22.0
         },
         {
-            "firstName": "TJ",
-            "lastName": "Malone",
-            "team": "WHP",
-            "opponent": "CAN",
-            "game_id": "2026-ev-42",
+            "firstName": "Marcus",
+            "lastName": "Holman",
+            "team": "CAN",
+            "opponent": "RED",
+            "game_id": "2026-ev-45",
             "position": "Attack",
-            "salary": 42,
-            "mc_ev": 35.8,
-            "mc_p90": 66.7,
-            "mc_p10": 10.4,
-            "actualPoints": 5.0
+            "salary": 43,
+            "mc_ev": 37.8,
+            "mc_p90": 73.4,
+            "mc_p10": 11.4,
+            "actualPoints": 42.0
         },
         {
             "firstName": "Teddy",
@@ -226,56 +239,43 @@
             "actualPoints": 38.0
         },
         {
-            "firstName": "Sam",
-            "lastName": "King",
-            "team": "ARC",
-            "opponent": "CHA",
-            "game_id": "2026-ev-43",
-            "position": "Midfield",
-            "salary": 30,
-            "mc_ev": 28.1,
-            "mc_p90": 51.7,
-            "mc_p10": 5.6,
-            "actualPoints": 31.0
+            "firstName": "Trevor",
+            "lastName": "Baptiste",
+            "team": "ATL",
+            "opponent": "OUT",
+            "game_id": "2026-ev-44",
+            "position": "Faceoff",
+            "salary": 19,
+            "mc_ev": 16.7,
+            "mc_p90": 35.0,
+            "mc_p10": 6.1,
+            "actualPoints": 10.9
         },
         {
-            "firstName": "Will",
-            "lastName": "Donovan",
-            "team": "CAN",
-            "opponent": "RED",
-            "game_id": "2026-ev-45",
-            "position": "Defense",
-            "salary": 23,
-            "mc_ev": 22.1,
-            "mc_p90": 52.9,
+            "firstName": "Garrett",
+            "lastName": "Degnon",
+            "team": "WHP",
+            "opponent": "CAN",
+            "game_id": "2026-ev-42",
+            "position": "Midfield",
+            "salary": 7,
+            "mc_ev": 14.0,
+            "mc_p90": 32.8,
             "mc_p10": 0.0,
             "actualPoints": -2.0
         },
         {
-            "firstName": "Luke",
-            "lastName": "Wierman",
-            "team": "OUT",
-            "opponent": "ATL",
-            "game_id": "2026-ev-44",
-            "position": "Faceoff",
-            "salary": 18,
-            "mc_ev": 15.4,
-            "mc_p90": 36.4,
-            "mc_p10": 3.3,
-            "actualPoints": 14.2
-        },
-        {
-            "firstName": "Will",
-            "lastName": "Mark",
+            "firstName": "Tyler",
+            "lastName": "Carpenter",
             "team": "ATL",
             "opponent": "OUT",
             "game_id": "2026-ev-44",
-            "position": "Goalie",
-            "salary": 10,
-            "mc_ev": 16.4,
-            "mc_p90": 31.4,
-            "mc_p10": 0.6,
-            "actualPoints": 31.0
+            "position": "Defense",
+            "salary": 11,
+            "mc_ev": 10.8,
+            "mc_p90": 29.0,
+            "mc_p10": 0.0,
+            "actualPoints": 12.0
         }
     ],
     "MC_Consensus": [
@@ -300,9 +300,9 @@
             "game_id": "2026-ev-44",
             "position": "Goalie",
             "salary": 35,
-            "mc_ev": 29.3,
-            "mc_p90": 47.4,
-            "mc_p10": 7.1,
+            "mc_ev": 34.5,
+            "mc_p90": 55.7,
+            "mc_p10": 8.3,
             "actualPoints": -3.0
         },
         {
@@ -332,19 +332,6 @@
             "actualPoints": 3.5
         },
         {
-            "firstName": "Shane",
-            "lastName": "Knobloch",
-            "team": "CHA",
-            "opponent": "ARC",
-            "game_id": "2026-ev-43",
-            "position": "Midfield",
-            "salary": 18,
-            "mc_ev": 13.7,
-            "mc_p90": 41.3,
-            "mc_p10": 0.0,
-            "actualPoints": 4.0
-        },
-        {
             "firstName": "Brian",
             "lastName": "Tevlin",
             "team": "RED",
@@ -356,6 +343,19 @@
             "mc_p90": 28.7,
             "mc_p10": 0.8,
             "actualPoints": 34.0
+        },
+        {
+            "firstName": "Shane",
+            "lastName": "Knobloch",
+            "team": "CHA",
+            "opponent": "ARC",
+            "game_id": "2026-ev-43",
+            "position": "Midfield",
+            "salary": 18,
+            "mc_ev": 13.7,
+            "mc_p90": 41.3,
+            "mc_p10": 0.0,
+            "actualPoints": 4.0
         },
         {
             "firstName": "Mike",
@@ -380,9 +380,9 @@
             "game_id": "2026-ev-43",
             "position": "Goalie",
             "salary": 48,
-            "mc_ev": 44.6,
-            "mc_p90": 68.5,
-            "mc_p10": 26.3,
+            "mc_ev": 49.2,
+            "mc_p90": 75.7,
+            "mc_p10": 29.0,
             "actualPoints": 25.0
         },
         {
@@ -551,19 +551,22 @@
             "game_id": "2026-ev-44",
             "position": "G",
             "salary": 19,
-            "mc_ev": 19.5,
-            "mc_p90": 42.3,
-            "mc_p10": 8.7,
+            "mc_ev": 21.0,
+            "mc_p90": 45.6,
+            "mc_p10": 9.3,
             "actualPoints": 53.0
         }
     ],
     "Core": [
+        "Brett Dobson",
         "Joey Spallina",
-        "Teddy Malone"
+        "Marcus Holman",
+        "Teddy Malone",
+        "Trevor Baptiste",
+        "Garrett Degnon",
+        "Tyler Carpenter"
     ],
-    "Sleepers": [
-        "Will Mark"
-    ],
+    "Sleepers": [],
     "RecommendedStrategy": "MC_EV",
     "RecommendedReason": "Tight pricing / short slate (4 games, 4 cheap value players). Optimizing for floor is best.",
     "Narrative": {
@@ -574,7 +577,7 @@
                 "position": "Goalie",
                 "salary": 48,
                 "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (44.6 EV) and reliable role."
+                    "Consistent Pick: Selected for steady expected floor (49.2 EV) and reliable role."
                 ]
             },
             {
@@ -632,27 +635,7 @@
                 ]
             }
         ],
-        "Variants": [
-            {
-                "strategy": "MC_Ceil_90",
-                "strategyLabel": "MC Ceil 90",
-                "in": [
-                    "TJ Malone",
-                    "Sam King",
-                    "Will Donovan",
-                    "Luke Wierman",
-                    "Will Mark"
-                ],
-                "out": [
-                    "Brett Dobson",
-                    "Marcus Holman",
-                    "Trevor Baptiste",
-                    "Garrett Degnon",
-                    "Tyler Carpenter"
-                ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like TJ Malone (Attack, 42c), Sam King (Midfield, 30c), Will Donovan (Defense, 23c), Luke Wierman (Faceoff, 18c), Will Mark (Goalie, 10c)) to maximize the team's 90th percentile ceiling (projecting up to 66.7 pts)."
-            }
-        ]
+        "Variants": []
     },
     "TacticalAdvice": {
         "FloorLocks": [],

@@ -21,23 +21,23 @@
             "game_id": "2025_semifinal_1",
             "position": "Goalie",
             "salary": 39,
-            "mc_ev": 39.2,
+            "mc_ev": 39.4,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 25.0
         },
         {
-            "firstName": "CJ",
-            "lastName": "Kirst",
-            "team": "WAT",
-            "opponent": "ATL",
-            "game_id": "2025_semifinal_2",
+            "firstName": "Chris",
+            "lastName": "Kavanagh",
+            "team": "RED",
+            "opponent": "OUT",
+            "game_id": "2025_semifinal_1",
             "position": "Attack",
-            "salary": 6,
-            "mc_ev": 31.7,
+            "salary": 36,
+            "mc_ev": 36.5,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
-            "actualPoints": 30.0
+            "actualPoints": 18.0
         },
         {
             "firstName": "Trevor",
@@ -66,19 +66,6 @@
             "actualPoints": 15.0
         },
         {
-            "firstName": "Andrew",
-            "lastName": "McAdorey",
-            "team": "RED",
-            "opponent": "OUT",
-            "game_id": "2025_semifinal_1",
-            "position": "Midfield",
-            "salary": 32,
-            "mc_ev": 17.8,
-            "mc_p90": 0.0,
-            "mc_p10": 0.0,
-            "actualPoints": 9.0
-        },
-        {
             "firstName": "Michael",
             "lastName": "Grace",
             "team": "ATL",
@@ -90,6 +77,19 @@
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 2.0
+        },
+        {
+            "firstName": "Jonathan",
+            "lastName": "Donville",
+            "team": "OUT",
+            "opponent": "RED",
+            "game_id": "2025_semifinal_1",
+            "position": "Midfield",
+            "salary": 10,
+            "mc_ev": 18.0,
+            "mc_p90": 0.0,
+            "mc_p10": 0.0,
+            "actualPoints": 8.0
         }
     ],
     "MC_Win_160": [
@@ -114,23 +114,23 @@
             "game_id": "2025_semifinal_1",
             "position": "Goalie",
             "salary": 39,
-            "mc_ev": 39.2,
+            "mc_ev": 39.4,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 25.0
         },
         {
-            "firstName": "CJ",
-            "lastName": "Kirst",
-            "team": "WAT",
-            "opponent": "ATL",
-            "game_id": "2025_semifinal_2",
+            "firstName": "Chris",
+            "lastName": "Kavanagh",
+            "team": "RED",
+            "opponent": "OUT",
+            "game_id": "2025_semifinal_1",
             "position": "Attack",
-            "salary": 6,
-            "mc_ev": 31.7,
+            "salary": 36,
+            "mc_ev": 36.5,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
-            "actualPoints": 30.0
+            "actualPoints": 18.0
         },
         {
             "firstName": "Trevor",
@@ -159,19 +159,6 @@
             "actualPoints": 15.0
         },
         {
-            "firstName": "Andrew",
-            "lastName": "McAdorey",
-            "team": "RED",
-            "opponent": "OUT",
-            "game_id": "2025_semifinal_1",
-            "position": "Midfield",
-            "salary": 32,
-            "mc_ev": 17.8,
-            "mc_p90": 0.0,
-            "mc_p10": 0.0,
-            "actualPoints": 9.0
-        },
-        {
             "firstName": "Michael",
             "lastName": "Grace",
             "team": "ATL",
@@ -183,6 +170,19 @@
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 2.0
+        },
+        {
+            "firstName": "Jonathan",
+            "lastName": "Donville",
+            "team": "OUT",
+            "opponent": "RED",
+            "game_id": "2025_semifinal_1",
+            "position": "Midfield",
+            "salary": 10,
+            "mc_ev": 18.0,
+            "mc_p90": 0.0,
+            "mc_p10": 0.0,
+            "actualPoints": 8.0
         }
     ],
     "MC_Ceil_90": [
@@ -272,7 +272,7 @@
             "game_id": "2025_semifinal_1",
             "position": "Goalie",
             "salary": 39,
-            "mc_ev": 39.2,
+            "mc_ev": 39.4,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 25.0
@@ -367,7 +367,7 @@
             "game_id": "2025_semifinal_2",
             "position": "G",
             "salary": 10,
-            "mc_ev": 36.9,
+            "mc_ev": 39.4,
             "mc_p90": 0.0,
             "mc_p10": 0.0,
             "actualPoints": 56.0
@@ -376,13 +376,13 @@
     "Core": [
         "Jeff Teat",
         "Logan McNaney",
-        "CJ Kirst",
         "Trevor Baptiste",
         "Zach Currier",
-        "Andrew McAdorey",
         "Michael Grace"
     ],
-    "Sleepers": [],
+    "Sleepers": [
+        "CJ Kirst"
+    ],
     "RecommendedStrategy": "MC_EV",
     "RecommendedReason": "Tight pricing / short slate (2 games, 25 cheap value players). Optimizing for floor is best.",
     "Narrative": {
@@ -407,15 +407,12 @@
                 ]
             },
             {
-                "firstName": "CJ",
-                "lastName": "Kirst",
+                "firstName": "Chris",
+                "lastName": "Kavanagh",
                 "position": "Attack",
-                "salary": 6,
+                "salary": 36,
                 "bullets": [
-                    "Hot Form: Averaging 67.3 fantasy pts over last 3 games (vs 40.8 season avg).",
-                    "Matchup Specialist: Historically performs well against ATL (1.25x average scoring rate).",
-                    "Opponent Weakness: ATL defense allows 22% extra fantasy points to Attack position.",
-                    "Salary Cap Enabler: Excellent cost efficiency, projecting 31.7 EV for just 6 coins."
+                    "Hot Form: Averaging 64.3 fantasy pts over last 3 games (vs 42.5 season avg)."
                 ]
             },
             {
@@ -439,16 +436,6 @@
                 ]
             },
             {
-                "firstName": "Andrew",
-                "lastName": "McAdorey",
-                "position": "Midfield",
-                "salary": 32,
-                "bullets": [
-                    "Matchup Specialist: Historically performs well against OUT (1.31x average scoring rate).",
-                    "Opponent Weakness: OUT defense allows 19% extra fantasy points to Midfield position."
-                ]
-            },
-            {
                 "firstName": "Michael",
                 "lastName": "Grace",
                 "position": "Defense",
@@ -457,9 +444,33 @@
                     "Hot Form: Averaging 29.7 fantasy pts over last 3 games (vs 21.9 season avg).",
                     "Matchup Specialist: Historically performs well against WAT (1.20x average scoring rate)."
                 ]
+            },
+            {
+                "firstName": "Jonathan",
+                "lastName": "Donville",
+                "position": "Midfield",
+                "salary": 10,
+                "bullets": [
+                    "Opponent Weakness: RED defense allows 8% extra fantasy points to Midfield position.",
+                    "Salary Cap Enabler: Excellent cost efficiency, projecting 18.0 EV for just 10 coins."
+                ]
             }
         ],
-        "Variants": []
+        "Variants": [
+            {
+                "strategy": "MC_Ceil_90",
+                "strategyLabel": "MC Ceil 90",
+                "in": [
+                    "CJ Kirst",
+                    "Andrew McAdorey"
+                ],
+                "out": [
+                    "Chris Kavanagh",
+                    "Jonathan Donville"
+                ],
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like CJ Kirst (Attack, 6c), Andrew McAdorey (Midfield, 32c)) to maximize the team's 90th percentile ceiling (projecting up to 0.0 pts)."
+            }
+        ]
     },
     "TacticalAdvice": {
         "FloorLocks": [],

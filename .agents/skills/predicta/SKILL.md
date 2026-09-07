@@ -1,6 +1,9 @@
 ---
 name: predicta
-description: Guides prediction modeling, out-of-fold stacked regressors, Monte Carlo simulations (10,000 trials), and static UI compilation.
+description: >-
+  Trains XGBoost classifiers, out-of-fold regressors, runs Monte Carlo simulations, and compiles UI data.
+  Use this skill when generating weekly predictions, running 10k Monte Carlo trials, or baking EV stats.
+  Do NOT use for retroactive optimal roster calculation or manual matchup tagging.
 ---
 
 > [!IMPORTANT]
@@ -228,6 +231,15 @@ To update the UI and prevent it from recommending out/injured players, you **MUS
 
 3. **Stage and Push to GitHub**:
    *See the [uploada](../uploada/SKILL.md) skill for pushing static payload updates online.*
+
+---
+
+## Verification Directive
+Verify that static UI data payloads exist and are populated:
+```bash
+python -c "import os; assert os.path.exists('predicta/predictions/available'); print('Verification passed: Predicta available index exists')"
+```
+Confirm the command prints success without assertion errors.
 
 ---
 

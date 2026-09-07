@@ -14,6 +14,19 @@
             "actualPoints": 23.0
         },
         {
+            "firstName": "Blaze",
+            "lastName": "Riorden",
+            "team": "CHA",
+            "opponent": "WAT",
+            "game_id": "2026-ev-12",
+            "position": "Goalie",
+            "salary": 43,
+            "mc_ev": 42.9,
+            "mc_p90": 63.0,
+            "mc_p10": 19.6,
+            "actualPoints": 35.0
+        },
+        {
             "firstName": "Mitchell",
             "lastName": "Dunham",
             "team": "ARC",
@@ -25,19 +38,6 @@
             "mc_p90": 102.5,
             "mc_p10": 0.0,
             "actualPoints": 1.0
-        },
-        {
-            "firstName": "Brett",
-            "lastName": "Dobson",
-            "team": "ARC",
-            "opponent": "WHP",
-            "game_id": "2026-ev-11",
-            "position": "Goalie",
-            "salary": 45,
-            "mc_ev": 39.6,
-            "mc_p90": 56.6,
-            "mc_p10": 23.6,
-            "actualPoints": 34.0
         },
         {
             "firstName": "Connor",
@@ -107,6 +107,19 @@
             "actualPoints": 23.0
         },
         {
+            "firstName": "Brett",
+            "lastName": "Dobson",
+            "team": "ARC",
+            "opponent": "WHP",
+            "game_id": "2026-ev-11",
+            "position": "Goalie",
+            "salary": 45,
+            "mc_ev": 42.3,
+            "mc_p90": 60.5,
+            "mc_p10": 25.2,
+            "actualPoints": 34.0
+        },
+        {
             "firstName": "Mitchell",
             "lastName": "Dunham",
             "team": "ARC",
@@ -118,19 +131,6 @@
             "mc_p90": 102.5,
             "mc_p10": 0.0,
             "actualPoints": 1.0
-        },
-        {
-            "firstName": "Brett",
-            "lastName": "Dobson",
-            "team": "ARC",
-            "opponent": "WHP",
-            "game_id": "2026-ev-11",
-            "position": "Goalie",
-            "salary": 45,
-            "mc_ev": 39.6,
-            "mc_p90": 56.6,
-            "mc_p10": 23.6,
-            "actualPoints": 34.0
         },
         {
             "firstName": "Connor",
@@ -200,6 +200,19 @@
             "actualPoints": 23.0
         },
         {
+            "firstName": "Blaze",
+            "lastName": "Riorden",
+            "team": "CHA",
+            "opponent": "WAT",
+            "game_id": "2026-ev-12",
+            "position": "Goalie",
+            "salary": 43,
+            "mc_ev": 42.9,
+            "mc_p90": 63.0,
+            "mc_p10": 19.6,
+            "actualPoints": 35.0
+        },
+        {
             "firstName": "Mitchell",
             "lastName": "Dunham",
             "team": "ARC",
@@ -211,19 +224,6 @@
             "mc_p90": 102.5,
             "mc_p10": 0.0,
             "actualPoints": 1.0
-        },
-        {
-            "firstName": "Liam",
-            "lastName": "Entenmann",
-            "team": "ATL",
-            "opponent": "OUT",
-            "game_id": "2026-ev-10",
-            "position": "Goalie",
-            "salary": 50,
-            "mc_ev": 38.4,
-            "mc_p90": 55.8,
-            "mc_p10": 18.9,
-            "actualPoints": 46.0
         },
         {
             "firstName": "Connor",
@@ -287,9 +287,9 @@
             "game_id": "2026-ev-12",
             "position": "Goalie",
             "salary": 43,
-            "mc_ev": 36.8,
-            "mc_p90": 54.0,
-            "mc_p10": 16.8,
+            "mc_ev": 42.9,
+            "mc_p90": 63.0,
+            "mc_p10": 19.6,
             "actualPoints": 35.0
         },
         {
@@ -386,6 +386,19 @@
             "actualPoints": 23.0
         },
         {
+            "firstName": "Blaze",
+            "lastName": "Riorden",
+            "team": "CHA",
+            "opponent": "WAT",
+            "game_id": "2026-ev-12",
+            "position": "Goalie",
+            "salary": 43,
+            "mc_ev": 42.9,
+            "mc_p90": 63.0,
+            "mc_p10": 19.6,
+            "actualPoints": 35.0
+        },
+        {
             "firstName": "Mitchell",
             "lastName": "Dunham",
             "team": "ARC",
@@ -397,19 +410,6 @@
             "mc_p90": 102.5,
             "mc_p10": 0.0,
             "actualPoints": 1.0
-        },
-        {
-            "firstName": "Brett",
-            "lastName": "Dobson",
-            "team": "ARC",
-            "opponent": "WHP",
-            "game_id": "2026-ev-11",
-            "position": "Goalie",
-            "salary": 45,
-            "mc_ev": 39.6,
-            "mc_p90": 56.6,
-            "mc_p10": 23.6,
-            "actualPoints": 34.0
         },
         {
             "firstName": "Michael",
@@ -551,9 +551,9 @@
             "game_id": "2026-ev-10",
             "position": "G",
             "salary": 50,
-            "mc_ev": 38.4,
-            "mc_p90": 55.8,
-            "mc_p10": 18.9,
+            "mc_ev": 38.9,
+            "mc_p90": 56.4,
+            "mc_p10": 19.1,
             "actualPoints": 46.0
         }
     ],
@@ -580,21 +580,21 @@
                 ]
             },
             {
+                "firstName": "Blaze",
+                "lastName": "Riorden",
+                "position": "Goalie",
+                "salary": 43,
+                "bullets": [
+                    "Opponent Weakness: WAT defense allows 8% extra fantasy points to Goalie position."
+                ]
+            },
+            {
                 "firstName": "Mitchell",
                 "lastName": "Dunham",
                 "position": "Defense",
                 "salary": 14,
                 "bullets": [
                     "Consistent Pick: Selected for steady expected floor (39.9 EV) and reliable role."
-                ]
-            },
-            {
-                "firstName": "Brett",
-                "lastName": "Dobson",
-                "position": "Goalie",
-                "salary": 45,
-                "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (39.6 EV) and reliable role."
                 ]
             },
             {
@@ -636,15 +636,15 @@
         ],
         "Variants": [
             {
-                "strategy": "MC_Ceil_90",
-                "strategyLabel": "MC Ceil 90",
+                "strategy": "MC_Win_160",
+                "strategyLabel": "MC Win 160",
                 "in": [
-                    "Liam Entenmann"
-                ],
-                "out": [
                     "Brett Dobson"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Liam Entenmann (Goalie, 50c)) to maximize the team's 90th percentile ceiling (projecting up to 55.8 pts)."
+                "out": [
+                    "Blaze Riorden"
+                ],
+                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Brett Dobson (Goalie, 45c)) to increase the joint probability of the entire lineup hitting the 160 target score."
             }
         ]
     },

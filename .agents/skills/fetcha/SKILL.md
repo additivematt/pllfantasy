@@ -1,6 +1,9 @@
 ---
 name: fetcha
-description: Scrapes F2P player costs/salaries, queries GraphQL box scores, backfills history, and merges into the unified player dataset.
+description: >-
+  Fetches and merges PLL F2P player salaries, projections, and official GraphQL box score statistics.
+  Use this skill when updating weekly game data, backfilling historical seasons, or maintaining the
+  unified dataset. Do NOT use for manual stats analysis or model training.
 ---
 
 > [!IMPORTANT]
@@ -152,6 +155,15 @@ If the F2P website has not yet released data for a future week but you want to p
 2. The script updates `combined_player_stats_2026.json` with preliminary placeholder entries and automatically updates `all_players_stats.json` via `extract_trial_data.py`.
 3. Open the Matchup Tagger UI and you will immediately see the target week's options and team rosters!
 4. Once the real data is released and games are played, running the standard `combine_datasets.py` workflow will automatically overwrite these temporary placeholders with official F2P/GraphQL stats.
+
+---
+
+## Verification Directive
+Verify that the unified dataset compiles cleanly:
+```bash
+python -c "import json; d = json.load(open('combined_player_stats_2026.json')); assert len(d) > 0; print(f'Verification passed: {len(d)} game records loaded')"
+```
+Confirm the command prints success without assertion errors.
 
 ---
 

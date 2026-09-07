@@ -1,6 +1,9 @@
 ---
 name: interrogata
-description: Documentation for the Player Interrogator UI, including DNP tracking, Chart.js trend charts, position-specific logs, and offline Service Worker caching.
+description: >-
+  Maintains the Player Stats Interrogator UI, career trajectory charts, and DNP tracking data.
+  Use this skill when modifying the Interrogator dashboard, updating all_players_stats.json, or
+  debugging career trend visualizations. Do NOT use for lineup optimization or model training.
 ---
 
 > [!IMPORTANT]
@@ -94,6 +97,15 @@ To enable data-driven fantasy decisions by visualizing a player's career traject
   }
 }
 ```
+
+---
+
+## Verification Directive
+Verify that player stats are compiled and accessible:
+```bash
+python -c "import json, os; assert os.path.exists('interrogata/all_players_stats.json'); data = json.load(open('interrogata/all_players_stats.json')); assert len(data) > 100; print(f'Verification passed: {len(data)} players loaded in Interrogata')"
+```
+Confirm the command prints success without assertion errors.
 
 ---
 

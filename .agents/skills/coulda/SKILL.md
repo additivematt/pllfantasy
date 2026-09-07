@@ -1,6 +1,9 @@
 ---
 name: coulda
-description: Detailed rules for PLL F2P lineup building, per-game double-header roster selection rules, pre-computed pair tables, and retroactive optimizer.
+description: >-
+  Calculates retroactive optimal PLL fantasy lineups under F2P salary constraints and double-header rules.
+  Use this skill when computing ceiling benchmarks, finding historical optimal rosters, or auditing
+  lineup optimization rules. Do NOT use for live pre-game roster predictions or data fetching.
 ---
 
 > [!IMPORTANT]
@@ -135,6 +138,15 @@ python 06_optimize_lineups.py --year 2026 --week <WEEK>
 |---|---|
 | `coulda_optimizer.py` | General-purpose retroactive optimizer ("Coulda/Shoulda") |
 | `06_optimize_lineups.py` | Live forward-looking roster optimizer using linear programming & local search heuristics |
+
+---
+
+## Verification Directive
+Verify retroactive optimizer execution:
+```bash
+python coulda_optimizer.py --year 2026 --week 1
+```
+Confirm the script finishes with exit code 0, outputs a 7-player roster, total cost $\le 200$, and reports the game context (`eventId`, opponent) for each player.
 
 ---
 

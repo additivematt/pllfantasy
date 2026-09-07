@@ -1,6 +1,9 @@
 ---
 name: matcha
-description: Instructions for the matchup tagging web application backend (server.py) and UI, capturing manual defensive assignments from film.
+description: >-
+  Captures and serves manual film-based defensive matchup assignments via the Matcha UI and server.
+  Use this skill when running the matchup server, tagging defensive assignments, or maintaining
+  season_matchups JSON files. Do NOT use for automated stats fetching or prediction training.
 ---
 
 > [!IMPORTANT]
@@ -140,6 +143,15 @@ Matchups are stored by **Game ID** (`eventId`), not by week. This is the correct
 - In double-game weeks where a team plays twice, each game gets its own key (e.g., `2026_game_5` and `2026_game_9`) and must be tagged separately.
 - When feeding matchup data into the prediction engine, always join on `eventId` — never assume a single matchup record covers both games in a week.
 - A player's defensive assignment may differ between their two games in a week (different opponent, different personnel).
+
+---
+
+## Verification Directive
+Verify that the matchup tagger output file exists and parses valid JSON:
+```bash
+python -c "import json, os; assert os.path.exists('season_matchups_2026.json'); data = json.load(open('season_matchups_2026.json')); print(f'Verification passed: {len(data)} tagged games loaded in Matcha')"
+```
+Confirm the command prints success without assertion errors.
 
 ---
 
