@@ -135,9 +135,10 @@ def main():
         
         matchups_data = []
         for g_id, g_df in game_groups:
-            if len(g_df) >= 2:
-                p1 = g_df.iloc[0]
-                p2 = g_df.iloc[1]
+            team_top_fo = g_df.sort_values("PredictedPoints", ascending=False).drop_duplicates(subset=["team"])
+            if len(team_top_fo) >= 2:
+                p1 = team_top_fo.iloc[0]
+                p2 = team_top_fo.iloc[1]
                 
                 if p1["PredictedPoints"] >= p2["PredictedPoints"]:
                     winner = f"{p1['firstName']} {p1['lastName']}"

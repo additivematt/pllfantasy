@@ -126,7 +126,7 @@ def main():
             },
             "week": week,
             "event": {
-                "eventId": event_id,
+                "eventId": normalize_event_id(event_id),
                 "startTime": f2p_player.get("startTime"),
                 "eventStatus": f2p_player.get("eventStatus"),
                 "homeTeam": matched_event.get("homeTeam", {}).get("officialId") if matched_event else None,

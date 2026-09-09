@@ -9,6 +9,17 @@ def normalize_event_id(event_id):
     if not event_id:
         return event_id
 
+    # Mapping for numbered playoff games to standard playoff names
+    PLAYOFF_GAME_MAP = {
+        "2026_game_49": "2026_quarterfinal_1",
+        "2026_game_50": "2026_quarterfinal_2",
+        "2026_game_51": "2026_semifinal_1",
+        "2026_game_52": "2026_semifinal_2",
+        "2026_game_54": "2026_championship_game",
+    }
+    if event_id in PLAYOFF_GAME_MAP:
+        return PLAYOFF_GAME_MAP[event_id]
+
     # 1. Legacy Regular Season: game-N-YYYY-MM-DD -> YYYY_game_N
     match = re.match(r"game-(\d+)-(\d{4})-\d{1,2}-\d{1,2}", event_id)
     if match:
@@ -26,6 +37,8 @@ def normalize_event_id(event_id):
     if match:
         year, p_type, p_num = match.groups()
         p_type = p_type.rstrip('s')
+        if p_type == "championship":
+            return f"{year}_championship_game"
         return f"{year}_{p_type}_{p_num}"
 
     # 4. Legacy Championship: championship-YYYY-MM-DD -> YYYY_championship_game
