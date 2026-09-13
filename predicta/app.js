@@ -1,6 +1,20 @@
 const positions = ["Attack", "Midfield", "SSDM", "Defensemen", "Faceoff", "Goalie"];
 let activeRosterTab = "MC_EV";
 
+// Helper to detect if a player is a designated backup goalie
+function isBackupGoalie(p) {
+    if (!p) return false;
+    const isGoalie = (p.positionGroup === 'Goalie' || p.subPosition === 'Goalie' || p.position === 'Goalie' || p.position === 'G');
+    return isGoalie && p.is_projected_starter === false;
+}
+
+// Helper to get projected EV for scatter plot Y-axis (explicit 0.0 for backup goalies)
+function getPlayerEv(d) {
+    if (!d) return 0.0;
+    if (isBackupGoalie(d)) return 0.0;
+    return (d.mc_ev != null && d.mc_ev > 0) ? d.mc_ev : (d.fp_season_avg || 0);
+}
+
 // ─── Interrogata-compatible helpers for sparkline ───────────────────────────
 
 // Legacy team code normalisation (same mapping used in interrogata)
@@ -166,16 +180,22 @@ function openInterrogator(playerSlug) {
  * The sparkline canvas placeholder is appended after this block.
  */
 function buildTooltipBodyHtml(p, maxCeiling, advisorBadge = false) {
-    const floor   = p.mc_p10 != null ? p.mc_p10 : 0.0;
-    const ceiling = p.mc_p90 != null ? p.mc_p90 : 0.0;
-    const ev      = p.mc_ev  != null ? p.mc_ev  : 0.0;
+    const backupGoalie = isBackupGoalie(p);
+    const floor   = backupGoalie ? 0.0 : (p.mc_p10 != null ? p.mc_p10 : 0.0);
+    const ceiling = backupGoalie ? 0.0 : (p.mc_p90 != null ? p.mc_p90 : 0.0);
+    const ev      = backupGoalie ? 0.0 : (p.mc_ev  != null ? p.mc_ev  : 0.0);
     const p10Pct      = (floor   / maxCeiling) * 100;
     const fillWidthPct = ((ceiling - floor) / maxCeiling) * 100;
     const evPct       = (ev     / maxCeiling) * 100;
 
-    const advisorTag = advisorBadge
-        ? `<span style="font-size:0.65rem; color:#ff00ff; border:1px solid #ff00ff; padding:2px 4px; border-radius:3px; float:right; margin-top:3px; font-weight:700;">ADVISOR SELECT</span>`
-        : `<span style="font-size:0.75rem; color:#8b949e; font-weight:normal; float:right; margin-top:4px;">${p.team} - ${p.position || p.positionGroup}</span>`;
+    let advisorTag;
+    if (advisorBadge) {
+        advisorTag = `<span style="font-size:0.65rem; color:#ff00ff; border:1px solid #ff00ff; padding:2px 4px; border-radius:3px; float:right; margin-top:3px; font-weight:700;">ADVISOR SELECT</span>`;
+    } else if (backupGoalie) {
+        advisorTag = `<span style="font-size:0.65rem; color:#ff4444; border:1px solid rgba(255,68,68,0.6); background:rgba(255,68,68,0.15); padding:2px 5px; border-radius:3px; float:right; margin-top:3px; font-weight:700;">PROJECTED BACKUP</span>`;
+    } else {
+        advisorTag = `<span style="font-size:0.75rem; color:#8b949e; font-weight:normal; float:right; margin-top:4px;">${p.team} - ${p.position || p.positionGroup}</span>`;
+    }
 
     let foGridHtml = '';
     if (p.fo_win_prob !== undefined && p.fo_win_prob !== null && p.fo_win_prob > 0) {
@@ -208,13 +228,14 @@ function buildTooltipBodyHtml(p, maxCeiling, advisorBadge = false) {
             <div class="tooltip-row"><span class="tooltip-label">Opponent</span><span class="tooltip-value">${p.opponent || 'N/A'}</span></div>
             <div class="tooltip-row"><span class="tooltip-label">Opp. Rating</span><span class="tooltip-value" style="color: ${p.team_def_rating > 1.1 ? '#00ff88' : p.team_def_rating < 0.9 ? '#ff4444' : '#ffffff'}">${(p.team_def_rating || 1.0).toFixed(2)}</span></div>
             <div class="tooltip-row"><span class="tooltip-label">Salary</span><span class="tooltip-value">${p.salary || 0} Coins</span></div>
-            <div class="tooltip-row"><span class="tooltip-label">Risk (\u03c3)</span><span class="tooltip-value" style="color: ${p.mc_std > 20 ? '#ff4444' : p.mc_std > 12 ? '#fdae61' : '#6dbe6d'}">${(p.mc_std != null ? p.mc_std : 0).toFixed(1)}</span></div>
+            <div class="tooltip-row"><span class="tooltip-label">Risk (\u03c3)</span><span class="tooltip-value" style="color: ${backupGoalie ? '#ff4444' : (p.mc_std > 20 ? '#ff4444' : p.mc_std > 12 ? '#fdae61' : '#6dbe6d')}">${backupGoalie ? 'High (DNP)' : ((p.mc_std != null ? p.mc_std : 0).toFixed(1))}</span></div>
             <div class="tooltip-row"><span class="tooltip-label">Season Avg</span><span class="tooltip-value">${(p.fp_season_avg || 0).toFixed(1)}</span></div>
             <div class="tooltip-row"><span class="tooltip-label">Boom Prob</span><span class="tooltip-value" style="color: rgba(255,255,255,0.55)">${(p.BoomProbability || 0).toFixed(0)}%</span></div>
+            ${backupGoalie ? `<div class="tooltip-row"><span class="tooltip-label">Starter Status</span><span class="tooltip-value" style="color: #ff4444; font-weight:700;">Backup / Non-Starter</span></div>` : ''}
             ${foGridHtml}
         </div>
         <div class="range-bar-section">
-            <div class="range-bar-title">MC Projections Range (EV: <span style="color:#00ffff">${ev.toFixed(1)}</span> pts)</div>
+            <div class="range-bar-title">MC Projections Range (EV: <span style="color:${backupGoalie ? '#ff4444' : '#00ffff'}">${ev.toFixed(1)}</span> pts)</div>
             <div class="range-bar-container">
                 <div class="range-bar-track"></div>
                 <div class="range-bar-fill" style="left: ${p10Pct}%; width: ${fillWidthPct}%;"></div>
@@ -224,6 +245,7 @@ function buildTooltipBodyHtml(p, maxCeiling, advisorBadge = false) {
                 <span>Floor (p10): <span class="range-bar-val">${floor.toFixed(1)}</span></span>
                 <span>Ceiling (p90): <span class="range-bar-val">${ceiling.toFixed(1)}</span></span>
             </div>
+            ${backupGoalie ? `<div style="font-size: 0.72rem; color: #8b949e; margin-top: 6px; text-align: center; font-style: italic;">Starter Baseline: ${(p.fp_season_avg || 0).toFixed(1)} FP if active (0.0 FP expected as backup)</div>` : ''}
         </div>
         ${actualPts != null ? `
         <div class="tooltip-row" style="margin-top: 0.6rem; padding-top: 0.6rem; border-top: 1px solid rgba(255, 255, 255, 0.08)">
@@ -603,8 +625,8 @@ async function loadPredictions(year, week) {
 
 function renderPlot(targetId, title, data, yRange = null) {
     const x = data.map(d => d.salary);
-    // Use mc_ev (Monte Carlo Expected Value) on Y-axis; fallback to season avg
-    const getMcEv = d => (d.mc_ev != null && d.mc_ev > 0) ? d.mc_ev : (d.fp_season_avg || 0);
+    // Use mc_ev (Monte Carlo Expected Value) on Y-axis; fallback to season avg (backup goalies explicitly 0.0)
+    const getMcEv = getPlayerEv;
 
     const xMin = Math.min(...x);
     const xMax = Math.max(...x);
@@ -613,14 +635,19 @@ function renderPlot(targetId, title, data, yRange = null) {
 
     const couldaSet = getCouldaSet();
 
-    // Sort data by Coulda first (so they are processed first in overlap logic and are always labeled), then by star power
+    // Sort data by Coulda first, then by starter status (starters before backups), then by EV
     const sortedData = [...data].sort((a, b) => {
         const aCoulda = couldaSet.has(`${a.firstName} ${a.lastName}|${a.game_id}`) ? 1 : 0;
         const bCoulda = couldaSet.has(`${b.firstName} ${b.lastName}|${b.game_id}`) ? 1 : 0;
         if (aCoulda !== bCoulda) {
             return bCoulda - aCoulda;
         }
-        return b.fp_season_avg - a.fp_season_avg;
+        const aBackup = isBackupGoalie(a) ? 1 : 0;
+        const bBackup = isBackupGoalie(b) ? 1 : 0;
+        if (aBackup !== bBackup) {
+            return aBackup - bBackup; // Starters sorted first
+        }
+        return getMcEv(b) - getMcEv(a);
     });
 
     const sortedY = sortedData.map(getMcEv);
@@ -630,18 +657,32 @@ function renderPlot(targetId, title, data, yRange = null) {
     const medianEV = sortedY.length > 0 ? [...sortedY].sort((a,b) => a-b)[Math.floor(sortedY.length/2)] : 15;
 
     // Use locked range if provided (for shared-axis position groups), else auto-scale to data
-    const yAxisRange = yRange !== null ? yRange : [Math.max(0, yMin - yPad), yMax + yPad * 2];
+    // Ensure Y-axis lower bound provides padding if points are at Y=0
+    const yAxisRange = yRange !== null ? yRange : [Math.min(0, yMin - (yPad * 0.3 || 2)), yMax + yPad * 2];
 
     // Initial textLabels array (will be dynamically optimized by updateDynamicLabels in pixel space)
-    const textLabels = sortedData.map(d => d.lastName);
+    const textLabels = sortedData.map(d => isBackupGoalie(d) ? `${d.lastName} [Backup]` : d.lastName);
 
-    // Custom marker line colors, widths, and text colors to highlight Coulda players in cyan (#00f0ff)
-    const markerLineColors = sortedData.map(d => couldaSet.has(`${d.firstName} ${d.lastName}|${d.game_id}`) ? '#00f0ff' : '#161b22');
-    const markerLineWidths = sortedData.map(d => couldaSet.has(`${d.firstName} ${d.lastName}|${d.game_id}`) ? 3 : 1);
-    const textColors = sortedData.map(d => couldaSet.has(`${d.firstName} ${d.lastName}|${d.game_id}`) ? '#00f0ff' : 'rgba(255,255,255,0.7)');
+    // Custom marker line colors, widths, and text colors to highlight Coulda players in cyan (#00f0ff) and backups in dim red
+    const markerLineColors = sortedData.map(d => {
+        if (couldaSet.has(`${d.firstName} ${d.lastName}|${d.game_id}`)) return '#00f0ff';
+        if (isBackupGoalie(d)) return 'rgba(255, 68, 68, 0.8)';
+        return '#161b22';
+    });
+    const markerLineWidths = sortedData.map(d => {
+        if (couldaSet.has(`${d.firstName} ${d.lastName}|${d.game_id}`)) return 3;
+        if (isBackupGoalie(d)) return 2;
+        return 1;
+    });
+    const textColors = sortedData.map(d => {
+        if (couldaSet.has(`${d.firstName} ${d.lastName}|${d.game_id}`)) return '#00f0ff';
+        if (isBackupGoalie(d)) return 'rgba(255, 120, 120, 0.85)';
+        return 'rgba(255,255,255,0.7)';
+    });
 
-    // Dot size: MC p90 (90th percentile ceiling from simulation), fallback to mc_ev * 1.5 or season avg
+    // Dot size: MC p90 (90th percentile ceiling from simulation); small dot for backup goalies
     const dotSizes = sortedData.map(d => {
+        if (isBackupGoalie(d)) return 7;
         const p90 = d.mc_p90 || (d.mc_ev ? d.mc_ev * 1.5 : null) || d.fp_season_avg || 8;
         return Math.max(6, p90 * 0.55 + 4);
     });
@@ -696,19 +737,24 @@ function renderPlot(targetId, title, data, yRange = null) {
         ];
         colorbarTitle = 'Pos Rank (%)';
     } else {
-        // Color by MC Std Dev (risk/volatility): green = safe floor, red = boom-or-bust
-        markerValues = sortedData.map(d => d.mc_std != null ? d.mc_std : 0);
-        const validValues = markerValues.filter(v => v != null && !isNaN(v));
+        // Color by MC Std Dev (risk/volatility): green = safe floor, red = boom-or-bust (backup goalies colored as max risk)
+        markerValues = sortedData.map(d => {
+            if (isBackupGoalie(d)) return 999;
+            return d.mc_std != null ? d.mc_std : 0;
+        });
+        const validValues = markerValues.filter(v => v != null && !isNaN(v) && v !== 999);
         if (validValues.length > 0) {
             const p5 = getPercentile(validValues, 0.05);
             const p95 = getPercentile(validValues, 0.95);
             markerMin = Math.max(0, Math.round(p5 * 10) / 10);
             markerMax = Math.max(markerMin + 1, Math.round(p95 * 10) / 10);
         } else {
-            markerMin = Math.max(0, Math.min(...markerValues));
-            markerMax = Math.max(...markerValues);
+            const nonBackups = markerValues.filter(v => v !== 999);
+            markerMin = Math.max(0, Math.min(...(nonBackups.length > 0 ? nonBackups : [0])));
+            markerMax = Math.max(markerMin + 1, Math.max(...(nonBackups.length > 0 ? nonBackups : [1])));
         }
         if (markerMin === markerMax) markerMax = markerMin + 1;
+        markerValues = markerValues.map(v => v === 999 ? markerMax : v);
         markerColorscale = [
             [0,   'rgb(26,152,80)'],
             [0.4, 'rgb(166,217,106)'],
@@ -845,7 +891,7 @@ function updateDynamicLabels(plotEl) {
 
     const couldaSet = getCouldaSet();
     const dotSizes = trace.marker ? trace.marker.size : 10;
-    const getMcEv = d => (d.mc_ev != null && d.mc_ev > 0) ? d.mc_ev : (d.fp_season_avg || 0);
+    const getMcEv = getPlayerEv;
 
     const availablePositions = [
         'top center',
@@ -948,7 +994,7 @@ function updateDynamicLabels(plotEl) {
         return {
             index: i,
             data: d,
-            lastName: d.lastName || '',
+            lastName: isBackupGoalie(d) ? `${d.lastName} [Backup]` : (d.lastName || ''),
             px,
             py,
             r,
