@@ -131,3 +131,27 @@ Every time a new baseline is established and rosters are saved to `baselines/`:
 |---|---|---|---|---|---|---|---|---|---|
 | **2025** | +8.0 | +56.2 | 70.2% (64/91) | 0.384 | 0.430 | 0.413 | 0.439 | 0.445 | 0.298 |
 | **2026** | +13.3 | +92.7 | 81.2% (63/77) | 0.353 | 0.544 | 0.481 | 0.612 | 0.171 | 0.527 |
+
+---
+
+## Baseline 15 (Faceoff Bradley-Terry Exponential Decay & Share Scaling — August 2026, Superseded)
+
+- **Description**: Incorporated **Item 52** (Faceoff Bradley-Terry Exponential Decay, Specialist Share Scaling, Starter Prioritization, Tighter Bayesian Priors, 10 pt Assist Alignment) alongside Baseline 14 multi-position recency weighting (`factor=0.3`) and Baseline 13 position-specific XGBoost hyperparameters.
+- **Roster Files**: `baselines/rosters_mc_ev_baseline_15.csv`, `baselines/rosters_mc_win_160_baseline_15.csv`, `baselines/rosters_mc_ceil_90_baseline_15.csv`.
+
+| Season | Strategy | Top-1 (Avg/Wk) | Top-5 Mean (Avg/Wk) | Top-5 Max (Avg/Wk) | Top-5 Min (Avg/Wk) | Coulda Max (Avg/Wk) | Top-5 Max Ceiling % |
+|---|---|---|---|---|---|---|---|
+| **2025** | `MC_EV` | 175.6 pts/wk | 174.7 pts/wk | 191.7 pts/wk | 143.3 pts/wk | 359.9 pts/wk | 53.3% |
+| **2025** | `MC_Win_160` | 171.8 pts/wk | 163.1 pts/wk | 191.7 pts/wk | 143.1 pts/wk | 359.9 pts/wk | 53.3% |
+| **2025** | `MC_Ceil_90` | 173.6 pts/wk | 177.8 pts/wk | 204.5 pts/wk | 146.8 pts/wk | 359.9 pts/wk | 56.8% |
+| **2026** | `MC_EV` | 175.6 pts/wk | 169.6 pts/wk | 183.7 pts/wk | 135.2 pts/wk | 370.4 pts/wk | 49.6% |
+| **2026** | `MC_Win_160` | 168.1 pts/wk | 161.2 pts/wk | 185.5 pts/wk | 135.2 pts/wk | 370.4 pts/wk | 50.1% |
+| **2026** | `MC_Ceil_90` | 174.3 pts/wk | 155.7 pts/wk | 185.6 pts/wk | 130.2 pts/wk | 370.4 pts/wk | 50.1% |
+
+**Baseline 15 Process-Quality Metrics (MC_EV Top-1)**:
+
+| Season | Avg VOR/Slot | VOR/Week | Slots Above Median | Spearman ρ (Overall) | A | M | D | FO | G |
+|---|---|---|---|---|---|---|---|---|---|
+| **2025** | +7.2 | +50.5 | 67.0% (61/91) | 0.386 | 0.430 | 0.413 | 0.439 | 0.475 | -2.4 |
+| **2026** | +15.0 | +105.1 | 83.3% (70/84) | 0.386 | 0.544 | 0.481 | 0.612 | 0.400 | +5.5 |
+

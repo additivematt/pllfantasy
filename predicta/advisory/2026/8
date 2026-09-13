@@ -8,9 +8,9 @@
             "game_id": "2026-ev-26",
             "position": "Goalie",
             "salary": 46,
-            "mc_ev": 46.5,
-            "mc_p90": 72.0,
-            "mc_p10": 21.8,
+            "mc_ev": 40.8,
+            "mc_p90": 63.0,
+            "mc_p10": 19.1,
             "actualPoints": 10.0
         },
         {
@@ -21,9 +21,9 @@
             "game_id": "2026-ev-27",
             "position": "Attack",
             "salary": 40,
-            "mc_ev": 38.3,
-            "mc_p90": 75.4,
-            "mc_p10": 17.1,
+            "mc_ev": 40.3,
+            "mc_p90": 79.0,
+            "mc_p10": 17.9,
             "actualPoints": 24.0
         },
         {
@@ -34,9 +34,9 @@
             "game_id": "2026-ev-27",
             "position": "Midfield",
             "salary": 26,
-            "mc_ev": 31.6,
-            "mc_p90": 68.6,
-            "mc_p10": 3.0,
+            "mc_ev": 33.5,
+            "mc_p90": 71.0,
+            "mc_p10": 3.1,
             "actualPoints": 39.0
         },
         {
@@ -47,7 +47,7 @@
             "game_id": "2026-ev-26",
             "position": "Defense",
             "salary": 18,
-            "mc_ev": 30.9,
+            "mc_ev": 30.8,
             "mc_p90": 80.0,
             "mc_p10": 0.0,
             "actualPoints": 33.0
@@ -60,23 +60,10 @@
             "game_id": "2026-ev-28",
             "position": "Faceoff",
             "salary": 25,
-            "mc_ev": 27.7,
+            "mc_ev": 27.4,
             "mc_p90": 52.7,
-            "mc_p10": 2.5,
+            "mc_p10": 1.8,
             "actualPoints": 37.4
-        },
-        {
-            "firstName": "Zach",
-            "lastName": "Currier",
-            "team": "WAT",
-            "opponent": "RED",
-            "game_id": "2026-ev-25",
-            "position": "Midfield",
-            "salary": 20,
-            "mc_ev": 26.0,
-            "mc_p90": 47.8,
-            "mc_p10": 7.2,
-            "actualPoints": 46.5
         },
         {
             "firstName": "Connor",
@@ -86,10 +73,23 @@
             "game_id": "2026-ev-27",
             "position": "Attack",
             "salary": 25,
-            "mc_ev": 25.6,
-            "mc_p90": 49.0,
+            "mc_ev": 26.1,
+            "mc_p90": 49.9,
             "mc_p10": 0.0,
             "actualPoints": 46.0
+        },
+        {
+            "firstName": "Zach",
+            "lastName": "Currier",
+            "team": "WAT",
+            "opponent": "RED",
+            "game_id": "2026-ev-25",
+            "position": "Midfield",
+            "salary": 20,
+            "mc_ev": 25.4,
+            "mc_p90": 42.1,
+            "mc_p10": 7.1,
+            "actualPoints": 46.5
         }
     ],
     "MC_Win_160": [
@@ -101,9 +101,9 @@
             "game_id": "2026-ev-26",
             "position": "Goalie",
             "salary": 46,
-            "mc_ev": 46.5,
-            "mc_p90": 72.0,
-            "mc_p10": 21.8,
+            "mc_ev": 40.8,
+            "mc_p90": 63.0,
+            "mc_p10": 19.1,
             "actualPoints": 10.0
         },
         {
@@ -114,9 +114,9 @@
             "game_id": "2026-ev-27",
             "position": "Attack",
             "salary": 40,
-            "mc_ev": 38.3,
-            "mc_p90": 75.4,
-            "mc_p10": 17.1,
+            "mc_ev": 40.3,
+            "mc_p90": 79.0,
+            "mc_p10": 17.9,
             "actualPoints": 24.0
         },
         {
@@ -127,9 +127,9 @@
             "game_id": "2026-ev-27",
             "position": "Midfield",
             "salary": 26,
-            "mc_ev": 31.6,
-            "mc_p90": 68.6,
-            "mc_p10": 3.0,
+            "mc_ev": 33.5,
+            "mc_p90": 71.0,
+            "mc_p10": 3.1,
             "actualPoints": 39.0
         },
         {
@@ -140,7 +140,7 @@
             "game_id": "2026-ev-26",
             "position": "Defense",
             "salary": 18,
-            "mc_ev": 30.9,
+            "mc_ev": 30.8,
             "mc_p90": 80.0,
             "mc_p10": 0.0,
             "actualPoints": 33.0
@@ -153,23 +153,10 @@
             "game_id": "2026-ev-28",
             "position": "Faceoff",
             "salary": 25,
-            "mc_ev": 27.7,
+            "mc_ev": 27.4,
             "mc_p90": 52.7,
-            "mc_p10": 2.5,
+            "mc_p10": 1.8,
             "actualPoints": 37.4
-        },
-        {
-            "firstName": "Zach",
-            "lastName": "Currier",
-            "team": "WAT",
-            "opponent": "RED",
-            "game_id": "2026-ev-25",
-            "position": "Midfield",
-            "salary": 20,
-            "mc_ev": 26.0,
-            "mc_p90": 47.8,
-            "mc_p10": 7.2,
-            "actualPoints": 46.5
         },
         {
             "firstName": "Connor",
@@ -179,10 +166,23 @@
             "game_id": "2026-ev-27",
             "position": "Attack",
             "salary": 25,
-            "mc_ev": 25.6,
-            "mc_p90": 49.0,
+            "mc_ev": 26.1,
+            "mc_p90": 49.9,
             "mc_p10": 0.0,
             "actualPoints": 46.0
+        },
+        {
+            "firstName": "Zach",
+            "lastName": "Currier",
+            "team": "WAT",
+            "opponent": "RED",
+            "game_id": "2026-ev-25",
+            "position": "Midfield",
+            "salary": 20,
+            "mc_ev": 25.4,
+            "mc_p90": 42.1,
+            "mc_p10": 7.1,
+            "actualPoints": 46.5
         }
     ],
     "MC_Ceil_90": [
@@ -194,9 +194,9 @@
             "game_id": "2026-ev-26",
             "position": "Goalie",
             "salary": 46,
-            "mc_ev": 46.5,
-            "mc_p90": 72.0,
-            "mc_p10": 21.8,
+            "mc_ev": 40.8,
+            "mc_p90": 63.0,
+            "mc_p10": 19.1,
             "actualPoints": 10.0
         },
         {
@@ -207,9 +207,9 @@
             "game_id": "2026-ev-27",
             "position": "Attack",
             "salary": 40,
-            "mc_ev": 38.3,
-            "mc_p90": 75.4,
-            "mc_p10": 17.1,
+            "mc_ev": 40.3,
+            "mc_p90": 79.0,
+            "mc_p10": 17.9,
             "actualPoints": 24.0
         },
         {
@@ -220,9 +220,9 @@
             "game_id": "2026-ev-27",
             "position": "Midfield",
             "salary": 26,
-            "mc_ev": 31.6,
-            "mc_p90": 68.6,
-            "mc_p10": 3.0,
+            "mc_ev": 33.5,
+            "mc_p90": 71.0,
+            "mc_p10": 3.1,
             "actualPoints": 39.0
         },
         {
@@ -233,7 +233,7 @@
             "game_id": "2026-ev-26",
             "position": "Defense",
             "salary": 18,
-            "mc_ev": 30.9,
+            "mc_ev": 30.8,
             "mc_p90": 80.0,
             "mc_p10": 0.0,
             "actualPoints": 33.0
@@ -246,23 +246,10 @@
             "game_id": "2026-ev-28",
             "position": "Faceoff",
             "salary": 25,
-            "mc_ev": 27.7,
+            "mc_ev": 27.4,
             "mc_p90": 52.7,
-            "mc_p10": 2.5,
+            "mc_p10": 1.8,
             "actualPoints": 37.4
-        },
-        {
-            "firstName": "Jack",
-            "lastName": "Regnery",
-            "team": "CAN",
-            "opponent": "OUT",
-            "game_id": "2026-ev-28",
-            "position": "Midfield",
-            "salary": 17,
-            "mc_ev": 22.3,
-            "mc_p90": 47.2,
-            "mc_p10": 0.0,
-            "actualPoints": 30.0
         },
         {
             "firstName": "Mac",
@@ -272,10 +259,23 @@
             "game_id": "2026-ev-27",
             "position": "Attack",
             "salary": 24,
-            "mc_ev": 24.0,
-            "mc_p90": 57.4,
+            "mc_ev": 24.3,
+            "mc_p90": 57.5,
             "mc_p10": 0.0,
             "actualPoints": 35.0
+        },
+        {
+            "firstName": "Jack",
+            "lastName": "Regnery",
+            "team": "CAN",
+            "opponent": "OUT",
+            "game_id": "2026-ev-28",
+            "position": "Midfield",
+            "salary": 17,
+            "mc_ev": 22.8,
+            "mc_p90": 49.1,
+            "mc_p10": 0.0,
+            "actualPoints": 30.0
         }
     ],
     "MC_Consensus": [
@@ -287,9 +287,9 @@
             "game_id": "2026-ev-26",
             "position": "Goalie",
             "salary": 46,
-            "mc_ev": 46.5,
-            "mc_p90": 72.0,
-            "mc_p10": 21.8,
+            "mc_ev": 40.8,
+            "mc_p90": 63.0,
+            "mc_p10": 19.1,
             "actualPoints": 10.0
         },
         {
@@ -301,7 +301,7 @@
             "position": "Midfield",
             "salary": 32,
             "mc_ev": 31.1,
-            "mc_p90": 60.1,
+            "mc_p90": 59.3,
             "mc_p10": 0.0,
             "actualPoints": 15.0
         },
@@ -313,9 +313,9 @@
             "game_id": "2026-ev-26",
             "position": "Attack",
             "salary": 32,
-            "mc_ev": 28.9,
-            "mc_p90": 61.6,
-            "mc_p10": 4.2,
+            "mc_ev": 29.9,
+            "mc_p90": 63.6,
+            "mc_p10": 2.2,
             "actualPoints": 42.0
         },
         {
@@ -326,7 +326,7 @@
             "game_id": "2026-ev-25",
             "position": "Faceoff",
             "salary": 26,
-            "mc_ev": 21.7,
+            "mc_ev": 21.6,
             "mc_p90": 41.2,
             "mc_p10": 7.1,
             "actualPoints": 3.7
@@ -339,9 +339,9 @@
             "game_id": "2026-ev-27",
             "position": "Midfield",
             "salary": 34,
-            "mc_ev": 17.9,
-            "mc_p90": 43.4,
-            "mc_p10": 2.2,
+            "mc_ev": 19.1,
+            "mc_p90": 45.9,
+            "mc_p10": 4.6,
             "actualPoints": 12.0
         },
         {
@@ -352,9 +352,9 @@
             "game_id": "2026-ev-25",
             "position": "Defense",
             "salary": 21,
-            "mc_ev": 14.8,
-            "mc_p90": 29.2,
-            "mc_p10": 2.6,
+            "mc_ev": 16.4,
+            "mc_p90": 32.0,
+            "mc_p10": 3.9,
             "actualPoints": 21.0
         },
         {
@@ -365,9 +365,9 @@
             "game_id": "2026-ev-26",
             "position": "Attack",
             "salary": 8,
-            "mc_ev": 10.9,
-            "mc_p90": 23.3,
-            "mc_p10": 0.0,
+            "mc_ev": 10.8,
+            "mc_p90": 22.9,
+            "mc_p10": 0.4,
             "actualPoints": 20.0
         }
     ],
@@ -380,9 +380,9 @@
             "game_id": "2026-ev-26",
             "position": "Goalie",
             "salary": 46,
-            "mc_ev": 46.5,
-            "mc_p90": 72.0,
-            "mc_p10": 21.8,
+            "mc_ev": 40.8,
+            "mc_p90": 63.0,
+            "mc_p10": 19.1,
             "actualPoints": 10.0
         },
         {
@@ -393,9 +393,9 @@
             "game_id": "2026-ev-27",
             "position": "Attack",
             "salary": 40,
-            "mc_ev": 38.3,
-            "mc_p90": 75.4,
-            "mc_p10": 17.1,
+            "mc_ev": 40.3,
+            "mc_p90": 79.0,
+            "mc_p10": 17.9,
             "actualPoints": 24.0
         },
         {
@@ -406,9 +406,9 @@
             "game_id": "2026-ev-27",
             "position": "Midfield",
             "salary": 26,
-            "mc_ev": 31.6,
-            "mc_p90": 68.6,
-            "mc_p10": 3.0,
+            "mc_ev": 33.5,
+            "mc_p90": 71.0,
+            "mc_p10": 3.1,
             "actualPoints": 39.0
         },
         {
@@ -419,7 +419,7 @@
             "game_id": "2026-ev-26",
             "position": "Defense",
             "salary": 18,
-            "mc_ev": 30.9,
+            "mc_ev": 30.8,
             "mc_p90": 80.0,
             "mc_p10": 0.0,
             "actualPoints": 33.0
@@ -432,23 +432,10 @@
             "game_id": "2026-ev-28",
             "position": "Faceoff",
             "salary": 25,
-            "mc_ev": 27.7,
+            "mc_ev": 27.4,
             "mc_p90": 52.7,
-            "mc_p10": 2.5,
+            "mc_p10": 1.8,
             "actualPoints": 37.4
-        },
-        {
-            "firstName": "Zach",
-            "lastName": "Currier",
-            "team": "WAT",
-            "opponent": "RED",
-            "game_id": "2026-ev-25",
-            "position": "Midfield",
-            "salary": 20,
-            "mc_ev": 26.0,
-            "mc_p90": 47.8,
-            "mc_p10": 7.2,
-            "actualPoints": 46.5
         },
         {
             "firstName": "Connor",
@@ -458,10 +445,23 @@
             "game_id": "2026-ev-27",
             "position": "Attack",
             "salary": 25,
-            "mc_ev": 25.6,
-            "mc_p90": 49.0,
+            "mc_ev": 26.1,
+            "mc_p90": 49.9,
             "mc_p10": 0.0,
             "actualPoints": 46.0
+        },
+        {
+            "firstName": "Zach",
+            "lastName": "Currier",
+            "team": "WAT",
+            "opponent": "RED",
+            "game_id": "2026-ev-25",
+            "position": "Midfield",
+            "salary": 20,
+            "mc_ev": 25.4,
+            "mc_p90": 42.1,
+            "mc_p10": 7.1,
+            "actualPoints": 46.5
         }
     ],
     "Coulda": [
@@ -473,9 +473,9 @@
             "game_id": "2026-ev-26",
             "position": "A",
             "salary": 32,
-            "mc_ev": 29.3,
-            "mc_p90": 46.7,
-            "mc_p10": 11.0,
+            "mc_ev": 30.4,
+            "mc_p90": 48.3,
+            "mc_p10": 11.4,
             "actualPoints": 72.0
         },
         {
@@ -486,8 +486,8 @@
             "game_id": "2026-ev-28",
             "position": "A",
             "salary": 40,
-            "mc_ev": 29.0,
-            "mc_p90": 57.3,
+            "mc_ev": 28.3,
+            "mc_p90": 55.0,
             "mc_p10": 0.9,
             "actualPoints": 56.0
         },
@@ -512,9 +512,9 @@
             "game_id": "2026-ev-25",
             "position": "M",
             "salary": 20,
-            "mc_ev": 26.0,
-            "mc_p90": 47.8,
-            "mc_p10": 7.2,
+            "mc_ev": 25.4,
+            "mc_p90": 42.1,
+            "mc_p10": 7.1,
             "actualPoints": 46.5
         },
         {
@@ -525,8 +525,8 @@
             "game_id": "2026-ev-25",
             "position": "LSM",
             "salary": 15,
-            "mc_ev": 10.9,
-            "mc_p90": 26.1,
+            "mc_ev": 11.0,
+            "mc_p90": 26.6,
             "mc_p10": 0.0,
             "actualPoints": 37.0
         },
@@ -538,9 +538,9 @@
             "game_id": "2026-ev-28",
             "position": "FO",
             "salary": 25,
-            "mc_ev": 27.7,
+            "mc_ev": 27.4,
             "mc_p90": 52.7,
-            "mc_p10": 2.5,
+            "mc_p10": 1.8,
             "actualPoints": 37.4
         },
         {
@@ -551,9 +551,9 @@
             "game_id": "2026-ev-26",
             "position": "G",
             "salary": 36,
-            "mc_ev": 35.3,
-            "mc_p90": 62.6,
-            "mc_p10": 15.9,
+            "mc_ev": 31.8,
+            "mc_p90": 56.1,
+            "mc_p10": 13.3,
             "actualPoints": 29.0
         }
     ],
@@ -566,7 +566,7 @@
     ],
     "Sleepers": [],
     "RecommendedStrategy": "MC_EV",
-    "RecommendedReason": "Tight pricing / short slate (4 games, 6 cheap value players). Optimizing for floor is best.",
+    "RecommendedReason": "Tight pricing / short slate (4 games, 5 cheap value players). Optimizing for floor is best.",
     "Narrative": {
         "RecommendedRoster": [
             {
@@ -594,7 +594,7 @@
                 "position": "Midfield",
                 "salary": 26,
                 "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (31.6 EV) and reliable role."
+                    "Consistent Pick: Selected for steady expected floor (33.5 EV) and reliable role."
                 ]
             },
             {
@@ -603,7 +603,7 @@
                 "position": "Defense",
                 "salary": 18,
                 "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (30.9 EV) and reliable role."
+                    "Consistent Pick: Selected for steady expected floor (30.8 EV) and reliable role."
                 ]
             },
             {
@@ -612,7 +612,16 @@
                 "position": "Faceoff",
                 "salary": 25,
                 "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (27.7 EV) and reliable role."
+                    "Consistent Pick: Selected for steady expected floor (27.4 EV) and reliable role."
+                ]
+            },
+            {
+                "firstName": "Connor",
+                "lastName": "Fields",
+                "position": "Attack",
+                "salary": 25,
+                "bullets": [
+                    "Opponent Weakness: ATL defense allows 7% extra fantasy points to Attack position."
                 ]
             },
             {
@@ -624,15 +633,6 @@
                     "Matchup Specialist: Historically performs well against RED (1.18x average scoring rate).",
                     "Opponent Weakness: RED defense allows 9% extra fantasy points to Midfield position."
                 ]
-            },
-            {
-                "firstName": "Connor",
-                "lastName": "Fields",
-                "position": "Attack",
-                "salary": 25,
-                "bullets": [
-                    "Opponent Weakness: ATL defense allows 7% extra fantasy points to Attack position."
-                ]
             }
         ],
         "Variants": [
@@ -640,14 +640,14 @@
                 "strategy": "MC_Ceil_90",
                 "strategyLabel": "MC Ceil 90",
                 "in": [
-                    "Jack Regnery",
-                    "Mac O'Keefe"
+                    "Mac O'Keefe",
+                    "Jack Regnery"
                 ],
                 "out": [
-                    "Zach Currier",
-                    "Connor Fields"
+                    "Connor Fields",
+                    "Zach Currier"
                 ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Jack Regnery (Midfield, 17c), Mac O'Keefe (Attack, 24c)) to maximize the team's 90th percentile ceiling (projecting up to 57.4 pts)."
+                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Mac O'Keefe (Attack, 24c), Jack Regnery (Midfield, 17c)) to maximize the team's 90th percentile ceiling (projecting up to 57.5 pts)."
             }
         ]
     },

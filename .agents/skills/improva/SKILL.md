@@ -15,30 +15,32 @@ This skill maintains the prioritized improvement backlog, the active production 
 
 ---
 
-## 1. Active Production Benchmark: Baseline 15
+## 1. Active Production Benchmark: Baseline 16
 
-Baseline 15 (established August 2026) incorporates **Item 52** (Faceoff Bradley-Terry Exponential Decay, Specialist Share Scaling, Starter Prioritization, Tighter Bayesian Priors, 10 pt Assist Alignment) alongside Baseline 14 multi-position recency weighting (`factor=0.3`) and Baseline 13 position-specific XGBoost hyperparameters.
+Baseline 16 (established September 2026) establishes the **Starting Goalie Designation System** (authoritative overrides via `goalie_starters.json` + multi-signal heuristic fallback, zeroed-out simulation draws, and optimizer pool exclusion for non-starters) alongside Baseline 15 Faceoff Bradley-Terry Exponential Decay, Baseline 14 multi-position recency weighting (`factor=0.3`), and Baseline 13 position-specific XGBoost hyperparameters.
 
-### Baseline 15 Portfolio Performance (MC_EV, MC_Win_160, MC_Ceil_90)
+### Baseline 16 Portfolio Performance (MC_EV, MC_Win_160, MC_Ceil_90)
 
 | Season | Strategy | Top-1 (Avg/Wk) | Top-5 Mean (Avg/Wk) | Top-5 Max (Avg/Wk) | Top-5 Min (Avg/Wk) | Coulda Max (Avg/Wk) | Top-5 Max Ceiling % |
 |---|---|---|---|---|---|---|---|
-| **2025** | `MC_EV` | **175.6 pts/wk** | **174.7 pts/wk** | **191.7 pts/wk** | **143.3 pts/wk** | 359.9 pts/wk | **53.3%** |
-| **2025** | `MC_Win_160` | **171.8 pts/wk** | **163.1 pts/wk** | **191.7 pts/wk** | **143.1 pts/wk** | 359.9 pts/wk | **53.3%** |
-| **2025** | `MC_Ceil_90` | **173.6 pts/wk** | **177.8 pts/wk** | **204.5 pts/wk** | **146.8 pts/wk** | 359.9 pts/wk | **56.8%** |
-| **2026** | `MC_EV` | **175.6 pts/wk** | **169.6 pts/wk** | **183.7 pts/wk** | **135.2 pts/wk** | 370.4 pts/wk | **49.6%** |
-| **2026** | `MC_Win_160` | **168.1 pts/wk** | **161.2 pts/wk** | **185.5 pts/wk** | **135.2 pts/wk** | 370.4 pts/wk | **50.1%** |
-| **2026** | `MC_Ceil_90` | **174.3 pts/wk** | **155.7 pts/wk** | **185.6 pts/wk** | **130.2 pts/wk** | 370.4 pts/wk | **50.1%** |
+| **2025** | `MC_EV` | **173.2 pts/wk** | **172.9 pts/wk** | **196.3 pts/wk** | **150.6 pts/wk** | 359.9 pts/wk | **54.5%** |
+| **2025** | `MC_Win_160` | **170.6 pts/wk** | **172.0 pts/wk** | **196.3 pts/wk** | **149.6 pts/wk** | 359.9 pts/wk | **54.5%** |
+| **2025** | `MC_Ceil_90` | **178.5 pts/wk** | **177.8 pts/wk** | **203.6 pts/wk** | **154.2 pts/wk** | 359.9 pts/wk | **56.6%** |
+| **2026** (W1-13) | `MC_EV` | **164.6 pts/wk** | **165.4 pts/wk** | **191.3 pts/wk** | **144.7 pts/wk** | 370.4 pts/wk | **51.7%** |
+| **2026** (W1-13) | `MC_Win_160` | **167.9 pts/wk** | **166.4 pts/wk** | **192.6 pts/wk** | **145.3 pts/wk** | 370.4 pts/wk | **52.0%** |
+| **2026** (W1-13) | `MC_Ceil_90` | **166.5 pts/wk** | **154.9 pts/wk** | **191.0 pts/wk** | **131.8 pts/wk** | 370.4 pts/wk | **51.6%** |
+| **2026** (Full 14 Wks) | `MC_EV` | **156.3 pts/wk** | **156.5 pts/wk** | **180.8 pts/wk** | **136.1 pts/wk** | 361.4 pts/wk | **50.0%** |
 
-### Baseline 15 Process-Quality Metrics (MC_EV Top-1)
+### Baseline 16 Process-Quality Metrics (MC_EV Top-1)
 
 | Season | Avg VOR/Slot | VOR/Week | Slots Above Median | Spearman ρ (Overall) | A | M | D | FO | G |
 |---|---|---|---|---|---|---|---|---|---|
-| **2025** | **+13.6** | **+94.9** | **72.5%** (66/91) | **0.386** | **0.430** | 0.413 | 0.439 | **0.475** | 0.298 |
-| **2026** | **+20.5** | **+143.8** | **94.0%** (79/84) | **0.386** | **0.544** | **0.481** | **0.612** | **0.400** | **0.527** |
+| **2025** | **+6.9** | **+48.2** | **67.0%** (61/91) | **0.314** | **0.265** | **0.066** | **0.156** | **0.383** | **+1.3** (+3.7 gain) |
+| **2026** (W1-13) | **+13.4** | **+94.1** | **78.6%** (66/84) | **0.323** | **0.204** | **0.125** | **0.250** | **0.263** | **+5.0** (8/12 above median) |
+| **2026** (Full 14 Wks) | **+11.9** | **+83.1** | **74.5%** (73/98) | **0.323** | **0.204** | **0.125** | **0.250** | **0.263** | **+6.9** (10/14 above median) |
 
 > [!NOTE]
-> For the complete audit history, scores, and post-mortems of **Baselines 1 through 14**, see the [Historical Baselines Archive](references/baseline_archive.md).
+> For the complete audit history, scores, and post-mortems of **Baselines 1 through 15**, see the [Historical Baselines Archive](references/baseline_archive.md).
 
 ---
 
@@ -79,5 +81,5 @@ Ranked by expected value and likelihood of effectiveness when evaluated against 
 ## Verification Directive
 
 When modifying improvement models or running backtests:
-1. Verify baseline archive integrity: `python -c "from utils import get_latest_baseline_num; print(f'Active baseline: {get_latest_baseline_num()}')"` (must output `15`).
+1. Verify baseline archive integrity: `python -c "from utils import get_latest_baseline_num; print(f'Active baseline: {get_latest_baseline_num()}')"` (must output `16`).
 2. Run evaluation harness: `python prediction_model_evaluation_harness.py` and verify exit code 0.

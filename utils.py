@@ -9,6 +9,9 @@ def normalize_event_id(event_id):
     if not event_id:
         return event_id
 
+    # Standardize -ev- to _game_ first so game numbers match consistently
+    event_id = re.sub(r"-ev-(\d+)", r"_game_\1", event_id)
+
     # Mapping for numbered playoff games to standard playoff names
     PLAYOFF_GAME_MAP = {
         "2026_game_49": "2026_quarterfinal_1",
@@ -356,6 +359,203 @@ def get_latest_baseline_num(baselines_dir=None):
             except ValueError:
                 pass
     return max_num
+
+def get_designated_goalie_starters(year, week, goalies=None, script_dir=None):
+    """
+    Determines the single starting goalie per team for a given year and week.
+    Returns:
+      starters_dict: dict mapping (clean_name(first) + '_' + clean_name(last)) -> bool
+                     and (officialId) -> bool. True for starter, False for backup.
+    
+    Resolution Order:
+    1. Manual overrides from goalie_starters.json (authoritative).
+    2. Automated multi-signal heuristic:
+       - Official F2P projectedPoints (weight 2.0)
+       - F2P salary (weight 1.0)
+       - Recent starts bonus (+25 pts if started/saves within last 2 active weeks)
+       - Injury status penalty (-100 pts for 'IR' or 'O')
+       The goalie with the highest composite score on each team is designated as the starter.
+    """
+    import os
+    import json
+    from collections import defaultdict
+    if script_dir is None:
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+
+    def _clean(n):
+        return (n or "").replace("'", "").replace("-", "").replace(".", "").replace(" ", "").lower()
+
+    # 1. Load manual overrides if present
+    overrides_file = os.path.join(script_dir, "goalie_starters.json")
+    team_overrides = {}
+    if os.path.exists(overrides_file):
+        try:
+            with open(overrides_file, "r", encoding="utf-8") as f:
+                ov_data = json.load(f)
+            y_str, w_str = str(year), str(week)
+            team_overrides = ov_data.get(y_str, {}).get(w_str, {})
+        except Exception as e:
+            print(f"Warning: Failed to load {overrides_file}: {e}")
+
+    # 2. Gather goalies if not provided
+    raw_goalies = []
+    if goalies is not None:
+        if hasattr(goalies, "to_dict"):
+            raw_goalies = goalies.to_dict(orient="records")
+        elif isinstance(goalies, list):
+            raw_goalies = goalies
+    else:
+        f2p_path = os.path.join(script_dir, f"f2p_{year}_season.json")
+        if os.path.exists(f2p_path):
+            try:
+                with open(f2p_path, "r", encoding="utf-8") as f:
+                    f2p_all = json.load(f)
+                for p in f2p_all:
+                    if p.get("week") == week:
+                        pos = p.get("position")
+                        if pos in ("G", "Goalie"):
+                            t = p.get("currentTeam", {}).get("teamId") or p.get("team")
+                            raw_goalies.append({
+                                "firstName": p.get("firstName"),
+                                "lastName": p.get("lastName"),
+                                "officialId": p.get("officialId"),
+                                "team": t,
+                                "salary": p.get("salary", 10),
+                                "projectedPoints": p.get("projectedPoints", 0.0),
+                                "injuryStatus": p.get("injuryStatus")
+                            })
+            except Exception as e:
+                print(f"Warning: Failed to load goalies from {f2p_path}: {e}")
+
+    # Supplement missing fields from F2P data if needed
+    f2p_lookup = {}
+    f2p_path = os.path.join(script_dir, f"f2p_{year}_season.json")
+    if os.path.exists(f2p_path):
+        try:
+            with open(f2p_path, "r", encoding="utf-8") as f:
+                f2p_all = json.load(f)
+            for p in f2p_all:
+                if p.get("week") == week:
+                    fn = p.get("firstName")
+                    ln = p.get("lastName")
+                    ck = _clean(fn) + "_" + _clean(ln)
+                    f2p_lookup[ck] = p
+                    if p.get("officialId"):
+                        f2p_lookup[p["officialId"]] = p
+        except Exception:
+            pass
+
+    # Find recent starts / games with saves prior to this week (leakage-free)
+    last_started_week = {}
+    stats_file = os.path.join(script_dir, f"combined_player_stats_{year}.json")
+    if os.path.exists(stats_file):
+        try:
+            with open(stats_file, "r", encoding="utf-8") as f:
+                comb = json.load(f)
+            for p in comb:
+                pw = p.get("week")
+                if pw is not None and pw < week:
+                    pos = p.get("identity", {}).get("position")
+                    if pos in ("G", "Goalie"):
+                        saves = p.get("stats", {}).get("saves", 0)
+                        ga = p.get("stats", {}).get("goalsAgainst", 0)
+                        f2p_pts = p.get("f2p", {}).get("totalPoints") or 0
+                        if saves > 0 or ga > 0 or f2p_pts > 5:
+                            fn = p.get("identity", {}).get("firstName")
+                            ln = p.get("identity", {}).get("lastName")
+                            ck = _clean(fn) + "_" + _clean(ln)
+                            last_started_week[ck] = max(last_started_week.get(ck, 0), pw)
+                            pid = p.get("identity", {}).get("officialId")
+                            if pid:
+                                last_started_week[pid] = max(last_started_week.get(pid, 0), pw)
+        except Exception:
+            pass
+
+    # Group goalies by team
+    team_goalies = defaultdict(list)
+    for g in raw_goalies:
+        team = g.get("team") or g.get("team_id")
+        if not team and "currentTeam" in g and isinstance(g["currentTeam"], dict):
+            team = g["currentTeam"].get("teamId")
+        if team:
+            team_goalies[str(team).upper()].append(g)
+
+    starter_flags = {}
+
+    for t_code, g_list in team_goalies.items():
+        if len(g_list) == 1:
+            g = g_list[0]
+            ck = _clean(g.get("firstName")) + "_" + _clean(g.get("lastName"))
+            starter_flags[ck] = True
+            if g.get("officialId"):
+                starter_flags[g["officialId"]] = True
+            continue
+
+        # Check for explicit manual override for this team
+        override_val = team_overrides.get(t_code)
+        if override_val:
+            clean_ov = _clean(override_val)
+            for g in g_list:
+                ck = _clean(g.get("firstName")) + "_" + _clean(g.get("lastName"))
+                pid = str(g.get("officialId") or "")
+                is_ov = (clean_ov == ck) or (clean_ov in ck) or (clean_ov == pid) or (clean_ov == _clean(g.get("firstName") + " " + g.get("lastName")))
+                starter_flags[ck] = is_ov
+                if pid:
+                    starter_flags[pid] = is_ov
+            continue
+
+        # Score goalies using multi-signal heuristic
+        scored = []
+        for g in g_list:
+            fn = g.get("firstName")
+            ln = g.get("lastName")
+            ck = _clean(fn) + "_" + _clean(ln)
+            pid = str(g.get("officialId") or "")
+
+            f2p_info = f2p_lookup.get(ck) or f2p_lookup.get(pid) or {}
+            
+            proj = float(g.get("projectedPoints") or f2p_info.get("projectedPoints") or 0.0)
+            sal = float(g.get("salary") or f2p_info.get("salary") or 10.0)
+            inj = g.get("injuryStatus") or f2p_info.get("injuryStatus")
+            
+            score = 0.0
+            score += proj * 2.0
+            score += sal * 1.0
+            if inj in ("IR", "O"):
+                score -= 100.0
+            
+            last_w = last_started_week.get(ck) or last_started_week.get(pid) or 0
+            if last_w > 0 and (week - last_w) <= 2:
+                score += 25.0
+
+            scored.append((score, sal, g))
+
+        scored.sort(key=lambda x: (x[0], x[1]), reverse=True)
+        winner = scored[0][2]
+        winner_ck = _clean(winner.get("firstName")) + "_" + _clean(winner.get("lastName"))
+        winner_pid = str(winner.get("officialId") or "")
+
+        for s_score, s_sal, g in scored:
+            ck = _clean(g.get("firstName")) + "_" + _clean(g.get("lastName"))
+            pid = str(g.get("officialId") or "")
+            is_st = (ck == winner_ck) or (pid and pid == winner_pid)
+            starter_flags[ck] = is_st
+            if pid:
+                starter_flags[pid] = is_st
+
+    return starter_flags
+
+def is_designated_starter(first, last, official_id=None, starters_dict=None):
+    if not starters_dict:
+        return True
+    ck = (first or "").replace("'", "").replace("-", "").replace(".", "").replace(" ", "").lower() + "_" + \
+         (last or "").replace("'", "").replace("-", "").replace(".", "").replace(" ", "").lower()
+    if ck in starters_dict:
+        return starters_dict[ck]
+    if official_id and official_id in starters_dict:
+        return starters_dict[official_id]
+    return True
+
 
 
 

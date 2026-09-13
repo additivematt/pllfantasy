@@ -21,7 +21,15 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.linear_model import LogisticRegression
 from sklearn.calibration import CalibratedClassifierCV
 from sklearn.model_selection import KFold, TimeSeriesSplit
-from utils import assign_position_group, assign_sub_position, calc_fantasy, clean_name
+from utils import (
+    assign_position_group,
+    assign_sub_position,
+    calc_fantasy,
+    clean_name,
+    get_designated_goalie_starters,
+    is_designated_starter,
+    normalize_event_id
+)
 import config
 from config import (
     GAME_PACE_ENABLED, DATA_LEAKAGE_FIX_ENABLED, EWMA_ENABLED, SALARY_AS_FEATURE,
@@ -103,7 +111,9 @@ def main():
                     g_id = evt.get("eventId")
                     ha, aa = evt.get("homeTeam"), evt.get("awayTeam")
                     if g_id and ha and aa and g_id not in week_games:
-                        week_games[g_id] = {"team_a": ha, "team_b": aa, "game_id": g_id.replace("_game_", "-ev-")}
+                        norm_gid = normalize_event_id(g_id)
+                        out_gid = re.sub(r'_game_(\d+)', r'-ev-\1', norm_gid)
+                        week_games[g_id] = {"team_a": ha, "team_b": aa, "game_id": out_gid}
             matchups = list(week_games.values())
 
     if not matchups:
@@ -598,9 +608,13 @@ def main():
     def match_game_ids(id1, id2):
         if not id1 or not id2:
             return False
+        n1 = normalize_event_id(id1)
+        n2 = normalize_event_id(id2)
+        if n1 == n2:
+            return True
         def clean(s):
             return s.replace("_game_", "_").replace("-ev-", "_").replace("-", "_").lower()
-        return clean(id1) == clean(id2)
+        return clean(n1) == clean(n2)
 
     recent_opp_fp_allowed = df_all.groupby(["opponent", "positionGroup"])["opp_fp_allowed_to_position_last3"].last().to_dict() if "opp_fp_allowed_to_position_last3" in df_all.columns else {}
     recent_team_churn = df_all.groupby("team")["team_roster_churn"].last().to_dict() if "team_roster_churn" in df_all.columns else {}
@@ -1169,6 +1183,29 @@ def main():
             print(f"Error plotting consolidated SHAP summary plots: {e}")
 
     df_o = pd.DataFrame(preds_out)
+
+    # Resolve Starting Goalies vs Backups
+    print("\nEvaluating Starting Goalie designations...")
+    goalie_starters = get_designated_goalie_starters(args.year, args.week, goalies=df_o[df_o["positionGroup"] == "Goalie"], script_dir=sDir)
+    
+    is_starter_list = []
+    for idx, r in df_o.iterrows():
+        if r.get("positionGroup") == "Goalie":
+            st = is_designated_starter(r.get("firstName"), r.get("lastName"), r.get("officialId"), starters_dict=goalie_starters)
+            is_starter_list.append(st)
+        else:
+            is_starter_list.append(True)
+    df_o["is_projected_starter"] = is_starter_list
+
+    # Zero out non-starter goalies to eliminate false-positive trap recommendations
+    backup_goalies = df_o[(df_o["positionGroup"] == "Goalie") & (~df_o["is_projected_starter"])]
+    if not backup_goalies.empty:
+        for idx in backup_goalies.index:
+            df_o.loc[idx, "BoomProbability"] = 0.0
+            df_o.loc[idx, "PredictedTier"] = "Bust"
+            df_o.loc[idx, "PredictedPoints"] = 0.0
+            print(f"  [Goalie Filter] Zeroed out backup goalie: {df_o.loc[idx, 'firstName']} {df_o.loc[idx, 'lastName']} ({df_o.loc[idx, 'team']})")
+
     output_dir = os.path.join(sDir, "predicta", "predictions")
     os.makedirs(output_dir, exist_ok=True)
     oP = os.path.join(output_dir, f"week{args.week}_{args.year}_predictions_raw.csv")

@@ -20,6 +20,7 @@ PREDICTA_DIR = os.path.join(SCRIPTS_DIR, "predicta") if os.path.exists(os.path.j
 import pandas as pd
 import numpy as np
 import pulp
+from utils import get_designated_goalie_starters, is_designated_starter
 
 def get_standard_pos(pos):
     pos = str(pos).upper().strip()
@@ -616,9 +617,23 @@ def main():
                     # Deduplicate: keep the best projected game per player
                     df_merged = df_merged.sort_values("sim_ev", ascending=False).drop_duplicates(subset=["firstName", "lastName"], keep="first")
                     
-                    # Create player pool
+                    # Ensure is_projected_starter exists
+                    if "is_projected_starter" not in df_merged.columns:
+                        goalie_starters = get_designated_goalie_starters(year, week, goalies=df_merged[df_merged["positionGroup"] == "Goalie"], script_dir=SCRIPTS_DIR)
+                        df_merged["is_projected_starter"] = df_merged.apply(
+                            lambda r: is_designated_starter(r.get("firstName"), r.get("lastName"), r.get("officialId"), starters_dict=goalie_starters)
+                            if r.get("positionGroup") == "Goalie" else True,
+                            axis=1
+                        )
+
+                    # Create player pool (excluding non-starter goalies)
                     player_pool = []
                     for idx, r in df_merged.iterrows():
+                        pos_std = get_standard_pos(r.get("positionGroup", ""))
+                        is_starter = r.get("is_projected_starter", True)
+                        if pos_std == "G":
+                            if is_starter is False or str(is_starter).lower() in ("false", "0") or r.get("sim_ev", 0) <= 0:
+                                continue
                         col_name = f"{r['firstName']}_{r['lastName']}_{r['game_id']}"
                         sim_idx = df_sims.columns.get_loc(col_name)
                         

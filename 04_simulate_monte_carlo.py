@@ -5,7 +5,13 @@ import pandas as pd
 import numpy as np
 import scipy.stats as stats
 import re
-from utils import assign_position_group, assign_sub_position, calc_fantasy
+from utils import (
+    assign_position_group,
+    assign_sub_position,
+    calc_fantasy,
+    get_designated_goalie_starters,
+    is_designated_starter
+)
 import config
 from config import LAMBDA_RECENCY, MC_POOL_BLENDING_ENABLED, MC_POOL_BLENDING_K, PACE_ADJUSTED_RATES_ENABLED
 
@@ -270,6 +276,15 @@ def main():
         
     df_preds = pd.read_csv(preds_file)
     print(f"Loaded {len(df_preds)} player-game prediction rows.")
+
+    # Ensure is_projected_starter exists
+    if "is_projected_starter" not in df_preds.columns:
+        goalie_starters = get_designated_goalie_starters(args.year, args.week, goalies=df_preds[df_preds["positionGroup"] == "Goalie"], script_dir=script_dir)
+        df_preds["is_projected_starter"] = df_preds.apply(
+            lambda r: is_designated_starter(r.get("firstName"), r.get("lastName"), r.get("officialId"), starters_dict=goalie_starters)
+            if r.get("positionGroup") == "Goalie" else True,
+            axis=1
+        )
     
     # 2. Calculate EV dynamically for each row
     df_hist = load_historical_data(args.year, args.week, script_dir)
@@ -327,6 +342,12 @@ def main():
         df_preds["EV"] = df_preds["PredictedPoints"]
     else:
         df_preds["EV"] = 10.0
+
+    # Force 0.0 EV for non-starter backup goalies
+    is_backup_goalie = (df_preds["positionGroup"] == "Goalie") & (~df_preds["is_projected_starter"].astype(bool))
+    if is_backup_goalie.any():
+        df_preds.loc[is_backup_goalie, "EV"] = 0.0
+        print(f"  [Goalie Filter] Zeroed out EV for {is_backup_goalie.sum()} backup goalies.")
         
     # 3. Load historical player and position game pools
     all_stats_path = os.path.join(script_dir, "all_players_stats.json")
@@ -562,6 +583,12 @@ def main():
     sim_results = np.zeros((args.sims, num_players))
     
     for i in range(num_players):
+        r = df_preds.iloc[i]
+        is_starter = bool(r.get("is_projected_starter", True))
+        if r.get("positionGroup") == "Goalie" and not is_starter:
+            sim_results[:, i] = 0.0
+            continue
+
         pool = pools[i]
         cdf = cdfs[i]
         mult = multipliers[i]

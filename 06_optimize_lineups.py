@@ -13,7 +13,9 @@ from utils import (
     run_mc_ev_optimizer,
     generate_random_valid_lineup,
     evaluate_lineup_mc,
-    run_local_search
+    run_local_search,
+    get_designated_goalie_starters,
+    is_designated_starter
 )
 from config import DEFAULT_WIN_SCORE_THRESHOLD, LOCAL_SEARCH_RESTARTS, DEFAULT_BUDGET, FACEOFF_HEURISTIC_ENABLED
 
@@ -255,9 +257,25 @@ def main():
     # Sort and drop duplicates, retaining the best projected game for players with doubleheaders
     df_merged = df_merged.sort_values("sim_ev", ascending=False).drop_duplicates(subset=["firstName", "lastName"], keep="first")
     
-    # Prepare player pool dicts
+    # Ensure is_projected_starter exists
+    if "is_projected_starter" not in df_merged.columns:
+        goalie_starters = get_designated_goalie_starters(args.year, args.week, goalies=df_merged[df_merged["positionGroup"] == "Goalie"], script_dir=script_dir)
+        df_merged["is_projected_starter"] = df_merged.apply(
+            lambda r: is_designated_starter(r.get("firstName"), r.get("lastName"), r.get("officialId"), starters_dict=goalie_starters)
+            if r.get("positionGroup") == "Goalie" else True,
+            axis=1
+        )
+
+    # Prepare player pool dicts (excluding non-starter goalies)
     player_pool = []
     for idx, r in df_merged.iterrows():
+        pos_std = get_standard_pos(r.get("positionGroup", ""))
+        is_starter = r.get("is_projected_starter", True)
+        if pos_std == "G":
+            if is_starter is False or str(is_starter).lower() in ("false", "0") or r.get("sim_ev", 0) <= 0:
+                print(f"  [Goalie Filter] Excluding backup goalie from optimizer pool: {r['firstName']} {r['lastName']} ({r.get('team')})")
+                continue
+
         player_pool.append({
             "firstName": r["firstName"],
             "lastName": r["lastName"],
@@ -269,7 +287,8 @@ def main():
             "mc_ev": r["sim_ev"],
             "mc_p90": r["sim_p90"],
             "sim_idx": r["sim_idx"],
-            "game_id": r["game_id"]
+            "game_id": r["game_id"],
+            "is_projected_starter": is_starter
         })
         
     if not player_pool:
@@ -434,7 +453,16 @@ def main():
     for r_name, roster in rosters.items():
         if roster:
             suffix = r_name.lower().replace(" ", "_")
-            csv_path = os.path.join(script_dir, f"rosters_{suffix}.csv")
+            custom_dir = os.environ.get("ROSTER_OUTPUT_DIR")
+            b_num = os.environ.get("BASELINE_ARCHIVE_NUM")
+            if custom_dir and b_num:
+                csv_path = os.path.join(custom_dir, f"rosters_{suffix}_baseline_{b_num}.csv")
+            elif custom_dir:
+                csv_path = os.path.join(custom_dir, f"rosters_{suffix}.csv")
+            elif b_num:
+                csv_path = os.path.join(script_dir, "baselines", f"rosters_{suffix}_baseline_{b_num}.csv")
+            else:
+                csv_path = os.path.join(script_dir, f"rosters_{suffix}.csv")
             
             # Rank 1 is ALWAYS the primary optimal roster from local search
             top5_lineups = [roster]

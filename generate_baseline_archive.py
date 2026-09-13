@@ -44,8 +44,10 @@ def main():
 
     num = args.baseline_num
     env = os.environ.copy()
+    env["BASELINE_ARCHIVE_NUM"] = str(num)
 
     is_incremental = (args.year is not None) and (args.week is not None)
+    os.makedirs(BASELINES_DIR, exist_ok=True)
 
     if is_incremental:
         print("\n==========================================================================")
@@ -56,11 +58,10 @@ def main():
         print("\n==========================================================================")
         print(f" GENERATING OFFICIAL BASELINE {num} ARCHIVES USING PRODUCTION OPTIMIZER")
         print("==========================================================================")
-        # Clear root roster CSVs only during full baseline regeneration
+        # Initialize target baseline CSVs without deleting root rosters
         for strat_key in ["mc_ev", "mc_win_160", "mc_ceil_90"]:
-            root_path = os.path.join(SCRIPT_DIR, f"rosters_{strat_key}.csv")
-            if os.path.exists(root_path):
-                os.remove(root_path)
+            target_csv = os.path.join(BASELINES_DIR, f"rosters_{strat_key}_baseline_{num}.csv")
+            pd.DataFrame(columns=["year", "week", "lineup_rank", "firstName", "lastName", "position", "salary", "eventId"]).to_csv(target_csv, index=False)
         weeks_to_process = [(2025, get_eval_weeks(2025)), (2026, get_eval_weeks(2026))]
 
     for yr, weeks in weeks_to_process:
@@ -72,8 +73,7 @@ def main():
             run_cmd([sys.executable, "05_bake_mc_ev.py", str(yr), str(w)], env=env)
             run_cmd([sys.executable, "06_optimize_lineups.py", "--year", str(yr), "--week", str(w)], env=env)
 
-    # Sync root rosters to baseline archive CSVs
-    os.makedirs(BASELINES_DIR, exist_ok=True)
+    # Sync baseline archive CSVs to root rosters
     for strat_key in ["mc_ev", "mc_win_160", "mc_ceil_90"]:
         root_path = os.path.join(SCRIPT_DIR, f"rosters_{strat_key}.csv")
         target_csv = os.path.join(BASELINES_DIR, f"rosters_{strat_key}_baseline_{num}.csv")
@@ -81,16 +81,16 @@ def main():
         if is_incremental and os.path.exists(target_csv) and os.path.exists(root_path):
             df_base = pd.read_csv(target_csv)
             df_root = pd.read_csv(root_path)
-            # Filter new week rows from root
-            df_new_wk = df_root[(df_root["year"] == args.year) & (df_root["week"] == args.week)]
-            # Remove week if already exists in baseline archive
-            df_base = df_base[~((df_base["year"] == args.year) & (df_base["week"] == args.week))]
-            df_updated = pd.concat([df_base, df_new_wk], ignore_index=True)
-            df_updated.to_csv(target_csv, index=False)
-            print(f"  -> Appended {args.year} Week {args.week} Top-5 rosters to {target_csv}")
-        elif os.path.exists(root_path):
-            shutil.copy2(root_path, target_csv)
-            print(f"  -> Saved official Baseline {num} archive to {target_csv}")
+            # Filter new week rows from baseline
+            df_new_wk = df_base[(df_base["year"] == args.year) & (df_base["week"] == args.week)]
+            # Remove week if already exists in root roster
+            df_root = df_root[~((df_root["year"] == args.year) & (df_root["week"] == args.week))]
+            df_updated = pd.concat([df_root, df_new_wk], ignore_index=True)
+            df_updated.to_csv(root_path, index=False)
+            print(f"  -> Appended {args.year} Week {args.week} Top-5 rosters to {root_path}")
+        elif os.path.exists(target_csv):
+            shutil.copy2(target_csv, root_path)
+            print(f"  -> Synced official Baseline {num} archive to root {root_path}")
 
     # Append actualPoints
     print("\nAppending actual points to baseline archives...")
