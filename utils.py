@@ -44,7 +44,12 @@ def normalize_event_id(event_id):
             return f"{year}_championship_game"
         return f"{year}_{p_type}_{p_num}"
 
-    # 4. Legacy Championship: championship-YYYY-MM-DD -> YYYY_championship_game
+    # 4. Modern Championship with hyphens: YYYY-championship-game or YYYY-championship
+    match = re.match(r"(\d{4})-championship(?:-game)?", event_id)
+    if match:
+        return f"{match.group(1)}_championship_game"
+
+    # 5. Legacy Championship: championship-YYYY-MM-DD -> YYYY_championship_game
     match = re.match(r"championship-(\d{4})-\d{1,2}-\d{1,2}", event_id)
     if match:
         year = match.group(1)
