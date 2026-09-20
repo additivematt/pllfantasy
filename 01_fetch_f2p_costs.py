@@ -3,7 +3,9 @@ import requests
 import json
 import os
 
-SEASON_FILE = "f2p_2026_season.json"
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+SEASON_FILE = os.path.join(SCRIPT_DIR, "f2p_2026_season.json")
+WEEKLY_FILE = os.path.join(SCRIPT_DIR, "f2p_weekly_data.json")
 
 def fetch_costs(week):
     url = f"https://f2p.premierlacrosseleague.com/api/pll/v4/fantasy/players/week/{week}"
@@ -58,7 +60,7 @@ def fetch_costs(week):
         json.dump(season_data, f, indent=2)
 
     # Also keep f2p_weekly_data.json pointing at the current week for combine_datasets.py
-    with open("f2p_weekly_data.json", "w", encoding="utf-8") as f:
+    with open(WEEKLY_FILE, "w", encoding="utf-8") as f:
         json.dump(new_data, f, indent=2)
 
     weeks_in_file = len({r.get("week") for r in season_data})

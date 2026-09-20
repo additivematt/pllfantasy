@@ -12,8 +12,10 @@ def clean_name(name):
         return ""
     return name.replace("'", "").replace("-", "").replace(".", "").replace(" ", "").lower()
 
-# 2. Query official stats REST API for gameday rosters
+# 2. Query official stats REST API for gameday rosters (or local fallback)
 def fetch_gameday_rosters(year, week):
+    local_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), f"gameday_rosters_week{week}.json")
+
     url = f"https://api.stats.premierlacrosseleague.com/api/v4/events/gameday-rosters"
     params = {"year": year, "week": week}
     headers = {
@@ -29,10 +31,23 @@ def fetch_gameday_rosters(year, week):
         r.raise_for_status()
         res = r.json()
         items = res.get("data", {}).get("items", [])
-        return items
+        if items:
+            return items
     except Exception as e:
         print(f"Warning: Failed to fetch gameday rosters from API: {e}")
-        return []
+
+    if os.path.exists(local_path):
+        try:
+            with open(local_path, "r", encoding="utf-8") as f:
+                res = json.load(f)
+                items = res.get("data", {}).get("items", [])
+                if items:
+                    print(f"Loaded {len(items)} events from local roster file: {local_path}")
+                    return items
+        except Exception as e:
+            print(f"Warning: Failed to load local roster file: {e}")
+
+    return []
 
 # 3. Filter predictions CSV from raw to final
 def filter_csv(raw_path, out_path, api_rosters, team_matchups):
