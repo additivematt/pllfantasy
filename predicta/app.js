@@ -1077,13 +1077,12 @@ function renderAdvisor(advisoryData) {
             "MC_EV": "MC EV",
             "MC_Win_160": "MC WIN 160",
             "MC_Ceil_90": "MC CEIL 90",
-            "MC_Consensus": "MC CONSENSUS",
-            "MC_Differential": "MC DIFFERENTIAL"
+            "MC_Consensus": "MC CONSENSUS"
         };
         
         // Find all available roster keys in advisoryData
         const availableRosters = [];
-        const order = ["MC_EV", "MC_Win_160", "MC_Ceil_90", "MC_Consensus", "MC_Differential"];
+        const order = ["MC_EV", "MC_Win_160", "MC_Ceil_90", "MC_Consensus"];
         for (const k of order) {
             if (advisoryData[k] && advisoryData[k].length > 0) {
                 availableRosters.push({ key: k, label: labelMap[k] || k });
@@ -1262,8 +1261,7 @@ function renderAdvisor(advisoryData) {
         tacticalContainer.innerHTML = '';
         if (advisoryData.TacticalAdvice && 
             ((advisoryData.TacticalAdvice.FloorLocks && advisoryData.TacticalAdvice.FloorLocks.length > 0) ||
-             (advisoryData.TacticalAdvice.DifferentialLeverage && advisoryData.TacticalAdvice.DifferentialLeverage.length > 0) ||
-             (advisoryData.TacticalAdvice.Rivals && advisoryData.TacticalAdvice.Rivals.length > 0))) {
+             (advisoryData.TacticalAdvice.DifferentialLeverage && advisoryData.TacticalAdvice.DifferentialLeverage.length > 0))) {
             
             tacticalSection.style.display = 'block';
             renderTacticalAdvice(advisoryData.TacticalAdvice);
@@ -1279,19 +1277,6 @@ function renderAdvisor(advisoryData) {
 function renderTacticalAdvice(tacticalData) {
     const container = document.getElementById('tactical-advice-container');
     if (!container) return;
-
-    let totalRivals = 3;
-    if (window.currentConsensus && window.currentConsensus.local_league_rosters) {
-        const rosters = window.currentConsensus.local_league_rosters;
-        const keys = Object.keys(rosters);
-        let activeCount = 0;
-        keys.forEach(k => {
-            if (rosters[k].players && rosters[k].players.length > 0) {
-                activeCount++;
-            }
-        });
-        totalRivals = activeCount > 0 ? activeCount : keys.length;
-    }
 
     const players = [];
     if (tacticalData.FloorLocks) {
@@ -1347,8 +1332,7 @@ function renderTacticalAdvice(tacticalData) {
             const posLabel = displayPosMap[p.position] || p.position;
 
             let statsBadges = `
-                <span class="insight-badge ev" style="margin-bottom: 2px;">G: ${p.globalRate}%</span><br/>
-                <span class="insight-badge ${p.rivalCount > 0 ? 'win160' : 'ceil'}">R: ${p.rivalCount}/${totalRivals}</span>
+                <span class="insight-badge ev">Global: ${p.globalRate}%</span>
             `;
 
             html += `
@@ -1380,56 +1364,10 @@ function renderTacticalAdvice(tacticalData) {
 
     html += '</div>';
     container.innerHTML = html;
-
-    // Render Rival Radar under rosters table
-    renderRivalRadar(tacticalData.Rivals);
-}
-
-function renderRivalRadar(rivals) {
-    const container = document.getElementById('rival-radar-container');
-    if (!container) return;
-
-    if (!rivals || rivals.length === 0) {
-        container.style.display = 'none';
-        return;
-    }
-
-    container.style.display = 'block';
-    let html = `
-        <div style="margin-bottom: 0.5rem; font-size: 0.75rem; font-weight: 700; color: #8b949e; letter-spacing: 0.5px; text-transform: uppercase;">📡 Rival Radar</div>
-        <div class="rival-radar-card">
-            <table class="rival-table">
-                <thead>
-                    <tr>
-                        <th width="30%">Rival</th>
-                        <th width="70%">Roster selections</th>
-                    </tr>
-                </thead>
-                <tbody>
-    `;
-
-    rivals.forEach(rival => {
-        html += `
-            <tr>
-                <td class="rival-name-cell">
-                    ${rival.teamName}<br/>
-                    <span style="font-size: 0.6rem; color: #8b949e;">#${rival.rank} (${rival.points.toFixed(1)} pts)</span>
-                </td>
-                <td class="rival-roster-cell">${rival.roster}</td>
-            </tr>
-        `;
-    });
-
-    html += `
-                </tbody>
-            </table>
-        </div>
-    `;
-    container.innerHTML = html;
 }
 
 function getPlayerOwnership(firstName, lastName) {
-    const res = { globalRate: 0, rivalCount: 0, totalRivals: 0 };
+    const res = { globalRate: 0 };
     if (!window.currentConsensus) return res;
 
     const cleanName = (firstName + lastName).replace(/['\-\. ]/g, '').toLowerCase();
@@ -1440,30 +1378,6 @@ function getPlayerOwnership(firstName, lastName) {
         if (item) {
             res.globalRate = Math.round(item.rate * 100);
         }
-    }
-
-    // 2. Get local rival ownership count
-    if (window.currentConsensus.local_league_rosters) {
-        const rivalRosters = window.currentConsensus.local_league_rosters;
-        const keys = Object.keys(rivalRosters);
-        
-        let totalActiveRivals = 0;
-        let count = 0;
-        keys.forEach(k => {
-            const players = rivalRosters[k].players || [];
-            if (players.length > 0) {
-                totalActiveRivals++;
-                const hasPlayer = players.some(pName => {
-                    const pClean = pName.replace(/['\-\. ]/g, '').toLowerCase();
-                    return pClean === cleanName;
-                });
-                if (hasPlayer) {
-                    count++;
-                }
-            }
-        });
-        res.totalRivals = totalActiveRivals;
-        res.rivalCount = count;
     }
 
     return res;
@@ -1530,14 +1444,12 @@ function renderRoster(rosterName) {
     const isCouldaTable = rosterName === "Coulda";
     const hasPlayed = window.currentAdvisory.Coulda && window.currentAdvisory.Coulda.length > 0;
 
-    // Determine conditional columns: Omit MC p90 for MC_Consensus and MC_Differential
-    const showCeiling = (rosterName !== "MC_Consensus" && rosterName !== "MC_Differential");
+    // Determine conditional columns: Omit MC p90 for MC_Consensus
+    const showCeiling = (rosterName !== "MC_Consensus");
     
     let extraHeaderHtml = "";
     if (rosterName === "MC_Consensus") {
         extraHeaderHtml = '<th style="text-align: right;">Global %</th>';
-    } else if (rosterName === "MC_Differential") {
-        extraHeaderHtml = '<th style="text-align: right;">Rivals</th>';
     }
 
     let html = `
@@ -1606,9 +1518,6 @@ function renderRoster(rosterName) {
         if (rosterName === "MC_Consensus") {
             const own = getPlayerOwnership(p.firstName, p.lastName);
             extraColHtml = `<td style="text-align: right; font-weight:700; color: #b794f4;">${own.globalRate}%</td>`;
-        } else if (rosterName === "MC_Differential") {
-            const own = getPlayerOwnership(p.firstName, p.lastName);
-            extraColHtml = `<td style="text-align: right; font-weight:700; color: #9f7aea;">${own.rivalCount}/${own.totalRivals || 3}</td>`;
         }
 
         html += `
@@ -1636,7 +1545,7 @@ function renderRoster(rosterName) {
     }
 
     let extraTotalHtml = "";
-    if (rosterName === "MC_Consensus" || rosterName === "MC_Differential") {
+    if (rosterName === "MC_Consensus") {
         extraTotalHtml = `<td></td>`;
     }
 

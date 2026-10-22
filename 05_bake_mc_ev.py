@@ -39,26 +39,20 @@ def get_available_weeks():
 def parse_sim_columns(df):
     """
     Parse simulation CSV columns into a dict:
-      {(firstName, lastName, game_id): {"ev": float, "std": float}}
+      {(firstName, lastName, game_id): {"ev": float, "std": float, "p90": float}}
     """
     stats_map = {}
     for col in df.columns:
-        match = re.match(r"^(.+?)_(\d{4}-ev-\d+)$", col)
+        match = re.match(r"^(.+?)_(\d{4}[-_].+)$", col)
         if not match:
-            parts = col.rsplit("_", 1)
-            if len(parts) == 2 and re.match(r"\d{4}-ev-\d+", parts[1]):
-                name_part = parts[0]
-                game_id = parts[1]
-            else:
-                print(f"    [WARN] Cannot parse column: {col}")
-                continue
-        else:
-            name_part = match.group(1)
-            game_id = match.group(2)
+            print(f"    [WARN] Cannot parse column: {col}")
+            continue
+        name_part = match.group(1)
+        game_id = match.group(2)
 
-        name_parts = name_part.split("_", 1)
+        name_parts = name_part.split("_")
         firstName = name_parts[0]
-        lastName = name_parts[1] if len(name_parts) > 1 else ""
+        lastName = "_".join(name_parts[1:]) if len(name_parts) > 1 else ""
         col_data = df[col]
         stats_map[(firstName, lastName, game_id)] = {
             "ev":  round(float(col_data.mean()), 2),
@@ -70,15 +64,27 @@ def parse_sim_columns(df):
 
 
 def find_player_stats(first, last, game_id, stats_map):
-    """Look up a player's stats by exact key, then fuzzy (strip non-alpha)."""
+    """Look up a player's stats by exact key, then fuzzy (strip non-alpha) and normalized game_id."""
     key = (first, last, game_id)
     if key in stats_map:
         return stats_map[key]
 
+    try:
+        from utils import normalize_event_id
+        norm_gid = normalize_event_id(game_id)
+    except ImportError:
+        norm_gid = game_id
+
     f_c = re.sub(r"[^a-zA-Z]", "", first)
     l_c = re.sub(r"[^a-zA-Z]", "", last)
     for (f2, l2, g2), stats in stats_map.items():
-        if g2 == game_id and re.sub(r"[^a-zA-Z]", "", f2) == f_c and re.sub(r"[^a-zA-Z]", "", l2) == l_c:
+        try:
+            from utils import normalize_event_id
+            norm_g2 = normalize_event_id(g2)
+        except ImportError:
+            norm_g2 = g2
+        is_game_match = (g2 == game_id) or (norm_g2 == norm_gid) or (g2.replace("_game_", "-ev-") == game_id.replace("_game_", "-ev-"))
+        if is_game_match and re.sub(r"[^a-zA-Z]", "", f2) == f_c and re.sub(r"[^a-zA-Z]", "", l2) == l_c:
             return stats
     return None
 

@@ -31,6 +31,48 @@ def load_data(year, week):
     week_data = [p for p in data if p.get("week") == week]
     
     if not week_data:
+        stats_file = os.path.join(script_dir, f"combined_player_stats_{year}.json")
+        pred_file = os.path.join(script_dir, "predicta", "predictions", f"week{week}_{year}_predictions.csv")
+        sal_map = {}
+        if os.path.exists(pred_file):
+            try:
+                import pandas as pd
+                df_preds = pd.read_csv(pred_file)
+                sal_map = {(r["firstName"], r["lastName"]): int(r["salary"]) for _, r in df_preds.iterrows()}
+            except Exception:
+                pass
+                
+        if os.path.exists(stats_file):
+            with open(stats_file, "r", encoding="utf-8") as f_s:
+                stats_data = json.load(f_s)
+            for p in stats_data:
+                if p.get("week") == week:
+                    ident = p.get("identity", {})
+                    evt = p.get("event", {})
+                    f2p = p.get("f2p", {})
+                    fn = ident.get("firstName")
+                    ln = ident.get("lastName")
+                    sal = sal_map.get((fn, ln))
+                    if sal is None:
+                        try:
+                            sal = int(float(f2p.get("salary"))) if f2p.get("salary") is not None else 10
+                        except:
+                            sal = 10
+                    pts = float(f2p.get("totalPoints") if f2p.get("totalPoints") is not None else 0.0)
+                    week_data.append({
+                        "officialId": ident.get("officialId"),
+                        "firstName": fn,
+                        "lastName": ln,
+                        "position": ident.get("position"),
+                        "currentTeam": {"teamId": ident.get("team")},
+                        "eventId": evt.get("eventId"),
+                        "gameNumber": evt.get("gameNumber"),
+                        "salary": sal,
+                        "totalPoints": pts,
+                        "displayString": f2p.get("displayString", "")
+                    })
+                    
+    if not week_data:
         print(f"No data found for Year {year}, Week {week}.")
         sys.exit(1)
         
@@ -38,11 +80,23 @@ def load_data(year, week):
 
 def get_opponent(player, matchups):
     event_id = player.get("eventId")
-    if not event_id or event_id not in matchups:
+    if not event_id:
+        return "Unknown"
+        
+    if event_id not in matchups:
+        try:
+            from utils import normalize_event_id
+            norm_id = normalize_event_id(event_id)
+            if norm_id in matchups:
+                event_id = norm_id
+        except ImportError:
+            pass
+            
+    if event_id not in matchups:
         return "Unknown"
     
     m = matchups[event_id]
-    team_id = player["currentTeam"]["teamId"]
+    team_id = player.get("currentTeam", {}).get("teamId")
     return m["team_b"] if m["team_a"] == team_id else m["team_a"]
 
 def process_players(week_data, matchups):

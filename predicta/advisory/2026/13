@@ -371,99 +371,6 @@
             "actualPoints": 14.3
         }
     ],
-    "MC_Differential": [
-        {
-            "firstName": "Chris",
-            "lastName": "Kavanagh",
-            "team": "RED",
-            "opponent": "OUT",
-            "game_id": "2026-ev-48",
-            "position": "Attack",
-            "salary": 43,
-            "mc_ev": 40.2,
-            "mc_p90": 77.7,
-            "mc_p10": 12.8,
-            "actualPoints": 19.0
-        },
-        {
-            "firstName": "CJ",
-            "lastName": "Kirst",
-            "team": "WAT",
-            "opponent": "ATL",
-            "game_id": "2026-ev-47",
-            "position": "Attack",
-            "salary": 50,
-            "mc_ev": 41.2,
-            "mc_p90": 66.4,
-            "mc_p10": 4.0,
-            "actualPoints": 44.0
-        },
-        {
-            "firstName": "Finn",
-            "lastName": "Thomson",
-            "team": "RED",
-            "opponent": "OUT",
-            "game_id": "2026-ev-48",
-            "position": "Midfield",
-            "salary": 22,
-            "mc_ev": 39.3,
-            "mc_p90": 97.8,
-            "mc_p10": 0.0,
-            "actualPoints": 51.0
-        },
-        {
-            "firstName": "Matt",
-            "lastName": "Brandau",
-            "team": "WHP",
-            "opponent": "WAT",
-            "game_id": "2026-ev-46",
-            "position": "Midfield",
-            "salary": 20,
-            "mc_ev": 19.1,
-            "mc_p90": 58.0,
-            "mc_p10": 0.0,
-            "actualPoints": 8.0
-        },
-        {
-            "firstName": "Gavin",
-            "lastName": "Adler",
-            "team": "WAT",
-            "opponent": "WHP",
-            "game_id": "2026-ev-46",
-            "position": "Defense",
-            "salary": 12,
-            "mc_ev": 12.2,
-            "mc_p90": 28.5,
-            "mc_p10": 0.0,
-            "actualPoints": 20.0
-        },
-        {
-            "firstName": "Trevor",
-            "lastName": "Baptiste",
-            "team": "ATL",
-            "opponent": "WAT",
-            "game_id": "2026-ev-47",
-            "position": "Faceoff",
-            "salary": 21,
-            "mc_ev": 17.7,
-            "mc_p90": 38.1,
-            "mc_p10": 6.8,
-            "actualPoints": 11.9
-        },
-        {
-            "firstName": "Dillon",
-            "lastName": "Ward",
-            "team": "RED",
-            "opponent": "OUT",
-            "game_id": "2026-ev-48",
-            "position": "Goalie",
-            "salary": 32,
-            "mc_ev": 35.0,
-            "mc_p90": 64.3,
-            "mc_p10": 13.9,
-            "actualPoints": 15.0
-        }
-    ],
     "Coulda": [
         {
             "firstName": "Ryder",
@@ -662,25 +569,342 @@
     },
     "TacticalAdvice": {
         "FloorLocks": [],
-        "DifferentialLeverage": [],
-        "Rivals": [
+        "DifferentialLeverage": [
             {
-                "teamName": "Jeff\u2019s Teat",
-                "rank": 1,
-                "points": 1823.8,
-                "roster": "CJ Kirst, Chris Kavanagh, Bryan Costabile, Josh Yago, Dillon Ward, Nathan Laliberte, Ryan Terefenko"
+                "firstName": "Connor",
+                "lastName": "Shellenberger",
+                "position": "Attack",
+                "globalRate": 0,
+                "description": "High Leverage Differential: High projected upside (34.8 EV) with only 0% global ownership."
             },
             {
-                "teamName": "Big, Bouncy T.Ds",
-                "rank": 3,
-                "points": 1755.5,
-                "roster": "Kieran McArdle, CJ Kirst, Adam Poitras, Matt Collison, Owen McElroy, Alec Stathakis, Matt Whitcher"
+                "firstName": "Emmet",
+                "lastName": "Carroll",
+                "position": "Goalie",
+                "globalRate": 0,
+                "description": "High Leverage Differential: High projected upside (33.1 EV) with only 0% global ownership."
             },
             {
-                "teamName": "Haribo Sowers",
-                "rank": 6,
-                "points": 1606.4,
-                "roster": "Rob Pannell, Michael Sowers, Aidan Danenza, Josh Yago, Logan McNaney, Luke Wierman, Max Krevsky"
+                "firstName": "Kieran",
+                "lastName": "McArdle",
+                "position": "Attack",
+                "globalRate": 0,
+                "description": "High Leverage Differential: High projected upside (23.6 EV) with only 0% global ownership."
+            },
+            {
+                "firstName": "Michael",
+                "lastName": "Boehm",
+                "position": "Attack",
+                "globalRate": 0,
+                "description": "High Leverage Differential: High projected upside (15.4 EV) with only 0% global ownership."
+            },
+            {
+                "firstName": "Reid",
+                "lastName": "Bowering",
+                "position": "Midfield",
+                "globalRate": 0,
+                "description": "High Leverage Differential: High projected upside (15.2 EV) with only 0% global ownership."
+            },
+            {
+                "firstName": "Marcus",
+                "lastName": "Hudgins",
+                "position": "Defense",
+                "globalRate": 0,
+                "description": "High Leverage Differential: High projected upside (13.2 EV) with only 0% global ownership."
+            },
+            {
+                "firstName": "Silas",
+                "lastName": "Richmond",
+                "position": "Midfield",
+                "globalRate": 0,
+                "description": "High Leverage Differential: High projected upside (12.9 EV) with only 0% global ownership."
+            },
+            {
+                "firstName": "Aidan",
+                "lastName": "Danenza",
+                "position": "Midfield",
+                "globalRate": 0,
+                "description": "High Leverage Differential: High projected upside (12.3 EV) with only 0% global ownership."
+            },
+            {
+                "firstName": "Gavin",
+                "lastName": "Adler",
+                "position": "Defense",
+                "globalRate": 0,
+                "description": "High Leverage Differential: High projected upside (12.2 EV) with only 0% global ownership."
+            },
+            {
+                "firstName": "Tyler",
+                "lastName": "Carpenter",
+                "position": "Defense",
+                "globalRate": 0,
+                "description": "High Leverage Differential: High projected upside (12.2 EV) with only 0% global ownership."
+            },
+            {
+                "firstName": "Justin",
+                "lastName": "Anderson",
+                "position": "Midfield",
+                "globalRate": 0,
+                "description": "High Leverage Differential: High projected upside (11.4 EV) with only 0% global ownership."
+            },
+            {
+                "firstName": "Zach",
+                "lastName": "Geddes",
+                "position": "Defense",
+                "globalRate": 0,
+                "description": "High Leverage Differential: High projected upside (11.3 EV) with only 0% global ownership."
+            },
+            {
+                "firstName": "Kenny",
+                "lastName": "Brower",
+                "position": "Defense",
+                "globalRate": 0,
+                "description": "High Leverage Differential: High projected upside (10.7 EV) with only 0% global ownership."
+            },
+            {
+                "firstName": "Kevin",
+                "lastName": "Parnham",
+                "position": "Defense",
+                "globalRate": 0,
+                "description": "High Leverage Differential: High projected upside (10.5 EV) with only 0% global ownership."
+            },
+            {
+                "firstName": "Jimmy",
+                "lastName": "Freehill",
+                "position": "Defense",
+                "globalRate": 0,
+                "description": "High Leverage Differential: High projected upside (10.1 EV) with only 0% global ownership."
+            },
+            {
+                "firstName": "Josh",
+                "lastName": "Balcarcel",
+                "position": "Midfield",
+                "globalRate": 0,
+                "description": "High Leverage Differential: High projected upside (9.3 EV) with only 0% global ownership."
+            },
+            {
+                "firstName": "Greg",
+                "lastName": "Weyl",
+                "position": "Defense",
+                "globalRate": 0,
+                "description": "High Leverage Differential: High projected upside (9.1 EV) with only 0% global ownership."
+            },
+            {
+                "firstName": "Chris",
+                "lastName": "Conlin",
+                "position": "Defense",
+                "globalRate": 0,
+                "description": "High Leverage Differential: High projected upside (9.1 EV) with only 0% global ownership."
+            },
+            {
+                "firstName": "Charlie",
+                "lastName": "Hayes",
+                "position": "Defense",
+                "globalRate": 0,
+                "description": "High Leverage Differential: High projected upside (7.0 EV) with only 0% global ownership."
+            },
+            {
+                "firstName": "Liam",
+                "lastName": "Entenmann",
+                "position": "Goalie",
+                "globalRate": 4,
+                "description": "High Leverage Differential: High projected upside (33.6 EV) with only 4% global ownership."
+            },
+            {
+                "firstName": "Logan",
+                "lastName": "McNaney",
+                "position": "Goalie",
+                "globalRate": 4,
+                "description": "High Leverage Differential: High projected upside (31.8 EV) with only 4% global ownership."
+            },
+            {
+                "firstName": "Bryan",
+                "lastName": "Costabile",
+                "position": "Midfield",
+                "globalRate": 4,
+                "description": "High Leverage Differential: High projected upside (21.4 EV) with only 4% global ownership."
+            },
+            {
+                "firstName": "Matt",
+                "lastName": "Brandau",
+                "position": "Midfield",
+                "globalRate": 4,
+                "description": "High Leverage Differential: High projected upside (19.1 EV) with only 4% global ownership."
+            },
+            {
+                "firstName": "Adam",
+                "lastName": "Poitras",
+                "position": "Midfield",
+                "globalRate": 4,
+                "description": "High Leverage Differential: High projected upside (18.2 EV) with only 4% global ownership."
+            },
+            {
+                "firstName": "Jake",
+                "lastName": "Taylor",
+                "position": "Attack",
+                "globalRate": 4,
+                "description": "High Leverage Differential: High projected upside (13.6 EV) with only 4% global ownership."
+            },
+            {
+                "firstName": "Brett",
+                "lastName": "Makar",
+                "position": "Defense",
+                "globalRate": 4,
+                "description": "High Leverage Differential: High projected upside (13.2 EV) with only 4% global ownership."
+            },
+            {
+                "firstName": "Jared",
+                "lastName": "Conners",
+                "position": "Defense",
+                "globalRate": 4,
+                "description": "High Leverage Differential: High projected upside (11.6 EV) with only 4% global ownership."
+            },
+            {
+                "firstName": "Dox",
+                "lastName": "Aitken",
+                "position": "Midfield",
+                "globalRate": 4,
+                "description": "High Leverage Differential: High projected upside (11.6 EV) with only 4% global ownership."
+            },
+            {
+                "firstName": "Hugh",
+                "lastName": "Kelleher",
+                "position": "Midfield",
+                "globalRate": 4,
+                "description": "High Leverage Differential: High projected upside (10.3 EV) with only 4% global ownership."
+            },
+            {
+                "firstName": "Alex",
+                "lastName": "Ross",
+                "position": "Defense",
+                "globalRate": 4,
+                "description": "High Leverage Differential: High projected upside (9.3 EV) with only 4% global ownership."
+            },
+            {
+                "firstName": "Cole",
+                "lastName": "Kastner",
+                "position": "Defense",
+                "globalRate": 4,
+                "description": "High Leverage Differential: High projected upside (8.6 EV) with only 4% global ownership."
+            },
+            {
+                "firstName": "Colin",
+                "lastName": "Heacock",
+                "position": "Midfield",
+                "globalRate": 4,
+                "description": "High Leverage Differential: High projected upside (6.0 EV) with only 4% global ownership."
+            },
+            {
+                "firstName": "Finn",
+                "lastName": "Thomson",
+                "position": "Midfield",
+                "globalRate": 8,
+                "description": "High Leverage Differential: High projected upside (39.3 EV) with only 8% global ownership."
+            },
+            {
+                "firstName": "Michael",
+                "lastName": "Sowers",
+                "position": "Attack",
+                "globalRate": 8,
+                "description": "High Leverage Differential: High projected upside (34.6 EV) with only 8% global ownership."
+            },
+            {
+                "firstName": "Rob",
+                "lastName": "Pannell",
+                "position": "Attack",
+                "globalRate": 8,
+                "description": "High Leverage Differential: High projected upside (28.7 EV) with only 8% global ownership."
+            },
+            {
+                "firstName": "Dylan",
+                "lastName": "Molloy",
+                "position": "Attack",
+                "globalRate": 8,
+                "description": "High Leverage Differential: High projected upside (26.8 EV) with only 8% global ownership."
+            },
+            {
+                "firstName": "Xander",
+                "lastName": "Dickson",
+                "position": "Attack",
+                "globalRate": 8,
+                "description": "High Leverage Differential: High projected upside (22.9 EV) with only 8% global ownership."
+            },
+            {
+                "firstName": "TD",
+                "lastName": "Ierlan",
+                "position": "Faceoff",
+                "globalRate": 8,
+                "description": "High Leverage Differential: High projected upside (17.8 EV) with only 8% global ownership."
+            },
+            {
+                "firstName": "Trevor",
+                "lastName": "Baptiste",
+                "position": "Faceoff",
+                "globalRate": 8,
+                "description": "High Leverage Differential: High projected upside (17.7 EV) with only 8% global ownership."
+            },
+            {
+                "firstName": "Sam",
+                "lastName": "English",
+                "position": "Midfield",
+                "globalRate": 8,
+                "description": "High Leverage Differential: High projected upside (16.6 EV) with only 8% global ownership."
+            },
+            {
+                "firstName": "Michael",
+                "lastName": "Rexrode",
+                "position": "Defense",
+                "globalRate": 8,
+                "description": "High Leverage Differential: High projected upside (12.7 EV) with only 8% global ownership."
+            },
+            {
+                "firstName": "Graham",
+                "lastName": "Bundy",
+                "position": "Midfield",
+                "globalRate": 8,
+                "description": "High Leverage Differential: High projected upside (12.6 EV) with only 8% global ownership."
+            },
+            {
+                "firstName": "Aidan",
+                "lastName": "Carroll",
+                "position": "Midfield",
+                "globalRate": 12,
+                "description": "High Leverage Differential: High projected upside (19.3 EV) with only 12% global ownership."
+            },
+            {
+                "firstName": "Ajax",
+                "lastName": "Zappitello",
+                "position": "Defense",
+                "globalRate": 12,
+                "description": "High Leverage Differential: High projected upside (19.1 EV) with only 12% global ownership."
+            },
+            {
+                "firstName": "Sean",
+                "lastName": "Byrne",
+                "position": "Goalie",
+                "globalRate": 12,
+                "description": "High Leverage Differential: High projected upside (17.1 EV) with only 12% global ownership."
+            },
+            {
+                "firstName": "Logan",
+                "lastName": "Wisnauskas",
+                "position": "Attack",
+                "globalRate": 12,
+                "description": "High Leverage Differential: High projected upside (17.0 EV) with only 12% global ownership."
+            },
+            {
+                "firstName": "Matthew",
+                "lastName": "Dunn",
+                "position": "Defense",
+                "globalRate": 12,
+                "description": "High Leverage Differential: High projected upside (10.7 EV) with only 12% global ownership."
+            },
+            {
+                "firstName": "Dalton",
+                "lastName": "Young",
+                "position": "Midfield",
+                "globalRate": 12,
+                "description": "High Leverage Differential: High projected upside (10.3 EV) with only 12% global ownership."
             }
         ]
     }

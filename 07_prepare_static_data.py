@@ -20,7 +20,7 @@ PREDICTA_DIR = os.path.join(SCRIPTS_DIR, "predicta") if os.path.exists(os.path.j
 import pandas as pd
 import numpy as np
 import pulp
-from utils import get_designated_goalie_starters, is_designated_starter
+from utils import get_designated_goalie_starters, is_designated_starter, normalize_event_id
 
 def get_standard_pos(pos):
     pos = str(pos).upper().strip()
@@ -326,8 +326,13 @@ def main():
                 
                 f_c = re.sub(r"[^a-zA-Z]", "", first)
                 l_c = re.sub(r"[^a-zA-Z]", "", last)
+                norm_gid = normalize_event_id(game_id)
                 for (f2, l2, g2), stats in mc_stats_map.items():
-                    if g2 == game_id and re.sub(r"[^a-zA-Z]", "", f2) == f_c and re.sub(r"[^a-zA-Z]", "", l2) == l_c:
+                    if (g2 == game_id or normalize_event_id(g2) == norm_gid) and re.sub(r"[^a-zA-Z]", "", f2) == f_c and re.sub(r"[^a-zA-Z]", "", l2) == l_c:
+                        return stats
+                # Single game fallback
+                for (f2, l2, g2), stats in mc_stats_map.items():
+                    if re.sub(r"[^a-zA-Z]", "", f2) == f_c and re.sub(r"[^a-zA-Z]", "", l2) == l_c:
                         return stats
                 return {}
 
@@ -343,24 +348,35 @@ def main():
                     for p in week_data:
                         fname = p.get("firstName")
                         lname = p.get("lastName")
-                        g_id = p.get("eventId", "UNK").replace("_game_", "-ev-")
+                        raw_gid = p.get("eventId", "UNK")
+                        norm_gid = normalize_event_id(raw_gid)
+                        ev_gid = raw_gid.replace("_game_", "-ev-")
+                        norm_ev_gid = norm_gid.replace("_game_", "-ev-")
                         pts = float(p.get("totalPoints", 0.0))
-                        actuals_lookup[(fname, lname, g_id)] = pts
-            else:
-                # Fallback: load actuals from combined_player_stats_{year}.json
+                        for gid in [raw_gid, norm_gid, ev_gid, norm_ev_gid]:
+                            actuals_lookup[(fname, lname, gid)] = pts
+            
+            # Fallback: load actuals from combined_player_stats_{year}.json if not populated
+            if not actuals_lookup:
                 stats_file = os.path.join(SCRIPTS_DIR, f"combined_player_stats_{year}.json")
                 if os.path.exists(stats_file):
                     with open(stats_file, "r", encoding="utf-8") as f_stats:
                         stats_data = json.load(f_stats)
                     for p in stats_data:
                         if p.get("week") == week:
-                            fname = p.get("identity", {}).get("firstName")
-                            lname = p.get("identity", {}).get("lastName")
-                            g_id = p.get("event", {}).get("eventId", "UNK").replace("_game_", "-ev-")
+                            ident = p.get("identity", {})
+                            fname = ident.get("firstName")
+                            lname = ident.get("lastName")
+                            raw_gid = p.get("event", {}).get("eventId", "UNK")
+                            norm_gid = normalize_event_id(raw_gid)
+                            ev_gid = raw_gid.replace("_game_", "-ev-")
+                            norm_ev_gid = norm_gid.replace("_game_", "-ev-")
                             f2p = p.get("f2p", {})
                             pts = f2p.get("totalPoints")
                             if pts is not None:
-                                actuals_lookup[(fname, lname, g_id)] = float(pts)
+                                pts = float(pts)
+                                for gid in [raw_gid, norm_gid, ev_gid, norm_ev_gid]:
+                                    actuals_lookup[(fname, lname, gid)] = pts
             
             # Convert CSV to JSON (Merging regression PredictedPoints if available)
             try:
@@ -383,10 +399,10 @@ def main():
                     with open(stats_json_path, 'r', encoding='utf-8') as f_stats:
                         sim_stats = json.load(f_stats)
                     for col_name, stats in sim_stats.items():
-                        m = re.match(r'^(.+?)_(\d{4}-ev-\d+)$', col_name)
+                        m = re.match(r'^(.+?)_(\d{4}[-_].+)$', col_name)
                         if not m:
                             parts = col_name.split("_")
-                            if len(parts) >= 2 and re.match(r"\d{4}-ev-\d+", parts[-1]):
+                            if len(parts) >= 2 and re.match(r"\d{4}[-_].+", parts[-1]):
                                 name_part = "_".join(parts[:-1])
                                 game_id_s = parts[-1]
                             else:
@@ -413,10 +429,10 @@ def main():
                 elif os.path.exists(sims_filepath):
                     df_sims = pd.read_csv(sims_filepath)
                     for col in df_sims.columns:
-                        m = re.match(r'^(.+?)_(\d{4}-ev-\d+)$', col)
+                        m = re.match(r'^(.+?)_(\d{4}[-_].+)$', col)
                         if not m:
                             parts = col.rsplit("_", 1)
-                            if len(parts) == 2 and re.match(r"\d{4}-ev-\d+", parts[1]):
+                            if len(parts) == 2 and re.match(r"\d{4}[-_].+", parts[1]):
                                 name_part = parts[0]
                                 game_id_s = parts[1]
                             else:
@@ -451,11 +467,21 @@ def main():
                     if key in actuals_lookup:
                         return actuals_lookup[key]
                     
+                    norm_gid = normalize_event_id(game_id)
+                    key_norm = (first, last, norm_gid)
+                    if key_norm in actuals_lookup:
+                        return actuals_lookup[key_norm]
+
                     f_c = re.sub(r"[^a-zA-Z]", "", first)
                     l_c = re.sub(r"[^a-zA-Z]", "", last)
                     for (f2, l2, g2), pts in actuals_lookup.items():
-                        is_game_match = (g2 == game_id) or (year == 2026 and week == 7)
+                        is_game_match = (g2 == game_id) or (normalize_event_id(g2) == norm_gid) or (year == 2026 and week == 7)
                         if is_game_match and re.sub(r"[^a-zA-Z]", "", f2) == f_c and re.sub(r"[^a-zA-Z]", "", l2) == l_c:
+                            return pts
+                    
+                    # Single-game / unique name fallback
+                    for (f2, l2, g2), pts in actuals_lookup.items():
+                        if re.sub(r"[^a-zA-Z]", "", f2) == f_c and re.sub(r"[^a-zA-Z]", "", l2) == l_c:
                             return pts
                     return None
                 
@@ -491,11 +517,22 @@ def main():
                         game_id = cleaned_row.get("game_id", "")
                         pts = actuals_lookup.get((first, last, game_id))
                         if pts is None:
+                            norm_gid = normalize_event_id(game_id)
+                            pts = actuals_lookup.get((first, last, norm_gid))
+                        if pts is None:
+                            f_c = re.sub(r"[^a-zA-Z]", "", first)
+                            l_c = re.sub(r"[^a-zA-Z]", "", last)
+                            norm_gid = normalize_event_id(game_id)
+                            for (f2, l2, g2), p_pts in actuals_lookup.items():
+                                is_game_match = (g2 == game_id) or (normalize_event_id(g2) == norm_gid) or (year == 2026 and week == 7)
+                                if is_game_match and re.sub(r"[^a-zA-Z]", "", f2) == f_c and re.sub(r"[^a-zA-Z]", "", l2) == l_c:
+                                    pts = p_pts
+                                    break
+                        if pts is None:
                             f_c = re.sub(r"[^a-zA-Z]", "", first)
                             l_c = re.sub(r"[^a-zA-Z]", "", last)
                             for (f2, l2, g2), p_pts in actuals_lookup.items():
-                                is_game_match = (g2 == game_id) or (year == 2026 and week == 7)
-                                if is_game_match and re.sub(r"[^a-zA-Z]", "", f2) == f_c and re.sub(r"[^a-zA-Z]", "", l2) == l_c:
+                                if re.sub(r"[^a-zA-Z]", "", f2) == f_c and re.sub(r"[^a-zA-Z]", "", l2) == l_c:
                                     pts = p_pts
                                     break
                         if pts is not None:
@@ -603,15 +640,40 @@ def main():
                     # Add simulated EV to the prediction DataFrame and align with simulation headers
                     sim_evs = []
                     valid_rows = []
+                    matched_cols = []
                     for idx, r in df_merged.iterrows():
                         col_name = f"{r['firstName']}_{r['lastName']}_{r['game_id']}"
                         if col_name in df_sims.columns:
                             sim_evs.append(df_sims[col_name].mean())
                             valid_rows.append(True)
+                            matched_cols.append(col_name)
                         else:
-                            sim_evs.append(0.0)
-                            valid_rows.append(False)
+                            # Try finding matching column with normalized event ID
+                            found_col = None
+                            fn_c = re.sub(r"[^a-zA-Z]", "", r['firstName'])
+                            ln_c = re.sub(r"[^a-zA-Z]", "", r['lastName'])
+                            norm_gid = normalize_event_id(r['game_id'])
+                            for c in df_sims.columns:
+                                m = re.match(r'^(.+?)_(\d{4}[-_].+)$', c)
+                                if m:
+                                    n_part, g_part = m.group(1), m.group(2)
+                                    n_split = n_part.split("_")
+                                    f_s = n_split[0]
+                                    l_s = "_".join(n_split[1:]) if len(n_split) > 1 else ""
+                                    if re.sub(r"[^a-zA-Z]", "", f_s) == fn_c and re.sub(r"[^a-zA-Z]", "", l_s) == ln_c:
+                                        if g_part == r['game_id'] or normalize_event_id(g_part) == norm_gid:
+                                            found_col = c
+                                            break
+                            if found_col:
+                                sim_evs.append(df_sims[found_col].mean())
+                                valid_rows.append(True)
+                                matched_cols.append(found_col)
+                            else:
+                                sim_evs.append(0.0)
+                                valid_rows.append(False)
+                                matched_cols.append(None)
                     df_merged["sim_ev"] = sim_evs
+                    df_merged["matched_sim_col"] = matched_cols
                     df_merged = df_merged[valid_rows]
                     
                     # Deduplicate: keep the best projected game per player
@@ -634,7 +696,7 @@ def main():
                         if pos_std == "G":
                             if is_starter is False or str(is_starter).lower() in ("false", "0") or r.get("sim_ev", 0) <= 0:
                                 continue
-                        col_name = f"{r['firstName']}_{r['lastName']}_{r['game_id']}"
+                        col_name = r.get("matched_sim_col") or f"{r['firstName']}_{r['lastName']}_{r['game_id']}"
                         sim_idx = df_sims.columns.get_loc(col_name)
                         
                         ev_val = float(r["mc_ev"]) if (pd.notna(r["mc_ev"]) and r["mc_ev"] is not None) else float(r["EV"])
@@ -711,15 +773,13 @@ def main():
                     if not team_mc_ceil_90 and ev_baseline:
                         team_mc_ceil_90 = run_local_search(player_pool, sim_matrix, 'MC_Ceiling_90', ev_baseline, budget=200)
 
-                    # 6. Consensus & Differential Options (Incorporating User Feedback)
+                    # 6. Consensus Options (Global Top 25 Selections)
                     def clean_name_local(n):
                         return (n or "").replace("'", "").replace("-", "").replace(".", "").replace(" ", "").lower()
                         
                     consensus_file = os.path.join(SCRIPTS_DIR, "predicta", "advisory", f"week{week}_{year}_consensus_ownership.json")
                     global_ownership = {}
-                    rival_rosters = {}
                     team_mc_consensus = None
-                    team_mc_differential = None
                     
                     if os.path.exists(consensus_file):
                         print(f"  Loading consensus data from {consensus_file}...")
@@ -728,7 +788,6 @@ def main():
                                 c_data = json.load(f_c)
                             for item in c_data.get("global_top_25", []):
                                 global_ownership[item["clean_name"]] = item["rate"]
-                            rival_rosters = c_data.get("local_league_rosters", {})
                         except Exception as e:
                             print(f"  Error loading consensus ownership: {e}")
                             
@@ -755,7 +814,7 @@ def main():
                                     player_vars[i] for i, p in enumerate(player_pool)
                                     if get_standard_pos(p['positionGroup']) == r_pos
                                 ]) == count, f"Count_{r_pos}"
-                                
+                            
                             prob_c.solve(pulp.PULP_CBC_CMD(msg=False))
                             if pulp.LpStatus[prob_c.status] == 'Optimal':
                                 team_mc_consensus = [player_pool[i] for i in range(len(player_pool)) if player_vars[i].varValue > 0.5]
@@ -765,51 +824,6 @@ def main():
                                 print("  Warning: Could not solve Consensus Roster optimization.")
                         except Exception as e_cons:
                             print(f"  Error in consensus optimization: {e_cons}")
-                            
-                        # Differential compromise optimization vs top local rivals
-                        try:
-                            if rival_rosters:
-                                print(f"  Running differential optimization vs rivals...")
-                                rival_player_cols = {}
-                                for r_name, r_info in rival_rosters.items():
-                                    rival_player_cols[r_name] = []
-                                    for p_name in r_info.get("players", []):
-                                        p_clean = clean_name_local(p_name)
-                                        matched = False
-                                        for p in player_pool:
-                                            p_pool_clean = clean_name_local(p["firstName"] + p["lastName"])
-                                            if p_pool_clean == p_clean:
-                                                col_name = f"{p['firstName']}_{p['lastName']}_{p['game_id']}"
-                                                if col_name in df_sims.columns:
-                                                    rival_player_cols[r_name].append(col_name)
-                                                    matched = True
-                                                    break
-                                        if not matched:
-                                            # Try loose matching
-                                            for p in player_pool:
-                                                if clean_name_local(p["lastName"]) == clean_name_local(p_name.split()[-1]):
-                                                    col_name = f"{p['firstName']}_{p['lastName']}_{p['game_id']}"
-                                                    if col_name in df_sims.columns:
-                                                        rival_player_cols[r_name].append(col_name)
-                                                        matched = True
-                                                        break
-                                                        
-                                rival_score_vectors = []
-                                for r_name, cols in rival_player_cols.items():
-                                    if cols:
-                                        r_scores = df_sims[cols].sum(axis=1).values
-                                        rival_score_vectors.append(r_scores)
-                                    else:
-                                        rival_score_vectors.append(np.zeros(10000))
-                                        
-                                if rival_score_vectors:
-                                    target_win_score = np.array(rival_score_vectors) # Shape (K, 10000)
-                                    team_mc_differential = run_local_search(player_pool, sim_matrix, 'MC_Win_Prob', ev_baseline, budget=200, target_win_score=target_win_score)
-                        except Exception as e_diff:
-                            print(f"  Error in differential optimization: {e_diff}")
-                    
-                    # actuals_lookup is already loaded at the start of the week loop
-                    pass
                                         
                     def strip_player(p):
                         fname = p["firstName"]
@@ -818,11 +832,22 @@ def main():
                         
                         pts = actuals_lookup.get((fname, lname, g_id))
                         if pts is None:
+                            norm_gid = normalize_event_id(g_id)
+                            pts = actuals_lookup.get((fname, lname, norm_gid))
+                        if pts is None:
+                            f_c = re.sub(r"[^a-zA-Z]", "", fname)
+                            l_c = re.sub(r"[^a-zA-Z]", "", lname)
+                            norm_gid = normalize_event_id(g_id)
+                            for (f2, l2, g2), p_pts in actuals_lookup.items():
+                                is_game_match = (g2 == g_id) or (normalize_event_id(g2) == norm_gid) or (year == 2026 and week == 7)
+                                if is_game_match and re.sub(r"[^a-zA-Z]", "", f2) == f_c and re.sub(r"[^a-zA-Z]", "", l2) == l_c:
+                                    pts = p_pts
+                                    break
+                        if pts is None:
                             f_c = re.sub(r"[^a-zA-Z]", "", fname)
                             l_c = re.sub(r"[^a-zA-Z]", "", lname)
                             for (f2, l2, g2), p_pts in actuals_lookup.items():
-                                is_game_match = (g2 == g_id) or (year == 2026 and week == 7)
-                                if is_game_match and re.sub(r"[^a-zA-Z]", "", f2) == f_c and re.sub(r"[^a-zA-Z]", "", l2) == l_c:
+                                if re.sub(r"[^a-zA-Z]", "", f2) == f_c and re.sub(r"[^a-zA-Z]", "", l2) == l_c:
                                     pts = p_pts
                                     break
 
@@ -847,7 +872,6 @@ def main():
                         "MC_Win_160": [strip_player(p) for p in team_mc_win_160] if team_mc_win_160 else [],
                         "MC_Ceil_90": [strip_player(p) for p in team_mc_ceil_90] if team_mc_ceil_90 else [],
                         "MC_Consensus": [strip_player(p) for p in team_mc_consensus] if team_mc_consensus else [],
-                        "MC_Differential": [strip_player(p) for p in team_mc_differential] if team_mc_differential else [],
                         "Coulda": []
                     }
                     
@@ -856,44 +880,52 @@ def main():
                         import coulda_optimizer
                         has_actuals = len(actuals_lookup) > 0
                         if has_actuals:
+                            week_data = []
                             if os.path.exists(season_file):
                                 with open(season_file, "r") as f_f2p:
                                     f2p_data = json.load(f_f2p)
                                 week_data = [p for p in f2p_data if p.get("week") == week]
-                            else:
-                                week_data = []
-                                if os.path.exists(stats_file):
-                                    with open(stats_file, "r", encoding="utf-8") as f_stats:
-                                        stats_data = json.load(f_stats)
-                                    for p in stats_data:
-                                        if p.get("week") == week:
-                                            ident = p.get("identity", {})
-                                            evt = p.get("event", {})
-                                            f2p = p.get("f2p", {})
-                                            
+                            
+                            # Fallback if week_data is empty: load from combined stats
+                            if not week_data and os.path.exists(stats_file):
+                                with open(stats_file, "r", encoding="utf-8") as f_stats:
+                                    stats_data = json.load(f_stats)
+                                sal_lookup = {}
+                                for _, r in df_class.iterrows():
+                                    sal_lookup[(r['firstName'], r['lastName'])] = int(r['salary'])
+                                for p in stats_data:
+                                    if p.get("week") == week:
+                                        ident = p.get("identity", {})
+                                        evt = p.get("event", {})
+                                        f2p = p.get("f2p", {})
+                                        fname = ident.get("firstName")
+                                        lname = ident.get("lastName")
+                                        
+                                        sal = sal_lookup.get((fname, lname))
+                                        if sal is None:
                                             sal_val = f2p.get("salary")
                                             try:
                                                 sal = int(float(sal_val)) if sal_val is not None else 10
                                             except:
                                                 sal = 10
                                                 
-                                            pts_val = f2p.get("totalPoints")
-                                            try:
-                                                pts = float(pts_val) if pts_val is not None else 0.0
-                                            except:
-                                                pts = 0.0
-                                                
-                                            week_data.append({
-                                                "officialId": ident.get("officialId"),
-                                                "firstName": ident.get("firstName"),
-                                                "lastName": ident.get("lastName"),
-                                                "position": ident.get("position"),
-                                                "currentTeam": {"teamId": ident.get("team")},
-                                                "eventId": evt.get("eventId"),
-                                                "gameNumber": evt.get("gameNumber"),
-                                                "salary": sal,
-                                                "totalPoints": pts
-                                            })
+                                        pts_val = f2p.get("totalPoints")
+                                        try:
+                                            pts = float(pts_val) if pts_val is not None else 0.0
+                                        except:
+                                            pts = 0.0
+                                            
+                                        week_data.append({
+                                            "officialId": ident.get("officialId"),
+                                            "firstName": fname,
+                                            "lastName": lname,
+                                            "position": ident.get("position"),
+                                            "currentTeam": {"teamId": ident.get("team")},
+                                            "eventId": evt.get("eventId"),
+                                            "gameNumber": evt.get("gameNumber"),
+                                            "salary": sal,
+                                            "totalPoints": pts
+                                        })
                                             
                             matchups = {}
                             matchups_file = os.path.join(SCRIPTS_DIR, f"season_matchups_{year}.json")
@@ -944,6 +976,10 @@ def main():
                                     
                                     team_abbr = p.get("currentTeam", {}).get("teamId", "UNK")
                                     opp_abbr = p.get("_opponent", "UNK")
+                                    if opp_abbr == "UNK" and not lookup.empty:
+                                        opp_abbr = lookup.iloc[0].get("opponent", "UNK")
+                                    if team_abbr == "UNK" and not lookup.empty:
+                                        team_abbr = lookup.iloc[0].get("team", "UNK")
                                     game_id = p.get("eventId", "UNK").replace("_game_", "-ev-")
                                     salary = 25 if (year == 2026 and week == 7) else int(p.get("salary", 10))
                                     
@@ -1005,62 +1041,34 @@ def main():
                     # Generate Tactical Advice
                     floor_locks = []
                     diff_leverage = []
-                    rivals_radar = []
-                    
-                    # Include everyone in the rivals league who has set a roster
-                    for r_name, r_info in rival_rosters.items():
-                        players = r_info.get("players", [])
-                        if players: # Only include if they have set a roster
-                            rivals_radar.append({
-                                "teamName": r_name,
-                                "rank": r_info.get("rank"),
-                                "points": r_info.get("points"),
-                                "roster": ", ".join(players)
-                            })
-                    
-                    # Sort rivals by rank ascending
-                    rivals_radar.sort(key=lambda x: x.get("rank", 99))
                     
                     for p in player_pool:
                         p_clean = clean_name_local(p["firstName"] + p["lastName"])
                         global_rate = global_ownership.get(p_clean, 0.0)
                         
-                        rival_count = 0
-                        for r_name, r_info in rival_rosters.items():
-                            players = r_info.get("players", [])
-                            if not players:
-                                continue
-                            r_players_cleaned = [clean_name_local(rp) for rp in players]
-                            if p_clean in r_players_cleaned:
-                                rival_count += 1
-                                
-                        if global_rate >= 0.40:
-                            if rival_count >= 2:
-                                floor_locks.append({
-                                    "firstName": p["firstName"],
-                                    "lastName": p["lastName"],
-                                    "position": p["positionGroup"],
-                                    "globalRate": int(global_rate * 100),
-                                    "rivalCount": rival_count,
-                                    "description": f"Critical Floor Lock: Owned by {int(global_rate*100)}% of global leaders and {rival_count} of your local rivals. High floor risk if omitted."
-                                })
-                            elif rival_count == 0:
-                                diff_leverage.append({
-                                    "firstName": p["firstName"],
-                                    "lastName": p["lastName"],
-                                    "position": p["positionGroup"],
-                                    "globalRate": int(global_rate * 100),
-                                    "rivalCount": 0,
-                                    "description": f"High Leverage Differential: Owned by {int(global_rate*100)}% of global leaders but 0 of your local rivals. Start him to gain ground."
-                                })
+                        if global_rate >= 0.35:
+                            floor_locks.append({
+                                "firstName": p["firstName"],
+                                "lastName": p["lastName"],
+                                "position": p["positionGroup"],
+                                "globalRate": int(global_rate * 100),
+                                "description": f"Consensus Core Lock: Selected by {int(global_rate*100)}% of top global managers. High floor risk if omitted."
+                            })
+                        elif global_rate <= 0.15 and (p.get("mc_ev", 0) >= 14.0 or p.get("mc_p90", 0) >= 20.0):
+                            diff_leverage.append({
+                                "firstName": p["firstName"],
+                                "lastName": p["lastName"],
+                                "position": p["positionGroup"],
+                                "globalRate": int(global_rate * 100),
+                                "description": f"High Leverage Differential: High projected upside ({p.get('mc_ev', 0):.1f} EV) with only {int(global_rate*100)}% global ownership."
+                            })
                                 
                     floor_locks.sort(key=lambda x: x["globalRate"], reverse=True)
-                    diff_leverage.sort(key=lambda x: x["globalRate"], reverse=True)
+                    diff_leverage.sort(key=lambda x: x.get("globalRate", 0))
                     
                     adv_response["TacticalAdvice"] = {
                         "FloorLocks": floor_locks,
-                        "DifferentialLeverage": diff_leverage,
-                        "Rivals": rivals_radar
+                        "DifferentialLeverage": diff_leverage
                     }
                     
                     adv_year_dir = os.path.join(advisory_root, str(year))
