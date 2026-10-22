@@ -237,6 +237,8 @@ def evaluate_lineup_mc(lineup, sim_matrix, objective, target_win_score=165.0):
     return 0.0
 
 def run_local_search(players, sim_matrix, objective, initial_lineup, budget=200, target_win_score=165.0, restarts=10):
+    import numpy as np
+    np.random.seed(42)
     best_lineup = list(initial_lineup)
     best_val = evaluate_lineup_mc(best_lineup, sim_matrix, objective, target_win_score)
     
@@ -390,10 +392,12 @@ def get_designated_goalie_starters(year, week, goalies=None, script_dir=None):
     def _clean(n):
         return (n or "").replace("'", "").replace("-", "").replace(".", "").replace(" ", "").lower()
 
-    # 1. Load manual overrides if present
+    # 1. Load manual overrides ONLY if explicitly enabled via config/env (prevents post-game leakage in backtests)
+    import config
+    allow_overrides = getattr(config, "ALLOW_RETROSPECTIVE_GOALIE_OVERRIDES", False) or (os.environ.get("ALLOW_RETROSPECTIVE_GOALIE_OVERRIDES", "False") == "True")
     overrides_file = os.path.join(script_dir, "goalie_starters.json")
     team_overrides = {}
-    if os.path.exists(overrides_file):
+    if allow_overrides and os.path.exists(overrides_file):
         try:
             with open(overrides_file, "r", encoding="utf-8") as f:
                 ov_data = json.load(f)
@@ -449,9 +453,50 @@ def get_designated_goalie_starters(year, week, goalies=None, script_dir=None):
                         f2p_lookup[p["officialId"]] = p
         except Exception:
             pass
+    else:
+        stats_fallback = os.path.join(script_dir, f"combined_player_stats_{year}.json")
+        if os.path.exists(stats_fallback):
+            try:
+                with open(stats_fallback, "r", encoding="utf-8") as f:
+                    comb_f2p = json.load(f)
+                for p in comb_f2p:
+                    if p.get("week") == week:
+                        ident = p.get("identity", {})
+                        f2p_d = p.get("f2p", {})
+                        fn = ident.get("firstName")
+                        ln = ident.get("lastName")
+                        ck = _clean(fn) + "_" + _clean(ln)
+                        f2p_lookup[ck] = f2p_d
+                        if ident.get("officialId"):
+                            f2p_lookup[ident["officialId"]] = f2p_d
+            except Exception:
+                pass
+
+    # Load year-scoped official gameday roster if available (ignoring mutable API injuryStatus)
+    gd_info = {}
+    gd_candidates = [os.path.join(script_dir, f"gameday_rosters_{year}_week{week}.json")]
+    if int(year) == 2026:
+        gd_candidates.append(os.path.join(script_dir, f"gameday_rosters_week{week}.json"))
+    for gp_path in gd_candidates:
+        if os.path.exists(gp_path):
+            try:
+                with open(gp_path, "r", encoding="utf-8") as f:
+                    gd_data = json.load(f)
+                for ev in gd_data.get("data", {}).get("items", []):
+                    for side in ["homeTeam", "awayTeam"]:
+                        t_obj = ev.get(side) or {}
+                        for pl in t_obj.get("gamedayRoster") or []:
+                            ck = _clean(pl.get("firstName")) + "_" + _clean(pl.get("lastName"))
+                            gd_info[ck] = pl
+                            if pl.get("officialId"):
+                                gd_info[str(pl["officialId"])] = pl
+                break
+            except Exception:
+                pass
 
     # Find recent starts / games with saves prior to this week (leakage-free)
     last_started_week = {}
+    team_last_w = {}
     stats_file = os.path.join(script_dir, f"combined_player_stats_{year}.json")
     if os.path.exists(stats_file):
         try:
@@ -468,8 +513,13 @@ def get_designated_goalie_starters(year, week, goalies=None, script_dir=None):
                         if saves > 0 or ga > 0 or f2p_pts > 5:
                             fn = p.get("identity", {}).get("firstName")
                             ln = p.get("identity", {}).get("lastName")
+                            tm_p = str(p.get("identity", {}).get("team") or "").upper()
+                            if tm_p == "CHR":
+                                tm_p = "OUT"
                             ck = _clean(fn) + "_" + _clean(ln)
                             last_started_week[ck] = max(last_started_week.get(ck, 0), pw)
+                            if tm_p:
+                                team_last_w[tm_p] = max(team_last_w.get(tm_p, 0), pw)
                             pid = p.get("identity", {}).get("officialId")
                             if pid:
                                 last_started_week[pid] = max(last_started_week.get(pid, 0), pw)
@@ -483,7 +533,10 @@ def get_designated_goalie_starters(year, week, goalies=None, script_dir=None):
         if not team and "currentTeam" in g and isinstance(g["currentTeam"], dict):
             team = g["currentTeam"].get("teamId")
         if team:
-            team_goalies[str(team).upper()].append(g)
+            t_up = str(team).upper()
+            if t_up == "CHR":
+                t_up = "OUT"
+            team_goalies[t_up].append(g)
 
     starter_flags = {}
 
@@ -496,7 +549,7 @@ def get_designated_goalie_starters(year, week, goalies=None, script_dir=None):
                 starter_flags[g["officialId"]] = True
             continue
 
-        # Check for explicit manual override for this team
+        # Check for explicit manual override for this team (only if allow_overrides is True)
         override_val = team_overrides.get(t_code)
         if override_val:
             clean_ov = _clean(override_val)
@@ -509,8 +562,9 @@ def get_designated_goalie_starters(year, week, goalies=None, script_dir=None):
                     starter_flags[pid] = is_ov
             continue
 
-        # Score goalies using multi-signal heuristic
+        # Score goalies using multi-signal pre-game heuristic
         scored = []
+        tlw = team_last_w.get(t_code, 0)
         for g in g_list:
             fn = g.get("firstName")
             ln = g.get("lastName")
@@ -518,6 +572,8 @@ def get_designated_goalie_starters(year, week, goalies=None, script_dir=None):
             pid = str(g.get("officialId") or "")
 
             f2p_info = f2p_lookup.get(ck) or f2p_lookup.get(pid) or {}
+            g_pl = gd_info.get(ck) or gd_info.get(pid) or {}
+            g_rs = g_pl.get("rosterStatus")
             
             proj = float(g.get("projectedPoints") or f2p_info.get("projectedPoints") or 0.0)
             sal = float(g.get("salary") or f2p_info.get("salary") or 10.0)
@@ -526,12 +582,16 @@ def get_designated_goalie_starters(year, week, goalies=None, script_dir=None):
             score = 0.0
             score += proj * 2.0
             score += sal * 1.0
-            if inj in ("IR", "O"):
-                score -= 100.0
+            if inj in ("IR", "O") or (gd_info and not g_pl) or g_rs == "scratched":
+                score -= 500.0
+            if g_rs == "starter":
+                score += 30.0
             
             last_w = last_started_week.get(ck) or last_started_week.get(pid) or 0
-            if last_w > 0 and (week - last_w) <= 2:
-                score += 25.0
+            if last_w > 0 and last_w == tlw:
+                score += 45.0
+            elif last_w > 0 and (week - last_w) <= 2:
+                score += 10.0
 
             scored.append((score, sal, g))
 

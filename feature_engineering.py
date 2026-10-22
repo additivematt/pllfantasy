@@ -3,9 +3,10 @@ import os
 import pandas as pd
 import numpy as np
 import re
+from collections import Counter
 from datetime import datetime, timezone
 import config
-from utils import assign_position_group, assign_sub_position, calc_fantasy, clean_name, get_week_for_event
+from utils import assign_position_group, assign_sub_position, calc_fantasy, clean_name, get_week_for_event, normalize_event_id
 
 TEAM_NAME_TO_ID = {
     "California Redwoods": "RED",
@@ -77,22 +78,54 @@ if getattr(config, "FEATURE_RETIRE_1V1_PAIRINGS_ENABLED", False):
         if "pairing_rating" in FEATURE_LISTS[pos]:
             FEATURE_LISTS[pos].remove("pairing_rating")
 
+def _norm_team_code(t):
+    if t == "CHR":
+        return "OUT"
+    return t
+
 def load_stats_json(path):
     yr_match = re.search(r'combined_player_stats_(\d{4})', path)
     yr = int(yr_match.group(1)) if yr_match else None
     with open(path, encoding="utf-8") as f: data = json.load(f)
+    event_teams = {}
+    by_player_candidates = {}
+    for p in data:
+        ident, evt = p.get("identity", {}), p.get("event", {})
+        e_id = normalize_event_id(evt.get("eventId", ""))
+        h, a = _norm_team_code(evt.get("homeTeam")), _norm_team_code(evt.get("awayTeam"))
+        if e_id and h and a and h != a:
+            event_teams[e_id] = (h, a)
+    for p in data:
+        if p.get("isDNP", False): continue
+        ident, evt = p.get("identity", {}), p.get("event", {})
+        e_id = normalize_event_id(evt.get("eventId", ""))
+        t = _norm_team_code(ident.get("team"))
+        h, a = event_teams.get(e_id, (_norm_team_code(evt.get("homeTeam")), _norm_team_code(evt.get("awayTeam"))))
+        if h and a and t not in (h, a):
+            pk = (ident.get("firstName"), ident.get("lastName"))
+            by_player_candidates.setdefault(pk, Counter())[h] += 1
+            by_player_candidates.setdefault(pk, Counter())[a] += 1
+    player_true_team = {pk: cnt.most_common(1)[0][0] for pk, cnt in by_player_candidates.items() if cnt}
+
     rows = []
     for p in data:
         ident, stats, f2p, evt = p.get("identity", {}), p.get("stats", {}), p.get("f2p", {}), p.get("event", {})
+        e_id = normalize_event_id(evt.get("eventId", ""))
         is_dnp = p.get("isDNP", False)
         if is_dnp:
             fp = np.nan
         else:
             fp = f2p.get("totalPoints") if f2p.get("totalPoints") is not None else calc_fantasy(stats)
-        team = ident.get("team")
-        home, away = evt.get("homeTeam"), evt.get("awayTeam")
+        team = _norm_team_code(ident.get("team"))
+        home, away = event_teams.get(e_id, (_norm_team_code(evt.get("homeTeam")), _norm_team_code(evt.get("awayTeam"))))
+        if home and away and team not in (home, away):
+            if is_dnp:
+                continue
+            pk = (ident.get("firstName"), ident.get("lastName"))
+            cand = player_true_team.get(pk)
+            team = cand if cand in (home, away) else home
         opponent = home if team == away else away
-        row = {"firstName": ident.get("firstName"), "lastName": ident.get("lastName"), "position": ident.get("position"), "team": team, "opponent": opponent, "eventId": evt.get("eventId"), "TotalFantasyPoints": fp, "week": p.get("week"), "year": yr, "startTime": evt.get("startTime", 0), "isDNP": is_dnp, "salary": f2p.get("salary"), "f2p_projected_points": f2p.get("projectedPoints"), "f2p_matchup_rating": f2p.get("matchupRating")}
+        row = {"firstName": ident.get("firstName"), "lastName": ident.get("lastName"), "position": ident.get("position"), "team": team, "opponent": opponent, "eventId": e_id, "TotalFantasyPoints": fp, "week": p.get("week"), "year": yr, "startTime": evt.get("startTime", 0), "isDNP": is_dnp, "salary": f2p.get("salary"), "f2p_projected_points": f2p.get("projectedPoints"), "f2p_matchup_rating": f2p.get("matchupRating")}
         if not is_dnp:
             for k, v in stats.items(): row[k] = v
         rows.append(row)
@@ -105,6 +138,48 @@ def load_all_players_stats(path, target_year, target_week):
     """Load from consolidated all_players_stats.json, including DNP rows.
     Excludes rows from target_year >= target_week to prevent data leakage."""
     with open(path, encoding="utf-8") as f: data = json.load(f)
+    event_teams = {}
+    by_yr_candidates = {}
+    all_yr_teams = {}
+    for slug, p_data in data.items():
+        for entry in p_data.get("stats", []):
+            evt = entry.get("event", {})
+            e_id = normalize_event_id(evt.get("eventId", ""))
+            yr_match = re.search(r'(?:^|-|_)(20\d{2})(?:-|_|$)', e_id)
+            yr = int(yr_match.group(1)) if yr_match else None
+            w = entry.get("week")
+            if yr is not None and (yr > target_year or (yr == target_year and w is not None and w >= target_week)):
+                continue
+            h, a = _norm_team_code(evt.get("homeTeam")), _norm_team_code(evt.get("awayTeam"))
+            if e_id and h and a and h != a:
+                event_teams[e_id] = (h, a)
+
+    for slug, p_data in data.items():
+        for entry in p_data.get("stats", []):
+            if entry.get("isDNP", False): continue
+            evt = entry.get("event", {})
+            e_id = normalize_event_id(evt.get("eventId", ""))
+            yr_match = re.search(r'(?:^|-|_)(20\d{2})(?:-|_|$)', e_id)
+            yr = int(yr_match.group(1)) if yr_match else None
+            w = entry.get("week")
+            if yr is not None and (yr > target_year or (yr == target_year and w is not None and w >= target_week)):
+                continue
+            if not yr: continue
+            t = _norm_team_code(entry.get("identity", {}).get("team"))
+            h, a = event_teams.get(e_id, (_norm_team_code(evt.get("homeTeam")), _norm_team_code(evt.get("awayTeam"))))
+            if h and a:
+                if t in (h, a):
+                    all_yr_teams.setdefault((slug, yr), Counter())[t] += 1
+                else:
+                    by_yr_candidates.setdefault((slug, yr), Counter())[h] += 1
+                    by_yr_candidates.setdefault((slug, yr), Counter())[a] += 1
+
+    player_year_true_team = {}
+    for (slug, yr), cnt in by_yr_candidates.items():
+        prev_teams = all_yr_teams.get((slug, yr - 1), Counter())
+        best_t = max(cnt.keys(), key=lambda cand: (cnt[cand], prev_teams.get(cand, 0)))
+        player_year_true_team[(slug, yr)] = best_t
+
     rows = []
     for slug, p_data in data.items():
         for entry in p_data.get("stats", []):
@@ -112,8 +187,8 @@ def load_all_players_stats(path, target_year, target_week):
             stats = entry.get("stats", {})
             f2p = entry.get("f2p", {})
             evt = entry.get("event", {})
-            e_id = evt.get("eventId", "")
-            yr_match = re.search(r'(?:^|-|_)(\d{4})(?:-|_|$)', e_id)
+            e_id = normalize_event_id(evt.get("eventId", ""))
+            yr_match = re.search(r'(?:^|-|_)(20\d{2})(?:-|_|$)', e_id)
             yr = int(yr_match.group(1)) if yr_match else None
             w = entry.get("week")
             if yr is not None and (yr > target_year or (yr == target_year and w is not None and w >= target_week)):
@@ -123,8 +198,13 @@ def load_all_players_stats(path, target_year, target_week):
                 fp = np.nan
             else:
                 fp = f2p.get("totalPoints") if f2p.get("totalPoints") is not None else calc_fantasy(stats)
-            team = ident.get("team")
-            home, away = evt.get("homeTeam"), evt.get("awayTeam")
+            team = _norm_team_code(ident.get("team"))
+            home, away = event_teams.get(e_id, (_norm_team_code(evt.get("homeTeam")), _norm_team_code(evt.get("awayTeam"))))
+            if home and away and team not in (home, away):
+                if is_dnp:
+                    continue
+                cand = player_year_true_team.get((slug, yr))
+                team = cand if cand in (home, away) else home
             opponent = home if team == away else away
             row = {"firstName": ident.get("firstName"), "lastName": ident.get("lastName"), "position": ident.get("position"), "team": team, "opponent": opponent, "eventId": e_id, "TotalFantasyPoints": fp, "week": w, "year": yr, "startTime": float(evt.get("startTime", 0)), "isDNP": is_dnp, "salary": f2p.get("salary"), "f2p_projected_points": f2p.get("projectedPoints"), "f2p_matchup_rating": f2p.get("matchupRating")}
             if not is_dnp:
@@ -289,8 +369,8 @@ def compute_game_pace_features(df_all, target_matchups, target_year, target_week
     test_expected_goals = {}
     for m in target_matchups:
         gid = m["game_id"]
-        tA = m["team_a"]
-        tB = m["team_b"]
+        tA = _norm_team_code(m["team_a"])
+        tB = _norm_team_code(m["team_b"])
         st = m.get("startTime") or 9e9
         
         avg_s_A, avg_a_A = get_team_rolling_goals(tA, st)
@@ -301,6 +381,9 @@ def compute_game_pace_features(df_all, target_matchups, target_year, target_week
         exp_pace = exp_s_A + exp_s_B
         
         test_pace_map[gid] = exp_pace
+        norm_gid = normalize_event_id(gid)
+        if norm_gid:
+            test_pace_map[norm_gid] = exp_pace
         test_expected_goals[(gid, tA)] = exp_s_A
         test_expected_goals[(gid, tB)] = exp_s_B
         
@@ -496,15 +579,24 @@ def load_all_matchups(script_dir):
     for yr in range(2023, 2027):
         p = os.path.join(script_dir, f"season_matchups_{yr}.json")
         if os.path.exists(p):
-            with open(p, encoding="utf-8") as f: all_m.update(json.load(f))
+            with open(p, encoding="utf-8") as f:
+                raw_m = json.load(f)
+            for k, v in raw_m.items():
+                all_m[k] = v
+                norm_k = normalize_event_id(k)
+                if norm_k:
+                    all_m[norm_k] = v
+                    ev_k = re.sub(r"_game_(\d+)", r"-ev-\1", norm_k)
+                    all_m[ev_k] = v
     return all_m
 
 def compute_defender_ratings(df_all, matchups_by_game, max_games_per_team=None):
-    p_avgs = df_all.groupby(["firstName", "lastName"])["TotalFantasyPoints"].mean().to_dict()
+    df_played = filter_played_only(df_all)
+    p_avgs = df_played.groupby(["firstName", "lastName"])["TotalFantasyPoints"].mean().to_dict()
     m_res = []
     for gid, gdata in matchups_by_game.items():
         ms = gdata.get("matchups", [])
-        grows = df_all[df_all["eventId"] == gid]
+        grows = df_played[df_played["eventId"] == gid]
         if grows.empty: continue
         for m in ms:
             pA, pB = m["playerA"], m["playerB"]
@@ -517,7 +609,7 @@ def compute_defender_ratings(df_all, matchups_by_game, max_games_per_team=None):
                     if oAvg > 5: m_res.append({"off_name": oN, "defender": dN, "def_team": dR["team"], "off_pos": oR["positionGroup"], "ratio": oR["TotalFantasyPoints"] / oAvg})
                 add(pA, pB, rA, rB); add(pB, pA, rB, rA)
     
-    dfB = df_all.copy()
+    dfB = df_played.copy()
     a_df = pd.DataFrame([{"firstName": k[0], "lastName": k[1], "p_avg": v} for k, v in p_avgs.items()])
     dfB = dfB.merge(a_df, on=["firstName", "lastName"], how="left")
     dfB = dfB[dfB["p_avg"] > 5].copy()

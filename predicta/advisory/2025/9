@@ -1,19 +1,6 @@
 {
     "MC_EV": [
         {
-            "firstName": "Emmet",
-            "lastName": "Carroll",
-            "team": "WHP",
-            "opponent": "ATL",
-            "game_id": "2025-ev-32",
-            "position": "Goalie",
-            "salary": 40,
-            "mc_ev": 49.9,
-            "mc_p90": 81.1,
-            "mc_p10": 15.3,
-            "actualPoints": 29.0
-        },
-        {
             "firstName": "Jeff",
             "lastName": "Teat",
             "team": "ATL",
@@ -21,23 +8,36 @@
             "game_id": "2025-ev-32",
             "position": "Attack",
             "salary": 44,
-            "mc_ev": 47.5,
-            "mc_p90": 96.4,
-            "mc_p10": 9.6,
+            "mc_ev": 51.2,
+            "mc_p90": 101.9,
+            "mc_p10": 9.9,
             "actualPoints": 51.0
         },
         {
-            "firstName": "TJ",
-            "lastName": "Malone",
-            "team": "WHP",
-            "opponent": "ATL",
-            "game_id": "2025-ev-32",
-            "position": "Attack",
-            "salary": 42,
-            "mc_ev": 43.2,
+            "firstName": "Blaze",
+            "lastName": "Riorden",
+            "team": "CHA",
+            "opponent": "WAT",
+            "game_id": "2025-ev-33",
+            "position": "Goalie",
+            "salary": 44,
+            "mc_ev": 45.5,
             "mc_p90": 66.2,
-            "mc_p10": 13.0,
-            "actualPoints": 12.0
+            "mc_p10": 19.8,
+            "actualPoints": 46.0
+        },
+        {
+            "firstName": "Owen",
+            "lastName": "Hiltz",
+            "team": "CHA",
+            "opponent": "WAT",
+            "game_id": "2025-ev-33",
+            "position": "Attack",
+            "salary": 37,
+            "mc_ev": 41.2,
+            "mc_p90": 94.7,
+            "mc_p10": 5.3,
+            "actualPoints": 59.0
         },
         {
             "firstName": "Tom",
@@ -47,23 +47,10 @@
             "game_id": "2025-ev-31",
             "position": "Midfield",
             "salary": 22,
-            "mc_ev": 27.5,
-            "mc_p90": 60.2,
-            "mc_p10": 5.1,
+            "mc_ev": 27.4,
+            "mc_p90": 52.0,
+            "mc_p10": 0.0,
             "actualPoints": 15.0
-        },
-        {
-            "firstName": "TD",
-            "lastName": "Ierlan",
-            "team": "RED",
-            "opponent": "ARC",
-            "game_id": "2025-ev-31",
-            "position": "Faceoff",
-            "salary": 29,
-            "mc_ev": 24.4,
-            "mc_p90": 47.6,
-            "mc_p10": 9.1,
-            "actualPoints": 13.4
         },
         {
             "firstName": "Greg",
@@ -73,8 +60,8 @@
             "game_id": "2025-ev-34",
             "position": "Defense",
             "salary": 2,
-            "mc_ev": 24.2,
-            "mc_p90": 56.5,
+            "mc_ev": 26.4,
+            "mc_p90": 71.1,
             "mc_p10": 0.0,
             "actualPoints": 1.0
         },
@@ -86,27 +73,27 @@
             "game_id": "2025-ev-33",
             "position": "Midfield",
             "salary": 19,
-            "mc_ev": 23.5,
-            "mc_p90": 42.2,
-            "mc_p10": 6.4,
+            "mc_ev": 25.9,
+            "mc_p90": 57.7,
+            "mc_p10": 0.0,
             "actualPoints": 25.5
+        },
+        {
+            "firstName": "TD",
+            "lastName": "Ierlan",
+            "team": "RED",
+            "opponent": "ARC",
+            "game_id": "2025-ev-31",
+            "position": "Faceoff",
+            "salary": 29,
+            "mc_ev": 24.8,
+            "mc_p90": 54.6,
+            "mc_p10": 9.3,
+            "actualPoints": 13.4
         }
     ],
     "MC_Win_160": [
         {
-            "firstName": "Brett",
-            "lastName": "Dobson",
-            "team": "ARC",
-            "opponent": "RED",
-            "game_id": "2025-ev-31",
-            "position": "Goalie",
-            "salary": 40,
-            "mc_ev": 49.0,
-            "mc_p90": 74.7,
-            "mc_p10": 29.9,
-            "actualPoints": 45.0
-        },
-        {
             "firstName": "Jeff",
             "lastName": "Teat",
             "team": "ATL",
@@ -114,9 +101,9 @@
             "game_id": "2025-ev-32",
             "position": "Attack",
             "salary": 44,
-            "mc_ev": 47.5,
-            "mc_p90": 96.4,
-            "mc_p10": 9.6,
+            "mc_ev": 51.2,
+            "mc_p90": 101.9,
+            "mc_p10": 9.9,
             "actualPoints": 51.0
         },
         {
@@ -127,49 +114,10 @@
             "game_id": "2025-ev-32",
             "position": "Attack",
             "salary": 42,
-            "mc_ev": 43.2,
-            "mc_p90": 66.2,
-            "mc_p10": 13.0,
+            "mc_ev": 42.1,
+            "mc_p90": 72.0,
+            "mc_p10": 12.7,
             "actualPoints": 12.0
-        },
-        {
-            "firstName": "Tom",
-            "lastName": "Schreiber",
-            "team": "ARC",
-            "opponent": "RED",
-            "game_id": "2025-ev-31",
-            "position": "Midfield",
-            "salary": 22,
-            "mc_ev": 27.5,
-            "mc_p90": 60.2,
-            "mc_p10": 5.1,
-            "actualPoints": 15.0
-        },
-        {
-            "firstName": "TD",
-            "lastName": "Ierlan",
-            "team": "RED",
-            "opponent": "ARC",
-            "game_id": "2025-ev-31",
-            "position": "Faceoff",
-            "salary": 29,
-            "mc_ev": 24.4,
-            "mc_p90": 47.6,
-            "mc_p10": 9.1,
-            "actualPoints": 13.4
-        },
-        {
-            "firstName": "Greg",
-            "lastName": "Weyl",
-            "team": "OUT",
-            "opponent": "ARC",
-            "game_id": "2025-ev-34",
-            "position": "Defense",
-            "salary": 2,
-            "mc_ev": 24.2,
-            "mc_p90": 56.5,
-            "mc_p10": 0.0,
-            "actualPoints": 1.0
         },
         {
             "firstName": "Zach",
@@ -179,27 +127,66 @@
             "game_id": "2025-ev-33",
             "position": "Midfield",
             "salary": 19,
-            "mc_ev": 23.5,
-            "mc_p90": 42.2,
-            "mc_p10": 6.4,
+            "mc_ev": 25.9,
+            "mc_p90": 57.7,
+            "mc_p10": 0.0,
             "actualPoints": 25.5
+        },
+        {
+            "firstName": "Jared",
+            "lastName": "Bernhardt",
+            "team": "OUT",
+            "opponent": "ARC",
+            "game_id": "2025-ev-34",
+            "position": "Midfield",
+            "salary": 15,
+            "mc_ev": 22.8,
+            "mc_p90": 52.3,
+            "mc_p10": 0.0,
+            "actualPoints": -15.0
+        },
+        {
+            "firstName": "Greg",
+            "lastName": "Weyl",
+            "team": "OUT",
+            "opponent": "ARC",
+            "game_id": "2025-ev-34",
+            "position": "Defense",
+            "salary": 2,
+            "mc_ev": 26.4,
+            "mc_p90": 71.1,
+            "mc_p10": 0.0,
+            "actualPoints": 1.0
+        },
+        {
+            "firstName": "TD",
+            "lastName": "Ierlan",
+            "team": "RED",
+            "opponent": "ARC",
+            "game_id": "2025-ev-31",
+            "position": "Faceoff",
+            "salary": 29,
+            "mc_ev": 24.8,
+            "mc_p90": 54.6,
+            "mc_p10": 9.3,
+            "actualPoints": 13.4
+        },
+        {
+            "firstName": "Blaze",
+            "lastName": "Riorden",
+            "team": "CHA",
+            "opponent": "WAT",
+            "game_id": "2025-ev-33",
+            "position": "Goalie",
+            "salary": 44,
+            "mc_ev": 45.5,
+            "mc_p90": 66.2,
+            "mc_p10": 19.8,
+            "actualPoints": 46.0
         }
     ],
     "MC_Ceil_90": [
         {
-            "firstName": "Emmet",
-            "lastName": "Carroll",
-            "team": "WHP",
-            "opponent": "ATL",
-            "game_id": "2025-ev-32",
-            "position": "Goalie",
-            "salary": 40,
-            "mc_ev": 49.9,
-            "mc_p90": 81.1,
-            "mc_p10": 15.3,
-            "actualPoints": 29.0
-        },
-        {
             "firstName": "Jeff",
             "lastName": "Teat",
             "team": "ATL",
@@ -207,23 +194,36 @@
             "game_id": "2025-ev-32",
             "position": "Attack",
             "salary": 44,
-            "mc_ev": 47.5,
-            "mc_p90": 96.4,
-            "mc_p10": 9.6,
+            "mc_ev": 51.2,
+            "mc_p90": 101.9,
+            "mc_p10": 9.9,
             "actualPoints": 51.0
         },
         {
-            "firstName": "TJ",
-            "lastName": "Malone",
-            "team": "WHP",
-            "opponent": "ATL",
-            "game_id": "2025-ev-32",
-            "position": "Attack",
-            "salary": 42,
-            "mc_ev": 43.2,
+            "firstName": "Blaze",
+            "lastName": "Riorden",
+            "team": "CHA",
+            "opponent": "WAT",
+            "game_id": "2025-ev-33",
+            "position": "Goalie",
+            "salary": 44,
+            "mc_ev": 45.5,
             "mc_p90": 66.2,
-            "mc_p10": 13.0,
-            "actualPoints": 12.0
+            "mc_p10": 19.8,
+            "actualPoints": 46.0
+        },
+        {
+            "firstName": "Owen",
+            "lastName": "Hiltz",
+            "team": "CHA",
+            "opponent": "WAT",
+            "game_id": "2025-ev-33",
+            "position": "Attack",
+            "salary": 37,
+            "mc_ev": 41.2,
+            "mc_p90": 94.7,
+            "mc_p10": 5.3,
+            "actualPoints": 59.0
         },
         {
             "firstName": "Tom",
@@ -233,23 +233,10 @@
             "game_id": "2025-ev-31",
             "position": "Midfield",
             "salary": 22,
-            "mc_ev": 27.5,
-            "mc_p90": 60.2,
-            "mc_p10": 5.1,
+            "mc_ev": 27.4,
+            "mc_p90": 52.0,
+            "mc_p10": 0.0,
             "actualPoints": 15.0
-        },
-        {
-            "firstName": "TD",
-            "lastName": "Ierlan",
-            "team": "RED",
-            "opponent": "ARC",
-            "game_id": "2025-ev-31",
-            "position": "Faceoff",
-            "salary": 29,
-            "mc_ev": 24.4,
-            "mc_p90": 47.6,
-            "mc_p10": 9.1,
-            "actualPoints": 13.4
         },
         {
             "firstName": "Greg",
@@ -259,8 +246,8 @@
             "game_id": "2025-ev-34",
             "position": "Defense",
             "salary": 2,
-            "mc_ev": 24.2,
-            "mc_p90": 56.5,
+            "mc_ev": 26.4,
+            "mc_p90": 71.1,
             "mc_p10": 0.0,
             "actualPoints": 1.0
         },
@@ -272,10 +259,23 @@
             "game_id": "2025-ev-33",
             "position": "Midfield",
             "salary": 19,
-            "mc_ev": 23.5,
-            "mc_p90": 42.2,
-            "mc_p10": 6.4,
+            "mc_ev": 25.9,
+            "mc_p90": 57.7,
+            "mc_p10": 0.0,
             "actualPoints": 25.5
+        },
+        {
+            "firstName": "TD",
+            "lastName": "Ierlan",
+            "team": "RED",
+            "opponent": "ARC",
+            "game_id": "2025-ev-31",
+            "position": "Faceoff",
+            "salary": 29,
+            "mc_ev": 24.8,
+            "mc_p90": 54.6,
+            "mc_p10": 9.3,
+            "actualPoints": 13.4
         }
     ],
     "MC_Consensus": [],
@@ -288,9 +288,9 @@
             "game_id": "2025-ev-34",
             "position": "A",
             "salary": 39,
-            "mc_ev": 24.6,
-            "mc_p90": 47.0,
-            "mc_p10": 5.3,
+            "mc_ev": 28.0,
+            "mc_p90": 52.4,
+            "mc_p10": 5.9,
             "actualPoints": 66.0
         },
         {
@@ -301,9 +301,9 @@
             "game_id": "2025-ev-33",
             "position": "A",
             "salary": 21,
-            "mc_ev": 10.1,
-            "mc_p90": 25.9,
-            "mc_p10": 0.5,
+            "mc_ev": 12.0,
+            "mc_p90": 30.6,
+            "mc_p10": 0.6,
             "actualPoints": 62.0
         },
         {
@@ -314,8 +314,8 @@
             "game_id": "2025-ev-32",
             "position": "M",
             "salary": 29,
-            "mc_ev": 17.3,
-            "mc_p90": 38.4,
+            "mc_ev": 21.0,
+            "mc_p90": 47.0,
             "mc_p10": 0.0,
             "actualPoints": 42.0
         },
@@ -327,8 +327,8 @@
             "game_id": "2025-ev-33",
             "position": "M",
             "salary": 16,
-            "mc_ev": 15.1,
-            "mc_p90": 31.9,
+            "mc_ev": 17.3,
+            "mc_p90": 44.5,
             "mc_p10": 0.0,
             "actualPoints": 38.0
         },
@@ -340,8 +340,8 @@
             "game_id": "2025-ev-32",
             "position": "D",
             "salary": 3,
-            "mc_ev": 11.0,
-            "mc_p90": 31.9,
+            "mc_ev": 11.9,
+            "mc_p90": 30.1,
             "mc_p10": 0.0,
             "actualPoints": 47.0
         },
@@ -353,8 +353,8 @@
             "game_id": "2025-ev-34",
             "position": "FO",
             "salary": 19,
-            "mc_ev": 16.0,
-            "mc_p90": 35.2,
+            "mc_ev": 16.2,
+            "mc_p90": 34.9,
             "mc_p10": 0.0,
             "actualPoints": 25.9
         },
@@ -366,19 +366,18 @@
             "game_id": "2025-ev-32",
             "position": "G",
             "salary": 41,
-            "mc_ev": 32.8,
-            "mc_p90": 49.0,
-            "mc_p10": 17.9,
+            "mc_ev": 33.6,
+            "mc_p90": 51.8,
+            "mc_p10": 18.2,
             "actualPoints": 59.0
         }
     ],
     "Core": [
         "Jeff Teat",
-        "TJ Malone",
-        "Tom Schreiber",
-        "TD Ierlan",
+        "Blaze Riorden",
         "Greg Weyl",
-        "Zach Currier"
+        "Zach Currier",
+        "TD Ierlan"
     ],
     "Sleepers": [],
     "RecommendedStrategy": "MC_EV",
@@ -386,30 +385,30 @@
     "Narrative": {
         "RecommendedRoster": [
             {
-                "firstName": "Emmet",
-                "lastName": "Carroll",
-                "position": "Goalie",
-                "salary": 40,
-                "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (49.9 EV) and reliable role."
-                ]
-            },
-            {
                 "firstName": "Jeff",
                 "lastName": "Teat",
                 "position": "Attack",
                 "salary": 44,
                 "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (47.5 EV) and reliable role."
+                    "Consistent Pick: Selected for steady expected floor (51.2 EV) and reliable role."
                 ]
             },
             {
-                "firstName": "TJ",
-                "lastName": "Malone",
-                "position": "Attack",
-                "salary": 42,
+                "firstName": "Blaze",
+                "lastName": "Riorden",
+                "position": "Goalie",
+                "salary": 44,
                 "bullets": [
-                    "Opponent Weakness: ATL defense allows 18% extra fantasy points to Attack position."
+                    "Hot Form: Averaging 47.7 fantasy pts over last 3 games (vs 39.7 season avg)."
+                ]
+            },
+            {
+                "firstName": "Owen",
+                "lastName": "Hiltz",
+                "position": "Attack",
+                "salary": 37,
+                "bullets": [
+                    "Hot Form: Averaging 52.0 fantasy pts over last 3 games (vs 42.0 season avg)."
                 ]
             },
             {
@@ -418,16 +417,7 @@
                 "position": "Midfield",
                 "salary": 22,
                 "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (27.5 EV) and reliable role."
-                ]
-            },
-            {
-                "firstName": "TD",
-                "lastName": "Ierlan",
-                "position": "Faceoff",
-                "salary": 29,
-                "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (24.4 EV) and reliable role."
+                    "Consistent Pick: Selected for steady expected floor (27.4 EV) and reliable role."
                 ]
             },
             {
@@ -436,7 +426,7 @@
                 "position": "Defense",
                 "salary": 2,
                 "bullets": [
-                    "Salary Cap Enabler: Excellent cost efficiency, projecting 24.2 EV for just 2 coins."
+                    "Salary Cap Enabler: Excellent cost efficiency, projecting 26.4 EV for just 2 coins."
                 ]
             },
             {
@@ -445,7 +435,16 @@
                 "position": "Midfield",
                 "salary": 19,
                 "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (23.5 EV) and reliable role."
+                    "Consistent Pick: Selected for steady expected floor (25.9 EV) and reliable role."
+                ]
+            },
+            {
+                "firstName": "TD",
+                "lastName": "Ierlan",
+                "position": "Faceoff",
+                "salary": 29,
+                "bullets": [
+                    "Consistent Pick: Selected for steady expected floor (24.8 EV) and reliable role."
                 ]
             }
         ],
@@ -454,12 +453,14 @@
                 "strategy": "MC_Win_160",
                 "strategyLabel": "MC Win 160",
                 "in": [
-                    "Brett Dobson"
+                    "TJ Malone",
+                    "Jared Bernhardt"
                 ],
                 "out": [
-                    "Emmet Carroll"
+                    "Owen Hiltz",
+                    "Tom Schreiber"
                 ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Brett Dobson (Goalie, 40c)) to increase the joint probability of the entire lineup hitting the 160 target score."
+                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like TJ Malone (Attack, 42c), Jared Bernhardt (Midfield, 15c)) to increase the joint probability of the entire lineup hitting the 160 target score."
             }
         ]
     },

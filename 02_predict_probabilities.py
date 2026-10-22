@@ -195,7 +195,7 @@ def main():
     def get_feats(row, gml=None):
         pN = f"{row['firstName']} {row['lastName']}"
         gID = row.get("eventId") or row.get("game_id")
-        ms = gml or m_by_g.get(gID, {}).get("matchups", [])
+        ms = gml if gml is not None else (m_by_g.get(gID) or m_by_g.get(normalize_event_id(gID)) or {}).get("matchups", [])
         pR, iR = 1.0, 1.0
         for m in ms:
             opp = m["playerB"] if m["playerA"] == pN else (m["playerA"] if m["playerB"] == pN else None)
@@ -337,6 +337,9 @@ def main():
                     last_clean = clean_name_local(p.get("lastName"))
                     injured_keys.add((first_clean, last_clean))
 
+        has_official_gd = os.path.exists(os.path.join(sDir, f"gameday_rosters_{args.year}_week{args.week}.json")) or (
+            args.year == 2026 and os.path.exists(os.path.join(sDir, f"gameday_rosters_week{args.week}.json"))
+        )
         roster_rows = []
         for p in fallback_data:
             ident = p.get("identity", {})
@@ -345,10 +348,10 @@ def main():
             last = ident.get("lastName")
             off_id = ident.get("officialId")
             
-            # Filter out injured reserve (IR) and out (O) players (disabled to allow gameday roster filtering)
-            # if off_id in injured_keys or (clean_name_local(first), clean_name_local(last)) in injured_keys:
-            #     print(f"  Skipping injured/out player (fallback_data): {first} {last}")
-            #     continue
+            # Filter out week-specific F2P injured reserve (IR) and out (O) players when no official gameday roster exists
+            if not has_official_gd and (off_id in injured_keys or (clean_name_local(first), clean_name_local(last)) in injured_keys):
+                print(f"  Skipping injured/out player (fallback_data): {first} {last}")
+                continue
                 
             salary = f2p.get("salary", 0)
             
@@ -371,6 +374,8 @@ def main():
                 "subPosition": assign_sub_position(ident.get("position")),
                 "officialId": ident.get("officialId", "00000"),
                 "salary": salary,
+                "projectedPoints": f2p.get("projectedPoints", 0.0),
+                "injuryStatus": f2p.get("injuryStatus"),
                 "eventId": p.get("event", {}).get("eventId")
             })
         roster = pd.DataFrame(roster_rows).drop_duplicates(subset=["firstName", "lastName", "team", "eventId"])
@@ -398,6 +403,16 @@ def main():
             if target_salaries and len(set(target_salaries)) <= 1:
                 is_placeholder = True
 
+            has_official_gd = os.path.exists(os.path.join(sDir, f"gameday_rosters_{args.year}_week{args.week}.json")) or (
+                args.year == 2026 and os.path.exists(os.path.join(sDir, f"gameday_rosters_week{args.week}.json"))
+            )
+            injured_keys = set()
+            clean_name_local = lambda n: (n or "").replace("'", "").replace("-", "").replace(".", "").replace(" ", "").lower()
+            for p_inj in f2d:
+                if p_inj.get("week") == args.week and p_inj.get("injuryStatus") in ("IR", "O"):
+                    if p_inj.get("officialId"):
+                        injured_keys.add(p_inj.get("officialId"))
+                    injured_keys.add((clean_name_local(p_inj.get("firstName")), clean_name_local(p_inj.get("lastName"))))
             roster_rows = []
             for p in f2d:
                 if p.get("week") == args.week:
@@ -407,11 +422,11 @@ def main():
                     first = p.get("firstName")
                     last = p.get("lastName")
                     
-                    # Filter out injured reserve (IR) and out (O) players (disabled to allow gameday roster filtering)
-                    # injury_status = p.get("injuryStatus")
-                    # if injury_status in ("IR", "O"):
-                    #     print(f"  Skipping injured/out player (f2d): {first} {last} (Status: {injury_status})")
-                    #     continue
+                    # Filter out week-specific F2P injured reserve (IR) and out (O) players when no official gameday roster exists
+                    injury_status = p.get("injuryStatus")
+                    if not has_official_gd and injury_status in ("IR", "O"):
+                        print(f"  Skipping injured/out player (f2d): {first} {last} (Status: {injury_status})")
+                        continue
                         
                     salary = p.get("salary", 0)
                     if not salary or salary == 0 or is_placeholder:
@@ -439,6 +454,8 @@ def main():
                         "subPosition": assign_sub_position(p["position"]),
                         "officialId": p.get("officialId", "00000"),
                         "salary": salary,
+                        "projectedPoints": p.get("projectedPoints", 0.0),
+                        "injuryStatus": p.get("injuryStatus"),
                         "eventId": p.get("eventId")
                     })
             roster = pd.DataFrame(roster_rows).drop_duplicates(subset=["firstName", "lastName", "team", "eventId"])
@@ -452,9 +469,11 @@ def main():
 
     team_current_foPct = df_all.groupby("team")[["faceoffsWon", "faceoffs"]].apply(lambda x: x["faceoffsWon"].sum() / max(1, x["faceoffs"].sum())).to_dict()
     
-    gameday_path = os.path.join(sDir, f"gameday_rosters_week{args.week}.json")
+    gameday_path_yr = os.path.join(sDir, f"gameday_rosters_{args.year}_week{args.week}.json")
+    gameday_path_legacy = os.path.join(sDir, f"gameday_rosters_week{args.week}.json") if args.year == 2026 else None
+    gameday_path = gameday_path_yr if os.path.exists(gameday_path_yr) else (gameday_path_legacy if (gameday_path_legacy and os.path.exists(gameday_path_legacy)) else None)
     api_roster_by_team = {}  # team_id -> list of player dicts
-    if os.path.exists(gameday_path):
+    if gameday_path and os.path.exists(gameday_path):
         with open(gameday_path, encoding="utf-8") as f: gr = json.load(f)
         for ev in gr.get("data", {}).get("items", []):
             for side in ["homeTeam", "awayTeam"]:
@@ -471,14 +490,21 @@ def main():
                 all_stats = json.load(f)
             for slug, p_data in all_stats.items():
                 for entry in p_data.get("stats", []):
-                    e_id = entry.get("event", {}).get("eventId", "")
-                    yr_match = re.search(r'^(\d{4})_', e_id)
+                    evt_d = entry.get("event", {})
+                    e_id = normalize_event_id(evt_d.get("eventId", ""))
+                    yr_match = re.search(r'(?:^|-|_)(20\d{2})(?:-|_|$)', e_id)
                     yr = int(yr_match.group(1)) if yr_match else None
                     if yr == args.year and entry.get("week") == args.week:
                         ident = entry.get("identity", {})
                         tid = ident.get("team")
-                        if tid:
-                            is_dnp = entry.get("isDNP", False)
+                        if tid == "CHR": tid = "OUT"
+                        h_t, a_t = evt_d.get("homeTeam"), evt_d.get("awayTeam")
+                        if h_t == "CHR": h_t = "OUT"
+                        if a_t == "CHR": a_t = "OUT"
+                        is_dnp = entry.get("isDNP", False)
+                        if is_dnp and h_t and a_t and tid not in (h_t, a_t):
+                            continue
+                        if tid and tid != "ZPP":
                             api_roster_by_team.setdefault(tid, []).append({
                                 "firstName": ident.get("firstName") or slug.split("-")[0].capitalize(),
                                 "lastName": ident.get("lastName") or slug.split("-")[-1].capitalize(),
@@ -502,10 +528,10 @@ def main():
             active_gameday_names = set()
             for gp in gameday_players:
                 rs = gp.get("rosterStatus", "active")
-                is_inj = gp.get("injuryStatus") in ("O", "IR")
+                fn = clean_name(gp.get("firstName", ""))
+                ln = clean_name(gp.get("lastName", ""))
+                is_inj = (fn, ln) in injured_keys
                 if rs in ("active", "starter") and not is_inj:
-                    fn = clean_name(gp.get("firstName", ""))
-                    ln = clean_name(gp.get("lastName", ""))
                     active_gameday_names.add((fn, ln))
 
             for _, r_row in team_roster_players.iterrows():
@@ -540,7 +566,9 @@ def main():
             if opp_players:
                 for gp in opp_players:
                     rs = gp.get("rosterStatus", "active")
-                    is_inj = gp.get("injuryStatus") in ("O", "IR")
+                    fn_gp = clean_name(gp.get("firstName", ""))
+                    ln_gp = clean_name(gp.get("lastName", ""))
+                    is_inj = (fn_gp, ln_gp) in injured_keys
                     is_active = rs in ("active", "starter") and not is_inj
                     pos = str(gp.get("position", "")).upper()
                     if pos in ("SSDM", "LSM"):
@@ -578,7 +606,9 @@ def main():
             if opp_players:
                 for gp in opp_players:
                     rs = gp.get("rosterStatus", "active")
-                    is_inj = gp.get("injuryStatus") in ("O", "IR")
+                    fn_gp = clean_name(gp.get("firstName", ""))
+                    ln_gp = clean_name(gp.get("lastName", ""))
+                    is_inj = (fn_gp, ln_gp) in injured_keys
                     is_active = rs in ("active", "starter") and not is_inj
                     pos = str(gp.get("position", "")).upper()
                     if pos in ("SSDM", "LSM") and is_active: active_ssdm += 1
@@ -653,7 +683,8 @@ def main():
             t_df["team_roster_churn"] = recent_team_churn.get(t, 0.0)
             t_df["opp_def_churn"] = recent_opp_def_churn.get(opp, 0.0)
             
-            tm = t_df.apply(lambda r: get_feats(r, m_by_g.get(m["game_id"], {}).get("matchups", [])), axis=1, result_type='expand')
+            gml_test = (m_by_g.get(m["game_id"]) or m_by_g.get(normalize_event_id(m["game_id"])) or {}).get("matchups", [])
+            tm = t_df.apply(lambda r: get_feats(r, gml_test), axis=1, result_type='expand')
             t_df["pairing_rating"], t_df["opponent_rating"], t_df["player_vs_team_rating"], t_df["team_def_rating"] = tm[0], tm[1], tm[2], tm[3]
             test_rows.append(t_df)
     
@@ -690,12 +721,14 @@ def main():
                     feats.append("salary_percentile")
                 print(f"  Position: {pg} -> features: {feats}")
 
-        # Compute salary features on df_all (training pool)
+        # Compute salary features on df_all (training pool) with expanding historical/synthetic imputation (Item 66)
         df_all["salary"] = pd.to_numeric(df_all["salary"], errors="coerce")
-        pre_2023_mask = df_all["year"] < 2023
-        synth_salaries = (df_all["fp_season_avg"].fillna(0.0) * 1.3333) + 1.3333
-        synth_salaries = synth_salaries.clip(10.0, 50.0)
-        df_all.loc[pre_2023_mask, "salary"] = df_all.loc[pre_2023_mask, "salary"].fillna(synth_salaries)
+        missing_sal_mask = df_all["salary"].isna() | (df_all["salary"] <= 0)
+        if missing_sal_mask.any():
+            df_all.loc[missing_sal_mask, "salary"] = np.nan
+            hist_player_sal = df_all.groupby(["firstName", "lastName"])["salary"].transform(lambda x: x.expanding().mean().shift(1))
+            synth_salaries = ((df_all["fp_season_avg"].fillna(8.0) * 1.3333) + 1.3333).clip(10.0, 50.0)
+            df_all.loc[missing_sal_mask, "salary"] = hist_player_sal.loc[missing_sal_mask].fillna(synth_salaries.loc[missing_sal_mask])
         df_all["salary"] = df_all["salary"].fillna(10.0)
         df_all["salary_normalized"] = df_all["salary"] / 50.0
         # Percentile rank within (year, week, positionGroup)
@@ -741,11 +774,12 @@ def main():
         if pg == "Faceoff" and FACEOFF_HEURISTIC_ENABLED:
             print("  [INFO] Running Faceoff Bradley-Terry & Generative Heuristic with Temporal Decay & Share Scaling (Item 52)...")
             
-            # A. Fit Bradley-Terry Model on df_train with Exponential Temporal Decay
+            # A. Fit Bradley-Terry Model on df_train with Exponential Temporal Decay (including games vs LSM/Midfield FO takers)
             df_train_fo = df_train[(df_train["positionGroup"] == "Faceoff") & (df_train["faceoffs"] > 0)].copy()
+            df_train_bt = df_train[df_train["faceoffs"] > 0].copy()
             
             matchup_dataset = []
-            for g_id, g_df in df_train_fo.groupby("eventId"):
+            for g_id, g_df in df_train_bt.groupby("eventId"):
                 teams = g_df["team"].dropna().unique()
                 if len(teams) >= 2:
                     t1, t2 = teams[0], teams[1]
@@ -763,7 +797,7 @@ def main():
                             "year": g_yr
                         })
             
-            fo_players = sorted(list(df_train_fo.apply(lambda r: f"{r['firstName']} {r['lastName']}", axis=1).unique()))
+            fo_players = sorted(list(df_train_bt.apply(lambda r: f"{r['firstName']} {r['lastName']}", axis=1).unique()))
             
             player_ratings = {}
             if fo_players and matchup_dataset:

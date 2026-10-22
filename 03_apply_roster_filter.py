@@ -14,7 +14,31 @@ def clean_name(name):
 
 # 2. Query official stats REST API for gameday rosters (or local fallback)
 def fetch_gameday_rosters(year, week):
-    local_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), f"gameday_rosters_week{week}.json")
+    s_dir = os.path.dirname(os.path.abspath(__file__))
+    local_candidates = [os.path.join(s_dir, f"gameday_rosters_{year}_week{week}.json")]
+    if int(year) == 2026:
+        local_candidates.append(os.path.join(s_dir, f"gameday_rosters_week{week}.json"))
+
+    def _filter_year_items(items_list):
+        valid = []
+        for ev in items_list:
+            slug = str(ev.get("slug") or ev.get("id") or "")
+            if slug and slug[:4].isdigit() and int(slug[:4]) != int(year):
+                continue
+            valid.append(ev)
+        return valid
+
+    for local_path in local_candidates:
+        if os.path.exists(local_path):
+            try:
+                with open(local_path, "r", encoding="utf-8") as f:
+                    res = json.load(f)
+                    items = _filter_year_items(res.get("data", {}).get("items", []))
+                    if items:
+                        print(f"Loaded {len(items)} events from local roster file: {local_path}")
+                        return items
+            except Exception as e:
+                print(f"Warning: Failed to load local roster file: {e}")
 
     url = f"https://api.stats.premierlacrosseleague.com/api/v4/events/gameday-rosters"
     params = {"year": year, "week": week}
@@ -27,30 +51,21 @@ def fetch_gameday_rosters(year, week):
     
     print(f"Fetching gameday rosters from API: {url} (Year: {year}, Week: {week})...")
     try:
-        r = requests.get(url, params=params, headers=headers, timeout=15)
+        r = requests.get(url, params=params, headers=headers, timeout=5)
         r.raise_for_status()
         res = r.json()
-        items = res.get("data", {}).get("items", [])
+        items = _filter_year_items(res.get("data", {}).get("items", []))
         if items:
             return items
     except Exception as e:
         print(f"Warning: Failed to fetch gameday rosters from API: {e}")
 
-    if os.path.exists(local_path):
-        try:
-            with open(local_path, "r", encoding="utf-8") as f:
-                res = json.load(f)
-                items = res.get("data", {}).get("items", [])
-                if items:
-                    print(f"Loaded {len(items)} events from local roster file: {local_path}")
-                    return items
-        except Exception as e:
-            print(f"Warning: Failed to load local roster file: {e}")
-
     return []
 
 # 3. Filter predictions CSV from raw to final
-def filter_csv(raw_path, out_path, api_rosters, team_matchups):
+def filter_csv(raw_path, out_path, api_rosters, team_matchups, injured_keys=None):
+    if injured_keys is None:
+        injured_keys = set()
     print(f"\nFiltering predictions file: {raw_path} -> {out_path}")
     if not os.path.exists(raw_path):
         print(f"File {raw_path} does not exist. Skipping.")
@@ -70,10 +85,13 @@ def filter_csv(raw_path, out_path, api_rosters, team_matchups):
         clean_fn = clean_name(fn)
         clean_ln = clean_name(ln)
         
+        if (clean_fn, clean_ln) in injured_keys or str(row.get("injuryStatus", "")).upper() in ("O", "IR"):
+            continue
+        
         is_active = False
         active_team = None
         
-        # Look for this player in the rosters
+        # Look for this player in the rosters (using gameday rosterStatus, NOT mutable API injuryStatus)
         # First check their listed team
         team_roster = api_rosters.get(pred_team, [])
         for p in team_roster:
@@ -84,7 +102,7 @@ def filter_csv(raw_path, out_path, api_rosters, team_matchups):
             if clean_fn == clean_p_fn and (clean_ln == clean_p_ln or 
                (clean_ln == "molloy" and clean_p_ln == "malloy") or
                (clean_ln == "mcardle" and clean_p_ln == "mckardle")):
-                if p.get("injuryStatus") not in ("O", "IR"):
+                if p.get("rosterStatus", "active") in ("active", "starter"):
                     is_active = True
                     active_team = pred_team
                 break
@@ -101,7 +119,7 @@ def filter_csv(raw_path, out_path, api_rosters, team_matchups):
                        (clean_ln == "molloy" and clean_p_ln == "malloy") or
                        (clean_ln == "mcardle" and clean_p_ln == "mckardle") or
                        (clean_ln == "croddick" and clean_p_ln == "croddick")): # Ryan Croddick trade
-                        if p.get("injuryStatus") not in ("O", "IR"):
+                        if p.get("rosterStatus", "active") in ("active", "starter"):
                             is_active = True
                             active_team = t_code
                         break
@@ -142,21 +160,35 @@ def main():
     class_raw = os.path.join(predictions_dir, f"week{args.week}_{args.year}_predictions_raw.csv")
     class_out = os.path.join(predictions_dir, f"week{args.week}_{args.year}_predictions.csv")
     
+    # Build week-specific F2P injured_keys (pre-game IR/O status)
+    injured_keys = set()
+    f2p_season_path = os.path.join(script_dir, f"f2p_{args.year}_season.json")
+    if os.path.exists(f2p_season_path):
+        try:
+            with open(f2p_season_path, "r", encoding="utf-8") as f_f2p:
+                for p_f2p in json.load(f_f2p):
+                    if p_f2p.get("week") == args.week and p_f2p.get("injuryStatus") in ("IR", "O"):
+                        injured_keys.add((clean_name(p_f2p.get("firstName")), clean_name(p_f2p.get("lastName"))))
+        except Exception:
+            pass
+
     # Get active rosters from API
     roster_items = fetch_gameday_rosters(args.year, args.week)
     
-    # Fallback logic: if no rosters are returned, copy raw predictions and warning
+    # Fallback logic: if no rosters are returned, filter only week-specific F2P IR/O players and copy to output
     if not roster_items:
         print("\n" + "="*80)
         print("WARNING: Official gameday rosters not available from API yet.")
-        print("Predictions file will NOT be filtered to ensure players are not lost.")
+        print("Filtering only week-specific F2P IR/O players.")
         print("="*80)
         
-        # Copy raw to output
         if os.path.exists(class_raw):
-            import shutil
-            shutil.copy2(class_raw, class_out)
-            print(f"Copied {class_raw} to {class_out}")
+            df_raw_fb = pd.read_csv(class_raw)
+            if injured_keys:
+                keep_mask = df_raw_fb.apply(lambda r: (clean_name(r.get("firstName")), clean_name(r.get("lastName"))) not in injured_keys, axis=1)
+                df_raw_fb = df_raw_fb[keep_mask].copy()
+            df_raw_fb.to_csv(class_out, index=False)
+            print(f"Saved {len(df_raw_fb)} players from {class_raw} to {class_out}")
             
         # Run optimizer anyway with unfiltered data
         if not args.no_opt:
@@ -189,7 +221,7 @@ def main():
                 team_matchups[t] = {"opponent": opp, "game_id": gid}
                 
     # Filter predictions CSVs
-    filter_csv(class_raw, class_out, api_rosters, team_matchups)
+    filter_csv(class_raw, class_out, api_rosters, team_matchups, injured_keys=injured_keys)
     
     # Regenerate advisory report and optimized lineups
     if not args.no_opt:

@@ -133,34 +133,77 @@ class StatsDatabase:
         if not data:
             return []
 
-        players = []
+        salary_history = {}
         for p in data:
-            if p.get("week") == week:
+            pw = p.get("week", 1)
+            if pw and pw < week:
                 ident = p.get("identity", {})
-                evt = p.get("event", {})
-                f2p = p.get("f2p", {})
-                stats_dict = p.get("stats", {})
-                is_dnp = p.get("isDNP", False)
-                
-                # Filter out goalies that didn't play at all if they have no stats
-                pos = get_standard_pos(ident.get("position"))
-                pts = f2p.get("totalPoints") if f2p.get("totalPoints") is not None else self._calc_fantasy(stats_dict)
-                
-                if pos == "G" and not is_dnp:
-                    saves = stats_dict.get("saves", 0)
-                    ga = stats_dict.get("goalsAgainst", 0)
-                    if saves == 0 and ga == 0 and pts == 0:
-                        continue # Scratched goalie
+                sal = p.get("f2p", {}).get("salary", 0)
+                if sal and sal > 0:
+                    key = (ident.get("firstName"), ident.get("lastName"))
+                    salary_history.setdefault(key, []).append(sal)
+        avg_salaries = {k: sum(v) / len(v) for k, v in salary_history.items() if v}
 
-                players.append({
-                    "firstName": ident.get("firstName"),
-                    "lastName": ident.get("lastName"),
-                    "position": pos,
-                    "salary": int(f2p.get("salary", 10)) if f2p.get("salary") is not None else 10,
-                    "eventId": evt.get("eventId"),
-                    "actualPoints": pts,
-                    "isDNP": is_dnp
-                })
+        week_records = [p for p in data if p.get("week") == week]
+        target_salaries = [p.get("f2p", {}).get("salary", 0) for p in week_records]
+        is_placeholder = bool(target_salaries and len(set(target_salaries)) <= 1)
+
+        def _get_hist_sal(first, last):
+            for prev_yr in range(year - 1, 2023, -1):
+                prev_data = self.load_year(prev_yr)
+                if not prev_data:
+                    continue
+                sals = [
+                    p_yr.get("f2p", {}).get("salary", 0)
+                    for p_yr in prev_data
+                    if p_yr.get("identity", {}).get("firstName") == first
+                    and p_yr.get("identity", {}).get("lastName") == last
+                    and (p_yr.get("f2p", {}).get("salary") or 0) > 0
+                ]
+                if sals:
+                    return sum(sals) / len(sals)
+            return None
+
+        players = []
+        for p in week_records:
+            ident = p.get("identity", {})
+            evt = p.get("event", {})
+            f2p = p.get("f2p", {})
+            stats_dict = p.get("stats", {})
+            is_dnp = p.get("isDNP", False)
+            
+            # Filter out goalies that didn't play at all if they have no stats
+            pos = get_standard_pos(ident.get("position"))
+            pts = f2p.get("totalPoints") if f2p.get("totalPoints") is not None else self._calc_fantasy(stats_dict)
+            
+            if pos == "G" and not is_dnp:
+                saves = stats_dict.get("saves", 0)
+                ga = stats_dict.get("goalsAgainst", 0)
+                if saves == 0 and ga == 0 and pts == 0:
+                    continue # Scratched goalie
+
+            first = ident.get("firstName")
+            last = ident.get("lastName")
+            salary = f2p.get("salary", 0)
+            if not salary or salary == 0 or is_placeholder or (year == 2025 and week in [12, 13, 14]):
+                avg_sal = avg_salaries.get((first, last))
+                if avg_sal and avg_sal > 0:
+                    salary = int(round(avg_sal))
+                else:
+                    hist_sal = _get_hist_sal(first, last)
+                    salary = int(round(hist_sal)) if hist_sal else 15
+            else:
+                salary = int(salary)
+
+            players.append({
+                "firstName": first,
+                "lastName": last,
+                "position": pos,
+                "salary": salary,
+                "eventId": evt.get("eventId"),
+                "actualPoints": pts,
+                "isDNP": is_dnp
+            })
         return players
 
     def _calc_fantasy(self, s):
@@ -428,10 +471,11 @@ class PredictionEvaluator:
 
         metrics = {}
 
-        # 1. Regression Metrics (MAE, RMSE, R2, Correlation)
-        if "PredictedPoints" in df_eval.columns:
+        # 1. Regression Metrics (MAE, RMSE, R2, Correlation) — evaluated on mc_ev when available (Item 67)
+        pred_col = "mc_ev" if ("mc_ev" in df_eval.columns and df_eval["mc_ev"].notna().any()) else ("PredictedPoints" if "PredictedPoints" in df_eval.columns else None)
+        if pred_col is not None:
             y_true = df_eval["actualPoints"]
-            y_pred = df_eval["PredictedPoints"]
+            y_pred = df_eval[pred_col]
             
             mae = np.mean(np.abs(y_true - y_pred))
             rmse = np.sqrt(np.mean((y_true - y_pred)**2))
@@ -455,12 +499,12 @@ class PredictionEvaluator:
                 pos_maes = {}
                 for pos in ["A", "M", "D", "FO", "G"]:
                     df_pos = df_eval[df_eval["positionGroup"] == pos]
-                    if len(df_pos) >= 5 and np.std(df_pos["PredictedPoints"]) > 0:
-                        pos_rho, _ = stats.spearmanr(df_pos["actualPoints"], df_pos["PredictedPoints"])
+                    if len(df_pos) >= 5 and np.std(df_pos[pred_col]) > 0:
+                        pos_rho, _ = stats.spearmanr(df_pos["actualPoints"], df_pos[pred_col])
                         metrics[f"{pos}_Spearman"] = pos_rho
                         pos_rhos[pos] = pos_rho
                     if len(df_pos) > 0:
-                        p_mae = float(np.mean(np.abs(df_pos["actualPoints"] - df_pos["PredictedPoints"])))
+                        p_mae = float(np.mean(np.abs(df_pos["actualPoints"] - df_pos[pred_col])))
                         metrics[f"{pos}_MAE"] = p_mae
                         pos_maes[pos] = p_mae
 

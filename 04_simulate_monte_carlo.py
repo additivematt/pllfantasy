@@ -10,7 +10,8 @@ from utils import (
     assign_sub_position,
     calc_fantasy,
     get_designated_goalie_starters,
-    is_designated_starter
+    is_designated_starter,
+    normalize_event_id
 )
 import config
 from config import LAMBDA_RECENCY, MC_POOL_BLENDING_ENABLED, MC_POOL_BLENDING_K, PACE_ADJUSTED_RATES_ENABLED
@@ -150,15 +151,17 @@ def load_player_game_history(all_stats_path, target_year, target_week):
             stats_dict = entry.get("stats", {})
             f2p = entry.get("f2p", {})
             evt = entry.get("event", {})
-            e_id = evt.get("eventId", "")
+            e_id = normalize_event_id(evt.get("eventId", ""))
             
-            # Extract year from eventId
-            yr_match = re.search(r'^(\d{4})_', e_id)
+            # Extract year from normalized eventId and restrict to >= 2023 (Item 64)
+            yr_match = re.search(r'(?:^|-|_)(20\d{2})(?:-|_|$)', e_id)
             yr = int(yr_match.group(1)) if yr_match else None
             w = entry.get("week")
+            if yr is None or yr < 2023:
+                continue
             
             # Data leakage prevention
-            if yr is not None and (yr > target_year or (yr == target_year and w is not None and w >= target_week)):
+            if yr > target_year or (yr == target_year and w is not None and w >= target_week):
                 continue
                 
             is_dnp = entry.get("isDNP", False)
@@ -185,7 +188,9 @@ def load_player_game_history(all_stats_path, target_year, target_week):
             # Record for dynamic correlations
             c_pos = get_corr_pos_local(ident.get("position"))
             team = ident.get("team")
-            if c_pos != "Unknown" and team and e_id:
+            if team == "CHR":
+                team = "OUT"
+            if c_pos != "Unknown" and team and team != "ZPP" and e_id:
                 game_players.setdefault(e_id, []).append({
                     "team": team,
                     "corr_pos": c_pos,
@@ -636,6 +641,12 @@ def main():
     with open(stats_file, 'w', encoding='utf-8') as f:
         json.dump(stats_summary, f, indent=4)
     print(f"Successfully saved pre-computed simulation stats to {stats_file}")
+
+    # Persist mc_ev, mc_std, and mc_p90 directly into the weekly predictions CSV for evaluation alignment (Item 67)
+    df_preds["mc_ev"] = [stats_summary[c]["mc_ev"] for c in columns]
+    df_preds["mc_std"] = [stats_summary[c]["mc_std"] for c in columns]
+    df_preds["mc_p90"] = [stats_summary[c]["mc_p90"] for c in columns]
+    df_preds.to_csv(preds_file, index=False)
     
 if __name__ == "__main__":
     main()

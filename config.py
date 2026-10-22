@@ -102,6 +102,11 @@ USAGE_HEALTH_FEATURES_ENABLED = False
 # to prevent future lookup data leakage during model training. Enabled by default.
 DATA_LEAKAGE_FIX_ENABLED = True
 
+# Goalie Starter Override Leakage Gate (Item 62):
+# By default False so historical backtests strictly use the pre-game goalie starter heuristic
+# rather than retrospective post-game box-score overrides in goalie_starters.json.
+ALLOW_RETROSPECTIVE_GOALIE_OVERRIDES = os.environ.get("ALLOW_RETROSPECTIVE_GOALIE_OVERRIDES", "False") == "True"
+
 # Bayesian Shrinkage on Matchup Ratings: Blends raw matchup ratings with a prior
 # of 1.0 based on sample size to prevent extreme noise for low-sample pairings.
 SHRINKAGE_ENABLED = True

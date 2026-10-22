@@ -8,8 +8,8 @@
             "game_id": "2026_quarterfinal_1",
             "position": "Attack",
             "salary": 28,
-            "mc_ev": 45.5,
-            "mc_p90": 81.4,
+            "mc_ev": 50.0,
+            "mc_p90": 115.8,
             "mc_p10": 0.0,
             "actualPoints": 28.0
         },
@@ -21,9 +21,9 @@
             "game_id": "2026_quarterfinal_2",
             "position": "Attack",
             "salary": 32,
-            "mc_ev": 40.4,
-            "mc_p90": 70.3,
-            "mc_p10": 13.6,
+            "mc_ev": 37.6,
+            "mc_p90": 65.8,
+            "mc_p10": 12.7,
             "actualPoints": -2.0
         },
         {
@@ -34,9 +34,9 @@
             "game_id": "2026_quarterfinal_2",
             "position": "Faceoff",
             "salary": 24,
-            "mc_ev": 32.1,
-            "mc_p90": 53.0,
-            "mc_p10": 6.2,
+            "mc_ev": 31.9,
+            "mc_p90": 52.3,
+            "mc_p10": 7.8,
             "actualPoints": 14.9
         },
         {
@@ -47,23 +47,10 @@
             "game_id": "2026_quarterfinal_1",
             "position": "Goalie",
             "salary": 41,
-            "mc_ev": 31.3,
-            "mc_p90": 55.5,
+            "mc_ev": 31.1,
+            "mc_p90": 55.7,
             "mc_p10": 0.0,
             "actualPoints": 34.0
-        },
-        {
-            "firstName": "Ryder",
-            "lastName": "Garnsey",
-            "team": "RED",
-            "opponent": "OUT",
-            "game_id": "2026_quarterfinal_1",
-            "position": "Midfield",
-            "salary": 18,
-            "mc_ev": 27.9,
-            "mc_p90": 56.0,
-            "mc_p10": 0.0,
-            "actualPoints": 28.0
         },
         {
             "firstName": "Aidan",
@@ -73,22 +60,35 @@
             "game_id": "2026_quarterfinal_2",
             "position": "Midfield",
             "salary": 37,
-            "mc_ev": 24.9,
-            "mc_p90": 42.0,
-            "mc_p10": 5.5,
+            "mc_ev": 23.9,
+            "mc_p90": 40.7,
+            "mc_p10": 5.4,
             "actualPoints": 11.0
         },
         {
-            "firstName": "Dante",
-            "lastName": "Bowen",
-            "team": "RED",
-            "opponent": "OUT",
-            "game_id": "2026_quarterfinal_1",
+            "firstName": "Ajax",
+            "lastName": "Zappitello",
+            "team": "WHP",
+            "opponent": "CAN",
+            "game_id": "2026_quarterfinal_2",
             "position": "Defense",
-            "salary": 4,
-            "mc_ev": 19.8,
-            "mc_p90": 41.8,
-            "mc_p10": 0.0,
+            "salary": 22,
+            "mc_ev": 19.1,
+            "mc_p90": 36.9,
+            "mc_p10": 8.2,
+            "actualPoints": 12.0
+        },
+        {
+            "firstName": "Graydon",
+            "lastName": "Hogg",
+            "team": "CAN",
+            "opponent": "WHP",
+            "game_id": "2026_quarterfinal_2",
+            "position": "Midfield",
+            "salary": 12,
+            "mc_ev": 15.6,
+            "mc_p90": 25.1,
+            "mc_p10": 1.1,
             "actualPoints": 0.0
         }
     ],
@@ -101,8 +101,8 @@
             "game_id": "2026_quarterfinal_1",
             "position": "Attack",
             "salary": 28,
-            "mc_ev": 45.5,
-            "mc_p90": 81.4,
+            "mc_ev": 50.0,
+            "mc_p90": 115.8,
             "mc_p10": 0.0,
             "actualPoints": 28.0
         },
@@ -114,9 +114,9 @@
             "game_id": "2026_quarterfinal_2",
             "position": "Attack",
             "salary": 32,
-            "mc_ev": 40.4,
-            "mc_p90": 70.3,
-            "mc_p10": 13.6,
+            "mc_ev": 37.6,
+            "mc_p90": 65.8,
+            "mc_p10": 12.7,
             "actualPoints": -2.0
         },
         {
@@ -127,36 +127,23 @@
             "game_id": "2026_quarterfinal_2",
             "position": "Faceoff",
             "salary": 24,
-            "mc_ev": 32.1,
-            "mc_p90": 53.0,
-            "mc_p10": 6.2,
+            "mc_ev": 31.9,
+            "mc_p90": 52.3,
+            "mc_p10": 7.8,
             "actualPoints": 14.9
         },
         {
-            "firstName": "Emmet",
-            "lastName": "Carroll",
-            "team": "WHP",
-            "opponent": "CAN",
-            "game_id": "2026_quarterfinal_2",
-            "position": "Goalie",
-            "salary": 39,
-            "mc_ev": 29.7,
-            "mc_p90": 46.0,
-            "mc_p10": 16.5,
-            "actualPoints": 18.0
-        },
-        {
-            "firstName": "Ryder",
-            "lastName": "Garnsey",
-            "team": "RED",
-            "opponent": "OUT",
+            "firstName": "Logan",
+            "lastName": "McNaney",
+            "team": "OUT",
+            "opponent": "RED",
             "game_id": "2026_quarterfinal_1",
-            "position": "Midfield",
-            "salary": 18,
-            "mc_ev": 27.9,
-            "mc_p90": 56.0,
+            "position": "Goalie",
+            "salary": 41,
+            "mc_ev": 31.1,
+            "mc_p90": 55.7,
             "mc_p10": 0.0,
-            "actualPoints": 28.0
+            "actualPoints": 34.0
         },
         {
             "firstName": "Aidan",
@@ -166,22 +153,35 @@
             "game_id": "2026_quarterfinal_2",
             "position": "Midfield",
             "salary": 37,
-            "mc_ev": 24.9,
-            "mc_p90": 42.0,
-            "mc_p10": 5.5,
+            "mc_ev": 23.9,
+            "mc_p90": 40.7,
+            "mc_p10": 5.4,
             "actualPoints": 11.0
         },
         {
-            "firstName": "Dante",
-            "lastName": "Bowen",
-            "team": "RED",
-            "opponent": "OUT",
-            "game_id": "2026_quarterfinal_1",
+            "firstName": "Ajax",
+            "lastName": "Zappitello",
+            "team": "WHP",
+            "opponent": "CAN",
+            "game_id": "2026_quarterfinal_2",
             "position": "Defense",
-            "salary": 4,
-            "mc_ev": 19.8,
-            "mc_p90": 41.8,
-            "mc_p10": 0.0,
+            "salary": 22,
+            "mc_ev": 19.1,
+            "mc_p90": 36.9,
+            "mc_p10": 8.2,
+            "actualPoints": 12.0
+        },
+        {
+            "firstName": "Graydon",
+            "lastName": "Hogg",
+            "team": "CAN",
+            "opponent": "WHP",
+            "game_id": "2026_quarterfinal_2",
+            "position": "Midfield",
+            "salary": 12,
+            "mc_ev": 15.6,
+            "mc_p90": 25.1,
+            "mc_p10": 1.1,
             "actualPoints": 0.0
         }
     ],
@@ -194,8 +194,8 @@
             "game_id": "2026_quarterfinal_1",
             "position": "Attack",
             "salary": 28,
-            "mc_ev": 45.5,
-            "mc_p90": 81.4,
+            "mc_ev": 50.0,
+            "mc_p90": 115.8,
             "mc_p10": 0.0,
             "actualPoints": 28.0
         },
@@ -207,49 +207,10 @@
             "game_id": "2026_quarterfinal_2",
             "position": "Attack",
             "salary": 32,
-            "mc_ev": 40.4,
-            "mc_p90": 70.3,
-            "mc_p10": 13.6,
+            "mc_ev": 37.6,
+            "mc_p90": 65.8,
+            "mc_p10": 12.7,
             "actualPoints": -2.0
-        },
-        {
-            "firstName": "Ryder",
-            "lastName": "Garnsey",
-            "team": "RED",
-            "opponent": "OUT",
-            "game_id": "2026_quarterfinal_1",
-            "position": "Midfield",
-            "salary": 18,
-            "mc_ev": 27.9,
-            "mc_p90": 56.0,
-            "mc_p10": 0.0,
-            "actualPoints": 28.0
-        },
-        {
-            "firstName": "Aidan",
-            "lastName": "Carroll",
-            "team": "WHP",
-            "opponent": "CAN",
-            "game_id": "2026_quarterfinal_2",
-            "position": "Midfield",
-            "salary": 37,
-            "mc_ev": 24.9,
-            "mc_p90": 42.0,
-            "mc_p10": 5.5,
-            "actualPoints": 11.0
-        },
-        {
-            "firstName": "Dante",
-            "lastName": "Bowen",
-            "team": "RED",
-            "opponent": "OUT",
-            "game_id": "2026_quarterfinal_1",
-            "position": "Defense",
-            "salary": 4,
-            "mc_ev": 19.8,
-            "mc_p90": 41.8,
-            "mc_p10": 0.0,
-            "actualPoints": 0.0
         },
         {
             "firstName": "Andrew",
@@ -259,9 +220,9 @@
             "game_id": "2026_quarterfinal_2",
             "position": "Faceoff",
             "salary": 24,
-            "mc_ev": 32.1,
-            "mc_p90": 53.0,
-            "mc_p10": 6.2,
+            "mc_ev": 31.9,
+            "mc_p90": 52.3,
+            "mc_p10": 7.8,
             "actualPoints": 14.9
         },
         {
@@ -272,10 +233,49 @@
             "game_id": "2026_quarterfinal_1",
             "position": "Goalie",
             "salary": 41,
-            "mc_ev": 31.3,
-            "mc_p90": 55.5,
+            "mc_ev": 31.1,
+            "mc_p90": 55.7,
             "mc_p10": 0.0,
             "actualPoints": 34.0
+        },
+        {
+            "firstName": "Aidan",
+            "lastName": "Carroll",
+            "team": "WHP",
+            "opponent": "CAN",
+            "game_id": "2026_quarterfinal_2",
+            "position": "Midfield",
+            "salary": 37,
+            "mc_ev": 23.9,
+            "mc_p90": 40.7,
+            "mc_p10": 5.4,
+            "actualPoints": 11.0
+        },
+        {
+            "firstName": "Ajax",
+            "lastName": "Zappitello",
+            "team": "WHP",
+            "opponent": "CAN",
+            "game_id": "2026_quarterfinal_2",
+            "position": "Defense",
+            "salary": 22,
+            "mc_ev": 19.1,
+            "mc_p90": 36.9,
+            "mc_p10": 8.2,
+            "actualPoints": 12.0
+        },
+        {
+            "firstName": "Graydon",
+            "lastName": "Hogg",
+            "team": "CAN",
+            "opponent": "WHP",
+            "game_id": "2026_quarterfinal_2",
+            "position": "Midfield",
+            "salary": 12,
+            "mc_ev": 15.6,
+            "mc_p90": 25.1,
+            "mc_p10": 1.1,
+            "actualPoints": 0.0
         }
     ],
     "MC_Consensus": [],
@@ -288,23 +288,23 @@
             "game_id": "2026_quarterfinal_1",
             "position": "A",
             "salary": 36,
-            "mc_ev": 25.7,
-            "mc_p90": 49.8,
-            "mc_p10": 3.0,
+            "mc_ev": 24.5,
+            "mc_p90": 48.4,
+            "mc_p10": 3.6,
             "actualPoints": 81.0
         },
         {
-            "firstName": "Pat",
-            "lastName": "Kavanagh",
-            "team": "OUT",
-            "opponent": "RED",
+            "firstName": "Finn",
+            "lastName": "Thomson",
+            "team": "RED",
+            "opponent": "OUT",
             "game_id": "2026_quarterfinal_1",
             "position": "A",
-            "salary": 37,
-            "mc_ev": 29.5,
-            "mc_p90": 58.9,
-            "mc_p10": 7.4,
-            "actualPoints": 62.0
+            "salary": 13,
+            "mc_ev": 6.9,
+            "mc_p90": 13.0,
+            "mc_p10": 0.0,
+            "actualPoints": 36.0
         },
         {
             "firstName": "Andrew",
@@ -314,8 +314,8 @@
             "game_id": "2026_quarterfinal_1",
             "position": "M",
             "salary": 22,
-            "mc_ev": 17.9,
-            "mc_p90": 46.3,
+            "mc_ev": 16.2,
+            "mc_p90": 41.1,
             "mc_p10": 0.0,
             "actualPoints": 56.0
         },
@@ -327,8 +327,8 @@
             "game_id": "2026_quarterfinal_2",
             "position": "M",
             "salary": 14,
-            "mc_ev": 14.5,
-            "mc_p90": 25.9,
+            "mc_ev": 15.3,
+            "mc_p90": 30.4,
             "mc_p10": 0.0,
             "actualPoints": 53.0
         },
@@ -340,8 +340,8 @@
             "game_id": "2026_quarterfinal_2",
             "position": "LSM",
             "salary": 19,
-            "mc_ev": 16.9,
-            "mc_p90": 40.9,
+            "mc_ev": 17.1,
+            "mc_p90": 39.4,
             "mc_p10": 1.3,
             "actualPoints": 59.0
         },
@@ -353,8 +353,8 @@
             "game_id": "2026_quarterfinal_1",
             "position": "FO",
             "salary": 18,
-            "mc_ev": 11.4,
-            "mc_p90": 23.9,
+            "mc_ev": 11.7,
+            "mc_p90": 23.5,
             "mc_p10": 3.2,
             "actualPoints": 26.2
         },
@@ -366,8 +366,8 @@
             "game_id": "2026_quarterfinal_1",
             "position": "G",
             "salary": 41,
-            "mc_ev": 31.3,
-            "mc_p90": 55.5,
+            "mc_ev": 31.1,
+            "mc_p90": 55.7,
             "mc_p10": 0.0,
             "actualPoints": 34.0
         }
@@ -376,13 +376,14 @@
         "Jared Bernhardt",
         "Joey Spallina",
         "Andrew McMeekin",
-        "Ryder Garnsey",
+        "Logan McNaney",
         "Aidan Carroll",
-        "Dante Bowen"
+        "Ajax Zappitello",
+        "Graydon Hogg"
     ],
     "Sleepers": [],
     "RecommendedStrategy": "MC_EV",
-    "RecommendedReason": "Tight pricing / short slate (2 games, 7 cheap value players). Optimizing for floor is best.",
+    "RecommendedReason": "Tight pricing / short slate (2 games, 6 cheap value players). Optimizing for floor is best.",
     "Narrative": {
         "RecommendedRoster": [
             {
@@ -391,7 +392,7 @@
                 "position": "Attack",
                 "salary": 28,
                 "bullets": [
-                    "Opponent Weakness: RED defense allows 14% extra fantasy points to Attack position."
+                    "Opponent Weakness: RED defense allows 18% extra fantasy points to Attack position."
                 ]
             },
             {
@@ -400,7 +401,7 @@
                 "position": "Attack",
                 "salary": 32,
                 "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (40.4 EV) and reliable role."
+                    "Consistent Pick: Selected for steady expected floor (37.6 EV) and reliable role."
                 ]
             },
             {
@@ -409,7 +410,7 @@
                 "position": "Faceoff",
                 "salary": 24,
                 "bullets": [
-                    "Matchup Specialist: Historically performs well against WHP (1.24x average scoring rate)."
+                    "Matchup Specialist: Historically performs well against WHP (1.26x average scoring rate)."
                 ]
             },
             {
@@ -418,16 +419,7 @@
                 "position": "Goalie",
                 "salary": 41,
                 "bullets": [
-                    "Opponent Weakness: RED defense allows 28% extra fantasy points to Goalie position."
-                ]
-            },
-            {
-                "firstName": "Ryder",
-                "lastName": "Garnsey",
-                "position": "Midfield",
-                "salary": 18,
-                "bullets": [
-                    "Opponent Weakness: OUT defense allows 14% extra fantasy points to Midfield position."
+                    "Opponent Weakness: RED defense allows 25% extra fantasy points to Goalie position."
                 ]
             },
             {
@@ -437,33 +429,29 @@
                 "salary": 37,
                 "bullets": [
                     "Hot Form: Averaging 42.7 fantasy pts over last 3 games (vs 27.6 season avg).",
-                    "Opponent Weakness: CAN defense allows 7% extra fantasy points to Midfield position."
+                    "Opponent Weakness: CAN defense allows 8% extra fantasy points to Midfield position."
                 ]
             },
             {
-                "firstName": "Dante",
-                "lastName": "Bowen",
+                "firstName": "Ajax",
+                "lastName": "Zappitello",
                 "position": "Defense",
-                "salary": 4,
+                "salary": 22,
                 "bullets": [
-                    "Opponent Weakness: OUT defense allows 9% extra fantasy points to SSDM position.",
-                    "Salary Cap Enabler: Excellent cost efficiency, projecting 19.8 EV for just 4 coins."
+                    "Consistent Pick: Selected for steady expected floor (19.1 EV) and reliable role."
+                ]
+            },
+            {
+                "firstName": "Graydon",
+                "lastName": "Hogg",
+                "position": "Midfield",
+                "salary": 12,
+                "bullets": [
+                    "Salary Cap Enabler: Excellent cost efficiency, projecting 15.6 EV for just 12 coins."
                 ]
             }
         ],
-        "Variants": [
-            {
-                "strategy": "MC_Win_160",
-                "strategyLabel": "MC Win 160",
-                "in": [
-                    "Emmet Carroll"
-                ],
-                "out": [
-                    "Logan McNaney"
-                ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Emmet Carroll (Goalie, 39c)) to increase the joint probability of the entire lineup hitting the 160 target score."
-            }
-        ]
+        "Variants": []
     },
     "TacticalAdvice": {
         "FloorLocks": [],

@@ -1,6 +1,6 @@
-# PLL Fantasy Prediction Engine — Historical Baselines Archive (Baselines 1–14)
+# PLL Fantasy Prediction Engine — Historical Baselines Archive (Baselines 1–16)
 
-> **Context**: Archived from `improva` to preserve complete historical benchmarking records while maintaining a lightweight operational runbook. For the active baseline, see [improva](../SKILL.md).
+> **Context**: Archived from `improva` to preserve complete historical benchmarking records while maintaining a lightweight operational runbook. For the active baseline (**Baseline 17**), see [improva](../SKILL.md).
 
 ---
 
@@ -154,4 +154,28 @@ Every time a new baseline is established and rosters are saved to `baselines/`:
 |---|---|---|---|---|---|---|---|---|---|
 | **2025** | +7.2 | +50.5 | 67.0% (61/91) | 0.386 | 0.430 | 0.413 | 0.439 | 0.475 | -2.4 |
 | **2026** | +15.0 | +105.1 | 83.3% (70/84) | 0.386 | 0.544 | 0.481 | 0.612 | 0.400 | +5.5 |
+
+---
+
+## Baseline 16 (Starting Goalie Designation System — September 2026, Superseded by Clean Baseline 17)
+
+- **Description**: Introduced the Starting Goalie Designation System (`utils.get_designated_goalie_starters`), zeroing out backup goalies in `02_predict_probabilities.py` and `04_simulate_monte_carlo.py` and excluding non-starters from `06_optimize_lineups.py`.
+- **Audit Note (October 2026)**: Superseded by **Baseline 17** after a comprehensive legitimacy audit uncovered 6 data-leakage and silent pipeline bugs (Items 62–67):
+  1. `goalie_starters.json` contained post-game box-score starter overrides for all weeks of 2025 and 2026 (100% look-ahead oracle in backtests).
+  2. `gameday_rosters_week{W}.json` lacked year-scoping and contained end-of-season mutated API `injuryStatus` (`IR`/`O`), dropping active early-season starters (such as Matt DeLuca and Dylan Hess in 2026 W1).
+  3. `04_simulate_monte_carlo.py` parsed year via `^(\d{4})_`, assigning `yr = None` and `weeks_ago = 10` to 6,724 pre-2023 games.
+  4. `CHR` $\rightarrow$ `OUT` mismatches, 41 traded-player rows, and 2,110 phantom DNP rows caused `compute_game_pace_features` to skip 36/189 games.
+  5. `pre_2023_mask` in `02_predict_probabilities.py` left all 2023 training salaries at `10.0`.
+  6. `prediction_model_evaluation_harness.py` evaluated continuous metrics on Stage-1 `p90` `PredictedPoints` instead of `mc_ev`.
+- **Roster Files**: `baselines/rosters_mc_ev_baseline_16.csv`, `baselines/rosters_mc_win_160_baseline_16.csv`, `baselines/rosters_mc_ceil_90_baseline_16.csv`.
+
+| Season | Strategy | Top-1 Total | Top-1 (Avg/Wk) | Top-5 Mean (Avg/Wk) | Top-5 Max (Avg/Wk) | Top-5 Min (Avg/Wk) | Coulda Max (Avg/Wk) | Top-5 Max Ceiling % |
+|---|---|---|---|---|---|---|---|---|
+| **2025** (13 Wks) | `MC_EV` | 2,252.2 pts | 173.2 pts/wk | 172.9 pts/wk | 196.3 pts/wk | 150.6 pts/wk | 359.0 pts/wk | 54.7% |
+| **2025** (13 Wks) | `MC_Win_160` | 2,217.9 pts | 170.6 pts/wk | 172.0 pts/wk | 196.3 pts/wk | 149.6 pts/wk | 359.0 pts/wk | 54.7% |
+| **2025** (13 Wks) | `MC_Ceil_90` | 2,321.1 pts | 178.5 pts/wk | 177.8 pts/wk | 203.6 pts/wk | 154.2 pts/wk | 359.0 pts/wk | 56.7% |
+| **2026** (15 Wks) | `MC_EV` | 2,187.6 pts | 145.8 pts/wk | 146.0 pts/wk | 168.7 pts/wk | 127.0 pts/wk | 352.5 pts/wk | 47.9% |
+| **2026** (15 Wks) | `MC_Win_160` | 2,211.6 pts | 147.4 pts/wk | 147.1 pts/wk | 170.1 pts/wk | 127.5 pts/wk | 352.5 pts/wk | 48.3% |
+| **2026** (15 Wks) | `MC_Ceil_90` | 2,210.4 pts | 147.4 pts/wk | 145.4 pts/wk | 169.8 pts/wk | 121.2 pts/wk | 352.5 pts/wk | 48.2% |
+
 
