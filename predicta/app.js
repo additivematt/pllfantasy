@@ -510,10 +510,22 @@ function getCouldaSet() {
     const couldaSet = new Set();
     if (window.currentAdvisory && window.currentAdvisory.Coulda) {
         window.currentAdvisory.Coulda.forEach(p => {
-            couldaSet.add(`${p.firstName.trim()} ${p.lastName.trim()}|${p.game_id}`);
+            const fn = (p.firstName || '').trim();
+            const ln = (p.lastName || '').trim();
+            const gid = (p.game_id || '').trim();
+            couldaSet.add(`${fn} ${ln}|${gid}`);
+            couldaSet.add(`${fn} ${ln}`);
         });
     }
     return couldaSet;
+}
+
+function isPlayerInCoulda(couldaSet, p) {
+    if (!couldaSet || !p) return false;
+    const fn = (p.firstName || '').trim();
+    const ln = (p.lastName || '').trim();
+    const gid = (p.game_id || '').trim();
+    return couldaSet.has(`${fn} ${ln}|${gid}`) || couldaSet.has(`${fn} ${ln}`);
 }
 
 async function loadPredictions(year, week) {
@@ -637,8 +649,8 @@ function renderPlot(targetId, title, data, yRange = null) {
 
     // Sort data by Coulda first, then by starter status (starters before backups), then by EV
     const sortedData = [...data].sort((a, b) => {
-        const aCoulda = couldaSet.has(`${a.firstName} ${a.lastName}|${a.game_id}`) ? 1 : 0;
-        const bCoulda = couldaSet.has(`${b.firstName} ${b.lastName}|${b.game_id}`) ? 1 : 0;
+        const aCoulda = isPlayerInCoulda(couldaSet, a) ? 1 : 0;
+        const bCoulda = isPlayerInCoulda(couldaSet, b) ? 1 : 0;
         if (aCoulda !== bCoulda) {
             return bCoulda - aCoulda;
         }
@@ -665,17 +677,17 @@ function renderPlot(targetId, title, data, yRange = null) {
 
     // Custom marker line colors, widths, and text colors to highlight Coulda players in cyan (#00f0ff) and backups in dim red
     const markerLineColors = sortedData.map(d => {
-        if (couldaSet.has(`${d.firstName} ${d.lastName}|${d.game_id}`)) return '#00f0ff';
+        if (isPlayerInCoulda(couldaSet, d)) return '#00f0ff';
         if (isBackupGoalie(d)) return 'rgba(255, 68, 68, 0.8)';
         return '#161b22';
     });
     const markerLineWidths = sortedData.map(d => {
-        if (couldaSet.has(`${d.firstName} ${d.lastName}|${d.game_id}`)) return 3;
+        if (isPlayerInCoulda(couldaSet, d)) return 3;
         if (isBackupGoalie(d)) return 2;
         return 1;
     });
     const textColors = sortedData.map(d => {
-        if (couldaSet.has(`${d.firstName} ${d.lastName}|${d.game_id}`)) return '#00f0ff';
+        if (isPlayerInCoulda(couldaSet, d)) return '#00f0ff';
         if (isBackupGoalie(d)) return 'rgba(255, 120, 120, 0.85)';
         return 'rgba(255,255,255,0.7)';
     });
@@ -989,7 +1001,7 @@ function updateDynamicLabels(plotEl) {
         }
 
         const inView = (salary >= minX && salary <= maxX && ev >= minY && ev <= maxY);
-        const isCoulda = couldaSet.has(`${d.firstName} ${d.lastName}|${d.game_id}`);
+        const isCoulda = isPlayerInCoulda(couldaSet, d);
 
         return {
             index: i,
@@ -1501,7 +1513,7 @@ function renderRoster(rosterName) {
         }
         if (badgePos === "SSDM") badgePos = "SSDM/LSM";
 
-        const isCouldaPlayer = couldaSet.has(`${p.firstName} ${p.lastName}|${p.game_id}`);
+        const isCouldaPlayer = isPlayerInCoulda(couldaSet, p);
         const highlightClass = (isCouldaPlayer && rosterName !== "Coulda") ? "coulda-highlight" : "";
 
         let actualColHtml = "";

@@ -980,7 +980,8 @@ def main():
                                         opp_abbr = lookup.iloc[0].get("opponent", "UNK")
                                     if team_abbr == "UNK" and not lookup.empty:
                                         team_abbr = lookup.iloc[0].get("team", "UNK")
-                                    game_id = p.get("eventId", "UNK").replace("_game_", "-ev-")
+                                    pred_gid = lookup.iloc[0]["game_id"] if (not lookup.empty and "game_id" in lookup.columns) else None
+                                    game_id = pred_gid if pred_gid else p.get("eventId", "UNK").replace("_game_", "-ev-")
                                     salary = 25 if (year == 2026 and week == 7) else int(p.get("salary", 10))
                                     
                                     ev_val = float(lookup.iloc[0]["mc_ev"]) if (not lookup.empty and pd.notna(lookup.iloc[0]["mc_ev"])) else (float(lookup.iloc[0]["EV"]) if not lookup.empty else 0.0)
@@ -1042,29 +1043,47 @@ def main():
                     floor_locks = []
                     diff_leverage = []
                     
-                    for p in player_pool:
-                        p_clean = clean_name_local(p["firstName"] + p["lastName"])
-                        global_rate = global_ownership.get(p_clean, 0.0)
-                        
-                        if global_rate >= 0.35:
-                            floor_locks.append({
-                                "firstName": p["firstName"],
-                                "lastName": p["lastName"],
-                                "position": p["positionGroup"],
-                                "globalRate": int(global_rate * 100),
-                                "description": f"Consensus Core Lock: Selected by {int(global_rate*100)}% of top global managers. High floor risk if omitted."
-                            })
-                        elif global_rate <= 0.15 and (p.get("mc_ev", 0) >= 14.0 or p.get("mc_p90", 0) >= 20.0):
-                            diff_leverage.append({
-                                "firstName": p["firstName"],
-                                "lastName": p["lastName"],
-                                "position": p["positionGroup"],
-                                "globalRate": int(global_rate * 100),
-                                "description": f"High Leverage Differential: High projected upside ({p.get('mc_ev', 0):.1f} EV) with only {int(global_rate*100)}% global ownership."
-                            })
+                    if global_ownership:
+                        # 1. Floor Locks: top consensus picks (ownership >= 20%), max 4
+                        seen_locks = set()
+                        for p in sorted(player_pool, key=lambda x: global_ownership.get(clean_name_local(x["firstName"] + x["lastName"]), 0.0), reverse=True):
+                            p_clean = clean_name_local(p["firstName"] + p["lastName"])
+                            rate = global_ownership.get(p_clean, 0.0)
+                            name_key = (p["firstName"], p["lastName"])
+                            if rate >= 0.20 and name_key not in seen_locks:
+                                seen_locks.add(name_key)
+                                floor_locks.append({
+                                    "firstName": p["firstName"],
+                                    "lastName": p["lastName"],
+                                    "position": p["positionGroup"],
+                                    "globalRate": int(rate * 100),
+                                    "description": f"Consensus Core Lock: Selected by {int(rate*100)}% of top global managers. High floor risk if omitted."
+                                })
+                                if len(floor_locks) >= 4:
+                                    break
+                                    
+                        # 2. Differential Leverage: top projected model plays (in MC_EV or MC_Ceil_90) with low consensus (<= 8%), max 4
+                        mc_players = set()
+                        for key in ['MC_EV', 'MC_Ceil_90']:
+                            for mp in adv_response.get(key, []):
+                                mc_players.add((mp['firstName'], mp['lastName']))
                                 
-                    floor_locks.sort(key=lambda x: x["globalRate"], reverse=True)
-                    diff_leverage.sort(key=lambda x: x.get("globalRate", 0))
+                        seen_diffs = set()
+                        for p in sorted(player_pool, key=lambda x: (x.get("mc_ev") or 0.0), reverse=True):
+                            p_clean = clean_name_local(p["firstName"] + p["lastName"])
+                            rate = global_ownership.get(p_clean, 0.0)
+                            name_key = (p["firstName"], p["lastName"])
+                            if rate <= 0.08 and name_key in mc_players and name_key not in seen_diffs:
+                                seen_diffs.add(name_key)
+                                diff_leverage.append({
+                                    "firstName": p["firstName"],
+                                    "lastName": p["lastName"],
+                                    "position": p["positionGroup"],
+                                    "globalRate": int(rate * 100),
+                                    "description": f"High Leverage Differential: High projected upside ({p.get('mc_ev', 0):.1f} EV) with only {int(rate*100)}% global ownership."
+                                })
+                                if len(diff_leverage) >= 4:
+                                    break
                     
                     adv_response["TacticalAdvice"] = {
                         "FloorLocks": floor_locks,
