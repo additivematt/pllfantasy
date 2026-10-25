@@ -50,6 +50,10 @@ ALL_POSITIONS_RECENCY_WEIGHT = RECENCY_WEIGHT_DEFAULT
 ITEM61_SALARY_VARIANCE_WEIGHTING_ENABLED = os.environ.get("ITEM61_SALARY_VARIANCE_WEIGHTING_ENABLED", "False") == "True"
 ITEM61_ALPHA = float(os.environ.get("ITEM61_ALPHA", "0.0"))
 
+# --- Item 68: Fix Classifier Training Starvation (Full-History GBDT Fit + OOF Walk-Forward Calibration) ---
+ITEM68_FULL_HISTORY_CLF_ENABLED = os.environ.get("ITEM68_FULL_HISTORY_CLF_ENABLED", "True") == "True"
+ITEM68_PROB_BOOM_WEIGHT = float(os.environ.get("ITEM68_PROB_BOOM_WEIGHT", "2.0"))
+
 # --- Item 60 Position-Tailored Decision Thresholds (Part A) ---
 ITEM60_TAILORED_THRESHOLDS_ENABLED = os.environ.get("ITEM60_TAILORED_THRESHOLDS_ENABLED", "False") == "True"
 ITEM60_THRESHOLDS = {

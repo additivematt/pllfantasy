@@ -1,6 +1,19 @@
 {
     "MC_EV": [
         {
+            "firstName": "CJ",
+            "lastName": "Kirst",
+            "team": "WAT",
+            "opponent": "CAN",
+            "game_id": "2026-ev-16",
+            "position": "Attack",
+            "salary": 47,
+            "mc_ev": 49.2,
+            "mc_p90": 92.6,
+            "mc_p10": 0.0,
+            "actualPoints": 66.0
+        },
+        {
             "firstName": "Blaze",
             "lastName": "Riorden",
             "team": "CHA",
@@ -8,9 +21,9 @@
             "game_id": "2026-ev-15",
             "position": "Goalie",
             "salary": 44,
-            "mc_ev": 46.1,
-            "mc_p90": 68.0,
-            "mc_p10": 19.6,
+            "mc_ev": 41.5,
+            "mc_p90": 61.2,
+            "mc_p10": 17.7,
             "actualPoints": 31.0
         },
         {
@@ -21,36 +34,10 @@
             "game_id": "2026-ev-16",
             "position": "Attack",
             "salary": 23,
-            "mc_ev": 38.3,
-            "mc_p90": 76.7,
-            "mc_p10": 2.8,
+            "mc_ev": 39.4,
+            "mc_p90": 79.0,
+            "mc_p10": 2.9,
             "actualPoints": -7.0
-        },
-        {
-            "firstName": "Owen",
-            "lastName": "Hiltz",
-            "team": "CHA",
-            "opponent": "OUT",
-            "game_id": "2026-ev-15",
-            "position": "Attack",
-            "salary": 35,
-            "mc_ev": 37.2,
-            "mc_p90": 70.8,
-            "mc_p10": 4.8,
-            "actualPoints": 9.0
-        },
-        {
-            "firstName": "Mitchell",
-            "lastName": "Dunham",
-            "team": "ARC",
-            "opponent": "CHA",
-            "game_id": "2026-ev-13",
-            "position": "Defense",
-            "salary": 14,
-            "mc_ev": 30.6,
-            "mc_p90": 79.3,
-            "mc_p10": 0.0,
-            "actualPoints": 2.0
         },
         {
             "firstName": "Zach",
@@ -60,10 +47,23 @@
             "game_id": "2026-ev-16",
             "position": "Midfield",
             "salary": 20,
-            "mc_ev": 24.7,
-            "mc_p90": 40.8,
+            "mc_ev": 27.1,
+            "mc_p90": 44.8,
             "mc_p10": 0.0,
             "actualPoints": 23.0
+        },
+        {
+            "firstName": "Mitchell",
+            "lastName": "Dunham",
+            "team": "ARC",
+            "opponent": "CHA",
+            "game_id": "2026-ev-13",
+            "position": "Defense",
+            "salary": 14,
+            "mc_ev": 27.1,
+            "mc_p90": 70.1,
+            "mc_p10": 0.0,
+            "actualPoints": 2.0
         },
         {
             "firstName": "Andrew",
@@ -73,8 +73,8 @@
             "game_id": "2026-ev-14",
             "position": "Midfield",
             "salary": 24,
-            "mc_ev": 21.3,
-            "mc_p90": 42.4,
+            "mc_ev": 22.5,
+            "mc_p90": 44.9,
             "mc_p10": 0.0,
             "actualPoints": 28.0
         },
@@ -94,30 +94,17 @@
     ],
     "MC_Win_160": [
         {
-            "firstName": "Blaze",
-            "lastName": "Riorden",
-            "team": "CHA",
-            "opponent": "OUT",
-            "game_id": "2026-ev-15",
-            "position": "Goalie",
-            "salary": 44,
-            "mc_ev": 46.1,
-            "mc_p90": 68.0,
-            "mc_p10": 19.6,
-            "actualPoints": 31.0
-        },
-        {
-            "firstName": "Brian",
-            "lastName": "Kelly",
-            "team": "CAN",
-            "opponent": "WAT",
+            "firstName": "CJ",
+            "lastName": "Kirst",
+            "team": "WAT",
+            "opponent": "CAN",
             "game_id": "2026-ev-16",
             "position": "Attack",
-            "salary": 23,
-            "mc_ev": 38.3,
-            "mc_p90": 76.7,
-            "mc_p10": 2.8,
-            "actualPoints": -7.0
+            "salary": 47,
+            "mc_ev": 49.2,
+            "mc_p90": 92.6,
+            "mc_p10": 0.0,
+            "actualPoints": 66.0
         },
         {
             "firstName": "Chris",
@@ -127,23 +114,10 @@
             "game_id": "2026-ev-14",
             "position": "Attack",
             "salary": 43,
-            "mc_ev": 36.9,
-            "mc_p90": 63.3,
-            "mc_p10": 11.5,
+            "mc_ev": 40.3,
+            "mc_p90": 69.2,
+            "mc_p10": 12.6,
             "actualPoints": 29.0
-        },
-        {
-            "firstName": "Mitchell",
-            "lastName": "Dunham",
-            "team": "ARC",
-            "opponent": "CHA",
-            "game_id": "2026-ev-13",
-            "position": "Defense",
-            "salary": 14,
-            "mc_ev": 30.6,
-            "mc_p90": 79.3,
-            "mc_p10": 0.0,
-            "actualPoints": 2.0
         },
         {
             "firstName": "Zach",
@@ -153,23 +127,36 @@
             "game_id": "2026-ev-16",
             "position": "Midfield",
             "salary": 20,
-            "mc_ev": 24.7,
-            "mc_p90": 40.8,
+            "mc_ev": 27.1,
+            "mc_p90": 44.8,
             "mc_p10": 0.0,
             "actualPoints": 23.0
         },
         {
-            "firstName": "Andrew",
-            "lastName": "McAdorey",
-            "team": "RED",
-            "opponent": "ATL",
-            "game_id": "2026-ev-14",
+            "firstName": "Tre",
+            "lastName": "Leclaire",
+            "team": "ARC",
+            "opponent": "CHA",
+            "game_id": "2026-ev-13",
             "position": "Midfield",
-            "salary": 24,
-            "mc_ev": 21.3,
-            "mc_p90": 42.4,
+            "salary": 7,
+            "mc_ev": 18.1,
+            "mc_p90": 53.3,
             "mc_p10": 0.0,
-            "actualPoints": 28.0
+            "actualPoints": 65.0
+        },
+        {
+            "firstName": "Mitchell",
+            "lastName": "Dunham",
+            "team": "ARC",
+            "opponent": "CHA",
+            "game_id": "2026-ev-13",
+            "position": "Defense",
+            "salary": 14,
+            "mc_ev": 27.1,
+            "mc_p90": 70.1,
+            "mc_p10": 0.0,
+            "actualPoints": 2.0
         },
         {
             "firstName": "Trevor",
@@ -183,9 +170,35 @@
             "mc_p90": 43.0,
             "mc_p10": 7.0,
             "actualPoints": 16.7
+        },
+        {
+            "firstName": "Brett",
+            "lastName": "Dobson",
+            "team": "ARC",
+            "opponent": "CHA",
+            "game_id": "2026-ev-13",
+            "position": "Goalie",
+            "salary": 44,
+            "mc_ev": 40.0,
+            "mc_p90": 53.6,
+            "mc_p10": 24.7,
+            "actualPoints": 44.0
         }
     ],
     "MC_Ceil_90": [
+        {
+            "firstName": "CJ",
+            "lastName": "Kirst",
+            "team": "WAT",
+            "opponent": "CAN",
+            "game_id": "2026-ev-16",
+            "position": "Attack",
+            "salary": 47,
+            "mc_ev": 49.2,
+            "mc_p90": 92.6,
+            "mc_p10": 0.0,
+            "actualPoints": 66.0
+        },
         {
             "firstName": "Blaze",
             "lastName": "Riorden",
@@ -194,9 +207,9 @@
             "game_id": "2026-ev-15",
             "position": "Goalie",
             "salary": 44,
-            "mc_ev": 46.1,
-            "mc_p90": 68.0,
-            "mc_p10": 19.6,
+            "mc_ev": 41.5,
+            "mc_p90": 61.2,
+            "mc_p10": 17.7,
             "actualPoints": 31.0
         },
         {
@@ -207,36 +220,10 @@
             "game_id": "2026-ev-16",
             "position": "Attack",
             "salary": 23,
-            "mc_ev": 38.3,
-            "mc_p90": 76.7,
-            "mc_p10": 2.8,
+            "mc_ev": 39.4,
+            "mc_p90": 79.0,
+            "mc_p10": 2.9,
             "actualPoints": -7.0
-        },
-        {
-            "firstName": "Owen",
-            "lastName": "Hiltz",
-            "team": "CHA",
-            "opponent": "OUT",
-            "game_id": "2026-ev-15",
-            "position": "Attack",
-            "salary": 35,
-            "mc_ev": 37.2,
-            "mc_p90": 70.8,
-            "mc_p10": 4.8,
-            "actualPoints": 9.0
-        },
-        {
-            "firstName": "Mitchell",
-            "lastName": "Dunham",
-            "team": "ARC",
-            "opponent": "CHA",
-            "game_id": "2026-ev-13",
-            "position": "Defense",
-            "salary": 14,
-            "mc_ev": 30.6,
-            "mc_p90": 79.3,
-            "mc_p10": 0.0,
-            "actualPoints": 2.0
         },
         {
             "firstName": "Zach",
@@ -246,10 +233,23 @@
             "game_id": "2026-ev-16",
             "position": "Midfield",
             "salary": 20,
-            "mc_ev": 24.7,
-            "mc_p90": 40.8,
+            "mc_ev": 27.1,
+            "mc_p90": 44.8,
             "mc_p10": 0.0,
             "actualPoints": 23.0
+        },
+        {
+            "firstName": "Mitchell",
+            "lastName": "Dunham",
+            "team": "ARC",
+            "opponent": "CHA",
+            "game_id": "2026-ev-13",
+            "position": "Defense",
+            "salary": 14,
+            "mc_ev": 27.1,
+            "mc_p90": 70.1,
+            "mc_p10": 0.0,
+            "actualPoints": 2.0
         },
         {
             "firstName": "Andrew",
@@ -259,8 +259,8 @@
             "game_id": "2026-ev-14",
             "position": "Midfield",
             "salary": 24,
-            "mc_ev": 21.3,
-            "mc_p90": 42.4,
+            "mc_ev": 22.5,
+            "mc_p90": 44.9,
             "mc_p10": 0.0,
             "actualPoints": 28.0
         },
@@ -287,9 +287,9 @@
             "game_id": "2026-ev-15",
             "position": "Goalie",
             "salary": 44,
-            "mc_ev": 46.1,
-            "mc_p90": 68.0,
-            "mc_p10": 19.6,
+            "mc_ev": 41.5,
+            "mc_p90": 61.2,
+            "mc_p10": 17.7,
             "actualPoints": 31.0
         },
         {
@@ -300,9 +300,9 @@
             "game_id": "2026-ev-16",
             "position": "Attack",
             "salary": 44,
-            "mc_ev": 36.8,
-            "mc_p90": 73.9,
-            "mc_p10": 15.6,
+            "mc_ev": 37.2,
+            "mc_p90": 74.8,
+            "mc_p10": 15.8,
             "actualPoints": 43.0
         },
         {
@@ -313,8 +313,8 @@
             "game_id": "2026-ev-14",
             "position": "Midfield",
             "salary": 24,
-            "mc_ev": 21.3,
-            "mc_p90": 42.4,
+            "mc_ev": 22.5,
+            "mc_p90": 44.9,
             "mc_p10": 0.0,
             "actualPoints": 28.0
         },
@@ -326,9 +326,9 @@
             "game_id": "2026-ev-13",
             "position": "Attack",
             "salary": 23,
-            "mc_ev": 18.4,
-            "mc_p90": 42.5,
-            "mc_p10": 4.5,
+            "mc_ev": 19.2,
+            "mc_p90": 44.2,
+            "mc_p10": 4.7,
             "actualPoints": 2.0
         },
         {
@@ -339,8 +339,8 @@
             "game_id": "2026-ev-14",
             "position": "Defense",
             "salary": 17,
-            "mc_ev": 13.0,
-            "mc_p90": 20.6,
+            "mc_ev": 12.8,
+            "mc_p90": 20.3,
             "mc_p10": 0.8,
             "actualPoints": 10.0
         },
@@ -365,8 +365,8 @@
             "game_id": "2026-ev-13",
             "position": "Midfield",
             "salary": 17,
-            "mc_ev": 5.4,
-            "mc_p90": 12.2,
+            "mc_ev": 5.3,
+            "mc_p90": 11.9,
             "mc_p10": 0.0,
             "actualPoints": 25.0
         }
@@ -380,8 +380,8 @@
             "game_id": "2026-ev-13",
             "position": "A",
             "salary": 17,
-            "mc_ev": 23.1,
-            "mc_p90": 55.4,
+            "mc_ev": 22.9,
+            "mc_p90": 54.9,
             "mc_p10": 0.0,
             "actualPoints": 76.0
         },
@@ -393,8 +393,8 @@
             "game_id": "2026-ev-16",
             "position": "A",
             "salary": 47,
-            "mc_ev": 36.3,
-            "mc_p90": 68.3,
+            "mc_ev": 49.2,
+            "mc_p90": 92.6,
             "mc_p10": 0.0,
             "actualPoints": 66.0
         },
@@ -406,8 +406,8 @@
             "game_id": "2026-ev-13",
             "position": "M",
             "salary": 7,
-            "mc_ev": 15.5,
-            "mc_p90": 45.5,
+            "mc_ev": 18.1,
+            "mc_p90": 53.3,
             "mc_p10": 0.0,
             "actualPoints": 65.0
         },
@@ -419,8 +419,8 @@
             "game_id": "2026-ev-13",
             "position": "M",
             "salary": 19,
-            "mc_ev": 5.4,
-            "mc_p90": 12.2,
+            "mc_ev": 5.3,
+            "mc_p90": 11.9,
             "mc_p10": 0.0,
             "actualPoints": 38.0
         },
@@ -432,9 +432,9 @@
             "game_id": "2026-ev-14",
             "position": "D",
             "salary": 17,
-            "mc_ev": 13.4,
-            "mc_p90": 28.0,
-            "mc_p10": 1.6,
+            "mc_ev": 14.0,
+            "mc_p90": 29.3,
+            "mc_p10": 1.7,
             "actualPoints": 62.0
         },
         {
@@ -458,32 +458,41 @@
             "game_id": "2026-ev-16",
             "position": "G",
             "salary": 27,
-            "mc_ev": 13.3,
-            "mc_p90": 25.0,
+            "mc_ev": 13.5,
+            "mc_p90": 25.4,
             "mc_p10": 1.8,
             "actualPoints": 55.0
         }
     ],
     "Core": [
-        "Blaze Riorden",
-        "Brian Kelly",
-        "Mitchell Dunham",
+        "CJ Kirst",
         "Zach Currier",
-        "Andrew McAdorey",
+        "Mitchell Dunham",
         "Trevor Baptiste"
     ],
     "Sleepers": [],
     "RecommendedStrategy": "MC_EV",
-    "RecommendedReason": "Tight pricing / short slate (4 games, 21 cheap value players). Optimizing for floor is best.",
+    "RecommendedReason": "Tight pricing / short slate (4 games, 20 cheap value players). Optimizing for floor is best.",
     "Narrative": {
         "RecommendedRoster": [
+            {
+                "firstName": "CJ",
+                "lastName": "Kirst",
+                "position": "Attack",
+                "salary": 47,
+                "bullets": [
+                    "Hot Form: Averaging 49.0 fantasy pts over last 3 games (vs 42.4 season avg).",
+                    "Matchup Specialist: Historically performs well against CAN (1.18x average scoring rate).",
+                    "Opponent Weakness: CAN defense allows 14% extra fantasy points to Attack position."
+                ]
+            },
             {
                 "firstName": "Blaze",
                 "lastName": "Riorden",
                 "position": "Goalie",
                 "salary": 44,
                 "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (46.1 EV) and reliable role."
+                    "Consistent Pick: Selected for steady expected floor (41.5 EV) and reliable role."
                 ]
             },
             {
@@ -497,12 +506,12 @@
                 ]
             },
             {
-                "firstName": "Owen",
-                "lastName": "Hiltz",
-                "position": "Attack",
-                "salary": 35,
+                "firstName": "Zach",
+                "lastName": "Currier",
+                "position": "Midfield",
+                "salary": 20,
                 "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (37.2 EV) and reliable role."
+                    "Opponent Weakness: CAN defense allows 11% extra fantasy points to Midfield position."
                 ]
             },
             {
@@ -512,15 +521,6 @@
                 "salary": 14,
                 "bullets": [
                     "Opponent Weakness: CHA defense allows 15% extra fantasy points to Defensemen position."
-                ]
-            },
-            {
-                "firstName": "Zach",
-                "lastName": "Currier",
-                "position": "Midfield",
-                "salary": 20,
-                "bullets": [
-                    "Opponent Weakness: CAN defense allows 11% extra fantasy points to Midfield position."
                 ]
             },
             {
@@ -547,12 +547,16 @@
                 "strategy": "MC_Win_160",
                 "strategyLabel": "MC Win 160",
                 "in": [
-                    "Chris Kavanagh"
+                    "Chris Kavanagh",
+                    "Tre Leclaire",
+                    "Brett Dobson"
                 ],
                 "out": [
-                    "Owen Hiltz"
+                    "Blaze Riorden",
+                    "Brian Kelly",
+                    "Andrew McAdorey"
                 ],
-                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Chris Kavanagh (Attack, 43c)) to increase the joint probability of the entire lineup hitting the 160 target score."
+                "rationale": "Swaps out high-variance sleepers for higher-floor consistent stars (like Chris Kavanagh (Attack, 43c), Tre Leclaire (Midfield, 7c), Brett Dobson (Goalie, 44c)) to increase the joint probability of the entire lineup hitting the 160 target score."
             }
         ]
     },
@@ -593,21 +597,14 @@
                 "lastName": "Kelly",
                 "position": "Attack",
                 "globalRate": 0,
-                "description": "High Leverage Differential: High projected upside (38.3 EV) with only 0% global ownership."
-            },
-            {
-                "firstName": "Owen",
-                "lastName": "Hiltz",
-                "position": "Attack",
-                "globalRate": 0,
-                "description": "High Leverage Differential: High projected upside (37.2 EV) with only 0% global ownership."
+                "description": "High Leverage Differential: High projected upside (39.4 EV) with only 0% global ownership."
             },
             {
                 "firstName": "Mitchell",
                 "lastName": "Dunham",
                 "position": "Defense",
                 "globalRate": 0,
-                "description": "High Leverage Differential: High projected upside (30.6 EV) with only 0% global ownership."
+                "description": "High Leverage Differential: High projected upside (27.1 EV) with only 0% global ownership."
             },
             {
                 "firstName": "Trevor",

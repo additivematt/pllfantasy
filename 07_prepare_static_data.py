@@ -17,10 +17,22 @@ if SCRIPTS_DIR not in sys.path:
 INTERROGATOR_DIR = os.path.join(SCRIPTS_DIR, "interrogata") if os.path.exists(os.path.join(SCRIPTS_DIR, "interrogata")) else os.path.join(SCRIPTS_DIR, "player_interrogator")
 PREDICTA_DIR = os.path.join(SCRIPTS_DIR, "predicta") if os.path.exists(os.path.join(SCRIPTS_DIR, "predicta")) else os.path.join(SCRIPTS_DIR, "predicta_ui")
 
+import time
 import pandas as pd
 import numpy as np
 import pulp
-from utils import get_designated_goalie_starters, is_designated_starter, normalize_event_id
+from utils import get_designated_goalie_starters, is_designated_starter, normalize_event_id, get_latest_baseline_num
+
+def safe_write_json(filepath, data):
+    for attempt in range(5):
+        try:
+            with open(filepath, 'w', encoding='utf-8') as f:
+                json.dump(data, f, indent=4)
+            return
+        except OSError:
+            if attempt == 4:
+                raise
+            time.sleep(0.5 * (attempt + 1))
 
 def get_standard_pos(pos):
     pos = str(pos).upper().strip()
@@ -549,8 +561,7 @@ def main():
 
             # Write week file (extensionless to match clean /predictions/YYYY/W URL)
             week_file = os.path.join(year_dir, str(week))
-            with open(week_file, 'w', encoding='utf-8') as f:
-                json.dump(records, f, indent=4)
+            safe_write_json(week_file, records)
             print(f"  Processed predictions: {year} Week {week} -> {week_file}")
 
             # Generate static advisory payload
@@ -734,6 +745,8 @@ def main():
                                 try:
                                     df_csv = pd.read_csv(p_path)
                                     df_w = df_csv[(df_csv["year"] == year) & (df_csv["week"] == week)]
+                                    if "lineup_rank" in df_w.columns:
+                                        df_w = df_w[df_w["lineup_rank"] == 1]
                                     if len(df_w) >= 7:
                                         matched = []
                                         for _, r in df_w.iterrows():
@@ -758,18 +771,19 @@ def main():
                             continue
                         ev_baseline = []
                         
+                    latest_b = get_latest_baseline_num()
                     # 2. Pull MC EV Optimization from CSV if available, else Local Search
-                    team_mc_ev = load_saved_roster("rosters_mc_ev.csv", "rosters_mc_ev_baseline_11.csv")
+                    team_mc_ev = load_saved_roster("rosters_mc_ev.csv", f"rosters_mc_ev_baseline_{latest_b}.csv")
                     if not team_mc_ev and ev_baseline:
                         team_mc_ev = run_local_search(player_pool, sim_matrix, 'MC_EV', ev_baseline, budget=200)
                     
                     # 3. Pull MC Win 160 Optimization from CSV if available, else Local Search
-                    team_mc_win_160 = load_saved_roster("rosters_mc_win_160.csv", "rosters_mc_win_160_baseline_11.csv")
+                    team_mc_win_160 = load_saved_roster("rosters_mc_win_160.csv", f"rosters_mc_win_160_baseline_{latest_b}.csv")
                     if not team_mc_win_160 and ev_baseline:
                         team_mc_win_160 = run_local_search(player_pool, sim_matrix, 'MC_Win_Prob', ev_baseline, budget=200, target_win_score=160.0)
                     
                     # 4. Pull MC Ceil 90 Optimization from CSV if available, else Local Search
-                    team_mc_ceil_90 = load_saved_roster("rosters_mc_ceil_90.csv", "rosters_mc_ceil_90_baseline_11.csv")
+                    team_mc_ceil_90 = load_saved_roster("rosters_mc_ceil_90.csv", f"rosters_mc_ceil_90_baseline_{latest_b}.csv")
                     if not team_mc_ceil_90 and ev_baseline:
                         team_mc_ceil_90 = run_local_search(player_pool, sim_matrix, 'MC_Ceiling_90', ev_baseline, budget=200)
 
@@ -1094,8 +1108,7 @@ def main():
                     os.makedirs(adv_year_dir, exist_ok=True)
                     
                     adv_week_file = os.path.join(adv_year_dir, str(week))
-                    with open(adv_week_file, 'w', encoding='utf-8') as f_adv:
-                        json.dump(adv_response, f_adv, indent=4)
+                    safe_write_json(adv_week_file, adv_response)
                     print(f"  Processed advisory: {year} Week {week} -> {adv_week_file}")
                 except Exception as e_adv:
                     import traceback
@@ -1107,8 +1120,7 @@ def main():
 
     # Write available file (extensionless to match clean /predictions/available URL)
     available_file = os.path.join(predictions_root, "available")
-    with open(available_file, 'w', encoding='utf-8') as f:
-        json.dump(available_periods, f, indent=4)
+    safe_write_json(available_file, available_periods)
     print(f"✅ Generated predictions index: {available_file}")
     
     print("\n🎉 STATIC DATA PREPARATION COMPLETE!")

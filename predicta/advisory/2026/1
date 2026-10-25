@@ -1,19 +1,6 @@
 {
     "MC_EV": [
         {
-            "firstName": "Liam",
-            "lastName": "Entenmann",
-            "team": "ATL",
-            "opponent": "CHA",
-            "game_id": "2026-ev-2",
-            "position": "Goalie",
-            "salary": 47,
-            "mc_ev": 40.9,
-            "mc_p90": 62.3,
-            "mc_p10": 15.8,
-            "actualPoints": 47.0
-        },
-        {
             "firstName": "Connor",
             "lastName": "Shellenberger",
             "team": "ATL",
@@ -21,10 +8,23 @@
             "game_id": "2026-ev-2",
             "position": "Attack",
             "salary": 47,
-            "mc_ev": 40.7,
-            "mc_p90": 63.5,
-            "mc_p10": 17.2,
+            "mc_ev": 39.9,
+            "mc_p90": 62.3,
+            "mc_p10": 16.9,
             "actualPoints": 29.0
+        },
+        {
+            "firstName": "Liam",
+            "lastName": "Entenmann",
+            "team": "ATL",
+            "opponent": "CHA",
+            "game_id": "2026-ev-2",
+            "position": "Goalie",
+            "salary": 47,
+            "mc_ev": 38.5,
+            "mc_p90": 58.7,
+            "mc_p10": 14.9,
+            "actualPoints": 47.0
         },
         {
             "firstName": "TJ",
@@ -34,9 +34,9 @@
             "game_id": "2026-ev-4",
             "position": "Attack",
             "salary": 43,
-            "mc_ev": 36.6,
-            "mc_p90": 67.0,
-            "mc_p10": 13.2,
+            "mc_ev": 34.9,
+            "mc_p90": 63.9,
+            "mc_p10": 12.6,
             "actualPoints": 27.0
         },
         {
@@ -47,8 +47,8 @@
             "game_id": "2026-ev-4",
             "position": "Midfield",
             "salary": 27,
-            "mc_ev": 23.7,
-            "mc_p90": 51.7,
+            "mc_ev": 25.2,
+            "mc_p90": 55.0,
             "mc_p10": 0.0,
             "actualPoints": 56.0
         },
@@ -66,19 +66,6 @@
             "actualPoints": 12.5
         },
         {
-            "firstName": "Greg",
-            "lastName": "Weyl",
-            "team": "OUT",
-            "opponent": "ARC",
-            "game_id": "2026-ev-3",
-            "position": "Defense",
-            "salary": 2,
-            "mc_ev": 16.0,
-            "mc_p90": 50.1,
-            "mc_p10": 0.0,
-            "actualPoints": 10.0
-        },
-        {
             "firstName": "Jack",
             "lastName": "Hannah",
             "team": "WAT",
@@ -86,27 +73,27 @@
             "game_id": "2026-ev-4",
             "position": "Midfield",
             "salary": 11,
-            "mc_ev": 15.9,
-            "mc_p90": 35.0,
+            "mc_ev": 15.7,
+            "mc_p90": 34.6,
             "mc_p10": 0.0,
             "actualPoints": 40.0
+        },
+        {
+            "firstName": "Greg",
+            "lastName": "Weyl",
+            "team": "OUT",
+            "opponent": "ARC",
+            "game_id": "2026-ev-3",
+            "position": "Defense",
+            "salary": 2,
+            "mc_ev": 15.6,
+            "mc_p90": 48.9,
+            "mc_p10": 0.0,
+            "actualPoints": 10.0
         }
     ],
     "MC_Win_160": [
         {
-            "firstName": "Liam",
-            "lastName": "Entenmann",
-            "team": "ATL",
-            "opponent": "CHA",
-            "game_id": "2026-ev-2",
-            "position": "Goalie",
-            "salary": 47,
-            "mc_ev": 40.9,
-            "mc_p90": 62.3,
-            "mc_p10": 15.8,
-            "actualPoints": 47.0
-        },
-        {
             "firstName": "Connor",
             "lastName": "Shellenberger",
             "team": "ATL",
@@ -114,10 +101,23 @@
             "game_id": "2026-ev-2",
             "position": "Attack",
             "salary": 47,
-            "mc_ev": 40.7,
-            "mc_p90": 63.5,
-            "mc_p10": 17.2,
+            "mc_ev": 39.9,
+            "mc_p90": 62.3,
+            "mc_p10": 16.9,
             "actualPoints": 29.0
+        },
+        {
+            "firstName": "Liam",
+            "lastName": "Entenmann",
+            "team": "ATL",
+            "opponent": "CHA",
+            "game_id": "2026-ev-2",
+            "position": "Goalie",
+            "salary": 47,
+            "mc_ev": 38.5,
+            "mc_p90": 58.7,
+            "mc_p10": 14.9,
+            "actualPoints": 47.0
         },
         {
             "firstName": "TJ",
@@ -127,9 +127,9 @@
             "game_id": "2026-ev-4",
             "position": "Attack",
             "salary": 43,
-            "mc_ev": 36.6,
-            "mc_p90": 67.0,
-            "mc_p10": 13.2,
+            "mc_ev": 34.9,
+            "mc_p90": 63.9,
+            "mc_p10": 12.6,
             "actualPoints": 27.0
         },
         {
@@ -140,8 +140,8 @@
             "game_id": "2026-ev-4",
             "position": "Midfield",
             "salary": 27,
-            "mc_ev": 23.7,
-            "mc_p90": 51.7,
+            "mc_ev": 25.2,
+            "mc_p90": 55.0,
             "mc_p10": 0.0,
             "actualPoints": 56.0
         },
@@ -157,19 +157,6 @@
             "mc_p90": 30.5,
             "mc_p10": 6.7,
             "actualPoints": 12.5
-        },
-        {
-            "firstName": "Greg",
-            "lastName": "Weyl",
-            "team": "OUT",
-            "opponent": "ARC",
-            "game_id": "2026-ev-3",
-            "position": "Defense",
-            "salary": 2,
-            "mc_ev": 16.0,
-            "mc_p90": 50.1,
-            "mc_p10": 0.0,
-            "actualPoints": 10.0
         },
         {
             "firstName": "Jack",
@@ -179,26 +166,26 @@
             "game_id": "2026-ev-4",
             "position": "Midfield",
             "salary": 11,
-            "mc_ev": 15.9,
-            "mc_p90": 35.0,
+            "mc_ev": 15.7,
+            "mc_p90": 34.6,
             "mc_p10": 0.0,
             "actualPoints": 40.0
+        },
+        {
+            "firstName": "Greg",
+            "lastName": "Weyl",
+            "team": "OUT",
+            "opponent": "ARC",
+            "game_id": "2026-ev-3",
+            "position": "Defense",
+            "salary": 2,
+            "mc_ev": 15.6,
+            "mc_p90": 48.9,
+            "mc_p10": 0.0,
+            "actualPoints": 10.0
         }
     ],
     "MC_Ceil_90": [
-        {
-            "firstName": "Liam",
-            "lastName": "Entenmann",
-            "team": "ATL",
-            "opponent": "CHA",
-            "game_id": "2026-ev-2",
-            "position": "Goalie",
-            "salary": 47,
-            "mc_ev": 40.9,
-            "mc_p90": 62.3,
-            "mc_p10": 15.8,
-            "actualPoints": 47.0
-        },
         {
             "firstName": "Connor",
             "lastName": "Shellenberger",
@@ -207,10 +194,23 @@
             "game_id": "2026-ev-2",
             "position": "Attack",
             "salary": 47,
-            "mc_ev": 40.7,
-            "mc_p90": 63.5,
-            "mc_p10": 17.2,
+            "mc_ev": 39.9,
+            "mc_p90": 62.3,
+            "mc_p10": 16.9,
             "actualPoints": 29.0
+        },
+        {
+            "firstName": "Liam",
+            "lastName": "Entenmann",
+            "team": "ATL",
+            "opponent": "CHA",
+            "game_id": "2026-ev-2",
+            "position": "Goalie",
+            "salary": 47,
+            "mc_ev": 38.5,
+            "mc_p90": 58.7,
+            "mc_p10": 14.9,
+            "actualPoints": 47.0
         },
         {
             "firstName": "TJ",
@@ -220,9 +220,9 @@
             "game_id": "2026-ev-4",
             "position": "Attack",
             "salary": 43,
-            "mc_ev": 36.6,
-            "mc_p90": 67.0,
-            "mc_p10": 13.2,
+            "mc_ev": 34.9,
+            "mc_p90": 63.9,
+            "mc_p10": 12.6,
             "actualPoints": 27.0
         },
         {
@@ -233,8 +233,8 @@
             "game_id": "2026-ev-4",
             "position": "Midfield",
             "salary": 27,
-            "mc_ev": 23.7,
-            "mc_p90": 51.7,
+            "mc_ev": 25.2,
+            "mc_p90": 55.0,
             "mc_p10": 0.0,
             "actualPoints": 56.0
         },
@@ -252,6 +252,19 @@
             "actualPoints": 12.5
         },
         {
+            "firstName": "Jack",
+            "lastName": "Hannah",
+            "team": "WAT",
+            "opponent": "WHP",
+            "game_id": "2026-ev-4",
+            "position": "Midfield",
+            "salary": 11,
+            "mc_ev": 15.7,
+            "mc_p90": 34.6,
+            "mc_p10": 0.0,
+            "actualPoints": 40.0
+        },
+        {
             "firstName": "Greg",
             "lastName": "Weyl",
             "team": "OUT",
@@ -259,23 +272,10 @@
             "game_id": "2026-ev-3",
             "position": "Defense",
             "salary": 2,
-            "mc_ev": 16.0,
-            "mc_p90": 50.1,
+            "mc_ev": 15.6,
+            "mc_p90": 48.9,
             "mc_p10": 0.0,
             "actualPoints": 10.0
-        },
-        {
-            "firstName": "Jonathan",
-            "lastName": "Donville",
-            "team": "OUT",
-            "opponent": "ARC",
-            "game_id": "2026-ev-3",
-            "position": "Midfield",
-            "salary": 5,
-            "mc_ev": 14.8,
-            "mc_p90": 33.0,
-            "mc_p10": 0.0,
-            "actualPoints": 18.0
         }
     ],
     "MC_Consensus": [
@@ -287,9 +287,9 @@
             "game_id": "2026-ev-4",
             "position": "Goalie",
             "salary": 44,
-            "mc_ev": 36.1,
-            "mc_p90": 57.2,
-            "mc_p10": 17.6,
+            "mc_ev": 34.4,
+            "mc_p90": 54.5,
+            "mc_p10": 16.8,
             "actualPoints": 13.0
         },
         {
@@ -300,9 +300,9 @@
             "game_id": "2026-ev-4",
             "position": "Attack",
             "salary": 50,
-            "mc_ev": 34.7,
-            "mc_p90": 69.0,
-            "mc_p10": 10.1,
+            "mc_ev": 30.9,
+            "mc_p90": 61.5,
+            "mc_p10": 9.0,
             "actualPoints": 51.0
         },
         {
@@ -339,8 +339,8 @@
             "game_id": "2026-ev-2",
             "position": "Midfield",
             "salary": 20,
-            "mc_ev": 17.9,
-            "mc_p90": 31.3,
+            "mc_ev": 18.0,
+            "mc_p90": 31.6,
             "mc_p10": 0.0,
             "actualPoints": 65.0
         },
@@ -352,8 +352,8 @@
             "game_id": "2026-ev-4",
             "position": "Midfield",
             "salary": 13,
-            "mc_ev": 13.6,
-            "mc_p90": 27.6,
+            "mc_ev": 14.2,
+            "mc_p90": 28.8,
             "mc_p10": 0.0,
             "actualPoints": 12.0
         },
@@ -365,8 +365,8 @@
             "game_id": "2026-ev-1",
             "position": "Defense",
             "salary": 16,
-            "mc_ev": 13.1,
-            "mc_p90": 28.1,
+            "mc_ev": 13.5,
+            "mc_p90": 29.0,
             "mc_p10": 0.8,
             "actualPoints": 20.0
         }
@@ -393,9 +393,9 @@
             "game_id": "2026-ev-4",
             "position": "A",
             "salary": 50,
-            "mc_ev": 34.7,
-            "mc_p90": 69.0,
-            "mc_p10": 10.1,
+            "mc_ev": 30.9,
+            "mc_p90": 61.5,
+            "mc_p10": 9.0,
             "actualPoints": 51.0
         },
         {
@@ -406,8 +406,8 @@
             "game_id": "2026-ev-2",
             "position": "M",
             "salary": 10,
-            "mc_ev": 10.4,
-            "mc_p90": 26.2,
+            "mc_ev": 9.5,
+            "mc_p90": 23.8,
             "mc_p10": 0.0,
             "actualPoints": 76.0
         },
@@ -419,8 +419,8 @@
             "game_id": "2026-ev-2",
             "position": "M",
             "salary": 20,
-            "mc_ev": 17.9,
-            "mc_p90": 31.3,
+            "mc_ev": 18.0,
+            "mc_p90": 31.6,
             "mc_p10": 0.0,
             "actualPoints": 65.0
         },
@@ -432,8 +432,8 @@
             "game_id": "2026-ev-1",
             "position": "D",
             "salary": 3,
-            "mc_ev": 3.8,
-            "mc_p90": 8.6,
+            "mc_ev": 3.6,
+            "mc_p90": 8.2,
             "mc_p10": 0.0,
             "actualPoints": 59.0
         },
@@ -458,36 +458,26 @@
             "game_id": "2026-ev-2",
             "position": "G",
             "salary": 47,
-            "mc_ev": 40.9,
-            "mc_p90": 62.3,
-            "mc_p10": 15.8,
+            "mc_ev": 38.5,
+            "mc_p90": 58.7,
+            "mc_p10": 14.9,
             "actualPoints": 47.0
         }
     ],
     "Core": [
-        "Liam Entenmann",
         "Connor Shellenberger",
+        "Liam Entenmann",
         "TJ Malone",
         "Matt Brandau",
         "TD Ierlan",
+        "Jack Hannah",
         "Greg Weyl"
     ],
-    "Sleepers": [
-        "Jonathan Donville"
-    ],
+    "Sleepers": [],
     "RecommendedStrategy": "MC_EV",
     "RecommendedReason": "Tight pricing / short slate (4 games, 20 cheap value players). Optimizing for floor is best.",
     "Narrative": {
         "RecommendedRoster": [
-            {
-                "firstName": "Liam",
-                "lastName": "Entenmann",
-                "position": "Goalie",
-                "salary": 47,
-                "bullets": [
-                    "Opponent Weakness: CHA defense allows 18% extra fantasy points to Goalie position."
-                ]
-            },
             {
                 "firstName": "Connor",
                 "lastName": "Shellenberger",
@@ -498,12 +488,21 @@
                 ]
             },
             {
+                "firstName": "Liam",
+                "lastName": "Entenmann",
+                "position": "Goalie",
+                "salary": 47,
+                "bullets": [
+                    "Opponent Weakness: CHA defense allows 18% extra fantasy points to Goalie position."
+                ]
+            },
+            {
                 "firstName": "TJ",
                 "lastName": "Malone",
                 "position": "Attack",
                 "salary": 43,
                 "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (36.6 EV) and reliable role."
+                    "Consistent Pick: Selected for steady expected floor (34.9 EV) and reliable role."
                 ]
             },
             {
@@ -512,7 +511,7 @@
                 "position": "Midfield",
                 "salary": 27,
                 "bullets": [
-                    "Consistent Pick: Selected for steady expected floor (23.7 EV) and reliable role."
+                    "Consistent Pick: Selected for steady expected floor (25.2 EV) and reliable role."
                 ]
             },
             {
@@ -525,37 +524,25 @@
                 ]
             },
             {
-                "firstName": "Greg",
-                "lastName": "Weyl",
-                "position": "Defense",
-                "salary": 2,
-                "bullets": [
-                    "Salary Cap Enabler: Excellent cost efficiency, projecting 16.0 EV for just 2 coins."
-                ]
-            },
-            {
                 "firstName": "Jack",
                 "lastName": "Hannah",
                 "position": "Midfield",
                 "salary": 11,
                 "bullets": [
-                    "Salary Cap Enabler: Excellent cost efficiency, projecting 15.9 EV for just 11 coins."
+                    "Salary Cap Enabler: Excellent cost efficiency, projecting 15.7 EV for just 11 coins."
+                ]
+            },
+            {
+                "firstName": "Greg",
+                "lastName": "Weyl",
+                "position": "Defense",
+                "salary": 2,
+                "bullets": [
+                    "Salary Cap Enabler: Excellent cost efficiency, projecting 15.6 EV for just 2 coins."
                 ]
             }
         ],
-        "Variants": [
-            {
-                "strategy": "MC_Ceil_90",
-                "strategyLabel": "MC Ceil 90",
-                "in": [
-                    "Jonathan Donville"
-                ],
-                "out": [
-                    "Jack Hannah"
-                ],
-                "rationale": "Swaps out lower-ceiling floor plays for high-upside players (like Jonathan Donville (Midfield, 5c)) to maximize the team's 90th percentile ceiling (projecting up to 33.0 pts)."
-            }
-        ]
+        "Variants": []
     },
     "TacticalAdvice": {
         "FloorLocks": [
@@ -590,32 +577,32 @@
         ],
         "DifferentialLeverage": [
             {
-                "firstName": "Liam",
-                "lastName": "Entenmann",
-                "position": "Goalie",
-                "globalRate": 0,
-                "description": "High Leverage Differential: High projected upside (40.9 EV) with only 0% global ownership."
-            },
-            {
                 "firstName": "Connor",
                 "lastName": "Shellenberger",
                 "position": "Attack",
                 "globalRate": 4,
-                "description": "High Leverage Differential: High projected upside (40.7 EV) with only 4% global ownership."
+                "description": "High Leverage Differential: High projected upside (39.9 EV) with only 4% global ownership."
+            },
+            {
+                "firstName": "Liam",
+                "lastName": "Entenmann",
+                "position": "Goalie",
+                "globalRate": 0,
+                "description": "High Leverage Differential: High projected upside (38.5 EV) with only 0% global ownership."
             },
             {
                 "firstName": "TJ",
                 "lastName": "Malone",
                 "position": "Attack",
                 "globalRate": 4,
-                "description": "High Leverage Differential: High projected upside (36.6 EV) with only 4% global ownership."
+                "description": "High Leverage Differential: High projected upside (34.9 EV) with only 4% global ownership."
             },
             {
                 "firstName": "Matt",
                 "lastName": "Brandau",
                 "position": "Midfield",
                 "globalRate": 0,
-                "description": "High Leverage Differential: High projected upside (23.7 EV) with only 0% global ownership."
+                "description": "High Leverage Differential: High projected upside (25.2 EV) with only 0% global ownership."
             }
         ]
     }

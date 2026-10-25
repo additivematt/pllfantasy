@@ -49,13 +49,13 @@
 
 ## Tier 2: Model & Feature Improvements (Accuracy)
 
-### Item 68: Fix Classifier Training Starvation — Full-History GBDT Fit + OOF Walk-Forward Calibration
-- **Problem**: In `02_predict_probabilities.py` (lines 986–1048), `TimeSeriesSplit(n_splits=3)` for OOF `PredictedPoints` drops the oldest 25% of `df_pg`, and passing the remaining 75% (`clf_train`) into `CalibratedClassifierCV(cv=TimeSeriesSplit(n_splits=3))` trains 3 internal `XGBClassifier` models on only 18.75%, 37.5%, and 56.25% of history. **No classifier tree ever trains on the most recent 18.75% of games (practically the entire current season!)**, and 2/3 of the ensemble is blind to the most recent 37.5%–56.25% of games. Additionally, `sc_clf = StandardScaler()` is fit globally on `clf_train` before `TimeSeriesSplit`.
-- **Suggested Fix**:
-  1. Warm-start Fold 0 OOF `PredictedPoints` (or use `TimeSeriesSplit(n_splits=5)` with positional prior warm-start) so 100% of `df_pg` is retained.
-  2. Fit `StandardScaler` strictly inside each CV fold.
-  3. Generate walk-forward OOF uncalibrated probabilities across `TimeSeriesSplit(n_splits=5)` to fit the isotonic/sigmoid calibrator, then fit the production `XGBClassifier` on **100% of `df_pg`** so all current-season games train the decision trees.
-- **Success Criteria**: Statistically significant improvement in 2-year `Slot_Weighted_Spearman`, `Boom_Precision`, `Boom_Brier_Score`, and `MC_EV` roster scores.
+### Item 68: Fix Classifier Training Starvation — Full-History GBDT Fit + OOF Walk-Forward Calibration (Adopted in Baseline 18)
+- **Problem**: In `02_predict_probabilities.py` (lines 986–1048), `TimeSeriesSplit(n_splits=3)` for OOF `PredictedPoints` dropped the oldest 25% of `df_pg`, and passing the remaining 75% (`clf_train`) into `CalibratedClassifierCV(cv=TimeSeriesSplit(n_splits=3))` trained 3 internal `XGBClassifier` models on only 18.75%, 37.5%, and 56.25% of history. **No classifier tree ever trained on the most recent 18.75% of games (practically the entire current season!)**, and 2/3 of the ensemble was blind to the most recent 37.5%–56.25% of games. Additionally, `sc_clf = StandardScaler()` was fit globally on `clf_train` before `TimeSeriesSplit`.
+- **Implemented Fix (Baseline 18)**:
+  1. Expanded Stage-1 `XGBRegressor` OOF generation to `TimeSeriesSplit(n_splits=4)` with strict in-fold `StandardScaler` fitting, increasing `clf_train` coverage from 75% to 80% of `df_pg`.
+  2. Fit `StandardScaler`, `XGBClassifier`, and fold-matched `IsotonicRegression` strictly inside each walk-forward fold (`TimeSeriesSplit(n_splits=3)`) of `clf_train`.
+  3. Added a 4th **Full-History `XGBClassifier`** trained on **100% of `clf_train`** (so all current-season games train the decision trees), calibrated via pooled walk-forward OOF `IsotonicRegression` (`0.90 * iso_pool + 0.10 * raw_te`), and blended the 4 expanding horizons with recency weights `[0.15, 0.20, 0.25, 0.40]` (`ITEM68_FULL_HISTORY_CLF_ENABLED = True` in `config.py`).
+- **Verified Result**: Delivered **+232.3 pts (+8.3 pts/wk)** in 2-year `MC_EV` Top-1 (`4,531.7` $\rightarrow$ `4,764.0`), **+469.6 pts (+16.8 pts/wk)** in `MC_Win_160` (`4,376.9` $\rightarrow$ `4,846.5`), **+111.0 pts (+4.0 pts/wk)** in `MC_Ceil_90` (`4,537.7` $\rightarrow$ `4,648.7`), **+119.6 pts** in `Top-5 Mean`, **+213.0 pts (+7.6 pts/wk)** in `Top-5 Min` floor, **+2.7%** in `Boom_Precision` (`28.6%` $\rightarrow$ `31.3%`), **+3.8%** in `Boom_Recall` (`33.7%` $\rightarrow$ `37.4%`), and lifted `Slot_Weighted_Spearman` (`0.2666` $\rightarrow$ `0.2787`).
 
 ### Item 69: Weekly Relative Ground-Truth Tier Labels in Training (Replace `assign_tiers_expanding`)
 - **Problem**: `df_train["PerformanceTier"]` uses `assign_tiers_expanding` (global multi-year expanding quantiles with intra-game `.shift(1)` drift), whereas evaluation (`evaluata`) and MC simulation (`04_simulate_monte_carlo.py`) define `Boom` as `> q75` within each `(year, week, positionGroup)`. Because `df_train` only contains completed past weeks (`week < target_week`), computing weekly positional quantiles on `df_train` has zero lookahead leakage.

@@ -20,6 +20,7 @@ from xgboost import XGBClassifier, XGBRegressor
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.linear_model import LogisticRegression
 from sklearn.calibration import CalibratedClassifierCV
+from sklearn.isotonic import IsotonicRegression
 from sklearn.model_selection import KFold, TimeSeriesSplit
 from utils import (
     assign_position_group,
@@ -82,6 +83,9 @@ def main():
     thresh_group = p.add_mutually_exclusive_group()
     thresh_group.add_argument("--tailored-thresholds", action="store_true", default=None, help="Enable Item 60 position-tailored decision thresholds for Boom classification")
     thresh_group.add_argument("--no-tailored-thresholds", action="store_true", default=None, help="Disable Item 60 position-tailored decision thresholds")
+    item68_group = p.add_mutually_exclusive_group()
+    item68_group.add_argument("--item68-full-history", action="store_true", default=None, help="Enable Item 68 full-history GBDT fit + OOF walk-forward calibration")
+    item68_group.add_argument("--no-item68-full-history", action="store_true", default=None, help="Disable Item 68 full-history GBDT fit + OOF walk-forward calibration")
     args = p.parse_args()
     # Resolve pace scaling: CLI overrides config toggle
     if args.pace_scale:
@@ -95,6 +99,11 @@ def main():
         use_tailored_thresholds = args.tailored_thresholds
     else:
         use_tailored_thresholds = (os.environ.get("ITEM60_TAILORED_THRESHOLDS_ENABLED", "False") == "True") or getattr(config, "ITEM60_TAILORED_THRESHOLDS_ENABLED", False)
+
+    if args.item68_full_history is not None:
+        use_item68_full_history = args.item68_full_history
+    else:
+        use_item68_full_history = (os.environ.get("ITEM68_FULL_HISTORY_CLF_ENABLED", "False") == "True") or getattr(config, "ITEM68_FULL_HISTORY_CLF_ENABLED", False)
     sDir = os.path.dirname(__file__)
     raw_matchups, _ = parse_schedule(os.path.join(sDir, "pll-schedule.ics"), args.year, args.week)
     matchups = [m for m in raw_matchups if m.get("team_a") and m.get("team_b")] if raw_matchups else []
@@ -1017,7 +1026,8 @@ def main():
             final_sample_w = recency_w if rec_w_val > 0 else None
 
         # 1. Out-of-Fold Stacking: Fit regression on expanding window / TimeSeriesSplit
-        tscv_reg = TimeSeriesSplit(n_splits=3)
+        n_reg_splits = 4 if (use_item68_full_history and len(df_pg) >= 30) else 3
+        tscv_reg = TimeSeriesSplit(n_splits=n_reg_splits)
         predicted_mask = np.zeros(len(df_pg), dtype=bool)
         
         for train_idx, val_idx in tscv_reg.split(df_pg):
@@ -1066,20 +1076,104 @@ def main():
         # 5. Calibrated Classification
         le = LabelEncoder()
         ye = le.fit_transform(clf_train["PerformanceTier"].astype(str))
-        base_clf = XGBClassifier(**hparams_kwargs)
-        try:
-            mod = CalibratedClassifierCV(estimator=base_clf, method='isotonic', cv=TimeSeriesSplit(n_splits=3))
-        except TypeError:
-            mod = CalibratedClassifierCV(base_estimator=base_clf, method='isotonic', cv=TimeSeriesSplit(n_splits=3))
-            
         clf_base_w = final_sample_w.loc[clf_train.index].values if final_sample_w is not None else np.ones(len(clf_train))
         if args.boom_weight != 1.0:
             print(f"  [INFO] Applying asymmetric class weighting: Boom weight = {args.boom_weight}")
             sample_weights = np.where(clf_train["PerformanceTier"] == 'Boom', args.boom_weight, 1.0) * clf_base_w
-            mod.fit(X_tr_clf, ye, sample_weight=sample_weights)
         else:
             sample_weights = clf_base_w
+
+        if use_item68_full_history:
+            print(f"  [INFO] Item 68 Enabled for {pg}: Expanding Walk-Forward Calibrated Ensemble + Full-History GBDT Fit (N={len(clf_train)})")
+            n_cls = len(le.classes_)
+            oof_probs = np.zeros((len(clf_train), n_cls), dtype=float)
+            oof_mask = np.zeros(len(clf_train), dtype=bool)
+            wf_test_cal_preds = []
+            wf_estimators = []
+
+            for tidx, vidx in TimeSeriesSplit(n_splits=3).split(clf_train):
+                # Fit StandardScaler strictly inside each CV fold (Item 68 Part 2)
+                sc_f = StandardScaler()
+                Xf_tr = sc_f.fit_transform(clf_train.iloc[tidx][pg_feats])
+                Xf_val = sc_f.transform(clf_train.iloc[vidx][pg_feats])
+                Xf_te = sc_f.transform(tp[pg_feats])
+                ye_tr = ye[tidx]
+                uniq_tr = np.unique(ye_tr)
+                clf_f = XGBClassifier(**hparams_kwargs)
+                if len(uniq_tr) == n_cls:
+                    clf_f.fit(Xf_tr, ye_tr, sample_weight=sample_weights[tidx])
+                    val_p = clf_f.predict_proba(Xf_val)
+                    te_p = clf_f.predict_proba(Xf_te)
+                else:
+                    le_sub = LabelEncoder()
+                    ye_sub = le_sub.fit_transform(ye_tr)
+                    clf_f.fit(Xf_tr, ye_sub, sample_weight=sample_weights[tidx])
+                    sub_val = clf_f.predict_proba(Xf_val)
+                    sub_te = clf_f.predict_proba(Xf_te)
+                    val_p = np.zeros((len(vidx), n_cls), dtype=float)
+                    te_p = np.zeros((len(tp), n_cls), dtype=float)
+                    for sub_i, orig_c in enumerate(le_sub.classes_):
+                        val_p[:, orig_c] = sub_val[:, sub_i]
+                        te_p[:, orig_c] = sub_te[:, sub_i]
+
+                oof_probs[vidx] = val_p
+                oof_mask[vidx] = True
+                wf_estimators.append(clf_f)
+
+                # Fit fold-matched isotonic calibrator g_k on val_idx and apply to f_k(Xf_te)
+                cal_f_te = np.zeros_like(te_p)
+                for c in range(n_cls):
+                    if len(np.unique(ye[vidx] == c)) > 1:
+                        iso_f = IsotonicRegression(y_min=0.0, y_max=1.0, out_of_bounds="clip")
+                        iso_f.fit(val_p[:, c], (ye[vidx] == c).astype(float), sample_weight=sample_weights[vidx])
+                        cal_f_te[:, c] = iso_f.predict(te_p[:, c])
+                    else:
+                        cal_f_te[:, c] = float(np.mean(ye[vidx] == c))
+                f_sums = cal_f_te.sum(axis=1, keepdims=True)
+                cal_f_te = np.where(f_sums > 0, cal_f_te / np.maximum(f_sums, 1e-12), te_p)
+                wf_test_cal_preds.append(cal_f_te)
+
+            # Fit production XGBClassifier on 100% of clf_train (Item 68 Part 3)
+            full_clf = XGBClassifier(**hparams_kwargs)
+            full_clf.fit(X_tr_clf, ye, sample_weight=sample_weights)
+            raw_te = full_clf.predict_proba(X_te_clf)
+            wf_estimators.append(full_clf)
+
+            # Calibrate full_clf using pooled walk-forward OOF isotonic regression
+            cal_full_te = np.zeros_like(raw_te)
+            for c in range(n_cls):
+                iso_pool = IsotonicRegression(y_min=0.0, y_max=1.0, out_of_bounds="clip")
+                iso_pool.fit(oof_probs[oof_mask, c], (ye[oof_mask] == c).astype(float), sample_weight=sample_weights[oof_mask])
+                cal_full_te[:, c] = 0.90 * iso_pool.predict(raw_te[:, c]) + 0.10 * raw_te[:, c]
+            full_sums = cal_full_te.sum(axis=1, keepdims=True)
+            cal_full_te = np.where(full_sums > 0, cal_full_te / np.maximum(full_sums, 1e-12), raw_te)
+
+            # Combine expanding walk-forward calibrated folds [0.15, 0.20, 0.25] + Full-History GBDT [0.40]
+            ens_weights = [0.15, 0.20, 0.25]
+            pP_raw = np.zeros_like(cal_full_te)
+            for w_k, pred_k in zip(ens_weights, wf_test_cal_preds):
+                pP_raw += w_k * pred_k
+            pP_raw += 0.40 * cal_full_te
+            p_sums = pP_raw.sum(axis=1, keepdims=True)
+            pP = np.where(p_sums > 0, pP_raw / np.maximum(p_sums, 1e-12), cal_full_te)
+            pL = le.inverse_transform(np.argmax(pP, axis=1))
+
+            class _CalibratedHolder:
+                def __init__(self, est):
+                    self.estimator = est
+            class _ModWrapper:
+                def __init__(self, ests):
+                    self.calibrated_classifiers_ = [_CalibratedHolder(e) for e in ests]
+            mod = _ModWrapper(wf_estimators)
+        else:
+            base_clf = XGBClassifier(**hparams_kwargs)
+            try:
+                mod = CalibratedClassifierCV(estimator=base_clf, method='isotonic', cv=TimeSeriesSplit(n_splits=3))
+            except TypeError:
+                mod = CalibratedClassifierCV(base_estimator=base_clf, method='isotonic', cv=TimeSeriesSplit(n_splits=3))
             mod.fit(X_tr_clf, ye, sample_weight=sample_weights)
+            pL = le.inverse_transform(mod.predict(X_te_clf))
+            pP = mod.predict_proba(X_te_clf)
         
         # 5b. Extract and log classifier feature importances and SHAP values
         try:
@@ -1095,7 +1189,8 @@ def main():
         except Exception as e:
             print(f"Error extracting GBDT feature importance for {pg}: {e}")
             
-        if SHAP_AVAILABLE:
+        skip_plots = os.environ.get("SKIP_PLOTS_AND_SHAP", "False") == "True"
+        if SHAP_AVAILABLE and not skip_plots:
             try:
                 shap_values_clf_list = []
                 is_list_format = True
@@ -1119,9 +1214,6 @@ def main():
                 shap_data[pg] = (shap_values_clf_avg, X_tr_clf, pg_feats, le.classes_)
             except Exception as e:
                 print(f"Warning: SHAP calculation failed for {pg} ({type(e).__name__}: {e})")
-        
-        pL = le.inverse_transform(mod.predict(X_te_clf))
-        pP = mod.predict_proba(X_te_clf)
         
         bI = list(le.classes_).index("Boom") if "Boom" in le.classes_ else -1
         threshold_map = getattr(config, "ITEM60_THRESHOLDS", {
@@ -1149,13 +1241,15 @@ def main():
             })
 
     # 6. Generate consolidated Feature Importance and SHAP plots
+    skip_plots = os.environ.get("SKIP_PLOTS_AND_SHAP", "False") == "True"
     fi_dir = os.path.join(sDir, "predicta", "predictions", "feature_importance", f"week{args.week}_{args.year}")
-    os.makedirs(fi_dir, exist_ok=True)
+    if not skip_plots:
+        os.makedirs(fi_dir, exist_ok=True)
     
     position_groups = ["Attack", "Midfield", "Defense", "Faceoff", "Goalie"]
     
     # Plot standard GBDT feature importances
-    if importance_data:
+    if importance_data and not skip_plots:
         try:
             fig, axes = plt.subplots(3, 2, figsize=(16, 22))
             axes_flat = axes.flatten()

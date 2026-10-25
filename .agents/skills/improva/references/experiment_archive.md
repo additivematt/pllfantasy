@@ -6,6 +6,18 @@
 
 ## 1. Completed & Adopted Innovations
 
+### Item 68: Fix Classifier Training Starvation — Full-History GBDT Fit + OOF Walk-Forward Calibration (October 2026) ✅ ADOPTED (Baseline 18)
+- **Problem (Quantified)**: `02_predict_probabilities.py` used `TimeSeriesSplit(n_splits=3)` for OOF `PredictedPoints` (dropping the oldest 25% of `df_pg`), and then passed the remaining 75% (`clf_train`) into `CalibratedClassifierCV(cv=TimeSeriesSplit(n_splits=3))`, which trained 3 internal `XGBClassifier` models on only 18.75%, 37.5%, and 56.25% of history. Consequently, **zero classifier trees ever trained on the most recent 18.75% of games (the entire current season!)**, and `sc_clf = StandardScaler()` was fit globally on `clf_train` before CV splitting.
+- **Root Cause & v1 vs v2 Discovery**:
+  - *Candidate v1 (Single Full-History Model + `prob_bw=1.7`)*: Improved continuous and classification metrics across the board (`Slot_Weighted_Spearman` `+0.0148`, `Boom_Precision` `+1.8%`), but replacing the 3-fold expanding ensemble with a single un-ensembled GBDT and lowering `prob_bw` from `2.0` to `1.7` compressed `Attack` `mc_ev` spread (`A_VOR` `-2.2/slot`), limiting `MC_EV` Top-1 gain to `+2.3 pts` (`+297.2 pts` in `MC_Win_160`).
+  - *Candidate v2 (4-Horizon Expanding + 100% Full-History Calibrated Ensemble at `boom_weight=2.0`)*: Retained the variance-reducing expanding-window GBDT ensemble (`[0.15, 0.20, 0.25]`) with strict in-fold `StandardScaler` + fold-matched `IsotonicRegression`, and added a 4th **Full-History `XGBClassifier`** trained on **100% of `clf_train`** (`[0.40]` weight), calibrated via pooled walk-forward OOF `IsotonicRegression` (`0.90 * iso_pool + 0.10 * raw_te`), with `TimeSeriesSplit(n_splits=4)` for Stage-1 OOF `PredictedPoints`.
+- **Results (Baseline 18 Adoption — 28-Week 5-Stage Production Backtest)**:
+  - **`MC_EV` Top-1 Roster Score**: Jumped **+232.3 pts (+8.3 pts/wk)** from `4,531.7` (`161.8/wk`) $\rightarrow$ **`4,764.0` (`170.1/wk`)** (+234.0 pts / +15.6 pts/wk in 2026).
+  - **`MC_Win_160` Top-1 Roster Score**: Jumped **+469.6 pts (+16.8 pts/wk)** from `4,376.9` (`156.3/wk`) $\rightarrow$ **`4,846.5` (`173.1/wk`)** (+100.6 pts in 2025, +369.0 pts in 2026).
+  - **`MC_Ceil_90` Top-1 Roster Score**: Jumped **+111.0 pts (+4.0 pts/wk)** from `4,537.7` $\rightarrow$ **`4,648.7`** (+59.8 pts in 2025, +51.2 pts in 2026).
+  - **Top-5 Portfolio & Floor Protection**: `Top-5 Mean` rose **+119.6 pts (+4.3/wk)** (`4,572.8` $\rightarrow$ `4,692.4`), `Top-5 Max` rose **+37.5 pts** (`5,289.0` $\rightarrow$ `5,326.5`), and `Top-5 Min` floor rose **+213.0 pts (+7.6/wk)** (`3,857.5` $\rightarrow$ `4,070.5`).
+  - **Accuracy & Calibration**: `Boom_Precision` rose **+2.7%** (`28.6%` $\rightarrow$ `31.3%`), `Boom_Recall` rose **+3.8%** (`33.7%` $\rightarrow$ `37.4%`), `Tier_Accuracy` rose **+1.0%** (`40.7%` $\rightarrow$ `41.7%`), `Boom_Brier_Score` improved (`0.2018` $\rightarrow$ `0.1997`), and `Slot_Weighted_Spearman` rose **+0.0121** (`0.2666` $\rightarrow$ `0.2787`).
+
 ### Item 52: Faceoff Bradley-Terry Temporal Decay & Specialist Share Scaling (August 2026) ✅ ADOPTED (Baseline 15)
 - **Problem (Quantified)**: FO_Spearman collapsed from 0.445 (2025, formerly strongest position) to 0.007–0.171 (2026, weakest position) — a catastrophic regression where the Faceoff roster slot was near-random.
 - **Root Cause Discoveries**:

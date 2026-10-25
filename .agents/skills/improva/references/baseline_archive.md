@@ -1,6 +1,6 @@
-# PLL Fantasy Prediction Engine — Historical Baselines Archive (Baselines 1–16)
+# PLL Fantasy Prediction Engine — Historical Baselines Archive (Baselines 1–17)
 
-> **Context**: Archived from `improva` to preserve complete historical benchmarking records while maintaining a lightweight operational runbook. For the active baseline (**Baseline 17**), see [improva](../SKILL.md).
+> **Context**: Archived from `improva` to preserve complete historical benchmarking records while maintaining a lightweight operational runbook. For the active baseline (**Baseline 18**), see [improva](../SKILL.md).
 
 ---
 
@@ -177,5 +177,28 @@ Every time a new baseline is established and rosters are saved to `baselines/`:
 | **2026** (15 Wks) | `MC_EV` | 2,187.6 pts | 145.8 pts/wk | 146.0 pts/wk | 168.7 pts/wk | 127.0 pts/wk | 352.5 pts/wk | 47.9% |
 | **2026** (15 Wks) | `MC_Win_160` | 2,211.6 pts | 147.4 pts/wk | 147.1 pts/wk | 170.1 pts/wk | 127.5 pts/wk | 352.5 pts/wk | 48.3% |
 | **2026** (15 Wks) | `MC_Ceil_90` | 2,210.4 pts | 147.4 pts/wk | 145.4 pts/wk | 169.8 pts/wk | 121.2 pts/wk | 352.5 pts/wk | 48.2% |
+
+---
+
+## Baseline 17 (Track A Legitimacy, Data Leakage Remediation & Data Integrity Fixes — October 2026, Superseded by Baseline 18)
+
+- **Description**: Incorporated all 6 **Track A Legitimacy, Data Leakage Remediation & Data Integrity Fixes (Items 62–67)**:
+  - **Item 62**: Strict Pre-Game Goalie Starter Designation (`ALLOW_RETROSPECTIVE_GOALIE_OVERRIDES = False`, 94.9% pre-game heuristic accuracy).
+  - **Item 63**: Year-Scoped Gameday Rosters & Pre-Game Injury/Scratch Parity (+137.4 pts in 2026 `MC_EV`).
+  - **Item 64**: Monte Carlo Year-Parsing Fix & 2019–2022 Exclusion (stripped 6,724 pre-2023 rows weighted at `weeks_ago=10`).
+  - **Item 65**: Historical Team/Opponent Integrity (`CHR` $\rightarrow$ `OUT`, 41 traded-player rows, 2,110 phantom DNP rows, recovered 36/189 pace games & 26/189 FO BT games).
+  - **Item 66**: Missing Salary Imputation (`missing_sal_mask`) & Playoff `Coulda Max` Salary Parity.
+  - **Item 67**: Evaluation Harness `mc_ev` Continuous Metric Alignment & Seeded Local Search (`np.random.seed(42)`).
+- **Roster Files**: `baselines/rosters_mc_ev_baseline_17.csv`, `baselines/rosters_mc_win_160_baseline_17.csv`, `baselines/rosters_mc_ceil_90_baseline_17.csv`.
+
+| Season | Strategy | Top-1 Total | Top-1 (Avg/Wk) | Top-5 Mean (Avg/Wk) | Top-5 Max (Avg/Wk) | Top-5 Min (Avg/Wk) | Coulda Max (Avg/Wk) | Top-5 Max Ceiling % |
+|---|---|---|---|---|---|---|---|---|
+| **2025** (13 Wks) | `MC_EV` | 2,206.7 pts | 169.7 pts/wk | 166.0 pts/wk | 187.8 pts/wk | 144.2 pts/wk | 359.0 pts/wk | 52.3% |
+| **2025** (13 Wks) | `MC_Win_160` | 2,076.6 pts | 159.7 pts/wk | 165.1 pts/wk | 191.0 pts/wk | 141.4 pts/wk | 359.0 pts/wk | 53.2% |
+| **2025** (13 Wks) | `MC_Ceil_90` | 2,197.7 pts | 169.1 pts/wk | 168.8 pts/wk | 194.5 pts/wk | 144.7 pts/wk | 359.0 pts/wk | 54.2% |
+| **2026** (15 Wks) | `MC_EV` | 2,325.0 pts | 155.0 pts/wk | 161.0 pts/wk | 189.8 pts/wk | 132.2 pts/wk | 352.5 pts/wk | 53.9% |
+| **2026** (15 Wks) | `MC_Win_160` | 2,300.3 pts | 153.4 pts/wk | 162.0 pts/wk | 191.6 pts/wk | 130.6 pts/wk | 352.5 pts/wk | 54.4% |
+| **2026** (15 Wks) | `MC_Ceil_90` | 2,340.0 pts | 156.0 pts/wk | 149.7 pts/wk | 177.6 pts/wk | 120.8 pts/wk | 352.5 pts/wk | 50.4% |
+
 
 
