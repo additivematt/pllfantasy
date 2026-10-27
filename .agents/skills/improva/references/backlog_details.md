@@ -62,16 +62,16 @@
 - **Suggested Fix**: Compute `df_train["PerformanceTier"]` via `df_train.groupby(["year", "week", "positionGroup"])["TotalFantasyPoints"].transform(assign_weekly_tiers)` (with fallback to expanding quantiles only if a cell has $< 4$ active players).
 - **Success Criteria**: Improved `Tier_Accuracy`, `Boom_Precision`, `Boom_Brier_Score`, and `MC_EV` portfolio scores.
 
-### Item 70: EWMA / Current-Season Shrunk EV Anchor, Position-Switch Fix & Direct Faceoff EV
+### Item 70: EWMA / Current-Season Shrunk EV Anchor, Position-Switch Fix & Direct Faceoff EV (Adopted in Baseline 19)
 - **Problem**:
-  1. `02_predict_probabilities.py` (line 246) groups `p_avgs` by `["firstName", "lastName", "positionGroup"]`, wiping out prior history on `df_test` for **47 players** who switched positions across 2023–2026 (`Brandau`, `Kurtz`, `Currier`, `Bernhardt`, `King`, etc.), whereas `df_train` groups by `["firstName", "lastName"]`.
-  2. `fp_season_avg` is an unweighted 2023–2026 career average, causing `USE_PLAYER_ANCHORED_EV` in `04_simulate_monte_carlo.py` to anchor 2026 EV to 4-year unweighted averages.
-  3. For Faceoff, `04_simulate_monte_carlo.py` overwrites the Bradley-Terry + share-scaled `PredictedPoints` with `fp_season_avg * (0.5 + BoomProb/100)`, and `02_predict_probabilities.py` omits `-3.0 * turnovers` from the FO EV formula.
-- **Suggested Fix**:
-  1. Group `p_avgs` by `["firstName", "lastName"]`.
-  2. Anchor MC `EV` to a Bayesian shrinkage blend of `fp_ewma_4` (or current-season STD average) and career `fp_season_avg` ($K \in \{3, 5\}$).
-  3. Include `-3.0 * to_rate_shrunk` in Faceoff `ev` (`02_predict_probabilities.py`) and use `PredictedPoints` directly as `EV` for `positionGroup == "Faceoff"` in `04_simulate_monte_carlo.py`.
-- **Success Criteria**: Lift in A/M/FO Spearman $\rho$ and +4 to +12 pts/wk in `MC_EV` / `MC_Win_160`.
+  1. `02_predict_probabilities.py` (line 255) grouped `p_avgs` by `["firstName", "lastName", "positionGroup"]`, wiping out prior history on `df_test` for **33 player-weeks** where veteran players switched positions across 2023–2026 (`Bernhardt`, `Garnsey`, `King`, `Carroll`, `Kurtz`, `Currier`, `Eicher`, `Brandau`, `Scott`, `Zawada`), giving them `n_games_played = 0` and the `8.0 pt` `NonBoom` fallback in `04_simulate_monte_carlo.py`.
+  2. Players with $< 4$ career games (`n_games_played < 4`) had unshrunk 1–3 game averages used directly as `base_fp`, while established veterans (`n_games_played >= 4`) anchored `100%` to unweighted 4-year `fp_season_avg`.
+  3. For Faceoff, `04_simulate_monte_carlo.py` overwrote the Bradley-Terry + specialist share-scaled `PredictedPoints` with `100%` `fp_season_avg * (0.5 + BoomProb/100)`.
+- **Implemented Fix (Baseline 19)**:
+  1. **70a (Position-Switch Rescue)**: Exported cross-position `fp_all_pos_avg`, `fp_all_pos_last15_avg`, and `n_all_pos_games` in `02_predict_probabilities.py` and rescued `base_fp`, `n_g`, and `l15_fp` from `player_histories[(first, last)]` in `04_simulate_monte_carlo.py` whenever `n_games_played == 0` at the new position group.
+  2. **70b (Small-Sample Bayesian Salary-Prior Shrinkage + 15-Game Recency Blend)**: Applied Bayesian salary-prior shrinkage (`w_g = n_g / (n_g + 2.0)` toward `clip(salary / 1.3333, 6.0, 22.0)`) for non-Faceoff players with `n_g < 4`, and blended `85% fp_season_avg + 15% fp_last15_avg` for established `Attack`, `Midfield`, and `Defense` players (`n_g >= 4`).
+  3. **70c (Direct Faceoff EV Blend)**: Blended `70%` player-anchored EV with `30%` direct Bradley-Terry + specialist-share `PredictedPoints` (`ITEM70_FO_DIRECT_WEIGHT = 0.30`).
+- **Verified Result**: Delivered **+218.5 pts (+7.8 pts/wk)** in 2-year `MC_EV` Top-1 (`4,764.0` $\rightarrow$ `4,982.5`; `+130.0 pts` in 2025, `+88.5 pts` in 2026), **+273.2 pts (+9.8 pts/wk)** in `MC_Ceil_90` Top-1 (`4,648.7` $\rightarrow$ `4,921.9`), **+41.8 pts** in `MC_Win_160` Top-1, **+91.3 pts** in `MC_EV` Top-5 Mean, **+178.0 pts** in `MC_EV` Top-5 Max (`55.3%` Ceiling), **+0.0075** in `Slot_Weighted_Spearman` (`0.2787` $\rightarrow$ `0.2862`), **-0.106 pts** in `MAE` (`11.300` $\rightarrow$ `11.194`), and **+0.0159** in $R^2$ (`0.1787` $\rightarrow$ `0.1946`).
 
 ### Item 71: Multi-Quantile Distributional Regression (`p25, p50, p90`) + Quantile-Preserving MC Bootstrap (Upgraded Item 39)
 - **Problem**: Single-quantile regression (`alpha = 0.90`) only predicts ceiling, and `04_simulate_monte_carlo.py` applies a linear multiplier (`raw_scores * mult`) to historical bootstrap samples, distorting right-skewed tail distributions.

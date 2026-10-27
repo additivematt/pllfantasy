@@ -54,6 +54,13 @@ ITEM61_ALPHA = float(os.environ.get("ITEM61_ALPHA", "0.0"))
 ITEM68_FULL_HISTORY_CLF_ENABLED = os.environ.get("ITEM68_FULL_HISTORY_CLF_ENABLED", "True") == "True"
 ITEM68_PROB_BOOM_WEIGHT = float(os.environ.get("ITEM68_PROB_BOOM_WEIGHT", "2.0"))
 
+# --- Item 70: Position-Switch Rescue, Small-Sample Shrunk EV Anchor & Direct Faceoff EV Blend ---
+ITEM70_EV_ANCHOR_ENABLED = os.environ.get("ITEM70_EV_ANCHOR_ENABLED", "True") == "True"
+ITEM70_SMALL_SAMPLE_CUTOFF = float(os.environ.get("ITEM70_SMALL_SAMPLE_CUTOFF", "4.0"))
+ITEM70_SHRINKAGE_K = float(os.environ.get("ITEM70_SHRINKAGE_K", "2.0"))
+ITEM70_LAST15_WEIGHT = float(os.environ.get("ITEM70_LAST15_WEIGHT", "0.15"))
+ITEM70_FO_DIRECT_WEIGHT = float(os.environ.get("ITEM70_FO_DIRECT_WEIGHT", "0.30"))
+
 # --- Item 60 Position-Tailored Decision Thresholds (Part A) ---
 ITEM60_TAILORED_THRESHOLDS_ENABLED = os.environ.get("ITEM60_TAILORED_THRESHOLDS_ENABLED", "False") == "True"
 ITEM60_THRESHOLDS = {

@@ -253,6 +253,11 @@ def main():
         return pd.Series(res)
 
     p_avgs = df_all.groupby(["firstName", "lastName", "positionGroup"]).apply(calc_player_avgs).reset_index()
+    p_avgs_any = df_all.groupby(["firstName", "lastName"]).apply(calc_player_avgs).reset_index()
+    p_avgs_any_lookup = p_avgs_any.set_index(["firstName", "lastName"])[["fp_season_avg", "fp_last15_avg", "n_games_played"]].rename(
+        columns={"fp_season_avg": "fp_all_pos_avg", "fp_last15_avg": "fp_all_pos_last15_avg", "n_games_played": "n_all_pos_games"}
+    ).reset_index()
+    p_avgs = p_avgs.merge(p_avgs_any_lookup, on=["firstName", "lastName"], how="left")
     p_avgs["shotPct_anomaly"] = p_avgs["shotPct_last3_avg"] - p_avgs["shotPct_season_avg"]
     p_avgs["turnover_rate_per_touch"] = (p_avgs["turnovers_season_avg"] / (p_avgs["touches_season_avg"] + 1e-5)).fillna(0.0)
     p_avgs["sog_rate_per_touch"] = (p_avgs["shotsOnGoal_season_avg"] / (p_avgs["touches_season_avg"] + 1e-5)).fillna(0.0)
@@ -671,6 +676,16 @@ def main():
                 continue
             t_df = t_roster.merge(p_avgs, on=["firstName", "lastName", "positionGroup"], how="left")
             if t_df.empty: continue
+            if "fp_all_pos_avg" in p_avgs_any_lookup.columns:
+                missing_all_pos = t_df["fp_all_pos_avg"].isna()
+                if missing_all_pos.any():
+                    fallback_map = p_avgs_any_lookup.set_index(["firstName", "lastName"])
+                    for col_fb in ["fp_all_pos_avg", "fp_all_pos_last15_avg", "n_all_pos_games"]:
+                        t_df.loc[missing_all_pos, col_fb] = t_df.loc[missing_all_pos].apply(
+                            lambda r_fb: fallback_map.loc[(r_fb["firstName"], r_fb["lastName"]), col_fb]
+                            if (r_fb["firstName"], r_fb["lastName"]) in fallback_map.index else 0.0,
+                            axis=1
+                        )
             t_df["opponent"], t_df["game_id"] = opp, m["game_id"]
             if "last_startTime" in t_df.columns and m.get("startTime"):
                 t_df["days_since_last_game"] = (m["startTime"] - t_df["last_startTime"]) / 86400.0

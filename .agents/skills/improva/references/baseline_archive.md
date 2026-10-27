@@ -1,6 +1,6 @@
-# PLL Fantasy Prediction Engine — Historical Baselines Archive (Baselines 1–17)
+# PLL Fantasy Prediction Engine — Historical Baselines Archive (Baselines 1–18)
 
-> **Context**: Archived from `improva` to preserve complete historical benchmarking records while maintaining a lightweight operational runbook. For the active baseline (**Baseline 18**), see [improva](../SKILL.md).
+> **Context**: Archived from `improva` to preserve complete historical benchmarking records while maintaining a lightweight operational runbook. For the active baseline (**Baseline 19**), see [improva](../SKILL.md).
 
 ---
 
@@ -199,6 +199,23 @@ Every time a new baseline is established and rosters are saved to `baselines/`:
 | **2026** (15 Wks) | `MC_EV` | 2,325.0 pts | 155.0 pts/wk | 161.0 pts/wk | 189.8 pts/wk | 132.2 pts/wk | 352.5 pts/wk | 53.9% |
 | **2026** (15 Wks) | `MC_Win_160` | 2,300.3 pts | 153.4 pts/wk | 162.0 pts/wk | 191.6 pts/wk | 130.6 pts/wk | 352.5 pts/wk | 54.4% |
 | **2026** (15 Wks) | `MC_Ceil_90` | 2,340.0 pts | 156.0 pts/wk | 149.7 pts/wk | 177.6 pts/wk | 120.8 pts/wk | 352.5 pts/wk | 50.4% |
+
+---
+
+## Baseline 18 (Item 68 Full-History Classifier Training + OOF Walk-Forward Calibration — October 2026, Superseded by Baseline 19)
+
+- **Description**: Incorporated **Item 68** (expanded Stage-1 `XGBRegressor` OOF to `TimeSeriesSplit(n_splits=4)` with in-fold `StandardScaler`, in-fold walk-forward `XGBClassifier` + `IsotonicRegression` ensemble across `TimeSeriesSplit(n_splits=3)`, plus a 4th **100% Full-History `XGBClassifier`** calibrated via pooled walk-forward OOF `IsotonicRegression` blended at `[0.15, 0.20, 0.25, 0.40]`).
+- **Roster Files**: `baselines/rosters_mc_ev_baseline_18.csv`, `baselines/rosters_mc_win_160_baseline_18.csv`, `baselines/rosters_mc_ceil_90_baseline_18.csv`.
+
+| Season | Strategy | Top-1 Total | Top-1 (Avg/Wk) | Top-5 Mean (Avg/Wk) | Top-5 Max (Avg/Wk) | Top-5 Min (Avg/Wk) | Coulda Max (Avg/Wk) | Top-5 Max Ceiling % |
+|---|---|---|---|---|---|---|---|---|
+| **2025** (13 Wks) | `MC_EV` | 2,205.0 pts | 169.6 pts/wk | 173.2 pts/wk | 191.6 pts/wk | 157.5 pts/wk | 359.0 pts/wk | 53.4% |
+| **2025** (13 Wks) | `MC_Win_160` | 2,177.2 pts | 167.5 pts/wk | 172.6 pts/wk | 191.6 pts/wk | 155.1 pts/wk | 359.0 pts/wk | 53.4% |
+| **2025** (13 Wks) | `MC_Ceil_90` | 2,257.5 pts | 173.7 pts/wk | 177.2 pts/wk | 205.3 pts/wk | 145.1 pts/wk | 359.0 pts/wk | 57.2% |
+| **2026** (15 Wks) | `MC_EV` | 2,559.0 pts | 170.6 pts/wk | 162.7 pts/wk | 189.1 pts/wk | 134.9 pts/wk | 352.5 pts/wk | 53.6% |
+| **2026** (15 Wks) | `MC_Win_160` | 2,669.3 pts | 178.0 pts/wk | 164.9 pts/wk | 190.1 pts/wk | 135.3 pts/wk | 352.5 pts/wk | 53.9% |
+| **2026** (15 Wks) | `MC_Ceil_90` | 2,391.2 pts | 159.4 pts/wk | 154.4 pts/wk | 188.8 pts/wk | 123.0 pts/wk | 352.5 pts/wk | 53.6% |
+
 
 
 

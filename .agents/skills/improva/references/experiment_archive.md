@@ -6,6 +6,22 @@
 
 ## 1. Completed & Adopted Innovations
 
+### Item 70: Position-Switch Rescue, Small-Sample Shrunk EV Anchor & Direct Faceoff EV Blend (October 2026) ✅ ADOPTED (Baseline 19)
+- **Problem (Quantified)**:
+  1. `p_avgs` in `02_predict_probabilities.py` grouped by `["firstName", "lastName", "positionGroup"]`, wiping out prior history on `df_test` for **33 player-weeks** where veteran players switched positions (`Bernhardt` in 2026 W3 [scored 55 pts], `Garnsey` in 2026 W6 [scored 28 & 32 pts], `King` in 2026 W5 [scored 46 pts], `Eicher` in 2026 W11, `Currier` in 2026 W13), giving them `n_games_played = 0` and the `8.0 pt` `NonBoom` fallback in `04_simulate_monte_carlo.py`.
+  2. Small-sample players (`n_games_played < 4`) used unshrunk 1–3 game averages directly as `base_fp`, while established multi-season veterans anchored `100%` to unweighted 4-year `fp_season_avg`.
+  3. Faceoff `EV` in `04_simulate_monte_carlo.py` ignored the direct Bradley-Terry + specialist-share `PredictedPoints` from `02_predict_probabilities.py`.
+- **Implemented Solution**:
+  1. Rescued cross-position career mean, 15-game mean, and game count from `player_histories[(first, last)]` whenever `n_games_played == 0` at the new position group.
+  2. Applied Bayesian salary-prior shrinkage (`w_g = n_g / (n_g + 2.0)` toward `clip(salary / 1.3333, 6.0, 22.0)`) for small-sample non-Faceoff players (`n_g < 4`), and blended `85% fp_season_avg + 15% fp_last15_avg` for established `Attack`, `Midfield`, and `Defense` players (`n_g >= 4`).
+  3. Blended `70%` player-anchored EV with `30%` direct Bradley-Terry + specialist-share `PredictedPoints` for `Faceoff`.
+- **Results (Baseline 19 Adoption — 28-Week Production Backtest)**:
+  - **`MC_EV` Top-1 Roster Score**: Jumped **+218.5 pts (+7.8 pts/wk)** from `4,764.0` (`170.1/wk`) $\rightarrow$ **`4,982.5` (`177.9/wk`)** (+130.0 pts in 2025, +88.5 pts in 2026).
+  - **`MC_Ceil_90` Top-1 Roster Score**: Jumped **+273.2 pts (+9.8 pts/wk)** from `4,648.7` (`166.0/wk`) $\rightarrow$ **`4,921.9` (`175.8/wk`)** (+155.4 pts in 2025, +117.8 pts in 2026).
+  - **`MC_Win_160` Top-1 & Top-5 Mean**: Jumped **+41.8 pts** Top-1 (`4,846.5` $\rightarrow$ `4,888.3`) and **+55.4 pts** Top-5 Mean (`4,717.5` $\rightarrow$ `4,773.0`).
+  - **Top-5 Portfolio & VOR**: `MC_EV` Top-5 Mean rose **+91.3 pts** (`4,692.4` $\rightarrow$ `4,783.7`), Top-5 Max rose **+178.0 pts** (`5,326.5` $\rightarrow$ `5,504.5`, `55.3%` Ceiling), and Total VOR rose **+218.5 pts** (`+2,049.3` $\rightarrow$ `+2,267.8`, `140/196` [`71.4%`] slots above median).
+  - **Continuous & Rank Accuracy**: `Slot_Weighted_Spearman` rose **+0.0075** (`0.2787` $\rightarrow$ `0.2862`), `M_Spearman` rose **+0.0189** (`+0.0324` in 2026), `MAE` improved **-0.106 pts** (`11.300` $\rightarrow$ `11.194`), `RMSE` improved **-0.143 pts**, and $R^2$ rose **+0.0159** (`0.1787` $\rightarrow$ `0.1946`).
+
 ### Item 68: Fix Classifier Training Starvation — Full-History GBDT Fit + OOF Walk-Forward Calibration (October 2026) ✅ ADOPTED (Baseline 18)
 - **Problem (Quantified)**: `02_predict_probabilities.py` used `TimeSeriesSplit(n_splits=3)` for OOF `PredictedPoints` (dropping the oldest 25% of `df_pg`), and then passed the remaining 75% (`clf_train`) into `CalibratedClassifierCV(cv=TimeSeriesSplit(n_splits=3))`, which trained 3 internal `XGBClassifier` models on only 18.75%, 37.5%, and 56.25% of history. Consequently, **zero classifier trees ever trained on the most recent 18.75% of games (the entire current season!)**, and `sc_clf = StandardScaler()` was fit globally on `clf_train` before CV splitting.
 - **Root Cause & v1 vs v2 Discovery**:

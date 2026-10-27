@@ -291,27 +291,63 @@ def main():
             axis=1
         )
     
-    # 2. Calculate EV dynamically for each row
+    # 2. Load historical player and position game pools (also used by Item 70 position-switch rescue)
+    all_stats_path = os.path.join(script_dir, "all_players_stats.json")
+    if not os.path.exists(all_stats_path):
+        print(f"Error: {all_stats_path} not found.")
+        return
+        
+    print("Loading player game histories...")
+    player_histories, position_histories, dynamic_correlations = load_player_game_history(all_stats_path, args.year, args.week)
+
+    # 3. Calculate EV dynamically for each row
     df_hist = load_historical_data(args.year, args.week, script_dir)
     tier_avgs = calculate_tier_averages(df_hist)
     
     # Calculate EV dynamically for each row
     use_pred_pts_ev = getattr(config, "USE_PREDICTED_POINTS_FOR_EV", False) or (os.environ.get("USE_PREDICTED_POINTS_FOR_EV", "False") == "True")
     use_player_anchored_ev = getattr(config, "USE_PLAYER_ANCHORED_EV", True) and (os.environ.get("USE_PLAYER_ANCHORED_EV", "True") == "True")
+    use_item70 = (os.environ.get("ITEM70_EV_ANCHOR_ENABLED", str(getattr(config, "ITEM70_EV_ANCHOR_ENABLED", False))) == "True")
+    item70_n_cut = float(os.environ.get("ITEM70_SMALL_SAMPLE_CUTOFF", getattr(config, "ITEM70_SMALL_SAMPLE_CUTOFF", 4.0)))
+    item70_k_sh = float(os.environ.get("ITEM70_SHRINKAGE_K", getattr(config, "ITEM70_SHRINKAGE_K", 2.0)))
+    item70_w_l15 = float(os.environ.get("ITEM70_LAST15_WEIGHT", getattr(config, "ITEM70_LAST15_WEIGHT", 0.15)))
+    item70_w_fo = float(os.environ.get("ITEM70_FO_DIRECT_WEIGHT", getattr(config, "ITEM70_FO_DIRECT_WEIGHT", 0.30)))
 
     if use_player_anchored_ev and "BoomProbability" in df_preds.columns:
         window_choice = os.environ.get("EV_WINDOW_GAMES", "all").strip().lower()
         def calc_player_anchored_ev(r):
+            pos = r.get("positionGroup", "Attack")
+            nonboom_default = tier_avgs.get(pos, {}).get("NonBoom", 8.0)
             if window_choice == "all":
-                base_fp = r.get("fp_season_avg") if pd.notna(r.get("fp_season_avg")) and float(r.get("fp_season_avg", 0)) > 2.0 else tier_avgs.get(r["positionGroup"], {}).get("NonBoom", 8.0)
+                base_fp = float(r.get("fp_season_avg")) if pd.notna(r.get("fp_season_avg")) and float(r.get("fp_season_avg", 0)) > 2.0 else nonboom_default
+                if use_item70:
+                    n_g = float(r.get("n_games_played", 0) or 0)
+                    l15_fp = float(r.get("fp_last15_avg", base_fp)) if pd.notna(r.get("fp_last15_avg")) and float(r.get("fp_last15_avg", 0)) > 2.0 else base_fp
+                    # 70a: Position-Switch Rescue when player has 0 games at new positionGroup
+                    if n_g == 0:
+                        fc, lc = clean_name(r.get("firstName", "")), clean_name(r.get("lastName", ""))
+                        hist_all = player_histories.get((fc, lc), [])
+                        if hist_all:
+                            pts_all = [x[0] for x in hist_all]
+                            mean_all = float(np.mean(pts_all))
+                            if mean_all > 2.0:
+                                base_fp = mean_all
+                                n_g = float(len(pts_all))
+                                l15_fp = float(np.mean(pts_all[-15:]))
+                    # 70b: Small-sample Bayesian salary-prior shrinkage & 15-game recency blend
+                    if n_g < item70_n_cut and pos != "Faceoff":
+                        sal = float(r.get("salary", 10) or 10)
+                        prior_fp = float(np.clip(sal / 1.3333, 6.0, 22.0)) if sal > 10 else nonboom_default
+                        w_g = n_g / (n_g + item70_k_sh)
+                        base_fp = w_g * base_fp + (1.0 - w_g) * prior_fp
+                    elif item70_w_l15 > 0 and pos not in ("Faceoff", "Goalie") and l15_fp > 2.0:
+                        base_fp = (1.0 - item70_w_l15) * base_fp + item70_w_l15 * l15_fp
             else:
                 col_name = f"fp_last{window_choice}_avg"
                 raw_fp = r.get(col_name) if col_name in r else r.get("fp_season_avg")
                 n_games = float(r.get("n_games_played", 0) or 0)
                 
                 sal = float(r.get("salary", 10) or 10)
-                pos = r.get("positionGroup", "Attack")
-                nonboom_default = tier_avgs.get(pos, {}).get("NonBoom", 8.0)
                 prior_fp = (sal / 1.3333) if (sal > 0 and sal != 10) else nonboom_default
                 prior_fp = max(5.0, min(22.0, prior_fp))
                 
@@ -323,7 +359,6 @@ def main():
                     base_fp = weight * float(raw_fp) + (1.0 - weight) * prior_fp
             
             boom_p = float(r.get("BoomProbability", 25.0)) / 100.0
-            pos = r.get("positionGroup", "Attack")
             if args.positional_steepness is not None:
                 use_steepness = args.positional_steepness
             else:
@@ -337,7 +372,11 @@ def main():
                 matchup_mult = (1.0 - s * 0.5) + s * boom_p
             else:
                 matchup_mult = 0.5 + boom_p
-            return float(base_fp) * matchup_mult
+            ev_val = float(base_fp) * matchup_mult
+            # 70c: Direct Faceoff Bradley-Terry + Specialist-Share EV blend
+            if use_item70 and pos == "Faceoff" and item70_w_fo > 0 and pd.notna(r.get("PredictedPoints")):
+                ev_val = (1.0 - item70_w_fo) * ev_val + item70_w_fo * float(r["PredictedPoints"])
+            return ev_val
         df_preds["EV"] = df_preds.apply(calc_player_anchored_ev, axis=1)
     elif use_pred_pts_ev and "PredictedPoints" in df_preds.columns:
         df_preds["EV"] = df_preds["PredictedPoints"]
@@ -353,15 +392,6 @@ def main():
     if is_backup_goalie.any():
         df_preds.loc[is_backup_goalie, "EV"] = 0.0
         print(f"  [Goalie Filter] Zeroed out EV for {is_backup_goalie.sum()} backup goalies.")
-        
-    # 3. Load historical player and position game pools
-    all_stats_path = os.path.join(script_dir, "all_players_stats.json")
-    if not os.path.exists(all_stats_path):
-        print(f"Error: {all_stats_path} not found.")
-        return
-        
-    print("Loading player game histories...")
-    player_histories, position_histories, dynamic_correlations = load_player_game_history(all_stats_path, args.year, args.week)
     
     # 4. Prepare multipliers and sorted historical pools for each row in df_preds
     pools = []
